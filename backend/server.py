@@ -6,7 +6,7 @@ from services.network_scanner import scan_network
 from services.router_scanner import scan_network_via_router
 import json
 
-# Load router configuration
+# Load router configurationn
 with open("config.json") as config_file:
     config = json.load(config_file)
 
