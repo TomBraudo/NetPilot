@@ -2,7 +2,7 @@
 
 ROUTER_IP="192.168.1.1"
 ROUTER_USER="root"
-REQUIREMENTS_FILE="pkg_requirements.txt"
+REQUIREMENTS_FILE="installed_packages.txt"
 
 # Disable SSH host key verification
 export SSH_OPTIONS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
