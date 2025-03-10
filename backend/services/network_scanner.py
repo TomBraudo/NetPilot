@@ -1,107 +1,78 @@
 from scapy.all import ARP, Ether, srp
 import socket
-import subprocess
-import platform
-import re
 import concurrent.futures
 
-def get_local_subnet():
+
+def scan(ip_range):
     """
-    Detects the correct subnet for the active Ethernet interface (e.g., 192.168.1.0/24).
-    Works on Windows, Linux, and macOS.
+    Sends ARP requests in the given IP range and returns detected devices.
+    This is the same scanning method as in your original script.
     """
-    try:
-        system = platform.system().lower()
+    print(f"[DEBUG] Scanning {ip_range}...")
+    arp_request = Ether(dst="ff:ff:ff:ff:ff:ff") / ARP(pdst=ip_range)
+    result = srp(arp_request, timeout=1, verbose=False)[0]
 
-        if system == "windows":
-            # Use ipconfig and extract the IPv4 address of the "Ethernet adapter Ethernet"
-            output = subprocess.check_output("ipconfig", shell=True, text=True)
-            ethernet_section = re.search(r"Ethernet adapter Ethernet:([\s\S]*?)Default Gateway", output)
+    devices = []
+    for sent, received in result:
+        device = {"ip": received.psrc, "mac": received.hwsrc}
+        if device not in devices:  # Avoid duplicates
+            devices.append(device)
 
-            if ethernet_section:
-                ethernet_text = ethernet_section.group(1)
-                ipv4_match = re.search(r"IPv4 Address[.\s]+:\s*(\d+\.\d+\.\d+\.\d+)", ethernet_text)
-                subnet_match = re.search(r"Subnet Mask[.\s]+:\s*(\d+\.\d+\.\d+\.\d+)", ethernet_text)
+    return devices
 
-                if ipv4_match and subnet_match:
-                    ipv4 = ipv4_match.group(1)
-                    subnet_mask = subnet_match.group(1)
-                    return ip_to_cidr(ipv4, subnet_mask)
 
-        else:
-            # Use `ip route` for Linux/macOS to find the active interface's IP
-            output = subprocess.check_output("ip route", shell=True, text=True)
-            ipv4_match = re.search(r"default via \S+ dev (\S+) proto", output)
-            
-            if ipv4_match:
-                interface = ipv4_match.group(1)
-                output = subprocess.check_output(f"ip -4 addr show {interface}", shell=True, text=True)
-                ipv4_match = re.search(r"inet (\d+\.\d+\.\d+\.\d+)/(\d+)", output)
-
-                if ipv4_match:
-                    ipv4 = ipv4_match.group(1)
-                    cidr_prefix = ipv4_match.group(2)
-                    return f"{ipv4.rsplit('.', 1)[0]}.0/{cidr_prefix}"
-
-    except Exception as e:
-        print(f"[ERROR] Could not detect subnet: {e}")
-    
-    return None  # No valid subnet found
-
-def ip_to_cidr(ip, mask):
+def get_device_names(devices):
     """
-    Converts an IP address and subnet mask to CIDR notation (e.g., 192.168.1.0/24).
+    Resolves hostnames for detected devices using reverse DNS.
+    Uses threading to speed up resolution.
     """
-    ip_parts = list(map(int, ip.split(".")))
-    mask_parts = list(map(int, mask.split(".")))
+    def resolve(device):
+        try:
+            device["hostname"] = socket.gethostbyaddr(device["ip"])[0]
+        except socket.herror:
+            device["hostname"] = "Unknown"
 
-    # Calculate network address
-    network_parts = [ip_parts[i] & mask_parts[i] for i in range(4)]
-    network_address = ".".join(map(str, network_parts))
+    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+        executor.map(resolve, devices)
 
-    # Calculate CIDR prefix
-    cidr_prefix = sum(bin(part).count("1") for part in mask_parts)
-    
-    return f"{network_address}/{cidr_prefix}"
+    return devices
+
 
 def scan_network():
     """
-    Scans the local network using Scapy ARP requests.
+    Scans the three most popular subnets: 192.168.0.1/24, 192.168.1.1/24, 10.0.0.1/24.
+    Uses the same scanning method as in your original script.
     """
-    subnet = get_local_subnet()
-    if not subnet:
-        return {"error": "Failed to detect subnet."}
+    subnets = ["192.168.0.1/24", "192.168.1.1/24", "10.0.0.1/24"]
+    all_devices = []
 
-    print(f"[DEBUG] Scanning network: {subnet}")
+    # Scan all subnets in parallel
+    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
+        results = executor.map(scan, subnets)
 
-    # Create an ARP request for the correct subnet
-    arp_request = ARP(pdst=subnet)
-    ether = Ether(dst="ff:ff:ff:ff:ff:ff")  # Broadcast
-    packet = ether / arp_request
+    # Collect results and remove duplicates
+    seen = set()
+    for devices in results:
+        for device in devices:
+            key = (device["ip"], device["mac"])
+            if key not in seen:
+                seen.add(key)
+                all_devices.append(device)
 
-    # Send packet and receive responses
-    answered, _ = srp(packet, timeout=2, verbose=False)
+    # Resolve hostnames
+    return get_device_names(all_devices)
 
-    devices = []
-    for sent, received in answered:
-        devices.append({
-            "ip": received.psrc,
-            "mac": received.hwsrc,
-            "hostname": "Resolving..."
-        })
 
-    # Use threads to resolve hostnames faster
-    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
-        futures = {executor.submit(resolve_hostname, device["ip"]): device for device in devices}
-        for future in concurrent.futures.as_completed(futures):
-            futures[future]["hostname"] = future.result()
+def print_results(devices):
+    """
+    Prints the detected devices in the required format.
+    """
+    print("IP Address\t\tMAC Address\t\tDevice Name")
+    print("--------------------------------------------------------")
+    for device in devices:
+        print(f"{device['ip']}\t\t{device['mac']}\t\t{device['hostname']}")
 
-    print("[DEBUG] Detected devices:", devices)
-    return {"devices": devices}
 
-def resolve_hostname(ip):
-    """ Resolves a hostname from an IP address using reverse DNS lookup. """
-    try:
-        return socket.gethostbyaddr(ip)[0]
-    except (socket.herror, socket.timeout):
-        return "Unknown"
+if __name__ == "__main__":
+    devices = scan_network()
+    print_results(devices)
