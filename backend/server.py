@@ -14,6 +14,13 @@ server_port = config["server_port"]
 
 app = Flask(__name__)
 
+@app.route("/health", methods=["GET"])
+def health():
+    """
+    Health check endpoint.
+    """
+    return jsonify({"status": "OK"})
+
 @app.route("/api/block", methods=["POST"])
 def block_device():
     """
@@ -102,6 +109,6 @@ def router_scan():
 
 if __name__ == "__main__":
     try:
-        app.run(host="0.0.0.0", port=server_port, ssl_context="adhoc")
+        app.run(host="0.0.0.0", port=server_port, debug=True, ssl_context="adhoc")
     except KeyboardInterrupt:
         ssh_manager.close_connection()
