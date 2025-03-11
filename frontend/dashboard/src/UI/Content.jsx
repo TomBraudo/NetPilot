@@ -10,7 +10,7 @@ const Content = ({ children }) => {
       if (!res.ok) {
         throw new Error(`HTTP error! Status: ${res.status}`);
       }
-      const data = await res.text(); // ניתן להשתמש גם ב- res.json() אם התגובה היא JSON
+      const data = await res.text();
       setResponse(data);
       setError(null);
     } catch (err) {
@@ -26,12 +26,10 @@ const Content = ({ children }) => {
       {children}
       <button
         onClick={handleApiCheck}
-        className="w-full flex content-center justify-center bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
+        className="w-40 h-10 flex content-center justify-center bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
       >
         API Check
       </button>
-
-      {/* הצגת התוצאה */}
       {response && <p className="text-green-600">{response}</p>}
       {error && <p className="text-red-600">{error}</p>}
     </div>

@@ -57,12 +57,12 @@ export const devices = [
 
 export const links = [
   {
-    href: "#",
+    href: "/",
     icon: FaChartBar,
     text: "Dashboard",
   },
   {
-    href: "#",
+    href: "/scan",
     icon: GiRadarSweep,
     text: "Scan",
     badge: {
@@ -72,7 +72,7 @@ export const links = [
     },
   },
   {
-    href: "#",
+    href: "/monitor",
     icon: AiOutlineControl,
     text: "Control",
     badge: {
@@ -82,12 +82,12 @@ export const links = [
     },
   },
   {
-    href: "#",
+    href: "/scan",
     icon: MdOutlineSecurity,
     text: "Security",
   },
   {
-    href: "#",
+    href: "/faqs",
     icon: FaRegQuestionCircle,
     text: "FAQs",
   },
