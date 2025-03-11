@@ -27,11 +27,12 @@ class SSHClientManager:
         Ensures it works for both normal script execution and when packaged as an .exe.
         """
         if getattr(sys, 'frozen', False):  # Running as a .exe
-            base_path = os.path.dirname(sys.executable)
+            base_path = os.path.dirname(sys.executable)  # Directory of server.exe
         else:  # Running as a script
             base_path = os.path.dirname(os.path.abspath(__file__))
 
-        return os.path.join(base_path, "..", "config.json")  # Looks for config.json in backend/
+        return os.path.join(base_path, "config.json")  # Ensures config.json is in the same folder as server.exe
+
 
     def connect(self):
         """
