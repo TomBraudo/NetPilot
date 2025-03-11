@@ -7,7 +7,7 @@ from services.router_scanner import scan_network_via_router
 from flask_cors import CORS
 import os
 import json
-
+import sys
 
 # Function to get the external config.json path
 def get_config_path():
