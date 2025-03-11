@@ -23,15 +23,15 @@ class SSHClientManager:
 
     def get_config_path(self):
         """
-        Determines the correct location of config.json,
-        ensuring it works both inside PyInstaller and as a normal script.
+        Determines the correct location of config.json.
+        Ensures it works for both normal script execution and when packaged as an .exe.
         """
         if getattr(sys, 'frozen', False):  # Running as a .exe
             base_path = os.path.dirname(sys.executable)
-        else:  # Running as a normal script
+        else:  # Running as a script
             base_path = os.path.dirname(os.path.abspath(__file__))
-        
-        return os.path.join(base_path, "config.json")
+
+        return os.path.join(base_path, "..", "config.json")  # Looks for config.json in backend/
 
     def connect(self):
         """
