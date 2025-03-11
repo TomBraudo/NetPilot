@@ -43,7 +43,7 @@ def scan_network():
     Scans the three most popular subnets: 192.168.0.1/24, 192.168.1.1/24, 10.0.0.1/24.
     Uses the same scanning method as in your original script.
     """
-    subnets = ["192.168.0.1/24", "192.168.1.1/24", "10.0.0.1/24"]
+    subnets = ["192.168.0.1/24", "192.168.1.1/24", "10.0.0.1/24", "192.162.0.1/24"]
     all_devices = []
 
     # Scan all subnets in parallel
