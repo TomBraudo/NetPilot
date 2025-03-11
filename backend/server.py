@@ -4,7 +4,10 @@ from services.limit_bandwidth import set_bandwidth_limit, remove_bandwidth_limit
 from utils.ssh_client import ssh_manager
 from services.network_scanner import scan_network
 from services.router_scanner import scan_network_via_router
+from flask_cors import CORS
+import os
 import json
+
 
 # Function to get the external config.json path
 def get_config_path():
@@ -26,6 +29,7 @@ with open(config_path, "r") as f:
 server_port = config["server_port"]
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/health", methods=["GET"])
 def health():
