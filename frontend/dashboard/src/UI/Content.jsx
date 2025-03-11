@@ -6,7 +6,7 @@ const Content = ({ children }) => {
 
   const handleApiCheck = async () => {
     try {
-      const res = await fetch("http://127.0.0.1:5000/health");
+      const res = await fetch("http://localhost:5000/health");
       if (!res.ok) {
         throw new Error(`HTTP error! Status: ${res.status}`);
       }
@@ -15,6 +15,8 @@ const Content = ({ children }) => {
       setError(null);
     } catch (err) {
       setError(`Error: ${err.message}`);
+      console.log(err);
+      
       setResponse(null);
     }
   };
