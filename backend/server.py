@@ -29,7 +29,8 @@ with open(config_path, "r") as f:
 server_port = config["server_port"]
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
+
 
 @app.route("/health", methods=["GET"])
 def health():
@@ -126,6 +127,6 @@ def router_scan():
 
 if __name__ == "__main__":
     try:
-        app.run(host="0.0.0.0", port=server_port, debug=True, ssl_context="adhoc")
+        app.run(host="0.0.0.0", port=server_port, debug=True)
     except KeyboardInterrupt:
         ssh_manager.close_connection()
