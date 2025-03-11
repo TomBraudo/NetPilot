@@ -23,9 +23,10 @@ const Content = ({ children }) => {
 
   return (
     <div className="flex-1 flex content-center justify-center gap-5 p-5">
+      {children}
       <button
         onClick={handleApiCheck}
-        className="w-1/2 flex content-center justify-center bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
+        className="w-full flex content-center justify-center bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
       >
         API Check
       </button>
