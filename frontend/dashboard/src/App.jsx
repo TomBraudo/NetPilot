@@ -34,24 +34,31 @@
 // };
 
 // export default App;
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Main from "./UI/Main";
 import Content from "./UI/Content";
-import DeviceList from "./UI/DeviceList";
-import MonitorPage from "./UI/Pages/MonitorPage";
+import ControlPage from "./UI/Pages/ControlPage";
 import ScanPage from "./UI/Pages/ScanPage";
 import FaqsPage from "./UI/Pages/FaqsPage";
 
 const App = () => {
-  const [darkMode, setDarkMode] = useState(false);
+  // בדיקה האם יש ערך ב-localStorage עבור darkMode, אם לא - false כברירת מחדל
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("darkMode") === "true";
+  });
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Sidebar נסגר רק בלחיצה על הכפתור
 
+  useEffect(() => {
+    // שמירת מצב darkMode ב-localStorage כאשר הוא משתנה
+    localStorage.setItem("darkMode", darkMode);
+  }, [darkMode]);
+
   const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
+    setDarkMode((prevMode) => !prevMode); // הפיכת המצב
   };
 
   const toggleSidebar = () => {
@@ -80,7 +87,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Content>Main Content</Content>} />
               <Route path="/scan" element={<ScanPage />} />
-              <Route path="/monitor" element={<MonitorPage />} />
+              <Route path="/control" element={<ControlPage />} />
               <Route path="/faqs" element={<FaqsPage />} />
             </Routes>
           </Main>
