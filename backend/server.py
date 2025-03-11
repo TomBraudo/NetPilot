@@ -6,9 +6,22 @@ from services.network_scanner import scan_network
 from services.router_scanner import scan_network_via_router
 import json
 
-# Load router configurationn
-with open("config.json") as config_file:
-    config = json.load(config_file)
+# Function to get the external config.json path
+def get_config_path():
+    if getattr(sys, 'frozen', False):  # Running as .exe
+        base_path = os.path.dirname(sys.executable)
+    else:  # Running as a script
+        base_path = os.path.dirname(os.path.abspath(__file__))
+    
+    return os.path.join(base_path, "config.json")
+
+# Load config.json externally
+config_path = get_config_path()
+if not os.path.exists(config_path):
+    raise FileNotFoundError(f"config.json not found at {config_path}")
+
+with open(config_path, "r") as f:
+    config = json.load(f)
 
 server_port = config["server_port"]
 

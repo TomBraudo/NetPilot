@@ -1,20 +1,37 @@
 import paramiko
 import json
+import os
+import sys
 
 class SSHClientManager:
     """
     Manages a persistent SSH connection to the router.
     """
 
-    def __init__(self, config_path="config.json"):
+    def __init__(self):
+        # Determine the correct path for config.json
+        self.config_path = self.get_config_path()
+        
         # Load router credentials from config.json
-        with open(config_path) as config_file:
+        with open(self.config_path, "r") as config_file:
             config = json.load(config_file)
 
         self.router_ip = config["router_ip"]
         self.username = config["username"]
         self.password = config["password"]
         self.ssh = None  # SSH session
+
+    def get_config_path(self):
+        """
+        Determines the correct location of config.json,
+        ensuring it works both inside PyInstaller and as a normal script.
+        """
+        if getattr(sys, 'frozen', False):  # Running as a .exe
+            base_path = os.path.dirname(sys.executable)
+        else:  # Running as a normal script
+            base_path = os.path.dirname(os.path.abspath(__file__))
+        
+        return os.path.join(base_path, "config.json")
 
     def connect(self):
         """
@@ -45,7 +62,6 @@ class SSHClientManager:
         if self.ssh:
             self.ssh.close()
             self.ssh = None
-
 
 # Initialize a single global instance of the SSH client
 ssh_manager = SSHClientManager()
