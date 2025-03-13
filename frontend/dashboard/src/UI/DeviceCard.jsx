@@ -6,6 +6,7 @@ import {
   FaLaptop,
   FaTv,
   FaWifi,
+  FaRegQuestionCircle,
 } from "react-icons/fa";
 
 const iconMap = {
@@ -16,16 +17,14 @@ const iconMap = {
 };
 
 const DeviceCard = ({ device }) => {
-  const IconComponent = iconMap[device.icon] || FaWifi;
+  const IconComponent = iconMap[device.icon] || FaRegQuestionCircle;
 
   return (
     <div className="bg-white dark:bg-gray-700 shadow-lg rounded-2xl p-5 flex flex-col items-center gap-3 w-72">
-      {/* אייקון מכשיר */}
       <div className="text-5xl text-blue-500">
         <IconComponent />
       </div>
 
-      {/* פרטי מכשיר */}
       <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
         {device.hostname}
       </h3>
@@ -36,7 +35,6 @@ const DeviceCard = ({ device }) => {
         MAC: {device.mac}
       </p>
 
-      {/* כפתורים */}
       <div className="flex gap-4 mt-3">
         <button className="bg-red-500 text-white p-2 rounded-full shadow-md hover:bg-red-600 transition">
           <FaHandPaper size={20} />

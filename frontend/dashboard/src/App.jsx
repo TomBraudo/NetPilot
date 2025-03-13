@@ -42,6 +42,7 @@ import Main from "./UI/Main";
 import Content from "./UI/Content";
 import ControlPage from "./UI/Pages/ControlPage";
 import ScanPage from "./UI/Pages/ScanPage";
+import ScanTest from "./UI/Pages/ScanTest";
 import FaqsPage from "./UI/Pages/FaqsPage";
 
 const App = () => {
@@ -88,6 +89,7 @@ const App = () => {
               <Route path="/" element={<Content>Main Content</Content>} />
               <Route path="/scan" element={<ScanPage />} />
               <Route path="/control" element={<ControlPage />} />
+              <Route path="/scanTest" element={<ScanTest />} />
               <Route path="/faqs" element={<FaqsPage />} />
             </Routes>
           </Main>
