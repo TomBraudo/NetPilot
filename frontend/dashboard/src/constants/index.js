@@ -20,9 +20,6 @@ import { FaRegQuestionCircle } from "react-icons/fa";
 import { AiOutlineControl } from "react-icons/ai";
 import { MdOutlineSecurity } from "react-icons/md";
 import { GiRadarSweep } from "react-icons/gi";
-import user01 from "../assets/user01.png";
-import user02 from "../assets/user02.png";
-import user03 from "../assets/user03.png";
 
 export const devices = [
   {
@@ -57,12 +54,12 @@ export const devices = [
 
 export const links = [
   {
-    href: "#",
+    href: "/",
     icon: FaChartBar,
     text: "Dashboard",
   },
   {
-    href: "#",
+    href: "/scan",
     icon: GiRadarSweep,
     text: "Scan",
     badge: {
@@ -72,7 +69,7 @@ export const links = [
     },
   },
   {
-    href: "#",
+    href: "/control",
     icon: AiOutlineControl,
     text: "Control",
     badge: {
@@ -82,35 +79,14 @@ export const links = [
     },
   },
   {
-    href: "#",
+    href: "/scan",
     icon: MdOutlineSecurity,
     text: "Security",
   },
   {
-    href: "#",
+    href: "/faqs",
     icon: FaRegQuestionCircle,
     text: "FAQs",
-  },
-];
-
-export const empolyeesData = [
-  {
-    title: "Total Empolyees",
-    icon: IoIosPerson,
-    count: 200,
-    bgColor: "bg-gray-100",
-  },
-  {
-    title: "On Leave",
-    icon: IoIosEyeOff,
-    count: 15,
-    bgColor: "bg-blue-100",
-  },
-  {
-    title: "New Joinee",
-    icon: IoIosPersonAdd,
-    count: 25,
-    bgColor: "bg-yellow-100",
   },
 ];
 
@@ -130,55 +106,6 @@ export const shortcutLink = [
   {
     title: "Setting",
     icon: IoIosSettings,
-  },
-];
-
-export const users = [
-  {
-    name: "Robert Fox",
-    country: "USA",
-    role: "Python Developer",
-    image: user01,
-    bgColor: "bg-yellow-100",
-  },
-  {
-    name: "Jane Doe",
-    country: "UK",
-    role: "Frontend Developer",
-    image: user02,
-    bgColor: "bg-blue-100",
-  },
-  {
-    name: "John Smith",
-    country: "Canada",
-    role: "Backend Developer",
-    image: user03,
-    bgColor: "bg-gray-100",
-  },
-  {
-    name: "Alice Johnson",
-    country: "Australia",
-    role: "Full Stack Developer",
-    image: user01,
-    bgColor: "bg-slate-100",
-  },
-];
-
-export const events = [
-  {
-    date: "01 Aug",
-    title: "Upcoming Event",
-    description: "Lorem ipsum dolor sit amet.",
-  },
-  {
-    date: "15 Sept",
-    title: "Annual Conference",
-    description: "Join us for our annual conference.",
-  },
-  {
-    date: "20 Sept",
-    title: "Networking Meetup",
-    description: "Connect with professionals in your field.",
   },
 ];
 
