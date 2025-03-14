@@ -79,7 +79,7 @@ export const links = [
     },
   },
   {
-    href: "/scan",
+    href: "/scantest",
     icon: MdOutlineSecurity,
     text: "Security",
   },
