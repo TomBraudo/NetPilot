@@ -67,7 +67,7 @@ const ScannerAnimation = () => {
 
         {/* מחוג סורק (קו מסתובב) */}
         <div
-          className="absolute w-[140%] h-[2px] bg-blue-500 origin-bottom animate-spin"
+          className="absolute w-[160%] h-[2px] bg-blue-500 origin-bottom animate-spin"
           style={{
             animationDuration: "3.5s",
           }}

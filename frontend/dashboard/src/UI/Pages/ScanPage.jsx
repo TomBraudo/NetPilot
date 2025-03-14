@@ -125,7 +125,6 @@ const ScanPage = () => {
           <ScannerAnimation />
         </div>
       )}
-
       {error && <p className="text-red-600 mt-4">{error}</p>}
       {!isScanning && lastScanTime && (
         <p className="text-gray-500 mt-4 text-lg font-medium">
