@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import DeviceCard from "./DeviceCard";
 import { devices } from "../constants";
 

@@ -8,12 +8,13 @@ import {
   FaWifi,
   FaRegQuestionCircle,
 } from "react-icons/fa";
-
+import { BsRouter } from "react-icons/bs";
 const iconMap = {
   FaMobileAlt: FaMobileAlt,
   FaLaptop: FaLaptop,
   FaTv: FaTv,
   FaWifi: FaWifi,
+  BsRouter: BsRouter,
 };
 
 const DeviceCard = ({ device }) => {

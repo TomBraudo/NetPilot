@@ -3,7 +3,7 @@ import DeviceCard from "../DeviceCard";
 import ScannerAnimation from "../../components/ScannerAnimation";
 
 const iconMap = {
-  router: "FaWifi",
+  router: "BsRouter",
   laptop: "FaLaptop",
   mobile: "FaMobileAlt",
   tv: "FaTv",
@@ -92,7 +92,6 @@ const ScanPage = () => {
         console.log("Formatted devices:", formattedDevices);
         setDevices(formattedDevices);
 
-        // שמירת חותמת זמן בפורמט יום/חודש/שנה, ללא שניות
         const scanTime = getFormattedDate();
         setLastScanTime(scanTime);
         localStorage.setItem("lastScanTime", scanTime);
@@ -112,9 +111,6 @@ const ScanPage = () => {
 
   return (
     <div className="p-5 flex flex-col items-center min-h-screen">
-      {/* <div className="flex flex-col justify-center items-center"> */}
-      <h1 className="text-2xl font-bold mb-4 text-center">Scan Page</h1>
-
       <button
         onClick={handleNetworkScan}
         disabled={isScanning}
@@ -124,8 +120,6 @@ const ScanPage = () => {
       >
         {isScanning ? "SCANNING..." : "Scan Network"}
       </button>
-
-      {/* הצגת האנימציה - גדולה וממוקמת היטב */}
       {isScanning && (
         <div className="p-5">
           <ScannerAnimation />
@@ -133,14 +127,11 @@ const ScanPage = () => {
       )}
 
       {error && <p className="text-red-600 mt-4">{error}</p>}
-      {/* </div> */}
-      {/* הצגת תאריך ושעה של הסריקה האחרונה */}
       {!isScanning && lastScanTime && (
         <p className="text-gray-500 mt-4 text-lg font-medium">
           Last scan: {lastScanTime}
         </p>
       )}
-      {/* הצגת המכשירים לאחר סיום הסריקה */}
       {!isScanning && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-5 w-full">
           {devices.map((device, index) => (
@@ -151,5 +142,4 @@ const ScanPage = () => {
     </div>
   );
 };
-
 export default ScanPage;
