@@ -2,7 +2,7 @@ import paramiko
 import json
 import os
 import sys
-
+from utils.path_utils import get_data_folder
 class SSHClientManager:
     """
     Manages a persistent SSH connection to the router.
@@ -26,12 +26,7 @@ class SSHClientManager:
         Determines the correct location of config.json.
         Ensures it works for both normal script execution and when packaged as an .exe.
         """
-        if getattr(sys, 'frozen', False):  # Running as a .exe
-            base_path = os.path.dirname(sys.executable)  # Directory of server.exe
-        else:  # Running as a script
-            base_path = os.path.dirname(os.path.abspath(__file__))
-
-        return os.path.join(base_path, "config.json")  # Ensures config.json is in the same folder as server.exe
+        return os.path.join(get_data_folder(), "config.json")  # Ensures config.json is in the same folder as server.exe
 
 
     def connect(self):
