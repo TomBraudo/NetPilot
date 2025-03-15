@@ -5,18 +5,16 @@ from utils.ssh_client import ssh_manager
 from services.network_scanner import scan_network
 from services.router_scanner import scan_network_via_router
 from flask_cors import CORS
+from services.subnets_manager import add_ip, remove_ip, clear_ips
+from utils.path_utils import get_data_folder
 import os
 import json
 import sys
 
 # Function to get the external config.json path
 def get_config_path():
-    if getattr(sys, 'frozen', False):  # Running as .exe
-        base_path = os.path.dirname(sys.executable)
-    else:  # Running as a script
-        base_path = os.path.dirname(os.path.abspath(__file__))
-    
-    return os.path.join(base_path, "config.json")
+    data_folder = get_data_folder()
+    return os.path.join(data_folder, "config.json")
 
 # Load config.json externally
 config_path = get_config_path()
@@ -38,6 +36,27 @@ def health():
     Health check endpoint.
     """
     return jsonify({"status": "OK"})
+
+@app.route("/config/add_ip", methods=["POST"])
+def add_ip_route():
+    data = request.get_json()
+    ip = data.get("ip")
+    response, status = add_ip(ip)
+    return jsonify(response), status
+
+@app.route("/config/remove_ip", methods=["POST"])
+def remove_ip_route():
+    data = request.get_json()
+    ip = data.get("ip")
+    response, status = remove_ip(ip)
+    return jsonify(response), status
+
+@app.route("/config/clear_ips", methods=["POST"])
+def clear_ips_route():
+    response, status = clear_ips()
+    return jsonify(response), status
+    
+        
 
 @app.route("/api/block", methods=["POST"])
 def block_device():
