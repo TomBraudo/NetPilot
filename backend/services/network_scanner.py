@@ -1,7 +1,8 @@
 from scapy.all import ARP, Ether, srp
 import socket
 import concurrent.futures
-
+import json
+import os
 
 def scan(ip_range):
     """
@@ -43,21 +44,26 @@ def scan_network():
     Scans the three most popular subnets: 192.168.0.1/24, 192.168.1.1/24, 10.0.0.1/24.
     Uses the same scanning method as in your original script.
     """
-    subnets = ["192.168.0.1/24", "192.168.1.1/24", "10.0.0.1/24", "192.162.0.1/24"]
     all_devices = []
+    script_dir = os.path.dirname(__file__)
+    json_path = os.path.join(script_dir, "Ips_to_scan.json")
+    with open(json_path, "r") as ips_file:
+        ips_file = json.load(ips_file)
+        subnets = ips_file["subnets"]
+        
 
-    # Scan all subnets in parallel
-    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
-        results = executor.map(scan, subnets)
+        # Scan all subnets in parallel
+        with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
+            results = executor.map(scan, subnets)
 
-    # Collect results and remove duplicates
-    seen = set()
-    for devices in results:
-        for device in devices:
-            key = (device["ip"], device["mac"])
-            if key not in seen:
-                seen.add(key)
-                all_devices.append(device)
+        # Collect results and remove duplicates
+        seen = set()
+        for devices in results:
+            for device in devices:
+                key = (device["ip"], device["mac"])
+                if key not in seen:
+                    seen.add(key)
+                    all_devices.append(device)
 
     # Resolve hostnames
     return get_device_names(all_devices)
