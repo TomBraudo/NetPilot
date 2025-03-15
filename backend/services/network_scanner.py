@@ -3,6 +3,7 @@ import socket
 import concurrent.futures
 import json
 import os
+from utils.path_utils import get_data_folder
 
 def scan(ip_range):
     """
@@ -45,8 +46,7 @@ def scan_network():
     Uses the same scanning method as in your original script.
     """
     all_devices = []
-    script_dir = os.path.dirname(__file__)
-    json_path = os.path.join(script_dir, "Ips_to_scan.json")
+    json_path = os.path.join(get_data_folder(), "Ips_to_scan.json")
     with open(json_path, "r") as ips_file:
         ips_file = json.load(ips_file)
         subnets = ips_file["subnets"]
