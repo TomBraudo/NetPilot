@@ -18,6 +18,46 @@ def find_interface_for_ip(target_ip):
 
     return None, "No interface found."
 
+def get_bandwidth_limit(target_ip):
+    """
+    Retrieves the bandwidth limit for a given IP address.
+    """
+    interface, error = find_interface_for_ip(target_ip)
+    if not interface:
+        return {"error": error}
+
+    # Check for tc filter related to the target IP
+    command = f"tc filter show dev {interface} | grep {target_ip}"
+    output, error = ssh_manager.execute_command(command)
+
+    if error:
+        return {"error": f"Failed to check bandwidth limit: {error}"}
+
+    if not output:
+        return {"error": f"No bandwidth limit found for IP {target_ip} on {interface}."}
+
+    # Extract the bandwidth limit from tc class
+    command = f"tc class show dev {interface} | grep 'htb'"
+    class_output, error = ssh_manager.execute_command(command)
+
+    if error:
+        return {"error": f"Failed to retrieve bandwidth class: {error}"}
+
+    # Parse the output to extract bandwidth information
+    limit_info = None
+    for line in class_output.split("\n"):
+        if "rate" in line:
+            parts = line.split()
+            for i, part in enumerate(parts):
+                if part == "rate":
+                    limit_info = parts[i+1]
+                    break
+
+    if limit_info:
+        return {"success": f"Bandwidth limit for {target_ip} is {limit_info}."}
+    else:
+        return {"error": f"Bandwidth limit not found in class settings for {target_ip}."}
+
 def set_bandwidth_limit(target_ip, bandwidth_mbps):
     """
     Sets bandwidth limits for a given IP address.
