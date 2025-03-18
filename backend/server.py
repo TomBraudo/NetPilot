@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
-from services.block_ip import block_mac_address, unblock_mac_address
-from services.limit_bandwidth import set_bandwidth_limit, remove_bandwidth_limit
+from services.block_ip import block_mac_address, unblock_mac_address, get_blocked_devices
+from services.limit_bandwidth import set_bandwidth_limit, remove_bandwidth_limit, get_bandwidth_limit
 from utils.ssh_client import ssh_manager
 from services.network_scanner import scan_network
 from services.router_scanner import scan_network_via_router
@@ -87,6 +87,13 @@ def unblock_device():
 
     return jsonify(result)
 
+@app.route("/api/blocked_devices", methods=["GET"])
+def get_blocked():
+    """
+    API endpoint to get all blocked devices.
+    """
+    result = get_blocked_devices()
+    return jsonify(result)
 
 @app.route("/api/limit_bandwidth", methods=["POST"])
 def limit_bandwidth():
@@ -119,6 +126,17 @@ def unlimit_bandwidth():
 
     return jsonify(result)
 
+@app.route("/api/get_bandwidth_limit", methods=["GET"])
+def get_bandwidth():
+    """
+    API endpoint to get the bandwidth limit for a device by IP.
+    """
+    target_ip = request.args.get("ip")
+
+    if not target_ip:
+        return jsonify({"error": "Missing IP address"}), 400
+
+    result = get_bandwidth_limit(target_ip)  # Calls the function
 
 @app.route("/api/shutdown", methods=["POST"])
 def shutdown():
