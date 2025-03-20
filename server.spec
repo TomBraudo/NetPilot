@@ -3,10 +3,10 @@
 
 a = Analysis(
     ['backend\\server.py'],
-    pathex=['backend'],
+    pathex=['backend\\venv\\Lib\\site-packages', 'backend'],
     binaries=[],
     datas=[('backend/services', 'services'), ('backend/utils', 'utils')],
-    hiddenimports=['pkg_resources'],
+    hiddenimports=['pkg_resources', 'flask', 'flask.cli', 'flask.json'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
