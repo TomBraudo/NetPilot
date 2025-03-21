@@ -9,7 +9,7 @@ from services.subnets_manager import add_ip, remove_ip, clear_ips
 from utils.path_utils import get_data_folder
 import os
 import json
-from db.device_repository import init_db
+from db.device_repository import init_db, get_all_devices, update_device_name
 import sys
 
 # Function to get the external config.json path
@@ -164,6 +164,39 @@ def router_scan():
     """
     result = scan_network_via_router()
     return jsonify(result)
+
+@app.route("/db/devices", methods=["GET"])
+def get_devices():
+    """
+    API endpoint to retrieve all devices from the database.
+    """
+    devices = get_all_devices()
+    return jsonify([{
+        "mac": d[0],
+        "ip": d[1],
+        "hostname": d[2],
+        "device_name": d[3],
+        "first_seen": d[4],
+        "last_seen": d[5]
+    } for d in devices])
+    
+@app.route("/db/device_name", methods=["PATCH"])
+def update_device_name_route():
+    """
+    API endpoint to update a device's name by MAC address.
+    """
+    data = request.get_json()
+    mac = data.get("mac")
+    device_name = data.get("device_name")
+
+    if not mac or not device_name:
+        return jsonify({"error": "Missing 'mac' or 'device_name' in request body"}), 400
+
+    success = update_device_name(mac, device_name)
+    if success:
+        return jsonify({"message": "Device name updated successfully"})
+    else:
+        return jsonify({"error": "Device not found"}), 404
 
 if __name__ == "__main__":
     try:
