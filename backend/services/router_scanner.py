@@ -1,4 +1,5 @@
 from utils.ssh_client import ssh_manager
+from db.device_repository import upsert_device
 
 def scan_network_via_router():
     """
@@ -22,5 +23,10 @@ def scan_network_via_router():
                 "mac": mac_address,
                 "hostname": hostname
             })
+
+    # Save to database
+    for device in connected_devices:
+        upsert_device(device["ip"], device["mac"], device["hostname"])
+
 
     return {"devices": connected_devices}

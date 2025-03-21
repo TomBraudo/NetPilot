@@ -9,6 +9,7 @@ from services.subnets_manager import add_ip, remove_ip, clear_ips
 from utils.path_utils import get_data_folder
 import os
 import json
+from db.device_repository import init_db
 import sys
 
 # Function to get the external config.json path
@@ -28,6 +29,8 @@ server_port = config["server_port"]
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
+
+init_db()
 
 
 @app.route("/health", methods=["GET"])
