@@ -134,7 +134,8 @@ def get_bandwidth():
     """
     API endpoint to get the bandwidth limit for a device by IP.
     """
-    target_ip = request.args.get("ip")
+    data = request.get_json()
+    target_ip = data.get("ip")
 
     if not target_ip:
         return jsonify({"error": "Missing IP address"}), 400
