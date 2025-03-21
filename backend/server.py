@@ -9,7 +9,7 @@ from services.subnets_manager import add_ip, remove_ip, clear_ips
 from utils.path_utils import get_data_folder
 import os
 import json
-from db.device_repository import init_db, get_all_devices, update_device_name
+from db.device_repository import init_db, get_all_devices, update_device_name, clear_devices
 import sys
 
 # Function to get the external config.json path
@@ -179,7 +179,7 @@ def get_devices():
         "first_seen": d[4],
         "last_seen": d[5]
     } for d in devices])
-    
+
 @app.route("/db/device_name", methods=["PATCH"])
 def update_device_name_route():
     """
@@ -197,6 +197,14 @@ def update_device_name_route():
         return jsonify({"message": "Device name updated successfully"})
     else:
         return jsonify({"error": "Device not found"}), 404
+
+@app.route("/db/clear", methods=["DELETE"])
+def clear_devices_route():
+    """
+    API endpoint to clear all devices from the database.
+    """
+    clear_devices()
+    return jsonify({"message": "All devices cleared from the database"})
 
 if __name__ == "__main__":
     try:

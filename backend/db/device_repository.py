@@ -52,7 +52,7 @@ def get_all_devices():
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM devices")
         return cursor.fetchall()
-        
+
 # Update device name by MAC address
 def update_device_name(mac, device_name):
     with sqlite3.connect(DB_PATH) as conn:
@@ -60,3 +60,10 @@ def update_device_name(mac, device_name):
         cursor.execute("UPDATE devices SET device_name = ? WHERE mac = ?", (device_name, mac))
         conn.commit()
         return cursor.rowcount > 0  # Returns True if a row was updated
+
+# Clear all devices from the database
+def clear_devices():
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM devices")
+        conn.commit()
