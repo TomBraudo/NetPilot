@@ -10,6 +10,7 @@ from utils.path_utils import get_data_folder
 import os
 import json
 from db.device_repository import init_db, get_all_devices, update_device_name, clear_devices
+from db.device_groups_repository import init_group_tables
 import sys
 
 # Function to get the external config.json path
@@ -31,7 +32,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 init_db()
-
+init_group_tables()
 
 @app.route("/health", methods=["GET"])
 def health():
