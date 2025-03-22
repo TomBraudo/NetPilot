@@ -1,5 +1,6 @@
 from utils.ssh_client import ssh_manager
 from db.device_repository import upsert_device
+from utils.response_helpers import error, success
 
 def scan_network_via_router():
     """
@@ -9,7 +10,7 @@ def scan_network_via_router():
     output, error = ssh_manager.execute_command(command)
 
     if error:
-        return {"error": f"Failed to fetch connected devices: {error}"}
+        return error("Failed to fetch connected devices", error)
 
     connected_devices = []
     for line in output.split("\n"):
@@ -28,5 +29,4 @@ def scan_network_via_router():
     for device in connected_devices:
         upsert_device(device["ip"], device["mac"], device["hostname"])
 
-
-    return {"devices": connected_devices}
+    return success(message="Connected devices fetched", data=connected_devices)

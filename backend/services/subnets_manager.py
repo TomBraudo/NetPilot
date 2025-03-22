@@ -1,6 +1,7 @@
 import os
 import json
 from utils.path_utils import get_data_folder
+from utils.response_helpers import error, success
 
 # Define the file path
 json_path = os.path.join(get_data_folder(), "Ips_to_scan.json")
@@ -32,29 +33,29 @@ def add_ip(ip):
     ips_data = load_ips()
 
     if ip in ips_data["subnets"]:
-        return {"error": "IP address already exists"}, 400
+        return error("IP address already exists")
 
     ips_data["subnets"].append(ip)
     save_ips(ips_data)
 
-    return {"message": "IP address added successfully"}, 200
+    return success("IP address added successfully")
 
 def remove_ip(ip):
     """Remove an IP address from the list."""
     if not ip:
-        return {"error": "Missing IP address"}, 400
+        return error("Missing IP address")
 
     ips_data = load_ips()
 
     if ip not in ips_data["subnets"]:
-        return {"error": "IP address not found"}, 404
+        return error("IP address not found", 404)
 
     ips_data["subnets"].remove(ip)
     save_ips(ips_data)
 
-    return {"message": "IP address removed successfully"}, 200
+    return success("IP address removed successfully")
 
 def clear_ips():
     """Clear all IP addresses from the list."""
     save_ips({"subnets": []})
-    return {"message": "All IP addresses cleared successfully"}, 200
+    return success("All IP addresses cleared successfully")

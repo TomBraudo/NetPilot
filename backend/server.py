@@ -7,6 +7,7 @@ from services.router_scanner import scan_network_via_router
 from flask_cors import CORS
 from services.subnets_manager import add_ip, remove_ip, clear_ips
 from utils.path_utils import get_data_folder
+from utils.response_helpers import success, error
 import os
 import json
 from db.device_repository import init_db, get_all_devices, update_device_name, clear_devices
@@ -34,179 +35,113 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 init_db()
 init_group_tables()
 
+''' 
+    API endpoint for health checking.
+    Returns a simple success message to confirm the server is running.
+'''
 @app.route("/health", methods=["GET"])
 def health():
-    """
-    Health check endpoint.
-    """
-    return jsonify({"status": "OK"})
+    return success("Server is healthy")
 
+''' 
+    API endpoint to add a subnet IP to the scan list.
+    Expects JSON: { "ip": "<subnet>" }
+'''
 @app.route("/config/add_ip", methods=["POST"])
 def add_ip_route():
     data = request.get_json()
     ip = data.get("ip")
-    response, status = add_ip(ip)
-    return jsonify(response), status
+    if not ip:
+        return error("Missing IP address")
+    return jsonify(add_ip(ip))
 
+''' 
+    API endpoint to remove a subnet IP from the scan list.
+    Expects JSON: { "ip": "<subnet>" }
+'''
 @app.route("/config/remove_ip", methods=["POST"])
 def remove_ip_route():
     data = request.get_json()
     ip = data.get("ip")
-    response, status = remove_ip(ip)
-    return jsonify(response), status
+    if not ip:
+        return error("Missing IP address")
+    return jsonify(remove_ip(ip))
 
+''' 
+    API endpoint to clear all subnet IPs from the scan list.
+'''
 @app.route("/config/clear_ips", methods=["POST"])
 def clear_ips_route():
-    response, status = clear_ips()
-    return jsonify(response), status
-    
-        
+    return jsonify(clear_ips())
 
-@app.route("/api/block", methods=["POST"])
-def block_device():
-    """
-    API endpoint to block a device by IP.
-    """
-    data = request.get_json()
-    target_ip = data.get("ip")
-
-    if not target_ip:
-        return jsonify({"error": "Missing IP address"}), 400
-
-    result = block_mac_address(target_ip)
-    return jsonify(result)
-
-@app.route("/api/unblock", methods=["POST"])
-def unblock_device():
-    """
-    API endpoint to unblock a device by IP.
-    """
-    data = request.get_json()
-    target_ip = data.get("ip")
-
-    if not target_ip:
-        return jsonify({"error": "Missing IP address"}), 400
-
-    result = unblock_mac_address(target_ip)  # Calls the unblock function
-
-    return jsonify(result)
-
+''' 
+    API endpoint to retrieve all currently blocked devices.
+'''
 @app.route("/api/blocked_devices", methods=["GET"])
 def get_blocked():
-    """
-    API endpoint to get all blocked devices.
-    """
-    result = get_blocked_devices()
-    return jsonify(result)
+    return jsonify(get_blocked_devices())
 
-@app.route("/api/limit_bandwidth", methods=["POST"])
-def limit_bandwidth():
-    """
-    API endpoint to limit bandwidth for a device.
-    """
-    data = request.get_json()
-    target_ip = data.get("ip")
-    bandwidth = data.get("bandwidth")
-
-    if not target_ip or not bandwidth:
-        return jsonify({"error": "Missing parameters"}), 400
-
-    result = set_bandwidth_limit(target_ip, bandwidth)
-    return jsonify(result)
-
-
-@app.route("/api/unlimit_bandwidth", methods=["POST"])
-def unlimit_bandwidth():
-    """
-    API endpoint to remove bandwidth limits for a device by IP.
-    """
-    data = request.get_json()
-    target_ip = data.get("ip")
-
-    if not target_ip:
-        return jsonify({"error": "Missing IP address"}), 400
-
-    result = remove_bandwidth_limit(target_ip)  # Calls the function
-
-    return jsonify(result)
-
-@app.route("/api/get_bandwidth_limit", methods=["GET"])
-def get_bandwidth():
-    """
-    API endpoint to get the bandwidth limit for a device by IP.
-    """
-    data = request.get_json()
-    target_ip = data.get("ip")
-
-    if not target_ip:
-        return jsonify({"error": "Missing IP address"}), 400
-
-    result = get_bandwidth_limit(target_ip)  # Calls the function
-
+''' 
+    API endpoint to gracefully shut down the server and SSH session.
+'''
 @app.route("/api/shutdown", methods=["POST"])
 def shutdown():
-    """
-    API endpoint to gracefully shut down the server and SSH session.
-    """
     ssh_manager.close_connection()
-    return jsonify({"message": "Server and SSH session closed."})
+    return success("Server and SSH session closed")
 
+''' 
+    API endpoint to perform a local network scan and return active devices.
+'''
 @app.route("/api/network_scan", methods=["GET"])
 def network_scan():
-    """
-    API endpoint to scan the network and return connected devices.
-    """
-    result = scan_network()
-    return jsonify(result)
+    return jsonify(scan_network())
 
+''' 
+    API endpoint to perform a scan using the OpenWrt router's DHCP leases.
+'''
 @app.route("/api/router_scan", methods=["GET"])
 def router_scan():
-    """
-    API endpoint to scan the network using the OpenWrt router.
-    """
-    result = scan_network_via_router()
-    return jsonify(result)
+    return jsonify(scan_network_via_router())
 
+''' 
+    API endpoint to retrieve all devices from the database.
+'''
 @app.route("/db/devices", methods=["GET"])
 def get_devices():
-    """
-    API endpoint to retrieve all devices from the database.
-    """
     devices = get_all_devices()
-    return jsonify([{
+    return jsonify(success(data=[{
         "mac": d[0],
         "ip": d[1],
         "hostname": d[2],
         "device_name": d[3],
         "first_seen": d[4],
         "last_seen": d[5]
-    } for d in devices])
+    } for d in devices]))
 
+''' 
+    API endpoint to update a user-defined name for a device.
+    Expects JSON: { "mac": "<mac_address>", "device_name": "<name>" }
+'''
 @app.route("/db/device_name", methods=["PATCH"])
 def update_device_name_route():
-    """
-    API endpoint to update a device's name by MAC address.
-    """
     data = request.get_json()
     mac = data.get("mac")
     device_name = data.get("device_name")
-
     if not mac or not device_name:
-        return jsonify({"error": "Missing 'mac' or 'device_name' in request body"}), 400
-
-    success = update_device_name(mac, device_name)
-    if success:
-        return jsonify({"message": "Device name updated successfully"})
+        return error("Missing 'mac' or 'device_name' in request body")
+    success_status = update_device_name(mac, device_name)
+    if success_status:
+        return success("Device name updated successfully")
     else:
-        return jsonify({"error": "Device not found"}), 404
+        return error("Device not found", status_code=404)
 
+''' 
+    API endpoint to clear all device records from the database.
+'''
 @app.route("/db/clear", methods=["DELETE"])
 def clear_devices_route():
-    """
-    API endpoint to clear all devices from the database.
-    """
     clear_devices()
-    return jsonify({"message": "All devices cleared from the database"})
+    return success("All devices cleared from the database")
 
 if __name__ == "__main__":
     try:
