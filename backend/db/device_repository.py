@@ -3,7 +3,6 @@ import os
 from datetime import datetime
 from utils.path_utils import get_data_folder
 
-# Path to the database file, dynamically resolved
 DB_PATH = os.path.join(get_data_folder(), "devices.db")
 
 # Ensure database and table are created
@@ -22,9 +21,8 @@ def init_db():
         """)
         conn.commit()
 
-# Insert or update a single device
-
-def upsert_device(ip, mac, hostname):
+# Register or update a new device (centralized flow)
+def register_device(ip, mac, hostname):
     now = datetime.utcnow().isoformat()
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
@@ -44,9 +42,33 @@ def upsert_device(ip, mac, hostname):
                 VALUES (?, ?, ?, ?, ?, ?)
             """, (mac, ip, hostname, None, now, now))
 
+        # Only add to general group if not already in any group
+        cursor.execute("SELECT 1 FROM group_members WHERE mac = ?", (mac,))
+        already_grouped = cursor.fetchone()
+
+        if not already_grouped:
+            cursor.execute("SELECT group_id FROM device_groups WHERE name = 'general'")
+            general_group = cursor.fetchone()
+            if general_group:
+                cursor.execute("""
+                    INSERT OR IGNORE INTO group_members (mac, group_id)
+                    VALUES (?, ?)
+                """, (mac, general_group[0]))
+
         conn.commit()
 
-# Optional utility for testing or debugging
+
+# Remove a device and all related data from group_members and device_rules
+def delete_device(mac):
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM device_rules WHERE mac = ?", (mac,))
+        cursor.execute("DELETE FROM group_members WHERE mac = ?", (mac,))
+        cursor.execute("DELETE FROM devices WHERE mac = ?", (mac,))
+        conn.commit()
+
+
+# Get all devices
 def get_all_devices():
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
@@ -59,7 +81,7 @@ def update_device_name(mac, device_name):
         cursor = conn.cursor()
         cursor.execute("UPDATE devices SET device_name = ? WHERE mac = ?", (device_name, mac))
         conn.commit()
-        return cursor.rowcount > 0  # Returns True if a row was updated
+        return cursor.rowcount > 0
 
 # Clear all devices from the database
 def clear_devices():

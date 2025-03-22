@@ -6,7 +6,6 @@ import os
 from utils.path_utils import get_data_folder
 import netifaces
 import ipaddress
-from db.device_repository import upsert_device
 from utils.response_helpers import success, error
 
 def scan(ip_range):
@@ -86,10 +85,6 @@ def scan_network():
 
     # Resolve hostnames for detected devices
     devices_with_hostnames = get_device_names(all_devices)
-
-    # Insert or update devices in the database
-    for device in devices_with_hostnames:
-        upsert_device(device["ip"], device["mac"], device["hostname"])
 
     return success(data=devices_with_hostnames)
 

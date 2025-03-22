@@ -10,8 +10,8 @@ from utils.path_utils import get_data_folder
 from utils.response_helpers import success, error
 import os
 import json
-from db.device_repository import init_db, get_all_devices, update_device_name, clear_devices
-from db.device_groups_repository import init_group_tables
+from db.device_repository import get_all_devices, update_device_name, clear_devices
+from db.schema_initializer import initialize_all_tables
 import sys
 
 # Function to get the external config.json path
@@ -32,8 +32,7 @@ server_port = config["server_port"]
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-init_db()
-init_group_tables()
+initialize_all_tables()
 
 ''' 
     API endpoint for health checking.
