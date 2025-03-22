@@ -1,5 +1,6 @@
 from utils.ssh_client import ssh_manager
 from utils.response_helpers import error, success
+from db.device_repository import register_device
 
 def scan_network_via_router():
     """
@@ -24,5 +25,7 @@ def scan_network_via_router():
                 "hostname": hostname
             })
 
+    for device in connected_devices:
+        register_device(device["ip"], device["mac"], device["hostname"])
 
     return success(message="Connected devices fetched", data=connected_devices)

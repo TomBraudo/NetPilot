@@ -12,6 +12,7 @@ import os
 import json
 from db.device_repository import get_all_devices, update_device_name, clear_devices
 from db.schema_initializer import initialize_all_tables
+from db.device_groups_repository import get_all_groups, get_group_members, get_rules_for_device
 import sys
 
 # Function to get the external config.json path
@@ -141,6 +142,39 @@ def update_device_name_route():
 def clear_devices_route():
     clear_devices()
     return success("All devices cleared from the database")
+
+'''
+    API endpoint to retrieve all device groups.
+'''
+@app.route("/db/groups", methods=["GET"])
+def get_groups():
+    groups = get_all_groups()
+    return jsonify(success(data=groups))
+
+''' 
+    API endpoint to retrieve all devices in a specific group.
+    Expects query param: ?group_name=<group_name>
+'''
+@app.route("/db/group_members", methods=["GET"])
+def get_group_members_route():
+    group_name = request.args.get("group_name")
+    if not group_name:
+        return error("Missing 'group_name' in query parameters")
+    members = get_group_members(group_name)
+    return jsonify(success(data=members))
+
+'''
+    API endpoint to retrieve all rules for a specific device.
+    Expects query param: ?mac=<mac_address>
+'''
+@app.route("/db/device_rules", methods=["GET"])
+def get_device_rules():
+    mac = request.args.get("mac")
+    if not mac:
+        return error("Missing 'mac' in query parameters")
+    rules = get_rules_for_device(mac)
+    return jsonify(success(data=rules))
+
 
 if __name__ == "__main__":
     try:
