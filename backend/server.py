@@ -103,6 +103,67 @@ def network_scan():
 def router_scan():
     return jsonify(scan_network_via_router())
 
+'''
+    API endpoint to block a device by IP address.
+    Expects JSON: { "ip": "<ip_address>" }
+'''
+@app.route("/api/block", methods=["POST"])
+def block():
+    data = request.get_json()
+    ip = data.get("ip")
+    if not ip:
+        return error("Missing 'ip' in request body")
+    return jsonify(block_mac_address(ip))
+
+'''
+    API endpoint to unblock a device by IP address.
+    Expects JSON: { "ip": "<ip_address>" }
+'''
+@app.route("/api/unblock", methods=["POST"])
+def unblock():
+    data = request.get_json()
+    ip = data.get("ip")
+    if not ip:
+        return error("Missing 'ip' in request body")
+    return jsonify(unblock_mac_address(ip))
+
+
+'''
+    API endpoint to set a bandwidth limit for a device in mbps.
+    Expects JSON: { "ip": "<ip_address>", "bandwidth": "<bandwidth_limit_mbps>" }
+'''
+@app.route("/api/limit_bandwidth", methods=["POST"])
+def limit_bandwidth():
+    data = request.get_json()
+    ip = data.get("ip")
+    limit = data.get("bandwidth")
+    if not ip or not limit:
+        return error("Missing 'ip' or 'limit' in request body")
+    return jsonify(set_bandwidth_limit(ip, limit))
+    
+'''
+    API endpoint to remove a bandwidth limit for a device.
+    Expects JSON: { "ip": "<ip_address>" }
+'''
+@app.route("/api/unlimit_bandwidth", methods=["POST"])
+def unlimit_bandwidth():
+    data = request.get_json()
+    ip = data.get("ip")
+    if not ip:
+        return error("Missing 'ip' in request body")
+    return jsonify(remove_bandwidth_limit(ip))
+
+'''
+    API endpoint to retrieve the bandwidth limit for a device.
+    Expects JSON: { "ip": "<ip_address>" }
+'''
+@app.route("/api/get_bandwidth_limit", methods=["GET"])
+def get_limit():
+    ip = request.args.get("ip")
+    if not ip:
+        return error("Missing 'ip' in query parameters")
+    return jsonify(get_bandwidth_limit(ip))
+
 ''' 
     API endpoint to retrieve all devices from the database.
 '''
