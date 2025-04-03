@@ -1,16 +1,34 @@
+import socket
+import requests
+import time
 from utils.ssh_client import ssh_manager
 from utils.response_helpers import error, success
 from db.device_repository import register_device
 
+def get_mac_vendor(mac):
+    """
+    Queries macvendors.com to get the vendor for a given MAC address.
+    Returns 'Unknown Vendor' if request fails.
+    """
+    try:
+        time.sleep(0.5)  # Rate limit to avoid overwhelming the API
+        response = requests.get(f"https://api.macvendors.com/{mac}", timeout=3)
+        if response.status_code == 200:
+            return response.text.strip()
+    except requests.RequestException as e:
+        print(f"[WARN] Vendor lookup failed for {mac}: {e}")
+    return "Unknown Vendor"
+
 def scan_network_via_router():
     """
     Uses SSH to retrieve connected devices from the OpenWrt router.
+    Fetches vendor info from macvendors.com.
     """
     command = "cat /tmp/dhcp.leases"
-    output, error = ssh_manager.execute_command(command)
+    output, exec_error = ssh_manager.execute_command(command)
 
-    if error:
-        return error("Failed to fetch connected devices", error)
+    if exec_error:
+        return error("Failed to fetch connected devices", exec_error)
 
     connected_devices = []
     for line in output.split("\n"):
@@ -18,11 +36,16 @@ def scan_network_via_router():
         if len(parts) >= 3:
             mac_address = parts[1]
             ip_address = parts[2]
-            hostname = parts[3] if len(parts) >= 4 else "Unknown"
+            raw_hostname = parts[3] if len(parts) >= 4 else "Unknown"
+
+            hostname = raw_hostname if raw_hostname not in ["*", "Unknown"] else "Unknown"
+            vendor = get_mac_vendor(mac_address)
+
             connected_devices.append({
                 "ip": ip_address,
                 "mac": mac_address,
-                "hostname": hostname
+                "hostname": hostname,
+                "vendor": vendor
             })
 
     for device in connected_devices:
