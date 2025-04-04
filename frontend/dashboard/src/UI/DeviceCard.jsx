@@ -9,6 +9,7 @@ import {
   FaRegQuestionCircle,
 } from "react-icons/fa";
 import { BsRouter } from "react-icons/bs";
+
 const iconMap = {
   FaMobileAlt: FaMobileAlt,
   FaLaptop: FaLaptop,
@@ -17,7 +18,12 @@ const iconMap = {
   BsRouter: BsRouter,
 };
 
-const DeviceCard = ({ device }) => {
+const DeviceCard = ({
+  device,
+  singleActionLabel,
+  singleActionClass = "",
+  onSingleAction,
+}) => {
   const IconComponent = iconMap[device.icon] || FaRegQuestionCircle;
 
   return (
@@ -37,12 +43,23 @@ const DeviceCard = ({ device }) => {
       </p>
 
       <div className="flex gap-4 mt-3">
-        <button className="bg-red-500 text-white p-2 rounded-full shadow-md hover:bg-red-600 transition">
-          <FaHandPaper size={20} />
-        </button>
-        <button className="bg-yellow-400 text-white p-2 rounded-full shadow-md hover:bg-yellow-500 transition">
-          <FaTachometerAlt size={20} />
-        </button>
+        {singleActionLabel && onSingleAction ? (
+          <button
+            onClick={onSingleAction}
+            className={`text-white px-4 py-1.5 rounded-full shadow-md transition text-sm ${singleActionClass}`}
+          >
+            {singleActionLabel}
+          </button>
+        ) : (
+          <>
+            <button className="bg-red-500 text-white p-2 rounded-full shadow-md hover:bg-red-600 transition">
+              <FaHandPaper size={20} />
+            </button>
+            <button className="bg-yellow-400 text-white p-2 rounded-full shadow-md hover:bg-yellow-500 transition">
+              <FaTachometerAlt size={20} />
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
