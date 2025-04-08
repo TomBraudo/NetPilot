@@ -1,6 +1,6 @@
 import subprocess
 from utils.ssh_client import ssh_manager
-
+from utils.response_helpers import success, error
 def block_mac_address(target_ip):
     """
     Blocks a device by IP address (translates IP to MAC and blocks it).
@@ -16,7 +16,7 @@ def block_mac_address(target_ip):
     output, error = ssh_manager.execute_command(command_get_mac)
     
     if error:
-        return {"error": f"Failed to fetch connected devices: {error}"}
+        return error("Failed to fetch connected devices: {error}")
 
     # Find MAC address of the target IP
     mac_address = None
@@ -27,14 +27,14 @@ def block_mac_address(target_ip):
             break
 
     if not mac_address:
-        return {"error": f"IP {target_ip} not found in connected devices."}
+        return error(f"IP {target_ip} not found in connected devices.")
 
     # Block the MAC address
     for cmd in commands_block:
         cmd = cmd.format(mac_address=mac_address)
         ssh_manager.execute_command(cmd)
 
-    return {"success": f"Device with IP {target_ip} (MAC {mac_address}) is blocked."}
+    return success(f"Device with IP {target_ip} (MAC {mac_address}) is blocked.")
 
 
 
@@ -52,7 +52,7 @@ def unblock_mac_address(target_ip):
     output, error = ssh_manager.execute_command(command_get_mac)
     
     if error:
-        return {"error": f"Failed to fetch connected devices: {error}"}
+        return error(f"Failed to fetch connected devices: {error}") 
 
     # Find MAC address of the target IP
     mac_address = None
@@ -63,14 +63,14 @@ def unblock_mac_address(target_ip):
             break
 
     if not mac_address:
-        return {"error": f"IP {target_ip} not found in connected devices."}
+        return error(f"IP {target_ip} not found in connected devices.")
 
     # Unblock the MAC address
     for cmd in commands_unblock:
         cmd = cmd.format(mac_address=mac_address)
         ssh_manager.execute_command(cmd)
 
-    return {"success": f"Device with IP {target_ip} (MAC {mac_address}) has been unblocked."}
+    return success(f"Device with IP {target_ip} (MAC {mac_address}) is unblocked.")
 
 def get_blocked_devices():
     """
@@ -102,14 +102,14 @@ def get_blocked_devices():
                     blocked_macs.add(parts[i+2])  # MAC address is the next value
 
     if not blocked_macs:
-        return {"success": "No devices are currently blocked."}
+        return success("No devices are currently blocked.")
 
     # Retrieve DHCP leases to match MACs with IPs and hostnames
     command_get_dhcp = "cat /tmp/dhcp.leases"
     dhcp_output, error = ssh_manager.execute_command(command_get_dhcp)
 
     if error:
-        return {"error": f"Failed to fetch DHCP leases: {error}"}
+        return error(f"Failed to fetch DHCP leases: {error}")
 
     # Parse DHCP leases to map MAC -> IP & Hostname
     dhcp_map = {}
@@ -133,4 +133,4 @@ def get_blocked_devices():
         else:
             blocked_devices.append({"ip": "Unknown", "mac": mac, "hostname": "Unknown"})
 
-    return {"blocked_devices": blocked_devices}
+    return success(data=blocked_devices)
