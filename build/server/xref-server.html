@@ -192,6 +192,9 @@ imports:
  &#8226;   <a href="#collections">collections</a>
  &#8226;   <a href="#collections.abc">collections.abc</a>
  &#8226;   <a href="#copyreg">copyreg</a>
+ &#8226;   <a href="#db.device_groups_repository">db.device_groups_repository</a>
+ &#8226;   <a href="#db.device_repository">db.device_repository</a>
+ &#8226;   <a href="#db.schema_initializer">db.schema_initializer</a>
  &#8226;   <a href="#encodings">encodings</a>
  &#8226;   <a href="#encodings.aliases">encodings.aliases</a>
  &#8226;   <a href="#encodings.ascii">encodings.ascii</a>
@@ -360,6 +363,7 @@ imports:
  &#8226;   <a href="#traceback">traceback</a>
  &#8226;   <a href="#types">types</a>
  &#8226;   <a href="#utils.path_utils">utils.path_utils</a>
+ &#8226;   <a href="#utils.response_helpers">utils.response_helpers</a>
  &#8226;   <a href="#utils.ssh_client">utils.ssh_client</a>
  &#8226;   <a href="#warnings">warnings</a>
  &#8226;   <a href="#weakref">weakref</a>
@@ -13319,6 +13323,8 @@ imported by:
  &#8226;   <a href="#dateutil.tz._factories">dateutil.tz._factories</a>
  &#8226;   <a href="#dateutil.tz.tz">dateutil.tz.tz</a>
  &#8226;   <a href="#dateutil.tz.win">dateutil.tz.win</a>
+ &#8226;   <a href="#db.device_groups_repository">db.device_groups_repository</a>
+ &#8226;   <a href="#db.device_repository">db.device_repository</a>
  &#8226;   <a href="#email.utils">email.utils</a>
  &#8226;   <a href="#flask.app">flask.app</a>
  &#8226;   <a href="#flask.blueprints">flask.blueprints</a>
@@ -13776,6 +13782,86 @@ imports:
   <div class="import">
 imported by:
     <a href="#dateutil.tz.tz">dateutil.tz.tz</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="db"></a>
+  <a target="code" href="-" type="text/plain"><tt>db</tt></a>
+<span class="moduletype">NamespacePackage</span>  <div class="import">
+imported by:
+    <a href="#db.device_groups_repository">db.device_groups_repository</a>
+ &#8226;   <a href="#db.device_repository">db.device_repository</a>
+ &#8226;   <a href="#db.schema_initializer">db.schema_initializer</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="db.device_groups_repository"></a>
+  <a target="code" href="///C:/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/db/device_groups_repository.py" type="text/plain"><tt>db.device_groups_repository</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#datetime">datetime</a>
+ &#8226;   <a href="#db">db</a>
+ &#8226;   <a href="#db.device_repository">db.device_repository</a>
+ &#8226;   <a href="#os">os</a>
+ &#8226;   <a href="#sqlite3">sqlite3</a>
+ &#8226;   <a href="#utils.path_utils">utils.path_utils</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#db.schema_initializer">db.schema_initializer</a>
+ &#8226;   <a href="#server.py">server.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="db.device_repository"></a>
+  <a target="code" href="///C:/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/db/device_repository.py" type="text/plain"><tt>db.device_repository</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#datetime">datetime</a>
+ &#8226;   <a href="#db">db</a>
+ &#8226;   <a href="#os">os</a>
+ &#8226;   <a href="#sqlite3">sqlite3</a>
+ &#8226;   <a href="#utils.path_utils">utils.path_utils</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#db.device_groups_repository">db.device_groups_repository</a>
+ &#8226;   <a href="#db.schema_initializer">db.schema_initializer</a>
+ &#8226;   <a href="#server.py">server.py</a>
+ &#8226;   <a href="#services.network_scanner">services.network_scanner</a>
+ &#8226;   <a href="#services.router_scanner">services.router_scanner</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="db.schema_initializer"></a>
+  <a target="code" href="///C:/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/db/schema_initializer.py" type="text/plain"><tt>db.schema_initializer</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#db">db</a>
+ &#8226;   <a href="#db.device_groups_repository">db.device_groups_repository</a>
+ &#8226;   <a href="#db.device_repository">db.device_repository</a>
+ &#8226;   <a href="#os">os</a>
+ &#8226;   <a href="#sqlite3">sqlite3</a>
+ &#8226;   <a href="#utils.path_utils">utils.path_utils</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#server.py">server.py</a>
 
   </div>
 
@@ -36685,6 +36771,9 @@ imported by:
  &#8226;   <a href="#ctypes.util">ctypes.util</a>
  &#8226;   <a href="#curses">curses</a>
  &#8226;   <a href="#dateutil.tz.tz">dateutil.tz.tz</a>
+ &#8226;   <a href="#db.device_groups_repository">db.device_groups_repository</a>
+ &#8226;   <a href="#db.device_repository">db.device_repository</a>
+ &#8226;   <a href="#db.schema_initializer">db.schema_initializer</a>
  &#8226;   <a href="#debugpy._vendored">debugpy._vendored</a>
  &#8226;   <a href="#debugpy._vendored._util">debugpy._vendored._util</a>
  &#8226;   <a href="#debugpy._vendored.force_pydevd">debugpy._vendored.force_pydevd</a>
@@ -54304,6 +54393,7 @@ imported by:
  &#8226;   <a href="#requests.status_codes">requests.status_codes</a>
  &#8226;   <a href="#requests.structures">requests.structures</a>
  &#8226;   <a href="#requests.utils">requests.utils</a>
+ &#8226;   <a href="#services.router_scanner">services.router_scanner</a>
 
   </div>
 
@@ -61207,6 +61297,7 @@ imported by:
 imports:
     <a href="#services">services</a>
  &#8226;   <a href="#subprocess">subprocess</a>
+ &#8226;   <a href="#utils.response_helpers">utils.response_helpers</a>
  &#8226;   <a href="#utils.ssh_client">utils.ssh_client</a>
 
   </div>
@@ -61224,6 +61315,7 @@ imported by:
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
     <a href="#services">services</a>
+ &#8226;   <a href="#utils.response_helpers">utils.response_helpers</a>
  &#8226;   <a href="#utils.ssh_client">utils.ssh_client</a>
 
   </div>
@@ -61241,6 +61333,7 @@ imported by:
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
     <a href="#concurrent.futures">concurrent.futures</a>
+ &#8226;   <a href="#db.device_repository">db.device_repository</a>
  &#8226;   <a href="#ipaddress">ipaddress</a>
  &#8226;   <a href="#json">json</a>
  &#8226;   <a href="#netifaces">netifaces</a>
@@ -61249,6 +61342,7 @@ imports:
  &#8226;   <a href="#services">services</a>
  &#8226;   <a href="#socket">socket</a>
  &#8226;   <a href="#utils.path_utils">utils.path_utils</a>
+ &#8226;   <a href="#utils.response_helpers">utils.response_helpers</a>
 
   </div>
   <div class="import">
@@ -61264,7 +61358,12 @@ imported by:
   <a target="code" href="///C:/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/services/router_scanner.py" type="text/plain"><tt>services.router_scanner</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#services">services</a>
+    <a href="#db.device_repository">db.device_repository</a>
+ &#8226;   <a href="#requests">requests</a>
+ &#8226;   <a href="#services">services</a>
+ &#8226;   <a href="#socket">socket</a>
+ &#8226;   <a href="#time">time</a>
+ &#8226;   <a href="#utils.response_helpers">utils.response_helpers</a>
  &#8226;   <a href="#utils.ssh_client">utils.ssh_client</a>
 
   </div>
@@ -61285,6 +61384,7 @@ imports:
  &#8226;   <a href="#os">os</a>
  &#8226;   <a href="#services">services</a>
  &#8226;   <a href="#utils.path_utils">utils.path_utils</a>
+ &#8226;   <a href="#utils.response_helpers">utils.response_helpers</a>
 
   </div>
   <div class="import">
@@ -66009,6 +66109,7 @@ imported by:
  &#8226;   <a href="#scapy.utils">scapy.utils</a>
  &#8226;   <a href="#scapy.utils6">scapy.utils6</a>
  &#8226;   <a href="#services.network_scanner">services.network_scanner</a>
+ &#8226;   <a href="#services.router_scanner">services.router_scanner</a>
  &#8226;   <a href="#smtplib">smtplib</a>
  &#8226;   <a href="#socketserver">socketserver</a>
  &#8226;   <a href="#ssl">ssl</a>
@@ -66086,6 +66187,9 @@ imports:
   <div class="import">
 imported by:
     <a href="#IPython.core.history">IPython.core.history</a>
+ &#8226;   <a href="#db.device_groups_repository">db.device_groups_repository</a>
+ &#8226;   <a href="#db.device_repository">db.device_repository</a>
+ &#8226;   <a href="#db.schema_initializer">db.schema_initializer</a>
  &#8226;   <a href="#sqlite3">sqlite3</a>
  &#8226;   <a href="#sqlite3.__main__">sqlite3.__main__</a>
  &#8226;   <a href="#sqlite3.dbapi2">sqlite3.dbapi2</a>
@@ -67812,6 +67916,7 @@ imported by:
  &#8226;   <a href="#scapy.utils">scapy.utils</a>
  &#8226;   <a href="#scapy.utils6">scapy.utils6</a>
  &#8226;   <a href="#scapy.volatile">scapy.volatile</a>
+ &#8226;   <a href="#services.router_scanner">services.router_scanner</a>
  &#8226;   <a href="#setuptools._vendor.backports.tarfile">setuptools._vendor.backports.tarfile</a>
  &#8226;   <a href="#setuptools._vendor.jaraco.functools">setuptools._vendor.jaraco.functools</a>
  &#8226;   <a href="#setuptools._vendor.more_itertools.more">setuptools._vendor.more_itertools.more</a>
@@ -71861,6 +71966,7 @@ imported by:
 <span class="moduletype">Package</span>  <div class="import">
 imported by:
     <a href="#utils.path_utils">utils.path_utils</a>
+ &#8226;   <a href="#utils.response_helpers">utils.response_helpers</a>
  &#8226;   <a href="#utils.ssh_client">utils.ssh_client</a>
 
   </div>
@@ -71879,10 +71985,34 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#server.py">server.py</a>
+    <a href="#db.device_groups_repository">db.device_groups_repository</a>
+ &#8226;   <a href="#db.device_repository">db.device_repository</a>
+ &#8226;   <a href="#db.schema_initializer">db.schema_initializer</a>
+ &#8226;   <a href="#server.py">server.py</a>
  &#8226;   <a href="#services.network_scanner">services.network_scanner</a>
  &#8226;   <a href="#services.subnets_manager">services.subnets_manager</a>
  &#8226;   <a href="#utils.ssh_client">utils.ssh_client</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="utils.response_helpers"></a>
+  <a target="code" href="///C:/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/utils/response_helpers.py" type="text/plain"><tt>utils.response_helpers</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#utils">utils</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#server.py">server.py</a>
+ &#8226;   <a href="#services.block_ip">services.block_ip</a>
+ &#8226;   <a href="#services.limit_bandwidth">services.limit_bandwidth</a>
+ &#8226;   <a href="#services.network_scanner">services.network_scanner</a>
+ &#8226;   <a href="#services.router_scanner">services.router_scanner</a>
+ &#8226;   <a href="#services.subnets_manager">services.subnets_manager</a>
 
   </div>
 
