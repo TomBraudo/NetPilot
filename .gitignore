@@ -1,3 +1,5 @@
 venv/
 backend/venv/
 .qodo
+node_modueles/
+frontend/node_modules/
