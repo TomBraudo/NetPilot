@@ -88,7 +88,7 @@ const ScanPage = () => {
       console.log("Parsed JSON data:", data);
 
       if (isMounted.current) {
-        const formattedDevices = formatDevices(data);
+        const formattedDevices = formatDevices(data['data']);
         console.log("Formatted devices:", formattedDevices);
         setDevices(formattedDevices);
 

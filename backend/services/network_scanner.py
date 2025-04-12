@@ -83,11 +83,12 @@ def scan_network():
             if key not in seen:
                 seen.add(key)
                 all_devices.append(device)
-
+                
+    devices_with_hostnames = get_device_names(all_devices)
     for device in devices_with_hostnames:
         register_device(device["ip"], device["mac"], device["hostname"])
     # Resolve hostnames for detected devices
-    devices_with_hostnames = get_device_names(all_devices)
+    
 
     return success(data=devices_with_hostnames)
 
