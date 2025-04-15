@@ -1,12 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
+import { Wifi, ArrowRight } from "lucide-react";
+import NetworkBackground from "../../components/NetworkBackground";
+import { useNavigate } from "react-router-dom";
 
-const Dashboard = () => {
-  return <div>Dashboard</div>;
-};
+function ScanButton() {
+  const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
+  return (
+    <button
+      className="relative group bg-blue-500/10 backdrop-blur-sm border border-blue-400/30 text-blue-900 dark:text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:border-blue-400/50 hover:bg-blue-500/20"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={() => navigate("/scan", { state: { autoScan: true } })}
+    >
+      <div className="relative z-10 flex items-center gap-3">
+        <span>Scan Network</span>
+        <Wifi
+          className={`w-5 h-5 transition-transform duration-300 ${
+            isHovered ? "scale-110" : "scale-100"
+          }`}
+        />
+      </div>
 
-<<<<<<< Updated upstream
-export default Dashboard;
-=======
       {/* Animated rings */}
       <div className="absolute inset-0 flex items-center justify-center">
         <div
@@ -52,7 +67,7 @@ function App() {
             Note: NetPilot requires OpenWrt installed on your router.
           </p>
           <a
-            href="https://youtu.be/7cxiYmn3OTU?si=etGet3mLj7lF3VVN"
+            href="https://www.youtube.com/watch?v=7cxiYmn3OTU"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center text-blue-500 hover:text-blue-400 transition-colors group"
@@ -69,4 +84,3 @@ function App() {
 }
 
 export default App;
->>>>>>> Stashed changes
