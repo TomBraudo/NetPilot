@@ -21,34 +21,65 @@ def get_mac_vendor(mac):
 
 def scan_network_via_router():
     """
-    Uses SSH to retrieve connected devices from the OpenWrt router.
-    Fetches vendor info from macvendors.com.
+    Uses SSH to retrieve ACTIVE connected devices from the OpenWrt router.
+    Combines ARP table with DHCP lease information for accurate results.
     """
-    command = "cat /tmp/dhcp.leases"
-    output, exec_error = ssh_manager.execute_command(command)
+    # Get DHCP leases for hostname information
+    dhcp_command = "cat /tmp/dhcp.leases"
+    dhcp_output, dhcp_error = ssh_manager.execute_command(dhcp_command)
 
-    if exec_error:
-        return error("Failed to fetch connected devices", exec_error)
+    if dhcp_error:
+        return error("Failed to fetch DHCP leases", dhcp_error)
 
-    connected_devices = []
-    for line in output.split("\n"):
+    # Create a lookup dictionary from DHCP leases
+    dhcp_info = {}
+    for line in dhcp_output.split("\n"):
         parts = line.split()
-        if len(parts) >= 3:
-            mac_address = parts[1]
-            ip_address = parts[2]
+        if len(parts) >= 4:
+            mac = parts[1].lower()
+            ip = parts[2]
             raw_hostname = parts[3] if len(parts) >= 4 else "Unknown"
-
             hostname = raw_hostname if raw_hostname not in ["*", "Unknown"] else "Unknown"
-            vendor = get_mac_vendor(mac_address)
+            dhcp_info[mac] = {"ip": ip, "hostname": hostname}
 
-            connected_devices.append({
-                "ip": ip_address,
-                "mac": mac_address,
-                "hostname": hostname,
-                "vendor": vendor
-            })
+    # Get ARP table to find ACTIVE devices
+    arp_command = "ip neigh show | grep -v FAILED"
+    arp_output, arp_error = ssh_manager.execute_command(arp_command)
 
+    if arp_error:
+        return error("Failed to fetch ARP table", arp_error)
+
+    # Process active devices from ARP table
+    connected_devices = []
+    for line in arp_output.split("\n"):
+        if not line.strip():
+            continue
+            
+        parts = line.split()
+        if len(parts) >= 4:
+            ip = parts[0]
+            mac_idx = next((i for i, part in enumerate(parts) if ":" in part), -1)
+            if mac_idx == -1:
+                continue
+                
+            mac = parts[mac_idx].lower()
+            state = parts[-1]
+            
+            # Only include devices in REACHABLE or STALE state (recently active)
+            if state in ["REACHABLE", "STALE", "DELAY"]:
+                # Get hostname from DHCP info if available
+                hostname = dhcp_info.get(mac, {}).get("hostname", "Unknown")
+                vendor = get_mac_vendor(mac)
+                
+                connected_devices.append({
+                    "ip": ip,
+                    "mac": mac,
+                    "hostname": hostname,
+                    "vendor": vendor
+                })
+
+    # Register active devices in database
     for device in connected_devices:
         register_device(device["ip"], device["mac"], device["hostname"])
 
-    return success(message="Connected devices fetched", data=connected_devices)
+    return success(message="Active devices fetched", data=connected_devices)
