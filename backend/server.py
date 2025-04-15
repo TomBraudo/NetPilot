@@ -135,6 +135,7 @@ def unblock():
 @app.route("/api/limit_bandwidth", methods=["POST"])
 def limit_bandwidth():
     data = request.get_json()
+    print(data)
     ip = data.get("ip")
     limit = data.get("bandwidth")
     if not ip or not limit:

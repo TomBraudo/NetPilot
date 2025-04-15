@@ -111,7 +111,7 @@ const DeviceCard = ({
       const res = await fetch("http://localhost:5000/api/limit_bandwidth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ip: device.ip, limit: limitValue }),
+        body: JSON.stringify({ ip: device.ip, bandwidth: limitValue }),
       });
 
       if (!res.ok) throw new Error("Failed to limit bandwidth");
