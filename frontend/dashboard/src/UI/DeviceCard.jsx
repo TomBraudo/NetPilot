@@ -144,21 +144,34 @@ const DeviceCard = ({
           MAC: {device.mac}
         </p>
 
+        {/* Conditional action buttons */}
         <div className="flex gap-4 mt-3">
-          <button
-            onClick={() => setShowBlockModal(true)}
-            className="bg-red-500 text-white p-2 rounded-full shadow-md hover:bg-red-600 transition"
-          >
-            <FaHandPaper size={20} />
-          </button>
-          <button
-            onClick={() => setShowLimitModal(true)}
-            className="bg-yellow-400 text-white p-2 rounded-full shadow-md hover:bg-yellow-500 transition"
-          >
-            <FaTachometerAlt size={20} />
-          </button>
+          {singleActionLabel && onSingleAction ? (
+            <button
+              onClick={onSingleAction}
+              className={`text-white px-4 py-1.5 rounded-full shadow-md transition text-sm ${singleActionClass}`}
+            >
+              {singleActionLabel}
+            </button>
+          ) : (
+            <>
+              <button
+                onClick={() => setShowBlockModal(true)}
+                className="bg-red-500 text-white p-2 rounded-full shadow-md hover:bg-red-600 transition"
+              >
+                <FaHandPaper size={20} />
+              </button>
+              <button
+                onClick={() => setShowLimitModal(true)}
+                className="bg-yellow-400 text-white p-2 rounded-full shadow-md hover:bg-yellow-500 transition"
+              >
+                <FaTachometerAlt size={20} />
+              </button>
+            </>
+          )}
         </div>
 
+        {/* Status message */}
         {actionMessage && (
           <p
             className={`text-sm text-center mt-2 ${
@@ -198,28 +211,6 @@ const DeviceCard = ({
         </div>
       )}
 
-<<<<<<< Updated upstream
-      <div className="flex gap-4 mt-3">
-        {singleActionLabel && onSingleAction ? (
-          <button
-            onClick={onSingleAction}
-            className={`text-white px-4 py-1.5 rounded-full shadow-md transition text-sm ${singleActionClass}`}
-          >
-            {singleActionLabel}
-          </button>
-        ) : (
-          <>
-            <button className="bg-red-500 text-white p-2 rounded-full shadow-md hover:bg-red-600 transition">
-              <FaHandPaper size={20} />
-            </button>
-            <button className="bg-yellow-400 text-white p-2 rounded-full shadow-md hover:bg-yellow-500 transition">
-              <FaTachometerAlt size={20} />
-            </button>
-          </>
-        )}
-      </div>
-    </div>
-=======
       {/* Limit Modal */}
       {showLimitModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
@@ -256,8 +247,6 @@ const DeviceCard = ({
         </div>
       )}
     </>
->>>>>>> Stashed changes
   );
 };
-
 export default DeviceCard;

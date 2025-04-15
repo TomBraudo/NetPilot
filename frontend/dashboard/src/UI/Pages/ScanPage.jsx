@@ -240,12 +240,8 @@ const ScanPage = () => {
       const data = await res.json();
 
       if (isMounted.current) {
-<<<<<<< Updated upstream
-        const formattedDevices = formatDevices(data);
-        console.log("Formatted devices:", formattedDevices);
-=======
         const formattedDevices = formatDevices(data["data"]);
->>>>>>> Stashed changes
+
         setDevices(formattedDevices);
 
         const scanTime = getFormattedDate();
