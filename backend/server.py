@@ -77,6 +77,31 @@ def remove_ip_route():
 def clear_ips_route():
     return jsonify(clear_ips())
 
+'''
+    API endpoint to set the admin username and password for the web interface.
+    Expects JSON: { "username": "<username>", "password": "<password>" }
+'''
+@app.route("/config/set_admin", methods=["POST"])
+def set_admin():
+    data = request.get_json()
+    username = data.get("username")
+    password = data.get("password")
+    
+    if not username or not password:
+        return error("Missing 'username' or 'password' in request body")
+    
+    # Save the new credentials to config.json
+    with open(config_path, "r") as f:
+        config = json.load(f)
+        
+    config["username"] = username
+    config["password"] = password
+    
+    with open(config_path, "w") as f:
+        json.dump(config, f, indent=4)
+        
+    return success("Admin credentials updated successfully")
+
 ''' 
     API endpoint to retrieve all currently blocked devices.
 '''
@@ -244,7 +269,7 @@ def get_device_rules():
 '''
     API endpoint to enable WiFi on the router
 '''
-@app.route("/api/wifi/enable", methods=["POST"])
+@app.route("/wifi/enable", methods=["POST"])
 def enable_wifi_route():
     return jsonify(enable_wifi())
 
@@ -252,7 +277,7 @@ def enable_wifi_route():
     API endpoint to change the WiFi password
     Expects JSON: { "password": "<new_password>", "interface": <interface_number> }
 '''
-@app.route("/api/wifi/change_password", methods=["POST"])
+@app.route("/wifi/change_password", methods=["POST"])
 def change_wifi_password_route():
     data = request.get_json()
     password = data.get("password")
@@ -266,7 +291,7 @@ def change_wifi_password_route():
 '''
     API endpoint to get current WiFi status
 '''
-@app.route("/api/wifi/status", methods=["GET"])
+@app.route("/wifi/status", methods=["GET"])
 def get_wifi_status_route():
     return jsonify(get_wifi_status())
 
