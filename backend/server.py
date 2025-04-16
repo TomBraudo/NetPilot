@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from services.block_ip import block_mac_address, unblock_mac_address, get_blocked_devices
 from services.limit_bandwidth import set_bandwidth_limit, remove_bandwidth_limit, get_bandwidth_limit
+from services.reset_rules import reset_all_rules
 from utils.ssh_client import ssh_manager
 from services.network_scanner import scan_network
 from services.router_scanner import scan_network_via_router
@@ -13,7 +14,9 @@ import json
 from db.device_repository import get_all_devices, update_device_name, clear_devices
 from db.schema_initializer import initialize_all_tables
 from db.device_groups_repository import get_all_groups, get_group_members, get_rules_for_device
+from services.wifi_manager import enable_wifi, change_wifi_password, get_wifi_status
 import sys
+import atexit
 
 # Function to get the external config.json path
 def get_config_path():
@@ -86,8 +89,9 @@ def get_blocked():
 '''
 @app.route("/api/shutdown", methods=["POST"])
 def shutdown():
+    response = reset_all_rules()
     ssh_manager.close_connection()
-    return success("Server and SSH session closed")
+    return jsonify(response)
 
 ''' 
     API endpoint to perform a local network scan and return active devices.
@@ -237,9 +241,41 @@ def get_device_rules():
     rules = get_rules_for_device(mac)
     return jsonify(success(data=rules))
 
+'''
+    API endpoint to enable WiFi on the router
+'''
+@app.route("/api/wifi/enable", methods=["POST"])
+def enable_wifi_route():
+    return jsonify(enable_wifi())
+
+'''
+    API endpoint to change the WiFi password
+    Expects JSON: { "password": "<new_password>", "interface": <interface_number> }
+'''
+@app.route("/api/wifi/change_password", methods=["POST"])
+def change_wifi_password_route():
+    data = request.get_json()
+    password = data.get("password")
+    interface = data.get("interface", 0)  # Default to interface 0
+    
+    if not password:
+        return jsonify(error("Missing 'password' in request body"))
+        
+    return jsonify(change_wifi_password(password, interface))
+
+'''
+    API endpoint to get current WiFi status
+'''
+@app.route("/api/wifi/status", methods=["GET"])
+def get_wifi_status_route():
+    return jsonify(get_wifi_status())
+
+#
+atexit.register(ssh_manager.close_connection)
 
 if __name__ == "__main__":
     try:
         app.run(host="0.0.0.0", port=server_port, debug=True)
     except KeyboardInterrupt:
         ssh_manager.close_connection()
+
