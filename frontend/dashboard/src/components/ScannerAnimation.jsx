@@ -36,26 +36,25 @@ const ScannerAnimation = () => {
   }, []);
 
   return (
-    <div>
-      <div className="relative flex items-center justify-center w-25 h-25 sm:w-15 sm:h-15">
-        {/* עיגולי סריקה מתרחבים (4 עיגולים) */}
+    <div className="flex justify-center items-center w-full h-full">
+      <div className="relative w-[15vw] h-[15vw] min-w-[140px] min-h-[140px]">
+        {/* עיגולי סריקה מתרחבים */}
         {[1, 2, 3, 4].map((i) => (
           <div
             key={i}
-            className="absolute w-full h-full rounded-full border border-blue-600 
-          opacity-50 animate-ping"
+            className="absolute w-full h-full rounded-full border border-blue-600 opacity-50 animate-ping"
             style={{ animationDelay: `${i * 0.5}s`, animationDuration: "2.5s" }}
           />
         ))}
 
-        {/* אייקון של מכשיר בודד - משתנה כל 2 שניות */}
+        {/* מכשיר אקראי שמופיע סביב */}
         {device && (
           <div
             key={device.id}
-            className="absolute text-blue-500 text-xs sm:text-sm opacity-90 animate-fade"
+            className="absolute text-blue-500 text-[2.2vw] opacity-90 animate-fade"
             style={{
-              left: `calc(50% + ${device.position.x}px)`,
-              top: `calc(50% + ${device.position.y}px)`,
+              left: `calc(50% + ${device.position.x}%)`,
+              top: `calc(50% + ${device.position.y}%)`,
             }}
           >
             <device.Icon />
@@ -63,18 +62,15 @@ const ScannerAnimation = () => {
         )}
 
         {/* עיגול פנימי */}
-        <div className="absolute w-2 h-2 sm:w-1 sm:h-1 bg-blue-500 rounded-full shadow-lg"></div>
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[1vw] h-[1vw] min-w-[8px] min-h-[8px] bg-blue-500 rounded-full shadow-lg z-10" />
 
-        {/* מחוג סורק (קו מסתובב) */}
+        {/* מחוג סורק */}
         <div
-          className="absolute w-[160%] h-[2px] bg-blue-500 origin-bottom animate-spin"
-          style={{
-            animationDuration: "3.5s",
-          }}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 origin-bottom bg-blue-500 h-[2px] w-[160%] animate-spin z-0"
+          style={{ animationDuration: "3.5s" }}
         ></div>
       </div>
 
-      {/* אנימציה מותאמת לאייקונים - ללא קובץ Tailwind config */}
       <style>
         {`
           @keyframes fade {
@@ -88,6 +84,60 @@ const ScannerAnimation = () => {
       </style>
     </div>
   );
+
+  // return (
+  //   <div>
+  //     <div className="relative flex items-center justify-center w-25 h-25 sm:w-15 sm:h-15">
+  //       {/* עיגולי סריקה מתרחבים (4 עיגולים) */}
+  //       {[1, 2, 3, 4].map((i) => (
+  //         <div
+  //           key={i}
+  //           className="absolute w-full h-full rounded-full border border-blue-600
+  //         opacity-50 animate-ping"
+  //           style={{ animationDelay: `${i * 0.5}s`, animationDuration: "2.5s" }}
+  //         />
+  //       ))}
+
+  //       {/* אייקון של מכשיר בודד - משתנה כל 2 שניות */}
+  //       {device && (
+  //         <div
+  //           key={device.id}
+  //           className="absolute text-blue-500 text-xs sm:text-sm opacity-90 animate-fade"
+  //           style={{
+  //             left: `calc(50% + ${device.position.x}px)`,
+  //             top: `calc(50% + ${device.position.y}px)`,
+  //           }}
+  //         >
+  //           <device.Icon />
+  //         </div>
+  //       )}
+
+  //       {/* עיגול פנימי */}
+  //       <div className="absolute w-2 h-2 sm:w-1 sm:h-1 bg-blue-500 rounded-full shadow-lg"></div>
+
+  //       {/* מחוג סורק (קו מסתובב) */}
+  //       <div
+  //         className="absolute w-[160%] h-[2px] bg-blue-500 origin-bottom animate-spin"
+  //         style={{
+  //           animationDuration: "3.5s",
+  //         }}
+  //       ></div>
+  //     </div>
+
+  //     {/* אנימציה מותאמת לאייקונים - ללא קובץ Tailwind config */}
+  //     <style>
+  //       {`
+  //         @keyframes fade {
+  //           0%, 100% { opacity: 0; }
+  //           50% { opacity: 0.8; }
+  //         }
+  //         .animate-fade {
+  //           animation: fade 2s ease-in-out infinite;
+  //         }
+  //       `}
+  //     </style>
+  //   </div>
+  // );
 };
 
 export default ScannerAnimation;

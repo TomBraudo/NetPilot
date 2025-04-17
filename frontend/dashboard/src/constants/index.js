@@ -21,7 +21,28 @@ import { AiOutlineControl } from "react-icons/ai";
 import { MdOutlineSecurity } from "react-icons/md";
 import { GiRadarSweep } from "react-icons/gi";
 
-export const devices = [
+export const staticDevices = [
+  {
+    type: "iPhone",
+    hostname: "Dans' iphone",
+    ip: "192.168.1.10",
+    mac: "A4:B5:C6:D7:E8:F9",
+    icon: "FaMobileAlt",
+  },
+  {
+    type: "iPhone",
+    hostname: "Dans' iphone",
+    ip: "192.168.1.10",
+    mac: "A4:B5:C6:D7:E8:F9",
+    icon: "FaMobileAlt",
+  },
+  {
+    type: "iPhone",
+    hostname: "Dans' iphone",
+    ip: "192.168.1.10",
+    mac: "A4:B5:C6:D7:E8:F9",
+    icon: "FaMobileAlt",
+  },
   {
     type: "iPhone",
     hostname: "Dans' iphone",

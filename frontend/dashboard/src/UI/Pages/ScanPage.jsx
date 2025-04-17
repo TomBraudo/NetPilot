@@ -147,7 +147,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import DeviceCard from "../DeviceCard";
 import ScannerAnimation from "../../components/ScannerAnimation";
-
+import ScanButton from "../../components/ScanButton";
+// import { staticDevices } from "../../constants/index";
 const iconMap = {
   router: "BsRouter",
   laptop: "FaLaptop",
@@ -260,8 +261,8 @@ const ScanPage = () => {
   };
 
   return (
-    <div className="p-5 flex flex-col items-center min-h-screen">
-      <button
+    <div className="p-10 flex flex-col items-center min-h-screen">
+      {/* <button
         onClick={handleNetworkScan}
         disabled={isScanning}
         className={`w-40 h-10 flex items-center justify-center ${
@@ -269,11 +270,11 @@ const ScanPage = () => {
         } text-white p-2 rounded-md transition mb-6`}
       >
         {isScanning ? "SCANNING..." : "Scan Network"}
-      </button>
+      </button> */}
+      <ScanButton onScan={handleNetworkScan} isScanning={isScanning} />
 
-      {/* 👇 האנימציה שלך חוזרת לכאן בגאווה */}
       {isScanning && (
-        <div className="p-5">
+        <div className="pt-20">
           <ScannerAnimation />
         </div>
       )}
@@ -281,16 +282,18 @@ const ScanPage = () => {
       {error && <p className="text-red-600 mt-4">{error}</p>}
 
       {!isScanning && lastScanTime && (
-        <p className="text-gray-500 mt-4 text-lg font-medium">
+        <p className="text-gray-500 my-4 text-lg font-medium">
           Last scan: {lastScanTime}
         </p>
       )}
 
       {!isScanning && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-5 w-full">
-          {devices.map((device, index) => (
-            <DeviceCard key={index} device={device} />
-          ))}
+        <div className="p-7 w-full flex justify-center">
+          <div className="px-5 flex flex-wrap justify-center gap-6">
+            {devices.map((device, index) => (
+              <DeviceCard key={index} device={device} />
+            ))}
+          </div>
         </div>
       )}
     </div>
