@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
-import { Wifi, LoaderCircle } from "lucide-react";
+import { Wifi } from "lucide-react";
 
 function ScanButton({ onScan, isScanning }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -31,7 +31,7 @@ function ScanButton({ onScan, isScanning }) {
       <div className="relative z-10 flex items-center gap-3">
         <span>{isScanning ? "SCANNING..." : "Scan Network"}</span>
         {isScanning ? (
-          <LoaderCircle className="w-5 h-5 animate-spin" />
+          ""
         ) : (
           <Wifi
             className={`w-5 h-5 transition-transform duration-300 ${
