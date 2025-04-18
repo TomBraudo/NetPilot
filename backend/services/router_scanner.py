@@ -1,6 +1,7 @@
 import socket
 import requests
 import time
+import re
 from utils.ssh_client import ssh_manager
 from utils.response_helpers import error, success
 from db.device_repository import register_device
@@ -49,8 +50,8 @@ def scan_network_via_router():
     if arp_error:
         return error("Failed to fetch ARP table", arp_error)
 
-    # Process active devices from ARP table
-    connected_devices = []
+    # Process active devices from ARP table - group by MAC address
+    device_map = {}
     for line in arp_output.split("\n"):
         if not line.strip():
             continue
@@ -58,7 +59,7 @@ def scan_network_via_router():
         parts = line.split()
         if len(parts) >= 4:
             ip = parts[0]
-            mac_idx = next((i for i, part in enumerate(parts) if ":" in part), -1)
+            mac_idx = next((i for i, part in enumerate(parts) if re.match(r'([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})', part)), -1)
             if mac_idx == -1:
                 continue
                 
@@ -67,18 +68,43 @@ def scan_network_via_router():
             
             # Only include devices in REACHABLE or STALE state (recently active)
             if state in ["REACHABLE", "STALE", "DELAY"]:
-                # Get hostname from DHCP info if available
-                hostname = dhcp_info.get(mac, {}).get("hostname", "Unknown")
-                vendor = get_mac_vendor(mac)
+                # If this MAC is already in our map, we'll update it
+                if mac not in device_map:
+                    device_map[mac] = {
+                        "mac": mac,
+                        "ipv4": None,
+                        "ipv6": [],
+                        "hostname": "Unknown",
+                        "vendor": None
+                    }
                 
-                connected_devices.append({
-                    "ip": ip,
-                    "mac": mac,
-                    "hostname": hostname,
-                    "vendor": vendor
-                })
+                # Prioritize IPv4 addresses and DHCP hostnames
+                if ":" not in ip:  # This is an IPv4 address
+                    device_map[mac]["ipv4"] = ip
+                else:  # This is an IPv6 address
+                    device_map[mac]["ipv6"].append(ip)
+                
+                # Get hostname from DHCP info if available
+                if mac in dhcp_info and device_map[mac]["hostname"] == "Unknown":
+                    device_map[mac]["hostname"] = dhcp_info[mac]["hostname"]
 
-    # Register active devices in database
+    # Convert the device map to a list and add vendor information
+    connected_devices = []
+    for mac, device in device_map.items():
+        # Only include devices that have an IPv4 address
+        if device["ipv4"]:
+            # Get vendor info once per device
+            if not device["vendor"]:
+                device["vendor"] = get_mac_vendor(mac)
+            
+            connected_devices.append({
+                "ip": device["ipv4"],  # Always use IPv4 address
+                "mac": mac,
+                "hostname": device["hostname"],
+                "vendor": device["vendor"]
+            })
+
+    # Register active devices in database (only one entry per MAC)
     for device in connected_devices:
         register_device(device["ip"], device["mac"], device["hostname"])
 

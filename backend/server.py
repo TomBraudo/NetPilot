@@ -11,9 +11,9 @@ from utils.path_utils import get_data_folder
 from utils.response_helpers import success, error
 import os
 import json
-from db.device_repository import get_all_devices, update_device_name, clear_devices
+from db.device_repository import get_all_devices, update_device_name, clear_devices, get_mac_from_ip, get_device_by_mac
 from db.schema_initializer import initialize_all_tables
-from db.device_groups_repository import get_all_groups, get_group_members, get_rules_for_device
+from db.device_groups_repository import get_all_groups, get_group_members, get_rules_for_device, set_rule_for_device, remove_rule_from_device
 from services.wifi_manager import enable_wifi, change_wifi_password, get_wifi_status
 import sys
 import atexit
@@ -142,6 +142,12 @@ def block():
     ip = data.get("ip")
     if not ip:
         return error("Missing 'ip' in request body")
+    mac = get_mac_from_ip(ip)
+    if mac:
+        # Pass both mac and ip to set_rule_for_device
+        set_rule_for_device(mac, ip, "block", "1")
+    else:
+        return error("Device not found")
     return jsonify(block_mac_address(ip))
 
 '''
@@ -154,8 +160,13 @@ def unblock():
     ip = data.get("ip")
     if not ip:
         return error("Missing 'ip' in request body")
+    mac = get_mac_from_ip(ip)
+    if mac:
+        # Pass both mac and ip to remove_rule_from_device
+        remove_rule_from_device(mac, "block")
+    else:
+        return error("Device not found")
     return jsonify(unblock_mac_address(ip))
-
 
 '''
     API endpoint to set a bandwidth limit for a device in mbps.
@@ -168,7 +179,15 @@ def limit_bandwidth():
     ip = data.get("ip")
     limit = data.get("bandwidth")
     if not ip or not limit:
-        return error("Missing 'ip' or 'limit' in request body")
+        return error("Missing 'ip' or 'bandwidth' in request body")
+    
+    mac = get_mac_from_ip(ip)
+    if mac:
+        # Pass both mac and ip to set_rule_for_device
+        set_rule_for_device(mac, ip, "limit_bandwidth", limit)
+    else:
+        return error("Device not found")
+    
     return jsonify(set_bandwidth_limit(ip, limit))
     
 '''
@@ -181,6 +200,13 @@ def unlimit_bandwidth():
     ip = data.get("ip")
     if not ip:
         return error("Missing 'ip' in request body")
+    
+    mac = get_mac_from_ip(ip)
+    if mac:
+        # Pass both mac and ip to remove_rule_from_device
+        remove_rule_from_device(mac, ip, "limit_bandwidth")
+    else:
+        return error("Device not found")
     return jsonify(remove_bandwidth_limit(ip))
 
 '''
@@ -256,14 +282,25 @@ def get_group_members_route():
 
 '''
     API endpoint to retrieve all rules for a specific device.
-    Expects query param: ?mac=<mac_address>
+    Expects query params: ?mac=<mac_address>&ip=<ip_address>
 '''
 @app.route("/db/device_rules", methods=["GET"])
 def get_device_rules():
     mac = request.args.get("mac")
+    ip = request.args.get("ip")
+    
     if not mac:
         return error("Missing 'mac' in query parameters")
-    rules = get_rules_for_device(mac)
+    
+    if not ip:
+        # For backward compatibility, try to fetch IP from device if not provided
+        device = get_device_by_mac(mac)
+        if device and len(device) > 1:
+            ip = device[1]  # IP is at index 1
+        else:
+            return error("Could not determine IP for device")
+    
+    rules = get_rules_for_device(mac, ip)
     return jsonify(success(data=rules))
 
 '''
@@ -295,12 +332,23 @@ def change_wifi_password_route():
 def get_wifi_status_route():
     return jsonify(get_wifi_status())
 
-#
+'''
+    API endpoint to reset all network rules
+'''
+@app.route("/api/reset_all_rules", methods=["POST"])
+def reset_rules_route():
+    """Reset all network rules including bandwidth limits and blocks."""
+    return jsonify(reset_all_rules())
+
+# Register SSH cleanup on application exit
 atexit.register(ssh_manager.close_connection)
 
 if __name__ == "__main__":
     try:
         app.run(host="0.0.0.0", port=server_port, debug=True)
     except KeyboardInterrupt:
+        ssh_manager.close_connection()
+    except Exception as e:
+        print(f"Error: {str(e)}")
         ssh_manager.close_connection()
 

@@ -10,6 +10,7 @@ DB_PATH = os.path.join(get_data_folder(), "devices.db")
 def init_group_tables():
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
+        cursor.execute("PRAGMA foreign_keys = ON")
 
         # Table: device_groups
         cursor.execute("""
@@ -22,10 +23,12 @@ def init_group_tables():
         # Table: group_members
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS group_members (
-                mac TEXT PRIMARY KEY,
+                mac TEXT,
+                ip TEXT,
                 group_id INTEGER NOT NULL,
+                PRIMARY KEY(mac, ip),
                 FOREIGN KEY(group_id) REFERENCES device_groups(group_id) ON DELETE CASCADE,
-                FOREIGN KEY(mac) REFERENCES devices(mac) ON DELETE CASCADE
+                FOREIGN KEY(mac, ip) REFERENCES devices(mac, ip) ON DELETE CASCADE
             )
         """)
 
@@ -39,14 +42,15 @@ def init_group_tables():
             )
         """)
 
-        # Table: device_rules (rule values for individual devices)
+        # Table: device_rules
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS device_rules (
                 mac TEXT,
+                ip TEXT,
                 rule_name TEXT,
                 rule_value TEXT,
-                PRIMARY KEY(mac, rule_name),
-                FOREIGN KEY(mac) REFERENCES devices(mac) ON DELETE CASCADE,
+                PRIMARY KEY(mac, ip, rule_name),
+                FOREIGN KEY(mac, ip) REFERENCES devices(mac, ip) ON DELETE CASCADE,
                 FOREIGN KEY(rule_name) REFERENCES rules(rule_name)
             )
         """)
@@ -60,27 +64,39 @@ def init_group_tables():
         conn.commit()
 
 # Assign a rule to a device, ensuring device and rule exist
-def set_rule_for_device(mac, rule_name, rule_value):
+def set_rule_for_device(mac, ip, rule_name, rule_value="0"):
+    # Default empty rule value to "0" instead of None
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
+        cursor.execute("PRAGMA foreign_keys = ON")
 
-        cursor.execute("SELECT 1 FROM devices WHERE mac = ?", (mac,))
+        cursor.execute("SELECT 1 FROM devices WHERE mac = ? AND ip = ?", (mac, ip))
         if cursor.fetchone() is None:
-            raise ValueError(f"Device with MAC {mac} does not exist")
-
+            # Register the device if it doesn't exist
+            registration_success = register_device(ip, mac, "unknown")
+            if not registration_success:
+                raise ValueError(f"Failed to register device with MAC {mac} and IP {ip}")
+            
         cursor.execute("SELECT 1 FROM rules WHERE rule_name = ?", (rule_name,))
         if cursor.fetchone() is None:
             raise ValueError(f"Rule '{rule_name}' is not defined")
 
-    register_device("0.0.0.0", mac, "unknown")
-
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
+        cursor.execute("PRAGMA foreign_keys = ON")
         cursor.execute("""
-            INSERT INTO device_rules (mac, rule_name, rule_value)
-            VALUES (?, ?, ?)
-            ON CONFLICT(mac, rule_name) DO UPDATE SET rule_value = excluded.rule_value
-        """, (mac, rule_name, rule_value))
+            INSERT INTO device_rules (mac, ip, rule_name, rule_value)
+            VALUES (?, ?, ?, ?)
+            ON CONFLICT(mac, ip, rule_name) DO UPDATE SET rule_value = excluded.rule_value
+        """, (mac, ip, rule_name, rule_value))
+        conn.commit()
+
+# Remove a rule from a device
+def remove_rule_from_device(mac, ip, rule_name):
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM device_rules WHERE mac = ? AND ip = ? AND rule_name = ?", 
+                      (mac, ip, rule_name))
         conn.commit()
 
 # Assign a rule to all members of a group
@@ -94,11 +110,13 @@ def set_rule_for_group(group_name, rule_name, rule_value):
             raise ValueError("Group not found")
         group_id = row[0]
 
-        cursor.execute("SELECT mac FROM group_members WHERE group_id = ?", (group_id,))
-        macs = [r[0] for r in cursor.fetchall()]
+        # Updated to select both mac and ip
+        cursor.execute("SELECT mac, ip FROM group_members WHERE group_id = ?", (group_id,))
+        device_pairs = cursor.fetchall()  # Now returns (mac, ip) tuples
 
-    for mac in macs:
-        set_rule_for_device(mac, rule_name, rule_value)
+    # Apply the rule to each device in the group
+    for mac, ip in device_pairs:
+        set_rule_for_device(mac, ip, rule_name, rule_value)  # Pass both mac and ip
 
 # Define a new rule type (if it doesn't already exist)
 def create_rule_type(rule_name, rule_type, default_value=None, description=None):
@@ -126,14 +144,14 @@ def rename_group(old_name, new_name):
         conn.commit()
 
 # Move a device to a different group
-def move_device_to_group(mac, group_name):
+def move_device_to_group(mac, ip, group_name):  # Added ip parameter
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
 
         # Ensure the device exists
-        cursor.execute("SELECT 1 FROM devices WHERE mac = ?", (mac,))
+        cursor.execute("SELECT 1 FROM devices WHERE mac = ? AND ip = ?", (mac, ip))
         if not cursor.fetchone():
-            raise ValueError(f"Device with MAC {mac} does not exist")
+            raise ValueError(f"Device with MAC {mac} and IP {ip} does not exist")
 
         # Ensure the target group exists
         cursor.execute("SELECT group_id FROM device_groups WHERE name = ?", (group_name,))
@@ -144,16 +162,16 @@ def move_device_to_group(mac, group_name):
 
         # Move the device into the new group
         cursor.execute("""
-            INSERT INTO group_members (mac, group_id)
-            VALUES (?, ?)
-            ON CONFLICT(mac) DO UPDATE SET group_id = excluded.group_id
-        """, (mac, group_id))
+            INSERT INTO group_members (mac, ip, group_id)  # Added ip column
+            VALUES (?, ?, ?)
+            ON CONFLICT(mac, ip) DO UPDATE SET group_id = excluded.group_id  # Fixed conflict column
+        """, (mac, ip, group_id))
         conn.commit()
         
-def get_rules_for_device(mac):
+def get_rules_for_device(mac, ip):
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT rule_name, rule_value FROM device_rules WHERE mac = ?", (mac,))
+        cursor.execute("SELECT rule_name, rule_value FROM device_rules WHERE mac = ? AND ip = ?", (mac, ip))
         return cursor.fetchall()
 
 def get_all_groups():
@@ -168,41 +186,41 @@ def get_group_members(group_name):
         cursor.execute("""
             SELECT devices.mac, devices.ip, devices.hostname
             FROM devices
-            JOIN group_members ON devices.mac = group_members.mac
+            JOIN group_members ON devices.mac = group_members.mac AND devices.ip = group_members.ip
             JOIN device_groups ON group_members.group_id = device_groups.group_id
             WHERE device_groups.name = ?
         """, (group_name,))
         return cursor.fetchall()
     
-    def delete_group(group_name):
-        with sqlite3.connect(DB_PATH) as conn:
-            cursor = conn.cursor()
+def delete_group(group_name):
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
 
-            # Ensure the group exists
-            cursor.execute("SELECT group_id FROM device_groups WHERE name = ?", (group_name,))
-            row = cursor.fetchone()
-            if not row:
-                raise ValueError("Group not found")
-            group_id = row[0]
+        # Ensure the group exists
+        cursor.execute("SELECT group_id FROM device_groups WHERE name = ?", (group_name,))
+        row = cursor.fetchone()
+        if not row:
+            raise ValueError("Group not found")
+        group_id = row[0]
 
-            # Ensure it's not the only group
-            cursor.execute("SELECT COUNT(*) FROM device_groups")
-            group_count = cursor.fetchone()[0]
-            if group_count <= 1:
-                raise ValueError("Cannot delete the only group")
+        # Ensure it's not the only group
+        cursor.execute("SELECT COUNT(*) FROM device_groups")
+        group_count = cursor.fetchone()[0]
+        if group_count <= 1:
+            raise ValueError("Cannot delete the only group")
 
-            # Get the 'general' group ID
-            cursor.execute("SELECT group_id FROM device_groups WHERE name = 'general'")
-            general_group = cursor.fetchone()
-            if not general_group:
-                raise ValueError("'general' group not found")
-            general_group_id = general_group[0]
+        # Get the 'general' group ID
+        cursor.execute("SELECT group_id FROM device_groups WHERE name = 'general'")
+        general_group = cursor.fetchone()
+        if not general_group:
+            raise ValueError("'general' group not found")
+        general_group_id = general_group[0]
 
-            # Move devices from the group to 'general'
-            cursor.execute("UPDATE group_members SET group_id = ? WHERE group_id = ?", (general_group_id, group_id))
+        # Move devices from the group to 'general'
+        cursor.execute("UPDATE group_members SET group_id = ? WHERE group_id = ?", (general_group_id, group_id))
 
-            # Delete the group
-            cursor.execute("DELETE FROM device_groups WHERE group_id = ?", (group_id,))
-            conn.commit()
+        # Delete the group
+        cursor.execute("DELETE FROM device_groups WHERE group_id = ?", (group_id,))
+        conn.commit()
     
 
