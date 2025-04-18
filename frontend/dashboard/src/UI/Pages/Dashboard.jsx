@@ -1,48 +1,6 @@
-import React, { useState } from "react";
 import { Wifi, ArrowRight } from "lucide-react";
 import NetworkBackground from "../../components/NetworkBackground";
-import { useNavigate } from "react-router-dom";
-
-function ScanButton() {
-  const [isHovered, setIsHovered] = useState(false);
-  const navigate = useNavigate();
-  return (
-    <button
-      className="relative group bg-blue-500/10 backdrop-blur-sm border border-blue-400/30 text-blue-900 dark:text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:border-blue-400/50 hover:bg-blue-500/20"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onClick={() => navigate("/scan", { state: { autoScan: true } })}
-    >
-      <div className="relative z-10 flex items-center gap-3">
-        <span>Scan Network</span>
-        <Wifi
-          className={`w-5 h-5 transition-transform duration-300 ${
-            isHovered ? "scale-110" : "scale-100"
-          }`}
-        />
-      </div>
-
-      {/* Animated rings */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div
-          className={`absolute w-full h-full rounded-full transition-opacity duration-300 ${
-            isHovered ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <div className="absolute inset-0 rounded-full border border-blue-400/30 animate-ping" />
-          <div
-            className="absolute inset-0 rounded-full border border-blue-400/20 animate-ping"
-            style={{ animationDelay: "0.2s" }}
-          />
-          <div
-            className="absolute inset-0 rounded-full border border-blue-400/10 animate-ping"
-            style={{ animationDelay: "0.4s" }}
-          />
-        </div>
-      </div>
-    </button>
-  );
-}
+import ScanButton from "../../components/ScanButton";
 
 function App() {
   return (
