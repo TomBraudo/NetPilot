@@ -3,7 +3,7 @@ from utils.ssh_client import ssh_manager
 from utils.response_helpers import success, error
 def block_mac_address(target_ip):
     """
-    Blocks a device by IP address (translates IP to MAC and blocks it).
+    Blocks a device by IP address (translates IP to MAC and blocks it)
     """
     command_get_mac = "cat /tmp/dhcp.leases"
     commands_block = [
