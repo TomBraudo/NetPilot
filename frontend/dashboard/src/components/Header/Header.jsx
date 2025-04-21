@@ -61,7 +61,7 @@ import { HiOutlineMenuAlt2 } from "react-icons/hi";
 
 const Header = ({ darkMode, toggleDarkMode, toggleSidebar }) => {
   return (
-    <div className="h-full flex items-center justify-between px-4 sm:px-6 lg:px-8">
+    <div className="h-full flex items-center justify-between w-full px-4 sm:px-6 lg:px-8">
       {/* Left side: Logo + Toggle (mobile) */}
       <div className="flex items-center gap-4">
         {/* Sidebar toggle on mobile */}

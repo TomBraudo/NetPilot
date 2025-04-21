@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Wifi } from "lucide-react";
 
 function ScanButton({ onScan, isScanning }) {
@@ -14,6 +14,14 @@ function ScanButton({ onScan, isScanning }) {
       navigate("/scan", { state: { autoScan: true } });
     }
   };
+
+  useEffect(() => {
+    if (isScanning) {
+      setIsHovered(false);
+    }
+  }, [isScanning]);
+
+  if (isScanning) return null;
 
   return (
     <button

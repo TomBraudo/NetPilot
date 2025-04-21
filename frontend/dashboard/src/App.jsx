@@ -137,24 +137,22 @@ const App = () => {
         <div className="flex">
           {/* Sidebar (קבוע בצד שמאל) */}
 
-          <aside className="fixed top-0 left-0 h-screen w-64 z-40">
+          <aside className="fixed top-0 left-0 h-screen w-64 z-20">
             <Sidebar isSidebarOpen={isSidebarOpen} />
           </aside>
+          <header className="fixed top-0 left-0 right-0 h-16 z-30 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
+            <div className="pr-4 h-full flex items-center justify-between">
+              <Header
+                toggleDarkMode={toggleDarkMode}
+                toggleSidebar={toggleSidebar}
+                darkMode={darkMode}
+                isSidebarOpen={isSidebarOpen}
+              />
+            </div>
+          </header>
 
           {/* Main layout (כולל Header ותוכן) */}
           <div className="flex-1 flex flex-col min-h-screen ml-64">
-            {/* Header (פרוס על כל הרוחב עם רקע מטושטש) */}
-            <header className="fixed top-0 left-0 right-0 h-16 z-30 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
-              <div className="pl-64 pr-4 h-full flex items-center justify-between">
-                <Header
-                  toggleDarkMode={toggleDarkMode}
-                  toggleSidebar={toggleSidebar}
-                  darkMode={darkMode}
-                  isSidebarOpen={isSidebarOpen}
-                />
-              </div>
-            </header>
-
             {/* Main page content (מתחת ל-Header ומימין ל-Sidebar) */}
             <main className="pt-16 bg-gray-100 dark:bg-gray-900 min-h-screen">
               <Routes>
