@@ -261,41 +261,34 @@ const ScanPage = () => {
   };
 
   return (
-    <div className="p-10 flex flex-col items-center min-h-screen">
-      {/* <button
-        onClick={handleNetworkScan}
-        disabled={isScanning}
-        className={`w-40 h-10 flex items-center justify-center ${
-          isScanning ? "bg-gray-400" : "bg-blue-500 hover:bg-blue-600"
-        } text-white p-2 rounded-md transition mb-6`}
-      >
-        {isScanning ? "SCANNING..." : "Scan Network"}
-      </button> */}
-      <ScanButton onScan={handleNetworkScan} isScanning={isScanning} />
+    <div className="h-screen overflow-hidden">
+      <div className="p-10 flex flex-col items-center h-full overflow-y-auto">
+        <ScanButton onScan={handleNetworkScan} isScanning={isScanning} />
 
-      {isScanning && (
-        <div className="pt-20">
-          <ScannerAnimation />
-        </div>
-      )}
-
-      {error && <p className="text-red-600 mt-4">{error}</p>}
-
-      {!isScanning && lastScanTime && (
-        <p className="text-gray-500 my-4 text-lg font-medium">
-          Last scan: {lastScanTime}
-        </p>
-      )}
-
-      {!isScanning && (
-        <div className="p-7 w-full flex justify-center">
-          <div className="px-5 flex flex-wrap justify-center gap-6">
-            {devices.map((device, index) => (
-              <DeviceCard key={index} device={device} />
-            ))}
+        {isScanning && (
+          <div className="pt-20">
+            <ScannerAnimation />
           </div>
-        </div>
-      )}
+        )}
+
+        {error && <p className="text-red-600 mt-4">{error}</p>}
+
+        {!isScanning && lastScanTime && (
+          <p className="text-gray-500 my-4 text-lg font-medium">
+            Last scan: {lastScanTime}
+          </p>
+        )}
+
+        {!isScanning && (
+          <div className="pt-7 w-full flex justify-center">
+            <div className="px-5 flex flex-wrap justify-center gap-6">
+              {devices.map((device, index) => (
+                <DeviceCard key={index} device={device} />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
