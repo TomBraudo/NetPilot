@@ -31,6 +31,13 @@ def scan_network_via_router():
         return error("Failed to fetch connected devices", exec_error)
 
     connected_devices = []
+    connected_devices.append({
+        "ip": "192.168.1.1",
+        "mac": "00:00:00:00:00:00",
+        "hostname": "Router",
+        "vendor": "Router Manufacturer"
+    })
+    
     for line in output.split("\n"):
         parts = line.split()
         if len(parts) >= 3:
