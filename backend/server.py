@@ -3,6 +3,7 @@ from flask_cors import CORS
 from utils.path_utils import get_data_folder
 from db.schema_initializer import initialize_all_tables
 from utils.ssh_client import ssh_manager
+from db.tinydb_client import db_client
 import os
 import json
 import atexit
@@ -42,15 +43,20 @@ app.register_blueprint(network_bp)
 app.register_blueprint(db_bp)
 app.register_blueprint(wifi_bp)
 
-# Register SSH cleanup on application exit
-atexit.register(ssh_manager.close_connection)
+# Function to clean up resources on exit
+def cleanup_resources():
+    ssh_manager.close_connection()
+    db_client.close()
+
+# Register cleanup function on application exit
+atexit.register(cleanup_resources)
 
 if __name__ == "__main__":
     try:
         app.run(host="0.0.0.0", port=server_port, debug=True)
     except KeyboardInterrupt:
-        ssh_manager.close_connection()
+        cleanup_resources()
     except Exception as e:
         print(f"Error: {str(e)}")
-        ssh_manager.close_connection()
+        cleanup_resources()
 

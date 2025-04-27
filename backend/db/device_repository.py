@@ -1,28 +1,21 @@
-import sqlite3
-import os
+from tinydb import Query
+from db.tinydb_client import db_client
 from datetime import datetime
-from utils.path_utils import get_data_folder
+import logging
 
-DB_PATH = os.path.join(get_data_folder(), "devices.db")
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-# Ensure database and table are created
+# TinyDB Query object
+Device = Query()
+
+# This function is no longer needed with TinyDB but kept as a no-op for compatibility
 def init_db():
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.cursor()
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS devices (
-                mac TEXT,
-                ip TEXT,
-                hostname TEXT,
-                device_name TEXT,
-                first_seen TEXT,
-                last_seen TEXT,
-                PRIMARY KEY (mac, ip)
-            )
-        """)
-        conn.commit()
+    """No-op function for compatibility with existing code."""
+    pass
 
-# Register or update a new device (centralized flow)
+# Register or update a new device
 def register_device(ip, mac, hostname):
     """
     Register a device in the database.
@@ -32,112 +25,130 @@ def register_device(ip, mac, hostname):
     """
     try:
         now = datetime.utcnow().isoformat()
-        with sqlite3.connect(DB_PATH) as conn:
-            cursor = conn.cursor()
-            cursor.execute("PRAGMA foreign_keys = ON")
-
-            cursor.execute("SELECT * FROM devices WHERE mac = ? AND ip = ?", (mac, ip))
-            existing = cursor.fetchone()
-
-            if existing:
-                cursor.execute("""
-                    UPDATE devices
-                    SET hostname = ?, last_seen = ?
-                    WHERE mac = ? AND ip = ?
-                """, (hostname, now, mac, ip))
-            else:
-                cursor.execute("""
-                    INSERT INTO devices (mac, ip, hostname, device_name, first_seen, last_seen)
-                    VALUES (?, ?, ?, ?, ?, ?)
-                """, (mac, ip, hostname, None, now, now))
-
-            # Only add to general group if not already in any group
-            cursor.execute("SELECT 1 FROM group_members WHERE mac = ? AND ip = ?", (mac, ip))
-            already_grouped = cursor.fetchone()
-
+        
+        # Check if device exists
+        existing = db_client.devices.get((Device.mac == mac) & (Device.ip == ip))
+        
+        if existing:
+            # Update existing device
+            db_client.devices.update({
+                'hostname': hostname,
+                'last_seen': now
+            }, (Device.mac == mac) & (Device.ip == ip))
+        else:
+            # Insert new device
+            db_client.devices.insert({
+                'mac': mac,
+                'ip': ip,
+                'hostname': hostname,
+                'device_name': None,
+                'first_seen': now,
+                'last_seen': now
+            })
+            
+            # Check if device is in any group
+            GroupMember = Query()
+            already_grouped = db_client.group_members.get(
+                (GroupMember.mac == mac) & (GroupMember.ip == ip)
+            )
+            
             if not already_grouped:
-                cursor.execute("SELECT group_id FROM device_groups WHERE name = 'general'")
-                general_group = cursor.fetchone()
+                # Add to general group
+                Group = Query()
+                general_group = db_client.device_groups.get(Group.name == 'general')
+                
                 if general_group:
-                    cursor.execute("""
-                        INSERT OR IGNORE INTO group_members (mac, ip, group_id)
-                        VALUES (?, ?, ?)
-                    """, (mac, ip, general_group[0]))
-
-            conn.commit()
-            return True
+                    db_client.group_members.insert({
+                        'mac': mac,
+                        'ip': ip,
+                        'group_id': general_group.doc_id
+                    })
+        
+        return True
     except Exception as e:
-        print(f"Error registering device: {e}")
+        logger.error(f"Error registering device: {e}")
         return False
 
-
-# Remove a device and all related data from group_members and device_rules
+# Remove a device and all related data
 def delete_device(mac, ip):
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM device_rules WHERE mac = ? AND ip = ?", (mac, ip))
-        cursor.execute("DELETE FROM group_members WHERE mac = ? AND ip = ?", (mac, ip))
-        cursor.execute("DELETE FROM devices WHERE mac = ? AND ip = ?", (mac, ip))
-        conn.commit()
-
+    """Delete a device and all its related data."""
+    try:
+        # Delete device rules
+        db_client.device_rules.remove((Device.mac == mac) & (Device.ip == ip))
+        
+        # Delete group memberships
+        GroupMember = Query()
+        db_client.group_members.remove((GroupMember.mac == mac) & (GroupMember.ip == ip))
+        
+        # Delete device
+        db_client.devices.remove((Device.mac == mac) & (Device.ip == ip))
+        return True
+    except Exception as e:
+        logger.error(f"Error deleting device: {e}")
+        return False
 
 # Get all devices
 def get_all_devices():
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM devices")
-        return cursor.fetchall()
+    """Get all devices as a list of dictionaries."""
+    try:
+        return db_client.devices.all()
+    except Exception as e:
+        logger.error(f"Error getting devices: {e}")
+        return []
 
-# Update device name by MAC address
+# Update device name by MAC address and IP
 def update_device_name(mac, ip, device_name):
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.cursor()
-        cursor.execute("UPDATE devices SET device_name = ? WHERE mac = ? AND ip = ?", (device_name, mac, ip))
-        conn.commit()
-        return cursor.rowcount > 0
+    """Update a device's name by MAC address and IP."""
+    try:
+        result = db_client.devices.update(
+            {'device_name': device_name}, 
+            (Device.mac == mac) & (Device.ip == ip)
+        )
+        return len(result) > 0
+    except Exception as e:
+        logger.error(f"Error updating device name: {e}")
+        return False
 
 # Clear all devices from the database
 def clear_devices():
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.cursor()
-        # Enable foreign keys
-        cursor.execute("PRAGMA foreign_keys = ON")
-        # First clear related tables due to foreign key constraints
-        cursor.execute("DELETE FROM device_rules")
-        cursor.execute("DELETE FROM group_members")
-        # Then clear devices table
-        cursor.execute("DELETE FROM devices")
-        conn.commit()
+    """Clear all devices and related data."""
+    try:
+        # Clear related tables first
+        db_client.device_rules.truncate()
+        db_client.group_members.truncate()
         
+        # Then clear devices
+        db_client.devices.truncate()
+        return True
+    except Exception as e:
+        logger.error(f"Error clearing devices: {e}")
+        return False
+
 # Get mac address from IP
 def get_mac_from_ip(ip):
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT mac FROM devices WHERE ip = ?", (ip,))
-        result = cursor.fetchone()
-        return result[0] if result else None
-    
+    """Get MAC address for a given IP address."""
+    try:
+        device = db_client.devices.get(Device.ip == ip)
+        return device['mac'] if device else None
+    except Exception as e:
+        logger.error(f"Error getting MAC from IP: {e}")
+        return None
 
 # Get device by MAC address
 def get_device_by_mac(mac):
     """
     Retrieves a device record by its MAC address.
     If multiple records exist for the same MAC, returns the most recently seen.
-    
-    Args:
-        mac (str): The MAC address to search for
-        
-    Returns:
-        tuple: Device record or None if not found
     """
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.cursor()
-        cursor.execute("PRAGMA foreign_keys = ON")
-        # Order by last_seen DESC to get the most recent record
-        cursor.execute("""
-            SELECT * FROM devices 
-            WHERE mac = ? 
-            ORDER BY last_seen DESC
-            LIMIT 1
-        """, (mac,))
-        return cursor.fetchone()
+    try:
+        # Get all devices with this MAC
+        devices = db_client.devices.search(Device.mac == mac)
+        
+        if not devices:
+            return None
+            
+        # Sort by last_seen (descending) and return the most recent
+        return sorted(devices, key=lambda x: x.get('last_seen', ''), reverse=True)[0]
+    except Exception as e:
+        logger.error(f"Error getting device by MAC: {e}")
+        return None
