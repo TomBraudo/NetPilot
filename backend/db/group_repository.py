@@ -314,4 +314,52 @@ def apply_rules_to_group(group_name, rules):
         return True
     except Exception as e:
         logger.error(f"Error applying rules to group: {e}")
-        return False 
+        return False
+
+def set_group_blacklist_mode(group_name, is_blacklist):
+    """
+    Set a group to blacklist or whitelist mode.
+    
+    Args:
+        group_name: Name of the group
+        is_blacklist: True for blacklist, False for whitelist
+        
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        Group = Query()
+        group = db_client.device_groups.get(Group.name == group_name)
+        
+        if not group:
+            logger.error(f"Group not found: {group_name}")
+            return False
+            
+        db_client.device_groups.update({'is_blacklist': bool(is_blacklist)}, doc_ids=[group.doc_id])
+        return True
+    except Exception as e:
+        logger.error(f"Error setting group blacklist mode: {e}")
+        return False
+
+def get_group_blacklist_mode(group_name):
+    """
+    Get the blacklist/whitelist mode of a group.
+    
+    Args:
+        group_name: Name of the group
+        
+    Returns:
+        bool: True if blacklist, False if whitelist, None if error or group not found
+    """
+    try:
+        Group = Query()
+        group = db_client.device_groups.get(Group.name == group_name)
+        
+        if not group:
+            logger.error(f"Group not found: {group_name}")
+            return None
+            
+        return group.get('is_blacklist', False)
+    except Exception as e:
+        logger.error(f"Error getting group blacklist mode: {e}")
+        return None 

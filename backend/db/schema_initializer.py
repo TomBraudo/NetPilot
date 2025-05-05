@@ -60,6 +60,19 @@ def initialize_default_group():
         })
         logger.info("Default 'general' group created")
 
+def add_protection_field_to_devices():
+    """Add the 'protected' field to all devices if it doesn't exist."""
+    try:
+        # Update all devices to add protected field if missing
+        devices = db_client.devices.all()
+        for device in devices:
+            if 'protected' not in device:
+                db_client.devices.update({'protected': False}, doc_ids=[device.doc_id])
+                
+        logger.info("Added protection field to devices")
+    except Exception as e:
+        logger.error(f"Error adding protection field to devices: {e}")
+
 def initialize_all_tables():
     """
     Initialize all database tables with TinyDB.
@@ -68,6 +81,7 @@ def initialize_all_tables():
     """
     initialize_default_group()
     initialize_predefined_rules()
+    add_protection_field_to_devices()
     logger.info("All tables initialized")
 
 def reset_all_tables():

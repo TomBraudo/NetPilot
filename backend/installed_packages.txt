@@ -1,4 +1,5 @@
 firewall4
+iptables
 iptables-mod-ipopt
 uci
 tc
@@ -8,3 +9,12 @@ ip-full
 dnsmasq
 odhcpd-ipv6only
 dropbear
+wpad
+qos-scripts
+luci-app-qos
+cron
+curl
+wget
+ca-certificates
+tcpdump
+nmap

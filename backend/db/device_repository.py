@@ -2,6 +2,7 @@ from tinydb import Query
 from db.tinydb_client import db_client
 from datetime import datetime
 import logging
+from utils.ssh_client import ssh_manager
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -380,3 +381,93 @@ def get_device_by_mac(mac):
     except Exception as e:
         logger.error(f"Error getting device by MAC: {e}")
         return None
+
+def mark_device_as_protected(mac, protected=True):
+    """
+    Mark a device as protected, preventing it from being blocked.
+    
+    Args:
+        mac: MAC address of the device
+        protected: True to protect, False to remove protection
+        
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        Device = Query()
+        device = db_client.devices.get(Device.mac == mac)
+        
+        if not device:
+            logger.error(f"Device not found: {mac}")
+            return False
+            
+        db_client.devices.update({'protected': bool(protected)}, doc_ids=[device.doc_id])
+        return True
+    except Exception as e:
+        logger.error(f"Error marking device as protected: {e}")
+        return False
+
+def is_device_protected(mac):
+    """
+    Check if a device is protected.
+    
+    Args:
+        mac: MAC address of the device
+        
+    Returns:
+        bool: True if protected, False otherwise
+    """
+    try:
+        Device = Query()
+        device = db_client.devices.get(Device.mac == mac)
+        
+        if not device:
+            return False
+            
+        return device.get('protected', False)
+    except Exception as e:
+        logger.error(f"Error checking if device is protected: {e}")
+        return False
+
+def get_protected_devices():
+    """
+    Get all protected devices.
+    
+    Returns:
+        list: List of protected device dictionaries
+    """
+    try:
+        Device = Query()
+        return db_client.devices.search(Device.protected == True)
+    except Exception as e:
+        logger.error(f"Error getting protected devices: {e}")
+        return []
+
+def is_critical_device(mac, ip=None):
+    """
+    Check if a device is critical (router or current client).
+    
+    Args:
+        mac: MAC address of the device
+        ip: IP address of the device (optional)
+        
+    Returns:
+        bool: True if device is critical, False otherwise
+    """
+    try:
+        # Check if it's the router
+        router_mac_cmd = "cat /sys/class/net/br-lan/address 2>/dev/null || ifconfig br-lan | grep -o -E '([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}'"
+        router_mac, _ = ssh_manager.execute_command(router_mac_cmd)
+        
+        if router_mac and router_mac.strip().lower() == mac.lower():
+            return True
+            
+        # Check if it's the router's IP
+        if ip and ip == "192.168.1.1":  # Common router IP
+            return True
+        
+        return False
+    except Exception as e:
+        logger.error(f"Error checking if device is critical: {e}")
+        # If there's an error, assume it might be critical to be safe
+        return True

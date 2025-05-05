@@ -1,76 +1,280 @@
 import subprocess
 from utils.ssh_client import ssh_manager
 from utils.response_helpers import success, error
+from db.device_repository import is_device_protected, get_mac_from_ip, is_critical_device
+from services.rule_mode import get_rule_mode, WHITELIST_MODE, BLACKLIST_MODE
+from services.admin_protection import get_admin_device_mac
+
 def block_mac_address(target_ip):
     """
-    Blocks a device by IP address (translates IP to MAC and blocks it)
+    Blocks a device by IP address, with admin device protection.
     """
-    command_get_mac = "cat /tmp/dhcp.leases"
-    commands_block = [
-        "uci add_list wireless.@wifi-iface[1].maclist='{mac_address}'",
-        "uci set wireless.@wifi-iface[1].macfilter='deny'",
-        "uci commit wireless",
-        "wifi"
-    ]
+    try:
+        # Get MAC address from DHCP leases
+        command_get_mac = "cat /tmp/dhcp.leases"
+        output, error = ssh_manager.execute_command(command_get_mac)
+        
+        if error:
+            return error(f"Failed to fetch connected devices: {error}")
 
-    output, error = ssh_manager.execute_command(command_get_mac)
-    
-    if error:
-        return error("Failed to fetch connected devices: {error}")
+        # Find MAC address of the target IP
+        mac_address = None
+        for line in output.split("\n"):
+            parts = line.split()
+            if len(parts) >= 3 and parts[2] == target_ip:
+                mac_address = parts[1]
+                break
 
-    # Find MAC address of the target IP
-    mac_address = None
-    for line in output.split("\n"):
-        parts = line.split()
-        if len(parts) >= 3 and parts[2] == target_ip:
-            mac_address = parts[1]
-            break
+        if not mac_address:
+            # Try alternative method to find MAC
+            arp_cmd = f"ip neigh show | grep '{target_ip}' | awk '{{print $5}}'"
+            mac_output, _ = ssh_manager.execute_command(arp_cmd)
+            if mac_output and len(mac_output.strip()) > 0:
+                mac_address = mac_output.strip()
+            else:
+                return error(f"IP {target_ip} not found in connected devices.")
+        
+        # Check if this is the admin device
+        admin_mac = get_admin_device_mac()
+        if admin_mac and admin_mac.lower() == mac_address.lower():
+            return error(f"Cannot block admin device {mac_address} ({target_ip})")
 
-    if not mac_address:
-        return error(f"IP {target_ip} not found in connected devices.")
+        # Check for critical devices (router, self, etc.)
+        if is_critical_device(mac_address, target_ip):
+            return error(f"Cannot block critical device {mac_address} ({target_ip})")
 
-    # Block the MAC address
-    for cmd in commands_block:
-        cmd = cmd.format(mac_address=mac_address)
-        ssh_manager.execute_command(cmd)
+        # Check rule mode
+        mode = get_rule_mode()
+        
+        if mode == BLACKLIST_MODE:
+            # In blacklist mode, add the device to deny lists
+            return block_mac_blacklist_mode(mac_address, target_ip)
+        else:
+            # In whitelist mode, remove the device from allow lists
+            return block_mac_whitelist_mode(mac_address, target_ip)
+            
+    except Exception as e:
+        return error(f"Error blocking device: {str(e)}")
 
-    return success(f"Device with IP {target_ip} (MAC {mac_address}) is blocked.")
+def block_mac_blacklist_mode(mac_address, target_ip):
+    """
+    Block a device in blacklist mode (add to deny lists).
+    """
+    try:
+        success_methods = []
+        
+        # Method 1: Add to WiFi deny lists
+        get_wifi_ifaces = "uci show wireless | grep wifi-iface | cut -d. -f2 | cut -d= -f1"
+        ifaces_output, _ = ssh_manager.execute_command(get_wifi_ifaces)
+        
+        if ifaces_output:
+            for iface in ifaces_output.splitlines():
+                if iface:
+                    # Set MAC filter to deny mode
+                    cmd1 = f"uci set wireless.{iface}.macfilter='deny'"
+                    # Add MAC to filter list
+                    cmd2 = f"uci add_list wireless.{iface}.maclist='{mac_address}'"
+                    
+                    _, err1 = ssh_manager.execute_command(cmd1)
+                    _, err2 = ssh_manager.execute_command(cmd2)
+                    
+                    if not err1 and not err2:
+                        success_methods.append(f"WiFi deny list on {iface}")
+        
+        # Method 2: Add to firewall block rules
+        fw_cmd = f"iptables -I FORWARD -m mac --mac-source {mac_address} -j DROP"
+        _, fw_err = ssh_manager.execute_command(fw_cmd)
+        
+        if not fw_err:
+            success_methods.append("Firewall block rule")
+        
+        # Finalize changes
+        ssh_manager.execute_command("uci commit wireless")
+        ssh_manager.execute_command("wifi reload")
+        ssh_manager.execute_command("iptables-save > /etc/firewall.user")
+        
+        if success_methods:
+            methods_str = ", ".join(success_methods)
+            return success(f"Device {mac_address} ({target_ip}) blocked in blacklist mode using: {methods_str}")
+        else:
+            return error(f"Failed to block device in blacklist mode")
+    except Exception as e:
+        return error(f"Error in blacklist blocking: {str(e)}")
 
-
+def block_mac_whitelist_mode(mac_address, target_ip):
+    """
+    Block a device in whitelist mode (remove from allow lists).
+    """
+    try:
+        success_methods = []
+        
+        # Method 1: Remove from WiFi allow lists
+        get_wifi_ifaces = "uci show wireless | grep wifi-iface | cut -d. -f2 | cut -d= -f1"
+        ifaces_output, _ = ssh_manager.execute_command(get_wifi_ifaces)
+        
+        if ifaces_output:
+            for iface in ifaces_output.splitlines():
+                if iface:
+                    # Ensure MAC filter is in allow mode
+                    cmd1 = f"uci set wireless.{iface}.macfilter='allow'"
+                    # Remove MAC from allowed list
+                    cmd2 = f"uci del_list wireless.{iface}.maclist='{mac_address}'"
+                    
+                    _, err1 = ssh_manager.execute_command(cmd1)
+                    _, err2 = ssh_manager.execute_command(cmd2)
+                    
+                    if not err1 and not err2:
+                        success_methods.append(f"Removed from WiFi allow list on {iface}")
+        
+        # Method 2: Add specific drop rule to firewall
+        # In whitelist mode, we should already have a default drop rule
+        # But we add a specific rule for this MAC to be sure
+        fw_cmd = f"iptables -I FORWARD -m mac --mac-source {mac_address} -j DROP"
+        _, fw_err = ssh_manager.execute_command(fw_cmd)
+        
+        if not fw_err:
+            success_methods.append("Added explicit firewall block rule")
+        
+        # Finalize changes
+        ssh_manager.execute_command("uci commit wireless")
+        ssh_manager.execute_command("wifi reload")
+        ssh_manager.execute_command("iptables-save > /etc/firewall.user")
+        
+        if success_methods:
+            methods_str = ", ".join(success_methods)
+            return success(f"Device {mac_address} ({target_ip}) blocked in whitelist mode using: {methods_str}")
+        else:
+            return error(f"Failed to block device in whitelist mode")
+    except Exception as e:
+        return error(f"Error in whitelist blocking: {str(e)}")
 
 def unblock_mac_address(target_ip):
     """
-    Unblocks a device by removing its MAC address from the blocklist.
+    Unblocks a device by IP address, following the current rule mode.
     """
-    command_get_mac = "cat /tmp/dhcp.leases"
-    commands_unblock = [
-        "uci del_list wireless.@wifi-iface[1].maclist='{mac_address}'",
-        "uci commit wireless",
-        "wifi"
-    ]
+    try:
+        # Get MAC address from DHCP leases
+        command_get_mac = "cat /tmp/dhcp.leases"
+        output, error = ssh_manager.execute_command(command_get_mac)
+        
+        if error:
+            return error(f"Failed to fetch connected devices: {error}")
 
-    output, error = ssh_manager.execute_command(command_get_mac)
-    
-    if error:
-        return error(f"Failed to fetch connected devices: {error}") 
+        # Find MAC address of the target IP
+        mac_address = None
+        for line in output.split("\n"):
+            parts = line.split()
+            if len(parts) >= 3 and parts[2] == target_ip:
+                mac_address = parts[1]
+                break
 
-    # Find MAC address of the target IP
-    mac_address = None
-    for line in output.split("\n"):
-        parts = line.split()
-        if len(parts) >= 3 and parts[2] == target_ip:
-            mac_address = parts[1]
-            break
+        if not mac_address:
+            # Try alternative method to find MAC
+            arp_cmd = f"ip neigh show | grep '{target_ip}' | awk '{{print $5}}'"
+            mac_output, _ = ssh_manager.execute_command(arp_cmd)
+            if mac_output and len(mac_output.strip()) > 0:
+                mac_address = mac_output.strip()
+            else:
+                return error(f"IP {target_ip} not found in connected devices.")
+        
+        # Check rule mode
+        mode = get_rule_mode()
+        
+        if mode == BLACKLIST_MODE:
+            # In blacklist mode, remove the device from deny lists
+            return unblock_mac_blacklist_mode(mac_address, target_ip)
+        else:
+            # In whitelist mode, add the device to allow lists
+            return unblock_mac_whitelist_mode(mac_address, target_ip)
+            
+    except Exception as e:
+        return error(f"Error unblocking device: {str(e)}")
 
-    if not mac_address:
-        return error(f"IP {target_ip} not found in connected devices.")
+def unblock_mac_blacklist_mode(mac_address, target_ip):
+    """
+    Unblock a device in blacklist mode (remove from deny lists).
+    """
+    try:
+        success_methods = []
+        
+        # Method 1: Remove from WiFi deny lists
+        get_wifi_ifaces = "uci show wireless | grep wifi-iface | cut -d. -f2 | cut -d= -f1"
+        ifaces_output, _ = ssh_manager.execute_command(get_wifi_ifaces)
+        
+        if ifaces_output:
+            for iface in ifaces_output.splitlines():
+                if iface:
+                    # Remove MAC from deny list
+                    cmd = f"uci del_list wireless.{iface}.maclist='{mac_address}'"
+                    _, err = ssh_manager.execute_command(cmd)
+                    
+                    if not err:
+                        success_methods.append(f"Removed from WiFi deny list on {iface}")
+        
+        # Method 2: Remove from firewall block rules
+        fw_cmd = f"iptables -D FORWARD -m mac --mac-source {mac_address} -j DROP"
+        _, fw_err = ssh_manager.execute_command(fw_cmd)
+        
+        if not fw_err:
+            success_methods.append("Removed firewall block rule")
+        
+        # Finalize changes
+        ssh_manager.execute_command("uci commit wireless")
+        ssh_manager.execute_command("wifi reload")
+        ssh_manager.execute_command("iptables-save > /etc/firewall.user")
+        
+        if success_methods:
+            methods_str = ", ".join(success_methods)
+            return success(f"Device {mac_address} ({target_ip}) unblocked in blacklist mode using: {methods_str}")
+        else:
+            return error(f"Failed to unblock device in blacklist mode")
+    except Exception as e:
+        return error(f"Error in blacklist unblocking: {str(e)}")
 
-    # Unblock the MAC address
-    for cmd in commands_unblock:
-        cmd = cmd.format(mac_address=mac_address)
-        ssh_manager.execute_command(cmd)
-
-    return success(f"Device with IP {target_ip} (MAC {mac_address}) is unblocked.")
+def unblock_mac_whitelist_mode(mac_address, target_ip):
+    """
+    Unblock a device in whitelist mode (add to allow lists).
+    """
+    try:
+        success_methods = []
+        
+        # Method 1: Add to WiFi allow lists
+        get_wifi_ifaces = "uci show wireless | grep wifi-iface | cut -d. -f2 | cut -d= -f1"
+        ifaces_output, _ = ssh_manager.execute_command(get_wifi_ifaces)
+        
+        if ifaces_output:
+            for iface in ifaces_output.splitlines():
+                if iface:
+                    # Ensure MAC filter is in allow mode
+                    cmd1 = f"uci set wireless.{iface}.macfilter='allow'"
+                    # Add MAC to allowed list
+                    cmd2 = f"uci add_list wireless.{iface}.maclist='{mac_address}'"
+                    
+                    _, err1 = ssh_manager.execute_command(cmd1)
+                    _, err2 = ssh_manager.execute_command(cmd2)
+                    
+                    if not err1 and not err2:
+                        success_methods.append(f"Added to WiFi allow list on {iface}")
+        
+        # Method 2: Remove specific drop rule from firewall
+        fw_cmd = f"iptables -D FORWARD -m mac --mac-source {mac_address} -j DROP"
+        _, fw_err = ssh_manager.execute_command(fw_cmd)
+        
+        if not fw_err:
+            success_methods.append("Removed explicit firewall block rule")
+        
+        # Finalize changes
+        ssh_manager.execute_command("uci commit wireless")
+        ssh_manager.execute_command("wifi reload")
+        ssh_manager.execute_command("iptables-save > /etc/firewall.user")
+        
+        if success_methods:
+            methods_str = ", ".join(success_methods)
+            return success(f"Device {mac_address} ({target_ip}) unblocked in whitelist mode using: {methods_str}")
+        else:
+            return error(f"Failed to unblock device in whitelist mode")
+    except Exception as e:
+        return error(f"Error in whitelist unblocking: {str(e)}")
 
 def get_blocked_devices():
     """
@@ -134,3 +338,121 @@ def get_blocked_devices():
             blocked_devices.append({"ip": "Unknown", "mac": mac, "hostname": "Unknown"})
 
     return success(data=blocked_devices)
+
+def block_device_with_mode(mac, is_blacklist):
+    """
+    Block a device considering blacklist/whitelist mode.
+    
+    Args:
+        mac: MAC address of device
+        is_blacklist: True for blacklist (block this device), 
+                     False for whitelist (block all except this)
+    """
+    if is_blacklist:
+        # In blacklist mode, block this specific device
+        cmd = f"iptables -I FORWARD -m mac --mac-source {mac} -j DROP"
+    else:
+        # In whitelist mode, allow only this device
+        # First, ensure we have a rule to allow this device
+        cmd1 = f"iptables -I FORWARD -m mac --mac-source {mac} -j ACCEPT"
+        # Then ensure we have a default deny rule at the end
+        cmd2 = "iptables -A FORWARD -j DROP"
+        
+        ssh_manager.execute_command(cmd1)
+        return ssh_manager.execute_command(cmd2)
+        
+    return ssh_manager.execute_command(cmd)
+
+def verify_block_status(mac_address):
+    """
+    Verify if a device is effectively blocked.
+    
+    Args:
+        mac_address: MAC address to check
+        
+    Returns:
+        dict: Status of each blocking method
+    """
+    try:
+        status = {
+            "wifi_filters": False,
+            "firewall_rules": False,
+            "is_connected": True,  # Default to assume it's still connected
+        }
+        
+        # Check WiFi filters
+        wifi_cmd = f"uci show wireless | grep maclist | grep '{mac_address}'"
+        wifi_output, _ = ssh_manager.execute_command(wifi_cmd)
+        
+        if wifi_output and mac_address.lower() in wifi_output.lower():
+            status["wifi_filters"] = True
+        
+        # Check firewall rules
+        fw_cmd = f"iptables-save | grep '{mac_address}'"
+        fw_output, _ = ssh_manager.execute_command(fw_cmd)
+        
+        if fw_output and mac_address.lower() in fw_output.lower():
+            status["firewall_rules"] = True
+        
+        # Check if device is still connected
+        conn_cmd = f"ip neigh show | grep '{mac_address}'"
+        conn_output, _ = ssh_manager.execute_command(conn_cmd)
+        
+        status["is_connected"] = bool(conn_output and len(conn_output.strip()) > 0)
+        
+        return status
+    except Exception as e:
+        logger.error(f"Error verifying block status: {e}")
+        return {}
+
+def debug_blocking(mac_address):
+    """
+    Diagnose why blocking might not be working for a device.
+    
+    Args:
+        mac_address: MAC address to check
+        
+    Returns:
+        dict: Diagnostic information
+    """
+    try:
+        diagnostics = {}
+        
+        # Check if device is connected
+        conn_cmd = f"ip neigh show | grep -i '{mac_address}'"
+        conn_output, _ = ssh_manager.execute_command(conn_cmd)
+        
+        diagnostics["connected"] = bool(conn_output and len(conn_output.strip()) > 0)
+        if conn_output:
+            diagnostics["connection_details"] = conn_output.strip()
+        
+        # Check MAC filters
+        mac_cmd = f"uci show wireless | grep macfilter"
+        mac_output, _ = ssh_manager.execute_command(mac_cmd)
+        
+        diagnostics["mac_filter_config"] = mac_output.strip() if mac_output else "No MAC filters configured"
+        
+        # Check if MAC is in filter lists
+        list_cmd = f"uci show wireless | grep maclist | grep -i '{mac_address}'"
+        list_output, _ = ssh_manager.execute_command(list_cmd)
+        
+        diagnostics["in_mac_lists"] = bool(list_output and len(list_output.strip()) > 0)
+        
+        # Check firewall rules
+        fw_cmd = f"iptables -L -n | grep -i '{mac_address}'"
+        fw_output, _ = ssh_manager.execute_command(fw_cmd)
+        
+        diagnostics["in_firewall"] = bool(fw_output and len(fw_output.strip()) > 0)
+        if fw_output:
+            diagnostics["firewall_rules"] = fw_output.strip()
+        
+        # Check for MAC randomization
+        random_cmd = "iwinfo | grep -A 10 'STA' | grep -i mac"
+        random_output, _ = ssh_manager.execute_command(random_cmd)
+        
+        diagnostics["connected_macs"] = random_output.strip() if random_output else "No wireless clients found"
+        
+        return diagnostics
+    except Exception as e:
+        logger.error(f"Error diagnosing blocking: {e}")
+        return {"error": str(e)}
