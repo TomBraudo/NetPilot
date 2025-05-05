@@ -1,4 +1,5 @@
 from db.tinydb_client import db_client
+from tinydb import Query
 import logging
 
 # Configure logging
@@ -9,23 +10,40 @@ def initialize_predefined_rules():
     """Initialize all predefined network rules in the database."""
     # Define all available rules here - use consistent naming
     rules = [
-        {"name": "block", "type": "boolean", "default": "0", "desc": "Block device from network"},
-        {"name": "limit_bandwidth", "type": "number", "default": "0", "desc": "Bandwidth limit in Mbps"},
-        {"name": "schedule", "type": "string", "default": "", "desc": "Schedule for device access"},
-        {"name": "priority", "type": "number", "default": "0", "desc": "Traffic priority (QoS)"}
+        {
+            "name": "block", 
+            "type": "boolean", 
+            "default": False, 
+            "description": "Block device from network"
+        },
+        {
+            "name": "bandwidth_limit", 
+            "type": "number", 
+            "default": 0, 
+            "description": "Bandwidth limit in Mbps"
+        },
+        {
+            "name": "access_schedule", 
+            "type": "string", 
+            "default": "", 
+            "description": "Schedule for device access"
+        },
+        {
+            "name": "qos_priority", 
+            "type": "number", 
+            "default": 0, 
+            "description": "Traffic priority (QoS)"
+        }
     ]
     
-    # TinyDB's upsert functionality
+    # Add or update rules
+    Rule = Query()
     for rule in rules:
-        # Check if the rule already exists
-        Rule = Query()
         existing_rule = db_client.rules.get(Rule.name == rule["name"])
         
         if not existing_rule:
-            # Insert new rule
             db_client.rules.insert(rule)
         else:
-            # Update existing rule
             db_client.rules.update(rule, Rule.name == rule["name"])
     
     logger.info("Predefined rules initialized")
@@ -34,7 +52,12 @@ def initialize_default_group():
     """Ensure a default group 'general' exists."""
     Group = Query()
     if not db_client.device_groups.contains(Group.name == 'general'):
-        db_client.device_groups.insert({"name": "general"})
+        db_client.device_groups.insert({
+            "name": "general",
+            "description": "Default group for all devices",
+            "is_blacklist": False,
+            "enable_internet": True
+        })
         logger.info("Default 'general' group created")
 
 def initialize_all_tables():

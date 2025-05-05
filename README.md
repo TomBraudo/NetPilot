@@ -55,14 +55,12 @@ NetPilot is an application designed to simplify home network management. It prov
    ```
 
 4. **Configuration**
-   - Create a `config.json` file in the data folder (see example below)
-   ```json
-   {
-     "server_port": 5000,
-     "router_ip": "192.168.1.1",
-     "router_username": "admin",
-     "router_password": "password"
-   }
+   - Create a `.env` file in the project root folder (see example below)
+   ```
+   SERVER_PORT=5000
+   ROUTER_IP=192.168.1.1
+   USERNAME=admin
+   PASSWORD=password
    ```
 
 ## Usage
@@ -89,18 +87,3 @@ NetPilot is an application designed to simplify home network management. It prov
 ## Project Structure
 
 ```
-NetPilot/
-├── backend/               # Flask server
-│   ├── db/                # Database schemas and operations
-│   ├── endpoints/         # API endpoints
-│   ├── services/          # Business logic services
-│   ├── utils/             # Utility functions
-│   └── server.py          # Main server file
-├── frontend/
-│   └── dashboard/         # React dashboard application
-│       ├── public/        # Static assets
-│       └── src/           # React components and logic
-├── data/                  # Application data storage
-└── README.md              # This file
-```
-

@@ -5,8 +5,8 @@ from db.schema_initializer import initialize_all_tables
 from utils.ssh_client import ssh_manager
 from db.tinydb_client import db_client
 import os
-import json
 import atexit
+from dotenv import load_dotenv
 
 # Import all blueprints
 from endpoints.health import health_bp
@@ -15,20 +15,12 @@ from endpoints.api import network_bp
 from endpoints.db import db_bp
 from endpoints.wifi import wifi_bp
 
-# Function to get the external config.json path
-def get_config_path():
-    data_folder = get_data_folder()
-    return os.path.join(data_folder, "config.json")
+# Load environment variables from .env file
+env_path = os.path.join(get_data_folder(), '.env')
+load_dotenv(dotenv_path=env_path)
 
-# Load config.json externally
-config_path = get_config_path()
-if not os.path.exists(config_path):
-    raise FileNotFoundError(f"config.json not found at {config_path}")
-
-with open(config_path, "r") as f:
-    config = json.load(f)
-
-server_port = config["server_port"]
+# Get server port from environment variable
+server_port = int(os.environ.get('SERVER_PORT', 5000))
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})

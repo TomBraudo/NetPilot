@@ -1,8 +1,13 @@
 from flask import Blueprint, request, jsonify
 from services.subnets_manager import add_ip, remove_ip, clear_ips
 from utils.response_helpers import error, success
-import json
 import os
+from utils.path_utils import get_data_folder
+from dotenv import load_dotenv, set_key
+import logging
+
+# Configure logging
+logger = logging.getLogger(__name__)
 
 config_bp = Blueprint('config', __name__)
 
@@ -43,7 +48,7 @@ def clear_ips_route():
 '''
 @config_bp.route("/config/set_admin", methods=["POST"])
 def set_admin():
-    from server import config_path
+    env_path = os.path.join(get_data_folder(), '.env')
     data = request.get_json()
     username = data.get("username")
     password = data.get("password")
@@ -51,14 +56,74 @@ def set_admin():
     if not username or not password:
         return error("Missing 'username' or 'password' in request body")
     
-    # Save the new credentials to config.json
-    with open(config_path, "r") as f:
-        config = json.load(f)
+    try:
+        # Update the environment variables in the .env file
+        set_key(env_path, 'ROUTER_USERNAME', username)
+        set_key(env_path, 'ROUTER_PASSWORD', password)
         
-    config["username"] = username
-    config["password"] = password
+        # Also update in current process
+        os.environ['ROUTER_USERNAME'] = username
+        os.environ['ROUTER_PASSWORD'] = password
+        
+        # Update the SSH manager with new credentials
+        from utils.ssh_client import ssh_manager
+        ssh_manager.username = username
+        ssh_manager.password = password
+        
+        return success("Admin credentials updated successfully")
+    except Exception as e:
+        logger.error(f"Error updating admin credentials: {str(e)}")
+        return error(f"Failed to update credentials: {str(e)}")
+
+'''
+    API endpoint to set the router connection details.
+    Expects JSON: { "router_ip": "<ip>", "username": "<username>", "password": "<password>" }
+'''
+@config_bp.route("/config/set_router", methods=["POST"])
+def set_router():
+    env_path = os.path.join(get_data_folder(), '.env')
+    data = request.get_json()
+    router_ip = data.get("router_ip")
+    username = data.get("username")
+    password = data.get("password")
     
-    with open(config_path, "w") as f:
-        json.dump(config, f, indent=4)
+    # Validate required fields
+    missing_fields = []
+    if not router_ip:
+        missing_fields.append("router_ip")
+    if not username:
+        missing_fields.append("username")
+    if not password:
+        missing_fields.append("password")
         
-    return success("Admin credentials updated successfully")
+    if missing_fields:
+        return error(f"Missing required fields: {', '.join(missing_fields)}")
+    
+    try:
+        # Update the environment variables in the .env file
+        set_key(env_path, 'ROUTER_IP', router_ip)
+        set_key(env_path, 'ROUTER_USERNAME', username)
+        set_key(env_path, 'ROUTER_PASSWORD', password)
+        
+        # Also update in current process
+        os.environ['ROUTER_IP'] = router_ip
+        os.environ['ROUTER_USERNAME'] = username
+        os.environ['ROUTER_PASSWORD'] = password
+        
+        # Update the SSH manager with new credentials
+        from utils.ssh_client import ssh_manager
+        ssh_manager.router_ip = router_ip
+        ssh_manager.username = username
+        ssh_manager.password = password
+        
+        # Test the connection
+        ssh_manager.close_connection()  # Close existing connection if any
+        success_connection = ssh_manager.connect()
+        
+        if success_connection:
+            return success("Router connection details updated successfully")
+        else:
+            return error("Router credentials saved, but connection test failed")
+    except Exception as e:
+        logger.error(f"Error updating router credentials: {str(e)}")
+        return error(f"Failed to update router credentials: {str(e)}")

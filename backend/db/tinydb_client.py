@@ -4,10 +4,15 @@ from tinydb.middlewares import CachingMiddleware
 import os
 from utils.path_utils import get_data_folder
 import logging
+from dotenv import load_dotenv
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# Load environment variables from .env file
+env_path = os.path.join(get_data_folder(), '.env')
+load_dotenv(dotenv_path=env_path)
 
 # Get path for database file
 DB_PATH = os.path.join(get_data_folder(), "netpilot.json")
@@ -44,15 +49,17 @@ class TinyDBClient:
     
     def clear_all(self):
         """Clear all data from all tables."""
-        for table_name in ['devices', 'device_groups', 'group_members', 'rules', 'device_rules']:
+        tables = ['devices', 'device_groups', 'group_members', 'rules', 'device_rules']
+        for table_name in tables:
             table = self.db.table(table_name)
             table.truncate()
         logger.info("All tables cleared")
 
     def close(self):
         """Close the database connection."""
-        self.db.close()
-        logger.info("TinyDB connection closed")
+        if hasattr(self, 'db'):
+            self.db.close()
+            logger.info("TinyDB connection closed")
 
-# Create a singleton instance
+# Initialize the singleton instance
 db_client = TinyDBClient() 

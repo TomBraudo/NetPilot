@@ -15,10 +15,15 @@ def init_db():
     """No-op function for compatibility with existing code."""
     pass
 
-# Register or update a new device
-def register_device(ip, mac, hostname):
+def register_device(mac, ip, hostname=None, device_type=None):
     """
-    Register a device in the database.
+    Register a device in the database or update if it exists.
+    
+    Args:
+        mac: Device MAC address
+        ip: Device IP address
+        hostname: Device hostname (optional)
+        device_type: Type of device (optional)
     
     Returns:
         bool: True if successful, False otherwise
@@ -27,82 +32,305 @@ def register_device(ip, mac, hostname):
         now = datetime.utcnow().isoformat()
         
         # Check if device exists
-        existing = db_client.devices.get((Device.mac == mac) & (Device.ip == ip))
+        existing = db_client.devices.get(Device.mac == mac)
         
         if existing:
             # Update existing device
-            db_client.devices.update({
-                'hostname': hostname,
+            update_data = {
+                'ip': ip,
                 'last_seen': now
-            }, (Device.mac == mac) & (Device.ip == ip))
+            }
+            
+            # Only update hostname if provided and meaningful
+            if hostname and hostname != "Unknown":
+                update_data['hostname'] = hostname
+                
+            # Only update device_type if provided
+            if device_type:
+                update_data['device_type'] = device_type
+                
+            db_client.devices.update(update_data, Device.mac == mac)
         else:
             # Insert new device
-            db_client.devices.insert({
-                'mac': mac,
+            device_data = {
+                'mac': mac, 
                 'ip': ip,
-                'hostname': hostname,
-                'device_name': None,
                 'first_seen': now,
-                'last_seen': now
-            })
+                'last_seen': now,
+                'block': False,
+                'bandwidth_limit': 0,
+                'access_schedule': "",
+                'qos_priority': 0
+            }
             
-            # Check if device is in any group
-            GroupMember = Query()
-            already_grouped = db_client.group_members.get(
-                (GroupMember.mac == mac) & (GroupMember.ip == ip)
-            )
-            
-            if not already_grouped:
-                # Add to general group
-                Group = Query()
-                general_group = db_client.device_groups.get(Group.name == 'general')
+            # Add optional fields if provided
+            if hostname and hostname != "Unknown":
+                device_data['hostname'] = hostname
+            if device_type:
+                device_data['device_type'] = device_type
                 
-                if general_group:
-                    db_client.group_members.insert({
-                        'mac': mac,
-                        'ip': ip,
-                        'group_id': general_group.doc_id
-                    })
+            db_client.devices.insert(device_data)
+            
+            # Add to general group by default
+            from db.group_repository import add_device_to_group
+            add_device_to_group(mac, 'general')
         
         return True
     except Exception as e:
         logger.error(f"Error registering device: {e}")
         return False
 
-# Remove a device and all related data
-def delete_device(mac, ip):
-    """Delete a device and all its related data."""
+def update_device_rules(mac, block=None, bandwidth_limit=None, access_schedule=None, qos_priority=None):
+    """
+    Update device's network rules.
+    
+    Args:
+        mac: Device MAC address
+        block: Boolean indicating if device is blocked
+        bandwidth_limit: Bandwidth limit in Mbps
+        access_schedule: Schedule string for time-based access
+        qos_priority: QoS priority (1-5)
+    
+    Returns:
+        bool: True if successful, False otherwise
+    """
     try:
-        # Delete device rules
-        db_client.device_rules.remove((Device.mac == mac) & (Device.ip == ip))
+        # Build update dictionary with only provided values
+        update_data = {}
+        if block is not None:
+            update_data['block'] = block
+        if bandwidth_limit is not None:
+            update_data['bandwidth_limit'] = bandwidth_limit
+        if access_schedule is not None:
+            update_data['access_schedule'] = access_schedule
+        if qos_priority is not None:
+            update_data['qos_priority'] = qos_priority
+            
+        if not update_data:
+            return True  # Nothing to update
+            
+        # Update the device
+        result = db_client.devices.update(update_data, Device.mac == mac)
+        return len(result) > 0
+    except Exception as e:
+        logger.error(f"Error updating device rules: {e}")
+        return False
+
+def update_device_info(mac, device_name=None, notes=None, hostname=None, device_type=None):
+    """
+    Update device information fields.
+    
+    Args:
+        mac: Device MAC address
+        device_name: User-assigned name for the device
+        notes: Additional notes about the device
+        hostname: Device's network hostname
+        device_type: Type of device
+    
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        # Build update dictionary with only provided values
+        update_data = {}
+        if device_name is not None:
+            update_data['device_name'] = device_name
+        if notes is not None:
+            update_data['notes'] = notes
+        if hostname is not None and hostname != "Unknown":
+            update_data['hostname'] = hostname
+        if device_type is not None:
+            update_data['device_type'] = device_type
+            
+        if not update_data:
+            return True  # Nothing to update
+            
+        # Update the device
+        result = db_client.devices.update(update_data, Device.mac == mac)
+        return len(result) > 0
+    except Exception as e:
+        logger.error(f"Error updating device info: {e}")
+        return False
+
+def get_device(mac):
+    """
+    Get detailed device information by MAC address.
+    
+    Args:
+        mac: Device MAC address
+    
+    Returns:
+        dict: Device information or None if not found
+    """
+    try:
+        device = db_client.devices.get(Device.mac == mac)
         
-        # Delete group memberships
+        if not device:
+            return None
+            
+        # Get device group information
         GroupMember = Query()
-        db_client.group_members.remove((GroupMember.mac == mac) & (GroupMember.ip == ip))
+        membership = db_client.group_members.get(GroupMember.mac == mac)
+        
+        if membership:
+            group_id = membership.get('group_id')
+            Group = Query()
+            group = db_client.device_groups.get(doc_id=group_id)
+            if group:
+                device['group_name'] = group.get('name')
+        
+        return device
+    except Exception as e:
+        logger.error(f"Error getting device: {e}")
+        return None
+
+def get_all_devices(with_groups=False):
+    """
+    Get all devices with optional group information.
+    
+    Args:
+        with_groups: Whether to include group information
+    
+    Returns:
+        list: List of device dictionaries
+    """
+    try:
+        devices = db_client.devices.all()
+        
+        if with_groups:
+            # Get all group memberships
+            memberships = db_client.group_members.all()
+            membership_by_mac = {}
+            for m in memberships:
+                membership_by_mac[m.get('mac')] = m.get('group_id')
+            
+            # Get all groups
+            groups = db_client.device_groups.all()
+            group_by_id = {}
+            for g in groups:
+                group_by_id[g.doc_id] = g.get('name')
+            
+            # Add group to each device
+            for device in devices:
+                mac = device.get('mac')
+                group_id = membership_by_mac.get(mac)
+                if group_id:
+                    device['group_name'] = group_by_id.get(group_id, 'Unknown')
+                else:
+                    device['group_name'] = 'Ungrouped'
+        
+        return devices
+    except Exception as e:
+        logger.error(f"Error getting all devices: {e}")
+        return []
+
+def mark_device_activity(mac):
+    """
+    Update the last_seen timestamp for a device.
+    
+    Args:
+        mac: Device MAC address
+    
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        now = datetime.utcnow().isoformat()
+        result = db_client.devices.update({'last_seen': now}, Device.mac == mac)
+        return len(result) > 0
+    except Exception as e:
+        logger.error(f"Error marking device activity: {e}")
+        return False
+
+def delete_device(mac):
+    """
+    Delete a device and all associated data.
+    
+    Args:
+        mac: Device MAC address
+    
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        # Remove device from groups
+        GroupMember = Query()
+        db_client.group_members.remove(GroupMember.mac == mac)
         
         # Delete device
-        db_client.devices.remove((Device.mac == mac) & (Device.ip == ip))
+        db_client.devices.remove(Device.mac == mac)
         return True
     except Exception as e:
         logger.error(f"Error deleting device: {e}")
         return False
 
-# Get all devices
-def get_all_devices():
-    """Get all devices as a list of dictionaries."""
+def get_blocked_devices():
+    """
+    Get all devices that are currently blocked.
+    
+    Returns:
+        list: List of blocked device dictionaries
+    """
     try:
-        return db_client.devices.all()
+        return db_client.devices.search(Device.block == True)
     except Exception as e:
-        logger.error(f"Error getting devices: {e}")
+        logger.error(f"Error getting blocked devices: {e}")
         return []
 
-# Update device name by MAC address and IP
-def update_device_name(mac, ip, device_name):
-    """Update a device's name by MAC address and IP."""
+def get_devices_with_rules():
+    """
+    Get all devices that have any rule applied.
+    
+    Returns:
+        list: List of device dictionaries with rules
+    """
+    try:
+        devices = []
+        all_devices = db_client.devices.all()
+        
+        for device in all_devices:
+            has_rules = False
+            # Check if any rule is non-default
+            if device.get('block', False):
+                has_rules = True
+            if device.get('bandwidth_limit', 0) > 0:
+                has_rules = True
+            if device.get('access_schedule'):
+                has_rules = True
+            if device.get('qos_priority', 0) > 0:
+                has_rules = True
+                
+            if has_rules:
+                devices.append(device)
+                
+        return devices
+    except Exception as e:
+        logger.error(f"Error getting devices with rules: {e}")
+        return []
+
+def get_device_by_ip(ip):
+    """
+    Find a device by IP address.
+    
+    Args:
+        ip: Device IP address
+    
+    Returns:
+        dict: Device information or None if not found
+    """
+    try:
+        return db_client.devices.get(Device.ip == ip)
+    except Exception as e:
+        logger.error(f"Error getting device by IP: {e}")
+        return None
+
+# Update device name by MAC address
+def update_device_name(mac, device_name):
+    """Update a device's name by MAC address."""
     try:
         result = db_client.devices.update(
             {'device_name': device_name}, 
-            (Device.mac == mac) & (Device.ip == ip)
+            Device.mac == mac
         )
         return len(result) > 0
     except Exception as e:

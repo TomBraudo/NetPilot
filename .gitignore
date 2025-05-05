@@ -3,4 +3,6 @@ backend/venv/
 .qodo
 node_modules/
 frontend/node_modules/
-data/config.json
+.env
+backend/utils/commands.py
+backend/db/test_db.py
