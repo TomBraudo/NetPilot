@@ -58,12 +58,12 @@ def block_mac_address(target_ip):
 
 def block_mac_blacklist_mode(mac_address, target_ip):
     """
-    Block a device in blacklist mode (add to deny lists).
+    Block a device in blacklist mode using OpenWrt traffic rules.
     """
     try:
         success_methods = []
         
-        # Method 1: Add to WiFi deny lists
+        # 1. Add to WiFi deny lists
         get_wifi_ifaces = "uci show wireless | grep wifi-iface | cut -d. -f2 | cut -d= -f1"
         ifaces_output, _ = ssh_manager.execute_command(get_wifi_ifaces)
         
@@ -79,19 +79,30 @@ def block_mac_blacklist_mode(mac_address, target_ip):
                     _, err2 = ssh_manager.execute_command(cmd2)
                     
                     if not err1 and not err2:
-                        success_methods.append(f"WiFi deny list on {iface}")
+                        success_methods.append(f"Added to WiFi deny list on {iface}")
         
-        # Method 2: Add to firewall block rules
-        fw_cmd = f"iptables -I FORWARD -m mac --mac-source {mac_address} -j DROP"
-        _, fw_err = ssh_manager.execute_command(fw_cmd)
+        # 2. Add a firewall block rule
+        block_commands = [
+            f"uci add firewall rule",
+            f"uci set firewall.@rule[-1].name='NetPilot Block {mac_address}'",
+            f"uci set firewall.@rule[-1].src='lan'", 
+            f"uci set firewall.@rule[-1].dest='wan'",
+            f"uci set firewall.@rule[-1].proto='all'",
+            f"uci set firewall.@rule[-1].src_mac='{mac_address}'",
+            f"uci set firewall.@rule[-1].target='REJECT'",
+            f"uci set firewall.@rule[-1].enabled='1'"
+        ]
         
-        if not fw_err:
-            success_methods.append("Firewall block rule")
+        for cmd in block_commands:
+            _, err = ssh_manager.execute_command(cmd)
+            if not err:
+                success_methods.append("Added firewall block rule")
         
-        # Finalize changes
+        # Apply changes
         ssh_manager.execute_command("uci commit wireless")
+        ssh_manager.execute_command("uci commit firewall")
         ssh_manager.execute_command("wifi reload")
-        ssh_manager.execute_command("iptables-save > /etc/firewall.user")
+        ssh_manager.execute_command("/etc/init.d/firewall reload")
         
         if success_methods:
             methods_str = ", ".join(success_methods)
@@ -103,42 +114,47 @@ def block_mac_blacklist_mode(mac_address, target_ip):
 
 def block_mac_whitelist_mode(mac_address, target_ip):
     """
-    Block a device in whitelist mode (remove from allow lists).
+    Block a device in whitelist mode using OpenWrt traffic rules.
     """
     try:
         success_methods = []
         
-        # Method 1: Remove from WiFi allow lists
+        # 1. Remove from WiFi allow lists
         get_wifi_ifaces = "uci show wireless | grep wifi-iface | cut -d. -f2 | cut -d= -f1"
         ifaces_output, _ = ssh_manager.execute_command(get_wifi_ifaces)
         
         if ifaces_output:
             for iface in ifaces_output.splitlines():
                 if iface:
-                    # Ensure MAC filter is in allow mode
-                    cmd1 = f"uci set wireless.{iface}.macfilter='allow'"
                     # Remove MAC from allowed list
-                    cmd2 = f"uci del_list wireless.{iface}.maclist='{mac_address}'"
+                    cmd = f"uci del_list wireless.{iface}.maclist='{mac_address}'"
+                    _, err = ssh_manager.execute_command(cmd)
                     
-                    _, err1 = ssh_manager.execute_command(cmd1)
-                    _, err2 = ssh_manager.execute_command(cmd2)
-                    
-                    if not err1 and not err2:
+                    if not err:
                         success_methods.append(f"Removed from WiFi allow list on {iface}")
         
-        # Method 2: Add specific drop rule to firewall
-        # In whitelist mode, we should already have a default drop rule
-        # But we add a specific rule for this MAC to be sure
-        fw_cmd = f"iptables -I FORWARD -m mac --mac-source {mac_address} -j DROP"
-        _, fw_err = ssh_manager.execute_command(fw_cmd)
+        # 2. Add a specific block rule
+        block_commands = [
+            f"uci add firewall rule",
+            f"uci set firewall.@rule[-1].name='NetPilot Block {mac_address}'",
+            f"uci set firewall.@rule[-1].src='lan'", 
+            f"uci set firewall.@rule[-1].dest='wan'",
+            f"uci set firewall.@rule[-1].proto='all'",
+            f"uci set firewall.@rule[-1].src_mac='{mac_address}'",
+            f"uci set firewall.@rule[-1].target='REJECT'",
+            f"uci set firewall.@rule[-1].enabled='1'"
+        ]
         
-        if not fw_err:
-            success_methods.append("Added explicit firewall block rule")
+        for cmd in block_commands:
+            _, err = ssh_manager.execute_command(cmd)
+            if not err:
+                success_methods.append("Added firewall block rule")
         
-        # Finalize changes
+        # Apply changes
         ssh_manager.execute_command("uci commit wireless")
+        ssh_manager.execute_command("uci commit firewall")
         ssh_manager.execute_command("wifi reload")
-        ssh_manager.execute_command("iptables-save > /etc/firewall.user")
+        ssh_manager.execute_command("/etc/init.d/firewall reload")
         
         if success_methods:
             methods_str = ", ".join(success_methods)
@@ -193,11 +209,12 @@ def unblock_mac_address(target_ip):
 def unblock_mac_blacklist_mode(mac_address, target_ip):
     """
     Unblock a device in blacklist mode (remove from deny lists).
+    Uses OpenWrt traffic rules for firewall configuration.
     """
     try:
         success_methods = []
         
-        # Method 1: Remove from WiFi deny lists
+        # 1. Remove from WiFi deny lists
         get_wifi_ifaces = "uci show wireless | grep wifi-iface | cut -d. -f2 | cut -d= -f1"
         ifaces_output, _ = ssh_manager.execute_command(get_wifi_ifaces)
         
@@ -211,17 +228,28 @@ def unblock_mac_blacklist_mode(mac_address, target_ip):
                     if not err:
                         success_methods.append(f"Removed from WiFi deny list on {iface}")
         
-        # Method 2: Remove from firewall block rules
-        fw_cmd = f"iptables -D FORWARD -m mac --mac-source {mac_address} -j DROP"
-        _, fw_err = ssh_manager.execute_command(fw_cmd)
+        # 2. Find and remove any block rules from firewall
+        block_rule_check = f"uci show firewall | grep -i 'NetPilot Block' | grep -i '{mac_address}'"
+        block_rule_output, _ = ssh_manager.execute_command(block_rule_check)
         
-        if not fw_err:
-            success_methods.append("Removed firewall block rule")
+        if block_rule_output:
+            # Parse rule section from output and delete it
+            for line in block_rule_output.splitlines():
+                if "=" in line:
+                    try:
+                        rule_section = line.split(".")[1].split(".")[0]
+                        delete_cmd = f"uci delete firewall.{rule_section}"
+                        _, err = ssh_manager.execute_command(delete_cmd)
+                        if not err:
+                            success_methods.append("Removed firewall block rule")
+                    except:
+                        pass
         
-        # Finalize changes
+        # 3. Apply all changes
         ssh_manager.execute_command("uci commit wireless")
+        ssh_manager.execute_command("uci commit firewall")
         ssh_manager.execute_command("wifi reload")
-        ssh_manager.execute_command("iptables-save > /etc/firewall.user")
+        ssh_manager.execute_command("/etc/init.d/firewall reload")
         
         if success_methods:
             methods_str = ", ".join(success_methods)
@@ -234,11 +262,30 @@ def unblock_mac_blacklist_mode(mac_address, target_ip):
 def unblock_mac_whitelist_mode(mac_address, target_ip):
     """
     Unblock a device in whitelist mode (add to allow lists).
+    Uses a comprehensive approach to ensure device has internet access.
     """
     try:
         success_methods = []
         
-        # Method 1: Add to WiFi allow lists
+        # 1. First remove any block rules
+        # Find and remove any block rules from firewall
+        block_rule_check = f"uci show firewall | grep '@rule' | grep -i '{mac_address}' | grep -i 'Block'"
+        block_rule_output, _ = ssh_manager.execute_command(block_rule_check)
+        
+        if block_rule_output:
+            # Parse rule section from output and delete it
+            for line in block_rule_output.splitlines():
+                if "=" in line and "." in line:
+                    try:
+                        rule_section = line.split(".")[1].split(".")[0]
+                        delete_cmd = f"uci delete firewall.{rule_section}"
+                        _, err = ssh_manager.execute_command(delete_cmd)
+                        if not err:
+                            success_methods.append("Removed firewall block rule")
+                    except:
+                        pass
+        
+        # 2. Add to WiFi allow lists on all interfaces
         get_wifi_ifaces = "uci show wireless | grep wifi-iface | cut -d. -f2 | cut -d= -f1"
         ifaces_output, _ = ssh_manager.execute_command(get_wifi_ifaces)
         
@@ -256,16 +303,53 @@ def unblock_mac_whitelist_mode(mac_address, target_ip):
                     if not err1 and not err2:
                         success_methods.append(f"Added to WiFi allow list on {iface}")
         
-        # Method 2: Remove specific drop rule from firewall
-        fw_cmd = f"iptables -D FORWARD -m mac --mac-source {mac_address} -j DROP"
-        _, fw_err = ssh_manager.execute_command(fw_cmd)
+        # 3. Remove any existing allow rules (to avoid duplicates)
+        allow_rule_check = f"uci show firewall | grep '@rule' | grep -i '{mac_address}' | grep -i 'Allow'"
+        allow_rule_output, _ = ssh_manager.execute_command(allow_rule_check)
         
-        if not fw_err:
-            success_methods.append("Removed explicit firewall block rule")
+        if allow_rule_output:
+            for line in allow_rule_output.splitlines():
+                if "=" in line and "." in line:
+                    try:
+                        rule_section = line.split(".")[1].split(".")[0]
+                        delete_cmd = f"uci delete firewall.{rule_section}"
+                        ssh_manager.execute_command(delete_cmd)
+                    except:
+                        pass
         
-        # Finalize changes
+        # 4. Add a high-priority allow rule
+        allow_commands = [
+            f"uci add firewall rule",
+            f"uci set firewall.@rule[-1].name='NetPilot Allow {mac_address}'",
+            f"uci set firewall.@rule[-1].src='lan'",
+            f"uci set firewall.@rule[-1].dest='wan'",
+            f"uci set firewall.@rule[-1].proto='all'",
+            f"uci set firewall.@rule[-1].src_mac='{mac_address}'",
+            f"uci set firewall.@rule[-1].target='ACCEPT'",
+            f"uci set firewall.@rule[-1].enabled='1'",
+            f"uci set firewall.@rule[-1].priority='10'" # High priority
+        ]
+        
+        for cmd in allow_commands:
+            _, err = ssh_manager.execute_command(cmd)
+            if err:
+                logger.error(f"Error adding allow rule: {err}")
+            else:
+                success_methods.append("Added high-priority firewall allow rule")
+        
+        # 5. Also ensure any direct iptables rules are cleaned up
+        ssh_manager.execute_command(f"iptables -D FORWARD -m mac --mac-source {mac_address} -j DROP 2>/dev/null")
+        ssh_manager.execute_command(f"iptables -D FORWARD -m mac --mac-source {mac_address} -j REJECT 2>/dev/null")
+        
+        # 6. Add direct iptables accept rule for immediate effect
+        ssh_manager.execute_command(f"iptables -I FORWARD 1 -m mac --mac-source {mac_address} -j ACCEPT")
+        success_methods.append("Added direct iptables ACCEPT rule")
+        
+        # 7. Apply all changes
         ssh_manager.execute_command("uci commit wireless")
+        ssh_manager.execute_command("uci commit firewall")
         ssh_manager.execute_command("wifi reload")
+        ssh_manager.execute_command("/etc/init.d/firewall reload")
         ssh_manager.execute_command("iptables-save > /etc/firewall.user")
         
         if success_methods:

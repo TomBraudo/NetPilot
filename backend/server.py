@@ -7,6 +7,8 @@ from db.tinydb_client import db_client
 import os
 import atexit
 from dotenv import load_dotenv
+import socket
+from services.admin_protection import register_admin_device
 
 # Import all blueprints
 from endpoints.health import health_bp
@@ -16,6 +18,7 @@ from endpoints.db import db_bp
 from endpoints.wifi import wifi_bp
 from endpoints.device_protection import protection_bp
 from endpoints.rule_mode import rule_mode_bp
+from endpoints.admin_protection import admin_bp
 
 # Load environment variables from .env file
 env_path = os.path.join(get_data_folder(), '.env')
@@ -42,6 +45,25 @@ app.register_blueprint(db_bp)
 app.register_blueprint(wifi_bp)
 app.register_blueprint(protection_bp)
 app.register_blueprint(rule_mode_bp)
+app.register_blueprint(admin_bp)
+
+# Auto-register server device as admin
+def register_server_as_admin():
+    # Get local IP address
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        # doesn't even have to be reachable
+        s.connect(('10.255.255.255', 1))
+        ip = s.getsockname()[0]
+    except:
+        ip = '127.0.0.1'
+    finally:
+        s.close()
+    
+    # Register this device as admin
+    if ip and ip != '127.0.0.1':
+        print(f"Auto-registering server device (IP: {ip}) as admin device")
+        register_admin_device(ip_address=ip)
 
 # Function to clean up resources on exit
 def cleanup_resources():
@@ -53,6 +75,9 @@ atexit.register(cleanup_resources)
 
 if __name__ == "__main__":
     try:
+        # Auto-register the server as admin
+        register_server_as_admin()
+        
         app.run(host="0.0.0.0", port=server_port, debug=True)
     except KeyboardInterrupt:
         cleanup_resources()

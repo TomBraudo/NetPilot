@@ -21,6 +21,7 @@ def get_rule_mode_endpoint():
 '''
 @rule_mode_bp.route("/api/rule_mode", methods=["POST"])
 def set_rule_mode_endpoint():
+    """Set the rule mode to blacklist or whitelist."""
     data = request.get_json()
     
     if not data:
@@ -31,10 +32,27 @@ def set_rule_mode_endpoint():
     if not mode:
         return jsonify(error("Missing 'mode' in request body"))
         
-    if mode not in [BLACKLIST_MODE, WHITELIST_MODE]:
-        return jsonify(error(f"Invalid mode: {mode}. Must be '{BLACKLIST_MODE}' or '{WHITELIST_MODE}'"))
-        
-    return jsonify(set_rule_mode(mode))
+    # Get client IP for protection
+    client_ip = request.remote_addr
+    
+    # Special handling for localhost - get real network interface IP instead
+    if client_ip == "127.0.0.1":
+        # Try to get a real LAN IP
+        import socket
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        try:
+            # doesn't need to be reachable
+            s.connect(('10.255.255.255', 1))
+            real_ip = s.getsockname()[0]
+            client_ip = real_ip if real_ip != "127.0.0.1" else None
+        except:
+            client_ip = None
+        finally:
+            s.close()
+    
+    # Set the rule mode with client protection
+    result = set_rule_mode(mode, client_ip=client_ip)
+    return jsonify(result)
 
 @rule_mode_bp.route("/api/test_rule_mode", methods=["GET"])
 def test_rule_mode_endpoint():

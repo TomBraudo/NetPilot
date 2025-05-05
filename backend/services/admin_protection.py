@@ -3,6 +3,7 @@ from utils.ssh_client import ssh_manager
 from utils.response_helpers import success, error
 from db.config_repository import set_system_config, get_system_config
 import ipaddress
+from db.device_repository import mark_device_as_protected
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -58,8 +59,8 @@ def get_admin_device_mac():
 
 def ensure_admin_device_protected(mac_address=None):
     """
-    Ensure admin device is protected in all filtering mechanisms.
-    If mac_address is not provided, uses the stored admin device MAC.
+    Ensure admin device is protected in all filtering mechanisms with enhanced safety.
+    Compatible with OpenWrt traffic rules approach.
     
     Args:
         mac_address: MAC address to protect (optional)
@@ -74,31 +75,105 @@ def ensure_admin_device_protected(mac_address=None):
         if not admin_mac:
             logger.warning("No admin device registered, nothing to protect")
             return False
+        
+        logger.info(f"Ensuring protection for admin device: {admin_mac}")
             
-        # 1. Ensure admin device is in WiFi allow lists
+        # Mark the device as protected in the database
+        mark_device_as_protected(admin_mac, True)
+        
+        # Get current rule mode to apply appropriate protection
+        from services.rule_mode import get_rule_mode, WHITELIST_MODE
+        current_mode = get_rule_mode()
+        is_whitelist = current_mode == WHITELIST_MODE
+        
+        # 1. Protect in WiFi filtering for both modes
+        wifi_commands = []
+        
+        # Get all WiFi interfaces
         get_wifi_ifaces = "uci show wireless | grep wifi-iface | cut -d. -f2 | cut -d= -f1"
         ifaces_output, _ = ssh_manager.execute_command(get_wifi_ifaces)
         
         if ifaces_output:
             for iface in ifaces_output.splitlines():
-                if iface:
-                    # Add to allow list
-                    cmd = f"uci add_list wireless.{iface}.maclist='{admin_mac}'"
-                    ssh_manager.execute_command(cmd)
-                    
-        # 2. Ensure admin device is not in any firewall block rules
-        # Remove from block rules if present
-        unblock_cmd = f"iptables -D FORWARD -m mac --mac-source {admin_mac} -j DROP 2>/dev/null"
-        ssh_manager.execute_command(unblock_cmd)
+                if iface and iface.strip():
+                    # In whitelist mode - ensure admin is in allow list
+                    if is_whitelist:
+                        wifi_commands.append(f"uci set wireless.{iface}.macfilter='allow'")
+                        wifi_commands.append(f"uci add_list wireless.{iface}.maclist='{admin_mac}'")
+                    # In blacklist mode - ensure admin is NOT in deny list
+                    else:
+                        wifi_commands.append(f"uci set wireless.{iface}.macfilter='deny'")
+                        wifi_commands.append(f"uci del_list wireless.{iface}.maclist='{admin_mac}' 2>/dev/null")
         
-        # 3. Add a specific allow rule for admin device with high priority
-        allow_cmd = f"iptables -I FORWARD 1 -m mac --mac-source {admin_mac} -j ACCEPT"
-        ssh_manager.execute_command(allow_cmd)
+        # Apply WiFi commands
+        for cmd in wifi_commands:
+            _, err = ssh_manager.execute_command(cmd)
+            if err:
+                logger.error(f"Error protecting admin in WiFi: {err}")
         
-        # Apply changes
+        # 2. Protect in firewall rules
+        # First, remove any existing block rules for admin MAC
+        block_rule_check = f"uci show firewall | grep -i 'NetPilot Block' | grep -i '{admin_mac}'"
+        block_rule_output, _ = ssh_manager.execute_command(block_rule_check)
+        
+        if block_rule_output:
+            # Parse rule section from output
+            for line in block_rule_output.splitlines():
+                if "=" in line:
+                    try:
+                        rule_section = line.split(".")[1].split(".")[0]
+                        ssh_manager.execute_command(f"uci delete firewall.{rule_section}")
+                    except:
+                        logger.error(f"Error parsing rule section from: {line}")
+        
+        # Now add or ensure an allow rule exists for the admin in whitelist mode
+        if is_whitelist:
+            # First check if allow rule already exists
+            allow_rule_check = f"uci show firewall | grep -i 'NetPilot Allow' | grep -i '{admin_mac}'"
+            allow_rule_output, _ = ssh_manager.execute_command(allow_rule_check)
+            
+            if not allow_rule_output:
+                # Add a new allow rule with highest priority
+                admin_allow_commands = [
+                    f"uci add firewall rule",
+                    f"uci set firewall.@rule[-1].name='NetPilot Allow Admin {admin_mac}'",
+                    f"uci set firewall.@rule[-1].src='lan'",
+                    f"uci set firewall.@rule[-1].dest='wan'",
+                    f"uci set firewall.@rule[-1].proto='all'",
+                    f"uci set firewall.@rule[-1].src_mac='{admin_mac}'",
+                    f"uci set firewall.@rule[-1].target='ACCEPT'",
+                    f"uci set firewall.@rule[-1].enabled='1'",
+                    f"uci set firewall.@rule[-1].priority='50'" # Higher priority than other rules
+                ]
+                
+                for cmd in admin_allow_commands:
+                    _, err = ssh_manager.execute_command(cmd)
+                    if err:
+                        logger.error(f"Error adding admin protection rule: {err}")
+        
+        # 3. Apply all changes
         ssh_manager.execute_command("uci commit wireless")
+        ssh_manager.execute_command("uci commit firewall")
         ssh_manager.execute_command("wifi reload")
-        ssh_manager.execute_command("iptables-save > /etc/firewall.user")
+        ssh_manager.execute_command("/etc/init.d/firewall reload")
+        
+        # 4. Verify protection - critical for whitelist mode
+        if is_whitelist:
+            # Verify admin is protected in firewall
+            verify_cmd = f"uci show firewall | grep -i 'NetPilot Allow' | grep -i '{admin_mac}'"
+            verify_output, _ = ssh_manager.execute_command(verify_cmd)
+            
+            if not verify_output or admin_mac.lower() not in verify_output.lower():
+                logger.error(f"CRITICAL: Admin device protection verification failed in whitelist mode!")
+                return False
+            
+            # Verify admin is in WiFi allow lists
+            wifi_verify_cmd = f"uci show wireless | grep maclist | grep -i '{admin_mac}'"
+            wifi_verify_output, _ = ssh_manager.execute_command(wifi_verify_cmd)
+            
+            if not wifi_verify_output or admin_mac.lower() not in wifi_verify_output.lower():
+                logger.error(f"CRITICAL: Admin device not in WiFi allow lists in whitelist mode!")
+                return False
         
         logger.info(f"Admin device {admin_mac} protected in all filtering mechanisms")
         return True
