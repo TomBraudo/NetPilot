@@ -1,5 +1,6 @@
 from utils.ssh_client import ssh_manager
 from utils.response_helpers import success, error
+from db.tinydb_client import db_client
 
 def find_interface_for_ip(target_ip):
     """

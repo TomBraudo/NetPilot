@@ -135,3 +135,57 @@ def get_limit():
 def reset_rules_route():
     """Reset all network rules including bandwidth limits and blocks."""
     return jsonify(reset_all_rules())
+
+'''
+    API endpoint to add a device to the bandwidth blacklist.
+    Expects JSON: { "ip": "<ip_address>" }
+'''
+@network.bp.route("/bandwidth/blacklist", methods=["POST"])
+def add_to_blacklist():
+    data = request.get_json()
+    ip = data.get("ip")
+    if not ip:
+        return error("Missing 'ip' in request body")
+    db_client.bandwidth_blacklist.insert({"ip": ip})
+    return success("Device added to bandwidth blacklist")
+
+'''
+    API endpoint to remove a device from the bandwidth blacklist.
+    Expects JSON: { "ip": "<ip_address>" }
+'''
+@network.bp.route("/bandwidth/blacklist", methods=["DELETE"])
+def remove_from_blacklist():
+    data = request.get_json()
+    ip = data.get("ip")
+    if not ip:
+        return error("Missing 'ip' in request body")
+    db_client.bandwidth_blacklist.remove(Query().ip == ip)
+    return success("Device removed from bandwidth blacklist")
+
+'''
+    API endpoint to add a device to the bandwidth whitelist.
+    Expects JSON: { "ip": "<ip_address>" }
+'''
+@network.bp.route("/bandwidth/whitelist", methods=["POST"])
+def add_to_whitelist():
+    data = request.get_json()
+    ip = data.get("ip")
+    if not ip:
+        return error("Missing 'ip' in request body")
+    db_client.bandwidth_whitelist.insert({"ip": ip})
+    return success("Device added to bandwidth whitelist")
+
+'''
+    API endpoint to remove a device from the bandwidth whitelist.
+    Expects JSON: { "ip": "<ip_address>" }
+'''
+@network.bp.route("/bandwidth/whitelist", methods=["DELETE"])
+def remove_from_whitelist():
+    data = request.get_json()
+    ip = data.get("ip")
+    if not ip:
+        return error("Missing 'ip' in request body")
+    db_client.bandwidth_whitelist.remove(Query().ip == ip)
+    return success("Device removed from bandwidth whitelist")
+
+

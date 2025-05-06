@@ -1,4 +1,5 @@
 from db.tinydb_client import db_client
+from tinydb import Query
 import logging
 
 # Configure logging

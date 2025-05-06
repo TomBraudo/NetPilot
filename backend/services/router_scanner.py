@@ -5,6 +5,7 @@ import re
 from utils.ssh_client import ssh_manager
 from utils.response_helpers import error, success
 from db.device_repository import register_device
+import ipaddress
 
 def get_mac_vendor(mac):
     """
@@ -24,7 +25,13 @@ def scan_network_via_router():
     """
     Uses SSH to retrieve ACTIVE connected devices from the OpenWrt router.
     Combines ARP table with DHCP lease information for accurate results.
+    Only returns devices in the router's subnet, and includes the router itself.
     """
+    # Get router IP and subnet
+    router_ip = ssh_manager.router_ip
+    # Assume /24 subnet for typical home routers; adjust if you want to detect dynamically
+    router_network = ipaddress.ip_network(router_ip + '/24', strict=False)
+
     # Get DHCP leases for hostname information
     dhcp_command = "cat /tmp/dhcp.leases"
     dhcp_output, dhcp_error = ssh_manager.execute_command(dhcp_command)
@@ -90,9 +97,23 @@ def scan_network_via_router():
 
     # Convert the device map to a list and add vendor information
     connected_devices = []
+    
+    # Add the router itself
+    connected_devices.append({
+        "ip": router_ip,
+        "mac": "router",  # You could fetch the router's MAC if needed
+        "hostname": "Router",
+        "vendor": "Router"
+    })
+
     for mac, device in device_map.items():
-        # Only include devices that have an IPv4 address
+        # Only include devices that have an IPv4 address in the router's subnet
         if device["ipv4"]:
+            try:
+                if ipaddress.ip_address(device["ipv4"]) not in router_network:
+                    continue
+            except ValueError:
+                continue
             # Get vendor info once per device
             if not device["vendor"]:
                 device["vendor"] = get_mac_vendor(mac)
@@ -104,6 +125,7 @@ def scan_network_via_router():
                 "vendor": device["vendor"]
             })
 
+    
     # Register active devices in database (only one entry per MAC)
     for device in connected_devices:
         register_device(device["ip"], device["mac"], device["hostname"])

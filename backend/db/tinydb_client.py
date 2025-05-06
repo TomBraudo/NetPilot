@@ -36,6 +36,8 @@ class TinyDBClient:
             self.group_members = self.db.table('group_members')
             self.rules = self.db.table('rules')
             self.device_rules = self.db.table('device_rules')
+            self.bandwidth_blacklist = self.db.table('bandwidth_blacklist')
+            self.bandwidth_whitelist = self.db.table('bandwidth_whitelist')
             
             logger.info(f"TinyDB initialized at {DB_PATH}")
         except Exception as e:
