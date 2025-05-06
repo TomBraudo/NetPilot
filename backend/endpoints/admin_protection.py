@@ -106,7 +106,7 @@ def auto_register_admin_endpoint():
         diagnostics["firewall_details"] = fw_output.strip() if fw_output else "No firewall rules found"
         
         # Get current mode
-        from services.rule_mode import get_rule_mode
+        from services.rule_mode import get_rule_mode, BLACKLIST_MODE
         diagnostics["current_mode"] = get_rule_mode()
         
         return jsonify(success(data=diagnostics))
@@ -191,10 +191,10 @@ def diagnose_device_endpoint():
         diagnostics = {}
         
         # 1. Check system mode
-        from services.rule_mode import get_rule_mode, WHITELIST_MODE
+        from services.rule_mode import get_rule_mode, BLACKLIST_MODE
         mode = get_rule_mode()
         diagnostics["system_mode"] = mode
-        diagnostics["is_whitelist_mode"] = mode == WHITELIST_MODE
+        diagnostics["is_whitelist_mode"] = mode == BLACKLIST_MODE
         
         # 2. Get device MAC
         from services.admin_protection import get_mac_from_ip

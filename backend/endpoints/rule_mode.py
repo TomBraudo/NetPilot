@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from services.rule_mode import set_rule_mode, get_rule_mode, BLACKLIST_MODE, WHITELIST_MODE
+from services.rule_mode import set_rule_mode, get_rule_mode, BLACKLIST_MODE
 from utils.response_helpers import success, error
 from utils.ssh_client import ssh_manager
 
@@ -16,12 +16,12 @@ def get_rule_mode_endpoint():
 '''
     API endpoint to set the rule mode
     Expects JSON: {
-        "mode": "blacklist" or "whitelist"
+        "mode": "blacklist" 
     }
 '''
 @rule_mode_bp.route("/api/rule_mode", methods=["POST"])
 def set_rule_mode_endpoint():
-    """Set the rule mode to blacklist or whitelist."""
+    """Set the rule mode to blacklist."""
     data = request.get_json()
     
     if not data:
@@ -31,6 +31,9 @@ def set_rule_mode_endpoint():
     
     if not mode:
         return jsonify(error("Missing 'mode' in request body"))
+    
+    if mode != BLACKLIST_MODE:
+        return jsonify(error(f"Only '{BLACKLIST_MODE}' mode is supported"))
         
     # Get client IP for protection
     client_ip = request.remote_addr
@@ -60,7 +63,7 @@ def test_rule_mode_endpoint():
     mode = get_rule_mode()
     
     # Get current firewall rules
-    fw_cmd = "iptables -L FORWARD -n"
+    fw_cmd = "uci show firewall | grep '@rule'"
     fw_output, _ = ssh_manager.execute_command(fw_cmd)
     
     # Get WiFi configuration
@@ -77,7 +80,7 @@ def test_rule_mode_endpoint():
         "wifi_configuration": wifi_output,
         "mac_lists": mac_output,
         "expected_behavior": {
-            "new_devices": "Allowed" if mode == BLACKLIST_MODE else "Blocked",
+            "new_devices": "Allowed",
             "blocked_devices": "Denied access",
             "allowed_devices": "Granted access"
         }
