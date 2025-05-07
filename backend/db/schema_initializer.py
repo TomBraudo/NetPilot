@@ -28,6 +28,25 @@ def initialize_predefined_rules():
         else:
             # Update existing rule
             db_client.rules.update(rule, Rule.name == rule["name"])
+        
+    # Initialize settings table
+    settings = [
+        {"name": "whitelist_mode", "type": "boolean", "default": "0", "desc": "Whitelist mode for bandwidth limiting"}
+    ]
+    
+    for setting in settings:
+        # Check if the setting already exists
+        Setting = Query()
+        existing_setting = db_client.settings.get(Setting.name == setting["name"])
+        
+        if not existing_setting:
+            # Insert new setting    
+            db_client.settings.insert(setting)
+        else:
+            # Update existing setting
+            db_client.settings.update(setting, Setting.name == setting["name"])
+    
+    
     
     logger.info("Predefined rules initialized")
 
