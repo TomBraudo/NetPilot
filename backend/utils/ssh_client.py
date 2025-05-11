@@ -3,30 +3,36 @@ import json
 import os
 import sys
 from utils.path_utils import get_data_folder
+from dotenv import load_dotenv
+
 class SSHClientManager:
     """
     Manages a persistent SSH connection to the router.
     """
 
     def __init__(self):
-        # Determine the correct path for config.json
-        self.config_path = self.get_config_path()
-        
-        # Load router credentials from config.json
-        with open(self.config_path, "r") as config_file:
-            config = json.load(config_file)
+        # Load .env from the data folder
+        self.env_path = self.get_env_path()
+        load_dotenv(self.env_path)
 
-        self.router_ip = config["router_ip"]
-        self.username = config["username"]
-        self.password = config["password"]
+        self.router_ip = os.getenv("ROUTER_IP")
+        self.username = os.getenv("ROUTER_USERNAME")
+        self.password = os.getenv("ROUTER_PASSWORD")
         self.ssh = None  # SSH session
 
-    def get_config_path(self):
+        # Debug: print loaded values (mask password for safety)
+        print(f"ROUTER_IP: {self.router_ip}")
+        print(f"USERNAME: {self.username}")
+        print(f"PASSWORD: {'*' * len(self.password) if self.password else None}")
+
+    def get_env_path(self):
         """
-        Determines the correct location of config.json.
+        Determines the correct location of .env.
         Ensures it works for both normal script execution and when packaged as an .exe.
         """
-        return os.path.join(get_data_folder(), "config.json")  # Ensures config.json is in the same folder as server.exe
+        print(f"Getting env path: {get_data_folder()}")
+        print(f"Env path: {os.path.join(get_data_folder(), '.env')}")
+        return os.path.join(get_data_folder(), ".env")  # Ensures .env is in the same folder as server.exe
 
 
     def connect(self):

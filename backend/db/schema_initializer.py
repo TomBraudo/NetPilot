@@ -1,57 +1,74 @@
-from db.device_repository import init_db
-from db.device_groups_repository import init_group_tables
-import sqlite3
-from utils.path_utils import get_data_folder
-import os
+from db.tinydb_client import db_client
+from tinydb import Query
+import logging
 
-DB_PATH = os.path.join(get_data_folder(), "devices.db")
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def initialize_predefined_rules():
     """Initialize all predefined network rules in the database."""
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.cursor()
-        cursor.execute("PRAGMA foreign_keys = ON")
+    # Define all available rules here - use consistent naming
+    rules = [
+        {"name": "block", "type": "boolean", "default": "0", "desc": "Block device from network"},
+        {"name": "limit_bandwidth", "type": "number", "default": "0", "desc": "Bandwidth limit in Mbps"},
+        {"name": "schedule", "type": "string", "default": "", "desc": "Schedule for device access"},
+        {"name": "priority", "type": "number", "default": "0", "desc": "Traffic priority (QoS)"}
+    ]
+    
+    # TinyDB's upsert functionality
+    for rule in rules:
+        # Check if the rule already exists
+        Rule = Query()
+        existing_rule = db_client.rules.get(Rule.name == rule["name"])
         
-        # Define all available rules here - use consistent naming
-        rules = [
-            {"name": "block", "type": "boolean", "default": "0", "desc": "Block device from network"},
-            {"name": "limit_bandwidth", "type": "number", "default": "0", "desc": "Bandwidth limit in Mbps"}, # Consistent name
-            {"name": "schedule", "type": "string", "default": "", "desc": "Schedule for device access"},
-            {"name": "priority", "type": "number", "default": "0", "desc": "Traffic priority (QoS)"}
-        ]
+        if not existing_rule:
+            # Insert new rule
+            db_client.rules.insert(rule)
+        else:
+            # Update existing rule
+            db_client.rules.update(rule, Rule.name == rule["name"])
         
-        for rule in rules:
-            try:
-                cursor.execute("""
-                    INSERT INTO rules (rule_name, rule_type, default_value, description)
-                    VALUES (?, ?, ?, ?)
-                """, (rule["name"], rule["type"], rule["default"], rule["desc"]))
-            except sqlite3.IntegrityError:
-                # Rule already exists, which is fine
-                pass
-        conn.commit()
+    # Initialize settings table
+    settings = [
+        {"name": "whitelist_mode", "type": "boolean", "default": "0", "desc": "Whitelist mode for bandwidth limiting"}
+    ]
+    
+    for setting in settings:
+        # Check if the setting already exists
+        Setting = Query()
+        existing_setting = db_client.settings.get(Setting.name == setting["name"])
+        
+        if not existing_setting:
+            # Insert new setting    
+            db_client.settings.insert(setting)
+        else:
+            # Update existing setting
+            db_client.settings.update(setting, Setting.name == setting["name"])
+    
+    
+    
+    logger.info("Predefined rules initialized")
+
+def initialize_default_group():
+    """Ensure a default group 'general' exists."""
+    Group = Query()
+    if not db_client.device_groups.contains(Group.name == 'general'):
+        db_client.device_groups.insert({"name": "general"})
+        logger.info("Default 'general' group created")
 
 def initialize_all_tables():
     """
-    Initialize all database tables: devices, groups, group_members, rules, and device_rules.
+    Initialize all database tables with TinyDB.
+    Since TinyDB creates tables on-demand, we just need to ensure
+    the default data is present.
     """
-    init_db()
-    init_group_tables()
+    initialize_default_group()
     initialize_predefined_rules()
+    logger.info("All tables initialized")
 
 def reset_all_tables():
     """Reset all tables and reinitialize with default values."""
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.cursor()
-        # Drop all tables
-        cursor.execute("DROP TABLE IF EXISTS device_rules")
-        cursor.execute("DROP TABLE IF EXISTS group_members") 
-        cursor.execute("DROP TABLE IF EXISTS device_groups")
-        cursor.execute("DROP TABLE IF EXISTS rules")
-        cursor.execute("DROP TABLE IF EXISTS devices")
-        conn.commit()
-    
-    # Recreate tables and rules
-    init_db()
-    init_group_tables()
-    initialize_predefined_rules()
+    db_client.clear_all()
+    initialize_all_tables()
+    logger.info("All tables reset and reinitialized")

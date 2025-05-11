@@ -2,7 +2,7 @@ def success(message="", data=None):
     return {
         "success": True,
         "message": message,
-        "data": data or {}
+        "data": {} if data is None else data
     }
 
 def error(message="", status_code=400):
@@ -10,4 +10,4 @@ def error(message="", status_code=400):
         "success": False,
         "message": message,
         "data": {}
-    }, status_code
+    }
