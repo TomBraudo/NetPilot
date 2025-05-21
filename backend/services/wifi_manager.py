@@ -118,3 +118,59 @@ def get_wifi_status():
         
     except Exception as e:
         return error(f"Error getting WiFi status: {str(e)}")
+
+def change_wifi_ssid(ssid, interface_num=0):
+    """
+    Changes the WiFi SSID for the specified interface.
+    
+    Args:
+        ssid: New SSID to set
+        interface_num: WiFi interface number (default 0 for primary interface)
+        
+    Returns:
+        Success or error message
+    """
+    if not ssid:
+        return error("SSID cannot be empty")
+        
+    try:
+        # Set the new SSID
+        commands = [
+            f"uci set wireless.@wifi-iface[{interface_num}].ssid='{ssid}'",
+            "uci commit wireless",
+            "wifi"
+        ]
+        
+        for cmd in commands:
+            output, err = ssh_manager.execute_command(cmd)
+            if err:
+                return error(f"Failed to change WiFi SSID: {err}")
+                
+        return success(f"WiFi SSID changed successfully to: {ssid}")
+        
+    except Exception as e:
+        return error(f"Error changing WiFi SSID: {str(e)}")
+
+def get_wifi_ssid(interface_num=0):
+    """
+    Gets the current WiFi SSID for the specified interface.
+    
+    Args:
+        interface_num: WiFi interface number (default 0 for primary interface)
+        
+    Returns:
+        Success or error message
+    """
+    try:
+        # Get SSID for the specified interface
+        ssid_cmd = f"uci get wireless.@wifi-iface[{interface_num}].ssid"
+        ssid_output, ssid_error = ssh_manager.execute_command(ssid_cmd)
+        
+        if ssid_error:
+            return error(f"Failed to get SSID for interface {interface_num}")
+            
+        return success(data={"ssid": ssid_output.strip()})
+        
+    except Exception as e:
+        return error(f"Error getting WiFi SSID: {str(e)}")
+    

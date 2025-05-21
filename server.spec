@@ -3,10 +3,10 @@
 
 a = Analysis(
     ['backend\\server.py'],
-    pathex=['backend/venv/Lib/site-packages', 'backend'],
+    pathex=['backend', 'backend/venv/Lib/site-packages'],
     binaries=[],
-    datas=[('backend/services', 'services'), ('backend/utils', 'utils'), ('backend/db', 'db'), ('backend/endpoints', 'endpoints')],
-    hiddenimports=['flask', 'flask.cli', 'flask.json', 'pkg_resources', 'paramiko', 'cryptography', 'scapy', 'endpoints.network', 'endpoints.database', 'endpoints.health', 'endpoints.config', 'endpoints.wifi'],
+    datas=[],
+    hiddenimports=['flask', 'flask.helpers', 'flask.app', 'flask.json', 'flask_cors', 'flask_cors.decorator', 'tinydb', 'paramiko', 'netifaces', 'scapy', 'requests', 'bcrypt', 'python-dotenv', 'endpoints.health', 'endpoints.config', 'endpoints.api', 'endpoints.db', 'endpoints.wifi', 'endpoints.whitelist'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],

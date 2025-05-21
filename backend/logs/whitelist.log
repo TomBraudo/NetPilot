@@ -98,3 +98,125 @@
 2025-05-07 15:13:35 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
 2025-05-07 15:13:36 - whitelist.bandwidth - INFO - Whitelist mode deactivated on router
 2025-05-07 15:13:36 - whitelist.endpoints - INFO - Whitelist mode successfully deactivated
+2025-05-07 18:13:57 - whitelist.endpoints - INFO - Getting whitelist mode status
+2025-05-07 18:13:57 - whitelist.endpoints - INFO - Whitelist mode is currently inactive
+2025-05-07 18:14:13 - whitelist.endpoints - INFO - Attempting to activate whitelist mode
+2025-05-07 18:14:13 - whitelist.endpoints - INFO - Updating database whitelist mode setting
+2025-05-07 18:14:13 - whitelist.endpoints - INFO - Activating whitelist mode on router
+2025-05-07 18:14:13 - whitelist.bandwidth - INFO - Activating whitelist mode on router
+2025-05-07 18:14:13 - whitelist.bandwidth - INFO - Found 1 IPs in whitelist
+2025-05-07 18:14:13 - whitelist.bandwidth - INFO - Whitelist contains 1 IPs
+2025-05-07 18:14:13 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-07 18:14:13 - whitelist.bandwidth - INFO - Setting up traffic control on br-lan with limit 50mbit
+2025-05-07 18:14:14 - whitelist.bandwidth - INFO - Traffic control setup completed for interface br-lan
+2025-05-07 18:14:14 - whitelist.bandwidth - INFO - Setting up traffic control on eth0 with limit 50mbit
+2025-05-07 18:14:14 - whitelist.bandwidth - INFO - Traffic control setup completed for interface eth0
+2025-05-07 18:14:14 - whitelist.bandwidth - INFO - Setting up traffic control on lan1 with limit 50mbit
+2025-05-07 18:14:14 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan1
+2025-05-07 18:14:14 - whitelist.bandwidth - INFO - Setting up traffic control on lan2 with limit 50mbit
+2025-05-07 18:14:15 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan2
+2025-05-07 18:14:15 - whitelist.bandwidth - INFO - Setting up traffic control on lan3 with limit 50mbit
+2025-05-07 18:14:15 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan3
+2025-05-07 18:14:15 - whitelist.bandwidth - INFO - Setting up traffic control on lan4 with limit 50mbit
+2025-05-07 18:14:15 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan4
+2025-05-07 18:14:15 - whitelist.bandwidth - INFO - Setting up traffic control on phy0-ap0 with limit 50mbit
+2025-05-07 18:14:16 - whitelist.bandwidth - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-07 18:14:16 - whitelist.bandwidth - INFO - Setting up traffic control on teql0 with limit 50mbit
+2025-05-07 18:14:16 - whitelist.bandwidth - INFO - Traffic control setup completed for interface teql0
+2025-05-07 18:14:16 - whitelist.bandwidth - INFO - Setting up traffic control on wan with limit 50mbit
+2025-05-07 18:14:16 - whitelist.bandwidth - INFO - Traffic control setup completed for interface wan
+2025-05-07 18:14:16 - whitelist.bandwidth - INFO - Setting up traffic control on wlan1 with limit 50mbit
+2025-05-07 18:14:17 - whitelist.bandwidth - INFO - Traffic control setup completed for interface wlan1
+2025-05-07 18:14:17 - whitelist.bandwidth - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-07 18:14:17 - whitelist.bandwidth - INFO - Whitelist mode activation succeeded
+2025-05-07 18:14:17 - whitelist.endpoints - INFO - Whitelist mode successfully activated
+2025-05-07 18:14:50 - whitelist.endpoints - INFO - Removing device 192.168.1.122 from whitelist
+2025-05-07 18:14:50 - whitelist.endpoints - INFO - Whitelist mode is active, removing 192.168.1.122 from traffic control
+2025-05-07 18:14:50 - whitelist.bandwidth - INFO - Removing device 192.168.1.122 from traffic control rules
+2025-05-07 18:14:51 - whitelist.bandwidth - INFO - Device 192.168.1.122 successfully removed from traffic control
+2025-05-07 18:14:51 - whitelist.endpoints - INFO - Successfully removed device 192.168.1.122 from whitelist
+2025-05-07 18:16:49 - whitelist.endpoints - INFO - Adding device 192.168.1.122 to whitelist with name: None
+2025-05-07 18:16:49 - whitelist.endpoints - INFO - Whitelist mode is active, updating traffic control for 192.168.1.122
+2025-05-07 18:16:49 - whitelist.bandwidth - INFO - Adding device 192.168.1.122 to traffic control rules
+2025-05-07 18:16:49 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-07 18:16:50 - whitelist.bandwidth - INFO - Device 192.168.1.122 successfully added to traffic control on all interfaces
+2025-05-07 18:16:50 - whitelist.endpoints - INFO - Successfully added device 192.168.1.122 to whitelist
+2025-05-07 18:19:24 - whitelist.endpoints - INFO - Removing device 192.168.1.122 from whitelist
+2025-05-07 18:19:24 - whitelist.endpoints - INFO - Whitelist mode is active, removing 192.168.1.122 from traffic control
+2025-05-07 18:19:24 - whitelist.bandwidth - INFO - Removing device 192.168.1.122 from traffic control rules
+2025-05-07 18:19:24 - whitelist.bandwidth - INFO - Device 192.168.1.122 successfully removed from traffic control
+2025-05-07 18:19:24 - whitelist.endpoints - INFO - Successfully removed device 192.168.1.122 from whitelist
+2025-05-08 18:18:35 - whitelist.endpoints - INFO - Attempting to deactivate whitelist mode
+2025-05-08 18:18:35 - whitelist.endpoints - INFO - Updating database whitelist mode setting
+2025-05-08 18:18:35 - whitelist.endpoints - INFO - Deactivating whitelist mode on router
+2025-05-08 18:18:35 - whitelist.bandwidth - INFO - Deactivating whitelist mode on router
+2025-05-08 18:18:35 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-08 18:18:36 - whitelist.bandwidth - INFO - Whitelist mode deactivated on router
+2025-05-08 18:18:36 - whitelist.endpoints - INFO - Whitelist mode successfully deactivated
+2025-05-21 14:49:47 - whitelist.endpoints - INFO - Attempting to activate whitelist mode
+2025-05-21 14:49:47 - whitelist.endpoints - INFO - Whitelist mode is already active, aborting activation
+2025-05-21 14:50:07 - whitelist.endpoints - INFO - Removing device 192.168.1.122 from whitelist
+2025-05-21 14:50:07 - whitelist.endpoints - WARNING - Value error removing device from whitelist: Device with IP 192.168.1.122 not found in whitelist
+2025-05-21 14:50:28 - whitelist.endpoints - INFO - Adding device 192.168.1.122 to whitelist with name: None
+2025-05-21 14:50:28 - whitelist.endpoints - INFO - Whitelist mode is active, updating traffic control for 192.168.1.122
+2025-05-21 14:50:28 - whitelist.bandwidth - INFO - Adding device 192.168.1.122 to traffic control rules
+2025-05-21 14:50:29 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-21 14:50:30 - whitelist.bandwidth - INFO - Device 192.168.1.122 successfully added to traffic control on all interfaces
+2025-05-21 14:50:30 - whitelist.endpoints - INFO - Successfully added device 192.168.1.122 to whitelist
+2025-05-21 14:50:36 - whitelist.endpoints - INFO - Removing device 192.168.1.122 from whitelist
+2025-05-21 14:50:36 - whitelist.endpoints - INFO - Whitelist mode is active, removing 192.168.1.122 from traffic control
+2025-05-21 14:50:36 - whitelist.bandwidth - INFO - Removing device 192.168.1.122 from traffic control rules
+2025-05-21 14:50:36 - whitelist.bandwidth - INFO - Device 192.168.1.122 successfully removed from traffic control
+2025-05-21 14:50:36 - whitelist.endpoints - INFO - Successfully removed device 192.168.1.122 from whitelist
+2025-05-21 14:50:58 - whitelist.endpoints - INFO - Attempting to deactivate whitelist mode
+2025-05-21 14:50:58 - whitelist.endpoints - INFO - Updating database whitelist mode setting
+2025-05-21 14:50:58 - whitelist.endpoints - INFO - Deactivating whitelist mode on router
+2025-05-21 14:50:58 - whitelist.bandwidth - INFO - Deactivating whitelist mode on router
+2025-05-21 14:50:58 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-21 14:51:00 - whitelist.bandwidth - INFO - Whitelist mode deactivated on router
+2025-05-21 14:51:00 - whitelist.endpoints - INFO - Whitelist mode successfully deactivated
+2025-05-21 14:51:06 - whitelist.endpoints - INFO - Removing device 192.168.1.122 from whitelist
+2025-05-21 14:51:06 - whitelist.endpoints - WARNING - Value error removing device from whitelist: Device with IP 192.168.1.122 not found in whitelist
+2025-05-21 14:51:10 - whitelist.endpoints - INFO - Attempting to activate whitelist mode
+2025-05-21 14:51:10 - whitelist.endpoints - INFO - Updating database whitelist mode setting
+2025-05-21 14:51:10 - whitelist.endpoints - INFO - Activating whitelist mode on router
+2025-05-21 14:51:10 - whitelist.bandwidth - INFO - Activating whitelist mode on router
+2025-05-21 14:51:10 - whitelist.bandwidth - WARNING - No IPs found in whitelist
+2025-05-21 14:51:10 - whitelist.bandwidth - INFO - Whitelist contains 0 IPs
+2025-05-21 14:51:10 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-21 14:51:10 - whitelist.bandwidth - INFO - Setting up traffic control on br-lan with limit 50mbit
+2025-05-21 14:51:10 - whitelist.bandwidth - INFO - Traffic control setup completed for interface br-lan
+2025-05-21 14:51:10 - whitelist.bandwidth - INFO - Setting up traffic control on eth0 with limit 50mbit
+2025-05-21 14:51:10 - whitelist.bandwidth - INFO - Traffic control setup completed for interface eth0
+2025-05-21 14:51:10 - whitelist.bandwidth - INFO - Setting up traffic control on lan1 with limit 50mbit
+2025-05-21 14:51:11 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan1
+2025-05-21 14:51:11 - whitelist.bandwidth - INFO - Setting up traffic control on lan2 with limit 50mbit
+2025-05-21 14:51:11 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan2
+2025-05-21 14:51:11 - whitelist.bandwidth - INFO - Setting up traffic control on lan3 with limit 50mbit
+2025-05-21 14:51:12 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan3
+2025-05-21 14:51:12 - whitelist.bandwidth - INFO - Setting up traffic control on lan4 with limit 50mbit
+2025-05-21 14:51:12 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan4
+2025-05-21 14:51:12 - whitelist.bandwidth - INFO - Setting up traffic control on phy0-ap0 with limit 50mbit
+2025-05-21 14:51:12 - whitelist.bandwidth - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-21 14:51:12 - whitelist.bandwidth - INFO - Setting up traffic control on teql0 with limit 50mbit
+2025-05-21 14:51:13 - whitelist.bandwidth - INFO - Traffic control setup completed for interface teql0
+2025-05-21 14:51:13 - whitelist.bandwidth - INFO - Setting up traffic control on wan with limit 50mbit
+2025-05-21 14:51:13 - whitelist.bandwidth - INFO - Traffic control setup completed for interface wan
+2025-05-21 14:51:13 - whitelist.bandwidth - INFO - Setting up traffic control on wlan1 with limit 50mbit
+2025-05-21 14:51:14 - whitelist.bandwidth - INFO - Traffic control setup completed for interface wlan1
+2025-05-21 14:51:14 - whitelist.bandwidth - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-21 14:51:14 - whitelist.bandwidth - INFO - Whitelist mode activation succeeded
+2025-05-21 14:51:14 - whitelist.endpoints - INFO - Whitelist mode successfully activated
+2025-05-21 14:51:27 - whitelist.endpoints - INFO - Adding device 192.168.1.122 to whitelist with name: None
+2025-05-21 14:51:27 - whitelist.endpoints - INFO - Whitelist mode is active, updating traffic control for 192.168.1.122
+2025-05-21 14:51:27 - whitelist.bandwidth - INFO - Adding device 192.168.1.122 to traffic control rules
+2025-05-21 14:51:28 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-21 14:51:30 - whitelist.bandwidth - INFO - Device 192.168.1.122 successfully added to traffic control on all interfaces
+2025-05-21 14:51:30 - whitelist.endpoints - INFO - Successfully added device 192.168.1.122 to whitelist
+2025-05-21 17:01:24 - whitelist.endpoints - INFO - Attempting to deactivate whitelist mode
+2025-05-21 17:01:24 - whitelist.endpoints - INFO - Updating database whitelist mode setting
+2025-05-21 17:01:24 - whitelist.endpoints - INFO - Deactivating whitelist mode on router
+2025-05-21 17:01:24 - whitelist.bandwidth - INFO - Deactivating whitelist mode on router
+2025-05-21 17:01:24 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-21 17:01:25 - whitelist.bandwidth - INFO - Whitelist mode deactivated on router
+2025-05-21 17:01:25 - whitelist.endpoints - INFO - Whitelist mode successfully deactivated
