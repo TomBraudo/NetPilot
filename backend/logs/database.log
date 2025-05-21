@@ -260,3 +260,61 @@
 2025-05-21 16:52:51 - db.schema_initializer - INFO - All tables initialized
 2025-05-21 16:53:56 - db.tinydb - INFO - TinyDB connection closed
 2025-05-21 16:53:56 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 16:59:11 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 16:59:11 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 16:59:11 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 16:59:11 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 16:59:13 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 16:59:13 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 16:59:14 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 16:59:14 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 17:01:24 - db.whitelist - INFO - Checking whitelist mode - Found settings: [{'name': 'whitelist_mode', 'value': True, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}]
+2025-05-21 17:01:24 - db.whitelist - INFO - Checking whitelist mode - Setting structure: {'name': 'whitelist_mode', 'value': True, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}
+2025-05-21 17:01:24 - db.whitelist - INFO - Whitelist mode status: True
+2025-05-21 17:01:24 - db.whitelist - INFO - Deactivating whitelist mode with standard structure
+2025-05-21 17:01:24 - db.whitelist - INFO - After update, settings: [{'name': 'whitelist_mode', 'value': False, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}]
+2025-05-21 17:01:24 - db.whitelist - INFO - Checking whitelist mode - Found settings: [{'name': 'whitelist_mode', 'value': False, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}]
+2025-05-21 17:01:24 - db.whitelist - INFO - Checking whitelist mode - Setting structure: {'name': 'whitelist_mode', 'value': False, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}
+2025-05-21 17:01:24 - db.whitelist - INFO - Whitelist mode status: False
+2025-05-21 17:02:58 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 17:02:59 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 17:11:55 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 17:11:55 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 17:11:56 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 17:11:56 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 17:11:57 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 17:11:57 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 17:11:58 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 17:11:58 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 17:12:12 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 17:12:12 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 17:12:12 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 17:12:13 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 17:12:13 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 17:12:29 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 17:12:30 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 17:12:30 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 17:12:31 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 17:12:31 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 17:12:57 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 17:12:57 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 17:20:11 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 17:20:11 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 17:20:12 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 17:20:12 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 17:20:13 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 17:20:13 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 17:20:14 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 17:20:14 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 17:22:17 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 17:22:17 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 17:27:08 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 17:27:08 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 17:27:09 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 17:27:09 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 17:27:10 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 17:27:10 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 17:27:11 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 17:27:11 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 17:27:14 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 17:27:14 - db.tinydb - INFO - TinyDB connection closed

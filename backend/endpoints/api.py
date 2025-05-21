@@ -4,6 +4,7 @@ from services.limit_bandwidth import set_bandwidth_limit, remove_bandwidth_limit
 from services.reset_rules import reset_all_rules
 from services.network_scanner import scan_network
 from services.router_scanner import scan_network_via_router
+from services.speed_test import run_ookla_speedtest
 from utils.ssh_client import ssh_manager
 from utils.response_helpers import error
 from db.device_repository import get_mac_from_ip
@@ -135,3 +136,15 @@ def get_limit():
 def reset_rules_route():
     """Reset all network rules including bandwidth limits and blocks."""
     return jsonify(reset_all_rules())
+
+'''
+    API endpoint to run an Ookla speed test
+'''
+@network_bp.route("/api/speed_test", methods=["GET"])
+def ookla_speed_test_route():
+    try:
+        # Speed tests can take time, so this is a synchronous operation
+        result = run_ookla_speedtest()
+        return jsonify(result)
+    except Exception as e:
+        return jsonify(error(f"Error starting speed test: {str(e)}"))

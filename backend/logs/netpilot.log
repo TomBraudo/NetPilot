@@ -878,3 +878,215 @@
 2025-05-21 16:53:56 - __main__ - INFO - Cleaning up resources
 2025-05-21 16:53:56 - db.tinydb - INFO - TinyDB connection closed
 2025-05-21 16:53:56 - __main__ - INFO - Resources cleaned up
+2025-05-21 16:59:11 - root - INFO - Logging initialized at 2025-05-21 16:59:11
+2025-05-21 16:59:11 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-21 16:59:11 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 16:59:11 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 16:59:11 - __main__ - INFO - Initializing database tables
+2025-05-21 16:59:11 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 16:59:11 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 16:59:11 - __main__ - INFO - Database tables initialized
+2025-05-21 16:59:11 - __main__ - INFO - Registering API blueprints
+2025-05-21 16:59:11 - __main__ - INFO - API blueprints registered
+2025-05-21 16:59:11 - __main__ - INFO - Starting server on port 5000
+2025-05-21 16:59:12 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-21 16:59:12 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-21 16:59:12 - werkzeug - INFO -  * Restarting with stat
+2025-05-21 16:59:13 - root - INFO - Logging initialized at 2025-05-21 16:59:13
+2025-05-21 16:59:13 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-21 16:59:13 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 16:59:13 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 16:59:14 - __main__ - INFO - Initializing database tables
+2025-05-21 16:59:14 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 16:59:14 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 16:59:14 - __main__ - INFO - Database tables initialized
+2025-05-21 16:59:14 - __main__ - INFO - Registering API blueprints
+2025-05-21 16:59:14 - __main__ - INFO - API blueprints registered
+2025-05-21 16:59:14 - __main__ - INFO - Starting server on port 5000
+2025-05-21 16:59:14 - werkzeug - WARNING -  * Debugger is active!
+2025-05-21 16:59:14 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-21 16:59:16 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-21 16:59:16 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-21 16:59:19 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 16:59:19] "GET /api/router_scan HTTP/1.1" 200 -
+2025-05-21 16:59:44 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 16:59:44] "GET /api/router_scan HTTP/1.1" 200 -
+2025-05-21 16:59:58 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 16:59:58] "GET /api/router_scan HTTP/1.1" 200 -
+2025-05-21 17:00:16 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 17:00:16] "OPTIONS /api/limit_bandwidth HTTP/1.1" 200 -
+2025-05-21 17:00:18 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 17:00:18] "POST /api/limit_bandwidth HTTP/1.1" 200 -
+2025-05-21 17:01:24 - whitelist.endpoints - INFO - Attempting to deactivate whitelist mode
+2025-05-21 17:01:24 - db.whitelist - INFO - Checking whitelist mode - Found settings: [{'name': 'whitelist_mode', 'value': True, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}]
+2025-05-21 17:01:24 - db.whitelist - INFO - Checking whitelist mode - Setting structure: {'name': 'whitelist_mode', 'value': True, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}
+2025-05-21 17:01:24 - db.whitelist - INFO - Whitelist mode status: True
+2025-05-21 17:01:24 - whitelist.endpoints - INFO - Updating database whitelist mode setting
+2025-05-21 17:01:24 - db.whitelist - INFO - Deactivating whitelist mode with standard structure
+2025-05-21 17:01:24 - db.whitelist - INFO - After update, settings: [{'name': 'whitelist_mode', 'value': False, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}]
+2025-05-21 17:01:24 - db.whitelist - INFO - Checking whitelist mode - Found settings: [{'name': 'whitelist_mode', 'value': False, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}]
+2025-05-21 17:01:24 - db.whitelist - INFO - Checking whitelist mode - Setting structure: {'name': 'whitelist_mode', 'value': False, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}
+2025-05-21 17:01:24 - db.whitelist - INFO - Whitelist mode status: False
+2025-05-21 17:01:24 - whitelist.endpoints - INFO - Deactivating whitelist mode on router
+2025-05-21 17:01:24 - whitelist.bandwidth - INFO - Deactivating whitelist mode on router
+2025-05-21 17:01:24 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-21 17:01:25 - whitelist.bandwidth - INFO - Whitelist mode deactivated on router
+2025-05-21 17:01:25 - whitelist.endpoints - INFO - Whitelist mode successfully deactivated
+2025-05-21 17:01:25 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 17:01:25] "DELETE /whitelist/mode HTTP/1.1" 200 -
+2025-05-21 17:01:44 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 17:01:44] "OPTIONS /api/limit_bandwidth HTTP/1.1" 200 -
+2025-05-21 17:01:45 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 17:01:45] "POST /api/limit_bandwidth HTTP/1.1" 200 -
+2025-05-21 17:02:15 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 17:02:15] "POST /api/unblock HTTP/1.1" 200 -
+2025-05-21 17:02:35 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 17:02:35] "POST /api/unlimit_bandwidth HTTP/1.1" 200 -
+2025-05-21 17:02:58 - __main__ - INFO - Cleaning up resources
+2025-05-21 17:02:58 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 17:02:58 - __main__ - INFO - Resources cleaned up
+2025-05-21 17:02:59 - __main__ - INFO - Cleaning up resources
+2025-05-21 17:02:59 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 17:02:59 - __main__ - INFO - Resources cleaned up
+2025-05-21 17:11:55 - root - INFO - Logging initialized at 2025-05-21 17:11:55
+2025-05-21 17:11:55 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-21 17:11:55 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 17:11:55 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 17:11:56 - __main__ - INFO - Initializing database tables
+2025-05-21 17:11:56 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 17:11:56 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 17:11:56 - __main__ - INFO - Database tables initialized
+2025-05-21 17:11:56 - __main__ - INFO - Registering API blueprints
+2025-05-21 17:11:56 - __main__ - INFO - API blueprints registered
+2025-05-21 17:11:56 - __main__ - INFO - Starting server on port 5000
+2025-05-21 17:11:57 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-21 17:11:57 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-21 17:11:57 - werkzeug - INFO -  * Restarting with stat
+2025-05-21 17:11:57 - root - INFO - Logging initialized at 2025-05-21 17:11:57
+2025-05-21 17:11:57 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-21 17:11:57 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 17:11:57 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 17:11:58 - __main__ - INFO - Initializing database tables
+2025-05-21 17:11:58 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 17:11:58 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 17:11:58 - __main__ - INFO - Database tables initialized
+2025-05-21 17:11:58 - __main__ - INFO - Registering API blueprints
+2025-05-21 17:11:58 - __main__ - INFO - API blueprints registered
+2025-05-21 17:11:58 - __main__ - INFO - Starting server on port 5000
+2025-05-21 17:11:58 - werkzeug - WARNING -  * Debugger is active!
+2025-05-21 17:11:58 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-21 17:12:12 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\endpoints\\api.py', reloading
+2025-05-21 17:12:12 - __main__ - INFO - Cleaning up resources
+2025-05-21 17:12:12 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 17:12:12 - __main__ - INFO - Resources cleaned up
+2025-05-21 17:12:12 - werkzeug - INFO -  * Restarting with stat
+2025-05-21 17:12:12 - root - INFO - Logging initialized at 2025-05-21 17:12:12
+2025-05-21 17:12:12 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-21 17:12:12 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 17:12:12 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 17:12:13 - __main__ - INFO - Initializing database tables
+2025-05-21 17:12:13 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 17:12:13 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 17:12:13 - __main__ - INFO - Database tables initialized
+2025-05-21 17:12:13 - __main__ - INFO - Registering API blueprints
+2025-05-21 17:12:13 - __main__ - INFO - API blueprints registered
+2025-05-21 17:12:13 - __main__ - INFO - Starting server on port 5000
+2025-05-21 17:12:13 - werkzeug - WARNING -  * Debugger is active!
+2025-05-21 17:12:13 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-21 17:12:26 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 17:12:26] "[31m[1mPOST /api/speed_test HTTP/1.1[0m" 405 -
+2025-05-21 17:12:29 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\endpoints\\api.py', reloading
+2025-05-21 17:12:29 - __main__ - INFO - Cleaning up resources
+2025-05-21 17:12:29 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 17:12:29 - __main__ - INFO - Resources cleaned up
+2025-05-21 17:12:29 - werkzeug - INFO -  * Restarting with stat
+2025-05-21 17:12:30 - root - INFO - Logging initialized at 2025-05-21 17:12:30
+2025-05-21 17:12:30 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-21 17:12:30 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 17:12:30 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 17:12:31 - __main__ - INFO - Initializing database tables
+2025-05-21 17:12:31 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 17:12:31 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 17:12:31 - __main__ - INFO - Database tables initialized
+2025-05-21 17:12:31 - __main__ - INFO - Registering API blueprints
+2025-05-21 17:12:31 - __main__ - INFO - API blueprints registered
+2025-05-21 17:12:31 - __main__ - INFO - Starting server on port 5000
+2025-05-21 17:12:31 - werkzeug - WARNING -  * Debugger is active!
+2025-05-21 17:12:31 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-21 17:12:32 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-21 17:12:32 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-21 17:12:51 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 17:12:51] "GET /api/speed_test HTTP/1.1" 200 -
+2025-05-21 17:12:57 - __main__ - INFO - Cleaning up resources
+2025-05-21 17:12:57 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 17:12:57 - __main__ - INFO - Resources cleaned up
+2025-05-21 17:12:57 - __main__ - INFO - Cleaning up resources
+2025-05-21 17:12:57 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 17:12:57 - __main__ - INFO - Resources cleaned up
+2025-05-21 17:20:11 - root - INFO - Logging initialized at 2025-05-21 17:20:11
+2025-05-21 17:20:11 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-21 17:20:11 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 17:20:11 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 17:20:12 - __main__ - INFO - Initializing database tables
+2025-05-21 17:20:12 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 17:20:12 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 17:20:12 - __main__ - INFO - Database tables initialized
+2025-05-21 17:20:12 - __main__ - INFO - Registering API blueprints
+2025-05-21 17:20:12 - __main__ - INFO - API blueprints registered
+2025-05-21 17:20:12 - __main__ - INFO - Starting server on port 5000
+2025-05-21 17:20:12 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-21 17:20:12 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-21 17:20:12 - werkzeug - INFO -  * Restarting with stat
+2025-05-21 17:20:13 - root - INFO - Logging initialized at 2025-05-21 17:20:13
+2025-05-21 17:20:13 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-21 17:20:13 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 17:20:13 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 17:20:14 - __main__ - INFO - Initializing database tables
+2025-05-21 17:20:14 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 17:20:14 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 17:20:14 - __main__ - INFO - Database tables initialized
+2025-05-21 17:20:14 - __main__ - INFO - Registering API blueprints
+2025-05-21 17:20:14 - __main__ - INFO - API blueprints registered
+2025-05-21 17:20:14 - __main__ - INFO - Starting server on port 5000
+2025-05-21 17:20:14 - werkzeug - WARNING -  * Debugger is active!
+2025-05-21 17:20:14 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-21 17:20:44 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 17:20:44] "GET /api/speed_test HTTP/1.1" 200 -
+2025-05-21 17:22:17 - __main__ - INFO - Cleaning up resources
+2025-05-21 17:22:17 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 17:22:17 - __main__ - INFO - Resources cleaned up
+2025-05-21 17:22:17 - __main__ - INFO - Cleaning up resources
+2025-05-21 17:22:17 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 17:22:17 - __main__ - INFO - Resources cleaned up
+2025-05-21 17:27:08 - root - INFO - Logging initialized at 2025-05-21 17:27:08
+2025-05-21 17:27:08 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-21 17:27:08 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 17:27:08 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 17:27:09 - __main__ - INFO - Initializing database tables
+2025-05-21 17:27:09 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 17:27:09 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 17:27:09 - __main__ - INFO - Database tables initialized
+2025-05-21 17:27:09 - __main__ - INFO - Registering API blueprints
+2025-05-21 17:27:09 - __main__ - INFO - API blueprints registered
+2025-05-21 17:27:09 - __main__ - INFO - Starting server on port 5000
+2025-05-21 17:27:10 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-21 17:27:10 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-21 17:27:10 - werkzeug - INFO -  * Restarting with stat
+2025-05-21 17:27:10 - root - INFO - Logging initialized at 2025-05-21 17:27:10
+2025-05-21 17:27:10 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-21 17:27:10 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 17:27:10 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 17:27:11 - __main__ - INFO - Initializing database tables
+2025-05-21 17:27:11 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 17:27:11 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 17:27:11 - __main__ - INFO - Database tables initialized
+2025-05-21 17:27:11 - __main__ - INFO - Registering API blueprints
+2025-05-21 17:27:11 - __main__ - INFO - API blueprints registered
+2025-05-21 17:27:11 - __main__ - INFO - Starting server on port 5000
+2025-05-21 17:27:11 - werkzeug - WARNING -  * Debugger is active!
+2025-05-21 17:27:11 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-21 17:27:14 - __main__ - INFO - Cleaning up resources
+2025-05-21 17:27:14 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 17:27:14 - __main__ - INFO - Resources cleaned up
+2025-05-21 17:27:14 - __main__ - INFO - Cleaning up resources
+2025-05-21 17:27:14 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 17:27:14 - __main__ - INFO - Resources cleaned up
