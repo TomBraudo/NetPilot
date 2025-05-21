@@ -560,3 +560,321 @@
 2025-05-08 18:18:50 - __main__ - INFO - Cleaning up resources
 2025-05-08 18:18:50 - db.tinydb - INFO - TinyDB connection closed
 2025-05-08 18:18:50 - __main__ - INFO - Resources cleaned up
+2025-05-21 13:59:56 - root - INFO - Logging initialized at 2025-05-21 13:59:56
+2025-05-21 13:59:56 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-21 13:59:56 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 13:59:56 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 13:59:59 - __main__ - INFO - Initializing database tables
+2025-05-21 13:59:59 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 13:59:59 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 13:59:59 - __main__ - INFO - Database tables initialized
+2025-05-21 13:59:59 - __main__ - INFO - Registering API blueprints
+2025-05-21 13:59:59 - __main__ - INFO - API blueprints registered
+2025-05-21 13:59:59 - __main__ - INFO - Starting server on port 5000
+2025-05-21 14:00:00 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-21 14:00:00 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-21 14:00:00 - werkzeug - INFO -  * Restarting with stat
+2025-05-21 14:00:00 - root - INFO - Logging initialized at 2025-05-21 14:00:00
+2025-05-21 14:00:00 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-21 14:00:00 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 14:00:00 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 14:00:01 - __main__ - INFO - Initializing database tables
+2025-05-21 14:00:01 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 14:00:01 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 14:00:01 - __main__ - INFO - Database tables initialized
+2025-05-21 14:00:01 - __main__ - INFO - Registering API blueprints
+2025-05-21 14:00:01 - __main__ - INFO - API blueprints registered
+2025-05-21 14:00:01 - __main__ - INFO - Starting server on port 5000
+2025-05-21 14:00:01 - werkzeug - WARNING -  * Debugger is active!
+2025-05-21 14:00:01 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-21 14:49:47 - whitelist.endpoints - INFO - Attempting to activate whitelist mode
+2025-05-21 14:49:47 - db.whitelist - INFO - Checking whitelist mode - Found settings: [{'name': 'whitelist_mode', 'value': True, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}]
+2025-05-21 14:49:47 - db.whitelist - INFO - Checking whitelist mode - Setting structure: {'name': 'whitelist_mode', 'value': True, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}
+2025-05-21 14:49:47 - db.whitelist - INFO - Whitelist mode status: True
+2025-05-21 14:49:47 - whitelist.endpoints - INFO - Whitelist mode is already active, aborting activation
+2025-05-21 14:49:47 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 14:49:47] "POST /whitelist/mode HTTP/1.1" 200 -
+2025-05-21 14:50:07 - whitelist.endpoints - INFO - Removing device 192.168.1.122 from whitelist
+2025-05-21 14:50:07 - db.whitelist - WARNING - Attempted to remove IP 192.168.1.122 that does not exist in whitelist
+2025-05-21 14:50:07 - whitelist.endpoints - WARNING - Value error removing device from whitelist: Device with IP 192.168.1.122 not found in whitelist
+2025-05-21 14:50:07 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 14:50:07] "DELETE /whitelist HTTP/1.1" 200 -
+2025-05-21 14:50:28 - whitelist.endpoints - INFO - Adding device 192.168.1.122 to whitelist with name: None
+2025-05-21 14:50:28 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-05-21 14:50:28 - db.whitelist - INFO - Checking whitelist mode - Found settings: [{'name': 'whitelist_mode', 'value': True, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}]
+2025-05-21 14:50:28 - db.whitelist - INFO - Checking whitelist mode - Setting structure: {'name': 'whitelist_mode', 'value': True, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}
+2025-05-21 14:50:28 - db.whitelist - INFO - Whitelist mode status: True
+2025-05-21 14:50:28 - whitelist.endpoints - INFO - Whitelist mode is active, updating traffic control for 192.168.1.122
+2025-05-21 14:50:28 - whitelist.bandwidth - INFO - Adding device 192.168.1.122 to traffic control rules
+2025-05-21 14:50:28 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-21 14:50:28 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-21 14:50:29 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-21 14:50:30 - whitelist.bandwidth - INFO - Device 192.168.1.122 successfully added to traffic control on all interfaces
+2025-05-21 14:50:30 - whitelist.endpoints - INFO - Successfully added device 192.168.1.122 to whitelist
+2025-05-21 14:50:30 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 14:50:30] "POST /whitelist HTTP/1.1" 200 -
+2025-05-21 14:50:36 - whitelist.endpoints - INFO - Removing device 192.168.1.122 from whitelist
+2025-05-21 14:50:36 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-05-21 14:50:36 - db.whitelist - INFO - Checking whitelist mode - Found settings: [{'name': 'whitelist_mode', 'value': True, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}]
+2025-05-21 14:50:36 - db.whitelist - INFO - Checking whitelist mode - Setting structure: {'name': 'whitelist_mode', 'value': True, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}
+2025-05-21 14:50:36 - db.whitelist - INFO - Whitelist mode status: True
+2025-05-21 14:50:36 - whitelist.endpoints - INFO - Whitelist mode is active, removing 192.168.1.122 from traffic control
+2025-05-21 14:50:36 - whitelist.bandwidth - INFO - Removing device 192.168.1.122 from traffic control rules
+2025-05-21 14:50:36 - whitelist.bandwidth - INFO - Device 192.168.1.122 successfully removed from traffic control
+2025-05-21 14:50:36 - whitelist.endpoints - INFO - Successfully removed device 192.168.1.122 from whitelist
+2025-05-21 14:50:36 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 14:50:36] "DELETE /whitelist HTTP/1.1" 200 -
+2025-05-21 14:50:58 - whitelist.endpoints - INFO - Attempting to deactivate whitelist mode
+2025-05-21 14:50:58 - db.whitelist - INFO - Checking whitelist mode - Found settings: [{'name': 'whitelist_mode', 'value': True, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}]
+2025-05-21 14:50:58 - db.whitelist - INFO - Checking whitelist mode - Setting structure: {'name': 'whitelist_mode', 'value': True, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}
+2025-05-21 14:50:58 - db.whitelist - INFO - Whitelist mode status: True
+2025-05-21 14:50:58 - whitelist.endpoints - INFO - Updating database whitelist mode setting
+2025-05-21 14:50:58 - db.whitelist - INFO - Deactivating whitelist mode with standard structure
+2025-05-21 14:50:58 - db.whitelist - INFO - After update, settings: [{'name': 'whitelist_mode', 'value': False, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}]
+2025-05-21 14:50:58 - db.whitelist - INFO - Checking whitelist mode - Found settings: [{'name': 'whitelist_mode', 'value': False, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}]
+2025-05-21 14:50:58 - db.whitelist - INFO - Checking whitelist mode - Setting structure: {'name': 'whitelist_mode', 'value': False, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}
+2025-05-21 14:50:58 - db.whitelist - INFO - Whitelist mode status: False
+2025-05-21 14:50:58 - whitelist.endpoints - INFO - Deactivating whitelist mode on router
+2025-05-21 14:50:58 - whitelist.bandwidth - INFO - Deactivating whitelist mode on router
+2025-05-21 14:50:58 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-21 14:51:00 - whitelist.bandwidth - INFO - Whitelist mode deactivated on router
+2025-05-21 14:51:00 - whitelist.endpoints - INFO - Whitelist mode successfully deactivated
+2025-05-21 14:51:00 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 14:51:00] "DELETE /whitelist/mode HTTP/1.1" 200 -
+2025-05-21 14:51:06 - whitelist.endpoints - INFO - Removing device 192.168.1.122 from whitelist
+2025-05-21 14:51:06 - db.whitelist - WARNING - Attempted to remove IP 192.168.1.122 that does not exist in whitelist
+2025-05-21 14:51:06 - whitelist.endpoints - WARNING - Value error removing device from whitelist: Device with IP 192.168.1.122 not found in whitelist
+2025-05-21 14:51:06 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 14:51:06] "DELETE /whitelist HTTP/1.1" 200 -
+2025-05-21 14:51:10 - whitelist.endpoints - INFO - Attempting to activate whitelist mode
+2025-05-21 14:51:10 - db.whitelist - INFO - Checking whitelist mode - Found settings: [{'name': 'whitelist_mode', 'value': False, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}]
+2025-05-21 14:51:10 - db.whitelist - INFO - Checking whitelist mode - Setting structure: {'name': 'whitelist_mode', 'value': False, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}
+2025-05-21 14:51:10 - db.whitelist - INFO - Whitelist mode status: False
+2025-05-21 14:51:10 - whitelist.endpoints - INFO - Updating database whitelist mode setting
+2025-05-21 14:51:10 - db.whitelist - INFO - Activating whitelist mode with standard structure
+2025-05-21 14:51:10 - db.whitelist - INFO - After update, settings: [{'name': 'whitelist_mode', 'value': True, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}]
+2025-05-21 14:51:10 - db.whitelist - INFO - Checking whitelist mode - Found settings: [{'name': 'whitelist_mode', 'value': True, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}]
+2025-05-21 14:51:10 - db.whitelist - INFO - Checking whitelist mode - Setting structure: {'name': 'whitelist_mode', 'value': True, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}
+2025-05-21 14:51:10 - db.whitelist - INFO - Whitelist mode status: True
+2025-05-21 14:51:10 - whitelist.endpoints - INFO - Activating whitelist mode on router
+2025-05-21 14:51:10 - whitelist.bandwidth - INFO - Activating whitelist mode on router
+2025-05-21 14:51:10 - whitelist.bandwidth - WARNING - No IPs found in whitelist
+2025-05-21 14:51:10 - whitelist.bandwidth - INFO - Whitelist contains 0 IPs
+2025-05-21 14:51:10 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-21 14:51:10 - whitelist.bandwidth - INFO - Setting up traffic control on br-lan with limit 50mbit
+2025-05-21 14:51:10 - whitelist.bandwidth - INFO - Traffic control setup completed for interface br-lan
+2025-05-21 14:51:10 - whitelist.bandwidth - INFO - Setting up traffic control on eth0 with limit 50mbit
+2025-05-21 14:51:10 - whitelist.bandwidth - INFO - Traffic control setup completed for interface eth0
+2025-05-21 14:51:10 - whitelist.bandwidth - INFO - Setting up traffic control on lan1 with limit 50mbit
+2025-05-21 14:51:11 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan1
+2025-05-21 14:51:11 - whitelist.bandwidth - INFO - Setting up traffic control on lan2 with limit 50mbit
+2025-05-21 14:51:11 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan2
+2025-05-21 14:51:11 - whitelist.bandwidth - INFO - Setting up traffic control on lan3 with limit 50mbit
+2025-05-21 14:51:12 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan3
+2025-05-21 14:51:12 - whitelist.bandwidth - INFO - Setting up traffic control on lan4 with limit 50mbit
+2025-05-21 14:51:12 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan4
+2025-05-21 14:51:12 - whitelist.bandwidth - INFO - Setting up traffic control on phy0-ap0 with limit 50mbit
+2025-05-21 14:51:12 - whitelist.bandwidth - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-21 14:51:12 - whitelist.bandwidth - INFO - Setting up traffic control on teql0 with limit 50mbit
+2025-05-21 14:51:13 - whitelist.bandwidth - INFO - Traffic control setup completed for interface teql0
+2025-05-21 14:51:13 - whitelist.bandwidth - INFO - Setting up traffic control on wan with limit 50mbit
+2025-05-21 14:51:13 - whitelist.bandwidth - INFO - Traffic control setup completed for interface wan
+2025-05-21 14:51:13 - whitelist.bandwidth - INFO - Setting up traffic control on wlan1 with limit 50mbit
+2025-05-21 14:51:14 - whitelist.bandwidth - INFO - Traffic control setup completed for interface wlan1
+2025-05-21 14:51:14 - whitelist.bandwidth - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-21 14:51:14 - whitelist.bandwidth - INFO - Whitelist mode activation succeeded
+2025-05-21 14:51:14 - whitelist.endpoints - INFO - Whitelist mode successfully activated
+2025-05-21 14:51:14 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 14:51:14] "POST /whitelist/mode HTTP/1.1" 200 -
+2025-05-21 14:51:27 - whitelist.endpoints - INFO - Adding device 192.168.1.122 to whitelist with name: None
+2025-05-21 14:51:27 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-05-21 14:51:27 - db.whitelist - INFO - Checking whitelist mode - Found settings: [{'name': 'whitelist_mode', 'value': True, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}]
+2025-05-21 14:51:27 - db.whitelist - INFO - Checking whitelist mode - Setting structure: {'name': 'whitelist_mode', 'value': True, 'type': 'boolean', 'default': '0', 'desc': 'Whitelist mode for bandwidth limiting'}
+2025-05-21 14:51:27 - db.whitelist - INFO - Whitelist mode status: True
+2025-05-21 14:51:27 - whitelist.endpoints - INFO - Whitelist mode is active, updating traffic control for 192.168.1.122
+2025-05-21 14:51:27 - whitelist.bandwidth - INFO - Adding device 192.168.1.122 to traffic control rules
+2025-05-21 14:51:28 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-21 14:51:30 - whitelist.bandwidth - INFO - Device 192.168.1.122 successfully added to traffic control on all interfaces
+2025-05-21 14:51:30 - whitelist.endpoints - INFO - Successfully added device 192.168.1.122 to whitelist
+2025-05-21 14:51:30 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 14:51:30] "POST /whitelist HTTP/1.1" 200 -
+2025-05-21 15:36:37 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\endpoints\\wifi.py', reloading
+2025-05-21 15:36:37 - __main__ - INFO - Cleaning up resources
+2025-05-21 15:36:37 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 15:36:37 - __main__ - INFO - Resources cleaned up
+2025-05-21 15:36:37 - werkzeug - INFO -  * Restarting with stat
+2025-05-21 15:36:37 - root - INFO - Logging initialized at 2025-05-21 15:36:37
+2025-05-21 15:36:37 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-21 15:36:37 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 15:36:37 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 15:36:39 - __main__ - INFO - Cleaning up resources
+2025-05-21 15:36:39 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 15:36:39 - __main__ - INFO - Resources cleaned up
+2025-05-21 15:37:22 - root - INFO - Logging initialized at 2025-05-21 15:37:22
+2025-05-21 15:37:22 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-21 15:37:22 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 15:37:22 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 15:37:23 - __main__ - INFO - Initializing database tables
+2025-05-21 15:37:23 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 15:37:23 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 15:37:23 - __main__ - INFO - Database tables initialized
+2025-05-21 15:37:23 - __main__ - INFO - Registering API blueprints
+2025-05-21 15:37:23 - __main__ - INFO - API blueprints registered
+2025-05-21 15:37:23 - __main__ - INFO - Starting server on port 5000
+2025-05-21 15:37:24 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-21 15:37:24 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-21 15:37:24 - werkzeug - INFO -  * Restarting with stat
+2025-05-21 15:37:24 - root - INFO - Logging initialized at 2025-05-21 15:37:24
+2025-05-21 15:37:24 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-21 15:37:24 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 15:37:24 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 15:37:25 - __main__ - INFO - Initializing database tables
+2025-05-21 15:37:25 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 15:37:25 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 15:37:25 - __main__ - INFO - Database tables initialized
+2025-05-21 15:37:25 - __main__ - INFO - Registering API blueprints
+2025-05-21 15:37:25 - __main__ - INFO - API blueprints registered
+2025-05-21 15:37:25 - __main__ - INFO - Starting server on port 5000
+2025-05-21 15:37:25 - werkzeug - WARNING -  * Debugger is active!
+2025-05-21 15:37:25 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-21 15:47:52 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\endpoints\\wifi.py', reloading
+2025-05-21 15:47:52 - __main__ - INFO - Cleaning up resources
+2025-05-21 15:47:52 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 15:47:52 - __main__ - INFO - Resources cleaned up
+2025-05-21 15:47:52 - werkzeug - INFO -  * Restarting with stat
+2025-05-21 15:47:52 - root - INFO - Logging initialized at 2025-05-21 15:47:52
+2025-05-21 15:47:52 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-21 15:47:52 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 15:47:52 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 15:47:53 - __main__ - INFO - Initializing database tables
+2025-05-21 15:47:53 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 15:47:53 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 15:47:53 - __main__ - INFO - Database tables initialized
+2025-05-21 15:47:53 - __main__ - INFO - Registering API blueprints
+2025-05-21 15:47:53 - __main__ - INFO - API blueprints registered
+2025-05-21 15:47:53 - __main__ - INFO - Starting server on port 5000
+2025-05-21 15:47:53 - werkzeug - WARNING -  * Debugger is active!
+2025-05-21 15:47:53 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-21 16:06:50 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 16:06:50] "[31m[1mGET /wifi/ssid HTTP/1.1[0m" 405 -
+2025-05-21 16:07:01 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\endpoints\\wifi.py', reloading
+2025-05-21 16:07:01 - __main__ - INFO - Cleaning up resources
+2025-05-21 16:07:01 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 16:07:01 - __main__ - INFO - Resources cleaned up
+2025-05-21 16:07:02 - werkzeug - INFO -  * Restarting with stat
+2025-05-21 16:07:02 - root - INFO - Logging initialized at 2025-05-21 16:07:02
+2025-05-21 16:07:02 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-21 16:07:02 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 16:07:02 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 16:07:03 - __main__ - INFO - Initializing database tables
+2025-05-21 16:07:03 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 16:07:03 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 16:07:03 - __main__ - INFO - Database tables initialized
+2025-05-21 16:07:03 - __main__ - INFO - Registering API blueprints
+2025-05-21 16:07:03 - __main__ - INFO - API blueprints registered
+2025-05-21 16:07:03 - __main__ - INFO - Starting server on port 5000
+2025-05-21 16:07:03 - werkzeug - WARNING -  * Debugger is active!
+2025-05-21 16:07:03 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-21 16:07:07 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 16:07:07] "[31m[1mGET /wifi/ssid HTTP/1.1[0m" 405 -
+2025-05-21 16:07:45 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-21 16:07:45 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-21 16:07:46 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 16:07:46] "POST /wifi/ssid HTTP/1.1" 200 -
+2025-05-21 16:07:51 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\endpoints\\wifi.py', reloading
+2025-05-21 16:07:51 - __main__ - INFO - Cleaning up resources
+2025-05-21 16:07:51 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 16:07:51 - __main__ - INFO - Resources cleaned up
+2025-05-21 16:07:51 - werkzeug - INFO -  * Restarting with stat
+2025-05-21 16:07:52 - root - INFO - Logging initialized at 2025-05-21 16:07:52
+2025-05-21 16:07:52 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-21 16:07:52 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 16:07:52 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 16:07:53 - __main__ - INFO - Initializing database tables
+2025-05-21 16:07:53 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 16:07:53 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 16:07:53 - __main__ - INFO - Database tables initialized
+2025-05-21 16:07:53 - __main__ - INFO - Registering API blueprints
+2025-05-21 16:07:53 - __main__ - INFO - API blueprints registered
+2025-05-21 16:07:53 - __main__ - INFO - Starting server on port 5000
+2025-05-21 16:07:53 - werkzeug - WARNING -  * Debugger is active!
+2025-05-21 16:07:53 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-21 16:08:24 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\endpoints\\wifi.py', reloading
+2025-05-21 16:08:24 - __main__ - INFO - Cleaning up resources
+2025-05-21 16:08:24 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 16:08:24 - __main__ - INFO - Resources cleaned up
+2025-05-21 16:08:25 - werkzeug - INFO -  * Restarting with stat
+2025-05-21 16:08:25 - root - INFO - Logging initialized at 2025-05-21 16:08:25
+2025-05-21 16:08:25 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-21 16:08:25 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 16:08:25 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 16:08:26 - __main__ - INFO - Initializing database tables
+2025-05-21 16:08:26 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 16:08:26 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 16:08:26 - __main__ - INFO - Database tables initialized
+2025-05-21 16:08:26 - __main__ - INFO - Registering API blueprints
+2025-05-21 16:08:26 - __main__ - INFO - API blueprints registered
+2025-05-21 16:08:26 - __main__ - INFO - Starting server on port 5000
+2025-05-21 16:08:26 - werkzeug - WARNING -  * Debugger is active!
+2025-05-21 16:08:26 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-21 16:08:28 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\endpoints\\wifi.py', reloading
+2025-05-21 16:08:28 - __main__ - INFO - Cleaning up resources
+2025-05-21 16:08:28 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 16:08:28 - __main__ - INFO - Resources cleaned up
+2025-05-21 16:08:28 - werkzeug - INFO -  * Restarting with stat
+2025-05-21 16:08:29 - root - INFO - Logging initialized at 2025-05-21 16:08:29
+2025-05-21 16:08:29 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-21 16:08:29 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 16:08:29 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 16:08:30 - __main__ - INFO - Initializing database tables
+2025-05-21 16:08:30 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 16:08:30 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 16:08:30 - __main__ - INFO - Database tables initialized
+2025-05-21 16:08:30 - __main__ - INFO - Registering API blueprints
+2025-05-21 16:08:30 - __main__ - INFO - API blueprints registered
+2025-05-21 16:08:30 - __main__ - INFO - Starting server on port 5000
+2025-05-21 16:08:30 - werkzeug - WARNING -  * Debugger is active!
+2025-05-21 16:08:30 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-21 16:08:35 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-21 16:08:35 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-21 16:08:35 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 16:08:35] "POST /wifi/ssid HTTP/1.1" 200 -
+2025-05-21 16:08:38 - __main__ - INFO - Cleaning up resources
+2025-05-21 16:08:38 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 16:08:38 - __main__ - INFO - Resources cleaned up
+2025-05-21 16:08:38 - __main__ - INFO - Cleaning up resources
+2025-05-21 16:08:38 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 16:08:38 - __main__ - INFO - Resources cleaned up
+2025-05-21 16:52:47 - root - INFO - Logging initialized at 2025-05-21 16:52:47
+2025-05-21 16:52:47 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-21 16:52:47 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 16:52:47 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 16:52:48 - __main__ - INFO - Initializing database tables
+2025-05-21 16:52:48 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 16:52:48 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 16:52:48 - __main__ - INFO - Database tables initialized
+2025-05-21 16:52:48 - __main__ - INFO - Registering API blueprints
+2025-05-21 16:52:48 - __main__ - INFO - API blueprints registered
+2025-05-21 16:52:48 - __main__ - INFO - Starting server on port 5000
+2025-05-21 16:52:49 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-21 16:52:49 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-21 16:52:49 - werkzeug - INFO -  * Restarting with stat
+2025-05-21 16:52:50 - root - INFO - Logging initialized at 2025-05-21 16:52:50
+2025-05-21 16:52:50 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-21 16:52:50 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-21 16:52:50 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-21 16:52:51 - __main__ - INFO - Initializing database tables
+2025-05-21 16:52:51 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-21 16:52:51 - db.schema_initializer - INFO - All tables initialized
+2025-05-21 16:52:51 - __main__ - INFO - Database tables initialized
+2025-05-21 16:52:51 - __main__ - INFO - Registering API blueprints
+2025-05-21 16:52:51 - __main__ - INFO - API blueprints registered
+2025-05-21 16:52:51 - __main__ - INFO - Starting server on port 5000
+2025-05-21 16:52:51 - werkzeug - WARNING -  * Debugger is active!
+2025-05-21 16:52:51 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-21 16:52:51 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-21 16:52:51 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-21 16:52:51 - werkzeug - INFO - 127.0.0.1 - - [21/May/2025 16:52:51] "GET /wifi/ssid HTTP/1.1" 200 -
+2025-05-21 16:53:56 - __main__ - INFO - Cleaning up resources
+2025-05-21 16:53:56 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 16:53:56 - __main__ - INFO - Resources cleaned up
+2025-05-21 16:53:56 - __main__ - INFO - Cleaning up resources
+2025-05-21 16:53:56 - db.tinydb - INFO - TinyDB connection closed
+2025-05-21 16:53:56 - __main__ - INFO - Resources cleaned up
