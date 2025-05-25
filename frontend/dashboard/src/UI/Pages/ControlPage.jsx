@@ -1,21 +1,29 @@
 import React, { useState } from "react";
-import { Trash2 } from "lucide-react";
+import { Trash2, Shield, ShieldOff } from "lucide-react";
 
 const mockDevices = [
   { name: "iPhone 13", mac: "00:1A:2B:3C:4D:5E" },
   { name: "iPad Pro", mac: "00:3C:4D:5E:6F:7G" },
 ];
 
+const mockBlacklistedDevices = [
+  { name: "Unknown Device", mac: "00:2B:3C:4D:5E:6F" },
+  { name: "Suspicious Device", mac: "00:4D:5E:6F:7G:8H" },
+];
+
 export default function ControlPage() {
   const [speedLimit, setSpeedLimit] = useState(10);
   const [speedLimitActive, setSpeedLimitActive] = useState(true);
   const [devices, setDevices] = useState(mockDevices);
+  const [blacklistedDevices, setBlacklistedDevices] = useState(mockBlacklistedDevices);
+  const [isWhitelistMode, setIsWhitelistMode] = useState(true);
 
   // These would be fetched from backend in real app
   const download = 100;
   const upload = 100;
   const activeDevices = 4;
   const whitelisted = devices.length;
+  const blacklisted = blacklistedDevices.length;
 
   const handleApplySpeedLimit = async () => {
     // Call backend endpoint here
@@ -24,8 +32,17 @@ export default function ControlPage() {
   };
 
   const handleDeleteDevice = (mac) => {
-    setDevices(devices.filter((d) => d.mac !== mac));
-    // Call backend to remove from whitelist
+    if (isWhitelistMode) {
+      setDevices(devices.filter((d) => d.mac !== mac));
+      // Call backend to remove from whitelist
+    } else {
+      setBlacklistedDevices(blacklistedDevices.filter((d) => d.mac !== mac));
+      // Call backend to remove from blacklist
+    }
+  };
+
+  const toggleMode = () => {
+    setIsWhitelistMode(!isWhitelistMode);
   };
 
   return (
@@ -37,8 +54,9 @@ export default function ControlPage() {
           <div className="flex flex-wrap gap-2 sm:gap-4 mb-2">
             <StatusBox label="Download" value={download} unit="Mbps" />
             <StatusBox label="Upload" value={upload} unit="Mbps" />
-            <StatusBox label="Active Devices" value={activeDevices} />
             <StatusBox label="Whitelisted" value={whitelisted} />
+            <StatusBox label="Blacklisted" value={blacklisted} />
+            <StatusBox label="Active Devices" value={activeDevices} />
           </div>
           {speedLimitActive && (
             <div className="bg-red-50 dark:bg-red-900/40 text-red-600 dark:text-red-300 rounded p-2 text-sm font-medium border border-red-200 dark:border-red-400/30">
@@ -65,11 +83,34 @@ export default function ControlPage() {
           </button>
         </div>
       </div>
-      {/* Whitelisted Devices */}
+
+      {/* Mode Toggle Button */}
+      <div className="w-full max-w-3xl mb-4">
+        <button
+          onClick={toggleMode}
+          className="flex items-center gap-2 bg-white dark:bg-gray-800 rounded-xl shadow px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+        >
+          {isWhitelistMode ? (
+            <>
+              <Shield className="w-5 h-5 text-green-500" />
+              <span className="text-gray-700 dark:text-gray-300">Switch to Blacklist Mode</span>
+            </>
+          ) : (
+            <>
+              <ShieldOff className="w-5 h-5 text-red-500" />
+              <span className="text-gray-700 dark:text-gray-300">Switch to Whitelist Mode</span>
+            </>
+          )}
+        </button>
+      </div>
+
+      {/* Device List */}
       <div className="w-full max-w-3xl bg-white dark:bg-gray-800 rounded-xl shadow p-4 sm:p-6">
-        <h2 className="text-lg font-semibold mb-4 dark:text-white">Whitelisted Devices</h2>
+        <h2 className="text-lg font-semibold mb-4 dark:text-white">
+          {isWhitelistMode ? "Whitelisted Devices" : "Blacklisted Devices"}
+        </h2>
         <div className="flex flex-col gap-3 max-h-80 overflow-y-auto">
-          {devices.map((device) => (
+          {(isWhitelistMode ? devices : blacklistedDevices).map((device) => (
             <div
               key={device.mac}
               className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-gray-50 dark:bg-gray-900 rounded p-3 gap-2 sm:gap-0"
@@ -81,7 +122,7 @@ export default function ControlPage() {
               <button
                 className="p-2 rounded hover:bg-red-100 dark:hover:bg-red-900/40 self-end sm:self-auto"
                 onClick={() => handleDeleteDevice(device.mac)}
-                title="Remove from whitelist"
+                title={`Remove from ${isWhitelistMode ? 'whitelist' : 'blacklist'}`}
               >
                 <Trash2 className="w-5 h-5 text-red-500" />
               </button>
