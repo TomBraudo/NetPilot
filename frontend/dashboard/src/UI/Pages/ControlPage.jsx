@@ -13,7 +13,7 @@ const mockBlacklistedDevices = [
 
 export default function ControlPage() {
   const [speedLimit, setSpeedLimit] = useState(10);
-  const [speedLimitActive, setSpeedLimitActive] = useState(true);
+  const [speedLimitActive, setSpeedLimitActive] = useState(false);
   const [devices, setDevices] = useState(mockDevices);
   const [blacklistedDevices, setBlacklistedDevices] = useState(mockBlacklistedDevices);
   const [isWhitelistMode, setIsWhitelistMode] = useState(true);
@@ -26,9 +26,15 @@ export default function ControlPage() {
   const blacklisted = blacklistedDevices.length;
 
   const handleApplySpeedLimit = async () => {
-    // Call backend endpoint here
-    // await fetch("/api/set_speed_limit", { ... });
-    setSpeedLimitActive(true);
+    if (speedLimitActive) {
+      // Remove speed limit
+      // await fetch("/api/remove_speed_limit", { ... });
+      setSpeedLimitActive(false);
+    } else {
+      // Apply speed limit
+      // await fetch("/api/set_speed_limit", { ... });
+      setSpeedLimitActive(true);
+    }
   };
 
   const handleDeleteDevice = (mac) => {
@@ -76,10 +82,14 @@ export default function ControlPage() {
             onChange={(e) => setSpeedLimit(e.target.value)}
           />
           <button
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded py-2 transition w-full"
+            className={`${
+              speedLimitActive 
+                ? "bg-red-500 hover:bg-red-600" 
+                : "bg-blue-500 hover:bg-blue-600"
+            } text-white font-semibold rounded py-2 transition w-full`}
             onClick={handleApplySpeedLimit}
           >
-            Apply Speed Limit
+            {speedLimitActive ? "Remove Speed Limit" : "Apply Speed Limit"}
           </button>
         </div>
       </div>
