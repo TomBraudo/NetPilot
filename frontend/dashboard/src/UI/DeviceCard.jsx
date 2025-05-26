@@ -33,22 +33,39 @@ const DeviceCard = ({ device }) => {
     setLoading(true);
     try {
       const endpoint = {
-        whitelist: "http://localhost:5000/api/whitelist",
+        whitelist: "http://localhost:5000/whitelist",
         blacklist: "http://localhost:5000/api/blacklist",
         block: "http://localhost:5000/api/block"
       }[action];
 
+      const body = action === 'whitelist' 
+        ? { ip: device.ip, name: device.hostname, description: `${device.hostname} - ${device.mac}` }
+        : { ip: device.ip, mac: device.mac };
+
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ip: device.ip, mac: device.mac }),
+        body: JSON.stringify(body),
       });
 
       if (!res.ok) throw new Error(`Failed to ${action} device`);
 
-      setActionMessage(`Device successfully ${action}ed.`);
+      const result = await res.json();
+      if (result.success) {
+        setActionMessage(`Device successfully ${action}ed.`);
+        // Update localStorage to trigger control page refresh
+        if (action === 'whitelist') {
+          const event = new StorageEvent('storage', {
+            key: 'whitelistUpdate',
+            newValue: Date.now().toString()
+          });
+          window.dispatchEvent(event);
+        }
+      } else {
+        throw new Error(result.message || `Failed to ${action} device`);
+      }
     } catch (err) {
-      setActionMessage(`Failed to ${action} device.`);
+      setActionMessage(`Failed to ${action} device: ${err.message}`);
       console.error(err);
     } finally {
       setLoading(false);
