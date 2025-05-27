@@ -1,156 +1,100 @@
 from flask import Blueprint, request, jsonify
-from services.block_ip import block_mac_address, unblock_mac_address, get_blocked_devices
-from services.limit_bandwidth import set_bandwidth_limit, remove_bandwidth_limit, get_bandwidth_limit
-from services.reset_rules import reset_all_rules
-from services.network_scanner import scan_network
-from services.router_scanner import scan_network_via_router
-from services.speed_test import run_ookla_speedtest
-from utils.ssh_client import ssh_manager
-from utils.response_helpers import error, success
-from db.device_repository import get_mac_from_ip
-from db.device_groups_repository import set_rule_for_device, remove_rule_from_device
+from utils.logging_config import get_logger
+from services.network_service import (
+    get_blocked_devices_list,
+    block_device,
+    unblock_device,
+    reset_all_network_rules,
+    scan_network,
+    scan_network_via_router,
+    run_ookla_speedtest
+)
 
 network_bp = Blueprint('network', __name__)
+logger = get_logger('endpoints.network')
 
-''' 
-    API endpoint to retrieve all currently blocked devices.
-'''
-@network_bp.route("/api/blocked_devices", methods=["GET"])
+@network_bp.route("/api/blocked", methods=["GET"])
 def get_blocked():
-    return jsonify(get_blocked_devices())
+    """Get all currently blocked devices"""
+    try:
+        result = get_blocked_devices_list()
+        return jsonify(result)
+    except Exception as e:
+        logger.error(f"Error getting blocked devices: {str(e)}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
 
-''' 
-    API endpoint to gracefully shut down the server and SSH session.
-'''
-@network_bp.route("/api/shutdown", methods=["POST"])
-def shutdown():
-    response = reset_all_rules()
-    ssh_manager.close_connection()
-    return jsonify(response)
-
-''' 
-    API endpoint to perform a local network scan and return active devices.
-'''
-@network_bp.route("/api/network_scan", methods=["GET"])
-def network_scan():
-    return jsonify(scan_network())
-
-''' 
-    API endpoint to perform a scan using the OpenWrt router's DHCP leases.
-'''
-@network_bp.route("/api/router_scan", methods=["GET"])
-def router_scan():
-    return jsonify(scan_network_via_router())
-
-'''
-    API endpoint to block a device by IP address.
-    Expects JSON: { "ip": "<ip_address>" }
-'''
 @network_bp.route("/api/block", methods=["POST"])
 def block():
-    data = request.get_json()
-    ip = data.get("ip")
-    if not ip:
-        return error("Missing 'ip' in request body")
-    
-    mac = get_mac_from_ip(ip)
-    if not mac:
-        return error("Device not found in network")
-    
-    # Set block rule using MAC
-    set_rule_for_device(mac, ip, "block", "1")
-    return jsonify(block_mac_address(ip))
+    """Block a device by IP address"""
+    try:
+        data = request.get_json()
+        ip = data.get("ip")
+        if not ip:
+            return jsonify({"error": "Missing 'ip' in request body"}), 400
+        
+        result = block_device(ip)
+        return jsonify(result)
+    except ValueError as e:
+        logger.error(f"Validation error: {str(e)}")
+        return jsonify({"error": str(e)}), 404
+    except Exception as e:
+        logger.error(f"Error blocking device: {str(e)}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
 
-'''
-    API endpoint to unblock a device by IP address.
-    Expects JSON: { "ip": "<ip_address>" }
-'''
 @network_bp.route("/api/unblock", methods=["POST"])
 def unblock():
-    data = request.get_json()
-    ip = data.get("ip")
-    if not ip:
-        return error("Missing 'ip' in request body")
-    
-    mac = get_mac_from_ip(ip)
-    if not mac:
-        return error("Device not found in network")
-    
-    # Remove block rule using MAC
-    remove_rule_from_device(mac, ip, "block")
-    return jsonify(unblock_mac_address(ip))
-
-'''
-    API endpoint to set a bandwidth limit for a device in mbps.
-    Expects JSON: { "ip": "<ip_address>", "bandwidth": "<bandwidth_limit_mbps>" }
-'''
-@network_bp.route("/api/limit_bandwidth", methods=["POST"])
-def limit_bandwidth():
-    data = request.get_json()
-    ip = data.get("ip")
-    limit = data.get("bandwidth")
-    if not ip or not limit:
-        return error("Missing 'ip' or 'bandwidth' in request body")
-    
-    mac = get_mac_from_ip(ip)
-    if not mac:
-        return error("Device not found in network")
-    
-    # Set bandwidth limit using MAC
-    set_rule_for_device(mac, ip, "limit_bandwidth", limit)
-    return jsonify(set_bandwidth_limit(ip, limit))
-
-'''
-    API endpoint to remove a bandwidth limit for a device.
-    Expects JSON: { "ip": "<ip_address>" }
-'''
-@network_bp.route("/api/unlimit_bandwidth", methods=["POST"])
-def unlimit_bandwidth():
-    data = request.get_json()
-    ip = data.get("ip")
-    if not ip:
-        return error("Missing 'ip' in request body")
-    
-    mac = get_mac_from_ip(ip)
-    if not mac:
-        return error("Device not found in network")
-    
-    # Remove bandwidth limit using MAC
-    remove_rule_from_device(mac, ip, "limit_bandwidth")
-    return jsonify(remove_bandwidth_limit(ip))
-
-'''
-    API endpoint to retrieve the bandwidth limit for a device.
-    Expects query param: ?ip=<ip_address>
-'''
-@network_bp.route("/api/get_bandwidth_limit", methods=["GET"])
-def get_limit():
-    ip = request.args.get("ip")
-    if not ip:
-        return error("Missing 'ip' in query parameters")
-    
-    mac = get_mac_from_ip(ip)
-    if not mac:
-        return error("Device not found in network")
-        
-    return jsonify(get_bandwidth_limit(ip))
-
-'''
-    API endpoint to reset all network rules
-'''
-@network_bp.route("/api/reset_all_rules", methods=["POST"])
-def reset_rules_route():
-    """Reset all network rules including bandwidth limits and blocks."""
-    return jsonify(reset_all_rules())
-
-'''
-    API endpoint to run an Ookla speed test
-'''
-@network_bp.route("/api/speed_test", methods=["GET"])
-def ookla_speed_test_route():
+    """Unblock a device by IP address"""
     try:
-        # Speed tests can take time, so this is a synchronous operation
+        data = request.get_json()
+        ip = data.get("ip")
+        if not ip:
+            return jsonify({"error": "Missing 'ip' in request body"}), 400
+        
+        result = unblock_device(ip)
+        return jsonify(result)
+    except ValueError as e:
+        logger.error(f"Validation error: {str(e)}")
+        return jsonify({"error": str(e)}), 404
+    except Exception as e:
+        logger.error(f"Error unblocking device: {str(e)}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
+@network_bp.route("/api/reset", methods=["POST"])
+def reset():
+    """Reset all network rules"""
+    try:
+        result = reset_all_network_rules()
+        return jsonify(result)
+    except Exception as e:
+        logger.error(f"Error resetting network rules: {str(e)}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
+@network_bp.route("/api/scan", methods=["GET"])
+def scan():
+    """Scan the network for devices"""
+    try:
+        result = scan_network()
+        return jsonify(result)
+    except Exception as e:
+        logger.error(f"Error scanning network: {str(e)}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
+@network_bp.route("/api/scan/router", methods=["GET"])
+def scan_router():
+    """Scan the network via router"""
+    try:
+        result = scan_network_via_router()
+        return jsonify(result)
+    except Exception as e:
+        logger.error(f"Error scanning network via router: {str(e)}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
+@network_bp.route("/api/speedtest", methods=["GET"])
+def speedtest():
+    """Run a speed test"""
+    try:
         result = run_ookla_speedtest()
         return jsonify(result)
     except Exception as e:
-        return jsonify(error(f"Error starting speed test: {str(e)}"))
+        logger.error(f"Error running speed test: {str(e)}", exc_info=True)
+        return jsonify({"error": str(e)}), 500

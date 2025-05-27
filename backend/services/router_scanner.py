@@ -4,8 +4,12 @@ import time
 import re
 from utils.ssh_client import ssh_manager
 from utils.response_helpers import error, success
+from utils.config_manager import config_manager
 from db.device_repository import register_device
 import ipaddress
+from utils.logging_config import get_logger
+
+logger = get_logger('services.router_scanner')
 
 def get_mac_vendor(mac):
     """
@@ -23,88 +27,60 @@ def get_mac_vendor(mac):
 
 def scan_network_via_router():
     """
-    Uses SSH to retrieve ACTIVE connected devices from the OpenWrt router.
-    Combines ARP table with DHCP lease information for accurate results.
-    Only returns devices in the router's subnet, and includes the router itself.
+    Scans the network for active devices using the router's DHCP leases and ARP table.
+    Returns a list of connected devices with their IP, MAC, hostname, and vendor information.
     """
-    # Get router IP and subnet
-    router_ip = ssh_manager.router_ip
-    # Assume /24 subnet for typical home routers; adjust if you want to detect dynamically
-    router_network = ipaddress.ip_network(router_ip + '/24', strict=False)
-
-    # Get DHCP leases for hostname information
-    dhcp_command = "cat /tmp/dhcp.leases"
-    dhcp_output, dhcp_error = ssh_manager.execute_command(dhcp_command)
-
-    if dhcp_error:
-        return error("Failed to fetch DHCP leases", dhcp_error)
-
-    # Create a lookup dictionary from DHCP leases
-    dhcp_info = {}
-    for line in dhcp_output.split("\n"):
-        parts = line.split()
-        if len(parts) >= 4:
-            mac = parts[1].lower()
-            ip = parts[2]
-            raw_hostname = parts[3] if len(parts) >= 4 else "Unknown"
-            hostname = raw_hostname if raw_hostname not in ["*", "Unknown"] else "Unknown"
-            dhcp_info[mac] = {"ip": ip, "hostname": hostname}
-
-    # Get ARP table to find ACTIVE devices
-    arp_command = "ip neigh show | grep -v FAILED"
-    arp_output, arp_error = ssh_manager.execute_command(arp_command)
-
-    if arp_error:
-        return error("Failed to fetch ARP table", arp_error)
-
-    # Process active devices from ARP table - group by MAC address
-    device_map = {}
-    for line in arp_output.split("\n"):
-        if not line.strip():
-            continue
-            
-        parts = line.split()
-        if len(parts) >= 4:
-            ip = parts[0]
-            mac_idx = next((i for i, part in enumerate(parts) if re.match(r'([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})', part)), -1)
-            if mac_idx == -1:
-                continue
-                
-            mac = parts[mac_idx].lower()
-            state = parts[-1]
-            
-            # Only include devices in REACHABLE or STALE state (recently active)
-            if state in ["REACHABLE", "STALE", "DELAY"]:
-                # If this MAC is already in our map, we'll update it
-                if mac not in device_map:
-                    device_map[mac] = {
-                        "mac": mac,
-                        "ipv4": None,
-                        "ipv6": [],
-                        "hostname": "Unknown",
-                        "vendor": None
-                    }
-                
-                # Prioritize IPv4 addresses and DHCP hostnames
-                if ":" not in ip:  # This is an IPv4 address
-                    device_map[mac]["ipv4"] = ip
-                else:  # This is an IPv6 address
-                    device_map[mac]["ipv6"].append(ip)
-                
-                # Get hostname from DHCP info if available
-                if mac in dhcp_info and device_map[mac]["hostname"] == "Unknown":
-                    device_map[mac]["hostname"] = dhcp_info[mac]["hostname"]
-
-    # Convert the device map to a list and add vendor information
     connected_devices = []
+    device_map = {}
+
+    # Get DHCP leases
+    dhcp_cmd = "cat /tmp/dhcp.leases"
+    dhcp_output, dhcp_error = ssh_manager.execute_command(dhcp_cmd)
     
-    # Add the router itself
-    connected_devices.append({
-        "ip": router_ip,
-        "mac": "router",  # You could fetch the router's MAC if needed
-        "hostname": "Router",
-        "vendor": "Router"
-    })
+    if not dhcp_error and dhcp_output.strip():
+        for line in dhcp_output.split("\n"):
+            parts = line.split()
+            if len(parts) >= 4:
+                mac = parts[1]
+                ip = parts[2]
+                hostname = parts[3]
+                
+                device_map[mac] = {
+                    "ipv4": ip,
+                    "hostname": hostname,
+                    "vendor": None
+                }
+
+    # Get ARP table
+    arp_cmd = "cat /proc/net/arp"
+    arp_output, arp_error = ssh_manager.execute_command(arp_cmd)
+    
+    if not arp_error and arp_output.strip():
+        for line in arp_output.split("\n")[1:]:  # Skip header
+            parts = line.split()
+            if len(parts) >= 4:
+                ip = parts[0]
+                mac = parts[3]
+                
+                if mac != "00:00:00:00:00:00":  # Skip incomplete entries
+                    if mac not in device_map:
+                        device_map[mac] = {
+                            "ipv4": ip,
+                            "hostname": None,
+                            "vendor": None
+                        }
+                    elif not device_map[mac]["ipv4"]:
+                        device_map[mac]["ipv4"] = ip
+
+    # Get router's network
+    router_ip_cmd = "uci get network.lan.ipaddr"
+    router_ip_output, router_ip_error = ssh_manager.execute_command(router_ip_cmd)
+    
+    if router_ip_error:
+        return error("Failed to get router IP address")
+        
+    router_ip = router_ip_output.strip()
+    router_network = ipaddress.ip_network(f"{router_ip}/24", strict=False)
 
     for mac, device in device_map.items():
         # Only include devices that have an IPv4 address in the router's subnet
@@ -125,8 +101,7 @@ def scan_network_via_router():
                 "vendor": device["vendor"]
             })
 
-    
-    # Register active devices in database (only one entry per MAC)
+    # Register active devices through device management service
     for device in connected_devices:
         register_device(device["ip"], device["mac"], device["hostname"])
 

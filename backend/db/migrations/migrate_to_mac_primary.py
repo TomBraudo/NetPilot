@@ -23,7 +23,7 @@ def migrate_devices_table():
         devices = db_client.devices.all()
         
         # Create a new table for the migration
-        new_devices = db_client.db.table('devices_new')
+        new_devices = db_client.devices_db.table('devices_new')
         
         # Process each device
         for device in devices:
@@ -52,7 +52,10 @@ def migrate_devices_table():
             db_client.devices.insert(device)
         
         # Drop temporary table
-        db_client.db.drop_table('devices_new')
+        db_client.devices_db.drop_table('devices_new')
+        
+        # Ensure changes are persisted
+        db_client.flush()
         
         logger.info("Successfully migrated devices table")
         return True
@@ -63,7 +66,7 @@ def migrate_devices_table():
 def migrate_device_rules():
     """Migrate device rules to use MAC as primary key."""
     try:
-        # Get all rules
+        # Get all device rules
         rules = db_client.device_rules.all()
         
         # Create a new table for the migration
@@ -78,12 +81,14 @@ def migrate_device_rules():
                 
             # Check if rule already exists in new table
             Rule = Query()
-            existing = new_rules.get(
-                (Rule.mac == rule['mac']) & 
-                (Rule.rule_name == rule['rule_name'])
-            )
+            existing = new_rules.get(Rule.mac == rule['mac'])
             
-            if not existing:
+            if existing:
+                # Update existing rule if this one is more recent
+                if rule.get('updated_at', '') > existing.get('updated_at', ''):
+                    new_rules.update(rule, Rule.mac == rule['mac'])
+                    logger.info(f"Updated rule for device {rule['mac']} with newer data")
+            else:
                 # Insert new rule
                 new_rules.insert(rule)
                 logger.info(f"Migrated rule for device {rule['mac']}")
@@ -95,6 +100,9 @@ def migrate_device_rules():
         
         # Drop temporary table
         db_client.db.drop_table('device_rules_new')
+        
+        # Ensure changes are persisted
+        db_client.flush()
         
         logger.info("Successfully migrated device rules")
         return True
@@ -122,7 +130,12 @@ def migrate_group_members():
             Member = Query()
             existing = new_members.get(Member.mac == member['mac'])
             
-            if not existing:
+            if existing:
+                # Update existing member if this one is more recent
+                if member.get('updated_at', '') > existing.get('updated_at', ''):
+                    new_members.update(member, Member.mac == member['mac'])
+                    logger.info(f"Updated group member {member['mac']} with newer data")
+            else:
                 # Insert new member
                 new_members.insert(member)
                 logger.info(f"Migrated group member {member['mac']}")
@@ -135,6 +148,9 @@ def migrate_group_members():
         # Drop temporary table
         db_client.db.drop_table('group_members_new')
         
+        # Ensure changes are persisted
+        db_client.flush()
+        
         logger.info("Successfully migrated group members")
         return True
     except Exception as e:
@@ -144,53 +160,78 @@ def migrate_group_members():
 def migrate_bandwidth_lists():
     """Migrate bandwidth whitelist and blacklist to use MAC as primary key."""
     try:
-        # Process whitelist
+        # Get all whitelist entries
         whitelist = db_client.bandwidth_whitelist.all()
+        
+        # Create a new table for the migration
         new_whitelist = db_client.db.table('whitelist_new')
         
+        # Process each whitelist entry
         for entry in whitelist:
+            # Ensure MAC is present
             if 'mac' not in entry:
                 logger.warning(f"Whitelist entry without MAC found: {entry}")
                 continue
                 
-            Whitelist = Query()
-            existing = new_whitelist.get(Whitelist.mac == entry['mac'])
+            # Check if entry already exists in new table
+            Entry = Query()
+            existing = new_whitelist.get(Entry.mac == entry['mac'])
             
-            if not existing:
+            if existing:
+                # Update existing entry if this one is more recent
+                if entry.get('added_at', '') > existing.get('added_at', ''):
+                    new_whitelist.update(entry, Entry.mac == entry['mac'])
+                    logger.info(f"Updated whitelist entry for device {entry['mac']} with newer data")
+            else:
+                # Insert new entry
                 new_whitelist.insert(entry)
-                logger.info(f"Migrated whitelist entry for {entry['mac']}")
+                logger.info(f"Migrated whitelist entry for device {entry['mac']}")
         
-        # Replace old whitelist with new one
+        # Replace old table with new one
         db_client.bandwidth_whitelist.truncate()
         for entry in new_whitelist.all():
             db_client.bandwidth_whitelist.insert(entry)
         
-        # Drop temporary whitelist table
+        # Drop temporary table
         db_client.db.drop_table('whitelist_new')
         
-        # Process blacklist
+        # Get all blacklist entries
         blacklist = db_client.bandwidth_blacklist.all()
+        
+        # Create a new table for the migration
         new_blacklist = db_client.db.table('blacklist_new')
         
+        # Process each blacklist entry
         for entry in blacklist:
+            # Ensure MAC is present
             if 'mac' not in entry:
                 logger.warning(f"Blacklist entry without MAC found: {entry}")
                 continue
                 
-            Blacklist = Query()
-            existing = new_blacklist.get(Blacklist.mac == entry['mac'])
+            # Check if entry already exists in new table
+            Entry = Query()
+            existing = new_blacklist.get(Entry.mac == entry['mac'])
             
-            if not existing:
+            if existing:
+                # Update existing entry if this one is more recent
+                if entry.get('added_at', '') > existing.get('added_at', ''):
+                    new_blacklist.update(entry, Entry.mac == entry['mac'])
+                    logger.info(f"Updated blacklist entry for device {entry['mac']} with newer data")
+            else:
+                # Insert new entry
                 new_blacklist.insert(entry)
-                logger.info(f"Migrated blacklist entry for {entry['mac']}")
+                logger.info(f"Migrated blacklist entry for device {entry['mac']}")
         
-        # Replace old blacklist with new one
+        # Replace old table with new one
         db_client.bandwidth_blacklist.truncate()
         for entry in new_blacklist.all():
             db_client.bandwidth_blacklist.insert(entry)
         
-        # Drop temporary blacklist table
+        # Drop temporary table
         db_client.db.drop_table('blacklist_new')
+        
+        # Ensure changes are persisted
+        db_client.flush()
         
         logger.info("Successfully migrated bandwidth lists")
         return True
@@ -199,29 +240,37 @@ def migrate_bandwidth_lists():
         return False
 
 def run_migration():
-    """Run all migrations in the correct order."""
+    """Run all migrations in sequence."""
     try:
-        logger.info("Starting database migration to MAC-based primary keys")
-        
-        # Run migrations in order
-        migrations = [
-            ("Devices table", migrate_devices_table),
-            ("Device rules", migrate_device_rules),
-            ("Group members", migrate_group_members),
-            ("Bandwidth lists", migrate_bandwidth_lists)
-        ]
-        
-        for name, migration in migrations:
-            logger.info(f"Running migration: {name}")
-            if not migration():
-                logger.error(f"Migration failed: {name}")
-                return False
-        
+        # Migrate devices table
+        if not migrate_devices_table():
+            logger.error("Migration failed: Devices table")
+            return False
+            
+        # Migrate device rules
+        if not migrate_device_rules():
+            logger.error("Migration failed: Device rules")
+            return False
+            
+        # Migrate group members
+        if not migrate_group_members():
+            logger.error("Migration failed: Group members")
+            return False
+            
+        # Migrate bandwidth lists
+        if not migrate_bandwidth_lists():
+            logger.error("Migration failed: Bandwidth lists")
+            return False
+            
         logger.info("All migrations completed successfully")
         return True
     except Exception as e:
-        logger.error(f"Error during migration: {e}")
+        logger.error(f"Migration failed: {e}")
         return False
 
 if __name__ == "__main__":
-    run_migration() 
+    if run_migration():
+        logger.info("Migration completed successfully")
+    else:
+        logger.error("Migration failed")
+        sys.exit(1) 

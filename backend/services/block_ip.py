@@ -1,16 +1,18 @@
 import subprocess
 from utils.ssh_client import ssh_manager
-from utils.response_helpers import success, error
-from db.device_repository import get_mac_from_ip
+from utils.logging_config import get_logger
+from db.device_repository import get_device_by_ip, get_device_by_mac
+
+logger = get_logger('services.block_ip')
 
 def block_mac_address(target_ip):
     """
     Blocks a device by IP address (translates IP to MAC and blocks it)
     """
-    # Get MAC address from database
-    mac_address = get_mac_from_ip(target_ip)
-    if not mac_address:
-        return error(f"IP {target_ip} not found in network.")
+    # Get device info from database
+    device = get_device_by_ip(target_ip)
+    if not device or not device.get('mac'):
+        raise ValueError(f"IP {target_ip} not found in network.")
 
     commands_block = [
         "uci add_list wireless.@wifi-iface[1].maclist='{mac_address}'",
@@ -21,19 +23,19 @@ def block_mac_address(target_ip):
 
     # Block the MAC address
     for cmd in commands_block:
-        cmd = cmd.format(mac_address=mac_address)
+        cmd = cmd.format(mac_address=device['mac'])
         ssh_manager.execute_command(cmd)
 
-    return success(f"Device with IP {target_ip} (MAC {mac_address}) is blocked.")
+    return {"status": "success", "message": f"Device with IP {target_ip} (MAC {device['mac']}) is blocked."}
 
 def unblock_mac_address(target_ip):
     """
     Unblocks a device by removing its MAC address from the blocklist.
     """
-    # Get MAC address from database
-    mac_address = get_mac_from_ip(target_ip)
-    if not mac_address:
-        return error(f"IP {target_ip} not found in network.")
+    # Get device info from device service
+    device = get_device_by_ip(target_ip)
+    if not device or not device.get('mac'):
+        raise ValueError(f"IP {target_ip} not found in network.")
 
     commands_unblock = [
         "uci del_list wireless.@wifi-iface[1].maclist='{mac_address}'",
@@ -43,10 +45,10 @@ def unblock_mac_address(target_ip):
 
     # Unblock the MAC address
     for cmd in commands_unblock:
-        cmd = cmd.format(mac_address=mac_address)
+        cmd = cmd.format(mac_address=device['mac'])
         ssh_manager.execute_command(cmd)
 
-    return success(f"Device with IP {target_ip} (MAC {mac_address}) is unblocked.")
+    return {"status": "success", "message": f"Device with IP {target_ip} (MAC {device['mac']}) is unblocked."}
 
 def get_blocked_devices():
     """
@@ -78,23 +80,22 @@ def get_blocked_devices():
                     blocked_macs.add(parts[i+2])  # MAC address is the next value
 
     if not blocked_macs:
-        return success("No devices are currently blocked.")
+        return {"status": "success", "message": "No devices are currently blocked."}
 
-    # Get device information from database
-    from db.device_repository import get_device_by_mac
+    # Get device information from device service
     for mac in blocked_macs:
-        device = get_device_by_mac(mac)
-        if device:
+        try:
+            device = get_device_by_mac(mac)
             blocked_devices.append({
                 "ip": device.get('ip', 'Unknown'),
                 "mac": mac,
                 "hostname": device.get('hostname', 'Unknown')
             })
-        else:
+        except ValueError:
             blocked_devices.append({
                 "ip": "Unknown",
                 "mac": mac,
                 "hostname": "Unknown"
             })
 
-    return success(data=blocked_devices)
+    return {"status": "success", "data": blocked_devices}

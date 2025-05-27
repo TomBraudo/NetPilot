@@ -1874,3 +1874,1122 @@ AttributeError: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'. Di
 2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Successfully migrated bandwidth lists
 2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - All migrations completed successfully
 2025-05-27 14:35:01 - __main__ - INFO - Migration completed successfully
+2025-05-27 14:39:49 - root - INFO - Logging initialized at 2025-05-27 14:39:49
+2025-05-27 14:39:49 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:39:49 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:39:49 - db.tinydb - INFO - Initialized setting whitelist_mode to False
+2025-05-27 14:39:49 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:40:25 - root - INFO - Logging initialized at 2025-05-27 14:40:25
+2025-05-27 14:40:25 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:40:25 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:40:25 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:41:00 - root - INFO - Logging initialized at 2025-05-27 14:41:00
+2025-05-27 14:41:00 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:41:00 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:41:00 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:42:04 - root - INFO - Logging initialized at 2025-05-27 14:42:04
+2025-05-27 14:42:04 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:42:04 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:42:04 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:42:34 - root - INFO - Logging initialized at 2025-05-27 14:42:34
+2025-05-27 14:42:34 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:42:34 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:42:34 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:42:39 - root - INFO - Logging initialized at 2025-05-27 14:42:39
+2025-05-27 14:42:39 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:42:39 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:42:39 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:49:49 - root - INFO - Logging initialized at 2025-05-27 14:49:49
+2025-05-27 14:49:49 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:49:49 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:49:49 - db.tinydb - INFO - Initialized setting blacklist_mode to False
+2025-05-27 14:49:49 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:49:50 - utils.config - INFO - Initialized blacklist config with default values
+2025-05-27 14:49:50 - utils.config - INFO - Initialized whitelist config with default values
+2025-05-27 14:49:50 - utils.config - INFO - Initialized mode config with default values
+2025-05-27 14:50:44 - root - INFO - Logging initialized at 2025-05-27 14:50:44
+2025-05-27 14:50:44 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:50:44 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:50:44 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:50:45 - __main__ - INFO - Initializing database tables
+2025-05-27 14:50:45 - db.schema_initializer - INFO - Default 'general' group created
+2025-05-27 14:50:45 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:50:45 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:50:45 - __main__ - INFO - Database tables initialized
+2025-05-27 14:50:45 - __main__ - INFO - Registering API blueprints
+2025-05-27 14:50:45 - __main__ - INFO - API blueprints registered
+2025-05-27 14:50:45 - __main__ - INFO - Starting server on port 5000
+2025-05-27 14:50:45 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 14:50:45 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 14:50:45 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 14:50:45 - root - INFO - Logging initialized at 2025-05-27 14:50:45
+2025-05-27 14:50:45 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:50:45 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:50:45 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:50:46 - __main__ - INFO - Initializing database tables
+2025-05-27 14:50:46 - db.schema_initializer - INFO - Default 'general' group created
+2025-05-27 14:50:46 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:50:46 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:50:46 - __main__ - INFO - Database tables initialized
+2025-05-27 14:50:46 - __main__ - INFO - Registering API blueprints
+2025-05-27 14:50:46 - __main__ - INFO - API blueprints registered
+2025-05-27 14:50:46 - __main__ - INFO - Starting server on port 5000
+2025-05-27 14:50:46 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 14:50:46 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 14:50:55 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:50:55] "GET /blacklist HTTP/1.1" 200 -
+2025-05-27 14:51:12 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:51:12] "[31m[1mPOST /blacklist/192.168.1.122 HTTP/1.1[0m" 405 -
+2025-05-27 14:51:57 - db.blacklist - WARNING - Attempted to add IP 192.168.1.122 that is not in network
+2025-05-27 14:51:57 - blacklist.endpoints - WARNING - Invalid request to add to blacklist: Device with IP 192.168.1.122 not found in network
+2025-05-27 14:51:57 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:51:57] "[31m[1mPOST /blacklist HTTP/1.1[0m" 400 -
+2025-05-27 14:52:03 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\endpoints\\blacklist.py', reloading
+2025-05-27 14:52:03 - __main__ - INFO - Cleaning up resources
+2025-05-27 14:52:03 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:52:03 - __main__ - INFO - Resources cleaned up
+2025-05-27 14:52:03 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 14:52:03 - root - INFO - Logging initialized at 2025-05-27 14:52:03
+2025-05-27 14:52:03 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:52:03 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:52:03 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:52:04 - __main__ - INFO - Initializing database tables
+2025-05-27 14:52:04 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:52:04 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:52:04 - __main__ - INFO - Database tables initialized
+2025-05-27 14:52:04 - __main__ - INFO - Registering API blueprints
+2025-05-27 14:52:04 - __main__ - INFO - API blueprints registered
+2025-05-27 14:52:04 - __main__ - INFO - Starting server on port 5000
+2025-05-27 14:52:04 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 14:52:04 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 14:52:10 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 14:52:10 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 14:52:13 - db.device_repository - INFO - Registered new device router with IP 192.168.1.1
+2025-05-27 14:52:13 - db.device_repository - INFO - Added device router to general group
+2025-05-27 14:52:13 - db.device_repository - INFO - Registered new device d8:bb:c1:47:3a:43 with IP 192.168.1.122
+2025-05-27 14:52:13 - db.device_repository - INFO - Added device d8:bb:c1:47:3a:43 to general group
+2025-05-27 14:52:13 - db.device_repository - INFO - Registered new device 12:2a:0a:02:ce:19 with IP 192.168.1.221
+2025-05-27 14:52:13 - db.device_repository - INFO - Added device 12:2a:0a:02:ce:19 to general group
+2025-05-27 14:52:13 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:52:13] "GET /api/router_scan HTTP/1.1" 200 -
+2025-05-27 14:52:19 - db.blacklist - INFO - Added device with IP 192.168.1.122 (MAC: d8:bb:c1:47:3a:43) to blacklist
+2025-05-27 14:52:19 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:52:19] "POST /blacklist HTTP/1.1" 200 -
+2025-05-27 14:52:47 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:52:47] "DELETE /blacklist/mode HTTP/1.1" 200 -
+2025-05-27 14:52:51 - utils.config - INFO - Saved mode configuration
+2025-05-27 14:52:51 - bandwidth.mode - INFO - Bandwidth mode set to blacklist
+2025-05-27 14:52:51 - blacklist.bandwidth - INFO - Activating blacklist mode on router
+2025-05-27 14:52:51 - blacklist.bandwidth - INFO - Found 1 IPs in blacklist
+2025-05-27 14:52:51 - blacklist.bandwidth - INFO - Blacklist contains 1 IPs
+2025-05-27 14:52:52 - blacklist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 14:52:53 - blacklist.bandwidth - WARNING - Command 'iptables -t mangle -A PREROUTING -s {'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'name': 'Test Device', 'description': '', 'added_at': '2025-05-27 14:52:19.904554'} -j MARK --set-mark 99' returned error: Bad argument `192.168.1.122,'
+Try `iptables -h' or 'iptables --help' for more information.
+2025-05-27 14:52:54 - blacklist.bandwidth - WARNING - Command 'iptables -t mangle -A POSTROUTING -d {'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'name': 'Test Device', 'description': '', 'added_at': '2025-05-27 14:52:19.904554'} -j MARK --set-mark 99' returned error: Bad argument `192.168.1.122,'
+Try `iptables -h' or 'iptables --help' for more information.
+2025-05-27 14:52:54 - blacklist.bandwidth - INFO - Setting up traffic control on br-lan with limit 50mbit
+2025-05-27 14:52:57 - blacklist.bandwidth - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 14:52:57 - blacklist.bandwidth - INFO - Setting up traffic control on eth0 with limit 50mbit
+2025-05-27 14:52:58 - blacklist.bandwidth - INFO - Traffic control setup completed for interface eth0
+2025-05-27 14:52:58 - blacklist.bandwidth - INFO - Setting up traffic control on lan1 with limit 50mbit
+2025-05-27 14:52:58 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan1
+2025-05-27 14:52:58 - blacklist.bandwidth - INFO - Setting up traffic control on lan2 with limit 50mbit
+2025-05-27 14:52:58 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan2
+2025-05-27 14:52:58 - blacklist.bandwidth - INFO - Setting up traffic control on lan3 with limit 50mbit
+2025-05-27 14:52:59 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan3
+2025-05-27 14:52:59 - blacklist.bandwidth - INFO - Setting up traffic control on lan4 with limit 50mbit
+2025-05-27 14:52:59 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan4
+2025-05-27 14:52:59 - blacklist.bandwidth - INFO - Setting up traffic control on phy0-ap0 with limit 50mbit
+2025-05-27 14:52:59 - blacklist.bandwidth - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 14:52:59 - blacklist.bandwidth - INFO - Setting up traffic control on teql0 with limit 50mbit
+2025-05-27 14:53:00 - blacklist.bandwidth - INFO - Traffic control setup completed for interface teql0
+2025-05-27 14:53:00 - blacklist.bandwidth - INFO - Setting up traffic control on wan with limit 50mbit
+2025-05-27 14:53:00 - blacklist.bandwidth - INFO - Traffic control setup completed for interface wan
+2025-05-27 14:53:00 - blacklist.bandwidth - INFO - Setting up traffic control on wlan1 with limit 50mbit
+2025-05-27 14:53:00 - blacklist.bandwidth - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 14:53:00 - blacklist.bandwidth - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 14:53:00 - blacklist.bandwidth - INFO - Blacklist mode activation succeeded
+2025-05-27 14:53:00 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:53:00] "POST /blacklist/mode HTTP/1.1" 200 -
+2025-05-27 14:53:06 - blacklist.bandwidth - INFO - Deactivating blacklist mode on router
+2025-05-27 14:53:06 - blacklist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 14:53:06 - blacklist.bandwidth - INFO - Blacklist mode deactivated on router
+2025-05-27 14:53:06 - utils.config - INFO - Saved mode configuration
+2025-05-27 14:53:06 - bandwidth.mode - INFO - Bandwidth mode set to none
+2025-05-27 14:53:06 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:53:06] "DELETE /blacklist/mode HTTP/1.1" 200 -
+2025-05-27 14:54:35 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\bandwidth_mode.py', reloading
+2025-05-27 14:54:35 - __main__ - INFO - Cleaning up resources
+2025-05-27 14:54:35 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:54:35 - __main__ - INFO - Resources cleaned up
+2025-05-27 14:54:35 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 14:54:36 - root - INFO - Logging initialized at 2025-05-27 14:54:36
+2025-05-27 14:54:36 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:54:36 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:54:36 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:54:37 - __main__ - INFO - Initializing database tables
+2025-05-27 14:54:37 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:54:37 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:54:37 - __main__ - INFO - Database tables initialized
+2025-05-27 14:54:37 - __main__ - INFO - Registering API blueprints
+2025-05-27 14:54:37 - __main__ - INFO - API blueprints registered
+2025-05-27 14:54:37 - __main__ - INFO - Starting server on port 5000
+2025-05-27 14:54:37 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 14:54:37 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 14:54:39 - __main__ - INFO - Cleaning up resources
+2025-05-27 14:54:39 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:54:39 - __main__ - INFO - Resources cleaned up
+2025-05-27 14:54:39 - __main__ - INFO - Cleaning up resources
+2025-05-27 14:54:39 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:54:39 - __main__ - INFO - Resources cleaned up
+2025-05-27 14:55:13 - root - INFO - Logging initialized at 2025-05-27 14:55:13
+2025-05-27 14:55:13 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:55:13 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:55:13 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:55:14 - __main__ - INFO - Initializing database tables
+2025-05-27 14:55:14 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:55:14 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:55:14 - __main__ - INFO - Database tables initialized
+2025-05-27 14:55:14 - __main__ - INFO - Registering API blueprints
+2025-05-27 14:55:14 - __main__ - INFO - API blueprints registered
+2025-05-27 14:55:14 - __main__ - INFO - Starting server on port 5000
+2025-05-27 14:55:14 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 14:55:14 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 14:55:14 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 14:55:14 - root - INFO - Logging initialized at 2025-05-27 14:55:14
+2025-05-27 14:55:14 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:55:14 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:55:14 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:55:15 - __main__ - INFO - Initializing database tables
+2025-05-27 14:55:15 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:55:15 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:55:15 - __main__ - INFO - Database tables initialized
+2025-05-27 14:55:15 - __main__ - INFO - Registering API blueprints
+2025-05-27 14:55:15 - __main__ - INFO - API blueprints registered
+2025-05-27 14:55:15 - __main__ - INFO - Starting server on port 5000
+2025-05-27 14:55:15 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 14:55:15 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 14:55:25 - utils.config - INFO - Saved mode configuration
+2025-05-27 14:55:25 - bandwidth.mode - INFO - Bandwidth mode set to blacklist
+2025-05-27 14:55:25 - blacklist.bandwidth - INFO - Activating blacklist mode on router
+2025-05-27 14:55:25 - blacklist.bandwidth - WARNING - No IPs found in blacklist
+2025-05-27 14:55:25 - blacklist.bandwidth - INFO - Blacklist contains 0 IPs
+2025-05-27 14:55:25 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 14:55:26 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 14:55:26 - blacklist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 14:55:26 - blacklist.bandwidth - INFO - Setting up traffic control on br-lan with limit 50mbit
+2025-05-27 14:55:27 - blacklist.bandwidth - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 14:55:27 - blacklist.bandwidth - INFO - Setting up traffic control on eth0 with limit 50mbit
+2025-05-27 14:55:27 - blacklist.bandwidth - INFO - Traffic control setup completed for interface eth0
+2025-05-27 14:55:27 - blacklist.bandwidth - INFO - Setting up traffic control on lan1 with limit 50mbit
+2025-05-27 14:55:28 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan1
+2025-05-27 14:55:28 - blacklist.bandwidth - INFO - Setting up traffic control on lan2 with limit 50mbit
+2025-05-27 14:55:29 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan2
+2025-05-27 14:55:29 - blacklist.bandwidth - INFO - Setting up traffic control on lan3 with limit 50mbit
+2025-05-27 14:55:29 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan3
+2025-05-27 14:55:29 - blacklist.bandwidth - INFO - Setting up traffic control on lan4 with limit 50mbit
+2025-05-27 14:55:30 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan4
+2025-05-27 14:55:30 - blacklist.bandwidth - INFO - Setting up traffic control on phy0-ap0 with limit 50mbit
+2025-05-27 14:55:31 - blacklist.bandwidth - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 14:55:31 - blacklist.bandwidth - INFO - Setting up traffic control on teql0 with limit 50mbit
+2025-05-27 14:55:32 - blacklist.bandwidth - INFO - Traffic control setup completed for interface teql0
+2025-05-27 14:55:32 - blacklist.bandwidth - INFO - Setting up traffic control on wan with limit 50mbit
+2025-05-27 14:55:33 - blacklist.bandwidth - INFO - Traffic control setup completed for interface wan
+2025-05-27 14:55:33 - blacklist.bandwidth - INFO - Setting up traffic control on wlan1 with limit 50mbit
+2025-05-27 14:55:33 - blacklist.bandwidth - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 14:55:33 - blacklist.bandwidth - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 14:55:33 - blacklist.bandwidth - INFO - Blacklist mode activation succeeded
+2025-05-27 14:55:33 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:55:33] "POST /blacklist/mode HTTP/1.1" 200 -
+2025-05-27 14:55:38 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:55:38] "GET /blacklist HTTP/1.1" 200 -
+2025-05-27 14:55:51 - db.blacklist - WARNING - Attempted to add IP 192.168.1.122 that is not in network
+2025-05-27 14:55:51 - blacklist.endpoints - WARNING - Invalid request to add to blacklist: Device with IP 192.168.1.122 not found in network
+2025-05-27 14:55:51 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:55:51] "[31m[1mPOST /blacklist HTTP/1.1[0m" 400 -
+2025-05-27 14:55:59 - db.device_repository - INFO - Registered new device router with IP 192.168.1.1
+2025-05-27 14:55:59 - db.device_repository - INFO - Added device router to general group
+2025-05-27 14:55:59 - db.device_repository - INFO - Registered new device d8:bb:c1:47:3a:43 with IP 192.168.1.122
+2025-05-27 14:55:59 - db.device_repository - INFO - Added device d8:bb:c1:47:3a:43 to general group
+2025-05-27 14:55:59 - db.device_repository - INFO - Registered new device 12:2a:0a:02:ce:19 with IP 192.168.1.221
+2025-05-27 14:55:59 - db.device_repository - INFO - Added device 12:2a:0a:02:ce:19 to general group
+2025-05-27 14:55:59 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:55:59] "GET /api/router_scan HTTP/1.1" 200 -
+2025-05-27 14:56:04 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:56:04] "POST /blacklist/mode HTTP/1.1" 200 -
+2025-05-27 14:56:07 - db.blacklist - INFO - Added device with IP 192.168.1.122 (MAC: d8:bb:c1:47:3a:43) to blacklist
+2025-05-27 14:56:07 - blacklist.bandwidth - INFO - Found 1 IPs in blacklist
+2025-05-27 14:56:07 - blacklist.bandwidth - INFO - Blacklist contains 1 IPs
+2025-05-27 14:56:07 - blacklist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 14:56:08 - blacklist.bandwidth - INFO - Setting up traffic control on br-lan with limit 50mbit
+2025-05-27 14:56:08 - blacklist.bandwidth - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 14:56:08 - blacklist.bandwidth - INFO - Setting up traffic control on eth0 with limit 50mbit
+2025-05-27 14:56:08 - blacklist.bandwidth - INFO - Traffic control setup completed for interface eth0
+2025-05-27 14:56:08 - blacklist.bandwidth - INFO - Setting up traffic control on lan1 with limit 50mbit
+2025-05-27 14:56:09 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan1
+2025-05-27 14:56:09 - blacklist.bandwidth - INFO - Setting up traffic control on lan2 with limit 50mbit
+2025-05-27 14:56:09 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan2
+2025-05-27 14:56:09 - blacklist.bandwidth - INFO - Setting up traffic control on lan3 with limit 50mbit
+2025-05-27 14:56:09 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan3
+2025-05-27 14:56:09 - blacklist.bandwidth - INFO - Setting up traffic control on lan4 with limit 50mbit
+2025-05-27 14:56:10 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan4
+2025-05-27 14:56:10 - blacklist.bandwidth - INFO - Setting up traffic control on phy0-ap0 with limit 50mbit
+2025-05-27 14:56:10 - blacklist.bandwidth - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 14:56:10 - blacklist.bandwidth - INFO - Setting up traffic control on teql0 with limit 50mbit
+2025-05-27 14:56:11 - blacklist.bandwidth - INFO - Traffic control setup completed for interface teql0
+2025-05-27 14:56:11 - blacklist.bandwidth - INFO - Setting up traffic control on wan with limit 50mbit
+2025-05-27 14:56:11 - blacklist.bandwidth - INFO - Traffic control setup completed for interface wan
+2025-05-27 14:56:11 - blacklist.bandwidth - INFO - Setting up traffic control on wlan1 with limit 50mbit
+2025-05-27 14:56:11 - blacklist.bandwidth - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 14:56:11 - blacklist.bandwidth - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 14:56:11 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:56:11] "POST /blacklist HTTP/1.1" 200 -
+2025-05-27 14:56:16 - __main__ - INFO - Cleaning up resources
+2025-05-27 14:56:16 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:56:16 - __main__ - INFO - Resources cleaned up
+2025-05-27 14:56:17 - __main__ - INFO - Cleaning up resources
+2025-05-27 14:56:17 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:56:17 - __main__ - INFO - Resources cleaned up
+2025-05-27 14:56:18 - root - INFO - Logging initialized at 2025-05-27 14:56:18
+2025-05-27 14:56:18 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:56:18 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:56:18 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:56:19 - __main__ - INFO - Initializing database tables
+2025-05-27 14:56:19 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:56:19 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:56:19 - __main__ - INFO - Database tables initialized
+2025-05-27 14:56:19 - __main__ - INFO - Registering API blueprints
+2025-05-27 14:56:19 - __main__ - INFO - API blueprints registered
+2025-05-27 14:56:19 - __main__ - INFO - Starting server on port 5000
+2025-05-27 14:56:19 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 14:56:19 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 14:56:19 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 14:56:20 - root - INFO - Logging initialized at 2025-05-27 14:56:20
+2025-05-27 14:56:20 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:56:20 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:56:20 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:56:20 - __main__ - INFO - Initializing database tables
+2025-05-27 14:56:20 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:56:20 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:56:20 - __main__ - INFO - Database tables initialized
+2025-05-27 14:56:20 - __main__ - INFO - Registering API blueprints
+2025-05-27 14:56:20 - __main__ - INFO - API blueprints registered
+2025-05-27 14:56:20 - __main__ - INFO - Starting server on port 5000
+2025-05-27 14:56:20 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 14:56:20 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 14:56:23 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:56:23] "GET /blacklist HTTP/1.1" 200 -
+2025-05-27 14:56:26 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:56:26] "[31m[1mDELETE /blacklist HTTP/1.1[0m" 405 -
+2025-05-27 14:56:34 - db.blacklist - WARNING - Attempted to remove IP 192.168.1.122 that does not exist in blacklist
+2025-05-27 14:56:34 - blacklist.endpoints - WARNING - Invalid request to remove from blacklist: Device with IP 192.168.1.122 not found in blacklist
+2025-05-27 14:56:34 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:56:34] "[31m[1mDELETE /blacklist/192.168.1.122 HTTP/1.1[0m" 400 -
+2025-05-27 14:56:38 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:56:38] "GET /blacklist HTTP/1.1" 200 -
+2025-05-27 14:56:43 - __main__ - INFO - Cleaning up resources
+2025-05-27 14:56:43 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:56:43 - __main__ - INFO - Resources cleaned up
+2025-05-27 14:56:43 - __main__ - INFO - Cleaning up resources
+2025-05-27 14:56:43 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:56:43 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:00:30 - root - INFO - Logging initialized at 2025-05-27 15:00:30
+2025-05-27 15:00:30 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:00:30 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:00:30 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:00:31 - __main__ - INFO - Initializing database tables
+2025-05-27 15:00:31 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:00:31 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:00:31 - __main__ - INFO - Database tables initialized
+2025-05-27 15:00:31 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:00:31 - __main__ - INFO - API blueprints registered
+2025-05-27 15:00:31 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:00:31 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 15:00:31 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 15:00:31 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 15:00:31 - root - INFO - Logging initialized at 2025-05-27 15:00:31
+2025-05-27 15:00:31 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:00:31 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:00:31 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:00:32 - __main__ - INFO - Initializing database tables
+2025-05-27 15:00:32 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:00:32 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:00:32 - __main__ - INFO - Database tables initialized
+2025-05-27 15:00:32 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:00:32 - __main__ - INFO - API blueprints registered
+2025-05-27 15:00:32 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:00:32 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 15:00:32 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 15:00:40 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:00:40] "GET /blacklist HTTP/1.1" 200 -
+2025-05-27 15:00:43 - db.blacklist - WARNING - Attempted to add IP 192.168.1.122 that is not in network
+2025-05-27 15:00:43 - db.blacklist - ERROR - Error adding to blacklist: Device with IP 192.168.1.122 not found in network
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 53, in add_to_blacklist
+    raise ValueError(f"Device with IP {ip} not found in network")
+ValueError: Device with IP 192.168.1.122 not found in network
+2025-05-27 15:00:43 - blacklist.endpoints - WARNING - Invalid request to add to blacklist: Device with IP 192.168.1.122 not found in network
+2025-05-27 15:00:43 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:00:43] "[31m[1mPOST /blacklist HTTP/1.1[0m" 400 -
+2025-05-27 15:00:46 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 15:00:48 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 15:00:53 - db.device_repository - INFO - Registered new device router with IP 192.168.1.1
+2025-05-27 15:00:53 - db.device_repository - INFO - Added device router to general group
+2025-05-27 15:00:53 - db.device_repository - INFO - Registered new device d8:bb:c1:47:3a:43 with IP 192.168.1.122
+2025-05-27 15:00:53 - db.device_repository - INFO - Added device d8:bb:c1:47:3a:43 to general group
+2025-05-27 15:00:53 - db.device_repository - INFO - Registered new device 12:2a:0a:02:ce:19 with IP 192.168.1.221
+2025-05-27 15:00:53 - db.device_repository - INFO - Added device 12:2a:0a:02:ce:19 to general group
+2025-05-27 15:00:53 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:00:53] "GET /api/router_scan HTTP/1.1" 200 -
+2025-05-27 15:00:57 - db.blacklist - WARNING - Attempted to remove IP 192.168.1.122 that does not exist in blacklist
+2025-05-27 15:00:57 - db.blacklist - ERROR - Error removing from blacklist: Device with IP 192.168.1.122 not found in blacklist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 94, in remove_from_blacklist
+    raise ValueError(f"Device with IP {ip} not found in blacklist")
+ValueError: Device with IP 192.168.1.122 not found in blacklist
+2025-05-27 15:00:57 - blacklist.endpoints - WARNING - Invalid request to remove from blacklist: Device with IP 192.168.1.122 not found in blacklist
+2025-05-27 15:00:57 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:00:57] "[31m[1mDELETE /blacklist/192.168.1.122 HTTP/1.1[0m" 400 -
+2025-05-27 15:00:59 - db.blacklist - INFO - Added device with IP 192.168.1.122 (MAC: d8:bb:c1:47:3a:43) to blacklist
+2025-05-27 15:00:59 - blacklist.bandwidth - INFO - Blacklist contains 1 IPs
+2025-05-27 15:00:59 - blacklist.bandwidth - INFO - Blacklist contains 1 IPs
+2025-05-27 15:00:59 - blacklist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 15:01:00 - blacklist.bandwidth - INFO - Setting up traffic control on br-lan with limit 50mbit
+2025-05-27 15:01:00 - blacklist.bandwidth - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 15:01:00 - blacklist.bandwidth - INFO - Setting up traffic control on eth0 with limit 50mbit
+2025-05-27 15:01:01 - blacklist.bandwidth - INFO - Traffic control setup completed for interface eth0
+2025-05-27 15:01:01 - blacklist.bandwidth - INFO - Setting up traffic control on lan1 with limit 50mbit
+2025-05-27 15:01:01 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan1
+2025-05-27 15:01:01 - blacklist.bandwidth - INFO - Setting up traffic control on lan2 with limit 50mbit
+2025-05-27 15:01:01 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan2
+2025-05-27 15:01:01 - blacklist.bandwidth - INFO - Setting up traffic control on lan3 with limit 50mbit
+2025-05-27 15:01:02 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan3
+2025-05-27 15:01:02 - blacklist.bandwidth - INFO - Setting up traffic control on lan4 with limit 50mbit
+2025-05-27 15:01:02 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan4
+2025-05-27 15:01:02 - blacklist.bandwidth - INFO - Setting up traffic control on phy0-ap0 with limit 50mbit
+2025-05-27 15:01:02 - blacklist.bandwidth - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 15:01:02 - blacklist.bandwidth - INFO - Setting up traffic control on teql0 with limit 50mbit
+2025-05-27 15:01:03 - blacklist.bandwidth - INFO - Traffic control setup completed for interface teql0
+2025-05-27 15:01:03 - blacklist.bandwidth - INFO - Setting up traffic control on wan with limit 50mbit
+2025-05-27 15:01:03 - blacklist.bandwidth - INFO - Traffic control setup completed for interface wan
+2025-05-27 15:01:03 - blacklist.bandwidth - INFO - Setting up traffic control on wlan1 with limit 50mbit
+2025-05-27 15:01:04 - blacklist.bandwidth - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 15:01:04 - blacklist.bandwidth - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 15:01:04 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:01:04] "POST /blacklist HTTP/1.1" 200 -
+2025-05-27 15:01:07 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:01:07] "GET /blacklist HTTP/1.1" 200 -
+2025-05-27 15:01:12 - db.blacklist - INFO - Removed device with IP 192.168.1.122 from blacklist
+2025-05-27 15:01:12 - blacklist.bandwidth - INFO - Blacklist contains 0 IPs
+2025-05-27 15:01:12 - blacklist.bandwidth - INFO - Blacklist contains 0 IPs
+2025-05-27 15:01:12 - blacklist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 15:01:12 - blacklist.bandwidth - INFO - Setting up traffic control on br-lan with limit 50mbit
+2025-05-27 15:01:13 - blacklist.bandwidth - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 15:01:13 - blacklist.bandwidth - INFO - Setting up traffic control on eth0 with limit 50mbit
+2025-05-27 15:01:13 - blacklist.bandwidth - INFO - Traffic control setup completed for interface eth0
+2025-05-27 15:01:13 - blacklist.bandwidth - INFO - Setting up traffic control on lan1 with limit 50mbit
+2025-05-27 15:01:13 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan1
+2025-05-27 15:01:13 - blacklist.bandwidth - INFO - Setting up traffic control on lan2 with limit 50mbit
+2025-05-27 15:01:14 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan2
+2025-05-27 15:01:14 - blacklist.bandwidth - INFO - Setting up traffic control on lan3 with limit 50mbit
+2025-05-27 15:01:14 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan3
+2025-05-27 15:01:14 - blacklist.bandwidth - INFO - Setting up traffic control on lan4 with limit 50mbit
+2025-05-27 15:01:14 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan4
+2025-05-27 15:01:14 - blacklist.bandwidth - INFO - Setting up traffic control on phy0-ap0 with limit 50mbit
+2025-05-27 15:01:15 - blacklist.bandwidth - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 15:01:15 - blacklist.bandwidth - INFO - Setting up traffic control on teql0 with limit 50mbit
+2025-05-27 15:01:15 - blacklist.bandwidth - INFO - Traffic control setup completed for interface teql0
+2025-05-27 15:01:15 - blacklist.bandwidth - INFO - Setting up traffic control on wan with limit 50mbit
+2025-05-27 15:01:15 - blacklist.bandwidth - INFO - Traffic control setup completed for interface wan
+2025-05-27 15:01:15 - blacklist.bandwidth - INFO - Setting up traffic control on wlan1 with limit 50mbit
+2025-05-27 15:01:16 - blacklist.bandwidth - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 15:01:16 - blacklist.bandwidth - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 15:01:16 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:01:16] "DELETE /blacklist/192.168.1.122 HTTP/1.1" 200 -
+2025-05-27 15:01:18 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:01:18] "GET /blacklist HTTP/1.1" 200 -
+2025-05-27 15:01:21 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:01:21 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:01:21 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:01:21 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:01:21 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:01:21 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:01:22 - root - INFO - Logging initialized at 2025-05-27 15:01:22
+2025-05-27 15:01:22 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:01:22 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:01:22 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:01:23 - __main__ - INFO - Initializing database tables
+2025-05-27 15:01:23 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:01:23 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:01:23 - __main__ - INFO - Database tables initialized
+2025-05-27 15:01:23 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:01:23 - __main__ - INFO - API blueprints registered
+2025-05-27 15:01:23 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:01:23 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 15:01:23 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 15:01:23 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 15:01:23 - root - INFO - Logging initialized at 2025-05-27 15:01:23
+2025-05-27 15:01:23 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:01:23 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:01:23 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:01:24 - __main__ - INFO - Initializing database tables
+2025-05-27 15:01:24 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:01:24 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:01:24 - __main__ - INFO - Database tables initialized
+2025-05-27 15:01:24 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:01:24 - __main__ - INFO - API blueprints registered
+2025-05-27 15:01:24 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:01:24 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 15:01:24 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 15:01:30 - db.blacklist - WARNING - Attempted to add IP 192.168.1.122 that is not in network
+2025-05-27 15:01:30 - db.blacklist - ERROR - Error adding to blacklist: Device with IP 192.168.1.122 not found in network
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 53, in add_to_blacklist
+    raise ValueError(f"Device with IP {ip} not found in network")
+ValueError: Device with IP 192.168.1.122 not found in network
+2025-05-27 15:01:30 - blacklist.endpoints - WARNING - Invalid request to add to blacklist: Device with IP 192.168.1.122 not found in network
+2025-05-27 15:01:30 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:01:30] "[31m[1mPOST /blacklist HTTP/1.1[0m" 400 -
+2025-05-27 15:02:46 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\db\\whitelist_management.py', reloading
+2025-05-27 15:02:46 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:02:46 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:02:46 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:02:46 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 15:02:47 - root - INFO - Logging initialized at 2025-05-27 15:02:47
+2025-05-27 15:02:47 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:02:47 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:02:47 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:02:48 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:02:48 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:02:48 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:12:15 - root - INFO - Logging initialized at 2025-05-27 15:12:15
+2025-05-27 15:12:15 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:12:15 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:12:15 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:12:16 - __main__ - INFO - Initializing database tables
+2025-05-27 15:12:16 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:12:16 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:12:16 - __main__ - INFO - Database tables initialized
+2025-05-27 15:12:16 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:12:16 - __main__ - INFO - API blueprints registered
+2025-05-27 15:12:16 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:12:16 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 15:12:16 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 15:12:16 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 15:12:16 - root - INFO - Logging initialized at 2025-05-27 15:12:16
+2025-05-27 15:12:16 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:12:16 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:12:16 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:12:17 - __main__ - INFO - Initializing database tables
+2025-05-27 15:12:17 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:12:17 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:12:17 - __main__ - INFO - Database tables initialized
+2025-05-27 15:12:17 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:12:17 - __main__ - INFO - API blueprints registered
+2025-05-27 15:12:17 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:12:17 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 15:12:17 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 15:12:22 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:12:22] "GET /blacklist HTTP/1.1" 200 -
+2025-05-27 15:12:32 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:12:32] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-27 15:12:38 - db.blacklist - WARNING - Attempted to add IP 192.168.1.122 that does not exist in devices table
+2025-05-27 15:12:38 - db.blacklist - ERROR - Error adding to blacklist: Device with IP 192.168.1.122 not found in devices table
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 58, in add_to_blacklist
+    raise ValueError(f"Device with IP {ip} not found in devices table")
+ValueError: Device with IP 192.168.1.122 not found in devices table
+2025-05-27 15:12:38 - blacklist.endpoints - WARNING - Invalid request to add to blacklist: Device with IP 192.168.1.122 not found in devices table
+2025-05-27 15:12:38 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:12:38] "[31m[1mPOST /blacklist HTTP/1.1[0m" 400 -
+2025-05-27 15:12:42 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 15:12:43 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 15:12:46 - db.device_repository - INFO - Registered new device router with IP 192.168.1.1
+2025-05-27 15:12:46 - db.device_repository - INFO - Added device router to general group
+2025-05-27 15:12:46 - db.device_repository - INFO - Registered new device d8:bb:c1:47:3a:43 with IP 192.168.1.122
+2025-05-27 15:12:46 - db.device_repository - INFO - Added device d8:bb:c1:47:3a:43 to general group
+2025-05-27 15:12:46 - db.device_repository - INFO - Registered new device 12:2a:0a:02:ce:19 with IP 192.168.1.221
+2025-05-27 15:12:46 - db.device_repository - INFO - Added device 12:2a:0a:02:ce:19 to general group
+2025-05-27 15:12:46 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:12:46] "GET /api/router_scan HTTP/1.1" 200 -
+2025-05-27 15:12:52 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:12:52 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:12:52 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:12:52 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:12:52 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:12:52 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:12:53 - root - INFO - Logging initialized at 2025-05-27 15:12:53
+2025-05-27 15:12:53 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:12:53 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:12:53 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:12:54 - __main__ - INFO - Initializing database tables
+2025-05-27 15:12:54 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:12:54 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:12:54 - __main__ - INFO - Database tables initialized
+2025-05-27 15:12:54 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:12:54 - __main__ - INFO - API blueprints registered
+2025-05-27 15:12:54 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:12:54 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 15:12:54 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 15:12:54 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 15:12:54 - root - INFO - Logging initialized at 2025-05-27 15:12:54
+2025-05-27 15:12:54 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:12:54 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:12:54 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:12:55 - __main__ - INFO - Initializing database tables
+2025-05-27 15:12:55 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:12:55 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:12:55 - __main__ - INFO - Database tables initialized
+2025-05-27 15:12:55 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:12:55 - __main__ - INFO - API blueprints registered
+2025-05-27 15:12:55 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:12:55 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 15:12:55 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 15:13:00 - db.blacklist - WARNING - Attempted to add IP 192.168.1.122 that does not exist in devices table
+2025-05-27 15:13:00 - db.blacklist - ERROR - Error adding to blacklist: Device with IP 192.168.1.122 not found in devices table
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 58, in add_to_blacklist
+    raise ValueError(f"Device with IP {ip} not found in devices table")
+ValueError: Device with IP 192.168.1.122 not found in devices table
+2025-05-27 15:13:00 - blacklist.endpoints - WARNING - Invalid request to add to blacklist: Device with IP 192.168.1.122 not found in devices table
+2025-05-27 15:13:00 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:13:00] "[31m[1mPOST /blacklist HTTP/1.1[0m" 400 -
+2025-05-27 15:13:06 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 15:13:06 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 15:13:08 - db.device_repository - INFO - Registered new device router with IP 192.168.1.1
+2025-05-27 15:13:08 - db.device_repository - INFO - Added device router to general group
+2025-05-27 15:13:08 - db.device_repository - INFO - Registered new device d8:bb:c1:47:3a:43 with IP 192.168.1.122
+2025-05-27 15:13:08 - db.device_repository - INFO - Added device d8:bb:c1:47:3a:43 to general group
+2025-05-27 15:13:08 - db.device_repository - INFO - Registered new device 12:2a:0a:02:ce:19 with IP 192.168.1.221
+2025-05-27 15:13:08 - db.device_repository - INFO - Added device 12:2a:0a:02:ce:19 to general group
+2025-05-27 15:13:08 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:13:08] "GET /api/router_scan HTTP/1.1" 200 -
+2025-05-27 15:13:11 - db.blacklist - INFO - Added device with IP 192.168.1.122 to blacklist
+2025-05-27 15:13:11 - blacklist.bandwidth - INFO - Blacklist contains 1 IPs
+2025-05-27 15:13:11 - blacklist.bandwidth - INFO - Blacklist contains 1 IPs
+2025-05-27 15:13:11 - blacklist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 15:13:11 - blacklist.bandwidth - INFO - Setting up traffic control on br-lan with limit 50mbit
+2025-05-27 15:13:11 - blacklist.bandwidth - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 15:13:11 - blacklist.bandwidth - INFO - Setting up traffic control on eth0 with limit 50mbit
+2025-05-27 15:13:12 - blacklist.bandwidth - INFO - Traffic control setup completed for interface eth0
+2025-05-27 15:13:12 - blacklist.bandwidth - INFO - Setting up traffic control on lan1 with limit 50mbit
+2025-05-27 15:13:12 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan1
+2025-05-27 15:13:12 - blacklist.bandwidth - INFO - Setting up traffic control on lan2 with limit 50mbit
+2025-05-27 15:13:12 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan2
+2025-05-27 15:13:12 - blacklist.bandwidth - INFO - Setting up traffic control on lan3 with limit 50mbit
+2025-05-27 15:13:12 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan3
+2025-05-27 15:13:12 - blacklist.bandwidth - INFO - Setting up traffic control on lan4 with limit 50mbit
+2025-05-27 15:13:13 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan4
+2025-05-27 15:13:13 - blacklist.bandwidth - INFO - Setting up traffic control on phy0-ap0 with limit 50mbit
+2025-05-27 15:13:13 - blacklist.bandwidth - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 15:13:13 - blacklist.bandwidth - INFO - Setting up traffic control on teql0 with limit 50mbit
+2025-05-27 15:13:13 - blacklist.bandwidth - INFO - Traffic control setup completed for interface teql0
+2025-05-27 15:13:13 - blacklist.bandwidth - INFO - Setting up traffic control on wan with limit 50mbit
+2025-05-27 15:13:13 - blacklist.bandwidth - INFO - Traffic control setup completed for interface wan
+2025-05-27 15:13:13 - blacklist.bandwidth - INFO - Setting up traffic control on wlan1 with limit 50mbit
+2025-05-27 15:13:14 - blacklist.bandwidth - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 15:13:14 - blacklist.bandwidth - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 15:13:14 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:13:14] "POST /blacklist HTTP/1.1" 200 -
+2025-05-27 15:15:01 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\db\\device_repository.py', reloading
+2025-05-27 15:15:01 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:15:01 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:15:01 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:15:01 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 15:15:01 - root - INFO - Logging initialized at 2025-05-27 15:15:01
+2025-05-27 15:15:01 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:15:01 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:15:01 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:15:02 - __main__ - INFO - Initializing database tables
+2025-05-27 15:15:02 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:15:02 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:15:02 - __main__ - INFO - Database tables initialized
+2025-05-27 15:15:02 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:15:02 - __main__ - INFO - API blueprints registered
+2025-05-27 15:15:02 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:15:02 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 15:15:02 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 15:15:17 - db.blacklist - INFO - Removed device with IP 192.168.1.122 from blacklist
+2025-05-27 15:15:17 - blacklist.bandwidth - INFO - Blacklist contains 0 IPs
+2025-05-27 15:15:17 - blacklist.bandwidth - INFO - Blacklist contains 0 IPs
+2025-05-27 15:15:18 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 15:15:18 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 15:15:18 - blacklist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 15:15:18 - blacklist.bandwidth - INFO - Setting up traffic control on br-lan with limit 50mbit
+2025-05-27 15:15:18 - blacklist.bandwidth - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 15:15:18 - blacklist.bandwidth - INFO - Setting up traffic control on eth0 with limit 50mbit
+2025-05-27 15:15:18 - blacklist.bandwidth - INFO - Traffic control setup completed for interface eth0
+2025-05-27 15:15:18 - blacklist.bandwidth - INFO - Setting up traffic control on lan1 with limit 50mbit
+2025-05-27 15:15:19 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan1
+2025-05-27 15:15:19 - blacklist.bandwidth - INFO - Setting up traffic control on lan2 with limit 50mbit
+2025-05-27 15:15:19 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan2
+2025-05-27 15:15:19 - blacklist.bandwidth - INFO - Setting up traffic control on lan3 with limit 50mbit
+2025-05-27 15:15:20 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan3
+2025-05-27 15:15:20 - blacklist.bandwidth - INFO - Setting up traffic control on lan4 with limit 50mbit
+2025-05-27 15:15:20 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan4
+2025-05-27 15:15:20 - blacklist.bandwidth - INFO - Setting up traffic control on phy0-ap0 with limit 50mbit
+2025-05-27 15:15:20 - blacklist.bandwidth - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 15:15:20 - blacklist.bandwidth - INFO - Setting up traffic control on teql0 with limit 50mbit
+2025-05-27 15:15:20 - blacklist.bandwidth - INFO - Traffic control setup completed for interface teql0
+2025-05-27 15:15:20 - blacklist.bandwidth - INFO - Setting up traffic control on wan with limit 50mbit
+2025-05-27 15:15:21 - blacklist.bandwidth - INFO - Traffic control setup completed for interface wan
+2025-05-27 15:15:21 - blacklist.bandwidth - INFO - Setting up traffic control on wlan1 with limit 50mbit
+2025-05-27 15:15:21 - blacklist.bandwidth - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 15:15:21 - blacklist.bandwidth - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 15:15:21 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:15:21] "DELETE /blacklist/192.168.1.122 HTTP/1.1" 200 -
+2025-05-27 15:15:25 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:15:25 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:15:25 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:15:25 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:15:25 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:15:25 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:15:26 - root - INFO - Logging initialized at 2025-05-27 15:15:26
+2025-05-27 15:15:26 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:15:26 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:15:26 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:15:27 - __main__ - INFO - Initializing database tables
+2025-05-27 15:15:27 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:15:27 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:15:27 - __main__ - INFO - Database tables initialized
+2025-05-27 15:15:27 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:15:27 - __main__ - INFO - API blueprints registered
+2025-05-27 15:15:27 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:15:27 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 15:15:27 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 15:15:27 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 15:15:28 - root - INFO - Logging initialized at 2025-05-27 15:15:28
+2025-05-27 15:15:28 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:15:28 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:15:28 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:15:29 - __main__ - INFO - Initializing database tables
+2025-05-27 15:15:29 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:15:29 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:15:29 - __main__ - INFO - Database tables initialized
+2025-05-27 15:15:29 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:15:29 - __main__ - INFO - API blueprints registered
+2025-05-27 15:15:29 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:15:29 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 15:15:29 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 15:15:30 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 15:15:31 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 15:15:34 - db.device_repository - INFO - Registered new device router with IP 192.168.1.1
+2025-05-27 15:15:34 - db.device_repository - INFO - Added device router to general group
+2025-05-27 15:15:34 - db.device_repository - INFO - Registered new device d8:bb:c1:47:3a:43 with IP 192.168.1.122
+2025-05-27 15:15:34 - db.device_repository - INFO - Added device d8:bb:c1:47:3a:43 to general group
+2025-05-27 15:15:34 - db.device_repository - INFO - Registered new device 12:2a:0a:02:ce:19 with IP 192.168.1.221
+2025-05-27 15:15:34 - db.device_repository - INFO - Added device 12:2a:0a:02:ce:19 to general group
+2025-05-27 15:15:34 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:15:34] "GET /api/router_scan HTTP/1.1" 200 -
+2025-05-27 15:15:39 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:15:39 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:15:39 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:15:39 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:15:39 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:15:39 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:15:41 - root - INFO - Logging initialized at 2025-05-27 15:15:41
+2025-05-27 15:15:41 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:15:41 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:15:41 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:15:41 - __main__ - INFO - Initializing database tables
+2025-05-27 15:15:41 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:15:41 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:15:41 - __main__ - INFO - Database tables initialized
+2025-05-27 15:15:41 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:15:41 - __main__ - INFO - API blueprints registered
+2025-05-27 15:15:41 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:15:42 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 15:15:42 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 15:15:42 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 15:15:42 - root - INFO - Logging initialized at 2025-05-27 15:15:42
+2025-05-27 15:15:42 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:15:42 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:15:42 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:15:43 - __main__ - INFO - Initializing database tables
+2025-05-27 15:15:43 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:15:43 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:15:43 - __main__ - INFO - Database tables initialized
+2025-05-27 15:15:43 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:15:43 - __main__ - INFO - API blueprints registered
+2025-05-27 15:15:43 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:15:43 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 15:15:43 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 15:15:50 - db.blacklist - WARNING - Attempted to add IP 192.168.1.122 that does not exist in devices table
+2025-05-27 15:15:50 - db.blacklist - ERROR - Error adding to blacklist: Device with IP 192.168.1.122 not found in devices table
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 58, in add_to_blacklist
+    raise ValueError(f"Device with IP {ip} not found in devices table")
+ValueError: Device with IP 192.168.1.122 not found in devices table
+2025-05-27 15:15:50 - blacklist.endpoints - WARNING - Invalid request to add to blacklist: Device with IP 192.168.1.122 not found in devices table
+2025-05-27 15:15:50 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:15:50] "[31m[1mPOST /blacklist HTTP/1.1[0m" 400 -
+2025-05-27 15:16:18 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\db\\device_repository.py', reloading
+2025-05-27 15:16:18 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:16:18 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:16:18 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:16:18 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 15:16:18 - root - INFO - Logging initialized at 2025-05-27 15:16:18
+2025-05-27 15:16:18 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:16:18 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:16:18 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:16:19 - __main__ - INFO - Initializing database tables
+2025-05-27 15:16:19 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:16:19 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:16:19 - __main__ - INFO - Database tables initialized
+2025-05-27 15:16:19 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:16:19 - __main__ - INFO - API blueprints registered
+2025-05-27 15:16:19 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:16:19 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 15:16:19 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 15:16:31 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:16:31 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:16:31 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:16:31 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:16:31 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:16:31 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:16:32 - root - INFO - Logging initialized at 2025-05-27 15:16:32
+2025-05-27 15:16:32 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:16:32 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:16:32 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:16:33 - __main__ - INFO - Initializing database tables
+2025-05-27 15:16:33 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:16:33 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:16:33 - __main__ - INFO - Database tables initialized
+2025-05-27 15:16:33 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:16:33 - __main__ - INFO - API blueprints registered
+2025-05-27 15:16:33 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:16:33 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 15:16:33 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 15:16:33 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 15:16:33 - root - INFO - Logging initialized at 2025-05-27 15:16:33
+2025-05-27 15:16:33 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:16:33 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:16:33 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:16:34 - __main__ - INFO - Initializing database tables
+2025-05-27 15:16:34 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:16:34 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:16:34 - __main__ - INFO - Database tables initialized
+2025-05-27 15:16:34 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:16:34 - __main__ - INFO - API blueprints registered
+2025-05-27 15:16:34 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:16:34 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 15:16:34 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 15:16:36 - db.blacklist - WARNING - Attempted to add IP 192.168.1.122 that does not exist in devices table
+2025-05-27 15:16:36 - db.blacklist - ERROR - Error adding to blacklist: Device with IP 192.168.1.122 not found in devices table
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 58, in add_to_blacklist
+    raise ValueError(f"Device with IP {ip} not found in devices table")
+ValueError: Device with IP 192.168.1.122 not found in devices table
+2025-05-27 15:16:36 - blacklist.endpoints - WARNING - Invalid request to add to blacklist: Device with IP 192.168.1.122 not found in devices table
+2025-05-27 15:16:36 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:16:36] "[31m[1mPOST /blacklist HTTP/1.1[0m" 400 -
+2025-05-27 15:16:42 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 15:16:42 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 15:16:44 - db.device_repository - INFO - Registered new device router with IP 192.168.1.1
+2025-05-27 15:16:44 - db.device_repository - INFO - Added device router to general group
+2025-05-27 15:16:44 - db.device_repository - INFO - Registered new device d8:bb:c1:47:3a:43 with IP 192.168.1.122
+2025-05-27 15:16:44 - db.device_repository - INFO - Added device d8:bb:c1:47:3a:43 to general group
+2025-05-27 15:16:44 - db.device_repository - INFO - Registered new device 12:2a:0a:02:ce:19 with IP 192.168.1.221
+2025-05-27 15:16:44 - db.device_repository - INFO - Added device 12:2a:0a:02:ce:19 to general group
+2025-05-27 15:16:44 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:16:44] "GET /api/router_scan HTTP/1.1" 200 -
+2025-05-27 15:16:45 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:16:45 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:16:45 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:16:45 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:16:45 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:16:45 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:16:46 - root - INFO - Logging initialized at 2025-05-27 15:16:46
+2025-05-27 15:16:46 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:16:46 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:16:46 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:16:47 - __main__ - INFO - Initializing database tables
+2025-05-27 15:16:47 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:16:47 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:16:47 - __main__ - INFO - Database tables initialized
+2025-05-27 15:16:47 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:16:47 - __main__ - INFO - API blueprints registered
+2025-05-27 15:16:47 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:16:47 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 15:16:47 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 15:16:47 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 15:16:47 - root - INFO - Logging initialized at 2025-05-27 15:16:47
+2025-05-27 15:16:47 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:16:47 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:16:47 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:16:48 - __main__ - INFO - Initializing database tables
+2025-05-27 15:16:48 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:16:48 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:16:48 - __main__ - INFO - Database tables initialized
+2025-05-27 15:16:48 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:16:48 - __main__ - INFO - API blueprints registered
+2025-05-27 15:16:48 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:16:48 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 15:16:48 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 15:16:53 - db.blacklist - WARNING - Attempted to add IP 192.168.1.122 that does not exist in devices table
+2025-05-27 15:16:53 - db.blacklist - ERROR - Error adding to blacklist: Device with IP 192.168.1.122 not found in devices table
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 58, in add_to_blacklist
+    raise ValueError(f"Device with IP {ip} not found in devices table")
+ValueError: Device with IP 192.168.1.122 not found in devices table
+2025-05-27 15:16:53 - blacklist.endpoints - WARNING - Invalid request to add to blacklist: Device with IP 192.168.1.122 not found in devices table
+2025-05-27 15:16:53 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:16:53] "[31m[1mPOST /blacklist HTTP/1.1[0m" 400 -
+2025-05-27 15:20:58 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\router_scanner.py', reloading
+2025-05-27 15:20:58 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:20:58 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:20:58 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:20:58 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 15:20:59 - root - INFO - Logging initialized at 2025-05-27 15:20:59
+2025-05-27 15:20:59 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:20:59 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:20:59 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:20:59 - __main__ - INFO - Initializing database tables
+2025-05-27 15:20:59 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:20:59 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:20:59 - __main__ - INFO - Database tables initialized
+2025-05-27 15:20:59 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:20:59 - __main__ - INFO - API blueprints registered
+2025-05-27 15:20:59 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:20:59 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 15:20:59 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 15:21:05 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:21:05 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:21:05 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:21:05 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:21:05 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:21:05 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:21:12 - root - INFO - Logging initialized at 2025-05-27 15:21:12
+2025-05-27 15:21:12 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:21:12 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:21:12 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:21:13 - __main__ - INFO - Initializing database tables
+2025-05-27 15:21:13 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:21:13 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:21:13 - __main__ - INFO - Database tables initialized
+2025-05-27 15:21:13 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:21:13 - __main__ - INFO - API blueprints registered
+2025-05-27 15:21:13 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:21:13 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 15:21:13 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 15:21:13 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 15:21:13 - root - INFO - Logging initialized at 2025-05-27 15:21:13
+2025-05-27 15:21:13 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:21:13 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:21:13 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:21:14 - __main__ - INFO - Initializing database tables
+2025-05-27 15:21:14 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:21:14 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:21:14 - __main__ - INFO - Database tables initialized
+2025-05-27 15:21:14 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:21:14 - __main__ - INFO - API blueprints registered
+2025-05-27 15:21:14 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:21:14 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 15:21:14 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 15:21:17 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 15:21:17 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 15:21:18 - db.device_repository - INFO - Registered new device router with IP 192.168.1.1
+2025-05-27 15:21:18 - db.device_repository - INFO - Added device router to general group
+2025-05-27 15:21:18 - db.device_repository - INFO - Registered new device d8:bb:c1:47:3a:43 with IP 192.168.1.122
+2025-05-27 15:21:18 - db.device_repository - INFO - Added device d8:bb:c1:47:3a:43 to general group
+2025-05-27 15:21:19 - db.device_repository - INFO - Registered new device 12:2a:0a:02:ce:19 with IP 192.168.1.221
+2025-05-27 15:21:19 - db.device_repository - INFO - Added device 12:2a:0a:02:ce:19 to general group
+2025-05-27 15:21:19 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:21:19] "GET /api/router_scan HTTP/1.1" 200 -
+2025-05-27 15:21:20 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:21:20 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:21:20 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:21:20 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:21:20 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:21:20 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:21:21 - root - INFO - Logging initialized at 2025-05-27 15:21:21
+2025-05-27 15:21:21 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:21:21 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:21:21 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:21:22 - __main__ - INFO - Initializing database tables
+2025-05-27 15:21:22 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:21:22 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:21:22 - __main__ - INFO - Database tables initialized
+2025-05-27 15:21:22 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:21:22 - __main__ - INFO - API blueprints registered
+2025-05-27 15:21:22 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:21:22 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 15:21:22 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 15:21:22 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 15:21:22 - root - INFO - Logging initialized at 2025-05-27 15:21:22
+2025-05-27 15:21:22 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:21:22 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:21:22 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:21:23 - __main__ - INFO - Initializing database tables
+2025-05-27 15:21:23 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:21:23 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:21:23 - __main__ - INFO - Database tables initialized
+2025-05-27 15:21:23 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:21:23 - __main__ - INFO - API blueprints registered
+2025-05-27 15:21:23 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:21:23 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 15:21:23 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 15:21:25 - db.blacklist - WARNING - Attempted to add IP 192.168.1.122 that does not exist in devices table
+2025-05-27 15:21:25 - db.blacklist - ERROR - Error adding to blacklist: Device with IP 192.168.1.122 not found in devices table
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 58, in add_to_blacklist
+    raise ValueError(f"Device with IP {ip} not found in devices table")
+ValueError: Device with IP 192.168.1.122 not found in devices table
+2025-05-27 15:21:25 - blacklist.endpoints - WARNING - Invalid request to add to blacklist: Device with IP 192.168.1.122 not found in devices table
+2025-05-27 15:21:25 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:21:25] "[31m[1mPOST /blacklist HTTP/1.1[0m" 400 -
+2025-05-27 15:22:19 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 15:22:19 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 15:22:20 - db.device_repository - INFO - Registered new device router with IP 192.168.1.1
+2025-05-27 15:22:20 - db.device_repository - INFO - Added device router to general group
+2025-05-27 15:22:20 - db.device_repository - INFO - Registered new device d8:bb:c1:47:3a:43 with IP 192.168.1.122
+2025-05-27 15:22:20 - db.device_repository - INFO - Added device d8:bb:c1:47:3a:43 to general group
+2025-05-27 15:22:20 - db.device_repository - INFO - Registered new device 12:2a:0a:02:ce:19 with IP 192.168.1.221
+2025-05-27 15:22:20 - db.device_repository - INFO - Added device 12:2a:0a:02:ce:19 to general group
+2025-05-27 15:22:20 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:22:20] "GET /api/router_scan HTTP/1.1" 200 -
+2025-05-27 15:22:28 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:22:28 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:22:28 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:22:28 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:22:28 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:22:28 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:25:27 - root - INFO - Logging initialized at 2025-05-27 15:25:27
+2025-05-27 15:25:27 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:25:27 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:25:27 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:25:28 - __main__ - INFO - Initializing database tables
+2025-05-27 15:25:28 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:25:28 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:25:28 - __main__ - INFO - Database tables initialized
+2025-05-27 15:25:28 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:25:28 - __main__ - INFO - API blueprints registered
+2025-05-27 15:25:28 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:25:28 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 15:25:28 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 15:25:28 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 15:25:28 - root - INFO - Logging initialized at 2025-05-27 15:25:28
+2025-05-27 15:25:28 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:25:28 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:25:28 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:25:29 - __main__ - INFO - Initializing database tables
+2025-05-27 15:25:29 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:25:29 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:25:29 - __main__ - INFO - Database tables initialized
+2025-05-27 15:25:29 - __main__ - INFO - Registering API blueprints
+2025-05-27 15:25:29 - __main__ - INFO - API blueprints registered
+2025-05-27 15:25:29 - __main__ - INFO - Starting server on port 5000
+2025-05-27 15:25:29 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 15:25:29 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 15:25:33 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 15:25:33 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 15:25:34 - db.device_repository - INFO - Registered new device router with IP 192.168.1.1
+2025-05-27 15:25:34 - db.device_repository - INFO - Added device router to general group
+2025-05-27 15:25:34 - db.device_repository - INFO - Registered new device d8:bb:c1:47:3a:43 with IP 192.168.1.122
+2025-05-27 15:25:34 - db.device_repository - INFO - Added device d8:bb:c1:47:3a:43 to general group
+2025-05-27 15:25:34 - db.device_repository - INFO - Registered new device 12:2a:0a:02:ce:19 with IP 192.168.1.221
+2025-05-27 15:25:34 - db.device_repository - INFO - Added device 12:2a:0a:02:ce:19 to general group
+2025-05-27 15:25:34 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 15:25:34] "GET /api/router_scan HTTP/1.1" 200 -
+2025-05-27 15:25:37 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:25:37 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:25:37 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:25:38 - __main__ - INFO - Cleaning up resources
+2025-05-27 15:25:38 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:25:38 - __main__ - INFO - Resources cleaned up
+2025-05-27 15:30:34 - root - INFO - Logging initialized at 2025-05-27 15:30:34
+2025-05-27 15:30:34 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:30:34 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:30:34 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 15:30:34 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:45:32 - root - INFO - Logging initialized at 2025-05-27 15:45:32
+2025-05-27 15:45:32 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:45:32 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:45:32 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 15:45:32 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:47:04 - root - INFO - Logging initialized at 2025-05-27 15:47:04
+2025-05-27 15:47:04 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:47:04 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:47:04 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 15:47:04 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:48:22 - root - INFO - Logging initialized at 2025-05-27 15:48:22
+2025-05-27 15:48:22 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:48:22 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:48:22 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 15:48:22 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:49:42 - root - INFO - Logging initialized at 2025-05-27 15:49:42
+2025-05-27 15:49:42 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:49:42 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:49:42 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 15:49:42 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:50:55 - root - INFO - Logging initialized at 2025-05-27 15:50:55
+2025-05-27 15:50:55 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:50:55 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:50:55 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 15:50:55 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:53:52 - root - INFO - Logging initialized at 2025-05-27 15:53:52
+2025-05-27 15:53:52 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:53:52 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:53:52 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 15:53:52 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:55:34 - root - INFO - Logging initialized at 2025-05-27 15:55:34
+2025-05-27 15:55:34 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:55:34 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:55:34 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 15:55:34 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:56:15 - root - INFO - Logging initialized at 2025-05-27 15:56:15
+2025-05-27 15:56:15 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:56:15 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:56:15 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 15:56:15 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:57:20 - root - INFO - Logging initialized at 2025-05-27 15:57:20
+2025-05-27 15:57:20 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:57:20 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:57:20 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 15:57:20 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:59:23 - root - INFO - Logging initialized at 2025-05-27 15:59:23
+2025-05-27 15:59:23 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 15:59:23 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:59:23 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 15:59:23 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:00:46 - root - INFO - Logging initialized at 2025-05-27 16:00:46
+2025-05-27 16:00:46 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 16:00:46 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:00:46 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:00:46 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:01:34 - root - INFO - Logging initialized at 2025-05-27 16:01:34
+2025-05-27 16:01:34 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 16:01:34 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:01:34 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:01:34 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:01:35 - __main__ - INFO - Initializing database tables
+2025-05-27 16:01:35 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:01:35 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:01:35 - __main__ - INFO - Database tables initialized
+2025-05-27 16:01:35 - __main__ - INFO - Registering API blueprints
+2025-05-27 16:01:35 - __main__ - INFO - API blueprints registered
+2025-05-27 16:01:35 - __main__ - INFO - Starting server on port 5000
+2025-05-27 16:01:35 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 16:01:35 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 16:01:35 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 16:01:35 - root - INFO - Logging initialized at 2025-05-27 16:01:35
+2025-05-27 16:01:35 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 16:01:35 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:01:35 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:01:35 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:01:36 - __main__ - INFO - Initializing database tables
+2025-05-27 16:01:36 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:01:36 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:01:36 - __main__ - INFO - Database tables initialized
+2025-05-27 16:01:36 - __main__ - INFO - Registering API blueprints
+2025-05-27 16:01:36 - __main__ - INFO - API blueprints registered
+2025-05-27 16:01:36 - __main__ - INFO - Starting server on port 5000
+2025-05-27 16:01:36 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 16:01:36 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 16:01:43 - __main__ - INFO - Cleaning up resources
+2025-05-27 16:01:43 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 16:01:43 - __main__ - INFO - Resources cleaned up
+2025-05-27 16:01:43 - __main__ - INFO - Cleaning up resources
+2025-05-27 16:01:43 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 16:01:43 - __main__ - INFO - Resources cleaned up

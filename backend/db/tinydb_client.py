@@ -8,8 +8,9 @@ from utils.logging_config import get_logger
 # Get logger for database operations
 logger = get_logger('db.tinydb')
 
-# Get path for database file
+# Get paths for database files
 DB_PATH = os.path.join(get_data_folder(), "netpilot.json")
+DEVICES_DB_PATH = os.path.join(get_data_folder(), "devices.json")
 
 class TinyDBClient:
     _instance = None
@@ -21,20 +22,27 @@ class TinyDBClient:
         return cls._instance
     
     def initialize(self):
-        """Initialize the TinyDB instance with caching for better performance."""
+        """Initialize the TinyDB instances with caching for better performance."""
         try:
             # Ensure data directory exists
             os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
             
-            # Initialize TinyDB with explicit caching middleware
+            # Initialize main TinyDB with explicit caching middleware
             self.db = TinyDB(
                 DB_PATH, 
                 storage=CachingMiddleware(JSONStorage)
             )
             logger.info(f"TinyDB initialized with caching middleware at {DB_PATH}")
             
+            # Initialize devices TinyDB with explicit caching middleware
+            self.devices_db = TinyDB(
+                DEVICES_DB_PATH,
+                storage=CachingMiddleware(JSONStorage)
+            )
+            logger.info(f"Devices TinyDB initialized with caching middleware at {DEVICES_DB_PATH}")
+            
             # Initialize tables (collections)
-            self.devices = self.db.table('devices')
+            self.devices = self.devices_db.table('devices')
             self.device_groups = self.db.table('device_groups')
             self.group_members = self.db.table('group_members')
             self.rules = self.db.table('rules')
@@ -46,63 +54,53 @@ class TinyDBClient:
             # Initialize default settings if they don't exist
             self.initialize_settings()
             
+            # Ensure tables are created and persisted
+            self.flush()
+            
             logger.info(f"TinyDB tables initialized")
         except Exception as e:
-            logger.error(f"Failed to initialize TinyDB: {e}", exc_info=True)
+            logger.error(f"Error initializing TinyDB: {str(e)}", exc_info=True)
             raise
     
     def initialize_settings(self):
-        """Initialize default settings in the settings table"""
-        Setting = Query()
-        
-        # Define default settings
-        default_settings = [
-            {'name': 'whitelist_mode', 'value': False},
-            # Add other default settings here as needed
-        ]
-        
-        # Insert default settings if they don't already exist
-        for setting in default_settings:
-            if not self.settings.get(Setting.name == setting['name']):
-                self.settings.insert(setting)
-                logger.info(f"Initialized setting {setting['name']} to {setting['value']}")
-            else:
-                # Ensure consistent structure - convert any existing entries to use 'value' field
-                existing = self.settings.get(Setting.name == setting['name'])
-                if 'value' not in existing:
-                    # Convert from legacy format to standard format
-                    if 'default' in existing:
-                        new_value = existing['default'] != '0'
-                        self.settings.update({'value': new_value}, Setting.name == setting['name'])
-                        logger.info(f"Converted setting {setting['name']} from legacy format to value={new_value}")
-                
-        # Ensure settings are persisted
-        self.flush()
+        """Initialize default settings if they don't exist."""
+        try:
+            if not self.settings.contains(Query().name == 'whitelist_mode'):
+                self.settings.insert({
+                    'name': 'whitelist_mode',
+                    'value': False,
+                    'description': 'Whether whitelist mode is active'
+                })
+                self.flush()
+        except Exception as e:
+            logger.error(f"Error initializing settings: {str(e)}", exc_info=True)
     
     def flush(self):
         """Force flush all cached writes to disk."""
         try:
             if hasattr(self.db.storage, 'flush'):
                 self.db.storage.flush()
-                logger.debug("Database cache flushed to disk")
+                logger.debug("Main database cache flushed to disk")
             else:
-                logger.warning("Database storage does not support flushing")
+                logger.warning("Main database storage does not support flushing")
+                
+            if hasattr(self.devices_db.storage, 'flush'):
+                self.devices_db.storage.flush()
+                logger.debug("Devices database cache flushed to disk")
+            else:
+                logger.warning("Devices database storage does not support flushing")
         except Exception as e:
             logger.error(f"Error flushing database: {str(e)}", exc_info=True)
     
-    def clear_all(self):
-        """Clear all data from all tables."""
-        for table_name in ['devices', 'device_groups', 'group_members', 'rules', 'device_rules']:
-            table = self.db.table(table_name)
-            table.truncate()
-        logger.info("All tables cleared")
-        self.flush()
-
     def close(self):
-        """Close the database connection."""
-        self.flush()
-        self.db.close()
-        logger.info("TinyDB connection closed")
+        """Close the database connections and flush any pending writes."""
+        try:
+            self.flush()
+            self.db.close()
+            self.devices_db.close()
+            logger.info("TinyDB connections closed")
+        except Exception as e:
+            logger.error(f"Error closing TinyDB connections: {str(e)}", exc_info=True)
 
 # Create a singleton instance
 db_client = TinyDBClient() 

@@ -62,6 +62,7 @@ logger.info("API blueprints registered")
 def cleanup_resources():
     logger.info("Cleaning up resources")
     ssh_manager.close_connection()
+    db_client.flush()
     db_client.close()
     logger.info("Resources cleaned up")
 

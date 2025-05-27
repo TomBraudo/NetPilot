@@ -1,6 +1,9 @@
 import time
 from utils.ssh_client import ssh_manager
 from utils.response_helpers import success, error
+from utils.logging_config import get_logger
+
+logger = get_logger('services.wifi')
 
 def enable_wifi():
     """
@@ -45,6 +48,7 @@ def enable_wifi():
         return success(f"WiFi enabled successfully with SSID: {ssid_output}")
         
     except Exception as e:
+        logger.error(f"Error enabling WiFi: {str(e)}", exc_info=True)
         return error(f"Error enabling WiFi: {str(e)}")
 
 def change_wifi_password(password, interface_num=0):
@@ -85,6 +89,7 @@ def change_wifi_password(password, interface_num=0):
         return success(f"WiFi password changed successfully for network: {ssid_output}")
         
     except Exception as e:
+        logger.error(f"Error changing WiFi password: {str(e)}", exc_info=True)
         return error(f"Error changing WiFi password: {str(e)}")
 
 def get_wifi_status():
@@ -117,6 +122,7 @@ def get_wifi_status():
         })
         
     except Exception as e:
+        logger.error(f"Error getting WiFi status: {str(e)}", exc_info=True)
         return error(f"Error getting WiFi status: {str(e)}")
 
 def change_wifi_ssid(ssid, interface_num=0):
@@ -149,6 +155,7 @@ def change_wifi_ssid(ssid, interface_num=0):
         return success(f"WiFi SSID changed successfully to: {ssid}")
         
     except Exception as e:
+        logger.error(f"Error changing WiFi SSID: {str(e)}", exc_info=True)
         return error(f"Error changing WiFi SSID: {str(e)}")
 
 def get_wifi_ssid(interface_num=0):
@@ -172,5 +179,5 @@ def get_wifi_ssid(interface_num=0):
         return success(data={"ssid": ssid_output.strip()})
         
     except Exception as e:
-        return error(f"Error getting WiFi SSID: {str(e)}")
-    
+        logger.error(f"Error getting WiFi SSID: {str(e)}", exc_info=True)
+        return error(f"Error getting WiFi SSID: {str(e)}") 

@@ -1,13 +1,16 @@
+from utils.logging_config import get_logger
 from utils.ssh_client import ssh_manager
 from utils.response_helpers import success, error
 from services.block_ip import get_blocked_devices, unblock_mac_address
-from services.limit_bandwidth import remove_bandwidth_limit
 from db.device_repository import get_all_devices
 from db.device_groups_repository import get_rules_for_device
+
+logger = get_logger('services.reset_rules')
 
 def reset_all_tc_rules():
     """
     Remove all traffic control (bandwidth limit) rules from the router.
+    This is used when resetting blacklist/whitelist modes.
     """
     # Get all interfaces first
     iface_cmd = "ip link show | grep -v '@' | grep -v 'lo:' | awk -F': ' '{print $2}' | cut -d'@' -f1"
@@ -24,7 +27,7 @@ def reset_all_tc_rules():
         # Remove all qdisc rules
         ssh_manager.execute_command(f"tc qdisc del dev {interface} root 2>/dev/null")
         
-    return success("All bandwidth limits removed")
+    return success("All traffic control rules removed")
 
 def unblock_all_devices():
     """

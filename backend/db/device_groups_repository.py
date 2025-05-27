@@ -12,6 +12,7 @@ Group = Query()
 GroupMember = Query()
 Rule = Query()
 DeviceRule = Query()
+Device = Query()
 
 # This function is no longer needed with TinyDB but kept as a no-op for compatibility
 def init_group_tables():
@@ -23,15 +24,19 @@ def set_rule_for_device(mac, ip, rule_name, rule_value="0"):
     """Set a rule for a device using MAC as the primary key."""
     try:
         # Check if device exists
-        Device = Query()
         device = db_client.devices.get(Device.mac == mac)
         
         if not device:
-            # Import here to avoid circular import
-            from db.device_repository import register_device
-            registration_success = register_device(ip, mac, "unknown")
-            if not registration_success:
-                raise ValueError(f"Failed to register device with MAC {mac}")
+            # Create a basic device record if it doesn't exist
+            db_client.devices.insert({
+                'mac': mac,
+                'ip': ip,
+                'hostname': "unknown",
+                'device_name': None,
+                'first_seen': datetime.utcnow().isoformat(),
+                'last_seen': datetime.utcnow().isoformat()
+            })
+            logger.info(f"Created basic device record for {mac}")
         
         # Check if rule exists
         rule = db_client.rules.get(Rule.name == rule_name)
@@ -150,7 +155,6 @@ def move_device_to_group(mac, ip, group_name):
     """Move a device to a different group."""
     try:
         # Check if device exists
-        Device = Query()
         device = db_client.devices.get((Device.mac == mac) & (Device.ip == ip))
         if not device:
             raise ValueError(f"Device with MAC {mac} and IP {ip} does not exist")
@@ -184,10 +188,19 @@ def move_device_to_group(mac, ip, group_name):
         logger.error(f"Error moving device to group: {e}")
         return False
 
-def get_rules_for_device(mac, ip):
-    """Get all rules for a device using MAC as the primary key."""
+def get_rules_for_device(mac):
+    """
+    Get all rules for a device using MAC as the primary key.
+    
+    Args:
+        mac (str): The device's MAC address
+        
+    Returns:
+        list: List of rules for the device
+    """
     try:
-        return db_client.device_rules.search(DeviceRule.mac == mac)
+        rules = db_client.device_rules.search(DeviceRule.mac == mac)
+        return rules
     except Exception as e:
         logger.error(f"Error getting device rules: {e}")
         return []

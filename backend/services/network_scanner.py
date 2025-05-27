@@ -7,7 +7,11 @@ from utils.path_utils import get_data_folder
 import netifaces
 import ipaddress
 from utils.response_helpers import success, error
+from utils.logging_config import get_logger
+from utils.ssh_client import ssh_manager
 from db.device_repository import register_device
+
+logger = get_logger('services.network_scanner')
 
 def scan(ip_range):
     """
@@ -20,7 +24,10 @@ def scan(ip_range):
 
     devices = []
     for sent, received in result:
-        device = {"ip": received.psrc, "mac": received.hwsrc}
+        device = {
+            "ip": received.psrc,
+            "mac": received.hwsrc
+        }
         if device not in devices:  # Avoid duplicates
             devices.append(device)
 
@@ -86,11 +93,9 @@ def scan_network():
                 
     devices_with_hostnames = get_device_names(all_devices)
     for device in devices_with_hostnames:
-        register_device(device["ip"], device["mac"], device["hostname"])
-    # Resolve hostnames for detected devices
+        register_device(device["ip"], device["mac"], device.get("hostname", "Unknown"))
     
-
-    return success(data=devices_with_hostnames)
+    return success("Network scan completed", data=devices_with_hostnames)
 
 
 def print_results(devices):

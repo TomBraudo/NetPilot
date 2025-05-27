@@ -1,6 +1,16 @@
 from flask import Blueprint, request, jsonify
-from services.wifi_manager import enable_wifi, change_wifi_password, get_wifi_status, change_wifi_ssid, get_wifi_ssid
-from utils.response_helpers import error
+from utils.response_helpers import error, success
+from utils.logging_config import get_logger
+from services.wifi_management import (
+    enable_wifi,
+    change_wifi_password,
+    get_wifi_status,
+    get_wifi_ssid,
+    change_wifi_ssid
+)
+
+# Get logger for wifi endpoints
+logger = get_logger('wifi.endpoints')
 
 wifi_bp = Blueprint('wifi', __name__)
 
@@ -9,7 +19,13 @@ wifi_bp = Blueprint('wifi', __name__)
 '''
 @wifi_bp.route("/wifi/enable", methods=["POST"])
 def enable_wifi_route():
-    return jsonify(enable_wifi())
+    """Enable WiFi on the router"""
+    try:
+        result = enable_wifi()
+        return jsonify(result)
+    except Exception as e:
+        logger.error(f"Error enabling WiFi: {str(e)}", exc_info=True)
+        return jsonify(error(str(e))), 500
 
 '''
     API endpoint to change the WiFi password
@@ -17,21 +33,36 @@ def enable_wifi_route():
 '''
 @wifi_bp.route("/wifi/change_password", methods=["POST"])
 def change_wifi_password_route():
-    data = request.get_json()
-    password = data.get("password")
-    interface = data.get("interface", 0)  # Default to interface 0
-    
-    if not password:
-        return jsonify(error("Missing 'password' in request body"))
+    """Change the WiFi password"""
+    try:
+        data = request.get_json()
+        password = data.get("password")
+        interface = data.get("interface", 0)  # Default to interface 0
         
-    return jsonify(change_wifi_password(password, interface))
+        if not password:
+            return jsonify(error("Missing 'password' in request body")), 400
+            
+        result = change_wifi_password(password, interface)
+        return jsonify(result)
+    except ValueError as e:
+        logger.error(f"Validation error: {str(e)}")
+        return jsonify(error(str(e))), 400
+    except Exception as e:
+        logger.error(f"Error changing WiFi password: {str(e)}", exc_info=True)
+        return jsonify(error(str(e))), 500
 
 '''
     API endpoint to get current WiFi status
 '''
 @wifi_bp.route("/wifi/status", methods=["GET"])
 def get_wifi_status_route():
-    return jsonify(get_wifi_status())
+    """Get current WiFi status"""
+    try:
+        result = get_wifi_status()
+        return jsonify(result)
+    except Exception as e:
+        logger.error(f"Error getting WiFi status: {str(e)}", exc_info=True)
+        return jsonify(error(str(e))), 500
 
 '''
     API endpoint to get the current WiFi SSID
@@ -39,8 +70,14 @@ def get_wifi_status_route():
 '''
 @wifi_bp.route("/wifi/ssid", methods=["GET"])
 def get_wifi_ssid_route():
-    interface = request.args.get("interface", 0, type=int)
-    return jsonify(get_wifi_ssid(interface))
+    """Get the current WiFi SSID"""
+    try:
+        interface = request.args.get("interface", 0, type=int)
+        result = get_wifi_ssid(interface)
+        return jsonify(result)
+    except Exception as e:
+        logger.error(f"Error getting WiFi SSID: {str(e)}", exc_info=True)
+        return jsonify(error(str(e))), 500
 
 '''
     API endpoint to change the WiFi SSID
@@ -48,11 +85,20 @@ def get_wifi_ssid_route():
 '''
 @wifi_bp.route("/wifi/ssid", methods=["POST"])
 def change_wifi_ssid_route():
-    data = request.get_json()
-    ssid = data.get("ssid")
-    interface = data.get("interface", 0)  # Default to interface 0
-    
-    if not ssid:
-        return jsonify(error("Missing 'ssid' in request body"))
+    """Change the WiFi SSID"""
+    try:
+        data = request.get_json()
+        ssid = data.get("ssid")
+        interface = data.get("interface", 0)  # Default to interface 0
         
-    return jsonify(change_wifi_ssid(ssid, interface))
+        if not ssid:
+            return jsonify(error("Missing 'ssid' in request body")), 400
+            
+        result = change_wifi_ssid(ssid, interface)
+        return jsonify(result)
+    except ValueError as e:
+        logger.error(f"Validation error: {str(e)}")
+        return jsonify(error(str(e))), 400
+    except Exception as e:
+        logger.error(f"Error changing WiFi SSID: {str(e)}", exc_info=True)
+        return jsonify(error(str(e))), 500

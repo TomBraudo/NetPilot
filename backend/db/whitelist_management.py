@@ -4,6 +4,7 @@ import os
 from db.tinydb_client import db_client
 from datetime import datetime
 from utils.logging_config import get_logger
+from db.device_repository import get_mac_from_ip
 
 # Setup logging
 logger = get_logger('db.whitelist')
@@ -21,7 +22,13 @@ def get_whitelist():
     Returns:
         list: List of whitelisted device entries
     """
-    return whitelist_table.all()
+    try:
+        entries = whitelist_table.all()
+        db_client.flush()  # Ensure we have the latest data
+        return entries
+    except Exception as e:
+        logger.error(f"Error retrieving whitelist: {str(e)}", exc_info=True)
+        return []
 
 def add_to_whitelist(ip, name=None, description=None):
     """
@@ -36,24 +43,36 @@ def add_to_whitelist(ip, name=None, description=None):
         dict: The entry that was added
         
     Raises:
-        ValueError: If the IP already exists in whitelist
+        ValueError: If the IP already exists in whitelist or if device not found in devices table
     """
-    # Check if IP already exists
-    if whitelist_table.search(Device.ip == ip):
-        logger.warning(f"Attempted to add IP {ip} that already exists in whitelist")
-        raise ValueError(f"Device with IP {ip} already in whitelist")
-    
-    # Add device to whitelist
-    entry = {
-        'ip': ip,
-        'name': name or f"Device-{ip}",
-        'description': description or "",
-        'added_at': str(datetime.now())
-    }
-    whitelist_table.insert(entry)
-    
-    logger.info(f"Added device with IP {ip} to whitelist")
-    return entry
+    try:
+        # Check if IP already exists in whitelist
+        if whitelist_table.search(Device.ip == ip):
+            logger.warning(f"Attempted to add IP {ip} that already exists in whitelist")
+            raise ValueError(f"Device with IP {ip} already in whitelist")
+        
+        # Get MAC address from devices table
+        mac = get_mac_from_ip(ip)
+        if not mac:
+            logger.warning(f"Attempted to add IP {ip} that does not exist in devices table")
+            raise ValueError(f"Device with IP {ip} not found in devices table")
+        
+        # Add device to whitelist
+        entry = {
+            'ip': ip,
+            'mac': mac,
+            'name': name or f"Device-{ip}",
+            'description': description or "",
+            'added_at': str(datetime.now())
+        }
+        whitelist_table.insert(entry)
+        db_client.flush()  # Ensure the entry is persisted
+        
+        logger.info(f"Added device with IP {ip} to whitelist")
+        return entry
+    except Exception as e:
+        logger.error(f"Error adding to whitelist: {str(e)}", exc_info=True)
+        raise
 
 def remove_from_whitelist(ip):
     """
@@ -68,16 +87,41 @@ def remove_from_whitelist(ip):
     Raises:
         ValueError: If the IP was not found in whitelist
     """
-    # Check if IP exists
-    if not whitelist_table.search(Device.ip == ip):
-        logger.warning(f"Attempted to remove IP {ip} that does not exist in whitelist")
-        raise ValueError(f"Device with IP {ip} not found in whitelist")
+    try:
+        # Check if IP exists in whitelist
+        if not whitelist_table.search(Device.ip == ip):
+            logger.warning(f"Attempted to remove IP {ip} that does not exist in whitelist")
+            raise ValueError(f"Device with IP {ip} not found in whitelist")
+        
+        # Remove from whitelist
+        whitelist_table.remove(Device.ip == ip)
+        db_client.flush()  # Ensure the removal is persisted
+        
+        logger.info(f"Removed device with IP {ip} from whitelist")
+        return ip
+    except Exception as e:
+        logger.error(f"Error removing from whitelist: {str(e)}", exc_info=True)
+        raise
+
+def clear_whitelist():
+    """
+    Clears all entries from the whitelist database
     
-    # Remove from whitelist
-    whitelist_table.remove(Device.ip == ip)
-    
-    logger.info(f"Removed device with IP {ip} from whitelist")
-    return ip
+    Returns:
+        bool: True if successful
+        
+    Raises:
+        Exception: If there was an error clearing the whitelist
+    """
+    try:
+        logger.info("Clearing all entries from whitelist")
+        whitelist_table.truncate()
+        db_client.flush()  # Ensure the clearing is persisted
+        logger.info("Successfully cleared whitelist")
+        return True
+    except Exception as e:
+        logger.error(f"Error clearing whitelist: {str(e)}", exc_info=True)
+        raise
 
 def is_whitelist_mode_active():
     """

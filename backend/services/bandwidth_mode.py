@@ -1,47 +1,33 @@
 #!/usr/bin/env python3
 from utils.path_utils import get_data_folder
 from utils.logging_config import get_logger
+from utils.config_manager import config_manager
 import os
 import json
 
 # Get logger for bandwidth mode service
 logger = get_logger('bandwidth.mode')
 
-# Get the mode config file path
-mode_config_path = os.path.join(get_data_folder(), "bandwidth_mode.json")
-
 # Default mode is 'none'
 DEFAULT_MODE = 'none'
 
 def load_mode_config():
     """
-    Loads the bandwidth mode configuration from the config file
+    Loads the mode configuration from the config file
     
     Returns:
-        dict: The bandwidth mode configuration
+        dict: The mode configuration
     """
-    try:
-        if os.path.exists(mode_config_path):
-            with open(mode_config_path, 'r') as f:
-                return json.load(f)
-        return {'mode': DEFAULT_MODE}
-    except Exception as e:
-        logger.error(f"Error loading mode config: {str(e)}", exc_info=True)
-        return {'mode': DEFAULT_MODE}
+    return config_manager.load_config('mode')
 
 def save_mode_config(config):
     """
-    Saves the bandwidth mode configuration to the config file
+    Saves the mode configuration to the config file
     
     Args:
-        config (dict): The configuration to save
+        config (dict): The mode configuration to save
     """
-    try:
-        with open(mode_config_path, 'w') as f:
-            json.dump(config, f)
-    except Exception as e:
-        logger.error(f"Error saving mode config: {str(e)}", exc_info=True)
-        raise
+    config_manager.save_config('mode', config)
 
 def get_current_mode():
     """
@@ -127,8 +113,7 @@ def deactivate_current_mode():
             # Set mode to none
             config = load_mode_config()
             config["mode"] = "none"
-            with open(mode_config_path, 'w') as f:
-                json.dump(config, f)
+            save_mode_config(config)
             logger.info("Successfully deactivated current mode")
         
         return result

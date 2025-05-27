@@ -15,71 +15,64 @@ def init_db():
     """No-op function for compatibility with existing code."""
     pass
 
-# Register or update a new device
-def register_device(ip, mac, hostname):
+def get_mac_from_ip(ip):
     """
-    Register a device in the database using MAC as the primary key.
-    If the device exists, update its IP and last_seen timestamp.
+    Get the MAC address for a given IP address from the devices table.
     
     Args:
+        ip (str): The IP address to look up
+        
+    Returns:
+        str: The MAC address if found, None otherwise
+    """
+    try:
+        device = db_client.devices.get(Device.ip == ip)
+        if device:
+            return device.get('mac')
+        return None
+    except Exception as e:
+        logger.error(f"Error getting MAC for IP {ip}: {e}")
+        return None
+
+def register_device(ip, mac, hostname="Unknown"):
+    """Register a new device or update an existing one"""
+    try:
+        Device = Query()
+        device = db_client.devices.get((Device.ip == ip) | (Device.mac == mac))
+        
+        if device:
+            # Update existing device
+            db_client.devices.update({
+                'ip': ip,
+                'mac': mac,
+                'hostname': hostname,
+                'last_seen': datetime.now().isoformat()
+            }, (Device.ip == ip) | (Device.mac == mac))
+        else:
+            # Add new device
+            db_client.devices.insert({
+                'ip': ip,
+                'mac': mac,
+                'hostname': hostname,
+                'last_seen': datetime.now().isoformat()
+            })
+        
+        return True
+    except Exception as e:
+        logger.error(f"Error registering device {ip}: {str(e)}", exc_info=True)
+        return False
+
+def delete_device(mac, ip):
+    """
+    Delete a device and all its related data.
+    
+    Args:
+        mac (str): The device's MAC address
         ip (str): The device's IP address
-        mac (str): The device's MAC address (primary key)
-        hostname (str): The device's hostname
         
     Returns:
         bool: True if successful, False otherwise
     """
-    try:
-        now = datetime.utcnow().isoformat()
-        
-        # Check if device exists by MAC only
-        existing = db_client.devices.get(Device.mac == mac)
-        
-        if existing:
-            # Update existing device with new IP and timestamp
-            db_client.devices.update({
-                'ip': ip,
-                'hostname': hostname,
-                'last_seen': now
-            }, Device.mac == mac)
-            logger.info(f"Updated device {mac} with new IP {ip}")
-        else:
-            # Insert new device
-            db_client.devices.insert({
-                'mac': mac,
-                'ip': ip,
-                'hostname': hostname,
-                'device_name': None,
-                'first_seen': now,
-                'last_seen': now
-            })
-            logger.info(f"Registered new device {mac} with IP {ip}")
-            
-            # Check if device is in any group
-            GroupMember = Query()
-            already_grouped = db_client.group_members.get(GroupMember.mac == mac)
-            
-            if not already_grouped:
-                # Add to general group
-                Group = Query()
-                general_group = db_client.device_groups.get(Group.name == 'general')
-                
-                if general_group:
-                    db_client.group_members.insert({
-                        'mac': mac,
-                        'ip': ip,
-                        'group_id': general_group.doc_id
-                    })
-                    logger.info(f"Added device {mac} to general group")
-        
-        return True
-    except Exception as e:
-        logger.error(f"Error registering device: {e}")
-        return False
-
-# Remove a device and all related data
-def delete_device(mac, ip):
-    """Delete a device and all its related data."""
     try:
         # Delete device rules
         db_client.device_rules.remove(Device.mac == mac)
@@ -90,38 +83,60 @@ def delete_device(mac, ip):
         
         # Delete device
         db_client.devices.remove(Device.mac == mac)
+        db_client.flush()  # Ensure changes are persisted
+        
         logger.info(f"Deleted device {mac} and all related data")
         return True
     except Exception as e:
         logger.error(f"Error deleting device: {e}")
         return False
 
-# Get all devices
 def get_all_devices():
-    """Get all devices as a list of dictionaries."""
+    """
+    Get all devices as a list of dictionaries.
+    
+    Returns:
+        list: List of device dictionaries
+    """
     try:
-        return db_client.devices.all()
+        devices = db_client.devices.all()
+        db_client.flush()  # Ensure we have the latest data
+        return devices
     except Exception as e:
         logger.error(f"Error getting devices: {e}")
         return []
 
-# Update device name by MAC address
 def update_device_name(mac, ip, device_name):
-    """Update a device's name by MAC address."""
+    """
+    Update a device's name by MAC address.
+    
+    Args:
+        mac (str): The device's MAC address
+        ip (str): The device's IP address
+        device_name (str): The new device name
+        
+    Returns:
+        bool: True if successful, False otherwise
+    """
     try:
         result = db_client.devices.update(
             {'device_name': device_name}, 
             Device.mac == mac
         )
+        db_client.flush()  # Ensure changes are persisted
         logger.info(f"Updated device name for {mac} to {device_name}")
         return len(result) > 0
     except Exception as e:
         logger.error(f"Error updating device name: {e}")
         return False
 
-# Clear all devices from the database
 def clear_devices():
-    """Clear all devices and related data."""
+    """
+    Clear all devices and related data.
+    
+    Returns:
+        bool: True if successful, False otherwise
+    """
     try:
         # Clear related tables first
         db_client.device_rules.truncate()
@@ -129,47 +144,48 @@ def clear_devices():
         
         # Then clear devices
         db_client.devices.truncate()
+        db_client.flush()  # Ensure changes are persisted
+        
         logger.info("Cleared all devices and related data")
         return True
     except Exception as e:
         logger.error(f"Error clearing devices: {e}")
         return False
 
-# Get device by MAC address
 def get_device_by_mac(mac):
     """
     Retrieves a device record by its MAC address.
     Returns the most recently seen record if multiple exist.
+    
+    Args:
+        mac (str): The device's MAC address
+        
+    Returns:
+        dict: The device record if found, None otherwise
     """
     try:
-        # Get all devices with this MAC
-        devices = db_client.devices.search(Device.mac == mac)
-        
-        if not devices:
-            return None
-            
-        # Sort by last_seen (descending) and return the most recent
-        return sorted(devices, key=lambda x: x.get('last_seen', ''), reverse=True)[0]
+        device = db_client.devices.get(Device.mac == mac)
+        db_client.flush()  # Ensure we have the latest data
+        return device
     except Exception as e:
-        logger.error(f"Error getting device by MAC: {e}")
+        logger.error(f"Error getting device by MAC {mac}: {e}")
         return None
 
-# Get MAC address from IP
-def get_mac_from_ip(ip):
+def get_device_by_ip(ip):
     """
-    Retrieves the MAC address for a given IP address.
-    Returns the most recently seen MAC if multiple exist.
+    Retrieves a device record by its IP address.
+    Returns the most recently seen record if multiple exist.
+    
+    Args:
+        ip (str): The device's IP address
+        
+    Returns:
+        dict: The device record if found, None otherwise
     """
     try:
-        # Get all devices with this IP
-        devices = db_client.devices.search(Device.ip == ip)
-        
-        if not devices:
-            return None
-            
-        # Sort by last_seen (descending) and return the most recent
-        most_recent = sorted(devices, key=lambda x: x.get('last_seen', ''), reverse=True)[0]
-        return most_recent.get('mac')
+        device = db_client.devices.get(Device.ip == ip)
+        db_client.flush()  # Ensure we have the latest data
+        return device
     except Exception as e:
-        logger.error(f"Error getting MAC from IP: {e}")
+        logger.error(f"Error getting device by IP {ip}: {e}")
         return None

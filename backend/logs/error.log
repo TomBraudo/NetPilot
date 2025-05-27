@@ -85,3 +85,48 @@ AttributeError: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'. Di
 2025-05-27 14:34:18 - migrations.migrate_to_mac_primary - ERROR - Error migrating devices table: 'TinyDBClient' object has no attribute 'table'
 2025-05-27 14:34:18 - migrations.migrate_to_mac_primary - ERROR - Migration failed: Devices table
 2025-05-27 14:34:18 - __main__ - ERROR - Migration failed
+2025-05-27 15:00:43 - db.blacklist - ERROR - Error adding to blacklist: Device with IP 192.168.1.122 not found in network
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 53, in add_to_blacklist
+    raise ValueError(f"Device with IP {ip} not found in network")
+ValueError: Device with IP 192.168.1.122 not found in network
+2025-05-27 15:00:57 - db.blacklist - ERROR - Error removing from blacklist: Device with IP 192.168.1.122 not found in blacklist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 94, in remove_from_blacklist
+    raise ValueError(f"Device with IP {ip} not found in blacklist")
+ValueError: Device with IP 192.168.1.122 not found in blacklist
+2025-05-27 15:01:30 - db.blacklist - ERROR - Error adding to blacklist: Device with IP 192.168.1.122 not found in network
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 53, in add_to_blacklist
+    raise ValueError(f"Device with IP {ip} not found in network")
+ValueError: Device with IP 192.168.1.122 not found in network
+2025-05-27 15:12:38 - db.blacklist - ERROR - Error adding to blacklist: Device with IP 192.168.1.122 not found in devices table
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 58, in add_to_blacklist
+    raise ValueError(f"Device with IP {ip} not found in devices table")
+ValueError: Device with IP 192.168.1.122 not found in devices table
+2025-05-27 15:13:00 - db.blacklist - ERROR - Error adding to blacklist: Device with IP 192.168.1.122 not found in devices table
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 58, in add_to_blacklist
+    raise ValueError(f"Device with IP {ip} not found in devices table")
+ValueError: Device with IP 192.168.1.122 not found in devices table
+2025-05-27 15:15:50 - db.blacklist - ERROR - Error adding to blacklist: Device with IP 192.168.1.122 not found in devices table
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 58, in add_to_blacklist
+    raise ValueError(f"Device with IP {ip} not found in devices table")
+ValueError: Device with IP 192.168.1.122 not found in devices table
+2025-05-27 15:16:36 - db.blacklist - ERROR - Error adding to blacklist: Device with IP 192.168.1.122 not found in devices table
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 58, in add_to_blacklist
+    raise ValueError(f"Device with IP {ip} not found in devices table")
+ValueError: Device with IP 192.168.1.122 not found in devices table
+2025-05-27 15:16:53 - db.blacklist - ERROR - Error adding to blacklist: Device with IP 192.168.1.122 not found in devices table
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 58, in add_to_blacklist
+    raise ValueError(f"Device with IP {ip} not found in devices table")
+ValueError: Device with IP 192.168.1.122 not found in devices table
+2025-05-27 15:21:25 - db.blacklist - ERROR - Error adding to blacklist: Device with IP 192.168.1.122 not found in devices table
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 58, in add_to_blacklist
+    raise ValueError(f"Device with IP {ip} not found in devices table")
+ValueError: Device with IP 192.168.1.122 not found in devices table
