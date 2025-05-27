@@ -2,12 +2,16 @@ import socket
 import requests
 import time
 import re
+import json
+import os
 from utils.ssh_client import ssh_manager
 from utils.response_helpers import error, success
 from utils.config_manager import config_manager
 from db.device_repository import register_device
+from db.tinydb_client import TinyDBClient
 import ipaddress
 from utils.logging_config import get_logger
+from datetime import datetime
 
 logger = get_logger('services.router_scanner')
 
@@ -101,8 +105,35 @@ def scan_network_via_router():
                 "vendor": device["vendor"]
             })
 
-    # Register active devices through device management service
-    for device in connected_devices:
+    # Register active devices through device management service and save to database
+    db_client = TinyDBClient()
+    
+    # Get existing devices to determine next ID
+    existing_devices = db_client.devices.all()
+    next_id = str(len(existing_devices) + 1)
+    
+    # Clear existing devices table
+    db_client.devices.truncate()
+    
+    # Save devices with numeric IDs
+    devices_dict = {}
+    for i, device in enumerate(connected_devices, 1):
+        # Register device in the device repository
         register_device(device["ip"], device["mac"], device["hostname"])
+        
+        # Save to devices table in TinyDB with numeric ID
+        devices_dict[str(i)] = {
+            "ip": device["ip"],
+            "mac": device["mac"],
+            "hostname": device["hostname"],
+            "last_seen": datetime.now().isoformat()
+        }
+    
+    # Save all devices at once
+    db_client.devices.insert({"devices": devices_dict})
+    
+    # Ensure changes are persisted
+    db_client.flush()
+    logger.info(f"Successfully saved {len(connected_devices)} devices to database")
 
     return success(message="Active devices fetched", data=connected_devices)

@@ -2,24 +2,122 @@
 	"info": {
 		"_postman_id": "netpilot-collection",
 		"name": "NetPilot API",
-		"description": "Collection for testing NetPilot's whitelist and blacklist functionality",
+		"description": "Collection of NetPilot API endpoints for network management, blacklist and whitelist functionality",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Router Scan",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:5000/api/router_scan",
-					"protocol": "http",
-					"host": ["localhost"],
-					"port": "5000",
-					"path": ["api", "router_scan"]
+			"name": "API",
+			"item": [
+				{
+					"name": "Get Blocked Devices",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/blocked",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "blocked"]
+						},
+						"description": "Get all currently blocked devices"
+					}
 				},
-				"description": "Scan the network for devices"
-			}
+				{
+					"name": "Block Device",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ip\": \"192.168.1.122\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/block",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "block"]
+						},
+						"description": "Block a device by IP address"
+					}
+				},
+				{
+					"name": "Unblock Device",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ip\": \"192.168.1.122\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/unblock",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "unblock"]
+						},
+						"description": "Unblock a device by IP address"
+					}
+				},
+				{
+					"name": "Reset Network Rules",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/reset",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "reset"]
+						},
+						"description": "Reset all network rules"
+					}
+				},
+				{
+					"name": "Scan Network",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/scan",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "scan"]
+						},
+						"description": "Scan the network for devices"
+					}
+				},
+				{
+					"name": "Scan Network via Router",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/scan/router",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "scan", "router"]
+						},
+						"description": "Scan the network via router"
+					}
+				}
+			]
 		},
 		{
 			"name": "Whitelist",
@@ -51,7 +149,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"ip\": \"192.168.1.122\",\n    \"name\": \"Test Device\"\n}"
+							"raw": "{\n    \"ip\": \"192.168.1.122\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:5000/whitelist",
@@ -67,66 +165,54 @@
 					"name": "Remove from Whitelist",
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ip\": \"192.168.1.122\"\n}"
+						},
 						"url": {
-							"raw": "http://localhost:5000/whitelist?ip=192.168.1.122",
+							"raw": "http://localhost:5000/whitelist",
 							"protocol": "http",
 							"host": ["localhost"],
 							"port": "5000",
-							"path": ["whitelist"],
-							"query": [
-								{
-									"key": "ip",
-									"value": "192.168.1.122"
-								}
-							]
+							"path": ["whitelist"]
 						},
 						"description": "Remove a device from the whitelist"
 					}
 				},
 				{
-					"name": "Get Whitelist Mode",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5000/whitelist/mode",
-							"protocol": "http",
-							"host": ["localhost"],
-							"port": "5000",
-							"path": ["whitelist", "mode"]
-						},
-						"description": "Get current whitelist mode status"
-					}
-				},
-				{
-					"name": "Activate Whitelist Mode",
+					"name": "Clear Whitelist",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/whitelist/mode",
+							"raw": "http://localhost:5000/whitelist/clear",
 							"protocol": "http",
 							"host": ["localhost"],
 							"port": "5000",
-							"path": ["whitelist", "mode"]
+							"path": ["whitelist", "clear"]
 						},
-						"description": "Activate whitelist mode"
+						"description": "Clear all devices from the whitelist"
 					}
 				},
 				{
-					"name": "Deactivate Whitelist Mode",
+					"name": "Get Whitelist Limit Rate",
 					"request": {
-						"method": "DELETE",
+						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/whitelist/mode",
+							"raw": "http://localhost:5000/whitelist/limit-rate",
 							"protocol": "http",
 							"host": ["localhost"],
 							"port": "5000",
-							"path": ["whitelist", "mode"]
+							"path": ["whitelist", "limit-rate"]
 						},
-						"description": "Deactivate whitelist mode"
+						"description": "Get the current whitelist bandwidth limit rate"
 					}
 				},
 				{
@@ -141,16 +227,100 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"rate\": 50\n}"
+							"raw": "{\n    \"rate\": \"50.0mbit\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:5000/whitelist/limit_rate",
+							"raw": "http://localhost:5000/whitelist/limit-rate",
 							"protocol": "http",
 							"host": ["localhost"],
 							"port": "5000",
-							"path": ["whitelist", "limit_rate"]
+							"path": ["whitelist", "limit-rate"]
 						},
-						"description": "Set the bandwidth limit rate for non-whitelisted devices"
+						"description": "Set the whitelist bandwidth limit rate"
+					}
+				},
+				{
+					"name": "Get Whitelist Full Rate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/whitelist/full-rate",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["whitelist", "full-rate"]
+						},
+						"description": "Get the current whitelist full bandwidth rate"
+					}
+				},
+				{
+					"name": "Set Whitelist Full Rate",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"rate\": \"100.0mbit\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/whitelist/full-rate",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["whitelist", "full-rate"]
+						},
+						"description": "Set the whitelist full bandwidth rate"
+					}
+				},
+				{
+					"name": "Activate Whitelist Mode",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/whitelist/activate",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["whitelist", "activate"]
+						},
+						"description": "Activate whitelist mode"
+					}
+				},
+				{
+					"name": "Deactivate Whitelist Mode",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/whitelist/deactivate",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["whitelist", "deactivate"]
+						},
+						"description": "Deactivate whitelist mode"
+					}
+				},
+				{
+					"name": "Get Whitelist Mode",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/whitelist/mode",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["whitelist", "mode"]
+						},
+						"description": "Get the current whitelist mode status"
 					}
 				}
 			]
@@ -185,7 +355,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"ip\": \"192.168.1.122\",\n    \"name\": \"Test Device\"\n}"
+							"raw": "{\n    \"ip\": \"192.168.1.122\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:5000/blacklist",
@@ -201,66 +371,54 @@
 					"name": "Remove from Blacklist",
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ip\": \"192.168.1.122\"\n}"
+						},
 						"url": {
-							"raw": "http://localhost:5000/blacklist?ip=192.168.1.122",
+							"raw": "http://localhost:5000/blacklist",
 							"protocol": "http",
 							"host": ["localhost"],
 							"port": "5000",
-							"path": ["blacklist"],
-							"query": [
-								{
-									"key": "ip",
-									"value": "192.168.1.122"
-								}
-							]
+							"path": ["blacklist"]
 						},
 						"description": "Remove a device from the blacklist"
 					}
 				},
 				{
-					"name": "Get Blacklist Mode",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5000/blacklist/mode",
-							"protocol": "http",
-							"host": ["localhost"],
-							"port": "5000",
-							"path": ["blacklist", "mode"]
-						},
-						"description": "Get current blacklist mode status"
-					}
-				},
-				{
-					"name": "Activate Blacklist Mode",
+					"name": "Clear Blacklist",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/blacklist/mode",
+							"raw": "http://localhost:5000/blacklist/clear",
 							"protocol": "http",
 							"host": ["localhost"],
 							"port": "5000",
-							"path": ["blacklist", "mode"]
+							"path": ["blacklist", "clear"]
 						},
-						"description": "Activate blacklist mode"
+						"description": "Clear all devices from the blacklist"
 					}
 				},
 				{
-					"name": "Deactivate Blacklist Mode",
+					"name": "Get Blacklist Limit Rate",
 					"request": {
-						"method": "DELETE",
+						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/blacklist/mode",
+							"raw": "http://localhost:5000/blacklist/limit-rate",
 							"protocol": "http",
 							"host": ["localhost"],
 							"port": "5000",
-							"path": ["blacklist", "mode"]
+							"path": ["blacklist", "limit-rate"]
 						},
-						"description": "Deactivate blacklist mode"
+						"description": "Get the current blacklist bandwidth limit rate"
 					}
 				},
 				{
@@ -275,16 +433,100 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"rate\": 50\n}"
+							"raw": "{\n    \"rate\": \"50.0mbit\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:5000/blacklist/limit_rate",
+							"raw": "http://localhost:5000/blacklist/limit-rate",
 							"protocol": "http",
 							"host": ["localhost"],
 							"port": "5000",
-							"path": ["blacklist", "limit_rate"]
+							"path": ["blacklist", "limit-rate"]
 						},
-						"description": "Set the bandwidth limit rate for blacklisted devices"
+						"description": "Set the blacklist bandwidth limit rate"
+					}
+				},
+				{
+					"name": "Get Blacklist Full Rate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/blacklist/full-rate",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["blacklist", "full-rate"]
+						},
+						"description": "Get the current blacklist full bandwidth rate"
+					}
+				},
+				{
+					"name": "Set Blacklist Full Rate",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"rate\": \"100.0mbit\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/blacklist/full-rate",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["blacklist", "full-rate"]
+						},
+						"description": "Set the blacklist full bandwidth rate"
+					}
+				},
+				{
+					"name": "Activate Blacklist Mode",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/blacklist/activate",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["blacklist", "activate"]
+						},
+						"description": "Activate blacklist mode"
+					}
+				},
+				{
+					"name": "Deactivate Blacklist Mode",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/blacklist/deactivate",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["blacklist", "deactivate"]
+						},
+						"description": "Deactivate blacklist mode"
+					}
+				},
+				{
+					"name": "Get Blacklist Mode",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/blacklist/mode",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["blacklist", "mode"]
+						},
+						"description": "Get the current blacklist mode status"
 					}
 				}
 			]

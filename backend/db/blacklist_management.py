@@ -30,77 +30,69 @@ def get_blacklist():
         logger.error(f"Error retrieving blacklist: {str(e)}", exc_info=True)
         return []
 
-def add_to_blacklist(ip, name=None, description=None):
+def add_to_blacklist(ip, name=None):
     """
-    Adds a device to the blacklist database
+    Adds a device to the blacklist
     
     Args:
         ip (str): IP address of the device
         name (str, optional): Name of the device
-        description (str, optional): Description of the device
         
     Returns:
-        dict: The entry that was added
-        
-    Raises:
-        ValueError: If the IP already exists in blacklist or if device not found in devices table
+        dict: The added device entry
     """
     try:
-        # Check if IP already exists in blacklist
-        if blacklist_table.search(Device.ip == ip):
-            logger.warning(f"Attempted to add IP {ip} that already exists in blacklist")
-            raise ValueError(f"Device with IP {ip} already in blacklist")
-        
-        # Get MAC address from devices table
         mac = get_mac_from_ip(ip)
         if not mac:
-            logger.warning(f"Attempted to add IP {ip} that does not exist in devices table")
-            raise ValueError(f"Device with IP {ip} not found in devices table")
-        
-        # Add device to blacklist
-        entry = {
-            'ip': ip,
-            'mac': mac,
-            'name': name or f"Device-{ip}",
-            'description': description or "",
-            'added_at': str(datetime.now())
-        }
-        blacklist_table.insert(entry)
-        db_client.flush()  # Ensure the entry is persisted
-        
-        logger.info(f"Added device with IP {ip} to blacklist")
+            raise ValueError(f"Device with IP {ip} not found in network")
+            
+        # Check if device already exists in blacklist
+        existing = blacklist_table.get(Device.ip == ip)
+        if existing:
+            # Update existing entry
+            entry = {
+                "ip": ip,
+                "mac": mac,
+                "name": name or existing.get("name", f"Device-{ip}"),
+                "added_at": datetime.now().isoformat()
+            }
+            blacklist_table.update(entry, Device.ip == ip)
+            logger.info(f"Updated blacklist entry for device {ip}")
+        else:
+            # Add new entry
+            entry = {
+                "ip": ip,
+                "mac": mac,
+                "name": name or f"Device-{ip}",
+                "added_at": datetime.now().isoformat()
+            }
+            blacklist_table.insert(entry)
+            logger.info(f"Added device {ip} to blacklist")
+            
+        db_client.flush()  # Ensure changes are persisted
         return entry
     except Exception as e:
-        logger.error(f"Error adding to blacklist: {str(e)}", exc_info=True)
+        logger.error(f"Error adding device to blacklist: {str(e)}", exc_info=True)
         raise
 
 def remove_from_blacklist(ip):
     """
-    Removes a device from the blacklist database
+    Removes a device from the blacklist
     
     Args:
-        ip (str): IP address to remove
+        ip (str): IP address of the device
         
     Returns:
-        str: The IP that was removed
-        
-    Raises:
-        ValueError: If the IP was not found in blacklist
+        bool: True if device was removed, False otherwise
     """
     try:
-        # Check if IP exists in blacklist
-        if not blacklist_table.search(Device.ip == ip):
-            logger.warning(f"Attempted to remove IP {ip} that does not exist in blacklist")
-            raise ValueError(f"Device with IP {ip} not found in blacklist")
-        
-        # Remove from blacklist
-        blacklist_table.remove(Device.ip == ip)
-        db_client.flush()  # Ensure the removal is persisted
-        
-        logger.info(f"Removed device with IP {ip} from blacklist")
-        return ip
+        removed = blacklist_table.remove(Device.ip == ip)
+        db_client.flush()  # Ensure changes are persisted
+        if removed:
+            logger.info(f"Removed device {ip} from blacklist")
+        return bool(removed)
     except Exception as e:
-        logger.error(f"Error removing from blacklist: {str(e)}", exc_info=True)
+        logger.error(f"Error removing device from blacklist: {str(e)}", exc_info=True)
         raise
 
 def clear_blacklist():

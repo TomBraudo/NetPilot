@@ -210,7 +210,11 @@ def setup_tc_with_iptables(whitelist_ips=None, limit_rate=None, full_rate=None):
     try:
         # If no whitelist_ips are provided, get them from the database
         if whitelist_ips is None:
-            whitelist_ips = [device['ip'] for device in get_whitelist_devices()]
+            result = get_whitelist_devices()
+            if result.get("status") == "success":
+                whitelist_ips = [device['ip'] for device in result.get("data", [])]
+            else:
+                whitelist_ips = []
         
         logger.info(f"Whitelist contains {len(whitelist_ips)} IPs")
         

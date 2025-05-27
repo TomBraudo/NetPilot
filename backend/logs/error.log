@@ -130,3 +130,67 @@ Traceback (most recent call last):
   File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 58, in add_to_blacklist
     raise ValueError(f"Device with IP {ip} not found in devices table")
 ValueError: Device with IP 192.168.1.122 not found in devices table
+2025-05-27 16:44:14 - services.blacklist - ERROR - Error setting up TC with iptables: string indices must be integers, not 'str'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_service.py", line 213, in setup_tc_with_iptables
+    blacklist_ips = [device['ip'] for device in get_blacklist_devices()]
+                     ~~~~~~^^^^^^
+TypeError: string indices must be integers, not 'str'
+2025-05-27 16:44:14 - services.blacklist - ERROR - Failed to activate blacklist mode
+2025-05-27 16:44:25 - services.blacklist - ERROR - Error setting up TC with iptables: string indices must be integers, not 'str'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_service.py", line 213, in setup_tc_with_iptables
+    blacklist_ips = [device['ip'] for device in get_blacklist_devices()]
+                     ~~~~~~^^^^^^
+TypeError: string indices must be integers, not 'str'
+2025-05-27 16:44:25 - services.blacklist - ERROR - Failed to activate blacklist mode
+2025-05-27 16:56:42 - services.blacklist - ERROR - Error removing device from blacklist: 'list' object has no attribute 'get'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_service.py", line 59, in remove_device_from_blacklist
+    device = get_blacklist().get(Query().ip == ip)
+             ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'list' object has no attribute 'get'
+2025-05-27 16:56:42 - blacklist.endpoints - ERROR - Error removing device from blacklist: 'list' object has no attribute 'get'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\blacklist.py", line 55, in remove_from_blacklist
+    result = remove_device_from_blacklist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_service.py", line 59, in remove_device_from_blacklist
+    device = get_blacklist().get(Query().ip == ip)
+             ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'list' object has no attribute 'get'
+2025-05-27 16:58:56 - services.blacklist - ERROR - Error removing device from blacklist: 'list' object has no attribute 'get'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_service.py", line 59, in remove_device_from_blacklist
+    device = get_blacklist().get(Query().ip == ip)
+             ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'list' object has no attribute 'get'
+2025-05-27 16:58:56 - blacklist.endpoints - ERROR - Error removing device from blacklist: 'list' object has no attribute 'get'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\blacklist.py", line 55, in remove_from_blacklist
+    result = remove_device_from_blacklist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_service.py", line 59, in remove_device_from_blacklist
+    device = get_blacklist().get(Query().ip == ip)
+             ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'list' object has no attribute 'get'
+2025-05-27 17:01:32 - services.blacklist - ERROR - Error removing device from blacklist: Device with IP 192.168.1.122 not found in blacklist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_service.py", line 65, in remove_device_from_blacklist
+    raise ValueError(f"Device with IP {ip} not found in blacklist")
+ValueError: Device with IP 192.168.1.122 not found in blacklist
+2025-05-27 17:01:32 - blacklist.endpoints - ERROR - Error removing device from blacklist: Device with IP 192.168.1.122 not found in blacklist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\blacklist.py", line 55, in remove_from_blacklist
+    result = remove_device_from_blacklist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_service.py", line 65, in remove_device_from_blacklist
+    raise ValueError(f"Device with IP {ip} not found in blacklist")
+ValueError: Device with IP 192.168.1.122 not found in blacklist
+2025-05-27 17:02:08 - services.whitelist - ERROR - Error setting up TC with iptables: string indices must be integers, not 'str'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 213, in setup_tc_with_iptables
+    whitelist_ips = [device['ip'] for device in get_whitelist_devices()]
+                     ~~~~~~^^^^^^
+TypeError: string indices must be integers, not 'str'
+2025-05-27 17:02:08 - services.whitelist - ERROR - Failed to activate whitelist mode

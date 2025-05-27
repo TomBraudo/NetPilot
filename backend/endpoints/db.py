@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from utils.response_helpers import success, error
 from utils.logging_config import get_logger
+from utils.response_helpers import error
 from db.device_repository import (
     get_all_devices,
     get_device_by_mac,
@@ -25,48 +25,42 @@ db_bp = Blueprint('database', __name__)
 def get_devices():
     """Get all devices from the database."""
     try:
-        devices = get_all_devices()
-        return jsonify(success(data=devices))
+        result = get_all_devices()
+        return jsonify(result)
     except Exception as e:
         logger.error(f"Error getting devices: {str(e)}", exc_info=True)
-        return jsonify(error(str(e))), 500
+        return jsonify(error(str(e), status_code=500))
 
 @db_bp.route("/db/devices/<mac>", methods=["GET"])
 def get_device(mac):
     """Get a specific device by MAC address."""
     try:
-        device = get_device_by_mac(mac)
-        if not device:
-            raise ValueError("Device not found")
-        return jsonify(success(data=device))
-    except ValueError as e:
-        logger.error(f"Device not found: {str(e)}")
-        return jsonify(error(str(e))), 404
+        result = get_device_by_mac(mac)
+        if not result:
+            return jsonify(error("Device not found", status_code=404))
+        return jsonify(result)
     except Exception as e:
         logger.error(f"Error getting device: {str(e)}", exc_info=True)
-        return jsonify(error(str(e))), 500
+        return jsonify(error(str(e), status_code=500))
 
 ''' 
     API endpoint to update a user-defined name for a device.
     Expects JSON: { "mac": "<mac_address>", "device_name": "<name>" }
 '''
-@db_bp.route("/db/devices/<mac>/name", methods=["PUT"])
+@db_bp.route("/db/devices/<mac>", methods=["PUT"])
 def update_device(mac):
     """Update a device's name."""
     try:
         data = request.get_json()
-        if not data or 'name' not in data:
-            return jsonify(error("Name is required")), 400
+        name = data.get("name")
+        if not name:
+            return jsonify(error("Missing 'name' in request body", status_code=400))
             
-        if not update_device_name(mac, None, data['name']):
-            raise ValueError("Device not found")
-        return jsonify(success("Device name updated"))
-    except ValueError as e:
-        logger.error(f"Device not found: {str(e)}")
-        return jsonify(error(str(e))), 404
+        result = update_device_name(mac, name)
+        return jsonify(result)
     except Exception as e:
         logger.error(f"Error updating device: {str(e)}", exc_info=True)
-        return jsonify(error(str(e))), 500
+        return jsonify(error(str(e), status_code=500))
 
 ''' 
     API endpoint to clear all device records from the database.
@@ -75,12 +69,11 @@ def update_device(mac):
 def clear_devices_route():
     """Clear all device records from the database."""
     try:
-        if not clear_devices():
-            raise RuntimeError("Failed to clear devices")
-        return jsonify(success("All devices cleared from the database"))
+        result = clear_devices()
+        return jsonify(result)
     except Exception as e:
         logger.error(f"Error clearing devices: {str(e)}", exc_info=True)
-        return jsonify(error(str(e))), 500
+        return jsonify(error(str(e), status_code=500))
 
 '''
     API endpoint to retrieve all device groups.
@@ -89,11 +82,11 @@ def clear_devices_route():
 def get_groups():
     """Get all device groups."""
     try:
-        groups = get_all_groups()
-        return jsonify(success(data=groups))
+        result = get_all_groups()
+        return jsonify(result)
     except Exception as e:
         logger.error(f"Error getting groups: {str(e)}", exc_info=True)
-        return jsonify(error(str(e))), 500
+        return jsonify(error(str(e), status_code=500))
 
 ''' 
     API endpoint to retrieve all devices in a specific group.
@@ -103,11 +96,11 @@ def get_groups():
 def get_group_members_route(group_id):
     """Get all members of a device group."""
     try:
-        members = get_group_members(group_id)
-        return jsonify(success(data=members))
+        result = get_group_members(group_id)
+        return jsonify(result)
     except Exception as e:
         logger.error(f"Error getting group members: {str(e)}", exc_info=True)
-        return jsonify(error(str(e))), 500
+        return jsonify(error(str(e), status_code=500))
 
 '''
     API endpoint to retrieve all rules for a specific device.
@@ -117,8 +110,8 @@ def get_group_members_route(group_id):
 def get_device_rules(mac):
     """Get all rules for a specific device."""
     try:
-        rules = get_rules_for_device(mac)
-        return jsonify(success(data=rules))
+        result = get_rules_for_device(mac)
+        return jsonify(result)
     except Exception as e:
         logger.error(f"Error getting device rules: {str(e)}", exc_info=True)
-        return jsonify(error(str(e))), 500
+        return jsonify(error(str(e), status_code=500))

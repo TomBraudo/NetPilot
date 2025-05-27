@@ -1,57 +1,67 @@
 from flask import Blueprint, request, jsonify
-from services.subnets_manager import add_ip, remove_ip, clear_ips
-from utils.response_helpers import error, success
-import os
-from dotenv import load_dotenv
-from utils.path_utils import get_data_folder
+from utils.logging_config import get_logger
+from utils.response_helpers import error
+from services.config_service import (
+    set_admin_credentials,
+    get_admin_credentials,
+    set_router_credentials,
+    get_router_credentials
+)
 
 config_bp = Blueprint('config', __name__)
+logger = get_logger('config.endpoints')
 
-def get_env_path():
-    data_folder = get_data_folder()
-    return os.path.join(data_folder, ".env")
-
-env_path = get_env_path()
-if not os.path.exists(env_path):
-    raise FileNotFoundError(f".env file not found at {env_path}")
-
-load_dotenv(env_path)
-
-server_port = os.getenv("SERVER_PORT")
-if server_port is None:
-    raise ValueError("SERVER_PORT is not set in the .env file")
-server_port = int(server_port)
-
-'''
-    API endpoint to set the admin username and password for the web interface.
-    Expects JSON: { "username": "<username>", "password": "<password>" }
-    This will update the .env file in the data folder.
-'''
-@config_bp.route("/config/set_admin", methods=["POST"])
+@config_bp.route("/config/admin", methods=["POST"])
 def set_admin():
-    data = request.get_json()
-    username = data.get("username")
-    password = data.get("password")
-    
-    if not username or not password:
-        return error("Missing 'username' or 'password' in request body")
-    
-    set_env_value(env_path, "USERNAME", username)
-    set_env_value(env_path, "PASSWORD", password)
+    """Set the admin username and password for the web interface."""
+    try:
+        data = request.get_json()
+        username = data.get("username")
+        password = data.get("password")
         
-    return success("Admin credentials updated successfully")
+        if not username or not password:
+            return jsonify(error("Missing 'username' or 'password' in request body", status_code=400))
+            
+        result = set_admin_credentials(username, password)
+        return jsonify(result)
+    except Exception as e:
+        logger.error(f"Error setting admin credentials: {str(e)}", exc_info=True)
+        return jsonify(error(str(e), status_code=500))
 
-def set_env_value(env_path, key, value):
-    lines = []
-    found = False
-    with open(env_path, "r") as f:
-        for line in f:
-            if line.startswith(f"{key}="):
-                lines.append(f"{key}={value}\n")
-                found = True
-            else:
-                lines.append(line)
-    if not found:
-        lines.append(f"{key}={value}\n")
-    with open(env_path, "w") as f:
-        f.writelines(lines)
+@config_bp.route("/config/admin", methods=["GET"])
+def get_admin():
+    """Get the current admin credentials."""
+    try:
+        result = get_admin_credentials()
+        return jsonify(result)
+    except Exception as e:
+        logger.error(f"Error getting admin credentials: {str(e)}", exc_info=True)
+        return jsonify(error(str(e), status_code=500))
+
+@config_bp.route("/config/router", methods=["POST"])
+def set_router():
+    """Set the router credentials."""
+    try:
+        data = request.get_json()
+        ip = data.get("ip")
+        username = data.get("username")
+        password = data.get("password")
+        
+        if not ip or not username or not password:
+            return jsonify(error("Missing required fields in request body", status_code=400))
+            
+        result = set_router_credentials(ip, username, password)
+        return jsonify(result)
+    except Exception as e:
+        logger.error(f"Error setting router credentials: {str(e)}", exc_info=True)
+        return jsonify(error(str(e), status_code=500))
+
+@config_bp.route("/config/router", methods=["GET"])
+def get_router():
+    """Get the current router credentials."""
+    try:
+        result = get_router_credentials()
+        return jsonify(result)
+    except Exception as e:
+        logger.error(f"Error getting router credentials: {str(e)}", exc_info=True)
+        return jsonify(error(str(e), status_code=500))

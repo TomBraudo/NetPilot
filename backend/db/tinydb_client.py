@@ -18,11 +18,13 @@ class TinyDBClient:
     def __new__(cls):
         if cls._instance is None:
             cls._instance = super(TinyDBClient, cls).__new__(cls)
-            cls._instance.initialize()
+            cls._instance._initialized = False
         return cls._instance
     
-    def initialize(self):
-        """Initialize the TinyDB instances with caching for better performance."""
+    def __init__(self):
+        if self._initialized:
+            return
+
         try:
             # Ensure data directory exists
             os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
@@ -58,6 +60,7 @@ class TinyDBClient:
             self.flush()
             
             logger.info(f"TinyDB tables initialized")
+            self._initialized = True
         except Exception as e:
             logger.error(f"Error initializing TinyDB: {str(e)}", exc_info=True)
             raise
