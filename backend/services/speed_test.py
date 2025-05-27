@@ -4,55 +4,46 @@ import re
 import subprocess
 import speedtest
 from utils.response_helpers import success, error
+from utils.logging_config import get_logger
+from utils.ssh_client import ssh_manager
+
+logger = get_logger('services.speed_test')
 
 def run_ookla_speedtest():
     """
-    Runs a speed test using the Python speedtest-cli package locally.
-    
-    Returns:
-        Dictionary with success/error status and speed test data
+    Runs an Ookla speed test on the router and returns the results.
     """
     try:
-        # Create a Speedtest object
-        st = speedtest.Speedtest()
+        # Check if speedtest-cli is installed
+        output, error = ssh_manager.execute_command("which speedtest-cli")
+        if error:
+            # Install speedtest-cli if not present
+            output, error = ssh_manager.execute_command("pip3 install speedtest-cli")
+            if error:
+                raise Exception("Failed to install speedtest-cli")
+
+        # Run speed test with JSON output
+        output, error = ssh_manager.execute_command("speedtest-cli --json")
+        if error:
+            raise Exception(f"Speed test failed: {error}")
+
+        # Parse the JSON output
+        result = json.loads(output)
         
-        # Get list of servers and pick the best one
-        st.get_servers()
-        st.get_best_server()
-        
-        # Run download test
-        download_speed = st.download()
-        
-        # Run upload test
-        upload_speed = st.upload()
-        
-        # Get ping
-        ping = st.results.ping
-        
-        # Get server info
-        server = st.results.server
-        
-        # Get client info
-        client = st.results.client
-        
-        # Format results
-        data = {
-            "download": round(download_speed / 1000000, 2),  # Convert to Mbps
-            "upload": round(upload_speed / 1000000, 2),      # Convert to Mbps
-            "ping": ping,
+        # Format the response
+        speed_test_result = {
+            "download": round(result["download"] / 1000000, 2),  # Convert to Mbps
+            "upload": round(result["upload"] / 1000000, 2),      # Convert to Mbps
+            "ping": round(result["ping"], 2),
             "server": {
-                "name": server.get("name", "Unknown"),
-                "location": server.get("country", "Unknown"),
-                "sponsor": server.get("sponsor", "Unknown")
+                "name": result["server"]["name"],
+                "country": result["server"]["country"],
+                "sponsor": result["server"]["sponsor"]
             },
-            "client": {
-                "ip": client.get("ip", "Unknown"),
-                "isp": client.get("isp", "Unknown")
-            },
-            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+            "timestamp": result["timestamp"]
         }
-        
-        return success(message="Speed test completed successfully", data=data)
-        
+
+        return success(data=speed_test_result)
     except Exception as e:
-        return error(f"Error running speed test: {str(e)}") 
+        logger.error(f"Error running speed test: {str(e)}", exc_info=True)
+        raise 

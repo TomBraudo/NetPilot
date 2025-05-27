@@ -4,9 +4,10 @@ from utils.response_helpers import success, error
 from utils.config_manager import config_manager
 from db.device_repository import get_mac_from_ip
 from db.device_groups_repository import get_rules_for_device, set_rule_for_device, remove_rule_from_device
-from services.bandwidth_mode import get_current_mode, set_mode
+from services.mode_state_service import get_current_mode_value, set_current_mode_value
 from db.tinydb_client import db_client
 from db.blacklist_management import add_to_blacklist, remove_from_blacklist, get_blacklist
+from services.reset_rules import reset_all_tc_rules
 import os
 import json
 from tinydb import Query
@@ -36,7 +37,7 @@ def get_blacklist_devices():
         return success(data=formatted_devices)
     except Exception as e:
         logger.error(f"Error getting blacklist: {str(e)}", exc_info=True)
-        return error(str(e))
+        raise
 
 def add_device_to_blacklist(ip):
     """Add a device to the blacklist"""
@@ -48,13 +49,13 @@ def add_device_to_blacklist(ip):
         set_rule_for_device(device["mac"], ip, "block", True)
         
         # If blacklist mode is active, update TC rules
-        if is_blacklist_mode():
+        if get_current_mode_value() == 'blacklist':
             setup_tc_with_iptables()
         
         return success(message=f"Device {ip} added to blacklist")
     except Exception as e:
         logger.error(f"Error adding device to blacklist: {str(e)}", exc_info=True)
-        return error(str(e))
+        raise
 
 def remove_device_from_blacklist(ip):
     """Remove a device from the blacklist"""
@@ -62,7 +63,7 @@ def remove_device_from_blacklist(ip):
         # Get device info before removing
         device = blacklist_table.get(Device.ip == ip)
         if not device:
-            return error(f"Device with IP {ip} not found in blacklist")
+            raise ValueError(f"Device with IP {ip} not found in blacklist")
         
         # Remove from blacklist table
         remove_from_blacklist(ip)
@@ -71,13 +72,13 @@ def remove_device_from_blacklist(ip):
         remove_rule_from_device(device["mac"], ip, "block")
         
         # If blacklist mode is active, update TC rules
-        if is_blacklist_mode():
+        if get_current_mode_value() == 'blacklist':
             setup_tc_with_iptables()
         
         return success(message=f"Device {ip} removed from blacklist")
     except Exception as e:
         logger.error(f"Error removing device from blacklist: {str(e)}", exc_info=True)
-        return error(str(e))
+        raise
 
 def clear_blacklist():
     """Clear all devices from the blacklist"""
@@ -88,7 +89,7 @@ def clear_blacklist():
         return success(message="Blacklist cleared")
     except Exception as e:
         logger.error(f"Error clearing blacklist: {str(e)}", exc_info=True)
-        return error(str(e))
+        raise
 
 def get_blacklist_limit_rate():
     """Get the current blacklist bandwidth limit rate"""
@@ -97,7 +98,7 @@ def get_blacklist_limit_rate():
         return success(data={"rate": config.get('Limit_Rate', "50mbit")})
     except Exception as e:
         logger.error(f"Error getting blacklist limit rate: {str(e)}", exc_info=True)
-        return error(str(e))
+        raise
 
 def set_blacklist_limit_rate(rate):
     """Set the blacklist bandwidth limit rate"""
@@ -107,13 +108,14 @@ def set_blacklist_limit_rate(rate):
         config_manager.save_config('blacklist', config)
         logger.info(f"Updated blacklist limit rate to {config['Limit_Rate']}")
         
-        if is_blacklist_mode():
+        # Check mode using the new service
+        if get_current_mode_value() == 'blacklist':
             setup_tc_with_iptables()
         
         return success(data={"rate": config['Limit_Rate']})
     except Exception as e:
         logger.error(f"Error setting blacklist limit rate: {str(e)}", exc_info=True)
-        return error(str(e))
+        raise
 
 def get_blacklist_full_rate():
     """Get the current blacklist full bandwidth rate"""
@@ -122,7 +124,7 @@ def get_blacklist_full_rate():
         return success(data={"rate": config.get('Full_Rate', "100mbit")})
     except Exception as e:
         logger.error(f"Error getting blacklist full rate: {str(e)}", exc_info=True)
-        return error(str(e))
+        raise
 
 def set_blacklist_full_rate(rate):
     """Set the blacklist full bandwidth rate"""
@@ -132,61 +134,50 @@ def set_blacklist_full_rate(rate):
         config_manager.save_config('blacklist', config)
         logger.info(f"Updated blacklist full rate to {config['Full_Rate']}")
         
-        if is_blacklist_mode():
+        # Check mode using the new service
+        if get_current_mode_value() == 'blacklist':
             setup_tc_with_iptables()
         
         return success(data={"rate": config['Full_Rate']})
     except Exception as e:
         logger.error(f"Error setting blacklist full rate: {str(e)}", exc_info=True)
-        return error(str(e))
+        raise
 
 def activate_blacklist_mode():
     """Activate blacklist mode"""
     try:
-        # Set mode to blacklist
-        set_mode('blacklist')
-        
-        # Setup traffic control
-        if setup_tc_with_iptables():
-            logger.info("Blacklist mode activated successfully")
-            return success(data={"active": True})
-        else:
-            logger.error("Failed to activate blacklist mode")
-            return error("Failed to activate blacklist mode")
+        # Use the new service to set the mode
+        set_current_mode_value('blacklist')
+        setup_tc_with_iptables()
+        return success(message="Blacklist mode activated")
     except Exception as e:
         logger.error(f"Error activating blacklist mode: {str(e)}", exc_info=True)
-        return error(str(e))
+        raise
 
 def deactivate_blacklist_mode():
     """Deactivate blacklist mode"""
     try:
-        # Clear traffic control rules
-        run_command("iptables -t mangle -F")
-        
-        # Get all network interfaces
-        interfaces = get_all_network_interfaces()
-        
-        # Remove traffic control from each interface
-        for interface in interfaces:
-            run_command(f"tc qdisc del dev {interface} root 2>/dev/null || true")
-        
-        # Set mode to none
-        set_mode('none')
-        
-        logger.info("Blacklist mode deactivated successfully")
-        return success(data={"active": False})
+        # Perform cleanup first
+        reset_all_tc_rules()
+        # Then set mode to none using the new service
+        set_current_mode_value('none')
+        return success(message="Blacklist mode deactivated")
     except Exception as e:
         logger.error(f"Error deactivating blacklist mode: {str(e)}", exc_info=True)
-        return error(str(e))
+        raise
+
+def is_blacklist_mode_internal():
+    """Check if blacklist mode is active (internal use)"""
+    return get_current_mode_value() == 'blacklist'
 
 def is_blacklist_mode():
-    """Check if blacklist mode is active"""
+    """Check if blacklist mode is active (API response)"""
     try:
-        is_active = get_current_mode() == 'blacklist'
+        is_active = get_current_mode_value() == 'blacklist'
         return success(data={"active": is_active})
     except Exception as e:
         logger.error(f"Error checking blacklist mode: {str(e)}", exc_info=True)
-        return error(str(e))
+        raise
 
 def format_rate(rate):
     """Format rate value to include units if not present"""
@@ -200,7 +191,7 @@ def get_all_network_interfaces():
     output, error = ssh_manager.execute_command(cmd)
     if error:
         logger.error(f"Error getting network interfaces: {error}")
-        return ["eth0"]  # Default to eth0 if command fails
+        raise Exception(f"Failed to get network interfaces: {error}")
     return [iface for iface in output.split() if iface not in ['lo']]
 
 def run_command(cmd):
@@ -208,7 +199,7 @@ def run_command(cmd):
     output, error = ssh_manager.execute_command(cmd)
     if error:
         logger.error(f"Command failed: {cmd}, Error: {error}")
-        return False
+        raise Exception(f"Command failed: {cmd}, Error: {error}")
     return True
 
 def setup_tc_on_interface(interface, blacklist_ips, limit_rate=None, full_rate=None):
@@ -277,10 +268,10 @@ def setup_tc_with_iptables(blacklist_ips=None, limit_rate=None, full_rate=None):
         success = all(interface_results)
         if success:
             logger.info("Traffic control with iptables set up successfully on all interfaces")
+            return success(message="Traffic control with iptables set up successfully")
         else:
             logger.warning("Traffic control setup failed on some interfaces")
-        
-        return success
+            raise Exception("Traffic control setup failed on some interfaces")
     except Exception as e:
         logger.error(f"Error setting up TC with iptables: {str(e)}", exc_info=True)
-        return False 
+        raise 

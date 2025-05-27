@@ -194,3 +194,22 @@ Traceback (most recent call last):
                      ~~~~~~^^^^^^
 TypeError: string indices must be integers, not 'str'
 2025-05-27 17:02:08 - services.whitelist - ERROR - Failed to activate whitelist mode
+2025-05-27 19:51:07 - services.router_scanner - ERROR - Error scanning network via router: Invalid configuration name: router
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\router_scanner.py", line 40, in scan_network_via_router
+    config = config_manager.load_config('router')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\utils\config_manager.py", line 69, in load_config
+    raise ValueError(f"Invalid configuration name: {config_name}")
+ValueError: Invalid configuration name: router
+2025-05-27 19:51:07 - endpoints.network - ERROR - Error scanning network via router: Invalid configuration name: router
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\api.py", line 87, in scan_router
+    result = scan_network_via_router()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\router_scanner.py", line 40, in scan_network_via_router
+    config = config_manager.load_config('router')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\utils\config_manager.py", line 69, in load_config
+    raise ValueError(f"Invalid configuration name: {config_name}")
+ValueError: Invalid configuration name: router

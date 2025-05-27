@@ -947,3 +947,54 @@ ValueError: Device with IP 192.168.1.122 not found in devices table
 2025-05-27 18:52:33 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
 2025-05-27 18:52:33 - db.tinydb - INFO - TinyDB tables initialized
 2025-05-27 18:52:34 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 19:10:31 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:10:31 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:10:31 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:14:03 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:14:03 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:14:03 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:21:58 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:21:58 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:21:58 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:26:58 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:26:58 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:26:58 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:27:29 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:27:29 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:27:29 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:43:27 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:43:27 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:43:27 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:46:46 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:46:46 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:46:46 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:50:35 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:50:35 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:50:35 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:50:36 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 19:50:36 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 19:50:37 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:50:37 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:50:37 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:50:38 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 19:50:38 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 19:52:11 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 19:52:12 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:52:12 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:52:12 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:52:13 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 19:52:13 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 19:52:58 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 19:52:58 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:52:58 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:52:58 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:52:59 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 19:52:59 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 19:55:11 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 19:55:12 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:55:12 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:55:12 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:55:13 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 19:55:13 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 19:55:15 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 19:55:15 - db.tinydb - INFO - TinyDB connections closed

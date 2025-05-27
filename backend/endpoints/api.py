@@ -5,7 +5,7 @@ from services.network_service import (
     get_blocked_devices_list,
     block_device,
     unblock_device,
-    reset_all_network_rules,
+    reset_network_rules,
     scan_network,
     scan_network_via_router,
     run_ookla_speedtest
@@ -64,7 +64,7 @@ def unblock():
 def reset():
     """Reset all network rules"""
     try:
-        result = reset_all_network_rules()
+        result = reset_network_rules()
         return jsonify(result)
     except Exception as e:
         logger.error(f"Error resetting network rules: {str(e)}", exc_info=True)

@@ -4,18 +4,37 @@ from utils.response_helpers import success, error
 from utils.config_manager import config_manager
 from db.device_repository import get_mac_from_ip
 from db.device_groups_repository import get_rules_for_device, set_rule_for_device, remove_rule_from_device
-from services.bandwidth_mode import get_current_mode, set_mode
+from services.mode_state_service import get_current_mode_value, set_current_mode_value
+from db.tinydb_client import db_client
+from db.whitelist_management import add_to_whitelist, remove_from_whitelist, get_whitelist
+from services.reset_rules import reset_all_tc_rules
 import os
 import json
 from tinydb import Query
 
 logger = get_logger('services.whitelist')
 
+# Get the whitelist table directly
+whitelist_table = db_client.bandwidth_whitelist
+Device = Query()
+
 def get_whitelist_devices():
     """Get all devices in the whitelist"""
     try:
-        devices = get_rules_for_device("whitelist")
-        return {"status": "success", "data": devices}
+        # Get devices from the whitelist table
+        devices = get_whitelist()
+        
+        # Format the response
+        formatted_devices = []
+        for device in devices:
+            formatted_devices.append({
+                "ip": device.get("ip"),
+                "mac": device.get("mac"),
+                "hostname": device.get("name", "Unknown"),
+                "last_seen": device.get("added_at")
+            })
+            
+        return success(data=formatted_devices)
     except Exception as e:
         logger.error(f"Error getting whitelist: {str(e)}", exc_info=True)
         raise
@@ -23,12 +42,17 @@ def get_whitelist_devices():
 def add_device_to_whitelist(ip):
     """Add a device to the whitelist"""
     try:
-        mac = get_mac_from_ip(ip)
-        if not mac:
-            raise ValueError(f"Device with IP {ip} not found in network")
+        # Add to whitelist table
+        device = add_to_whitelist(ip)
         
-        set_rule_for_device(mac, ip, "whitelist", True)
-        return {"status": "success", "message": f"Device {ip} added to whitelist"}
+        # Set rule for device
+        set_rule_for_device(device["mac"], ip, "whitelist", True)
+        
+        # If whitelist mode is active, update TC rules
+        if get_current_mode_value() == 'whitelist':
+            setup_tc_with_iptables()
+        
+        return success(message=f"Device {ip} added to whitelist")
     except Exception as e:
         logger.error(f"Error adding device to whitelist: {str(e)}", exc_info=True)
         raise
@@ -36,12 +60,22 @@ def add_device_to_whitelist(ip):
 def remove_device_from_whitelist(ip):
     """Remove a device from the whitelist"""
     try:
-        mac = get_mac_from_ip(ip)
-        if not mac:
-            raise ValueError(f"Device with IP {ip} not found in network")
+        # Get device info before removing
+        device = whitelist_table.get(Device.ip == ip)
+        if not device:
+            raise ValueError(f"Device with IP {ip} not found in whitelist")
         
-        remove_rule_from_device(mac, ip, "whitelist")
-        return {"status": "success", "message": f"Device {ip} removed from whitelist"}
+        # Remove from whitelist table
+        remove_from_whitelist(ip)
+        
+        # Remove rule for device
+        remove_rule_from_device(device["mac"], ip, "whitelist")
+        
+        # If whitelist mode is active, update TC rules
+        if get_current_mode_value() == 'whitelist':
+            setup_tc_with_iptables()
+        
+        return success(message=f"Device {ip} removed from whitelist")
     except Exception as e:
         logger.error(f"Error removing device from whitelist: {str(e)}", exc_info=True)
         raise
@@ -49,10 +83,10 @@ def remove_device_from_whitelist(ip):
 def clear_whitelist():
     """Clear all devices from the whitelist"""
     try:
-        devices = get_rules_for_device("whitelist")
+        devices = get_whitelist()
         for device in devices:
-            remove_rule_from_device(device["mac"], device["ip"], "whitelist")
-        return {"status": "success", "message": "Whitelist cleared"}
+            remove_device_from_whitelist(device["ip"])
+        return success(message="Whitelist cleared")
     except Exception as e:
         logger.error(f"Error clearing whitelist: {str(e)}", exc_info=True)
         raise
@@ -61,7 +95,7 @@ def get_whitelist_limit_rate():
     """Get the current whitelist bandwidth limit rate"""
     try:
         config = config_manager.load_config('whitelist')
-        return config.get('Limit_Rate', "50mbit")
+        return success(data={"rate": config.get('Limit_Rate', "50mbit")})
     except Exception as e:
         logger.error(f"Error getting whitelist limit rate: {str(e)}", exc_info=True)
         raise
@@ -74,10 +108,11 @@ def set_whitelist_limit_rate(rate):
         config_manager.save_config('whitelist', config)
         logger.info(f"Updated whitelist limit rate to {config['Limit_Rate']}")
         
-        if is_whitelist_mode():
+        # Check mode using the new service
+        if get_current_mode_value() == 'whitelist':
             setup_tc_with_iptables()
         
-        return config['Limit_Rate']
+        return success(data={"rate": config['Limit_Rate']})
     except Exception as e:
         logger.error(f"Error setting whitelist limit rate: {str(e)}", exc_info=True)
         raise
@@ -86,7 +121,7 @@ def get_whitelist_full_rate():
     """Get the current whitelist full bandwidth rate"""
     try:
         config = config_manager.load_config('whitelist')
-        return config.get('Full_Rate', "100mbit")
+        return success(data={"rate": config.get('Full_Rate', "100mbit")})
     except Exception as e:
         logger.error(f"Error getting whitelist full rate: {str(e)}", exc_info=True)
         raise
@@ -99,10 +134,11 @@ def set_whitelist_full_rate(rate):
         config_manager.save_config('whitelist', config)
         logger.info(f"Updated whitelist full rate to {config['Full_Rate']}")
         
-        if is_whitelist_mode():
+        # Check mode using the new service
+        if get_current_mode_value() == 'whitelist':
             setup_tc_with_iptables()
         
-        return config['Full_Rate']
+        return success(data={"rate": config['Full_Rate']})
     except Exception as e:
         logger.error(f"Error setting whitelist full rate: {str(e)}", exc_info=True)
         raise
@@ -110,16 +146,10 @@ def set_whitelist_full_rate(rate):
 def activate_whitelist_mode():
     """Activate whitelist mode"""
     try:
-        # Set mode to whitelist
-        set_mode('whitelist')
-        
-        # Setup traffic control
-        if setup_tc_with_iptables():
-            logger.info("Whitelist mode activated successfully")
-            return True
-        else:
-            logger.error("Failed to activate whitelist mode")
-            return False
+        # Use the new service to set the mode
+        set_current_mode_value('whitelist')
+        setup_tc_with_iptables()
+        return success(message="Whitelist mode activated")
     except Exception as e:
         logger.error(f"Error activating whitelist mode: {str(e)}", exc_info=True)
         raise
@@ -127,28 +157,27 @@ def activate_whitelist_mode():
 def deactivate_whitelist_mode():
     """Deactivate whitelist mode"""
     try:
-        # Clear traffic control rules
-        run_command("iptables -t mangle -F")
-        
-        # Get all network interfaces
-        interfaces = get_all_network_interfaces()
-        
-        # Remove traffic control from each interface
-        for interface in interfaces:
-            run_command(f"tc qdisc del dev {interface} root 2>/dev/null || true")
-        
-        # Set mode to none
-        set_mode('none')
-        
-        logger.info("Whitelist mode deactivated successfully")
-        return True
+        # Perform cleanup first
+        reset_all_tc_rules() 
+        # Then set mode to none using the new service
+        set_current_mode_value('none')
+        return success(message="Whitelist mode deactivated")
     except Exception as e:
         logger.error(f"Error deactivating whitelist mode: {str(e)}", exc_info=True)
         raise
 
+def is_whitelist_mode_internal():
+    """Check if whitelist mode is active (internal use)"""
+    return get_current_mode_value() == 'whitelist'
+
 def is_whitelist_mode():
-    """Check if whitelist mode is active"""
-    return get_current_mode() == 'whitelist'
+    """Check if whitelist mode is active (API response)"""
+    try:
+        is_active = get_current_mode_value() == 'whitelist'
+        return success(data={"active": is_active})
+    except Exception as e:
+        logger.error(f"Error checking whitelist mode: {str(e)}", exc_info=True)
+        raise
 
 def format_rate(rate):
     """Format rate value to include units if not present"""
@@ -162,7 +191,7 @@ def get_all_network_interfaces():
     output, error = ssh_manager.execute_command(cmd)
     if error:
         logger.error(f"Error getting network interfaces: {error}")
-        return ["eth0"]  # Default to eth0 if command fails
+        raise Exception(f"Failed to get network interfaces: {error}")
     return [iface for iface in output.split() if iface not in ['lo']]
 
 def run_command(cmd):
@@ -170,7 +199,7 @@ def run_command(cmd):
     output, error = ssh_manager.execute_command(cmd)
     if error:
         logger.error(f"Command failed: {cmd}, Error: {error}")
-        return False
+        raise Exception(f"Command failed: {cmd}, Error: {error}")
     return True
 
 def setup_tc_on_interface(interface, whitelist_ips, limit_rate=None, full_rate=None):
@@ -243,10 +272,10 @@ def setup_tc_with_iptables(whitelist_ips=None, limit_rate=None, full_rate=None):
         success = all(interface_results)
         if success:
             logger.info("Traffic control with iptables set up successfully on all interfaces")
+            return success(message="Traffic control with iptables set up successfully")
         else:
             logger.warning("Traffic control setup failed on some interfaces")
-        
-        return success
+            raise Exception("Traffic control setup failed on some interfaces")
     except Exception as e:
         logger.error(f"Error setting up TC with iptables: {str(e)}", exc_info=True)
-        return False 
+        raise 
