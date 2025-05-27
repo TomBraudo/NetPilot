@@ -1,7 +1,5 @@
 import paramiko
-import json
 import os
-import sys
 from utils.path_utils import get_data_folder
 from dotenv import load_dotenv
 

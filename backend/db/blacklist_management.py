@@ -1,6 +1,4 @@
-from tinydb import TinyDB, Query
-from utils.path_utils import get_data_folder
-import os
+from tinydb import Query
 from db.tinydb_client import db_client
 from datetime import datetime
 from utils.logging_config import get_logger
@@ -11,9 +9,7 @@ logger = get_logger('db.blacklist')
 
 # Use the initialized tables from db_client
 blacklist_table = db_client.bandwidth_blacklist
-settings_table = db_client.settings
 Device = Query()
-Setting = Query()
 
 def get_blacklist():
     """
@@ -23,8 +19,8 @@ def get_blacklist():
         list: List of blacklisted device entries
     """
     try:
+        db_client.flush()  # Ensure we have the latest data before reading
         entries = blacklist_table.all()
-        db_client.flush()  # Ensure we have the latest data
         return entries
     except Exception as e:
         logger.error(f"Error retrieving blacklist: {str(e)}", exc_info=True)
@@ -113,94 +109,4 @@ def clear_blacklist():
         return True
     except Exception as e:
         logger.error(f"Error clearing blacklist: {str(e)}", exc_info=True)
-        raise
-
-def is_blacklist_mode_active():
-    """
-    Checks if blacklist mode is enabled in the database
-    
-    Returns:
-        bool: True if blacklist mode is active, False otherwise
-    """
-    try:
-        # Flush the storage to ensure we read the latest values
-        db_client.flush()
-        
-        # Query for blacklist_mode setting
-        setting_results = settings_table.search(Setting.name == 'blacklist_mode')
-        logger.info(f"Checking blacklist mode - Found settings: {setting_results}")
-        
-        if setting_results and len(setting_results) > 0:
-            setting = setting_results[0]
-            logger.info(f"Checking blacklist mode - Setting structure: {setting}")
-            
-            # Only check for 'value' field - the standardized structure
-            is_active = setting.get('value', False)
-            logger.info(f"Blacklist mode status: {is_active}")
-            return is_active
-        else:
-            # No setting found, initialize it
-            logger.info("No blacklist_mode setting found, initializing to False")
-            settings_table.upsert(
-                {'name': 'blacklist_mode', 'value': False}, 
-                Setting.name == 'blacklist_mode'
-            )
-            db_client.flush()
-            return False
-    except Exception as e:
-        logger.error(f"Error checking blacklist mode: {str(e)}", exc_info=True)
-        return False
-
-def activate_blacklist_mode():
-    """
-    Sets the blacklist_mode setting to active in the database
-    
-    Returns:
-        bool: True on success
-    """
-    try:
-        # Update using standardized 'value' field structure
-        logger.info("Activating blacklist mode with standard structure")
-        settings_table.upsert(
-            {'name': 'blacklist_mode', 'value': True}, 
-            Setting.name == 'blacklist_mode'
-        )
-        
-        # Verify the update worked
-        after_setting = settings_table.search(Setting.name == 'blacklist_mode')
-        logger.info(f"After update, settings: {after_setting}")
-        
-        # Make sure the settings table is actually persisted
-        db_client.flush()
-        
-        return True
-    except Exception as e:
-        logger.error(f"Error activating blacklist mode: {str(e)}", exc_info=True)
-        return False
-
-def deactivate_blacklist_mode():
-    """
-    Sets the blacklist_mode setting to inactive in the database
-    
-    Returns:
-        bool: True on success
-    """
-    try:
-        # Update using standardized 'value' field structure
-        logger.info("Deactivating blacklist mode with standard structure")
-        settings_table.upsert(
-            {'name': 'blacklist_mode', 'value': False}, 
-            Setting.name == 'blacklist_mode'
-        )
-        
-        # Verify the update worked
-        after_setting = settings_table.search(Setting.name == 'blacklist_mode')
-        logger.info(f"After update, settings: {after_setting}")
-        
-        # Make sure the settings table is actually persisted
-        db_client.flush()
-        
-        return True
-    except Exception as e:
-        logger.error(f"Error deactivating blacklist mode: {str(e)}", exc_info=True)
-        return False 
+        raise 

@@ -1,6 +1,4 @@
-from tinydb import TinyDB, Query
-from utils.path_utils import get_data_folder
-import os
+from tinydb import Query
 from db.tinydb_client import db_client
 from datetime import datetime
 from utils.logging_config import get_logger
@@ -11,9 +9,7 @@ logger = get_logger('db.whitelist')
 
 # Use the initialized tables from db_client
 whitelist_table = db_client.bandwidth_whitelist
-settings_table = db_client.settings
 Device = Query()
-Setting = Query()
 
 def get_whitelist():
     """
@@ -23,8 +19,8 @@ def get_whitelist():
         list: List of whitelisted device entries
     """
     try:
+        db_client.flush()  # Ensure we have the latest data before reading
         entries = whitelist_table.all()
-        db_client.flush()  # Ensure we have the latest data
         return entries
     except Exception as e:
         logger.error(f"Error retrieving whitelist: {str(e)}", exc_info=True)
@@ -122,93 +118,3 @@ def clear_whitelist():
     except Exception as e:
         logger.error(f"Error clearing whitelist: {str(e)}", exc_info=True)
         raise
-
-def is_whitelist_mode_active():
-    """
-    Checks if whitelist mode is enabled in the database
-    
-    Returns:
-        bool: True if whitelist mode is active, False otherwise
-    """
-    try:
-        # Flush the storage to ensure we read the latest values
-        db_client.flush()
-        
-        # Query for whitelist_mode setting
-        setting_results = settings_table.search(Setting.name == 'whitelist_mode')
-        logger.info(f"Checking whitelist mode - Found settings: {setting_results}")
-        
-        if setting_results and len(setting_results) > 0:
-            setting = setting_results[0]
-            logger.info(f"Checking whitelist mode - Setting structure: {setting}")
-            
-            # Only check for 'value' field - the standardized structure
-            is_active = setting.get('value', False)
-            logger.info(f"Whitelist mode status: {is_active}")
-            return is_active
-        else:
-            # No setting found, initialize it
-            logger.info("No whitelist_mode setting found, initializing to False")
-            settings_table.upsert(
-                {'name': 'whitelist_mode', 'value': False}, 
-                Setting.name == 'whitelist_mode'
-            )
-            db_client.flush()
-            return False
-    except Exception as e:
-        logger.error(f"Error checking whitelist mode: {str(e)}", exc_info=True)
-        return False
-
-def activate_whitelist_mode():
-    """
-    Sets the whitelist_mode setting to active in the database
-    
-    Returns:
-        bool: True on success
-    """
-    try:
-        # Update using standardized 'value' field structure
-        logger.info("Activating whitelist mode with standard structure")
-        settings_table.upsert(
-            {'name': 'whitelist_mode', 'value': True}, 
-            Setting.name == 'whitelist_mode'
-        )
-        
-        # Verify the update worked
-        after_setting = settings_table.search(Setting.name == 'whitelist_mode')
-        logger.info(f"After update, settings: {after_setting}")
-        
-        # Make sure the settings table is actually persisted
-        db_client.flush()
-        
-        return True
-    except Exception as e:
-        logger.error(f"Error activating whitelist mode: {str(e)}", exc_info=True)
-        return False
-
-def deactivate_whitelist_mode():
-    """
-    Sets the whitelist_mode setting to inactive in the database
-    
-    Returns:
-        bool: True on success
-    """
-    try:
-        # Update using standardized 'value' field structure
-        logger.info("Deactivating whitelist mode with standard structure")
-        settings_table.upsert(
-            {'name': 'whitelist_mode', 'value': False}, 
-            Setting.name == 'whitelist_mode'
-        )
-        
-        # Verify the update worked
-        after_setting = settings_table.search(Setting.name == 'whitelist_mode')
-        logger.info(f"After update, settings: {after_setting}")
-        
-        # Make sure the settings table is actually persisted
-        db_client.flush()
-        
-        return True
-    except Exception as e:
-        logger.error(f"Error deactivating whitelist mode: {str(e)}", exc_info=True)
-        return False

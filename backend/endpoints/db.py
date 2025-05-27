@@ -7,11 +7,6 @@ from db.device_repository import (
     update_device_name,
     clear_devices
 )
-from db.device_groups_repository import (
-    get_all_groups,
-    get_group_members,
-    get_rules_for_device
-)
 
 # Get logger for db endpoints
 logger = get_logger('db.endpoints')
@@ -73,45 +68,4 @@ def clear_devices_route():
         return jsonify(result)
     except Exception as e:
         logger.error(f"Error clearing devices: {str(e)}", exc_info=True)
-        return jsonify(error(str(e), status_code=500))
-
-'''
-    API endpoint to retrieve all device groups.
-'''
-@db_bp.route("/db/groups", methods=["GET"])
-def get_groups():
-    """Get all device groups."""
-    try:
-        result = get_all_groups()
-        return jsonify(result)
-    except Exception as e:
-        logger.error(f"Error getting groups: {str(e)}", exc_info=True)
-        return jsonify(error(str(e), status_code=500))
-
-''' 
-    API endpoint to retrieve all devices in a specific group.
-    Expects query param: ?group_name=<group_name>
-'''
-@db_bp.route("/db/groups/<group_id>/members", methods=["GET"])
-def get_group_members_route(group_id):
-    """Get all members of a device group."""
-    try:
-        result = get_group_members(group_id)
-        return jsonify(result)
-    except Exception as e:
-        logger.error(f"Error getting group members: {str(e)}", exc_info=True)
-        return jsonify(error(str(e), status_code=500))
-
-'''
-    API endpoint to retrieve all rules for a specific device.
-    Expects query params: ?mac=<mac_address>&ip=<ip_address>
-'''
-@db_bp.route("/db/devices/<mac>/rules", methods=["GET"])
-def get_device_rules(mac):
-    """Get all rules for a specific device."""
-    try:
-        result = get_rules_for_device(mac)
-        return jsonify(result)
-    except Exception as e:
-        logger.error(f"Error getting device rules: {str(e)}", exc_info=True)
         return jsonify(error(str(e), status_code=500))

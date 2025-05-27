@@ -1,14 +1,10 @@
 from scapy.all import ARP, Ether, srp
 import socket
 import concurrent.futures
-import json
-import os
-from utils.path_utils import get_data_folder
 import netifaces
 import ipaddress
-from utils.response_helpers import success, error
+from utils.response_helpers import success
 from utils.logging_config import get_logger
-from utils.ssh_client import ssh_manager
 from db.device_repository import register_device
 from utils.network_utils import print_results
 

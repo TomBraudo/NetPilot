@@ -1,19 +1,10 @@
-import socket
 import requests
 import time
 import re
-import json
-import os
 from utils.ssh_client import ssh_manager
 from utils.response_helpers import success
-from utils.config_manager import config_manager
 from db.device_repository import register_device
-from db.tinydb_client import TinyDBClient
 import ipaddress
-from utils.logging_config import get_logger
-from datetime import datetime
-
-logger = get_logger('services.router_scanner')
 
 def get_mac_vendor(mac):
     """
@@ -25,118 +16,117 @@ def get_mac_vendor(mac):
         response = requests.get(f"https://api.macvendors.com/{mac}", timeout=3)
         if response.status_code == 200:
             return response.text.strip()
-        return "Unknown Vendor"
     except requests.RequestException as e:
-        logger.warning(f"Vendor lookup failed for {mac}: {e}")
-        return "Unknown Vendor"
+        print(f"[WARN] Vendor lookup failed for {mac}: {e}")
+    return "Unknown Vendor"
 
 def scan_network_via_router():
     """
-    Scans the network using the OpenWrt router's DHCP leases and connected devices.
-    Returns a list of devices with their IP, MAC, hostname, and vendor information.
+    Uses SSH to retrieve ACTIVE connected devices from the OpenWrt router.
+    Combines ARP table with DHCP lease information for accurate results.
+    Only returns devices in the router's subnet, and includes the router itself.
     """
-    try:
-        # Get router IP from config
-        config = config_manager.load_config('router')
-        router_ip = config.get('ip')
-        if not router_ip:
-            raise ValueError("Router IP not configured")
+    # Get router IP and subnet
+    router_ip = ssh_manager.router_ip
+    # Assume /24 subnet for typical home routers; adjust if you want to detect dynamically
+    router_network = ipaddress.ip_network(router_ip + '/24', strict=False)
 
-        # Get DHCP leases
-        output, error = ssh_manager.execute_command("cat /tmp/dhcp.leases")
-        if error:
-            raise Exception(f"Failed to get DHCP leases: {error}")
+    # Get DHCP leases for hostname information
+    dhcp_command = "cat /tmp/dhcp.leases"
+    dhcp_output, dhcp_error = ssh_manager.execute_command(dhcp_command)
 
-        # Parse DHCP leases
-        device_map = {}
-        for line in output.splitlines():
-            parts = line.split()
-            if len(parts) >= 4:
-                mac = parts[1]
-                ip = parts[2]
-                hostname = parts[3]
-                device_map[mac] = {
-                    "ipv4": ip,
-                    "hostname": hostname,
-                    "vendor": None
-                }
+    if dhcp_error:
+        raise Exception("Failed to fetch DHCP leases")
 
-        # Get connected devices from wireless
-        output, error = ssh_manager.execute_command("iwinfo")
-        if error:
-            raise Exception(f"Failed to get wireless info: {error}")
+    # Create a lookup dictionary from DHCP leases
+    dhcp_info = {}
+    for line in dhcp_output.split("\n"):
+        parts = line.split()
+        if len(parts) >= 4:
+            mac = parts[1].lower()
+            ip = parts[2]
+            raw_hostname = parts[3] if len(parts) >= 4 else "Unknown"
+            hostname = raw_hostname if raw_hostname not in ["*", "Unknown"] else "Unknown"
+            dhcp_info[mac] = {"ip": ip, "hostname": hostname}
 
-        # Parse wireless info
-        current_interface = None
-        for line in output.splitlines():
-            if line.startswith("wlan"):
-                current_interface = line.split()[0]
-            elif current_interface and "Access Point" in line:
-                mac = re.search(r"([0-9A-Fa-f]{2}[:-][0-9A-Fa-f]{2}[:-][0-9A-Fa-f]{2}[:-][0-9A-Fa-f]{2}[:-][0-9A-Fa-f]{2}[:-][0-9A-Fa-f]{2})", line)
-                if mac:
-                    mac = mac.group(1).lower()
-                    if mac not in device_map:
-                        device_map[mac] = {
-                            "ipv4": None,
-                            "hostname": "Unknown",
-                            "vendor": None
-                        }
+    # Get ARP table to find ACTIVE devices
+    arp_command = "ip neigh show | grep -v FAILED"
+    arp_output, arp_error = ssh_manager.execute_command(arp_command)
 
-        # Filter devices to only include those in the router's subnet
-        connected_devices = []
-        router_network = ipaddress.ip_network(f"{router_ip}/24", strict=False)
+    if arp_error:
+        raise Exception("Failed to fetch ARP table")
 
-        for mac, device in device_map.items():
-            # Only include devices that have an IPv4 address in the router's subnet
-            if device["ipv4"]:
-                try:
-                    if ipaddress.ip_address(device["ipv4"]) not in router_network:
-                        continue
-                except ValueError:
-                    continue
-                # Get vendor info once per device
-                if not device["vendor"]:
-                    device["vendor"] = get_mac_vendor(mac)
-                
-                connected_devices.append({
-                    "ip": device["ipv4"],  # Always use IPv4 address
-                    "mac": mac,
-                    "hostname": device["hostname"],
-                    "vendor": device["vendor"]
-                })
-
-        # Register active devices through device management service and save to database
-        db_client = TinyDBClient()
-        
-        # Get existing devices to determine next ID
-        existing_devices = db_client.devices.all()
-        next_id = str(len(existing_devices) + 1)
-        
-        # Clear existing devices table
-        db_client.devices.truncate()
-        
-        # Save devices with numeric IDs
-        devices_dict = {}
-        for i, device in enumerate(connected_devices, 1):
-            # Register device in the device repository
-            register_device(device["ip"], device["mac"], device["hostname"])
+    # Process active devices from ARP table - group by MAC address
+    device_map = {}
+    for line in arp_output.split("\n"):
+        if not line.strip():
+            continue
             
-            # Save to devices table in TinyDB with numeric ID
-            devices_dict[str(i)] = {
-                "ip": device["ip"],
-                "mac": device["mac"],
+        parts = line.split()
+        if len(parts) >= 4:
+            ip = parts[0]
+            mac_idx = next((i for i, part in enumerate(parts) if re.match(r'([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})', part)), -1)
+            if mac_idx == -1:
+                continue
+                
+            mac = parts[mac_idx].lower()
+            state = parts[-1]
+            
+            # Only include devices in REACHABLE or STALE state (recently active)
+            if state in ["REACHABLE", "STALE", "DELAY"]:
+                # If this MAC is already in our map, we'll update it
+                if mac not in device_map:
+                    device_map[mac] = {
+                        "mac": mac,
+                        "ipv4": None,
+                        "ipv6": [],
+                        "hostname": "Unknown",
+                        "vendor": None
+                    }
+                
+                # Prioritize IPv4 addresses and DHCP hostnames
+                if ":" not in ip:  # This is an IPv4 address
+                    device_map[mac]["ipv4"] = ip
+                else:  # This is an IPv6 address
+                    device_map[mac]["ipv6"].append(ip)
+                
+                # Get hostname from DHCP info if available
+                if mac in dhcp_info and device_map[mac]["hostname"] == "Unknown":
+                    device_map[mac]["hostname"] = dhcp_info[mac]["hostname"]
+
+    # Convert the device map to a list and add vendor information
+    connected_devices = []
+    
+    # Add the router itself
+    connected_devices.append({
+        "ip": router_ip,
+        "mac": "router",  # You could fetch the router's MAC if needed
+        "hostname": "Router",
+        "vendor": "Router"
+    })
+
+    for mac, device in device_map.items():
+        # Only include devices that have an IPv4 address in the router's subnet
+        if device["ipv4"]:
+            try:
+                if ipaddress.ip_address(device["ipv4"]) not in router_network:
+                    continue
+            except ValueError:
+                continue
+            # Get vendor info once per device
+            if not device["vendor"]:
+                device["vendor"] = get_mac_vendor(mac)
+            
+            connected_devices.append({
+                "ip": device["ipv4"],  # Always use IPv4 address
+                "mac": mac,
                 "hostname": device["hostname"],
-                "last_seen": datetime.now().isoformat()
-            }
-        
-        # Save all devices at once
-        db_client.devices.insert({"devices": devices_dict})
-        
-        # Ensure changes are persisted
-        db_client.flush()
-        
-        logger.info(f"Successfully saved {len(connected_devices)} devices to database")
-        return success(data=connected_devices)
-    except Exception as e:
-        logger.error(f"Error scanning network via router: {str(e)}", exc_info=True)
-        raise
+                "vendor": device["vendor"]
+            })
+
+    
+    # Register active devices in database (only one entry per MAC)
+    for device in connected_devices:
+        register_device(device["ip"], device["mac"], device["hostname"])
+
+    return success(message="Active devices fetched", data=connected_devices)

@@ -1,9 +1,5 @@
-import time
 import json
-import re
-import subprocess
-import speedtest
-from utils.response_helpers import success, error
+from utils.response_helpers import success
 from utils.logging_config import get_logger
 from utils.ssh_client import ssh_manager
 

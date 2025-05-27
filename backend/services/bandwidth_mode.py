@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
-from utils.path_utils import get_data_folder
 from utils.logging_config import get_logger
 from utils.response_helpers import success
 from services.whitelist_service import deactivate_whitelist_mode as actual_deactivate_whitelist
 from services.blacklist_service import deactivate_blacklist_mode as actual_deactivate_blacklist
 from services.mode_state_service import get_current_mode_value, set_current_mode_value
-import os
-import json
 
 # Get logger for bandwidth mode service
 logger = get_logger('bandwidth.mode')

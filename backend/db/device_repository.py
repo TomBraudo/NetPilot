@@ -35,31 +35,38 @@ def get_mac_from_ip(ip):
         return None
 
 def register_device(ip, mac, hostname="Unknown"):
-    """Register a new device or update an existing one"""
+    """Register a new device or update an existing one based on MAC address."""
     try:
         Device = Query()
-        device = db_client.devices.get((Device.ip == ip) | (Device.mac == mac))
-        
-        if device:
-            # Update existing device
-            db_client.devices.update({
-                'ip': ip,
-                'mac': mac,
-                'hostname': hostname,
-                'last_seen': datetime.now().isoformat()
-            }, (Device.ip == ip) | (Device.mac == mac))
+        existing_device_by_mac = db_client.devices.get(Device.mac == mac)
+
+        if existing_device_by_mac:
+            # Device with this MAC already exists.
+            updates = {'last_seen': datetime.now().isoformat()}
+            
+            # Check if IP address has changed or was not set before
+            if existing_device_by_mac.get('ip') != ip:
+                updates['ip'] = ip
+                # If IP changes, update hostname from the current scan as well
+                updates['hostname'] = hostname 
+            # Else (IP is the same), hostname is NOT updated, preserving any existing name.
+            
+            db_client.devices.update(updates, Device.mac == mac)
+            logger.info(f"Updated existing device (MAC: {mac}) - IP: {ip}, Hostname: {existing_device_by_mac.get('hostname') if updates.get('hostname') is None else updates.get('hostname')}")
         else:
-            # Add new device
+            # No device with this MAC exists - it's a new device.
+            logger.info(f"Registering new device (MAC: {mac}) - IP: {ip}, Hostname: {hostname}")
             db_client.devices.insert({
                 'ip': ip,
                 'mac': mac,
                 'hostname': hostname,
+                'first_seen': datetime.now().isoformat(), # Add first_seen for new devices
                 'last_seen': datetime.now().isoformat()
             })
         
         return True
     except Exception as e:
-        logger.error(f"Error registering device {ip}: {str(e)}", exc_info=True)
+        logger.error(f"Error registering device {ip} (MAC: {mac}): {str(e)}", exc_info=True)
         return False
 
 def delete_device(mac, ip):
@@ -74,13 +81,6 @@ def delete_device(mac, ip):
         bool: True if successful, False otherwise
     """
     try:
-        # Delete device rules
-        db_client.device_rules.remove(Device.mac == mac)
-        
-        # Delete group memberships
-        GroupMember = Query()
-        db_client.group_members.remove(GroupMember.mac == mac)
-        
         # Delete device
         db_client.devices.remove(Device.mac == mac)
         db_client.flush()  # Ensure changes are persisted
@@ -138,10 +138,6 @@ def clear_devices():
         bool: True if successful, False otherwise
     """
     try:
-        # Clear related tables first
-        db_client.device_rules.truncate()
-        db_client.group_members.truncate()
-        
         # Then clear devices
         db_client.devices.truncate()
         db_client.flush()  # Ensure changes are persisted

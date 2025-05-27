@@ -5,8 +5,6 @@ from services.network_scanner import scan_network
 from services.router_scanner import scan_network_via_router
 from services.speed_test import run_ookla_speedtest
 from utils.ssh_client import ssh_manager
-from db.device_repository import get_mac_from_ip
-from db.device_groups_repository import set_rule_for_device, remove_rule_from_device
 from utils.response_helpers import success
 
 logger = get_logger('services.network')

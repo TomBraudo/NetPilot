@@ -6,7 +6,6 @@ from utils.ssh_client import ssh_manager
 from db.tinydb_client import db_client
 from utils.logging_config import get_logger
 import os
-import json
 import atexit
 from dotenv import load_dotenv
 

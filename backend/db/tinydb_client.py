@@ -1,4 +1,4 @@
-from tinydb import TinyDB, Query
+from tinydb import TinyDB
 from tinydb.storages import JSONStorage
 from tinydb.middlewares import CachingMiddleware
 import os
@@ -45,16 +45,8 @@ class TinyDBClient:
             
             # Initialize tables (collections)
             self.devices = self.devices_db.table('devices')
-            self.device_groups = self.db.table('device_groups')
-            self.group_members = self.db.table('group_members')
-            self.rules = self.db.table('rules')
-            self.device_rules = self.db.table('device_rules')
             self.bandwidth_whitelist = self.db.table('whitelist')
             self.bandwidth_blacklist = self.db.table('blacklist')
-            self.settings = self.db.table('settings')
-            
-            # Initialize default settings if they don't exist
-            self.initialize_settings()
             
             # Ensure tables are created and persisted
             self.flush()
@@ -64,19 +56,6 @@ class TinyDBClient:
         except Exception as e:
             logger.error(f"Error initializing TinyDB: {str(e)}", exc_info=True)
             raise
-    
-    def initialize_settings(self):
-        """Initialize default settings if they don't exist."""
-        try:
-            if not self.settings.contains(Query().name == 'whitelist_mode'):
-                self.settings.insert({
-                    'name': 'whitelist_mode',
-                    'value': False,
-                    'description': 'Whether whitelist mode is active'
-                })
-                self.flush()
-        except Exception as e:
-            logger.error(f"Error initializing settings: {str(e)}", exc_info=True)
     
     def flush(self):
         """Force flush all cached writes to disk."""

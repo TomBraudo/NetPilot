@@ -3959,3 +3959,2023 @@ ValueError: Invalid configuration name: router
 2025-05-27 19:55:15 - __main__ - INFO - Cleaning up resources
 2025-05-27 19:55:15 - db.tinydb - INFO - TinyDB connections closed
 2025-05-27 19:55:15 - __main__ - INFO - Resources cleaned up
+2025-05-27 19:58:36 - root - INFO - Logging initialized at 2025-05-27 19:58:36
+2025-05-27 19:58:36 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 19:58:36 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:58:36 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:58:36 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:58:37 - __main__ - INFO - Initializing database tables
+2025-05-27 19:58:37 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 19:58:37 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 19:58:37 - __main__ - INFO - Database tables initialized
+2025-05-27 19:58:37 - __main__ - INFO - Registering API blueprints
+2025-05-27 19:58:37 - __main__ - INFO - API blueprints registered
+2025-05-27 19:58:37 - __main__ - INFO - Starting server on port 5000
+2025-05-27 19:58:37 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 19:58:37 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 19:58:37 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 19:58:37 - root - INFO - Logging initialized at 2025-05-27 19:58:37
+2025-05-27 19:58:37 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 19:58:37 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:58:37 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:58:37 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:58:38 - __main__ - INFO - Initializing database tables
+2025-05-27 19:58:38 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 19:58:38 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 19:58:38 - __main__ - INFO - Database tables initialized
+2025-05-27 19:58:38 - __main__ - INFO - Registering API blueprints
+2025-05-27 19:58:38 - __main__ - INFO - API blueprints registered
+2025-05-27 19:58:38 - __main__ - INFO - Starting server on port 5000
+2025-05-27 19:58:38 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 19:58:38 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 19:58:46 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 19:58:46 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 19:58:50 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 19:58:50] "GET /api/scan/router HTTP/1.1" 200 -
+2025-05-27 19:59:04 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 19:59:04] "GET /whitelist HTTP/1.1" 200 -
+2025-05-27 19:59:13 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-05-27 19:59:13 - db.device_groups_repository - ERROR - Error setting rule for device: Rule 'whitelist' is not defined
+2025-05-27 19:59:13 - services.mode_state - ERROR - Error getting current mode value: Invalid configuration name: bandwidth
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\mode_state_service.py", line 10, in get_current_mode_value
+    config = config_manager.load_config('bandwidth')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\utils\config_manager.py", line 69, in load_config
+    raise ValueError(f"Invalid configuration name: {config_name}")
+ValueError: Invalid configuration name: bandwidth
+2025-05-27 19:59:13 - services.whitelist - ERROR - Error adding device to whitelist: Invalid configuration name: bandwidth
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 52, in add_device_to_whitelist
+    if get_current_mode_value() == 'whitelist':
+       ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\mode_state_service.py", line 10, in get_current_mode_value
+    config = config_manager.load_config('bandwidth')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\utils\config_manager.py", line 69, in load_config
+    raise ValueError(f"Invalid configuration name: {config_name}")
+ValueError: Invalid configuration name: bandwidth
+2025-05-27 19:59:13 - whitelist.endpoints - ERROR - Error adding device to whitelist: Invalid configuration name: bandwidth
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 40, in add_to_whitelist
+    result = add_device_to_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 52, in add_device_to_whitelist
+    if get_current_mode_value() == 'whitelist':
+       ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\mode_state_service.py", line 10, in get_current_mode_value
+    config = config_manager.load_config('bandwidth')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\utils\config_manager.py", line 69, in load_config
+    raise ValueError(f"Invalid configuration name: {config_name}")
+ValueError: Invalid configuration name: bandwidth
+2025-05-27 19:59:13 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 19:59:13] "POST /whitelist HTTP/1.1" 200 -
+2025-05-27 20:01:11 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\db\\tinydb_client.py', reloading
+2025-05-27 20:01:11 - __main__ - INFO - Cleaning up resources
+2025-05-27 20:01:11 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 20:01:11 - __main__ - INFO - Resources cleaned up
+2025-05-27 20:01:11 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 20:01:11 - root - INFO - Logging initialized at 2025-05-27 20:01:11
+2025-05-27 20:01:11 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 20:01:11 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:01:11 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:01:11 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:01:12 - __main__ - INFO - Initializing database tables
+2025-05-27 20:01:12 - db.schema_initializer - ERROR - Error initializing tables: 'TinyDBClient' object has no attribute 'rules'
+2025-05-27 20:01:12 - __main__ - INFO - Cleaning up resources
+2025-05-27 20:01:12 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 20:01:12 - __main__ - INFO - Resources cleaned up
+2025-05-27 20:11:56 - root - INFO - Logging initialized at 2025-05-27 20:11:56
+2025-05-27 20:11:56 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 20:11:56 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:11:56 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:11:56 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:18:33 - root - INFO - Logging initialized at 2025-05-27 20:18:33
+2025-05-27 20:18:33 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 20:18:33 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:18:33 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:18:33 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:24:39 - root - INFO - Logging initialized at 2025-05-27 20:24:39
+2025-05-27 20:24:39 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 20:24:39 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:24:39 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:24:39 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:52:10 - root - INFO - Logging initialized at 2025-05-27 20:52:10
+2025-05-27 20:52:10 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 20:52:10 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:52:10 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:52:10 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:52:11 - __main__ - INFO - Initializing database tables
+2025-05-27 20:52:11 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 20:52:11 - __main__ - INFO - Database tables initialized
+2025-05-27 20:52:11 - __main__ - INFO - Registering API blueprints
+2025-05-27 20:52:11 - __main__ - INFO - API blueprints registered
+2025-05-27 20:52:11 - __main__ - INFO - Starting server on port 5000
+2025-05-27 20:52:11 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 20:52:11 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 20:52:11 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 20:52:11 - root - INFO - Logging initialized at 2025-05-27 20:52:11
+2025-05-27 20:52:11 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 20:52:11 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:52:11 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:52:11 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:52:12 - __main__ - INFO - Initializing database tables
+2025-05-27 20:52:12 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 20:52:12 - __main__ - INFO - Database tables initialized
+2025-05-27 20:52:12 - __main__ - INFO - Registering API blueprints
+2025-05-27 20:52:12 - __main__ - INFO - API blueprints registered
+2025-05-27 20:52:12 - __main__ - INFO - Starting server on port 5000
+2025-05-27 20:52:12 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 20:52:12 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 20:52:16 - db.whitelist - WARNING - Attempted to add IP 192.168.1.122 that already exists in whitelist
+2025-05-27 20:52:16 - db.whitelist - ERROR - Error adding to whitelist: Device with IP 192.168.1.122 already in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 48, in add_to_whitelist
+    raise ValueError(f"Device with IP {ip} already in whitelist")
+ValueError: Device with IP 192.168.1.122 already in whitelist
+2025-05-27 20:52:16 - services.whitelist - ERROR - Error adding device to whitelist: Device with IP 192.168.1.122 already in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 42, in add_device_to_whitelist
+    device = add_to_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 48, in add_to_whitelist
+    raise ValueError(f"Device with IP {ip} already in whitelist")
+ValueError: Device with IP 192.168.1.122 already in whitelist
+2025-05-27 20:52:16 - whitelist.endpoints - ERROR - Error adding device to whitelist: Device with IP 192.168.1.122 already in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 40, in add_to_whitelist
+    result = add_device_to_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 42, in add_device_to_whitelist
+    device = add_to_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 48, in add_to_whitelist
+    raise ValueError(f"Device with IP {ip} already in whitelist")
+ValueError: Device with IP 192.168.1.122 already in whitelist
+2025-05-27 20:52:16 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 20:52:16] "POST /whitelist HTTP/1.1" 200 -
+2025-05-27 20:52:24 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-05-27 20:52:24 - services.mode_state - ERROR - Error getting current mode value: Invalid configuration name: bandwidth
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\mode_state_service.py", line 10, in get_current_mode_value
+    config = config_manager.load_config('bandwidth')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\utils\config_manager.py", line 69, in load_config
+    raise ValueError(f"Invalid configuration name: {config_name}")
+ValueError: Invalid configuration name: bandwidth
+2025-05-27 20:52:24 - services.whitelist - ERROR - Error removing device from whitelist: Invalid configuration name: bandwidth
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 71, in remove_device_from_whitelist
+    if get_current_mode_value() == 'whitelist':
+       ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\mode_state_service.py", line 10, in get_current_mode_value
+    config = config_manager.load_config('bandwidth')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\utils\config_manager.py", line 69, in load_config
+    raise ValueError(f"Invalid configuration name: {config_name}")
+ValueError: Invalid configuration name: bandwidth
+2025-05-27 20:52:24 - whitelist.endpoints - ERROR - Error removing device from whitelist: Invalid configuration name: bandwidth
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 55, in remove_from_whitelist
+    result = remove_device_from_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 71, in remove_device_from_whitelist
+    if get_current_mode_value() == 'whitelist':
+       ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\mode_state_service.py", line 10, in get_current_mode_value
+    config = config_manager.load_config('bandwidth')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\utils\config_manager.py", line 69, in load_config
+    raise ValueError(f"Invalid configuration name: {config_name}")
+ValueError: Invalid configuration name: bandwidth
+2025-05-27 20:52:24 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 20:52:24] "DELETE /whitelist HTTP/1.1" 200 -
+2025-05-27 20:52:42 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\mode_state_service.py', reloading
+2025-05-27 20:52:42 - __main__ - INFO - Cleaning up resources
+2025-05-27 20:52:42 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 20:52:42 - __main__ - INFO - Resources cleaned up
+2025-05-27 20:52:42 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 20:52:42 - root - INFO - Logging initialized at 2025-05-27 20:52:42
+2025-05-27 20:52:42 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 20:52:42 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:52:42 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:52:42 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:52:43 - __main__ - INFO - Initializing database tables
+2025-05-27 20:52:43 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 20:52:43 - __main__ - INFO - Database tables initialized
+2025-05-27 20:52:43 - __main__ - INFO - Registering API blueprints
+2025-05-27 20:52:43 - __main__ - INFO - API blueprints registered
+2025-05-27 20:52:43 - __main__ - INFO - Starting server on port 5000
+2025-05-27 20:52:43 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 20:52:43 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 20:53:09 - services.whitelist - ERROR - Error removing device from whitelist: Device with IP 192.168.1.122 not found in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 62, in remove_device_from_whitelist
+    raise ValueError(f"Device with IP {ip} not found in whitelist")
+ValueError: Device with IP 192.168.1.122 not found in whitelist
+2025-05-27 20:53:09 - whitelist.endpoints - ERROR - Error removing device from whitelist: Device with IP 192.168.1.122 not found in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 55, in remove_from_whitelist
+    result = remove_device_from_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 62, in remove_device_from_whitelist
+    raise ValueError(f"Device with IP {ip} not found in whitelist")
+ValueError: Device with IP 192.168.1.122 not found in whitelist
+2025-05-27 20:53:09 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 20:53:09] "DELETE /whitelist HTTP/1.1" 200 -
+2025-05-27 20:53:14 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-05-27 20:53:14 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 20:53:14] "POST /whitelist HTTP/1.1" 200 -
+2025-05-27 20:53:17 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-05-27 20:53:17 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 20:53:17] "DELETE /whitelist HTTP/1.1" 200 -
+2025-05-27 20:53:28 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 20:53:28] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-27 20:53:35 - utils.config - INFO - Saved mode configuration
+2025-05-27 20:53:35 - services.mode_state - INFO - Updated bandwidth mode to whitelist
+2025-05-27 20:53:35 - services.whitelist - INFO - Whitelist contains 0 IPs
+2025-05-27 20:53:35 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 20:53:35 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 20:53:36 - services.whitelist - INFO - Setting up traffic control on br-lan with limit {'success': True, 'message': '', 'data': {'rate': '50mbit'}, 'status_code': 200}
+2025-05-27 20:53:36 - services.whitelist - ERROR - Command failed: tc class add dev br-lan parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:36 - services.whitelist - ERROR - Error setting up TC on interface br-lan: Command failed: tc class add dev br-lan parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 219, in setup_tc_on_interface
+    run_command(f"tc class add dev {interface} parent 1: classid 1:1 htb rate {full_rate}")
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 198, in run_command
+    raise Exception(f"Command failed: {cmd}, Error: {error}")
+Exception: Command failed: tc class add dev br-lan parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:36 - services.whitelist - INFO - Setting up traffic control on eth0 with limit {'success': True, 'message': '', 'data': {'rate': '50mbit'}, 'status_code': 200}
+2025-05-27 20:53:37 - services.whitelist - ERROR - Command failed: tc class add dev eth0 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:37 - services.whitelist - ERROR - Error setting up TC on interface eth0: Command failed: tc class add dev eth0 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 219, in setup_tc_on_interface
+    run_command(f"tc class add dev {interface} parent 1: classid 1:1 htb rate {full_rate}")
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 198, in run_command
+    raise Exception(f"Command failed: {cmd}, Error: {error}")
+Exception: Command failed: tc class add dev eth0 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:37 - services.whitelist - INFO - Setting up traffic control on lan1 with limit {'success': True, 'message': '', 'data': {'rate': '50mbit'}, 'status_code': 200}
+2025-05-27 20:53:37 - services.whitelist - ERROR - Command failed: tc class add dev lan1 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:37 - services.whitelist - ERROR - Error setting up TC on interface lan1: Command failed: tc class add dev lan1 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 219, in setup_tc_on_interface
+    run_command(f"tc class add dev {interface} parent 1: classid 1:1 htb rate {full_rate}")
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 198, in run_command
+    raise Exception(f"Command failed: {cmd}, Error: {error}")
+Exception: Command failed: tc class add dev lan1 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:37 - services.whitelist - INFO - Setting up traffic control on lan2 with limit {'success': True, 'message': '', 'data': {'rate': '50mbit'}, 'status_code': 200}
+2025-05-27 20:53:38 - services.whitelist - ERROR - Command failed: tc class add dev lan2 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:38 - services.whitelist - ERROR - Error setting up TC on interface lan2: Command failed: tc class add dev lan2 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 219, in setup_tc_on_interface
+    run_command(f"tc class add dev {interface} parent 1: classid 1:1 htb rate {full_rate}")
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 198, in run_command
+    raise Exception(f"Command failed: {cmd}, Error: {error}")
+Exception: Command failed: tc class add dev lan2 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:38 - services.whitelist - INFO - Setting up traffic control on lan3 with limit {'success': True, 'message': '', 'data': {'rate': '50mbit'}, 'status_code': 200}
+2025-05-27 20:53:38 - services.whitelist - ERROR - Command failed: tc class add dev lan3 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:38 - services.whitelist - ERROR - Error setting up TC on interface lan3: Command failed: tc class add dev lan3 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 219, in setup_tc_on_interface
+    run_command(f"tc class add dev {interface} parent 1: classid 1:1 htb rate {full_rate}")
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 198, in run_command
+    raise Exception(f"Command failed: {cmd}, Error: {error}")
+Exception: Command failed: tc class add dev lan3 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:38 - services.whitelist - INFO - Setting up traffic control on lan4 with limit {'success': True, 'message': '', 'data': {'rate': '50mbit'}, 'status_code': 200}
+2025-05-27 20:53:39 - services.whitelist - ERROR - Command failed: tc class add dev lan4 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:39 - services.whitelist - ERROR - Error setting up TC on interface lan4: Command failed: tc class add dev lan4 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 219, in setup_tc_on_interface
+    run_command(f"tc class add dev {interface} parent 1: classid 1:1 htb rate {full_rate}")
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 198, in run_command
+    raise Exception(f"Command failed: {cmd}, Error: {error}")
+Exception: Command failed: tc class add dev lan4 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:39 - services.whitelist - INFO - Setting up traffic control on phy0-ap0 with limit {'success': True, 'message': '', 'data': {'rate': '50mbit'}, 'status_code': 200}
+2025-05-27 20:53:39 - services.whitelist - ERROR - Command failed: tc class add dev phy0-ap0 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:39 - services.whitelist - ERROR - Error setting up TC on interface phy0-ap0: Command failed: tc class add dev phy0-ap0 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 219, in setup_tc_on_interface
+    run_command(f"tc class add dev {interface} parent 1: classid 1:1 htb rate {full_rate}")
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 198, in run_command
+    raise Exception(f"Command failed: {cmd}, Error: {error}")
+Exception: Command failed: tc class add dev phy0-ap0 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:39 - services.whitelist - INFO - Setting up traffic control on teql0 with limit {'success': True, 'message': '', 'data': {'rate': '50mbit'}, 'status_code': 200}
+2025-05-27 20:53:39 - services.whitelist - ERROR - Command failed: tc class add dev teql0 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:39 - services.whitelist - ERROR - Error setting up TC on interface teql0: Command failed: tc class add dev teql0 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 219, in setup_tc_on_interface
+    run_command(f"tc class add dev {interface} parent 1: classid 1:1 htb rate {full_rate}")
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 198, in run_command
+    raise Exception(f"Command failed: {cmd}, Error: {error}")
+Exception: Command failed: tc class add dev teql0 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:39 - services.whitelist - INFO - Setting up traffic control on wan with limit {'success': True, 'message': '', 'data': {'rate': '50mbit'}, 'status_code': 200}
+2025-05-27 20:53:40 - services.whitelist - ERROR - Command failed: tc class add dev wan parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:40 - services.whitelist - ERROR - Error setting up TC on interface wan: Command failed: tc class add dev wan parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 219, in setup_tc_on_interface
+    run_command(f"tc class add dev {interface} parent 1: classid 1:1 htb rate {full_rate}")
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 198, in run_command
+    raise Exception(f"Command failed: {cmd}, Error: {error}")
+Exception: Command failed: tc class add dev wan parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:40 - services.whitelist - INFO - Setting up traffic control on wlan1 with limit {'success': True, 'message': '', 'data': {'rate': '50mbit'}, 'status_code': 200}
+2025-05-27 20:53:40 - services.whitelist - ERROR - Command failed: tc class add dev wlan1 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:40 - services.whitelist - ERROR - Error setting up TC on interface wlan1: Command failed: tc class add dev wlan1 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 219, in setup_tc_on_interface
+    run_command(f"tc class add dev {interface} parent 1: classid 1:1 htb rate {full_rate}")
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 198, in run_command
+    raise Exception(f"Command failed: {cmd}, Error: {error}")
+Exception: Command failed: tc class add dev wlan1 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:40 - services.whitelist - WARNING - Traffic control setup failed on some interfaces
+2025-05-27 20:53:40 - services.whitelist - ERROR - Error setting up TC with iptables: Traffic control setup failed on some interfaces
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 274, in setup_tc_with_iptables
+    raise Exception("Traffic control setup failed on some interfaces")
+Exception: Traffic control setup failed on some interfaces
+2025-05-27 20:53:40 - services.whitelist - ERROR - Error activating whitelist mode: Traffic control setup failed on some interfaces
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 147, in activate_whitelist_mode
+    setup_tc_with_iptables()
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 274, in setup_tc_with_iptables
+    raise Exception("Traffic control setup failed on some interfaces")
+Exception: Traffic control setup failed on some interfaces
+2025-05-27 20:53:40 - whitelist.endpoints - ERROR - Error activating whitelist mode: Traffic control setup failed on some interfaces
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 125, in activate
+    result = activate_whitelist_mode()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 147, in activate_whitelist_mode
+    setup_tc_with_iptables()
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 274, in setup_tc_with_iptables
+    raise Exception("Traffic control setup failed on some interfaces")
+Exception: Traffic control setup failed on some interfaces
+2025-05-27 20:53:40 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 20:53:40] "POST /whitelist/activate HTTP/1.1" 200 -
+2025-05-27 20:54:33 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\whitelist_service.py', reloading
+2025-05-27 20:54:33 - __main__ - INFO - Cleaning up resources
+2025-05-27 20:54:33 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 20:54:33 - __main__ - INFO - Resources cleaned up
+2025-05-27 20:54:33 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 20:54:33 - root - INFO - Logging initialized at 2025-05-27 20:54:33
+2025-05-27 20:54:33 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 20:54:33 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:54:33 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:54:33 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:54:34 - __main__ - INFO - Initializing database tables
+2025-05-27 20:54:34 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 20:54:34 - __main__ - INFO - Database tables initialized
+2025-05-27 20:54:34 - __main__ - INFO - Registering API blueprints
+2025-05-27 20:54:34 - __main__ - INFO - API blueprints registered
+2025-05-27 20:54:34 - __main__ - INFO - Starting server on port 5000
+2025-05-27 20:54:34 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 20:54:34 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 20:54:45 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\whitelist_service.py', reloading
+2025-05-27 20:54:45 - __main__ - INFO - Cleaning up resources
+2025-05-27 20:54:45 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 20:54:45 - __main__ - INFO - Resources cleaned up
+2025-05-27 20:54:46 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 20:54:46 - root - INFO - Logging initialized at 2025-05-27 20:54:46
+2025-05-27 20:54:46 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 20:54:46 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:54:46 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:54:46 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:54:47 - __main__ - INFO - Initializing database tables
+2025-05-27 20:54:47 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 20:54:47 - __main__ - INFO - Database tables initialized
+2025-05-27 20:54:47 - __main__ - INFO - Registering API blueprints
+2025-05-27 20:54:47 - __main__ - INFO - API blueprints registered
+2025-05-27 20:54:47 - __main__ - INFO - Starting server on port 5000
+2025-05-27 20:54:47 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 20:54:47 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 20:54:54 - __main__ - INFO - Cleaning up resources
+2025-05-27 20:54:54 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 20:54:54 - __main__ - INFO - Resources cleaned up
+2025-05-27 20:54:54 - __main__ - INFO - Cleaning up resources
+2025-05-27 20:54:54 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 20:54:54 - __main__ - INFO - Resources cleaned up
+2025-05-27 20:57:59 - root - INFO - Logging initialized at 2025-05-27 20:57:59
+2025-05-27 20:57:59 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 20:57:59 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:57:59 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:57:59 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:58:00 - __main__ - INFO - Initializing database tables
+2025-05-27 20:58:00 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 20:58:00 - __main__ - INFO - Database tables initialized
+2025-05-27 20:58:00 - __main__ - INFO - Registering API blueprints
+2025-05-27 20:58:00 - __main__ - INFO - API blueprints registered
+2025-05-27 20:58:00 - __main__ - INFO - Starting server on port 5000
+2025-05-27 20:58:00 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 20:58:00 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 20:58:00 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 20:58:00 - root - INFO - Logging initialized at 2025-05-27 20:58:00
+2025-05-27 20:58:00 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 20:58:00 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:58:00 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:58:00 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:58:01 - __main__ - INFO - Initializing database tables
+2025-05-27 20:58:01 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 20:58:01 - __main__ - INFO - Database tables initialized
+2025-05-27 20:58:01 - __main__ - INFO - Registering API blueprints
+2025-05-27 20:58:01 - __main__ - INFO - API blueprints registered
+2025-05-27 20:58:01 - __main__ - INFO - Starting server on port 5000
+2025-05-27 20:58:01 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 20:58:01 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 20:58:04 - utils.config - INFO - Saved mode configuration
+2025-05-27 20:58:04 - services.mode_state - INFO - Updated bandwidth mode to whitelist
+2025-05-27 20:58:04 - services.whitelist - INFO - Whitelist contains 0 IPs
+2025-05-27 20:58:04 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 20:58:05 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 20:58:05 - services.whitelist - INFO - Setting up traffic control on br-lan with limit 50mbit and full rate 1000mbit
+2025-05-27 20:58:05 - services.whitelist - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 20:58:05 - services.whitelist - INFO - Setting up traffic control on eth0 with limit 50mbit and full rate 1000mbit
+2025-05-27 20:58:05 - services.whitelist - INFO - Traffic control setup completed for interface eth0
+2025-05-27 20:58:05 - services.whitelist - INFO - Setting up traffic control on lan1 with limit 50mbit and full rate 1000mbit
+2025-05-27 20:58:05 - services.whitelist - INFO - Traffic control setup completed for interface lan1
+2025-05-27 20:58:05 - services.whitelist - INFO - Setting up traffic control on lan2 with limit 50mbit and full rate 1000mbit
+2025-05-27 20:58:06 - services.whitelist - INFO - Traffic control setup completed for interface lan2
+2025-05-27 20:58:06 - services.whitelist - INFO - Setting up traffic control on lan3 with limit 50mbit and full rate 1000mbit
+2025-05-27 20:58:06 - services.whitelist - INFO - Traffic control setup completed for interface lan3
+2025-05-27 20:58:06 - services.whitelist - INFO - Setting up traffic control on lan4 with limit 50mbit and full rate 1000mbit
+2025-05-27 20:58:06 - services.whitelist - INFO - Traffic control setup completed for interface lan4
+2025-05-27 20:58:06 - services.whitelist - INFO - Setting up traffic control on phy0-ap0 with limit 50mbit and full rate 1000mbit
+2025-05-27 20:58:07 - services.whitelist - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 20:58:07 - services.whitelist - INFO - Setting up traffic control on teql0 with limit 50mbit and full rate 1000mbit
+2025-05-27 20:58:07 - services.whitelist - INFO - Traffic control setup completed for interface teql0
+2025-05-27 20:58:07 - services.whitelist - INFO - Setting up traffic control on wan with limit 50mbit and full rate 1000mbit
+2025-05-27 20:58:07 - services.whitelist - INFO - Traffic control setup completed for interface wan
+2025-05-27 20:58:07 - services.whitelist - INFO - Setting up traffic control on wlan1 with limit 50mbit and full rate 1000mbit
+2025-05-27 20:58:08 - services.whitelist - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 20:58:08 - services.whitelist - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 20:58:08 - services.whitelist - ERROR - Error setting up TC with iptables: 'bool' object is not callable
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 279, in setup_tc_with_iptables
+    return success(message="Traffic control with iptables set up successfully")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'bool' object is not callable
+2025-05-27 20:58:08 - services.whitelist - ERROR - Error activating whitelist mode: 'bool' object is not callable
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 147, in activate_whitelist_mode
+    setup_tc_with_iptables()
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 279, in setup_tc_with_iptables
+    return success(message="Traffic control with iptables set up successfully")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'bool' object is not callable
+2025-05-27 20:58:08 - whitelist.endpoints - ERROR - Error activating whitelist mode: 'bool' object is not callable
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 125, in activate
+    result = activate_whitelist_mode()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 147, in activate_whitelist_mode
+    setup_tc_with_iptables()
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 279, in setup_tc_with_iptables
+    return success(message="Traffic control with iptables set up successfully")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'bool' object is not callable
+2025-05-27 20:58:08 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 20:58:08] "POST /whitelist/activate HTTP/1.1" 200 -
+2025-05-27 20:59:18 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\whitelist_service.py', reloading
+2025-05-27 20:59:18 - __main__ - INFO - Cleaning up resources
+2025-05-27 20:59:18 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 20:59:18 - __main__ - INFO - Resources cleaned up
+2025-05-27 20:59:18 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 20:59:19 - root - INFO - Logging initialized at 2025-05-27 20:59:19
+2025-05-27 20:59:19 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 20:59:19 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:59:19 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:59:19 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:59:19 - __main__ - INFO - Initializing database tables
+2025-05-27 20:59:19 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 20:59:19 - __main__ - INFO - Database tables initialized
+2025-05-27 20:59:19 - __main__ - INFO - Registering API blueprints
+2025-05-27 20:59:19 - __main__ - INFO - API blueprints registered
+2025-05-27 20:59:19 - __main__ - INFO - Starting server on port 5000
+2025-05-27 20:59:19 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 20:59:19 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 20:59:29 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\blacklist_service.py', reloading
+2025-05-27 20:59:29 - __main__ - INFO - Cleaning up resources
+2025-05-27 20:59:29 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 20:59:29 - __main__ - INFO - Resources cleaned up
+2025-05-27 20:59:29 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 20:59:29 - root - INFO - Logging initialized at 2025-05-27 20:59:29
+2025-05-27 20:59:29 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 20:59:29 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:59:29 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:59:29 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:59:30 - __main__ - INFO - Initializing database tables
+2025-05-27 20:59:30 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 20:59:30 - __main__ - INFO - Database tables initialized
+2025-05-27 20:59:30 - __main__ - INFO - Registering API blueprints
+2025-05-27 20:59:30 - __main__ - INFO - API blueprints registered
+2025-05-27 20:59:30 - __main__ - INFO - Starting server on port 5000
+2025-05-27 20:59:30 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 20:59:30 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 20:59:54 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\blacklist_service.py', reloading
+2025-05-27 20:59:54 - __main__ - INFO - Cleaning up resources
+2025-05-27 20:59:54 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 20:59:54 - __main__ - INFO - Resources cleaned up
+2025-05-27 20:59:54 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 20:59:55 - root - INFO - Logging initialized at 2025-05-27 20:59:55
+2025-05-27 20:59:55 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 20:59:55 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:59:55 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:59:55 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:59:56 - __main__ - INFO - Initializing database tables
+2025-05-27 20:59:56 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 20:59:56 - __main__ - INFO - Database tables initialized
+2025-05-27 20:59:56 - __main__ - INFO - Registering API blueprints
+2025-05-27 20:59:56 - __main__ - INFO - API blueprints registered
+2025-05-27 20:59:56 - __main__ - INFO - Starting server on port 5000
+2025-05-27 20:59:56 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 20:59:56 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 20:59:57 - utils.config - INFO - Saved mode configuration
+2025-05-27 20:59:57 - services.mode_state - INFO - Updated bandwidth mode to whitelist
+2025-05-27 20:59:57 - services.whitelist - INFO - Whitelist contains 0 IPs
+2025-05-27 20:59:57 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 20:59:57 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 20:59:57 - services.whitelist - INFO - Setting up traffic control on br-lan with limit 50mbit and full rate 1000mbit
+2025-05-27 20:59:57 - services.whitelist - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 20:59:57 - services.whitelist - INFO - Setting up traffic control on eth0 with limit 50mbit and full rate 1000mbit
+2025-05-27 20:59:58 - services.whitelist - INFO - Traffic control setup completed for interface eth0
+2025-05-27 20:59:58 - services.whitelist - INFO - Setting up traffic control on lan1 with limit 50mbit and full rate 1000mbit
+2025-05-27 20:59:58 - services.whitelist - INFO - Traffic control setup completed for interface lan1
+2025-05-27 20:59:58 - services.whitelist - INFO - Setting up traffic control on lan2 with limit 50mbit and full rate 1000mbit
+2025-05-27 20:59:58 - services.whitelist - INFO - Traffic control setup completed for interface lan2
+2025-05-27 20:59:58 - services.whitelist - INFO - Setting up traffic control on lan3 with limit 50mbit and full rate 1000mbit
+2025-05-27 20:59:59 - services.whitelist - INFO - Traffic control setup completed for interface lan3
+2025-05-27 20:59:59 - services.whitelist - INFO - Setting up traffic control on lan4 with limit 50mbit and full rate 1000mbit
+2025-05-27 20:59:59 - services.whitelist - INFO - Traffic control setup completed for interface lan4
+2025-05-27 20:59:59 - services.whitelist - INFO - Setting up traffic control on phy0-ap0 with limit 50mbit and full rate 1000mbit
+2025-05-27 20:59:59 - services.whitelist - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 20:59:59 - services.whitelist - INFO - Setting up traffic control on teql0 with limit 50mbit and full rate 1000mbit
+2025-05-27 20:59:59 - services.whitelist - INFO - Traffic control setup completed for interface teql0
+2025-05-27 20:59:59 - services.whitelist - INFO - Setting up traffic control on wan with limit 50mbit and full rate 1000mbit
+2025-05-27 21:00:00 - services.whitelist - INFO - Traffic control setup completed for interface wan
+2025-05-27 21:00:00 - services.whitelist - INFO - Setting up traffic control on wlan1 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:00:00 - services.whitelist - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 21:00:00 - services.whitelist - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 21:00:00 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:00:00] "POST /whitelist/activate HTTP/1.1" 200 -
+2025-05-27 21:00:15 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-05-27 21:00:15 - services.whitelist - INFO - Whitelist contains 0 IPs
+2025-05-27 21:00:18 - services.whitelist - INFO - Setting up traffic control on br-lan with limit 50mbit and full rate 1000mbit
+2025-05-27 21:00:20 - services.whitelist - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 21:00:20 - services.whitelist - INFO - Setting up traffic control on eth0 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:00:23 - services.whitelist - INFO - Traffic control setup completed for interface eth0
+2025-05-27 21:00:23 - services.whitelist - INFO - Setting up traffic control on lan1 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:00:25 - services.whitelist - INFO - Traffic control setup completed for interface lan1
+2025-05-27 21:00:25 - services.whitelist - INFO - Setting up traffic control on lan2 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:00:27 - services.whitelist - INFO - Traffic control setup completed for interface lan2
+2025-05-27 21:00:27 - services.whitelist - INFO - Setting up traffic control on lan3 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:00:27 - services.whitelist - INFO - Traffic control setup completed for interface lan3
+2025-05-27 21:00:27 - services.whitelist - INFO - Setting up traffic control on lan4 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:00:27 - services.whitelist - INFO - Traffic control setup completed for interface lan4
+2025-05-27 21:00:27 - services.whitelist - INFO - Setting up traffic control on phy0-ap0 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:00:27 - services.whitelist - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 21:00:27 - services.whitelist - INFO - Setting up traffic control on teql0 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:00:28 - services.whitelist - INFO - Traffic control setup completed for interface teql0
+2025-05-27 21:00:28 - services.whitelist - INFO - Setting up traffic control on wan with limit 50mbit and full rate 1000mbit
+2025-05-27 21:00:28 - services.whitelist - INFO - Traffic control setup completed for interface wan
+2025-05-27 21:00:28 - services.whitelist - INFO - Setting up traffic control on wlan1 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:00:28 - services.whitelist - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 21:00:28 - services.whitelist - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 21:00:28 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:00:28] "POST /whitelist HTTP/1.1" 200 -
+2025-05-27 21:02:08 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\db\\whitelist_management.py', reloading
+2025-05-27 21:02:08 - __main__ - INFO - Cleaning up resources
+2025-05-27 21:02:08 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:02:08 - __main__ - INFO - Resources cleaned up
+2025-05-27 21:02:08 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 21:02:09 - root - INFO - Logging initialized at 2025-05-27 21:02:09
+2025-05-27 21:02:09 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 21:02:09 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:02:09 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:02:09 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:02:09 - __main__ - INFO - Initializing database tables
+2025-05-27 21:02:09 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:02:09 - __main__ - INFO - Database tables initialized
+2025-05-27 21:02:09 - __main__ - INFO - Registering API blueprints
+2025-05-27 21:02:10 - __main__ - INFO - API blueprints registered
+2025-05-27 21:02:10 - __main__ - INFO - Starting server on port 5000
+2025-05-27 21:02:10 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 21:02:10 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 21:02:19 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\db\\blacklist_management.py', reloading
+2025-05-27 21:02:19 - __main__ - INFO - Cleaning up resources
+2025-05-27 21:02:19 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:02:19 - __main__ - INFO - Resources cleaned up
+2025-05-27 21:02:19 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 21:02:19 - root - INFO - Logging initialized at 2025-05-27 21:02:19
+2025-05-27 21:02:19 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 21:02:19 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:02:19 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:02:19 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:02:20 - __main__ - INFO - Initializing database tables
+2025-05-27 21:02:20 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:02:20 - __main__ - INFO - Database tables initialized
+2025-05-27 21:02:20 - __main__ - INFO - Registering API blueprints
+2025-05-27 21:02:20 - __main__ - INFO - API blueprints registered
+2025-05-27 21:02:20 - __main__ - INFO - Starting server on port 5000
+2025-05-27 21:02:20 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 21:02:20 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 21:03:36 - db.whitelist - WARNING - Attempted to add IP 192.168.1.122 that already exists in whitelist
+2025-05-27 21:03:36 - db.whitelist - ERROR - Error adding to whitelist: Device with IP 192.168.1.122 already in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 48, in add_to_whitelist
+    raise ValueError(f"Device with IP {ip} already in whitelist")
+ValueError: Device with IP 192.168.1.122 already in whitelist
+2025-05-27 21:03:36 - services.whitelist - ERROR - Error adding device to whitelist: Device with IP 192.168.1.122 already in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 42, in add_device_to_whitelist
+    device = add_to_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 48, in add_to_whitelist
+    raise ValueError(f"Device with IP {ip} already in whitelist")
+ValueError: Device with IP 192.168.1.122 already in whitelist
+2025-05-27 21:03:36 - whitelist.endpoints - ERROR - Error adding device to whitelist: Device with IP 192.168.1.122 already in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 40, in add_to_whitelist
+    result = add_device_to_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 42, in add_device_to_whitelist
+    device = add_to_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 48, in add_to_whitelist
+    raise ValueError(f"Device with IP {ip} already in whitelist")
+ValueError: Device with IP 192.168.1.122 already in whitelist
+2025-05-27 21:03:36 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:03:36] "POST /whitelist HTTP/1.1" 200 -
+2025-05-27 21:03:39 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-05-27 21:03:39 - services.whitelist - INFO - Whitelist contains 0 IPs
+2025-05-27 21:03:39 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 21:03:39 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 21:03:39 - services.whitelist - INFO - Setting up traffic control on br-lan with limit 50mbit and full rate 1000mbit
+2025-05-27 21:03:40 - services.whitelist - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 21:03:40 - services.whitelist - INFO - Setting up traffic control on eth0 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:03:40 - services.whitelist - INFO - Traffic control setup completed for interface eth0
+2025-05-27 21:03:40 - services.whitelist - INFO - Setting up traffic control on lan1 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:03:40 - services.whitelist - INFO - Traffic control setup completed for interface lan1
+2025-05-27 21:03:40 - services.whitelist - INFO - Setting up traffic control on lan2 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:03:41 - services.whitelist - INFO - Traffic control setup completed for interface lan2
+2025-05-27 21:03:41 - services.whitelist - INFO - Setting up traffic control on lan3 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:03:41 - services.whitelist - INFO - Traffic control setup completed for interface lan3
+2025-05-27 21:03:41 - services.whitelist - INFO - Setting up traffic control on lan4 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:03:41 - services.whitelist - INFO - Traffic control setup completed for interface lan4
+2025-05-27 21:03:41 - services.whitelist - INFO - Setting up traffic control on phy0-ap0 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:03:42 - services.whitelist - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 21:03:42 - services.whitelist - INFO - Setting up traffic control on teql0 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:03:42 - services.whitelist - INFO - Traffic control setup completed for interface teql0
+2025-05-27 21:03:42 - services.whitelist - INFO - Setting up traffic control on wan with limit 50mbit and full rate 1000mbit
+2025-05-27 21:03:42 - services.whitelist - INFO - Traffic control setup completed for interface wan
+2025-05-27 21:03:42 - services.whitelist - INFO - Setting up traffic control on wlan1 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:03:43 - services.whitelist - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 21:03:43 - services.whitelist - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 21:03:43 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:03:43] "DELETE /whitelist HTTP/1.1" 200 -
+2025-05-27 21:03:48 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-05-27 21:03:48 - services.whitelist - INFO - Whitelist contains 0 IPs
+2025-05-27 21:03:48 - services.whitelist - INFO - Setting up traffic control on br-lan with limit 50mbit and full rate 1000mbit
+2025-05-27 21:03:48 - services.whitelist - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 21:03:48 - services.whitelist - INFO - Setting up traffic control on eth0 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:03:49 - services.whitelist - INFO - Traffic control setup completed for interface eth0
+2025-05-27 21:03:49 - services.whitelist - INFO - Setting up traffic control on lan1 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:03:49 - services.whitelist - INFO - Traffic control setup completed for interface lan1
+2025-05-27 21:03:49 - services.whitelist - INFO - Setting up traffic control on lan2 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:03:49 - services.whitelist - INFO - Traffic control setup completed for interface lan2
+2025-05-27 21:03:49 - services.whitelist - INFO - Setting up traffic control on lan3 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:03:50 - services.whitelist - INFO - Traffic control setup completed for interface lan3
+2025-05-27 21:03:50 - services.whitelist - INFO - Setting up traffic control on lan4 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:03:50 - services.whitelist - INFO - Traffic control setup completed for interface lan4
+2025-05-27 21:03:50 - services.whitelist - INFO - Setting up traffic control on phy0-ap0 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:03:50 - services.whitelist - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 21:03:50 - services.whitelist - INFO - Setting up traffic control on teql0 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:03:51 - services.whitelist - INFO - Traffic control setup completed for interface teql0
+2025-05-27 21:03:51 - services.whitelist - INFO - Setting up traffic control on wan with limit 50mbit and full rate 1000mbit
+2025-05-27 21:03:51 - services.whitelist - INFO - Traffic control setup completed for interface wan
+2025-05-27 21:03:51 - services.whitelist - INFO - Setting up traffic control on wlan1 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:03:51 - services.whitelist - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 21:03:51 - services.whitelist - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 21:03:51 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:03:51] "POST /whitelist HTTP/1.1" 200 -
+2025-05-27 21:04:43 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\whitelist_service.py', reloading
+2025-05-27 21:04:43 - __main__ - INFO - Cleaning up resources
+2025-05-27 21:04:43 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:04:43 - __main__ - INFO - Resources cleaned up
+2025-05-27 21:04:43 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 21:04:44 - root - INFO - Logging initialized at 2025-05-27 21:04:44
+2025-05-27 21:04:44 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 21:04:44 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:04:44 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:04:44 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:04:45 - __main__ - INFO - Initializing database tables
+2025-05-27 21:04:45 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:04:45 - __main__ - INFO - Database tables initialized
+2025-05-27 21:04:45 - __main__ - INFO - Registering API blueprints
+2025-05-27 21:04:45 - __main__ - INFO - API blueprints registered
+2025-05-27 21:04:45 - __main__ - INFO - Starting server on port 5000
+2025-05-27 21:04:45 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 21:04:45 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 21:04:50 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\blacklist_service.py', reloading
+2025-05-27 21:04:50 - __main__ - INFO - Cleaning up resources
+2025-05-27 21:04:50 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:04:50 - __main__ - INFO - Resources cleaned up
+2025-05-27 21:04:50 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 21:04:50 - root - INFO - Logging initialized at 2025-05-27 21:04:50
+2025-05-27 21:04:50 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 21:04:50 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:04:50 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:04:50 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:04:51 - __main__ - INFO - Initializing database tables
+2025-05-27 21:04:51 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:04:51 - __main__ - INFO - Database tables initialized
+2025-05-27 21:04:51 - __main__ - INFO - Registering API blueprints
+2025-05-27 21:04:51 - __main__ - INFO - API blueprints registered
+2025-05-27 21:04:51 - __main__ - INFO - Starting server on port 5000
+2025-05-27 21:04:51 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 21:04:51 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 21:04:55 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\whitelist_service.py', reloading
+2025-05-27 21:04:55 - __main__ - INFO - Cleaning up resources
+2025-05-27 21:04:55 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:04:55 - __main__ - INFO - Resources cleaned up
+2025-05-27 21:04:56 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 21:04:56 - root - INFO - Logging initialized at 2025-05-27 21:04:56
+2025-05-27 21:04:56 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 21:04:56 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:04:56 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:04:56 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:04:57 - __main__ - INFO - Initializing database tables
+2025-05-27 21:04:57 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:04:57 - __main__ - INFO - Database tables initialized
+2025-05-27 21:04:57 - __main__ - INFO - Registering API blueprints
+2025-05-27 21:04:57 - __main__ - INFO - API blueprints registered
+2025-05-27 21:04:57 - __main__ - INFO - Starting server on port 5000
+2025-05-27 21:04:57 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 21:04:57 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 21:05:10 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-05-27 21:05:10 - services.whitelist - INFO - Whitelist contains 0 IPs for TC setup
+2025-05-27 21:05:10 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 21:05:10 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 21:05:10 - services.whitelist - INFO - Setting up traffic control on br-lan with limit 50mbit and full rate 1000mbit
+2025-05-27 21:05:11 - services.whitelist - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 21:05:11 - services.whitelist - INFO - Setting up traffic control on eth0 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:05:11 - services.whitelist - INFO - Traffic control setup completed for interface eth0
+2025-05-27 21:05:11 - services.whitelist - INFO - Setting up traffic control on lan1 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:05:11 - services.whitelist - INFO - Traffic control setup completed for interface lan1
+2025-05-27 21:05:11 - services.whitelist - INFO - Setting up traffic control on lan2 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:05:12 - services.whitelist - INFO - Traffic control setup completed for interface lan2
+2025-05-27 21:05:12 - services.whitelist - INFO - Setting up traffic control on lan3 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:05:12 - services.whitelist - INFO - Traffic control setup completed for interface lan3
+2025-05-27 21:05:12 - services.whitelist - INFO - Setting up traffic control on lan4 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:05:12 - services.whitelist - INFO - Traffic control setup completed for interface lan4
+2025-05-27 21:05:12 - services.whitelist - INFO - Setting up traffic control on phy0-ap0 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:05:13 - services.whitelist - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 21:05:13 - services.whitelist - INFO - Setting up traffic control on teql0 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:05:13 - services.whitelist - INFO - Traffic control setup completed for interface teql0
+2025-05-27 21:05:13 - services.whitelist - INFO - Setting up traffic control on wan with limit 50mbit and full rate 1000mbit
+2025-05-27 21:05:13 - services.whitelist - INFO - Traffic control setup completed for interface wan
+2025-05-27 21:05:13 - services.whitelist - INFO - Setting up traffic control on wlan1 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:05:14 - services.whitelist - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 21:05:14 - services.whitelist - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 21:05:14 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:05:14] "DELETE /whitelist HTTP/1.1" 200 -
+2025-05-27 21:05:16 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-05-27 21:05:16 - services.whitelist - INFO - Whitelist contains 1 IPs for TC setup
+2025-05-27 21:05:16 - services.whitelist - INFO - Setting up traffic control on br-lan with limit 50mbit and full rate 1000mbit
+2025-05-27 21:05:16 - services.whitelist - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 21:05:16 - services.whitelist - INFO - Setting up traffic control on eth0 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:05:17 - services.whitelist - INFO - Traffic control setup completed for interface eth0
+2025-05-27 21:05:17 - services.whitelist - INFO - Setting up traffic control on lan1 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:05:17 - services.whitelist - INFO - Traffic control setup completed for interface lan1
+2025-05-27 21:05:17 - services.whitelist - INFO - Setting up traffic control on lan2 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:05:17 - services.whitelist - INFO - Traffic control setup completed for interface lan2
+2025-05-27 21:05:17 - services.whitelist - INFO - Setting up traffic control on lan3 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:05:18 - services.whitelist - INFO - Traffic control setup completed for interface lan3
+2025-05-27 21:05:18 - services.whitelist - INFO - Setting up traffic control on lan4 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:05:18 - services.whitelist - INFO - Traffic control setup completed for interface lan4
+2025-05-27 21:05:18 - services.whitelist - INFO - Setting up traffic control on phy0-ap0 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:05:18 - services.whitelist - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 21:05:18 - services.whitelist - INFO - Setting up traffic control on teql0 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:05:19 - services.whitelist - INFO - Traffic control setup completed for interface teql0
+2025-05-27 21:05:19 - services.whitelist - INFO - Setting up traffic control on wan with limit 50mbit and full rate 1000mbit
+2025-05-27 21:05:19 - services.whitelist - INFO - Traffic control setup completed for interface wan
+2025-05-27 21:05:19 - services.whitelist - INFO - Setting up traffic control on wlan1 with limit 50mbit and full rate 1000mbit
+2025-05-27 21:05:19 - services.whitelist - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 21:05:19 - services.whitelist - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 21:05:19 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:05:19] "POST /whitelist HTTP/1.1" 200 -
+2025-05-27 21:05:35 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:05:35] "GET /whitelist HTTP/1.1" 200 -
+2025-05-27 21:06:05 - __main__ - INFO - Cleaning up resources
+2025-05-27 21:06:05 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:06:05 - __main__ - INFO - Resources cleaned up
+2025-05-27 21:06:05 - __main__ - INFO - Cleaning up resources
+2025-05-27 21:06:05 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:06:05 - __main__ - INFO - Resources cleaned up
+2025-05-27 21:06:10 - root - INFO - Logging initialized at 2025-05-27 21:06:10
+2025-05-27 21:06:10 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 21:06:10 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:06:10 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:06:10 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:06:11 - __main__ - INFO - Initializing database tables
+2025-05-27 21:06:11 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:06:11 - __main__ - INFO - Database tables initialized
+2025-05-27 21:06:11 - __main__ - INFO - Registering API blueprints
+2025-05-27 21:06:11 - __main__ - INFO - API blueprints registered
+2025-05-27 21:06:11 - __main__ - INFO - Starting server on port 5000
+2025-05-27 21:06:11 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 21:06:11 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 21:06:11 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 21:06:11 - root - INFO - Logging initialized at 2025-05-27 21:06:11
+2025-05-27 21:06:11 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 21:06:11 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:06:11 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:06:11 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:06:12 - __main__ - INFO - Initializing database tables
+2025-05-27 21:06:12 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:06:12 - __main__ - INFO - Database tables initialized
+2025-05-27 21:06:12 - __main__ - INFO - Registering API blueprints
+2025-05-27 21:06:12 - __main__ - INFO - API blueprints registered
+2025-05-27 21:06:12 - __main__ - INFO - Starting server on port 5000
+2025-05-27 21:06:12 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 21:06:12 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 21:06:17 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 21:06:17 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 21:06:20 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-27 21:06:20 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-27 21:06:20 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Unknown
+2025-05-27 21:06:20 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:06:20] "GET /api/scan/router HTTP/1.1" 200 -
+2025-05-27 21:06:53 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-27 21:06:53 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-27 21:06:53 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Unknown
+2025-05-27 21:06:53 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:06:53] "GET /api/scan/router HTTP/1.1" 200 -
+2025-05-27 21:08:03 - __main__ - INFO - Cleaning up resources
+2025-05-27 21:08:03 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:08:03 - __main__ - INFO - Resources cleaned up
+2025-05-27 21:08:04 - __main__ - INFO - Cleaning up resources
+2025-05-27 21:08:04 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:08:04 - __main__ - INFO - Resources cleaned up
+2025-05-27 21:09:09 - root - INFO - Logging initialized at 2025-05-27 21:09:09
+2025-05-27 21:09:09 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 21:09:09 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:09:09 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:09:09 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:09:09 - __main__ - INFO - Initializing database tables
+2025-05-27 21:09:09 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:09:09 - __main__ - INFO - Database tables initialized
+2025-05-27 21:09:09 - __main__ - INFO - Registering API blueprints
+2025-05-27 21:09:09 - __main__ - INFO - API blueprints registered
+2025-05-27 21:09:09 - __main__ - INFO - Starting server on port 5000
+2025-05-27 21:09:09 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 21:09:09 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 21:09:09 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 21:09:10 - root - INFO - Logging initialized at 2025-05-27 21:09:10
+2025-05-27 21:09:10 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 21:09:10 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:09:10 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:09:10 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:09:11 - __main__ - INFO - Initializing database tables
+2025-05-27 21:09:11 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:09:11 - __main__ - INFO - Database tables initialized
+2025-05-27 21:09:11 - __main__ - INFO - Registering API blueprints
+2025-05-27 21:09:11 - __main__ - INFO - API blueprints registered
+2025-05-27 21:09:11 - __main__ - INFO - Starting server on port 5000
+2025-05-27 21:09:11 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 21:09:11 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 21:09:11 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 21:09:11 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 21:09:14 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-27 21:09:14 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-27 21:09:14 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-27 21:09:14 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:09:14] "GET /api/scan/router HTTP/1.1" 200 -
+2025-05-27 21:09:26 - __main__ - INFO - Cleaning up resources
+2025-05-27 21:09:26 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:09:26 - __main__ - INFO - Resources cleaned up
+2025-05-27 21:09:26 - __main__ - INFO - Cleaning up resources
+2025-05-27 21:09:26 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:09:26 - __main__ - INFO - Resources cleaned up
+2025-05-27 21:19:21 - root - INFO - Logging initialized at 2025-05-27 21:19:21
+2025-05-27 21:19:21 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 21:19:21 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:19:21 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:19:21 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:19:22 - __main__ - INFO - Initializing database tables
+2025-05-27 21:19:22 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:19:22 - __main__ - INFO - Database tables initialized
+2025-05-27 21:19:22 - __main__ - INFO - Registering API blueprints
+2025-05-27 21:19:22 - __main__ - INFO - API blueprints registered
+2025-05-27 21:19:22 - __main__ - INFO - Starting server on port 5000
+2025-05-27 21:19:22 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 21:19:22 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 21:19:22 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 21:19:22 - root - INFO - Logging initialized at 2025-05-27 21:19:22
+2025-05-27 21:19:22 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 21:19:22 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:19:22 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:19:22 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:19:23 - __main__ - INFO - Initializing database tables
+2025-05-27 21:19:23 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:19:23 - __main__ - INFO - Database tables initialized
+2025-05-27 21:19:23 - __main__ - INFO - Registering API blueprints
+2025-05-27 21:19:23 - __main__ - INFO - API blueprints registered
+2025-05-27 21:19:23 - __main__ - INFO - Starting server on port 5000
+2025-05-27 21:19:23 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 21:19:23 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 21:19:29 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:19:29] "GET /whitelist HTTP/1.1" 200 -
+2025-05-27 21:19:33 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-05-27 21:19:33 - services.whitelist - INFO - Applying whitelist TC rules.
+2025-05-27 21:19:33 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: whitelist. Target IPs: 1. Limit: 50mbit, Full: 1000mbit
+2025-05-27 21:19:33 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 21:19:33 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 21:19:33 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:19:34 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-27 21:19:34 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:19:34 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-27 21:19:34 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:19:35 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-27 21:19:35 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:19:35 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-27 21:19:35 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:19:35 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-27 21:19:35 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:19:35 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-27 21:19:35 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:19:36 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-27 21:19:36 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:19:36 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-27 21:19:36 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:19:36 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-27 21:19:36 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:19:37 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-27 21:19:37 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode whitelist on all interfaces
+2025-05-27 21:19:37 - services.whitelist - INFO - Whitelist TC rules applied successfully.
+2025-05-27 21:19:37 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:19:37] "POST /whitelist HTTP/1.1" 200 -
+2025-05-27 21:20:03 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-05-27 21:20:03 - services.whitelist - INFO - Applying whitelist TC rules.
+2025-05-27 21:20:03 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: whitelist. Target IPs: 0. Limit: 50mbit, Full: 1000mbit
+2025-05-27 21:20:05 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:20:06 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-27 21:20:06 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:20:06 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-27 21:20:06 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:20:07 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-27 21:20:07 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:20:07 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-27 21:20:07 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:20:07 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-27 21:20:07 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:20:08 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-27 21:20:08 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:20:08 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-27 21:20:08 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:20:08 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-27 21:20:08 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:20:09 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-27 21:20:09 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:20:09 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-27 21:20:09 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode whitelist on all interfaces
+2025-05-27 21:20:09 - services.whitelist - INFO - Whitelist TC rules applied successfully.
+2025-05-27 21:20:09 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:20:09] "DELETE /whitelist HTTP/1.1" 200 -
+2025-05-27 21:20:21 - db.blacklist - INFO - Added device 192.168.1.122 to blacklist
+2025-05-27 21:20:21 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:20:21] "POST /blacklist HTTP/1.1" 200 -
+2025-05-27 21:20:38 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:20:38] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-27 21:20:48 - utils.config - INFO - Saved mode configuration
+2025-05-27 21:20:48 - services.mode_state - INFO - Updated bandwidth mode to none
+2025-05-27 21:20:48 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:20:48] "POST /whitelist/deactivate HTTP/1.1" 200 -
+2025-05-27 21:21:07 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:21:07] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-27 21:21:11 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:21:11] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-27 21:24:46 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\reset_rules.py', reloading
+2025-05-27 21:24:46 - __main__ - INFO - Cleaning up resources
+2025-05-27 21:24:46 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:24:46 - __main__ - INFO - Resources cleaned up
+2025-05-27 21:24:46 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 21:24:46 - root - INFO - Logging initialized at 2025-05-27 21:24:46
+2025-05-27 21:24:46 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 21:24:46 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:24:46 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:24:46 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:24:47 - __main__ - INFO - Initializing database tables
+2025-05-27 21:24:47 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:24:47 - __main__ - INFO - Database tables initialized
+2025-05-27 21:24:47 - __main__ - INFO - Registering API blueprints
+2025-05-27 21:24:47 - __main__ - INFO - API blueprints registered
+2025-05-27 21:24:47 - __main__ - INFO - Starting server on port 5000
+2025-05-27 21:24:47 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 21:24:47 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 21:25:16 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\reset_rules.py', reloading
+2025-05-27 21:25:16 - __main__ - INFO - Cleaning up resources
+2025-05-27 21:25:16 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:25:16 - __main__ - INFO - Resources cleaned up
+2025-05-27 21:25:17 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 21:25:17 - root - INFO - Logging initialized at 2025-05-27 21:25:17
+2025-05-27 21:25:17 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 21:25:17 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:25:17 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:25:17 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:25:18 - __main__ - INFO - Initializing database tables
+2025-05-27 21:25:18 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:25:18 - __main__ - INFO - Database tables initialized
+2025-05-27 21:25:18 - __main__ - INFO - Registering API blueprints
+2025-05-27 21:25:18 - __main__ - INFO - API blueprints registered
+2025-05-27 21:25:18 - __main__ - INFO - Starting server on port 5000
+2025-05-27 21:25:18 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 21:25:18 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 21:25:26 - utils.config - INFO - Saved mode configuration
+2025-05-27 21:25:26 - services.mode_state - INFO - Updated bandwidth mode to whitelist
+2025-05-27 21:25:26 - services.whitelist - INFO - Applying whitelist TC rules.
+2025-05-27 21:25:26 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: whitelist. Target IPs: 0. Limit: 50mbit, Full: 1000mbit
+2025-05-27 21:25:26 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 21:25:26 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 21:25:26 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:25:27 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-27 21:25:27 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:25:27 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-27 21:25:27 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:25:27 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-27 21:25:27 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:25:27 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-27 21:25:27 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:25:28 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-27 21:25:28 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:25:28 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-27 21:25:28 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:25:28 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-27 21:25:28 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:25:29 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-27 21:25:29 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:25:29 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-27 21:25:29 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:25:29 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-27 21:25:29 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode whitelist on all interfaces
+2025-05-27 21:25:29 - services.whitelist - INFO - Whitelist TC rules applied successfully.
+2025-05-27 21:25:29 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:25:29] "POST /whitelist/activate HTTP/1.1" 200 -
+2025-05-27 21:25:33 - services.reset_rules - INFO - Successfully deleted qdisc on eth0 or no qdisc was present. Output: 
+2025-05-27 21:25:33 - services.reset_rules - INFO - Successfully deleted qdisc on wan or no qdisc was present. Output: 
+2025-05-27 21:25:33 - services.reset_rules - INFO - Successfully deleted qdisc on teql0 or no qdisc was present. Output: 
+2025-05-27 21:25:33 - services.reset_rules - INFO - Successfully deleted qdisc on wlan1 or no qdisc was present. Output: 
+2025-05-27 21:25:33 - services.reset_rules - INFO - Successfully deleted qdisc on br-lan or no qdisc was present. Output: 
+2025-05-27 21:25:33 - services.reset_rules - INFO - Successfully deleted qdisc on phy0-ap0 or no qdisc was present. Output: 
+2025-05-27 21:25:33 - utils.config - INFO - Saved mode configuration
+2025-05-27 21:25:33 - services.mode_state - INFO - Updated bandwidth mode to none
+2025-05-27 21:25:33 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:25:33] "POST /whitelist/deactivate HTTP/1.1" 200 -
+2025-05-27 21:26:26 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\whitelist_service.py', reloading
+2025-05-27 21:26:26 - __main__ - INFO - Cleaning up resources
+2025-05-27 21:26:26 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:26:26 - __main__ - INFO - Resources cleaned up
+2025-05-27 21:26:26 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 21:26:27 - root - INFO - Logging initialized at 2025-05-27 21:26:27
+2025-05-27 21:26:27 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 21:26:27 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:26:27 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:26:27 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:26:27 - __main__ - INFO - Initializing database tables
+2025-05-27 21:26:27 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:26:27 - __main__ - INFO - Database tables initialized
+2025-05-27 21:26:27 - __main__ - INFO - Registering API blueprints
+2025-05-27 21:26:27 - __main__ - INFO - API blueprints registered
+2025-05-27 21:26:27 - __main__ - INFO - Starting server on port 5000
+2025-05-27 21:26:27 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 21:26:28 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 21:26:35 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\blacklist_service.py', reloading
+2025-05-27 21:26:35 - __main__ - INFO - Cleaning up resources
+2025-05-27 21:26:35 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:26:35 - __main__ - INFO - Resources cleaned up
+2025-05-27 21:26:35 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 21:26:35 - root - INFO - Logging initialized at 2025-05-27 21:26:35
+2025-05-27 21:26:35 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 21:26:35 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:26:35 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:26:35 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:26:36 - __main__ - INFO - Initializing database tables
+2025-05-27 21:26:36 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:26:36 - __main__ - INFO - Database tables initialized
+2025-05-27 21:26:36 - __main__ - INFO - Registering API blueprints
+2025-05-27 21:26:36 - __main__ - INFO - API blueprints registered
+2025-05-27 21:26:36 - __main__ - INFO - Starting server on port 5000
+2025-05-27 21:26:36 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 21:26:36 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 21:27:00 - utils.config - INFO - Saved mode configuration
+2025-05-27 21:27:00 - services.mode_state - INFO - Updated bandwidth mode to whitelist
+2025-05-27 21:27:00 - services.whitelist - INFO - Applying whitelist TC rules.
+2025-05-27 21:27:00 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: whitelist. Target IPs: 0. Limit: 50mbit, Full: 1000mbit
+2025-05-27 21:27:00 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 21:27:00 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 21:27:00 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:27:00 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-27 21:27:00 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:27:01 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-27 21:27:01 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:27:01 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-27 21:27:01 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:27:01 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-27 21:27:01 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:27:02 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-27 21:27:02 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:27:02 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-27 21:27:02 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:27:02 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-27 21:27:02 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:27:03 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-27 21:27:03 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:27:03 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-27 21:27:03 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:27:03 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-27 21:27:03 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode whitelist on all interfaces
+2025-05-27 21:27:03 - services.whitelist - INFO - Whitelist TC rules applied successfully.
+2025-05-27 21:27:03 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:27:03] "POST /whitelist/activate HTTP/1.1" 200 -
+2025-05-27 21:27:05 - services.reset_rules - INFO - Successfully deleted qdisc on eth0 or no qdisc was present. Output: 
+2025-05-27 21:27:05 - services.reset_rules - INFO - Successfully deleted qdisc on wan or no qdisc was present. Output: 
+2025-05-27 21:27:05 - services.reset_rules - INFO - Successfully deleted qdisc on teql0 or no qdisc was present. Output: 
+2025-05-27 21:27:06 - services.reset_rules - INFO - Successfully deleted qdisc on wlan1 or no qdisc was present. Output: 
+2025-05-27 21:27:06 - services.reset_rules - INFO - Successfully deleted qdisc on br-lan or no qdisc was present. Output: 
+2025-05-27 21:27:06 - services.reset_rules - INFO - Successfully deleted qdisc on phy0-ap0 or no qdisc was present. Output: 
+2025-05-27 21:27:06 - utils.config - INFO - Saved mode configuration
+2025-05-27 21:27:06 - services.mode_state - INFO - Updated bandwidth mode to none
+2025-05-27 21:27:06 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:27:06] "POST /whitelist/deactivate HTTP/1.1" 200 -
+2025-05-27 21:27:30 - __main__ - INFO - Cleaning up resources
+2025-05-27 21:27:30 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:27:30 - __main__ - INFO - Resources cleaned up
+2025-05-27 21:27:30 - __main__ - INFO - Cleaning up resources
+2025-05-27 21:27:30 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:27:30 - __main__ - INFO - Resources cleaned up
+2025-05-27 21:27:32 - root - INFO - Logging initialized at 2025-05-27 21:27:32
+2025-05-27 21:27:32 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 21:27:32 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:27:32 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:27:32 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:27:33 - __main__ - INFO - Initializing database tables
+2025-05-27 21:27:33 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:27:33 - __main__ - INFO - Database tables initialized
+2025-05-27 21:27:33 - __main__ - INFO - Registering API blueprints
+2025-05-27 21:27:33 - __main__ - INFO - API blueprints registered
+2025-05-27 21:27:33 - __main__ - INFO - Starting server on port 5000
+2025-05-27 21:27:34 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 21:27:34 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 21:27:34 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 21:27:34 - root - INFO - Logging initialized at 2025-05-27 21:27:34
+2025-05-27 21:27:34 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 21:27:34 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:27:34 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:27:34 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:27:35 - __main__ - INFO - Initializing database tables
+2025-05-27 21:27:35 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:27:35 - __main__ - INFO - Database tables initialized
+2025-05-27 21:27:35 - __main__ - INFO - Registering API blueprints
+2025-05-27 21:27:35 - __main__ - INFO - API blueprints registered
+2025-05-27 21:27:35 - __main__ - INFO - Starting server on port 5000
+2025-05-27 21:27:35 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 21:27:35 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 21:27:37 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 21:27:37 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 21:27:37 - services.reset_rules - ERROR - Error deleting qdisc on eth0: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-27 21:27:37 - services.reset_rules - ERROR - Error deleting qdisc on wan: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-27 21:27:37 - services.reset_rules - ERROR - Error deleting qdisc on teql0: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-27 21:27:37 - services.reset_rules - ERROR - Error deleting qdisc on wlan1: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-27 21:27:38 - services.reset_rules - ERROR - Error deleting qdisc on br-lan: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-27 21:27:38 - services.reset_rules - ERROR - Error deleting qdisc on phy0-ap0: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-27 21:27:38 - utils.config - INFO - Saved mode configuration
+2025-05-27 21:27:38 - services.mode_state - INFO - Updated bandwidth mode to none
+2025-05-27 21:27:38 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:27:38] "POST /whitelist/deactivate HTTP/1.1" 200 -
+2025-05-27 21:27:43 - utils.config - INFO - Saved mode configuration
+2025-05-27 21:27:43 - services.mode_state - INFO - Updated bandwidth mode to whitelist
+2025-05-27 21:27:43 - services.whitelist - INFO - Applying whitelist TC rules.
+2025-05-27 21:27:43 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: whitelist. Target IPs: 0. Limit: 50mbit, Full: 1000mbit
+2025-05-27 21:27:44 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:27:44 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-27 21:27:44 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:27:44 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-27 21:27:44 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:27:45 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-27 21:27:45 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:27:45 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-27 21:27:45 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:27:45 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-27 21:27:45 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:27:46 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-27 21:27:46 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:27:46 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-27 21:27:46 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:27:47 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-27 21:27:47 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:27:47 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-27 21:27:47 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:27:47 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-27 21:27:47 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode whitelist on all interfaces
+2025-05-27 21:27:47 - services.whitelist - INFO - Whitelist TC rules applied successfully.
+2025-05-27 21:27:47 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:27:47] "POST /whitelist/activate HTTP/1.1" 200 -
+2025-05-27 21:27:50 - services.reset_rules - INFO - Successfully deleted qdisc on eth0 or no qdisc was present. Output: 
+2025-05-27 21:27:50 - services.reset_rules - INFO - Successfully deleted qdisc on wan or no qdisc was present. Output: 
+2025-05-27 21:27:50 - services.reset_rules - INFO - Successfully deleted qdisc on teql0 or no qdisc was present. Output: 
+2025-05-27 21:27:50 - services.reset_rules - INFO - Successfully deleted qdisc on wlan1 or no qdisc was present. Output: 
+2025-05-27 21:27:50 - services.reset_rules - INFO - Successfully deleted qdisc on br-lan or no qdisc was present. Output: 
+2025-05-27 21:27:50 - services.reset_rules - INFO - Successfully deleted qdisc on phy0-ap0 or no qdisc was present. Output: 
+2025-05-27 21:27:50 - utils.config - INFO - Saved mode configuration
+2025-05-27 21:27:50 - services.mode_state - INFO - Updated bandwidth mode to none
+2025-05-27 21:27:50 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:27:50] "POST /whitelist/deactivate HTTP/1.1" 200 -
+2025-05-27 21:30:34 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\reset_rules.py', reloading
+2025-05-27 21:30:34 - __main__ - INFO - Cleaning up resources
+2025-05-27 21:30:34 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:30:34 - __main__ - INFO - Resources cleaned up
+2025-05-27 21:30:34 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 21:30:35 - root - INFO - Logging initialized at 2025-05-27 21:30:35
+2025-05-27 21:30:35 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 21:30:35 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:30:35 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:30:35 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:30:35 - __main__ - INFO - Initializing database tables
+2025-05-27 21:30:35 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:30:35 - __main__ - INFO - Database tables initialized
+2025-05-27 21:30:35 - __main__ - INFO - Registering API blueprints
+2025-05-27 21:30:35 - __main__ - INFO - API blueprints registered
+2025-05-27 21:30:35 - __main__ - INFO - Starting server on port 5000
+2025-05-27 21:30:35 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 21:30:35 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 21:31:15 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\reset_rules.py', reloading
+2025-05-27 21:31:15 - __main__ - INFO - Cleaning up resources
+2025-05-27 21:31:15 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:31:15 - __main__ - INFO - Resources cleaned up
+2025-05-27 21:31:16 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 21:31:16 - root - INFO - Logging initialized at 2025-05-27 21:31:16
+2025-05-27 21:31:16 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 21:31:16 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:31:16 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:31:16 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:31:17 - __main__ - INFO - Initializing database tables
+2025-05-27 21:31:17 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:31:17 - __main__ - INFO - Database tables initialized
+2025-05-27 21:31:17 - __main__ - INFO - Registering API blueprints
+2025-05-27 21:31:17 - __main__ - INFO - API blueprints registered
+2025-05-27 21:31:17 - __main__ - INFO - Starting server on port 5000
+2025-05-27 21:31:17 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 21:31:17 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 21:31:25 - services.reset_rules - INFO - Flushing iptables mangle table.
+2025-05-27 21:31:25 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 21:31:25 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 21:31:25 - services.reset_rules - INFO - Successfully flushed iptables mangle table.
+2025-05-27 21:31:25 - services.reset_rules - ERROR - Error deleting qdisc on eth0: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-27 21:31:25 - services.reset_rules - ERROR - Error deleting qdisc on wan: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-27 21:31:25 - services.reset_rules - ERROR - Error deleting qdisc on teql0: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-27 21:31:25 - services.reset_rules - ERROR - Error deleting qdisc on wlan1: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-27 21:31:25 - services.reset_rules - ERROR - Error deleting qdisc on br-lan: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-27 21:31:26 - services.reset_rules - ERROR - Error deleting qdisc on phy0-ap0: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-27 21:31:26 - utils.config - INFO - Saved mode configuration
+2025-05-27 21:31:26 - services.mode_state - INFO - Updated bandwidth mode to none
+2025-05-27 21:31:26 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:31:26] "POST /whitelist/deactivate HTTP/1.1" 200 -
+2025-05-27 21:32:06 - utils.config - INFO - Saved mode configuration
+2025-05-27 21:32:06 - services.mode_state - INFO - Updated bandwidth mode to blacklist
+2025-05-27 21:32:06 - services.blacklist - INFO - Applying blacklist TC rules.
+2025-05-27 21:32:06 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: blacklist. Target IPs: 1. Limit: 50mbit, Full: 1000mbit
+2025-05-27 21:32:07 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:32:07 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-27 21:32:07 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:32:07 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-27 21:32:07 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:32:08 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-27 21:32:08 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:32:08 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-27 21:32:08 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:32:08 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-27 21:32:08 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:32:09 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-27 21:32:09 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:32:09 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-27 21:32:09 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:32:09 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-27 21:32:09 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:32:10 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-27 21:32:10 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:32:10 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-27 21:32:10 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode blacklist on all interfaces
+2025-05-27 21:32:10 - services.blacklist - INFO - Blacklist TC rules applied successfully.
+2025-05-27 21:32:10 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:32:10] "POST /blacklist/activate HTTP/1.1" 200 -
+2025-05-27 21:32:17 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
+2025-05-27 21:32:17 - services.blacklist - INFO - Applying blacklist TC rules.
+2025-05-27 21:32:17 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: blacklist. Target IPs: 0. Limit: 50mbit, Full: 1000mbit
+2025-05-27 21:32:17 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:32:18 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-27 21:32:18 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:32:19 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-27 21:32:19 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:32:20 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-27 21:32:20 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:32:21 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-27 21:32:21 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:32:21 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-27 21:32:21 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:32:22 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-27 21:32:22 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:32:23 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-27 21:32:23 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:32:23 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-27 21:32:23 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:32:24 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-27 21:32:24 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-27 21:32:25 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-27 21:32:25 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode blacklist on all interfaces
+2025-05-27 21:32:25 - services.blacklist - INFO - Blacklist TC rules applied successfully.
+2025-05-27 21:32:25 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:32:25] "DELETE /blacklist HTTP/1.1" 200 -
+2025-05-27 21:32:34 - services.reset_rules - INFO - Flushing iptables mangle table.
+2025-05-27 21:32:34 - services.reset_rules - INFO - Successfully flushed iptables mangle table.
+2025-05-27 21:32:34 - services.reset_rules - INFO - Successfully deleted qdisc on eth0 or no qdisc was present. Output: 
+2025-05-27 21:32:34 - services.reset_rules - INFO - Successfully deleted qdisc on wan or no qdisc was present. Output: 
+2025-05-27 21:32:34 - services.reset_rules - INFO - Successfully deleted qdisc on teql0 or no qdisc was present. Output: 
+2025-05-27 21:32:34 - services.reset_rules - INFO - Successfully deleted qdisc on wlan1 or no qdisc was present. Output: 
+2025-05-27 21:32:34 - services.reset_rules - INFO - Successfully deleted qdisc on br-lan or no qdisc was present. Output: 
+2025-05-27 21:32:35 - services.reset_rules - INFO - Successfully deleted qdisc on phy0-ap0 or no qdisc was present. Output: 
+2025-05-27 21:32:35 - utils.config - INFO - Saved mode configuration
+2025-05-27 21:32:35 - services.mode_state - INFO - Updated bandwidth mode to none
+2025-05-27 21:32:35 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:32:35] "POST /blacklist/deactivate HTTP/1.1" 200 -
+2025-05-27 21:32:39 - db.blacklist - INFO - Added device 192.168.1.122 to blacklist
+2025-05-27 21:32:39 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:32:39] "POST /blacklist HTTP/1.1" 200 -
+2025-05-27 21:34:16 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
+2025-05-27 21:34:16 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:34:16] "DELETE /blacklist HTTP/1.1" 200 -

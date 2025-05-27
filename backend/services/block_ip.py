@@ -1,4 +1,3 @@
-import subprocess
 from utils.ssh_client import ssh_manager
 from utils.logging_config import get_logger
 from utils.response_helpers import success

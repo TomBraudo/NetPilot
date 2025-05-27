@@ -213,3 +213,961 @@ Traceback (most recent call last):
   File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\utils\config_manager.py", line 69, in load_config
     raise ValueError(f"Invalid configuration name: {config_name}")
 ValueError: Invalid configuration name: router
+2025-05-27 19:59:13 - db.device_groups_repository - ERROR - Error setting rule for device: Rule 'whitelist' is not defined
+2025-05-27 19:59:13 - services.mode_state - ERROR - Error getting current mode value: Invalid configuration name: bandwidth
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\mode_state_service.py", line 10, in get_current_mode_value
+    config = config_manager.load_config('bandwidth')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\utils\config_manager.py", line 69, in load_config
+    raise ValueError(f"Invalid configuration name: {config_name}")
+ValueError: Invalid configuration name: bandwidth
+2025-05-27 19:59:13 - services.whitelist - ERROR - Error adding device to whitelist: Invalid configuration name: bandwidth
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 52, in add_device_to_whitelist
+    if get_current_mode_value() == 'whitelist':
+       ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\mode_state_service.py", line 10, in get_current_mode_value
+    config = config_manager.load_config('bandwidth')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\utils\config_manager.py", line 69, in load_config
+    raise ValueError(f"Invalid configuration name: {config_name}")
+ValueError: Invalid configuration name: bandwidth
+2025-05-27 19:59:13 - whitelist.endpoints - ERROR - Error adding device to whitelist: Invalid configuration name: bandwidth
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 40, in add_to_whitelist
+    result = add_device_to_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 52, in add_device_to_whitelist
+    if get_current_mode_value() == 'whitelist':
+       ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\mode_state_service.py", line 10, in get_current_mode_value
+    config = config_manager.load_config('bandwidth')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\utils\config_manager.py", line 69, in load_config
+    raise ValueError(f"Invalid configuration name: {config_name}")
+ValueError: Invalid configuration name: bandwidth
+2025-05-27 20:01:12 - db.schema_initializer - ERROR - Error initializing tables: 'TinyDBClient' object has no attribute 'rules'
+2025-05-27 20:52:16 - db.whitelist - ERROR - Error adding to whitelist: Device with IP 192.168.1.122 already in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 48, in add_to_whitelist
+    raise ValueError(f"Device with IP {ip} already in whitelist")
+ValueError: Device with IP 192.168.1.122 already in whitelist
+2025-05-27 20:52:16 - services.whitelist - ERROR - Error adding device to whitelist: Device with IP 192.168.1.122 already in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 42, in add_device_to_whitelist
+    device = add_to_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 48, in add_to_whitelist
+    raise ValueError(f"Device with IP {ip} already in whitelist")
+ValueError: Device with IP 192.168.1.122 already in whitelist
+2025-05-27 20:52:16 - whitelist.endpoints - ERROR - Error adding device to whitelist: Device with IP 192.168.1.122 already in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 40, in add_to_whitelist
+    result = add_device_to_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 42, in add_device_to_whitelist
+    device = add_to_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 48, in add_to_whitelist
+    raise ValueError(f"Device with IP {ip} already in whitelist")
+ValueError: Device with IP 192.168.1.122 already in whitelist
+2025-05-27 20:52:24 - services.mode_state - ERROR - Error getting current mode value: Invalid configuration name: bandwidth
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\mode_state_service.py", line 10, in get_current_mode_value
+    config = config_manager.load_config('bandwidth')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\utils\config_manager.py", line 69, in load_config
+    raise ValueError(f"Invalid configuration name: {config_name}")
+ValueError: Invalid configuration name: bandwidth
+2025-05-27 20:52:24 - services.whitelist - ERROR - Error removing device from whitelist: Invalid configuration name: bandwidth
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 71, in remove_device_from_whitelist
+    if get_current_mode_value() == 'whitelist':
+       ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\mode_state_service.py", line 10, in get_current_mode_value
+    config = config_manager.load_config('bandwidth')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\utils\config_manager.py", line 69, in load_config
+    raise ValueError(f"Invalid configuration name: {config_name}")
+ValueError: Invalid configuration name: bandwidth
+2025-05-27 20:52:24 - whitelist.endpoints - ERROR - Error removing device from whitelist: Invalid configuration name: bandwidth
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 55, in remove_from_whitelist
+    result = remove_device_from_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 71, in remove_device_from_whitelist
+    if get_current_mode_value() == 'whitelist':
+       ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\mode_state_service.py", line 10, in get_current_mode_value
+    config = config_manager.load_config('bandwidth')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\utils\config_manager.py", line 69, in load_config
+    raise ValueError(f"Invalid configuration name: {config_name}")
+ValueError: Invalid configuration name: bandwidth
+2025-05-27 20:53:09 - services.whitelist - ERROR - Error removing device from whitelist: Device with IP 192.168.1.122 not found in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 62, in remove_device_from_whitelist
+    raise ValueError(f"Device with IP {ip} not found in whitelist")
+ValueError: Device with IP 192.168.1.122 not found in whitelist
+2025-05-27 20:53:09 - whitelist.endpoints - ERROR - Error removing device from whitelist: Device with IP 192.168.1.122 not found in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 55, in remove_from_whitelist
+    result = remove_device_from_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 62, in remove_device_from_whitelist
+    raise ValueError(f"Device with IP {ip} not found in whitelist")
+ValueError: Device with IP 192.168.1.122 not found in whitelist
+2025-05-27 20:53:36 - services.whitelist - ERROR - Command failed: tc class add dev br-lan parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:36 - services.whitelist - ERROR - Error setting up TC on interface br-lan: Command failed: tc class add dev br-lan parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 219, in setup_tc_on_interface
+    run_command(f"tc class add dev {interface} parent 1: classid 1:1 htb rate {full_rate}")
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 198, in run_command
+    raise Exception(f"Command failed: {cmd}, Error: {error}")
+Exception: Command failed: tc class add dev br-lan parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:37 - services.whitelist - ERROR - Command failed: tc class add dev eth0 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:37 - services.whitelist - ERROR - Error setting up TC on interface eth0: Command failed: tc class add dev eth0 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 219, in setup_tc_on_interface
+    run_command(f"tc class add dev {interface} parent 1: classid 1:1 htb rate {full_rate}")
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 198, in run_command
+    raise Exception(f"Command failed: {cmd}, Error: {error}")
+Exception: Command failed: tc class add dev eth0 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:37 - services.whitelist - ERROR - Command failed: tc class add dev lan1 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:37 - services.whitelist - ERROR - Error setting up TC on interface lan1: Command failed: tc class add dev lan1 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 219, in setup_tc_on_interface
+    run_command(f"tc class add dev {interface} parent 1: classid 1:1 htb rate {full_rate}")
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 198, in run_command
+    raise Exception(f"Command failed: {cmd}, Error: {error}")
+Exception: Command failed: tc class add dev lan1 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:38 - services.whitelist - ERROR - Command failed: tc class add dev lan2 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:38 - services.whitelist - ERROR - Error setting up TC on interface lan2: Command failed: tc class add dev lan2 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 219, in setup_tc_on_interface
+    run_command(f"tc class add dev {interface} parent 1: classid 1:1 htb rate {full_rate}")
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 198, in run_command
+    raise Exception(f"Command failed: {cmd}, Error: {error}")
+Exception: Command failed: tc class add dev lan2 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:38 - services.whitelist - ERROR - Command failed: tc class add dev lan3 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:38 - services.whitelist - ERROR - Error setting up TC on interface lan3: Command failed: tc class add dev lan3 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 219, in setup_tc_on_interface
+    run_command(f"tc class add dev {interface} parent 1: classid 1:1 htb rate {full_rate}")
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 198, in run_command
+    raise Exception(f"Command failed: {cmd}, Error: {error}")
+Exception: Command failed: tc class add dev lan3 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:39 - services.whitelist - ERROR - Command failed: tc class add dev lan4 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:39 - services.whitelist - ERROR - Error setting up TC on interface lan4: Command failed: tc class add dev lan4 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 219, in setup_tc_on_interface
+    run_command(f"tc class add dev {interface} parent 1: classid 1:1 htb rate {full_rate}")
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 198, in run_command
+    raise Exception(f"Command failed: {cmd}, Error: {error}")
+Exception: Command failed: tc class add dev lan4 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:39 - services.whitelist - ERROR - Command failed: tc class add dev phy0-ap0 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:39 - services.whitelist - ERROR - Error setting up TC on interface phy0-ap0: Command failed: tc class add dev phy0-ap0 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 219, in setup_tc_on_interface
+    run_command(f"tc class add dev {interface} parent 1: classid 1:1 htb rate {full_rate}")
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 198, in run_command
+    raise Exception(f"Command failed: {cmd}, Error: {error}")
+Exception: Command failed: tc class add dev phy0-ap0 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:39 - services.whitelist - ERROR - Command failed: tc class add dev teql0 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:39 - services.whitelist - ERROR - Error setting up TC on interface teql0: Command failed: tc class add dev teql0 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 219, in setup_tc_on_interface
+    run_command(f"tc class add dev {interface} parent 1: classid 1:1 htb rate {full_rate}")
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 198, in run_command
+    raise Exception(f"Command failed: {cmd}, Error: {error}")
+Exception: Command failed: tc class add dev teql0 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:40 - services.whitelist - ERROR - Command failed: tc class add dev wan parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:40 - services.whitelist - ERROR - Error setting up TC on interface wan: Command failed: tc class add dev wan parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 219, in setup_tc_on_interface
+    run_command(f"tc class add dev {interface} parent 1: classid 1:1 htb rate {full_rate}")
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 198, in run_command
+    raise Exception(f"Command failed: {cmd}, Error: {error}")
+Exception: Command failed: tc class add dev wan parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:40 - services.whitelist - ERROR - Command failed: tc class add dev wlan1 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:40 - services.whitelist - ERROR - Error setting up TC on interface wlan1: Command failed: tc class add dev wlan1 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 219, in setup_tc_on_interface
+    run_command(f"tc class add dev {interface} parent 1: classid 1:1 htb rate {full_rate}")
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 198, in run_command
+    raise Exception(f"Command failed: {cmd}, Error: {error}")
+Exception: Command failed: tc class add dev wlan1 parent 1: classid 1:1 htb rate {'success': True, 'message': '', 'data': {'rate': '1000mbit'}, 'status_code': 200}, Error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-05-27 20:53:40 - services.whitelist - ERROR - Error setting up TC with iptables: Traffic control setup failed on some interfaces
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 274, in setup_tc_with_iptables
+    raise Exception("Traffic control setup failed on some interfaces")
+Exception: Traffic control setup failed on some interfaces
+2025-05-27 20:53:40 - services.whitelist - ERROR - Error activating whitelist mode: Traffic control setup failed on some interfaces
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 147, in activate_whitelist_mode
+    setup_tc_with_iptables()
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 274, in setup_tc_with_iptables
+    raise Exception("Traffic control setup failed on some interfaces")
+Exception: Traffic control setup failed on some interfaces
+2025-05-27 20:53:40 - whitelist.endpoints - ERROR - Error activating whitelist mode: Traffic control setup failed on some interfaces
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 125, in activate
+    result = activate_whitelist_mode()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 147, in activate_whitelist_mode
+    setup_tc_with_iptables()
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 274, in setup_tc_with_iptables
+    raise Exception("Traffic control setup failed on some interfaces")
+Exception: Traffic control setup failed on some interfaces
+2025-05-27 20:58:08 - services.whitelist - ERROR - Error setting up TC with iptables: 'bool' object is not callable
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 279, in setup_tc_with_iptables
+    return success(message="Traffic control with iptables set up successfully")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'bool' object is not callable
+2025-05-27 20:58:08 - services.whitelist - ERROR - Error activating whitelist mode: 'bool' object is not callable
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 147, in activate_whitelist_mode
+    setup_tc_with_iptables()
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 279, in setup_tc_with_iptables
+    return success(message="Traffic control with iptables set up successfully")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'bool' object is not callable
+2025-05-27 20:58:08 - whitelist.endpoints - ERROR - Error activating whitelist mode: 'bool' object is not callable
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 125, in activate
+    result = activate_whitelist_mode()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 147, in activate_whitelist_mode
+    setup_tc_with_iptables()
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 279, in setup_tc_with_iptables
+    return success(message="Traffic control with iptables set up successfully")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'bool' object is not callable
+2025-05-27 21:03:36 - db.whitelist - ERROR - Error adding to whitelist: Device with IP 192.168.1.122 already in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 48, in add_to_whitelist
+    raise ValueError(f"Device with IP {ip} already in whitelist")
+ValueError: Device with IP 192.168.1.122 already in whitelist
+2025-05-27 21:03:36 - services.whitelist - ERROR - Error adding device to whitelist: Device with IP 192.168.1.122 already in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 42, in add_device_to_whitelist
+    device = add_to_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 48, in add_to_whitelist
+    raise ValueError(f"Device with IP {ip} already in whitelist")
+ValueError: Device with IP 192.168.1.122 already in whitelist
+2025-05-27 21:03:36 - whitelist.endpoints - ERROR - Error adding device to whitelist: Device with IP 192.168.1.122 already in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 40, in add_to_whitelist
+    result = add_device_to_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 42, in add_device_to_whitelist
+    device = add_to_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 48, in add_to_whitelist
+    raise ValueError(f"Device with IP {ip} already in whitelist")
+ValueError: Device with IP 192.168.1.122 already in whitelist
+2025-05-27 21:27:37 - services.reset_rules - ERROR - Error deleting qdisc on eth0: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-27 21:27:37 - services.reset_rules - ERROR - Error deleting qdisc on wan: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-27 21:27:37 - services.reset_rules - ERROR - Error deleting qdisc on teql0: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-27 21:27:37 - services.reset_rules - ERROR - Error deleting qdisc on wlan1: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-27 21:27:38 - services.reset_rules - ERROR - Error deleting qdisc on br-lan: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-27 21:27:38 - services.reset_rules - ERROR - Error deleting qdisc on phy0-ap0: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-27 21:31:25 - services.reset_rules - ERROR - Error deleting qdisc on eth0: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-27 21:31:25 - services.reset_rules - ERROR - Error deleting qdisc on wan: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-27 21:31:25 - services.reset_rules - ERROR - Error deleting qdisc on teql0: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-27 21:31:25 - services.reset_rules - ERROR - Error deleting qdisc on wlan1: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-27 21:31:25 - services.reset_rules - ERROR - Error deleting qdisc on br-lan: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-27 21:31:26 - services.reset_rules - ERROR - Error deleting qdisc on phy0-ap0: Error: Cannot delete qdisc with handle of zero.. Output: 
