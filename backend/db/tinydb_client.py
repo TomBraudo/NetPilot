@@ -40,6 +40,7 @@ class TinyDBClient:
             self.rules = self.db.table('rules')
             self.device_rules = self.db.table('device_rules')
             self.bandwidth_whitelist = self.db.table('whitelist')
+            self.bandwidth_blacklist = self.db.table('blacklist')
             self.settings = self.db.table('settings')
             
             # Initialize default settings if they don't exist

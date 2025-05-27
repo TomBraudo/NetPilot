@@ -1090,3 +1090,787 @@
 2025-05-21 17:27:14 - __main__ - INFO - Cleaning up resources
 2025-05-21 17:27:14 - db.tinydb - INFO - TinyDB connection closed
 2025-05-21 17:27:14 - __main__ - INFO - Resources cleaned up
+2025-05-27 13:42:51 - root - INFO - Logging initialized at 2025-05-27 13:42:51
+2025-05-27 13:42:51 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 13:42:51 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 13:42:51 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 13:45:12 - root - INFO - Logging initialized at 2025-05-27 13:45:12
+2025-05-27 13:45:12 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 13:45:12 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 13:45:12 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 13:45:13 - __main__ - INFO - Initializing database tables
+2025-05-27 13:45:13 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 13:45:13 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 13:45:13 - __main__ - INFO - Database tables initialized
+2025-05-27 13:45:13 - __main__ - INFO - Registering API blueprints
+2025-05-27 13:45:13 - __main__ - INFO - API blueprints registered
+2025-05-27 13:45:13 - __main__ - INFO - Starting server on port 5000
+2025-05-27 13:45:13 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 13:45:13 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 13:45:13 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 13:45:13 - root - INFO - Logging initialized at 2025-05-27 13:45:13
+2025-05-27 13:45:13 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 13:45:13 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 13:45:13 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 13:45:14 - __main__ - INFO - Initializing database tables
+2025-05-27 13:45:14 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 13:45:14 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 13:45:14 - __main__ - INFO - Database tables initialized
+2025-05-27 13:45:14 - __main__ - INFO - Registering API blueprints
+2025-05-27 13:45:14 - __main__ - INFO - API blueprints registered
+2025-05-27 13:45:14 - __main__ - INFO - Starting server on port 5000
+2025-05-27 13:45:14 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 13:45:14 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 13:54:15 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 13:54:15 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 13:54:18 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 13:54:18] "GET /api/router_scan HTTP/1.1" 200 -
+2025-05-27 13:55:50 - whitelist.endpoints - INFO - Getting whitelist devices
+2025-05-27 13:55:50 - whitelist.endpoints - INFO - Found 0 devices in whitelist
+2025-05-27 13:55:50 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 13:55:50] "GET /whitelist HTTP/1.1" 200 -
+2025-05-27 13:55:58 - whitelist.endpoints - INFO - Attempting to activate whitelist mode
+2025-05-27 13:55:58 - bandwidth.mode - INFO - Bandwidth mode set to whitelist
+2025-05-27 13:55:58 - whitelist.endpoints - INFO - Activating whitelist mode on router
+2025-05-27 13:55:58 - whitelist.bandwidth - INFO - Activating whitelist mode on router
+2025-05-27 13:55:58 - whitelist.bandwidth - WARNING - No IPs found in whitelist
+2025-05-27 13:55:58 - whitelist.bandwidth - INFO - Whitelist contains 0 IPs
+2025-05-27 13:55:58 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 13:55:58 - whitelist.bandwidth - INFO - Setting up traffic control on br-lan with limit 50mbit
+2025-05-27 13:55:59 - whitelist.bandwidth - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 13:55:59 - whitelist.bandwidth - INFO - Setting up traffic control on eth0 with limit 50mbit
+2025-05-27 13:55:59 - whitelist.bandwidth - INFO - Traffic control setup completed for interface eth0
+2025-05-27 13:55:59 - whitelist.bandwidth - INFO - Setting up traffic control on lan1 with limit 50mbit
+2025-05-27 13:55:59 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan1
+2025-05-27 13:55:59 - whitelist.bandwidth - INFO - Setting up traffic control on lan2 with limit 50mbit
+2025-05-27 13:56:00 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan2
+2025-05-27 13:56:00 - whitelist.bandwidth - INFO - Setting up traffic control on lan3 with limit 50mbit
+2025-05-27 13:56:00 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan3
+2025-05-27 13:56:00 - whitelist.bandwidth - INFO - Setting up traffic control on lan4 with limit 50mbit
+2025-05-27 13:56:00 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan4
+2025-05-27 13:56:00 - whitelist.bandwidth - INFO - Setting up traffic control on phy0-ap0 with limit 50mbit
+2025-05-27 13:56:01 - whitelist.bandwidth - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 13:56:01 - whitelist.bandwidth - INFO - Setting up traffic control on teql0 with limit 50mbit
+2025-05-27 13:56:01 - whitelist.bandwidth - INFO - Traffic control setup completed for interface teql0
+2025-05-27 13:56:01 - whitelist.bandwidth - INFO - Setting up traffic control on wan with limit 50mbit
+2025-05-27 13:56:01 - whitelist.bandwidth - INFO - Traffic control setup completed for interface wan
+2025-05-27 13:56:01 - whitelist.bandwidth - INFO - Setting up traffic control on wlan1 with limit 50mbit
+2025-05-27 13:56:02 - whitelist.bandwidth - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 13:56:02 - whitelist.bandwidth - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 13:56:02 - whitelist.bandwidth - INFO - Whitelist mode activation succeeded
+2025-05-27 13:56:02 - whitelist.endpoints - INFO - Whitelist mode successfully activated
+2025-05-27 13:56:02 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 13:56:02] "POST /whitelist/mode HTTP/1.1" 200 -
+2025-05-27 13:56:17 - whitelist.endpoints - INFO - Updating whitelist limit rate to 10
+2025-05-27 13:56:17 - whitelist.bandwidth - INFO - Updated whitelist limit rate to 10.0mbit
+2025-05-27 13:56:17 - whitelist.bandwidth - WARNING - No IPs found in whitelist
+2025-05-27 13:56:17 - whitelist.bandwidth - INFO - Whitelist contains 0 IPs
+2025-05-27 13:56:18 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 13:56:20 - whitelist.bandwidth - INFO - Setting up traffic control on br-lan with limit 10.0mbit
+2025-05-27 13:56:23 - whitelist.bandwidth - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 13:56:23 - whitelist.bandwidth - INFO - Setting up traffic control on eth0 with limit 10.0mbit
+2025-05-27 13:56:23 - whitelist.bandwidth - INFO - Traffic control setup completed for interface eth0
+2025-05-27 13:56:23 - whitelist.bandwidth - INFO - Setting up traffic control on lan1 with limit 10.0mbit
+2025-05-27 13:56:24 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan1
+2025-05-27 13:56:24 - whitelist.bandwidth - INFO - Setting up traffic control on lan2 with limit 10.0mbit
+2025-05-27 13:56:24 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan2
+2025-05-27 13:56:24 - whitelist.bandwidth - INFO - Setting up traffic control on lan3 with limit 10.0mbit
+2025-05-27 13:56:24 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan3
+2025-05-27 13:56:24 - whitelist.bandwidth - INFO - Setting up traffic control on lan4 with limit 10.0mbit
+2025-05-27 13:56:25 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan4
+2025-05-27 13:56:25 - whitelist.bandwidth - INFO - Setting up traffic control on phy0-ap0 with limit 10.0mbit
+2025-05-27 13:56:25 - whitelist.bandwidth - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 13:56:25 - whitelist.bandwidth - INFO - Setting up traffic control on teql0 with limit 10.0mbit
+2025-05-27 13:56:26 - whitelist.bandwidth - INFO - Traffic control setup completed for interface teql0
+2025-05-27 13:56:26 - whitelist.bandwidth - INFO - Setting up traffic control on wan with limit 10.0mbit
+2025-05-27 13:56:26 - whitelist.bandwidth - INFO - Traffic control setup completed for interface wan
+2025-05-27 13:56:26 - whitelist.bandwidth - INFO - Setting up traffic control on wlan1 with limit 10.0mbit
+2025-05-27 13:56:26 - whitelist.bandwidth - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 13:56:26 - whitelist.bandwidth - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 13:56:26 - whitelist.endpoints - INFO - Whitelist limit rate successfully updated to 10.0mbit
+2025-05-27 13:56:26 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 13:56:26] "POST /whitelist/limit_rate HTTP/1.1" 200 -
+2025-05-27 13:56:38 - whitelist.endpoints - INFO - Adding device 192.168.1.122 to whitelist with name: Test Device
+2025-05-27 13:56:38 - whitelist.endpoints - INFO - Whitelist mode is active, updating traffic control for 192.168.1.122
+2025-05-27 13:56:38 - whitelist.bandwidth - INFO - Adding device 192.168.1.122 to traffic control rules
+2025-05-27 13:56:43 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 13:56:45 - whitelist.bandwidth - INFO - Device 192.168.1.122 successfully added to traffic control on all interfaces
+2025-05-27 13:56:45 - whitelist.endpoints - INFO - Successfully added device 192.168.1.122 to whitelist
+2025-05-27 13:56:45 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 13:56:45] "POST /whitelist HTTP/1.1" 200 -
+2025-05-27 13:56:54 - whitelist.endpoints - INFO - Updating whitelist limit rate to 50
+2025-05-27 13:56:54 - whitelist.bandwidth - INFO - Updated whitelist limit rate to 50.0mbit
+2025-05-27 13:56:54 - whitelist.bandwidth - INFO - Found 1 IPs in whitelist
+2025-05-27 13:56:54 - whitelist.bandwidth - INFO - Whitelist contains 1 IPs
+2025-05-27 13:56:54 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 13:56:54 - whitelist.bandwidth - INFO - Setting up traffic control on br-lan with limit 50.0mbit
+2025-05-27 13:56:55 - whitelist.bandwidth - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 13:56:55 - whitelist.bandwidth - INFO - Setting up traffic control on eth0 with limit 50.0mbit
+2025-05-27 13:56:55 - whitelist.bandwidth - INFO - Traffic control setup completed for interface eth0
+2025-05-27 13:56:55 - whitelist.bandwidth - INFO - Setting up traffic control on lan1 with limit 50.0mbit
+2025-05-27 13:56:56 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan1
+2025-05-27 13:56:56 - whitelist.bandwidth - INFO - Setting up traffic control on lan2 with limit 50.0mbit
+2025-05-27 13:56:56 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan2
+2025-05-27 13:56:56 - whitelist.bandwidth - INFO - Setting up traffic control on lan3 with limit 50.0mbit
+2025-05-27 13:56:56 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan3
+2025-05-27 13:56:56 - whitelist.bandwidth - INFO - Setting up traffic control on lan4 with limit 50.0mbit
+2025-05-27 13:56:57 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan4
+2025-05-27 13:56:57 - whitelist.bandwidth - INFO - Setting up traffic control on phy0-ap0 with limit 50.0mbit
+2025-05-27 13:56:57 - whitelist.bandwidth - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 13:56:57 - whitelist.bandwidth - INFO - Setting up traffic control on teql0 with limit 50.0mbit
+2025-05-27 13:56:58 - whitelist.bandwidth - INFO - Traffic control setup completed for interface teql0
+2025-05-27 13:56:58 - whitelist.bandwidth - INFO - Setting up traffic control on wan with limit 50.0mbit
+2025-05-27 13:56:58 - whitelist.bandwidth - INFO - Traffic control setup completed for interface wan
+2025-05-27 13:56:58 - whitelist.bandwidth - INFO - Setting up traffic control on wlan1 with limit 50.0mbit
+2025-05-27 13:56:58 - whitelist.bandwidth - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 13:56:58 - whitelist.bandwidth - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 13:56:58 - whitelist.endpoints - INFO - Whitelist limit rate successfully updated to 50.0mbit
+2025-05-27 13:56:58 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 13:56:58] "POST /whitelist/limit_rate HTTP/1.1" 200 -
+2025-05-27 13:57:05 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 13:57:05] "[31m[1mDELETE /whitelist?ip=192.168.1.122 HTTP/1.1[0m" 415 -
+2025-05-27 13:57:31 - whitelist.endpoints - INFO - Removing device 192.168.1.122 from whitelist
+2025-05-27 13:57:31 - whitelist.endpoints - ERROR - Error removing device from whitelist: 'Table' object has no attribute 'ip'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 88, in remove_from_whitelist_route
+    removed_entry = db_client.bandwidth_whitelist.remove(db_client.bandwidth_whitelist.ip == ip)
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Table' object has no attribute 'ip'
+2025-05-27 13:57:31 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 13:57:31] "DELETE /whitelist HTTP/1.1" 200 -
+2025-05-27 13:57:52 - whitelist.endpoints - INFO - Getting whitelist devices
+2025-05-27 13:57:52 - whitelist.endpoints - INFO - Found 1 devices in whitelist
+2025-05-27 13:57:52 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 13:57:52] "GET /whitelist HTTP/1.1" 200 -
+2025-05-27 13:58:02 - whitelist.endpoints - INFO - Removing device 192.168.1.122 from whitelist
+2025-05-27 13:58:02 - whitelist.endpoints - ERROR - Error removing device from whitelist: 'Table' object has no attribute 'ip'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 88, in remove_from_whitelist_route
+    removed_entry = db_client.bandwidth_whitelist.remove(db_client.bandwidth_whitelist.ip == ip)
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Table' object has no attribute 'ip'
+2025-05-27 13:58:02 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 13:58:02] "DELETE /whitelist HTTP/1.1" 200 -
+2025-05-27 13:58:35 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\endpoints\\whitelist.py', reloading
+2025-05-27 13:58:35 - __main__ - INFO - Cleaning up resources
+2025-05-27 13:58:35 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 13:58:35 - __main__ - INFO - Resources cleaned up
+2025-05-27 13:58:35 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 13:58:36 - root - INFO - Logging initialized at 2025-05-27 13:58:36
+2025-05-27 13:58:36 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 13:58:36 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 13:58:36 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 13:58:37 - __main__ - INFO - Initializing database tables
+2025-05-27 13:58:37 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 13:58:37 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 13:58:37 - __main__ - INFO - Database tables initialized
+2025-05-27 13:58:37 - __main__ - INFO - Registering API blueprints
+2025-05-27 13:58:37 - __main__ - INFO - API blueprints registered
+2025-05-27 13:58:37 - __main__ - INFO - Starting server on port 5000
+2025-05-27 13:58:37 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 13:58:37 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 13:59:13 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\whitelist_bandwidth.py', reloading
+2025-05-27 13:59:13 - __main__ - INFO - Cleaning up resources
+2025-05-27 13:59:13 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 13:59:13 - __main__ - INFO - Resources cleaned up
+2025-05-27 13:59:14 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 13:59:14 - root - INFO - Logging initialized at 2025-05-27 13:59:14
+2025-05-27 13:59:14 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 13:59:14 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 13:59:14 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 13:59:15 - __main__ - INFO - Initializing database tables
+2025-05-27 13:59:15 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 13:59:15 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 13:59:15 - __main__ - INFO - Database tables initialized
+2025-05-27 13:59:15 - __main__ - INFO - Registering API blueprints
+2025-05-27 13:59:15 - __main__ - INFO - API blueprints registered
+2025-05-27 13:59:15 - __main__ - INFO - Starting server on port 5000
+2025-05-27 13:59:15 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 13:59:15 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 13:59:27 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\endpoints\\whitelist.py', reloading
+2025-05-27 13:59:27 - __main__ - INFO - Cleaning up resources
+2025-05-27 13:59:27 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 13:59:27 - __main__ - INFO - Resources cleaned up
+2025-05-27 13:59:28 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 13:59:28 - root - INFO - Logging initialized at 2025-05-27 13:59:28
+2025-05-27 13:59:28 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 13:59:28 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 13:59:28 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 13:59:29 - __main__ - INFO - Initializing database tables
+2025-05-27 13:59:29 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 13:59:29 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 13:59:29 - __main__ - INFO - Database tables initialized
+2025-05-27 13:59:29 - __main__ - INFO - Registering API blueprints
+2025-05-27 13:59:29 - __main__ - INFO - API blueprints registered
+2025-05-27 13:59:29 - __main__ - INFO - Starting server on port 5000
+2025-05-27 13:59:29 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 13:59:29 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 13:59:34 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\whitelist_bandwidth.py', reloading
+2025-05-27 13:59:34 - __main__ - INFO - Cleaning up resources
+2025-05-27 13:59:34 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 13:59:34 - __main__ - INFO - Resources cleaned up
+2025-05-27 13:59:34 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 13:59:35 - root - INFO - Logging initialized at 2025-05-27 13:59:35
+2025-05-27 13:59:35 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 13:59:35 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 13:59:35 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 13:59:35 - __main__ - INFO - Initializing database tables
+2025-05-27 13:59:35 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 13:59:35 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 13:59:35 - __main__ - INFO - Database tables initialized
+2025-05-27 13:59:35 - __main__ - INFO - Registering API blueprints
+2025-05-27 13:59:35 - __main__ - INFO - API blueprints registered
+2025-05-27 13:59:35 - __main__ - INFO - Starting server on port 5000
+2025-05-27 13:59:35 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 13:59:36 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 13:59:43 - whitelist.endpoints - INFO - Removing device 192.168.1.122 from whitelist
+2025-05-27 13:59:43 - whitelist.bandwidth - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-05-27 13:59:43 - whitelist.endpoints - INFO - Whitelist mode is active, removing 192.168.1.122 from traffic control
+2025-05-27 13:59:43 - whitelist.bandwidth - INFO - Removing device 192.168.1.122 from traffic control rules
+2025-05-27 13:59:44 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 13:59:44 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 13:59:44 - whitelist.bandwidth - INFO - Device 192.168.1.122 successfully removed from traffic control
+2025-05-27 13:59:44 - whitelist.endpoints - INFO - Successfully removed device 192.168.1.122 from whitelist
+2025-05-27 13:59:44 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 13:59:44] "DELETE /whitelist HTTP/1.1" 200 -
+2025-05-27 14:00:18 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\blacklist_bandwidth.py', reloading
+2025-05-27 14:00:18 - __main__ - INFO - Cleaning up resources
+2025-05-27 14:00:18 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:00:18 - __main__ - INFO - Resources cleaned up
+2025-05-27 14:00:18 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 14:00:18 - root - INFO - Logging initialized at 2025-05-27 14:00:18
+2025-05-27 14:00:18 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:00:18 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:00:18 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:00:19 - __main__ - INFO - Initializing database tables
+2025-05-27 14:00:19 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:00:19 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:00:19 - __main__ - INFO - Database tables initialized
+2025-05-27 14:00:19 - __main__ - INFO - Registering API blueprints
+2025-05-27 14:00:19 - __main__ - INFO - API blueprints registered
+2025-05-27 14:00:19 - __main__ - INFO - Starting server on port 5000
+2025-05-27 14:00:19 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 14:00:19 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 14:00:33 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\endpoints\\blacklist.py', reloading
+2025-05-27 14:00:33 - __main__ - INFO - Cleaning up resources
+2025-05-27 14:00:33 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:00:33 - __main__ - INFO - Resources cleaned up
+2025-05-27 14:00:33 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 14:00:33 - root - INFO - Logging initialized at 2025-05-27 14:00:33
+2025-05-27 14:00:33 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:00:33 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:00:33 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:00:34 - __main__ - INFO - Initializing database tables
+2025-05-27 14:00:34 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:00:34 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:00:34 - __main__ - INFO - Database tables initialized
+2025-05-27 14:00:34 - __main__ - INFO - Registering API blueprints
+2025-05-27 14:00:34 - __main__ - INFO - API blueprints registered
+2025-05-27 14:00:34 - __main__ - INFO - Starting server on port 5000
+2025-05-27 14:00:34 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 14:00:34 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 14:00:48 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\endpoints\\blacklist.py', reloading
+2025-05-27 14:00:48 - __main__ - INFO - Cleaning up resources
+2025-05-27 14:00:48 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:00:48 - __main__ - INFO - Resources cleaned up
+2025-05-27 14:00:48 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 14:00:48 - root - INFO - Logging initialized at 2025-05-27 14:00:48
+2025-05-27 14:00:48 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:00:48 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:00:48 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:00:49 - __main__ - INFO - Initializing database tables
+2025-05-27 14:00:49 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:00:49 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:00:49 - __main__ - INFO - Database tables initialized
+2025-05-27 14:00:49 - __main__ - INFO - Registering API blueprints
+2025-05-27 14:00:49 - __main__ - INFO - API blueprints registered
+2025-05-27 14:00:49 - __main__ - INFO - Starting server on port 5000
+2025-05-27 14:00:49 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 14:00:49 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 14:00:57 - whitelist.endpoints - INFO - Attempting to deactivate whitelist mode
+2025-05-27 14:00:57 - whitelist.endpoints - INFO - Deactivating whitelist mode on router
+2025-05-27 14:00:57 - whitelist.bandwidth - INFO - Deactivating whitelist mode on router
+2025-05-27 14:00:57 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 14:00:57 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 14:00:57 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 14:00:58 - whitelist.bandwidth - INFO - Whitelist mode deactivated on router
+2025-05-27 14:00:58 - bandwidth.mode - INFO - Bandwidth mode set to none
+2025-05-27 14:00:58 - whitelist.endpoints - INFO - Whitelist mode successfully deactivated
+2025-05-27 14:00:58 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:00:58] "DELETE /whitelist/mode HTTP/1.1" 200 -
+2025-05-27 14:02:03 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:02:03] "[33mPOST /blacklist/mode HTTP/1.1[0m" 404 -
+2025-05-27 14:02:14 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\endpoints\\blacklist.py', reloading
+2025-05-27 14:02:14 - __main__ - INFO - Cleaning up resources
+2025-05-27 14:02:14 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:02:14 - __main__ - INFO - Resources cleaned up
+2025-05-27 14:02:15 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 14:02:15 - root - INFO - Logging initialized at 2025-05-27 14:02:15
+2025-05-27 14:02:15 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:02:15 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:02:15 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:02:16 - __main__ - INFO - Initializing database tables
+2025-05-27 14:02:16 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:02:16 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:02:16 - __main__ - INFO - Database tables initialized
+2025-05-27 14:02:16 - __main__ - INFO - Registering API blueprints
+2025-05-27 14:02:16 - __main__ - INFO - API blueprints registered
+2025-05-27 14:02:16 - __main__ - INFO - Starting server on port 5000
+2025-05-27 14:02:16 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 14:02:16 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 14:02:24 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:02:24] "[33mPOST /blacklist/mode HTTP/1.1[0m" 404 -
+2025-05-27 14:03:17 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\server.py', reloading
+2025-05-27 14:03:17 - __main__ - INFO - Cleaning up resources
+2025-05-27 14:03:17 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:03:17 - __main__ - INFO - Resources cleaned up
+2025-05-27 14:03:17 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 14:03:17 - root - INFO - Logging initialized at 2025-05-27 14:03:17
+2025-05-27 14:03:17 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:03:17 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:03:17 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:03:18 - __main__ - INFO - Initializing database tables
+2025-05-27 14:03:18 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:03:18 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:03:18 - __main__ - INFO - Database tables initialized
+2025-05-27 14:03:18 - __main__ - INFO - Registering API blueprints
+2025-05-27 14:03:18 - __main__ - INFO - API blueprints registered
+2025-05-27 14:03:18 - __main__ - INFO - Starting server on port 5000
+2025-05-27 14:03:18 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 14:03:18 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 14:03:20 - blacklist.endpoints - INFO - Attempting to activate blacklist mode
+2025-05-27 14:03:20 - bandwidth.mode - INFO - Bandwidth mode set to blacklist
+2025-05-27 14:03:20 - blacklist.endpoints - INFO - Activating blacklist mode on router
+2025-05-27 14:03:20 - blacklist.bandwidth - INFO - Activating blacklist mode on router
+2025-05-27 14:03:20 - blacklist.bandwidth - ERROR - Error retrieving blacklist: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_bandwidth.py", line 163, in get_blacklist_ips
+    blacklist_entries = db_client.bandwidth_blacklist.all()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'. Did you mean: 'bandwidth_whitelist'?
+2025-05-27 14:03:20 - blacklist.bandwidth - INFO - Blacklist contains 0 IPs
+2025-05-27 14:03:20 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 14:03:20 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 14:03:20 - blacklist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 14:03:20 - blacklist.bandwidth - INFO - Setting up traffic control on br-lan with limit 50mbit
+2025-05-27 14:03:20 - blacklist.bandwidth - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 14:03:20 - blacklist.bandwidth - INFO - Setting up traffic control on eth0 with limit 50mbit
+2025-05-27 14:03:21 - blacklist.bandwidth - INFO - Traffic control setup completed for interface eth0
+2025-05-27 14:03:21 - blacklist.bandwidth - INFO - Setting up traffic control on lan1 with limit 50mbit
+2025-05-27 14:03:21 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan1
+2025-05-27 14:03:21 - blacklist.bandwidth - INFO - Setting up traffic control on lan2 with limit 50mbit
+2025-05-27 14:03:21 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan2
+2025-05-27 14:03:21 - blacklist.bandwidth - INFO - Setting up traffic control on lan3 with limit 50mbit
+2025-05-27 14:03:22 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan3
+2025-05-27 14:03:22 - blacklist.bandwidth - INFO - Setting up traffic control on lan4 with limit 50mbit
+2025-05-27 14:03:22 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan4
+2025-05-27 14:03:22 - blacklist.bandwidth - INFO - Setting up traffic control on phy0-ap0 with limit 50mbit
+2025-05-27 14:03:22 - blacklist.bandwidth - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 14:03:22 - blacklist.bandwidth - INFO - Setting up traffic control on teql0 with limit 50mbit
+2025-05-27 14:03:23 - blacklist.bandwidth - INFO - Traffic control setup completed for interface teql0
+2025-05-27 14:03:23 - blacklist.bandwidth - INFO - Setting up traffic control on wan with limit 50mbit
+2025-05-27 14:03:23 - blacklist.bandwidth - INFO - Traffic control setup completed for interface wan
+2025-05-27 14:03:23 - blacklist.bandwidth - INFO - Setting up traffic control on wlan1 with limit 50mbit
+2025-05-27 14:03:23 - blacklist.bandwidth - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 14:03:23 - blacklist.bandwidth - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 14:03:23 - blacklist.bandwidth - INFO - Blacklist mode activation succeeded
+2025-05-27 14:03:23 - blacklist.endpoints - INFO - Blacklist mode successfully activated
+2025-05-27 14:03:23 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:03:23] "POST /blacklist/mode HTTP/1.1" 200 -
+2025-05-27 14:04:11 - blacklist.endpoints - INFO - Adding device 192.168.1.122 to blacklist with name: Test Device
+2025-05-27 14:04:11 - blacklist.bandwidth - INFO - Adding device 192.168.1.122 to blacklist and traffic control rules
+2025-05-27 14:04:11 - blacklist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 14:04:12 - blacklist.bandwidth - INFO - Device 192.168.1.122 successfully added to blacklist and traffic control on all interfaces
+2025-05-27 14:04:12 - blacklist.endpoints - INFO - Successfully added device 192.168.1.122 to blacklist
+2025-05-27 14:04:12 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:04:12] "POST /blacklist HTTP/1.1" 200 -
+2025-05-27 14:04:29 - blacklist.endpoints - INFO - Updating blacklist limit rate to 30
+2025-05-27 14:04:29 - blacklist.bandwidth - INFO - Updated blacklist limit rate to 30.0mbit
+2025-05-27 14:04:29 - blacklist.bandwidth - ERROR - Error retrieving blacklist: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_bandwidth.py", line 163, in get_blacklist_ips
+    blacklist_entries = db_client.bandwidth_blacklist.all()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'. Did you mean: 'bandwidth_whitelist'?
+2025-05-27 14:04:29 - blacklist.bandwidth - INFO - Blacklist contains 0 IPs
+2025-05-27 14:04:30 - blacklist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 14:04:32 - blacklist.bandwidth - INFO - Setting up traffic control on br-lan with limit 30.0mbit
+2025-05-27 14:04:33 - blacklist.bandwidth - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 14:04:33 - blacklist.bandwidth - INFO - Setting up traffic control on eth0 with limit 30.0mbit
+2025-05-27 14:04:33 - blacklist.bandwidth - INFO - Traffic control setup completed for interface eth0
+2025-05-27 14:04:33 - blacklist.bandwidth - INFO - Setting up traffic control on lan1 with limit 30.0mbit
+2025-05-27 14:04:33 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan1
+2025-05-27 14:04:33 - blacklist.bandwidth - INFO - Setting up traffic control on lan2 with limit 30.0mbit
+2025-05-27 14:04:34 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan2
+2025-05-27 14:04:34 - blacklist.bandwidth - INFO - Setting up traffic control on lan3 with limit 30.0mbit
+2025-05-27 14:04:34 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan3
+2025-05-27 14:04:34 - blacklist.bandwidth - INFO - Setting up traffic control on lan4 with limit 30.0mbit
+2025-05-27 14:04:34 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan4
+2025-05-27 14:04:34 - blacklist.bandwidth - INFO - Setting up traffic control on phy0-ap0 with limit 30.0mbit
+2025-05-27 14:04:35 - blacklist.bandwidth - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 14:04:35 - blacklist.bandwidth - INFO - Setting up traffic control on teql0 with limit 30.0mbit
+2025-05-27 14:04:35 - blacklist.bandwidth - INFO - Traffic control setup completed for interface teql0
+2025-05-27 14:04:35 - blacklist.bandwidth - INFO - Setting up traffic control on wan with limit 30.0mbit
+2025-05-27 14:04:35 - blacklist.bandwidth - INFO - Traffic control setup completed for interface wan
+2025-05-27 14:04:35 - blacklist.bandwidth - INFO - Setting up traffic control on wlan1 with limit 30.0mbit
+2025-05-27 14:04:36 - blacklist.bandwidth - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 14:04:36 - blacklist.bandwidth - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 14:04:36 - blacklist.endpoints - INFO - Blacklist limit rate successfully updated to 30.0mbit
+2025-05-27 14:04:36 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:04:36] "POST /blacklist/limit_rate HTTP/1.1" 200 -
+2025-05-27 14:04:58 - blacklist.endpoints - INFO - Getting blacklist devices
+2025-05-27 14:04:58 - blacklist.bandwidth - ERROR - Error retrieving blacklist: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_bandwidth.py", line 163, in get_blacklist_ips
+    blacklist_entries = db_client.bandwidth_blacklist.all()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'. Did you mean: 'bandwidth_whitelist'?
+2025-05-27 14:04:58 - blacklist.endpoints - INFO - Found 0 devices in blacklist
+2025-05-27 14:04:58 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:04:58] "GET /blacklist HTTP/1.1" 200 -
+2025-05-27 14:05:23 - whitelist.endpoints - INFO - Getting whitelist devices
+2025-05-27 14:05:23 - whitelist.endpoints - INFO - Found 0 devices in whitelist
+2025-05-27 14:05:23 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:05:23] "GET /whitelist HTTP/1.1" 200 -
+2025-05-27 14:05:26 - blacklist.endpoints - INFO - Getting blacklist devices
+2025-05-27 14:05:26 - blacklist.bandwidth - ERROR - Error retrieving blacklist: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_bandwidth.py", line 163, in get_blacklist_ips
+    blacklist_entries = db_client.bandwidth_blacklist.all()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'. Did you mean: 'bandwidth_whitelist'?
+2025-05-27 14:05:26 - blacklist.endpoints - INFO - Found 0 devices in blacklist
+2025-05-27 14:05:26 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:05:26] "GET /blacklist HTTP/1.1" 200 -
+2025-05-27 14:05:28 - blacklist.endpoints - INFO - Adding device 192.168.1.122 to blacklist with name: Test Device
+2025-05-27 14:05:28 - blacklist.bandwidth - INFO - Adding device 192.168.1.122 to blacklist and traffic control rules
+2025-05-27 14:05:28 - blacklist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 14:05:29 - blacklist.bandwidth - INFO - Device 192.168.1.122 successfully added to blacklist and traffic control on all interfaces
+2025-05-27 14:05:29 - blacklist.endpoints - INFO - Successfully added device 192.168.1.122 to blacklist
+2025-05-27 14:05:29 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:05:29] "POST /blacklist HTTP/1.1" 200 -
+2025-05-27 14:05:32 - blacklist.endpoints - INFO - Getting blacklist devices
+2025-05-27 14:05:32 - blacklist.bandwidth - ERROR - Error retrieving blacklist: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_bandwidth.py", line 163, in get_blacklist_ips
+    blacklist_entries = db_client.bandwidth_blacklist.all()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'. Did you mean: 'bandwidth_whitelist'?
+2025-05-27 14:05:32 - blacklist.endpoints - INFO - Found 0 devices in blacklist
+2025-05-27 14:05:32 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:05:32] "GET /blacklist HTTP/1.1" 200 -
+2025-05-27 14:06:49 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\blacklist_bandwidth.py', reloading
+2025-05-27 14:06:49 - __main__ - INFO - Cleaning up resources
+2025-05-27 14:06:49 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:06:49 - __main__ - INFO - Resources cleaned up
+2025-05-27 14:06:52 - __main__ - INFO - Cleaning up resources
+2025-05-27 14:06:52 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:06:52 - __main__ - INFO - Resources cleaned up
+2025-05-27 14:07:21 - root - INFO - Logging initialized at 2025-05-27 14:07:21
+2025-05-27 14:07:21 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:07:21 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:07:21 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:08:36 - root - INFO - Logging initialized at 2025-05-27 14:08:36
+2025-05-27 14:08:36 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:08:36 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:08:36 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:09:37 - root - INFO - Logging initialized at 2025-05-27 14:09:37
+2025-05-27 14:09:37 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:09:37 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:09:37 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:09:38 - __main__ - INFO - Initializing database tables
+2025-05-27 14:09:38 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:09:38 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:09:38 - __main__ - INFO - Database tables initialized
+2025-05-27 14:09:38 - __main__ - INFO - Registering API blueprints
+2025-05-27 14:09:38 - __main__ - INFO - API blueprints registered
+2025-05-27 14:09:38 - __main__ - INFO - Starting server on port 5000
+2025-05-27 14:09:38 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 14:09:38 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 14:09:38 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 14:09:38 - root - INFO - Logging initialized at 2025-05-27 14:09:38
+2025-05-27 14:09:38 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:09:38 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:09:38 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:09:39 - __main__ - INFO - Initializing database tables
+2025-05-27 14:09:39 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:09:39 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:09:39 - __main__ - INFO - Database tables initialized
+2025-05-27 14:09:39 - __main__ - INFO - Registering API blueprints
+2025-05-27 14:09:39 - __main__ - INFO - API blueprints registered
+2025-05-27 14:09:39 - __main__ - INFO - Starting server on port 5000
+2025-05-27 14:09:39 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 14:09:39 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 14:09:44 - blacklist.endpoints - INFO - Getting blacklist devices
+2025-05-27 14:09:44 - blacklist.bandwidth - ERROR - Error retrieving blacklist: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_bandwidth.py", line 163, in get_blacklist_ips
+    blacklist_entries = db_client.bandwidth_blacklist.all()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'. Did you mean: 'bandwidth_whitelist'?
+2025-05-27 14:09:44 - blacklist.endpoints - INFO - Found 0 devices in blacklist
+2025-05-27 14:09:44 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:09:44] "GET /blacklist HTTP/1.1" 200 -
+2025-05-27 14:09:50 - blacklist.endpoints - INFO - Attempting to deactivate blacklist mode
+2025-05-27 14:09:50 - blacklist.endpoints - INFO - Deactivating blacklist mode on router
+2025-05-27 14:09:50 - blacklist.bandwidth - INFO - Deactivating blacklist mode on router
+2025-05-27 14:09:50 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 14:09:50 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 14:09:50 - blacklist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 14:09:51 - blacklist.bandwidth - INFO - Blacklist mode deactivated on router
+2025-05-27 14:09:51 - bandwidth.mode - INFO - Bandwidth mode set to none
+2025-05-27 14:09:51 - blacklist.endpoints - INFO - Blacklist mode successfully deactivated
+2025-05-27 14:09:51 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:09:51] "DELETE /blacklist/mode HTTP/1.1" 200 -
+2025-05-27 14:10:06 - blacklist.endpoints - INFO - Removing device 192.168.1.122 from blacklist
+2025-05-27 14:10:06 - blacklist.bandwidth - ERROR - Error removing device from blacklist: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_bandwidth.py", line 427, in remove_from_blacklist
+    removed = db_client.bandwidth_blacklist.remove(Device.ip == ip)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'. Did you mean: 'bandwidth_whitelist'?
+2025-05-27 14:10:06 - blacklist.endpoints - ERROR - Error removing device from blacklist: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\blacklist.py", line 75, in remove_from_blacklist_route
+    remove_from_blacklist(ip)
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_bandwidth.py", line 427, in remove_from_blacklist
+    removed = db_client.bandwidth_blacklist.remove(Device.ip == ip)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'. Did you mean: 'bandwidth_whitelist'?
+2025-05-27 14:10:06 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:10:06] "DELETE /blacklist HTTP/1.1" 200 -
+2025-05-27 14:10:14 - blacklist.endpoints - INFO - Adding device 192.168.1.122 to blacklist with name: Test Device
+2025-05-27 14:10:14 - bandwidth.mode - INFO - Bandwidth mode set to blacklist
+2025-05-27 14:10:14 - blacklist.bandwidth - INFO - Activating blacklist mode on router
+2025-05-27 14:10:14 - blacklist.bandwidth - ERROR - Error retrieving blacklist: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_bandwidth.py", line 163, in get_blacklist_ips
+    blacklist_entries = db_client.bandwidth_blacklist.all()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'. Did you mean: 'bandwidth_whitelist'?
+2025-05-27 14:10:14 - blacklist.bandwidth - INFO - Blacklist contains 0 IPs
+2025-05-27 14:10:15 - blacklist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 14:10:15 - blacklist.bandwidth - INFO - Setting up traffic control on br-lan with limit 30.0mbit
+2025-05-27 14:10:15 - blacklist.bandwidth - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 14:10:15 - blacklist.bandwidth - INFO - Setting up traffic control on eth0 with limit 30.0mbit
+2025-05-27 14:10:16 - blacklist.bandwidth - INFO - Traffic control setup completed for interface eth0
+2025-05-27 14:10:16 - blacklist.bandwidth - INFO - Setting up traffic control on lan1 with limit 30.0mbit
+2025-05-27 14:10:16 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan1
+2025-05-27 14:10:16 - blacklist.bandwidth - INFO - Setting up traffic control on lan2 with limit 30.0mbit
+2025-05-27 14:10:17 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan2
+2025-05-27 14:10:17 - blacklist.bandwidth - INFO - Setting up traffic control on lan3 with limit 30.0mbit
+2025-05-27 14:10:18 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan3
+2025-05-27 14:10:18 - blacklist.bandwidth - INFO - Setting up traffic control on lan4 with limit 30.0mbit
+2025-05-27 14:10:18 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan4
+2025-05-27 14:10:18 - blacklist.bandwidth - INFO - Setting up traffic control on phy0-ap0 with limit 30.0mbit
+2025-05-27 14:10:19 - blacklist.bandwidth - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 14:10:19 - blacklist.bandwidth - INFO - Setting up traffic control on teql0 with limit 30.0mbit
+2025-05-27 14:10:19 - blacklist.bandwidth - INFO - Traffic control setup completed for interface teql0
+2025-05-27 14:10:19 - blacklist.bandwidth - INFO - Setting up traffic control on wan with limit 30.0mbit
+2025-05-27 14:10:20 - blacklist.bandwidth - INFO - Traffic control setup completed for interface wan
+2025-05-27 14:10:20 - blacklist.bandwidth - INFO - Setting up traffic control on wlan1 with limit 30.0mbit
+2025-05-27 14:10:20 - blacklist.bandwidth - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 14:10:20 - blacklist.bandwidth - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 14:10:20 - blacklist.bandwidth - INFO - Blacklist mode activation succeeded
+2025-05-27 14:10:20 - blacklist.bandwidth - INFO - Adding device 192.168.1.122 to blacklist and traffic control rules
+2025-05-27 14:10:20 - blacklist.bandwidth - ERROR - Error adding device to blacklist: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_bandwidth.py", line 308, in add_single_device_to_blacklist
+    db_client.bandwidth_blacklist.insert(entry)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'. Did you mean: 'bandwidth_whitelist'?
+2025-05-27 14:10:20 - blacklist.endpoints - ERROR - Error adding device to blacklist: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\blacklist.py", line 50, in add_to_blacklist_route
+    device_added = add_single_device_to_blacklist(ip)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_bandwidth.py", line 308, in add_single_device_to_blacklist
+    db_client.bandwidth_blacklist.insert(entry)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'. Did you mean: 'bandwidth_whitelist'?
+2025-05-27 14:10:20 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:10:20] "POST /blacklist HTTP/1.1" 200 -
+2025-05-27 14:10:49 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\db\\tinydb_client.py', reloading
+2025-05-27 14:10:49 - __main__ - INFO - Cleaning up resources
+2025-05-27 14:10:49 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:10:49 - __main__ - INFO - Resources cleaned up
+2025-05-27 14:10:49 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 14:10:49 - root - INFO - Logging initialized at 2025-05-27 14:10:49
+2025-05-27 14:10:49 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:10:49 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:10:49 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:10:50 - __main__ - INFO - Initializing database tables
+2025-05-27 14:10:50 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:10:50 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:10:50 - __main__ - INFO - Database tables initialized
+2025-05-27 14:10:50 - __main__ - INFO - Registering API blueprints
+2025-05-27 14:10:50 - __main__ - INFO - API blueprints registered
+2025-05-27 14:10:50 - __main__ - INFO - Starting server on port 5000
+2025-05-27 14:10:50 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 14:10:50 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 14:11:02 - __main__ - INFO - Cleaning up resources
+2025-05-27 14:11:02 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:11:02 - __main__ - INFO - Resources cleaned up
+2025-05-27 14:11:03 - __main__ - INFO - Cleaning up resources
+2025-05-27 14:11:03 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:11:03 - __main__ - INFO - Resources cleaned up
+2025-05-27 14:11:04 - root - INFO - Logging initialized at 2025-05-27 14:11:04
+2025-05-27 14:11:04 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:11:04 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:11:04 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:11:05 - __main__ - INFO - Initializing database tables
+2025-05-27 14:11:05 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:11:05 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:11:05 - __main__ - INFO - Database tables initialized
+2025-05-27 14:11:05 - __main__ - INFO - Registering API blueprints
+2025-05-27 14:11:05 - __main__ - INFO - API blueprints registered
+2025-05-27 14:11:05 - __main__ - INFO - Starting server on port 5000
+2025-05-27 14:11:05 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-27 14:11:05 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-27 14:11:05 - werkzeug - INFO -  * Restarting with stat
+2025-05-27 14:11:05 - root - INFO - Logging initialized at 2025-05-27 14:11:05
+2025-05-27 14:11:05 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:11:05 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:11:05 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:11:06 - __main__ - INFO - Initializing database tables
+2025-05-27 14:11:06 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:11:06 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:11:06 - __main__ - INFO - Database tables initialized
+2025-05-27 14:11:06 - __main__ - INFO - Registering API blueprints
+2025-05-27 14:11:06 - __main__ - INFO - API blueprints registered
+2025-05-27 14:11:06 - __main__ - INFO - Starting server on port 5000
+2025-05-27 14:11:06 - werkzeug - WARNING -  * Debugger is active!
+2025-05-27 14:11:06 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-27 14:11:13 - blacklist.endpoints - INFO - Getting blacklist devices
+2025-05-27 14:11:13 - blacklist.bandwidth - WARNING - No IPs found in blacklist
+2025-05-27 14:11:13 - blacklist.endpoints - INFO - Found 0 devices in blacklist
+2025-05-27 14:11:13 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:11:13] "GET /blacklist HTTP/1.1" 200 -
+2025-05-27 14:11:15 - blacklist.endpoints - INFO - Adding device 192.168.1.122 to blacklist with name: Test Device
+2025-05-27 14:11:15 - blacklist.bandwidth - INFO - Adding device 192.168.1.122 to blacklist and traffic control rules
+2025-05-27 14:11:15 - bandwidth.mode - INFO - Bandwidth mode set to blacklist
+2025-05-27 14:11:15 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-27 14:11:15 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-27 14:11:15 - blacklist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 14:11:16 - blacklist.bandwidth - INFO - Device 192.168.1.122 successfully added to blacklist and traffic control on all interfaces
+2025-05-27 14:11:16 - blacklist.endpoints - INFO - Successfully added device 192.168.1.122 to blacklist
+2025-05-27 14:11:16 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:11:16] "POST /blacklist HTTP/1.1" 200 -
+2025-05-27 14:11:20 - blacklist.endpoints - INFO - Removing device 192.168.1.122 from blacklist
+2025-05-27 14:11:20 - blacklist.bandwidth - INFO - Removed device with IP 192.168.1.122 from blacklist
+2025-05-27 14:11:20 - blacklist.bandwidth - INFO - Removing device 192.168.1.122 from blacklist and traffic control rules
+2025-05-27 14:11:20 - blacklist.bandwidth - INFO - Device 192.168.1.122 successfully removed from blacklist and traffic control
+2025-05-27 14:11:20 - blacklist.endpoints - INFO - Successfully removed device 192.168.1.122 from blacklist
+2025-05-27 14:11:20 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:11:20] "DELETE /blacklist HTTP/1.1" 200 -
+2025-05-27 14:11:42 - blacklist.endpoints - INFO - Attempting to activate blacklist mode
+2025-05-27 14:11:42 - blacklist.endpoints - INFO - Blacklist mode is already active, aborting activation
+2025-05-27 14:11:42 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:11:42] "POST /blacklist/mode HTTP/1.1" 200 -
+2025-05-27 14:11:47 - blacklist.endpoints - INFO - Adding device 192.168.1.122 to blacklist with name: Test Device
+2025-05-27 14:11:47 - blacklist.bandwidth - INFO - Adding device 192.168.1.122 to blacklist and traffic control rules
+2025-05-27 14:11:47 - bandwidth.mode - INFO - Bandwidth mode set to blacklist
+2025-05-27 14:11:49 - blacklist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 14:11:53 - blacklist.bandwidth - INFO - Device 192.168.1.122 successfully added to blacklist and traffic control on all interfaces
+2025-05-27 14:11:53 - blacklist.endpoints - INFO - Successfully added device 192.168.1.122 to blacklist
+2025-05-27 14:11:53 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:11:53] "POST /blacklist HTTP/1.1" 200 -
+2025-05-27 14:12:08 - blacklist.endpoints - INFO - Updating blacklist limit rate to 50
+2025-05-27 14:12:08 - blacklist.bandwidth - INFO - Updated blacklist limit rate to 50.0mbit
+2025-05-27 14:12:08 - blacklist.bandwidth - INFO - Found 1 IPs in blacklist
+2025-05-27 14:12:08 - blacklist.bandwidth - INFO - Blacklist contains 1 IPs
+2025-05-27 14:12:09 - blacklist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 14:12:10 - blacklist.bandwidth - INFO - Setting up traffic control on br-lan with limit 50.0mbit
+2025-05-27 14:12:11 - blacklist.bandwidth - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 14:12:11 - blacklist.bandwidth - INFO - Setting up traffic control on eth0 with limit 50.0mbit
+2025-05-27 14:12:12 - blacklist.bandwidth - INFO - Traffic control setup completed for interface eth0
+2025-05-27 14:12:12 - blacklist.bandwidth - INFO - Setting up traffic control on lan1 with limit 50.0mbit
+2025-05-27 14:12:13 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan1
+2025-05-27 14:12:13 - blacklist.bandwidth - INFO - Setting up traffic control on lan2 with limit 50.0mbit
+2025-05-27 14:12:14 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan2
+2025-05-27 14:12:14 - blacklist.bandwidth - INFO - Setting up traffic control on lan3 with limit 50.0mbit
+2025-05-27 14:12:14 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan3
+2025-05-27 14:12:14 - blacklist.bandwidth - INFO - Setting up traffic control on lan4 with limit 50.0mbit
+2025-05-27 14:12:15 - blacklist.bandwidth - INFO - Traffic control setup completed for interface lan4
+2025-05-27 14:12:15 - blacklist.bandwidth - INFO - Setting up traffic control on phy0-ap0 with limit 50.0mbit
+2025-05-27 14:12:15 - blacklist.bandwidth - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 14:12:15 - blacklist.bandwidth - INFO - Setting up traffic control on teql0 with limit 50.0mbit
+2025-05-27 14:12:15 - blacklist.bandwidth - INFO - Traffic control setup completed for interface teql0
+2025-05-27 14:12:15 - blacklist.bandwidth - INFO - Setting up traffic control on wan with limit 50.0mbit
+2025-05-27 14:12:16 - blacklist.bandwidth - INFO - Traffic control setup completed for interface wan
+2025-05-27 14:12:16 - blacklist.bandwidth - INFO - Setting up traffic control on wlan1 with limit 50.0mbit
+2025-05-27 14:12:16 - blacklist.bandwidth - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 14:12:16 - blacklist.bandwidth - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 14:12:16 - blacklist.endpoints - INFO - Blacklist limit rate successfully updated to 50.0mbit
+2025-05-27 14:12:16 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:12:16] "POST /blacklist/limit_rate HTTP/1.1" 200 -
+2025-05-27 14:12:31 - whitelist.endpoints - INFO - Adding device 192.168.1.122 to whitelist with name: Test Device
+2025-05-27 14:12:31 - whitelist.endpoints - INFO - Successfully added device 192.168.1.122 to whitelist
+2025-05-27 14:12:31 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:12:31] "POST /whitelist HTTP/1.1" 200 -
+2025-05-27 14:12:37 - whitelist.endpoints - INFO - Getting whitelist devices
+2025-05-27 14:12:37 - whitelist.endpoints - INFO - Found 1 devices in whitelist
+2025-05-27 14:12:37 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:12:37] "GET /whitelist HTTP/1.1" 200 -
+2025-05-27 14:12:50 - whitelist.endpoints - INFO - Attempting to activate whitelist mode
+2025-05-27 14:12:50 - bandwidth.mode - INFO - Bandwidth mode set to whitelist
+2025-05-27 14:12:50 - whitelist.endpoints - INFO - Activating whitelist mode on router
+2025-05-27 14:12:50 - whitelist.bandwidth - INFO - Activating whitelist mode on router
+2025-05-27 14:12:50 - whitelist.bandwidth - INFO - Found 1 IPs in whitelist
+2025-05-27 14:12:50 - whitelist.bandwidth - INFO - Whitelist contains 1 IPs
+2025-05-27 14:12:50 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 14:12:50 - whitelist.bandwidth - INFO - Setting up traffic control on br-lan with limit 50.0mbit
+2025-05-27 14:12:50 - whitelist.bandwidth - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 14:12:50 - whitelist.bandwidth - INFO - Setting up traffic control on eth0 with limit 50.0mbit
+2025-05-27 14:12:51 - whitelist.bandwidth - INFO - Traffic control setup completed for interface eth0
+2025-05-27 14:12:51 - whitelist.bandwidth - INFO - Setting up traffic control on lan1 with limit 50.0mbit
+2025-05-27 14:12:51 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan1
+2025-05-27 14:12:51 - whitelist.bandwidth - INFO - Setting up traffic control on lan2 with limit 50.0mbit
+2025-05-27 14:12:51 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan2
+2025-05-27 14:12:51 - whitelist.bandwidth - INFO - Setting up traffic control on lan3 with limit 50.0mbit
+2025-05-27 14:12:52 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan3
+2025-05-27 14:12:52 - whitelist.bandwidth - INFO - Setting up traffic control on lan4 with limit 50.0mbit
+2025-05-27 14:12:52 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan4
+2025-05-27 14:12:52 - whitelist.bandwidth - INFO - Setting up traffic control on phy0-ap0 with limit 50.0mbit
+2025-05-27 14:12:52 - whitelist.bandwidth - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 14:12:52 - whitelist.bandwidth - INFO - Setting up traffic control on teql0 with limit 50.0mbit
+2025-05-27 14:12:52 - whitelist.bandwidth - INFO - Traffic control setup completed for interface teql0
+2025-05-27 14:12:52 - whitelist.bandwidth - INFO - Setting up traffic control on wan with limit 50.0mbit
+2025-05-27 14:12:53 - whitelist.bandwidth - INFO - Traffic control setup completed for interface wan
+2025-05-27 14:12:53 - whitelist.bandwidth - INFO - Setting up traffic control on wlan1 with limit 50.0mbit
+2025-05-27 14:12:53 - whitelist.bandwidth - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 14:12:53 - whitelist.bandwidth - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 14:12:53 - whitelist.bandwidth - INFO - Whitelist mode activation succeeded
+2025-05-27 14:12:53 - whitelist.endpoints - INFO - Whitelist mode successfully activated
+2025-05-27 14:12:53 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:12:53] "POST /whitelist/mode HTTP/1.1" 200 -
+2025-05-27 14:13:02 - whitelist.endpoints - INFO - Removing device 192.168.1.122 from whitelist
+2025-05-27 14:13:02 - whitelist.bandwidth - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-05-27 14:13:02 - whitelist.endpoints - INFO - Whitelist mode is active, removing 192.168.1.122 from traffic control
+2025-05-27 14:13:02 - whitelist.bandwidth - INFO - Removing device 192.168.1.122 from traffic control rules
+2025-05-27 14:13:02 - whitelist.bandwidth - INFO - Device 192.168.1.122 successfully removed from traffic control
+2025-05-27 14:13:02 - whitelist.endpoints - INFO - Successfully removed device 192.168.1.122 from whitelist
+2025-05-27 14:13:02 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 14:13:02] "DELETE /whitelist HTTP/1.1" 200 -
+2025-05-27 14:13:12 - __main__ - INFO - Cleaning up resources
+2025-05-27 14:13:12 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:13:12 - __main__ - INFO - Resources cleaned up
+2025-05-27 14:13:12 - __main__ - INFO - Cleaning up resources
+2025-05-27 14:13:12 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:13:12 - __main__ - INFO - Resources cleaned up
+2025-05-27 14:34:18 - root - INFO - Logging initialized at 2025-05-27 14:34:18
+2025-05-27 14:34:18 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:34:18 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:34:18 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:34:18 - __main__ - INFO - Starting database migration
+2025-05-27 14:34:18 - migrations.migrate_to_mac_primary - INFO - Starting database migration to MAC-based primary keys
+2025-05-27 14:34:18 - migrations.migrate_to_mac_primary - INFO - Running migration: Devices table
+2025-05-27 14:34:18 - migrations.migrate_to_mac_primary - ERROR - Error migrating devices table: 'TinyDBClient' object has no attribute 'table'
+2025-05-27 14:34:18 - migrations.migrate_to_mac_primary - ERROR - Migration failed: Devices table
+2025-05-27 14:34:18 - __main__ - ERROR - Migration failed
+2025-05-27 14:35:01 - root - INFO - Logging initialized at 2025-05-27 14:35:01
+2025-05-27 14:35:01 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-27 14:35:01 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:35:01 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:35:01 - __main__ - INFO - Starting database migration
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Starting database migration to MAC-based primary keys
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Running migration: Devices table
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Migrated device router
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Migrated device d8:bb:c1:47:3a:43
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Migrated device 36:8a:d2:83:e0:12
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Migrated device e6:25:c6:de:cc:c8
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Migrated device 80:b6:55:b7:bf:51
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Migrated device 86:0c:58:47:cb:58
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Migrated device be:64:3d:cf:6d:78
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Migrated device ee:0c:81:02:f9:91
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Successfully migrated devices table
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Running migration: Device rules
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Migrated rule for device ee:0c:81:02:f9:91
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Successfully migrated device rules
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Running migration: Group members
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Migrated group member router
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Migrated group member d8:bb:c1:47:3a:43
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Migrated group member 36:8a:d2:83:e0:12
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Migrated group member e6:25:c6:de:cc:c8
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Migrated group member 80:b6:55:b7:bf:51
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Migrated group member 86:0c:58:47:cb:58
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Migrated group member be:64:3d:cf:6d:78
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Migrated group member ee:0c:81:02:f9:91
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Successfully migrated group members
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Running migration: Bandwidth lists
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - Successfully migrated bandwidth lists
+2025-05-27 14:35:01 - migrations.migrate_to_mac_primary - INFO - All migrations completed successfully
+2025-05-27 14:35:01 - __main__ - INFO - Migration completed successfully

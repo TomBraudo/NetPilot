@@ -1,1 +1,87 @@
 2025-05-07 14:50:16 - whitelist.endpoints - ERROR - Whitelist mode activation failed: setting is still inactive after update
+2025-05-27 13:57:31 - whitelist.endpoints - ERROR - Error removing device from whitelist: 'Table' object has no attribute 'ip'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 88, in remove_from_whitelist_route
+    removed_entry = db_client.bandwidth_whitelist.remove(db_client.bandwidth_whitelist.ip == ip)
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Table' object has no attribute 'ip'
+2025-05-27 13:58:02 - whitelist.endpoints - ERROR - Error removing device from whitelist: 'Table' object has no attribute 'ip'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 88, in remove_from_whitelist_route
+    removed_entry = db_client.bandwidth_whitelist.remove(db_client.bandwidth_whitelist.ip == ip)
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Table' object has no attribute 'ip'
+2025-05-27 14:03:20 - blacklist.bandwidth - ERROR - Error retrieving blacklist: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_bandwidth.py", line 163, in get_blacklist_ips
+    blacklist_entries = db_client.bandwidth_blacklist.all()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'. Did you mean: 'bandwidth_whitelist'?
+2025-05-27 14:04:29 - blacklist.bandwidth - ERROR - Error retrieving blacklist: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_bandwidth.py", line 163, in get_blacklist_ips
+    blacklist_entries = db_client.bandwidth_blacklist.all()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'. Did you mean: 'bandwidth_whitelist'?
+2025-05-27 14:04:58 - blacklist.bandwidth - ERROR - Error retrieving blacklist: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_bandwidth.py", line 163, in get_blacklist_ips
+    blacklist_entries = db_client.bandwidth_blacklist.all()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'. Did you mean: 'bandwidth_whitelist'?
+2025-05-27 14:05:26 - blacklist.bandwidth - ERROR - Error retrieving blacklist: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_bandwidth.py", line 163, in get_blacklist_ips
+    blacklist_entries = db_client.bandwidth_blacklist.all()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'. Did you mean: 'bandwidth_whitelist'?
+2025-05-27 14:05:32 - blacklist.bandwidth - ERROR - Error retrieving blacklist: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_bandwidth.py", line 163, in get_blacklist_ips
+    blacklist_entries = db_client.bandwidth_blacklist.all()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'. Did you mean: 'bandwidth_whitelist'?
+2025-05-27 14:09:44 - blacklist.bandwidth - ERROR - Error retrieving blacklist: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_bandwidth.py", line 163, in get_blacklist_ips
+    blacklist_entries = db_client.bandwidth_blacklist.all()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'. Did you mean: 'bandwidth_whitelist'?
+2025-05-27 14:10:06 - blacklist.bandwidth - ERROR - Error removing device from blacklist: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_bandwidth.py", line 427, in remove_from_blacklist
+    removed = db_client.bandwidth_blacklist.remove(Device.ip == ip)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'. Did you mean: 'bandwidth_whitelist'?
+2025-05-27 14:10:06 - blacklist.endpoints - ERROR - Error removing device from blacklist: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\blacklist.py", line 75, in remove_from_blacklist_route
+    remove_from_blacklist(ip)
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_bandwidth.py", line 427, in remove_from_blacklist
+    removed = db_client.bandwidth_blacklist.remove(Device.ip == ip)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'. Did you mean: 'bandwidth_whitelist'?
+2025-05-27 14:10:14 - blacklist.bandwidth - ERROR - Error retrieving blacklist: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_bandwidth.py", line 163, in get_blacklist_ips
+    blacklist_entries = db_client.bandwidth_blacklist.all()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'. Did you mean: 'bandwidth_whitelist'?
+2025-05-27 14:10:20 - blacklist.bandwidth - ERROR - Error adding device to blacklist: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_bandwidth.py", line 308, in add_single_device_to_blacklist
+    db_client.bandwidth_blacklist.insert(entry)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'. Did you mean: 'bandwidth_whitelist'?
+2025-05-27 14:10:20 - blacklist.endpoints - ERROR - Error adding device to blacklist: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\blacklist.py", line 50, in add_to_blacklist_route
+    device_added = add_single_device_to_blacklist(ip)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_bandwidth.py", line 308, in add_single_device_to_blacklist
+    db_client.bandwidth_blacklist.insert(entry)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TinyDBClient' object has no attribute 'bandwidth_blacklist'. Did you mean: 'bandwidth_whitelist'?
+2025-05-27 14:34:18 - migrations.migrate_to_mac_primary - ERROR - Error migrating devices table: 'TinyDBClient' object has no attribute 'table'
+2025-05-27 14:34:18 - migrations.migrate_to_mac_primary - ERROR - Migration failed: Devices table
+2025-05-27 14:34:18 - __main__ - ERROR - Migration failed

@@ -6,11 +6,16 @@ from services.blacklist_bandwidth import (
     update_blacklist_limit_rate,
     update_blacklist_full_rate,
     activate_blacklist_mode,
-    deactivate_blacklist_mode
+    deactivate_blacklist_mode,
+    remove_from_blacklist,
+    add_to_blacklist,
+    get_blacklist,
+    clear_blacklist
 )
 from services.bandwidth_mode import set_mode, get_current_mode
 from utils.response_helpers import success, error
 from utils.logging_config import get_logger
+from db.device_repository import get_mac_from_ip
 
 # Get logger for blacklist endpoints
 logger = get_logger('blacklist.endpoints')
@@ -19,72 +24,81 @@ blacklist_bp = Blueprint('blacklist', __name__)
 
 @blacklist_bp.route('/blacklist', methods=['GET'])
 def get_blacklist_route():
+    """Get the current blacklist"""
     try:
-        logger.info("Getting blacklist devices")
-        blacklist = get_blacklist_ips()
-        logger.info(f"Found {len(blacklist)} devices in blacklist")
-        return jsonify(success(data=blacklist))
+        blacklist = get_blacklist()
+        return jsonify({'success': True, 'blacklist': blacklist})
     except Exception as e:
         logger.error(f"Error getting blacklist: {str(e)}", exc_info=True)
-        return jsonify(error(message=str(e)))
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 @blacklist_bp.route('/blacklist', methods=['POST'])
 def add_to_blacklist_route():
-    data = request.json
-    ip = data.get('ip')
-    name = data.get('name', None)
-    description = data.get('description', None)
-    
-    logger.info(f"Adding device {ip} to blacklist with name: {name}")
-    
+    """Add a device to the blacklist"""
     try:
-        # Check if we're in blacklist mode
-        current_mode = get_current_mode()
-        if current_mode != "blacklist":
-            # Switch to blacklist mode
-            set_mode("blacklist")
-            activate_blacklist_mode()
+        data = request.get_json()
+        if not data or 'ip' not in data:
+            return jsonify({'success': False, 'error': 'IP address is required'}), 400
+            
+        ip = data['ip']
+        name = data.get('name')
+        description = data.get('description')
         
-        # Add to traffic control
-        device_added = add_single_device_to_blacklist(ip)
-        if not device_added:
-            logger.warning(f"Failed to add {ip} to traffic control")
-            return jsonify(success(
-                message=f"Device {ip} added to blacklist but traffic control update failed"
-            ))
+        # Get MAC address for the IP
+        mac = get_mac_from_ip(ip)
+        if not mac:
+            return jsonify({'success': False, 'error': 'Device not found in network'}), 404
         
-        logger.info(f"Successfully added device {ip} to blacklist")
-        return jsonify(success(message=f"Device {ip} added to blacklist"))
-    except ValueError as e:
-        logger.warning(f"Value error adding device to blacklist: {str(e)}")
-        return jsonify(error(message=str(e)))
+        add_to_blacklist(ip, name, description)
+        return jsonify({'success': True, 'message': f'Device {ip} added to blacklist'})
     except Exception as e:
         logger.error(f"Error adding device to blacklist: {str(e)}", exc_info=True)
-        return jsonify(error(message=f"Failed to add device: {str(e)}"))
+        return jsonify({'success': False, 'error': str(e)}), 500
 
-@blacklist_bp.route('/blacklist', methods=['DELETE'])
-def remove_from_blacklist_route():
-    data = request.json
-    ip = data.get('ip')
-    
-    logger.info(f"Removing device {ip} from blacklist")
-    
+@blacklist_bp.route('/blacklist/<ip>', methods=['DELETE'])
+def remove_from_blacklist_route(ip):
+    """Remove a device from the blacklist"""
     try:
-        device_removed = remove_single_device_from_blacklist(ip)
-        if not device_removed:
-            logger.warning(f"Failed to remove {ip} from traffic control")
-            return jsonify(success(
-                message=f"Device {ip} removed from blacklist but traffic control update failed"
-            ))
-        
-        logger.info(f"Successfully removed device {ip} from blacklist")
-        return jsonify(success(message=f"Device {ip} removed from blacklist"))
-    except ValueError as e:
-        logger.warning(f"Value error removing device from blacklist: {str(e)}")
-        return jsonify(error(message=str(e)))
+        # Get MAC address for the IP
+        mac = get_mac_from_ip(ip)
+        if not mac:
+            return jsonify({'success': False, 'error': 'Device not found in network'}), 404
+            
+        remove_from_blacklist(ip)
+        return jsonify({'success': True, 'message': f'Device {ip} removed from blacklist'})
     except Exception as e:
         logger.error(f"Error removing device from blacklist: {str(e)}", exc_info=True)
-        return jsonify(error(message=f"Failed to remove device: {str(e)}"))
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@blacklist_bp.route('/blacklist/clear', methods=['POST'])
+def clear_blacklist_route():
+    """Clear all devices from the blacklist"""
+    try:
+        clear_blacklist()
+        return jsonify({'success': True, 'message': 'Blacklist cleared successfully'})
+    except Exception as e:
+        logger.error(f"Error clearing blacklist: {str(e)}", exc_info=True)
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@blacklist_bp.route('/blacklist/activate', methods=['POST'])
+def activate_blacklist_route():
+    """Activate blacklist mode"""
+    try:
+        set_mode('blacklist')
+        return jsonify({'success': True, 'message': 'Blacklist mode activated'})
+    except Exception as e:
+        logger.error(f"Error activating blacklist mode: {str(e)}", exc_info=True)
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@blacklist_bp.route('/blacklist/deactivate', methods=['POST'])
+def deactivate_blacklist_route():
+    """Deactivate blacklist mode"""
+    try:
+        set_mode('none')
+        return jsonify({'success': True, 'message': 'Blacklist mode deactivated'})
+    except Exception as e:
+        logger.error(f"Error deactivating blacklist mode: {str(e)}", exc_info=True)
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 @blacklist_bp.route('/blacklist/mode', methods=['GET'])
 def get_blacklist_mode_route():

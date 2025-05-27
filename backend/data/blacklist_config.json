@@ -1,5 +1,0 @@
-{
-    "Wan_Interface": "eth0",
-    "Limit_Rate": "50mbit",
-    "Full_Rate": "1000mbit"
-} 

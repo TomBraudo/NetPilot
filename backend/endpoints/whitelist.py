@@ -6,12 +6,18 @@ from services.whitelist_bandwidth import (
     update_whitelist_limit_rate,
     update_whitelist_full_rate,
     activate_whitelist_mode,
-    deactivate_whitelist_mode
+    deactivate_whitelist_mode,
+    remove_from_whitelist,
+    get_whitelist,
+    add_to_whitelist,
+    clear_whitelist
 )
 from services.bandwidth_mode import set_mode, get_current_mode
 from utils.response_helpers import success, error
 from utils.logging_config import get_logger
 from db.tinydb_client import db_client
+from tinydb import Query
+from db.device_repository import get_mac_from_ip
 
 # Get logger for whitelist endpoints
 logger = get_logger('whitelist.endpoints')
@@ -20,99 +26,81 @@ whitelist_bp = Blueprint('whitelist', __name__)
 
 @whitelist_bp.route('/whitelist', methods=['GET'])
 def get_whitelist_route():
+    """Get the current whitelist"""
     try:
-        logger.info("Getting whitelist devices")
-        # Get whitelist entries from the database
-        whitelist_entries = db_client.bandwidth_whitelist.all()
-        logger.info(f"Found {len(whitelist_entries)} devices in whitelist")
-        return jsonify(success(data=whitelist_entries))
+        whitelist = get_whitelist()
+        return jsonify({'success': True, 'whitelist': whitelist})
     except Exception as e:
         logger.error(f"Error getting whitelist: {str(e)}", exc_info=True)
-        return jsonify(error(message=str(e)))
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 @whitelist_bp.route('/whitelist', methods=['POST'])
 def add_to_whitelist_route():
-    data = request.json
-    ip = data.get('ip')
-    name = data.get('name', None)
-    description = data.get('description', None)
-    
-    logger.info(f"Adding device {ip} to whitelist with name: {name}")
-    
+    """Add a device to the whitelist"""
     try:
-        # First, add to database
-        entry = db_client.bandwidth_whitelist.insert({
-            'ip': ip,
-            'name': name,
-            'description': description
-        })
+        data = request.get_json()
+        if not data or 'ip' not in data:
+            return jsonify({'success': False, 'error': 'IP address is required'}), 400
+            
+        ip = data['ip']
+        name = data.get('name')
+        description = data.get('description')
         
-        # Check if whitelist mode is active
-        current_mode = get_current_mode()
-        if current_mode == "whitelist":
-            # If whitelist mode is active, update traffic control in real-time
-            logger.info(f"Whitelist mode is active, updating traffic control for {ip}")
-            try:
-                device_added = add_single_device_to_tc(ip)
-                if not device_added:
-                    logger.warning(f"Failed to add {ip} to traffic control")
-                    return jsonify(success(
-                        message=f"Device {ip} added to whitelist but traffic control update failed",
-                        data=entry
-                    ))
-            except Exception as e:
-                logger.error(f"Error updating traffic control: {str(e)}", exc_info=True)
-                return jsonify(success(
-                    message=f"Device {ip} added to whitelist but traffic control update failed: {str(e)}",
-                    data=entry
-                ))
+        # Get MAC address for the IP
+        mac = get_mac_from_ip(ip)
+        if not mac:
+            return jsonify({'success': False, 'error': 'Device not found in network'}), 404
         
-        logger.info(f"Successfully added device {ip} to whitelist")
-        return jsonify(success(message=f"Device {ip} added to whitelist", data=entry))
-    except ValueError as e:
-        logger.warning(f"Value error adding device to whitelist: {str(e)}")
-        return jsonify(error(message=str(e)))
+        add_to_whitelist(ip, name, description)
+        return jsonify({'success': True, 'message': f'Device {ip} added to whitelist'})
     except Exception as e:
         logger.error(f"Error adding device to whitelist: {str(e)}", exc_info=True)
-        return jsonify(error(message=f"Failed to add device: {str(e)}"))
+        return jsonify({'success': False, 'error': str(e)}), 500
 
-@whitelist_bp.route('/whitelist', methods=['DELETE'])
-def remove_from_whitelist_route():
-    data = request.json
-    ip = data.get('ip')
-    
-    logger.info(f"Removing device {ip} from whitelist")
-    
+@whitelist_bp.route('/whitelist/<ip>', methods=['DELETE'])
+def remove_from_whitelist_route(ip):
+    """Remove a device from the whitelist"""
     try:
-        # First, remove from database
-        removed_entry = db_client.bandwidth_whitelist.remove(db_client.bandwidth_whitelist.ip == ip)
-        
-        # Check if whitelist mode is active
-        current_mode = get_current_mode()
-        if current_mode == "whitelist":
-            # If whitelist mode is active, update traffic control in real-time
-            logger.info(f"Whitelist mode is active, removing {ip} from traffic control")
-            try:
-                device_removed = remove_single_device_from_tc(ip)
-                if not device_removed:
-                    logger.warning(f"Failed to remove {ip} from traffic control")
-                    return jsonify(success(
-                        message=f"Device {ip} removed from whitelist but traffic control update failed"
-                    ))
-            except Exception as e:
-                logger.error(f"Error updating traffic control: {str(e)}", exc_info=True)
-                return jsonify(success(
-                    message=f"Device {ip} removed from whitelist but traffic control update failed: {str(e)}"
-                ))
-        
-        logger.info(f"Successfully removed device {ip} from whitelist")
-        return jsonify(success(message=f"Device {ip} removed from whitelist"))
-    except ValueError as e:
-        logger.warning(f"Value error removing device from whitelist: {str(e)}")
-        return jsonify(error(message=str(e)))
+        # Get MAC address for the IP
+        mac = get_mac_from_ip(ip)
+        if not mac:
+            return jsonify({'success': False, 'error': 'Device not found in network'}), 404
+            
+        remove_from_whitelist(ip)
+        return jsonify({'success': True, 'message': f'Device {ip} removed from whitelist'})
     except Exception as e:
         logger.error(f"Error removing device from whitelist: {str(e)}", exc_info=True)
-        return jsonify(error(message=f"Failed to remove device: {str(e)}"))
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@whitelist_bp.route('/whitelist/clear', methods=['POST'])
+def clear_whitelist_route():
+    """Clear all devices from the whitelist"""
+    try:
+        clear_whitelist()
+        return jsonify({'success': True, 'message': 'Whitelist cleared successfully'})
+    except Exception as e:
+        logger.error(f"Error clearing whitelist: {str(e)}", exc_info=True)
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@whitelist_bp.route('/whitelist/activate', methods=['POST'])
+def activate_whitelist_route():
+    """Activate whitelist mode"""
+    try:
+        set_mode('whitelist')
+        return jsonify({'success': True, 'message': 'Whitelist mode activated'})
+    except Exception as e:
+        logger.error(f"Error activating whitelist mode: {str(e)}", exc_info=True)
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@whitelist_bp.route('/whitelist/deactivate', methods=['POST'])
+def deactivate_whitelist_route():
+    """Deactivate whitelist mode"""
+    try:
+        set_mode('none')
+        return jsonify({'success': True, 'message': 'Whitelist mode deactivated'})
+    except Exception as e:
+        logger.error(f"Error deactivating whitelist mode: {str(e)}", exc_info=True)
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 @whitelist_bp.route('/whitelist/mode', methods=['GET'])
 def get_whitelist_mode_route():

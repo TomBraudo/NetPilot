@@ -200,15 +200,12 @@ export default function ControlPage() {
     }
   };
 
-
-
   const handleDeleteDevice = async (deviceToRemove) => {
     if (isWhitelistMode) {
       try {
-        const response = await fetch("http://localhost:5000/whitelist", {
+        const response = await fetch(`http://localhost:5000/whitelist/${deviceToRemove.ip}`, {
           method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ip: deviceToRemove.ip })
+          headers: { "Content-Type": "application/json" }
         });
         
         if (response.ok) {
@@ -227,8 +224,27 @@ export default function ControlPage() {
         alert("Failed to remove device from whitelist");
       }
     } else {
-      setBlacklistedDevices(blacklistedDevices.filter((d) => d.mac !== deviceToRemove.mac));
-      // Call backend to remove from blacklist
+      try {
+        const response = await fetch(`http://localhost:5000/blacklist/${deviceToRemove.ip}`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" }
+        });
+        
+        if (response.ok) {
+          const result = await response.json();
+          if (result.success) {
+            // Remove from local state
+            setBlacklistedDevices(blacklistedDevices.filter((d) => d.ip !== deviceToRemove.ip));
+          } else {
+            alert(`Failed to remove device: ${result.message}`);
+          }
+        } else {
+          alert("Failed to remove device from blacklist");
+        }
+      } catch (error) {
+        console.error("Error removing device from blacklist:", error);
+        alert("Failed to remove device from blacklist");
+      }
     }
   };
 

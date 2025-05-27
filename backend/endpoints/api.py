@@ -6,7 +6,7 @@ from services.network_scanner import scan_network
 from services.router_scanner import scan_network_via_router
 from services.speed_test import run_ookla_speedtest
 from utils.ssh_client import ssh_manager
-from utils.response_helpers import error
+from utils.response_helpers import error, success
 from db.device_repository import get_mac_from_ip
 from db.device_groups_repository import set_rule_for_device, remove_rule_from_device
 
@@ -52,12 +52,13 @@ def block():
     ip = data.get("ip")
     if not ip:
         return error("Missing 'ip' in request body")
+    
     mac = get_mac_from_ip(ip)
-    if mac:
-        # Pass both mac and ip to set_rule_for_device
-        set_rule_for_device(mac, ip, "block", "1")
-    else:
-        return error("Device not found")
+    if not mac:
+        return error("Device not found in network")
+    
+    # Set block rule using MAC
+    set_rule_for_device(mac, ip, "block", "1")
     return jsonify(block_mac_address(ip))
 
 '''
@@ -70,12 +71,13 @@ def unblock():
     ip = data.get("ip")
     if not ip:
         return error("Missing 'ip' in request body")
+    
     mac = get_mac_from_ip(ip)
-    if mac:
-        # Pass both mac and ip to remove_rule_from_device
-        remove_rule_from_device(mac, ip, "block")
-    else:
-        return error("Device not found")
+    if not mac:
+        return error("Device not found in network")
+    
+    # Remove block rule using MAC
+    remove_rule_from_device(mac, ip, "block")
     return jsonify(unblock_mac_address(ip))
 
 '''
@@ -91,14 +93,13 @@ def limit_bandwidth():
         return error("Missing 'ip' or 'bandwidth' in request body")
     
     mac = get_mac_from_ip(ip)
-    if mac:
-        # Pass both mac and ip to set_rule_for_device
-        set_rule_for_device(mac, ip, "limit_bandwidth", limit)
-    else:
-        return error("Device not found")
+    if not mac:
+        return error("Device not found in network")
     
+    # Set bandwidth limit using MAC
+    set_rule_for_device(mac, ip, "limit_bandwidth", limit)
     return jsonify(set_bandwidth_limit(ip, limit))
-    
+
 '''
     API endpoint to remove a bandwidth limit for a device.
     Expects JSON: { "ip": "<ip_address>" }
@@ -111,22 +112,27 @@ def unlimit_bandwidth():
         return error("Missing 'ip' in request body")
     
     mac = get_mac_from_ip(ip)
-    if mac:
-        # Pass both mac and ip to remove_rule_from_device
-        remove_rule_from_device(mac, ip, "limit_bandwidth")
-    else:
-        return error("Device not found")
+    if not mac:
+        return error("Device not found in network")
+    
+    # Remove bandwidth limit using MAC
+    remove_rule_from_device(mac, ip, "limit_bandwidth")
     return jsonify(remove_bandwidth_limit(ip))
 
 '''
     API endpoint to retrieve the bandwidth limit for a device.
-    Expects JSON: { "ip": "<ip_address>" }
+    Expects query param: ?ip=<ip_address>
 '''
 @network_bp.route("/api/get_bandwidth_limit", methods=["GET"])
 def get_limit():
     ip = request.args.get("ip")
     if not ip:
         return error("Missing 'ip' in query parameters")
+    
+    mac = get_mac_from_ip(ip)
+    if not mac:
+        return error("Device not found in network")
+        
     return jsonify(get_bandwidth_limit(ip))
 
 '''

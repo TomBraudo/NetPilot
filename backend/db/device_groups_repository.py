@@ -20,18 +20,18 @@ def init_group_tables():
 
 # Assign a rule to a device, ensuring device and rule exist
 def set_rule_for_device(mac, ip, rule_name, rule_value="0"):
-    """Set a rule for a device."""
+    """Set a rule for a device using MAC as the primary key."""
     try:
         # Check if device exists
         Device = Query()
-        device = db_client.devices.get((Device.mac == mac) & (Device.ip == ip))
+        device = db_client.devices.get(Device.mac == mac)
         
         if not device:
             # Import here to avoid circular import
             from db.device_repository import register_device
             registration_success = register_device(ip, mac, "unknown")
             if not registration_success:
-                raise ValueError(f"Failed to register device with MAC {mac} and IP {ip}")
+                raise ValueError(f"Failed to register device with MAC {mac}")
         
         # Check if rule exists
         rule = db_client.rules.get(Rule.name == rule_name)
@@ -41,7 +41,6 @@ def set_rule_for_device(mac, ip, rule_name, rule_value="0"):
         # Update or insert rule
         existing_rule = db_client.device_rules.get(
             (DeviceRule.mac == mac) & 
-            (DeviceRule.ip == ip) & 
             (DeviceRule.rule_name == rule_name)
         )
         
@@ -49,9 +48,9 @@ def set_rule_for_device(mac, ip, rule_name, rule_value="0"):
             db_client.device_rules.update(
                 {'rule_value': rule_value}, 
                 (DeviceRule.mac == mac) & 
-                (DeviceRule.ip == ip) & 
                 (DeviceRule.rule_name == rule_name)
             )
+            logger.info(f"Updated rule {rule_name} for device {mac}")
         else:
             db_client.device_rules.insert({
                 'mac': mac,
@@ -59,6 +58,7 @@ def set_rule_for_device(mac, ip, rule_name, rule_value="0"):
                 'rule_name': rule_name,
                 'rule_value': rule_value
             })
+            logger.info(f"Added rule {rule_name} for device {mac}")
         
         return True
     except Exception as e:
@@ -67,13 +67,13 @@ def set_rule_for_device(mac, ip, rule_name, rule_value="0"):
 
 # Remove a rule from a device
 def remove_rule_from_device(mac, ip, rule_name):
-    """Remove a rule from a device."""
+    """Remove a rule from a device using MAC as the primary key."""
     try:
         db_client.device_rules.remove(
             (DeviceRule.mac == mac) & 
-            (DeviceRule.ip == ip) & 
             (DeviceRule.rule_name == rule_name)
         )
+        logger.info(f"Removed rule {rule_name} from device {mac}")
         return True
     except Exception as e:
         logger.error(f"Error removing rule from device: {e}")
@@ -185,47 +185,25 @@ def move_device_to_group(mac, ip, group_name):
         return False
 
 def get_rules_for_device(mac, ip):
-    """Get all rules for a device."""
+    """Get all rules for a device using MAC as the primary key."""
     try:
-        rules = db_client.device_rules.search(
-            (DeviceRule.mac == mac) & (DeviceRule.ip == ip)
-        )
-        return [(rule['rule_name'], rule['rule_value']) for rule in rules]
+        return db_client.device_rules.search(DeviceRule.mac == mac)
     except Exception as e:
-        logger.error(f"Error getting rules for device: {e}")
+        logger.error(f"Error getting device rules: {e}")
         return []
 
 def get_all_groups():
     """Get all device groups."""
     try:
-        groups = db_client.device_groups.all()
-        return [group['name'] for group in groups]
+        return db_client.device_groups.all()
     except Exception as e:
-        logger.error(f"Error getting all groups: {e}")
+        logger.error(f"Error getting groups: {e}")
         return []
     
-def get_group_members(group_name):
+def get_group_members(group_id):
     """Get all members of a group."""
     try:
-        # Get group ID
-        group = db_client.device_groups.get(Group.name == group_name)
-        if not group:
-            return []
-        
-        # Get all members
-        members = db_client.group_members.search(GroupMember.group_id == group.doc_id)
-        
-        # Get device details for each member
-        Device = Query()
-        result = []
-        for member in members:
-            device = db_client.devices.get(
-                (Device.mac == member['mac']) & (Device.ip == member['ip'])
-            )
-            if device:
-                result.append((device['mac'], device['ip'], device.get('hostname', 'Unknown')))
-        
-        return result
+        return db_client.group_members.search(GroupMember.group_id == group_id)
     except Exception as e:
         logger.error(f"Error getting group members: {e}")
         return []

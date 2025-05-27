@@ -6,6 +6,7 @@ from utils.path_utils import get_data_folder
 from utils.logging_config import get_logger
 import os
 import json
+from tinydb import Query
 
 # Get logger for whitelist bandwidth service
 logger = get_logger('whitelist.bandwidth')
@@ -280,12 +281,14 @@ def setup_tc_with_iptables(whitelist_ips=None, wan_iface=Wan_Interface, limit_ra
         logger.error(f"Error setting up TC with iptables: {str(e)}", exc_info=True)
         return False
 
-def add_single_device_to_tc(ip):
+def add_single_device_to_tc(ip, name=None, description=None):
     """
     Adds a single device to traffic control rules
     
     Args:
         ip (str): IP address of the device
+        name (str, optional): Name of the device
+        description (str, optional): Description of the device
     
     Returns:
         bool: True if successful
@@ -296,22 +299,45 @@ def add_single_device_to_tc(ip):
     try:
         logger.info(f"Adding device {ip} to traffic control rules")
         
-        # 1. Add iptables marking rules
+        # Get MAC address from database
+        mac = get_mac_from_ip(ip)
+        if not mac:
+            raise ValueError(f"Device with IP {ip} not found in network")
+        
+        # 1. Add to database first
+        from datetime import datetime
+        entry = {
+            'ip': ip,
+            'mac': mac,
+            'name': name or f"Device-{ip}",
+            'description': description or "",
+            'added_at': str(datetime.now())
+        }
+        db_client.bandwidth_whitelist.insert(entry)
+        
+        # 2. Ensure whitelist mode is activated
+        from services.bandwidth_mode import set_mode
+        set_mode('whitelist')
+        
+        # 3. Add iptables marking rules
         run_command(f"iptables -t mangle -A PREROUTING -s {ip} -j MARK --set-mark 99")
         run_command(f"iptables -t mangle -A POSTROUTING -d {ip} -j MARK --set-mark 99")
         
-        # 2. Get all network interfaces
+        # 4. Get all network interfaces
         interfaces = get_all_network_interfaces()
         
-        # 3. Ensure tc filter is set up correctly on each interface
+        # 5. Ensure tc filter is set up correctly on each interface
         for interface in interfaces:
             # Check if the interface has traffic control set up
             output, _ = run_command(f"tc qdisc show dev {interface}")
             if "htb" in output:
                 # Ensure the filter is properly configured
                 run_command(f"tc filter add dev {interface} parent 1: protocol ip handle 99 fw flowid 1:1")
+            else:
+                # If no traffic control is set up, set it up for this interface
+                setup_tc_on_interface(interface, [ip])
         
-        logger.info(f"Device {ip} successfully added to traffic control on all interfaces")
+        logger.info(f"Device {ip} (MAC: {mac}) successfully added to traffic control on all interfaces")
         return True
     except Exception as e:
         logger.error(f"Error adding device to traffic control: {str(e)}", exc_info=True)
@@ -333,6 +359,11 @@ def remove_single_device_from_tc(ip):
     try:
         logger.info(f"Removing device {ip} from traffic control rules")
         
+        # Get MAC address from database
+        mac = get_mac_from_ip(ip)
+        if not mac:
+            raise ValueError(f"Device with IP {ip} not found in network")
+        
         # 1. Remove iptables marking rules
         run_command(f"iptables -t mangle -D PREROUTING -s {ip} -j MARK --set-mark 99 2>/dev/null || true")
         run_command(f"iptables -t mangle -D POSTROUTING -d {ip} -j MARK --set-mark 99 2>/dev/null || true")
@@ -340,7 +371,7 @@ def remove_single_device_from_tc(ip):
         # No need to update tc filters on interfaces since they operate on mark 99,
         # and we've just removed the marking for this IP
         
-        logger.info(f"Device {ip} successfully removed from traffic control")
+        logger.info(f"Device {ip} (MAC: {mac}) successfully removed from traffic control")
         return True
     except Exception as e:
         logger.error(f"Error removing device from traffic control: {str(e)}", exc_info=True)
@@ -388,6 +419,75 @@ def deactivate_whitelist_mode():
     except Exception as e:
         logger.error(f"Error deactivating whitelist mode: {str(e)}", exc_info=True)
         return False
+
+def remove_from_whitelist(ip):
+    """
+    Removes a device from the whitelist database and traffic control if active
+    
+    Args:
+        ip (str): IP address to remove
+        
+    Returns:
+        bool: True if successful
+        
+    Raises:
+        ValueError: If the IP was not found in whitelist
+        Exception: If there was an error removing the device
+    """
+    try:
+        # Get MAC address from database
+        mac = get_mac_from_ip(ip)
+        if not mac:
+            raise ValueError(f"Device with IP {ip} not found in network")
+            
+        # Remove from database
+        Device = Query()
+        removed = db_client.bandwidth_whitelist.remove((Device.ip == ip) & (Device.mac == mac))
+        
+        if not removed:
+            logger.warning(f"Attempted to remove IP {ip} that does not exist in whitelist")
+            raise ValueError(f"Device with IP {ip} not found in whitelist")
+            
+        logger.info(f"Removed device with IP {ip} (MAC: {mac}) from whitelist")
+        return True
+    except Exception as e:
+        logger.error(f"Error removing device from whitelist: {str(e)}", exc_info=True)
+        raise
+
+def clear_whitelist():
+    """
+    Clears all entries from the whitelist database and traffic control if active
+    
+    Returns:
+        bool: True if successful
+        
+    Raises:
+        Exception: If there was an error clearing the whitelist
+    """
+    try:
+        logger.info("Clearing all entries from whitelist")
+        
+        # Clear the whitelist table
+        db_client.bandwidth_whitelist.truncate()
+        
+        # If whitelist mode is active, clear traffic control rules
+        if is_whitelist_mode():
+            logger.info("Whitelist mode is active, clearing traffic control rules")
+            # Clear iptables rules
+            run_command("iptables -t mangle -F")
+            
+            # Get all network interfaces
+            interfaces = get_all_network_interfaces()
+            
+            # Remove traffic control from each interface
+            for interface in interfaces:
+                run_command(f"tc qdisc del dev {interface} root 2>/dev/null || true")
+        
+        logger.info("Successfully cleared whitelist")
+        return True
+    except Exception as e:
+        logger.error(f"Error clearing whitelist: {str(e)}", exc_info=True)
+        raise
 
 def main():
     """

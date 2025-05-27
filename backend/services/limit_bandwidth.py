@@ -1,29 +1,32 @@
 from utils.ssh_client import ssh_manager
 from utils.response_helpers import success, error
-from db.tinydb_client import db_client
+from db.device_repository import get_mac_from_ip
 
 def find_interface_for_ip(target_ip):
     """
-    Finds the correct network interface for a given IP address.
+    Finds the network interface for a given IP address.
     """
     command = f"ip route get {target_ip}"
     output, error = ssh_manager.execute_command(command)
+    
     if error:
-        return None, f"Error finding interface: {error}"
-
-    for line in output.split("\n"):
-        parts = line.split()
-        if target_ip in line:
-            for i, part in enumerate(parts):
-                if part == "dev":
-                    return parts[i + 1], None
-
-    return None, "No interface found."
+        return None, f"Failed to find interface: {error}"
+        
+    # Extract interface name from output
+    parts = output.split()
+    if len(parts) >= 3:
+        return parts[2], None
+    return None, "Interface not found in route output"
 
 def get_bandwidth_limit(target_ip):
     """
     Retrieves the bandwidth limit for a given IP address.
     """
+    # Get MAC address from database
+    mac_address = get_mac_from_ip(target_ip)
+    if not mac_address:
+        return error(f"IP {target_ip} not found in network.")
+
     interface, error = find_interface_for_ip(target_ip)
     if not interface:
         return error(f"Interface not found for {target_ip}")
@@ -64,9 +67,14 @@ def set_bandwidth_limit(target_ip, bandwidth_mbps):
     """
     Sets bandwidth limits for a given IP address.
     """
+    # Get MAC address from database
+    mac_address = get_mac_from_ip(target_ip)
+    if not mac_address:
+        return error(f"IP {target_ip} not found in network.")
+
     interface, error = find_interface_for_ip(target_ip)
     if not interface:
-        return {"error": error}
+        return error(f"Interface not found for {target_ip}")
 
     commands = [
         f"tc qdisc add dev {interface} root handle 1: htb",
@@ -75,7 +83,9 @@ def set_bandwidth_limit(target_ip, bandwidth_mbps):
     ]
 
     for command in commands:
-        ssh_manager.execute_command(command)
+        output, error = ssh_manager.execute_command(command)
+        if error:
+            return error(f"Failed to set bandwidth limit: {error}")
 
     return success(f"Bandwidth limit set to {bandwidth_mbps} Mbps for IP {target_ip}.")
 
@@ -83,6 +93,11 @@ def remove_bandwidth_limit(target_ip):
     """
     Removes bandwidth limits for a given IP address.
     """
+    # Get MAC address from database
+    mac_address = get_mac_from_ip(target_ip)
+    if not mac_address:
+        return error(f"IP {target_ip} not found in network.")
+
     interface, error = find_interface_for_ip(target_ip)
     if not interface:
         return error(f"Interface not found for {target_ip}")
@@ -94,7 +109,9 @@ def remove_bandwidth_limit(target_ip):
     ]
 
     for command in commands:
-        ssh_manager.execute_command(command)
+        output, error = ssh_manager.execute_command(command)
+        if error and "No such file or directory" not in error:
+            return error(f"Failed to remove bandwidth limit: {error}")
 
     return success(f"Bandwidth limit removed for IP {target_ip}.")
 

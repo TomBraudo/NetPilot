@@ -4,6 +4,7 @@ from utils.response_helpers import success, error
 from db.tinydb_client import db_client
 from utils.path_utils import get_data_folder
 from utils.logging_config import get_logger
+from tinydb import Query
 import os
 import json
 
@@ -155,21 +156,18 @@ def get_blacklist_ips():
     Retrieves the blacklist of IPs from the TinyDB database
     
     Returns:
-        list: List of IP addresses
+        list: List of blacklisted device entries
     """
     try:
         # Get blacklist entries directly from the client
         blacklist_entries = db_client.bandwidth_blacklist.all()
         
-        # Extract IPs from entries
-        blacklist_ips = [entry.get('ip') for entry in blacklist_entries if entry.get('ip')]
-        
-        if not blacklist_ips:
+        if not blacklist_entries:
             logger.warning("No IPs found in blacklist")
             return []
             
-        logger.info(f"Found {len(blacklist_ips)} IPs in blacklist")
-        return blacklist_ips
+        logger.info(f"Found {len(blacklist_entries)} IPs in blacklist")
+        return blacklist_entries
     except Exception as e:
         logger.error(f"Error retrieving blacklist: {str(e)}", exc_info=True)
         return []
@@ -247,7 +245,8 @@ def setup_tc_with_iptables(blacklist_ips=None, wan_iface=Wan_Interface, limit_ra
     try:
         # If no blacklist_ips are provided, get them from the database
         if blacklist_ips is None:
-            blacklist_ips = get_blacklist_ips()
+            blacklist_entries = get_blacklist_ips()
+            blacklist_ips = [entry.get('ip') for entry in blacklist_entries if entry.get('ip')]
         
         logger.info(f"Blacklist contains {len(blacklist_ips)} IPs")
         
@@ -280,12 +279,14 @@ def setup_tc_with_iptables(blacklist_ips=None, wan_iface=Wan_Interface, limit_ra
         logger.error(f"Error setting up TC with iptables: {str(e)}", exc_info=True)
         return False
 
-def add_single_device_to_blacklist(ip):
+def add_single_device_to_blacklist(ip, name=None, description=None):
     """
     Adds a single device to blacklist and traffic control rules
     
     Args:
         ip (str): IP address of the device
+        name (str, optional): Name of the device
+        description (str, optional): Description of the device
     
     Returns:
         bool: True if successful
@@ -296,22 +297,45 @@ def add_single_device_to_blacklist(ip):
     try:
         logger.info(f"Adding device {ip} to blacklist and traffic control rules")
         
-        # 1. Add iptables marking rules
+        # Get MAC address from database
+        mac = get_mac_from_ip(ip)
+        if not mac:
+            raise ValueError(f"Device with IP {ip} not found in network")
+        
+        # 1. Add to database first with the same format as whitelist
+        from datetime import datetime
+        entry = {
+            'ip': ip,
+            'mac': mac,
+            'name': name or f"Device-{ip}",
+            'description': description or "",
+            'added_at': str(datetime.now())
+        }
+        db_client.bandwidth_blacklist.insert(entry)
+        
+        # 2. Ensure blacklist mode is activated
+        from services.bandwidth_mode import set_mode
+        set_mode('blacklist')
+        
+        # 3. Add iptables marking rules
         run_command(f"iptables -t mangle -A PREROUTING -s {ip} -j MARK --set-mark 99")
         run_command(f"iptables -t mangle -A POSTROUTING -d {ip} -j MARK --set-mark 99")
         
-        # 2. Get all network interfaces
+        # 4. Get all network interfaces
         interfaces = get_all_network_interfaces()
         
-        # 3. Ensure tc filter is set up correctly on each interface
+        # 5. Ensure tc filter is set up correctly on each interface
         for interface in interfaces:
             # Check if the interface has traffic control set up
             output, _ = run_command(f"tc qdisc show dev {interface}")
             if "htb" in output:
                 # Ensure the filter is properly configured
                 run_command(f"tc filter add dev {interface} parent 1: protocol ip handle 99 fw flowid 1:10")
+            else:
+                # If no traffic control is set up, set it up for this interface
+                setup_tc_on_interface(interface, [ip])
         
-        logger.info(f"Device {ip} successfully added to blacklist and traffic control on all interfaces")
+        logger.info(f"Device {ip} (MAC: {mac}) successfully added to blacklist and traffic control on all interfaces")
         return True
     except Exception as e:
         logger.error(f"Error adding device to blacklist: {str(e)}", exc_info=True)
@@ -333,6 +357,11 @@ def remove_single_device_from_blacklist(ip):
     try:
         logger.info(f"Removing device {ip} from blacklist and traffic control rules")
         
+        # Get MAC address from database
+        mac = get_mac_from_ip(ip)
+        if not mac:
+            raise ValueError(f"Device with IP {ip} not found in network")
+        
         # 1. Remove iptables marking rules
         run_command(f"iptables -t mangle -D PREROUTING -s {ip} -j MARK --set-mark 99 2>/dev/null || true")
         run_command(f"iptables -t mangle -D POSTROUTING -d {ip} -j MARK --set-mark 99 2>/dev/null || true")
@@ -340,7 +369,7 @@ def remove_single_device_from_blacklist(ip):
         # No need to update tc filters on interfaces since they operate on mark 99,
         # and we've just removed the marking for this IP
         
-        logger.info(f"Device {ip} successfully removed from blacklist and traffic control")
+        logger.info(f"Device {ip} (MAC: {mac}) successfully removed from blacklist and traffic control")
         return True
     except Exception as e:
         logger.error(f"Error removing device from blacklist: {str(e)}", exc_info=True)
@@ -388,6 +417,75 @@ def deactivate_blacklist_mode():
     except Exception as e:
         logger.error(f"Error deactivating blacklist mode: {str(e)}", exc_info=True)
         return False
+
+def remove_from_blacklist(ip):
+    """
+    Removes a device from the blacklist database and traffic control if active
+    
+    Args:
+        ip (str): IP address to remove
+        
+    Returns:
+        bool: True if successful
+        
+    Raises:
+        ValueError: If the IP was not found in blacklist
+        Exception: If there was an error removing the device
+    """
+    try:
+        # Get MAC address from database
+        mac = get_mac_from_ip(ip)
+        if not mac:
+            raise ValueError(f"Device with IP {ip} not found in network")
+            
+        # Remove from database
+        Device = Query()
+        removed = db_client.bandwidth_blacklist.remove((Device.ip == ip) & (Device.mac == mac))
+        
+        if not removed:
+            logger.warning(f"Attempted to remove IP {ip} that does not exist in blacklist")
+            raise ValueError(f"Device with IP {ip} not found in blacklist")
+            
+        logger.info(f"Removed device with IP {ip} (MAC: {mac}) from blacklist")
+        return True
+    except Exception as e:
+        logger.error(f"Error removing device from blacklist: {str(e)}", exc_info=True)
+        raise
+
+def clear_blacklist():
+    """
+    Clears all entries from the blacklist database and traffic control if active
+    
+    Returns:
+        bool: True if successful
+        
+    Raises:
+        Exception: If there was an error clearing the blacklist
+    """
+    try:
+        logger.info("Clearing all entries from blacklist")
+        
+        # Clear the blacklist table
+        db_client.bandwidth_blacklist.truncate()
+        
+        # If blacklist mode is active, clear traffic control rules
+        if is_blacklist_mode():
+            logger.info("Blacklist mode is active, clearing traffic control rules")
+            # Clear iptables rules
+            run_command("iptables -t mangle -F")
+            
+            # Get all network interfaces
+            interfaces = get_all_network_interfaces()
+            
+            # Remove traffic control from each interface
+            for interface in interfaces:
+                run_command(f"tc qdisc del dev {interface} root 2>/dev/null || true")
+        
+        logger.info("Successfully cleared blacklist")
+        return True
+    except Exception as e:
+        logger.error(f"Error clearing blacklist: {str(e)}", exc_info=True)
+        raise
 
 def main():
     """

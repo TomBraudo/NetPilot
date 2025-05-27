@@ -20,6 +20,7 @@ from endpoints.api import network_bp
 from endpoints.db import db_bp
 from endpoints.wifi import wifi_bp
 from endpoints.whitelist import whitelist_bp
+from endpoints.blacklist import blacklist_bp
 
 # Function to get the external .env path
 def get_env_path():
@@ -54,6 +55,7 @@ app.register_blueprint(network_bp)
 app.register_blueprint(db_bp)
 app.register_blueprint(wifi_bp)
 app.register_blueprint(whitelist_bp)
+app.register_blueprint(blacklist_bp)
 logger.info("API blueprints registered")
 
 # Function to clean up resources on exit
