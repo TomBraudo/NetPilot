@@ -1203,3 +1203,133 @@ ValueError: Device with IP 192.168.1.122 already in whitelist
 2025-05-27 21:32:17 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
 2025-05-27 21:32:39 - db.blacklist - INFO - Added device 192.168.1.122 to blacklist
 2025-05-27 21:34:16 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
+2025-05-28 17:29:55 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-28 17:29:55 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-28 17:29:55 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-28 17:29:57 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-28 17:29:57 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-28 17:29:57 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-28 17:29:57 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-28 17:29:58 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-28 17:30:19 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 17:30:19 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 17:30:19 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 17:30:45 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 17:30:45 - db.device_repository - INFO - Registering new device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 17:30:45 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 17:30:45 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 17:32:11 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 17:32:11 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 17:32:11 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 17:32:11 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 17:33:43 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 17:33:43 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 17:33:43 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 17:33:43 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 17:34:28 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 17:34:28 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 17:34:28 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 17:34:28 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 17:36:38 - db.blacklist - INFO - Added device 192.168.1.122 to blacklist
+2025-05-28 17:38:44 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
+2025-05-28 17:39:54 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-05-28 17:40:05 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-05-28 17:41:50 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-05-28 17:42:34 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 17:42:34 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 17:42:34 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 17:42:34 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 17:49:22 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 17:49:22 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 17:49:22 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 17:49:22 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 17:58:46 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-05-28 18:06:45 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 18:06:45 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 18:06:45 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 18:06:45 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 18:09:24 - db.tinydb - INFO - TinyDB connections closed
+2025-05-28 18:09:24 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-28 18:09:24 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-28 18:09:24 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-28 18:09:25 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-28 18:09:40 - db.tinydb - INFO - TinyDB connections closed
+2025-05-28 18:09:40 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-28 18:09:40 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-28 18:09:40 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-28 18:09:41 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-28 18:10:26 - db.tinydb - INFO - TinyDB connections closed
+2025-05-28 18:10:26 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-28 18:10:26 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-28 18:10:26 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-28 18:10:27 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-28 18:11:06 - db.tinydb - INFO - TinyDB connections closed
+2025-05-28 18:11:07 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-28 18:11:07 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-28 18:11:07 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-28 18:11:07 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-28 18:12:08 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 18:12:08 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 18:12:08 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 18:12:08 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 18:12:22 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 18:12:22 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 18:12:22 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 18:12:22 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 18:12:44 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-05-28 18:12:51 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-05-28 18:15:23 - db.blacklist - INFO - Added device 192.168.1.122 to blacklist
+2025-05-28 18:16:31 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
+2025-05-28 18:18:36 - db.blacklist - INFO - Added device 192.168.1.122 to blacklist
+2025-05-28 18:19:03 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 18:19:03 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 18:19:03 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 18:19:03 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 18:19:04 - db.blacklist - INFO - Updated blacklist entry for device 192.168.1.122
+2025-05-28 18:24:46 - db.tinydb - INFO - TinyDB connections closed
+2025-05-28 18:24:46 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-28 18:24:46 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-28 18:24:46 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-28 18:24:47 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-28 18:24:56 - db.tinydb - INFO - TinyDB connections closed
+2025-05-28 18:24:56 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-28 18:24:56 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-28 18:24:56 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-28 18:24:57 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-28 18:25:27 - db.whitelist - ERROR - Error retrieving whitelist: Expecting value: line 1 column 1 (char 0)
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 23, in get_whitelist
+    entries = whitelist_table.all()
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\venv\Lib\site-packages\tinydb\table.py", line 237, in all
+    return list(iter(self))
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\venv\Lib\site-packages\tinydb\table.py", line 659, in __iter__
+    for doc_id, doc in self._read_table().items():
+                       ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\venv\Lib\site-packages\tinydb\table.py", line 708, in _read_table
+    tables = self._storage.read()
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\venv\Lib\site-packages\tinydb\middlewares.py", line 99, in read
+    self.cache = self.storage.read()
+                 ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\venv\Lib\site-packages\tinydb\storages.py", line 136, in read
+    return json.load(self._handle)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\AppData\Local\Programs\Python\Python312\Lib\json\__init__.py", line 293, in load
+    return loads(fp.read(),
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\AppData\Local\Programs\Python\Python312\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\AppData\Local\Programs\Python\Python312\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\AppData\Local\Programs\Python\Python312\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2025-05-28 18:25:51 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
+2025-05-28 18:33:10 - db.blacklist - INFO - Added device 192.168.1.122 to blacklist
+2025-05-28 18:34:45 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
+2025-05-28 18:52:01 - db.tinydb - INFO - TinyDB connections closed
+2025-05-28 18:52:01 - db.tinydb - INFO - TinyDB connections closed

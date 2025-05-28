@@ -8,6 +8,8 @@ from services.reset_rules import reset_all_tc_rules
 from tinydb import Query
 # Import the new helper
 from utils.traffic_control_helpers import setup_traffic_rules
+# Import to get hostname from devices table
+from db.device_repository import get_device_by_mac
 
 logger = get_logger('services.whitelist')
 
@@ -24,10 +26,14 @@ def get_whitelist_devices():
         # Format the response
         formatted_devices = []
         for device in devices:
+            # Get the actual hostname from the devices table using MAC address
+            device_info = get_device_by_mac(device.get("mac"))
+            actual_hostname = device_info.get("hostname", "Unknown") if device_info else "Unknown"
+            
             formatted_devices.append({
                 "ip": device.get("ip"),
                 "mac": device.get("mac"),
-                "hostname": device.get("name", "Unknown"),
+                "hostname": actual_hostname,  # Use hostname from devices table
                 "last_seen": device.get("added_at")
             })
             

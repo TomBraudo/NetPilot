@@ -5979,3 +5979,1294 @@ ValueError: Device with IP 192.168.1.122 already in whitelist
 2025-05-27 21:32:39 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:32:39] "POST /blacklist HTTP/1.1" 200 -
 2025-05-27 21:34:16 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
 2025-05-27 21:34:16 - werkzeug - INFO - 127.0.0.1 - - [27/May/2025 21:34:16] "DELETE /blacklist HTTP/1.1" 200 -
+2025-05-28 17:29:55 - root - INFO - Logging initialized at 2025-05-28 17:29:55
+2025-05-28 17:29:55 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-28 17:29:55 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-28 17:29:55 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-28 17:29:55 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-28 17:29:57 - __main__ - INFO - Initializing database tables
+2025-05-28 17:29:57 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-28 17:29:57 - __main__ - INFO - Database tables initialized
+2025-05-28 17:29:57 - __main__ - INFO - Registering API blueprints
+2025-05-28 17:29:57 - __main__ - INFO - API blueprints registered
+2025-05-28 17:29:57 - __main__ - INFO - Starting server on port 5000
+2025-05-28 17:29:57 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-28 17:29:57 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-28 17:29:57 - werkzeug - INFO -  * Restarting with stat
+2025-05-28 17:29:57 - root - INFO - Logging initialized at 2025-05-28 17:29:57
+2025-05-28 17:29:57 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-28 17:29:57 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-28 17:29:57 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-28 17:29:57 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-28 17:29:58 - __main__ - INFO - Initializing database tables
+2025-05-28 17:29:58 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-28 17:29:58 - __main__ - INFO - Database tables initialized
+2025-05-28 17:29:58 - __main__ - INFO - Registering API blueprints
+2025-05-28 17:29:58 - __main__ - INFO - API blueprints registered
+2025-05-28 17:29:58 - __main__ - INFO - Starting server on port 5000
+2025-05-28 17:29:58 - werkzeug - WARNING -  * Debugger is active!
+2025-05-28 17:29:58 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-28 17:30:16 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-28 17:30:16 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-28 17:30:19 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 17:30:19 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 17:30:19 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 17:30:19 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:30:19] "GET /api/scan/router HTTP/1.1" 200 -
+2025-05-28 17:30:45 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 17:30:45 - db.device_repository - INFO - Registering new device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 17:30:45 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 17:30:45 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 17:30:45 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:30:45] "GET /api/scan/router HTTP/1.1" 200 -
+2025-05-28 17:31:33 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:31:33] "[33mGET /api/router_scan HTTP/1.1[0m" 404 -
+2025-05-28 17:32:11 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 17:32:11 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 17:32:11 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 17:32:11 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 17:32:11 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:32:11] "GET /api/scan/router HTTP/1.1" 200 -
+2025-05-28 17:33:43 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 17:33:43 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 17:33:43 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 17:33:43 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 17:33:43 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:33:43] "GET /api/scan/router HTTP/1.1" 200 -
+2025-05-28 17:34:28 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 17:34:28 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 17:34:28 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 17:34:28 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 17:34:28 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:34:28] "GET /api/scan/router HTTP/1.1" 200 -
+2025-05-28 17:35:41 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:35:41] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 17:35:46 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:35:46] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 17:35:59 - utils.config - INFO - Saved mode configuration
+2025-05-28 17:35:59 - services.mode_state - INFO - Updated bandwidth mode to blacklist
+2025-05-28 17:35:59 - services.blacklist - INFO - Applying blacklist TC rules.
+2025-05-28 17:35:59 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: blacklist. Target IPs: 0. Limit: 50mbit, Full: 1000mbit
+2025-05-28 17:35:59 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:35:59 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-28 17:35:59 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:36:00 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-28 17:36:00 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:36:00 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-28 17:36:00 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:36:00 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-28 17:36:00 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:36:01 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-28 17:36:01 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:36:01 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-28 17:36:01 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:36:02 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-28 17:36:02 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:36:02 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-28 17:36:02 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:36:02 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-28 17:36:02 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:36:03 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-28 17:36:03 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode blacklist on all interfaces
+2025-05-28 17:36:03 - services.blacklist - INFO - Blacklist TC rules applied successfully.
+2025-05-28 17:36:03 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:36:03] "POST /blacklist/activate HTTP/1.1" 200 -
+2025-05-28 17:36:38 - db.blacklist - INFO - Added device 192.168.1.122 to blacklist
+2025-05-28 17:36:38 - services.blacklist - INFO - Applying blacklist TC rules.
+2025-05-28 17:36:38 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: blacklist. Target IPs: 1. Limit: 50mbit, Full: 1000mbit
+2025-05-28 17:36:38 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:36:39 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-28 17:36:39 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:36:39 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-28 17:36:39 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:36:40 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-28 17:36:40 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:36:40 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-28 17:36:40 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:36:40 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-28 17:36:40 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:36:41 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-28 17:36:41 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:36:41 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-28 17:36:41 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:36:42 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-28 17:36:42 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:36:42 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-28 17:36:42 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:36:42 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-28 17:36:42 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode blacklist on all interfaces
+2025-05-28 17:36:42 - services.blacklist - INFO - Blacklist TC rules applied successfully.
+2025-05-28 17:36:42 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:36:42] "POST /blacklist HTTP/1.1" 200 -
+2025-05-28 17:38:10 - utils.config - INFO - Saved blacklist configuration
+2025-05-28 17:38:10 - services.blacklist - INFO - Updated blacklist limit rate to 20mbit
+2025-05-28 17:38:10 - services.blacklist - INFO - Applying blacklist TC rules.
+2025-05-28 17:38:10 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: blacklist. Target IPs: 1. Limit: 20mbit, Full: 1000mbit
+2025-05-28 17:38:10 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 17:38:10 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-28 17:38:10 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 17:38:11 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-28 17:38:11 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 17:38:11 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-28 17:38:11 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 17:38:11 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-28 17:38:11 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 17:38:12 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-28 17:38:12 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 17:38:12 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-28 17:38:12 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 17:38:12 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-28 17:38:12 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 17:38:13 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-28 17:38:13 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 17:38:13 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-28 17:38:13 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 17:38:13 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-28 17:38:13 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode blacklist on all interfaces
+2025-05-28 17:38:13 - services.blacklist - INFO - Blacklist TC rules applied successfully.
+2025-05-28 17:38:13 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:38:13] "POST /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 17:38:35 - utils.config - INFO - Saved blacklist configuration
+2025-05-28 17:38:35 - services.blacklist - INFO - Updated blacklist limit rate to 50mbit
+2025-05-28 17:38:35 - services.blacklist - INFO - Applying blacklist TC rules.
+2025-05-28 17:38:35 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: blacklist. Target IPs: 1. Limit: 50mbit, Full: 1000mbit
+2025-05-28 17:38:36 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:38:37 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-28 17:38:37 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:38:37 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-28 17:38:37 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:38:37 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-28 17:38:37 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:38:38 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-28 17:38:38 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:38:38 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-28 17:38:38 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:38:38 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-28 17:38:38 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:38:39 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-28 17:38:39 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:38:39 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-28 17:38:39 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:38:39 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-28 17:38:39 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:38:40 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-28 17:38:40 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode blacklist on all interfaces
+2025-05-28 17:38:40 - services.blacklist - INFO - Blacklist TC rules applied successfully.
+2025-05-28 17:38:40 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:38:40] "POST /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 17:38:44 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
+2025-05-28 17:38:44 - services.blacklist - INFO - Applying blacklist TC rules.
+2025-05-28 17:38:44 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: blacklist. Target IPs: 0. Limit: 50mbit, Full: 1000mbit
+2025-05-28 17:38:44 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:38:44 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-28 17:38:44 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:38:45 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-28 17:38:45 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:38:45 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-28 17:38:45 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:38:46 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-28 17:38:46 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:38:46 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-28 17:38:46 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:38:46 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-28 17:38:46 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:38:47 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-28 17:38:47 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:38:47 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-28 17:38:47 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:38:47 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-28 17:38:47 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:38:48 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-28 17:38:48 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode blacklist on all interfaces
+2025-05-28 17:38:48 - services.blacklist - INFO - Blacklist TC rules applied successfully.
+2025-05-28 17:38:48 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:38:48] "DELETE /blacklist HTTP/1.1" 200 -
+2025-05-28 17:39:38 - utils.config - INFO - Saved mode configuration
+2025-05-28 17:39:38 - services.mode_state - INFO - Updated bandwidth mode to whitelist
+2025-05-28 17:39:38 - services.whitelist - INFO - Applying whitelist TC rules.
+2025-05-28 17:39:38 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: whitelist. Target IPs: 0. Limit: 50mbit, Full: 1000mbit
+2025-05-28 17:39:38 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:39:39 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-28 17:39:39 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:39:39 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-28 17:39:39 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:39:39 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-28 17:39:39 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:39:40 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-28 17:39:40 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:39:40 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-28 17:39:40 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:39:40 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-28 17:39:40 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:39:40 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-28 17:39:40 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:39:41 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-28 17:39:41 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:39:41 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-28 17:39:41 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:39:41 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-28 17:39:41 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode whitelist on all interfaces
+2025-05-28 17:39:41 - services.whitelist - INFO - Whitelist TC rules applied successfully.
+2025-05-28 17:39:41 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:39:41] "POST /whitelist/activate HTTP/1.1" 200 -
+2025-05-28 17:39:54 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-05-28 17:39:54 - services.whitelist - INFO - Applying whitelist TC rules.
+2025-05-28 17:39:54 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: whitelist. Target IPs: 1. Limit: 50mbit, Full: 1000mbit
+2025-05-28 17:39:56 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:39:57 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-28 17:39:57 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:39:57 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-28 17:39:57 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:39:58 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-28 17:39:58 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:39:58 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-28 17:39:58 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:39:59 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-28 17:39:59 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:40:00 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-28 17:40:00 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:40:00 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-28 17:40:00 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:40:01 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-28 17:40:01 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:40:02 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-28 17:40:02 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:40:03 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-28 17:40:03 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode whitelist on all interfaces
+2025-05-28 17:40:03 - services.whitelist - INFO - Whitelist TC rules applied successfully.
+2025-05-28 17:40:03 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:40:03] "POST /whitelist HTTP/1.1" 200 -
+2025-05-28 17:40:05 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-05-28 17:40:05 - services.whitelist - INFO - Applying whitelist TC rules.
+2025-05-28 17:40:05 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: whitelist. Target IPs: 0. Limit: 50mbit, Full: 1000mbit
+2025-05-28 17:40:06 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:40:06 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-28 17:40:06 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:40:06 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-28 17:40:06 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:40:06 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-28 17:40:06 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:40:07 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-28 17:40:07 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:40:07 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-28 17:40:07 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:40:08 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-28 17:40:08 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:40:08 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-28 17:40:08 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:40:08 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-28 17:40:08 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:40:09 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-28 17:40:09 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:40:09 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-28 17:40:09 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode whitelist on all interfaces
+2025-05-28 17:40:09 - services.whitelist - INFO - Whitelist TC rules applied successfully.
+2025-05-28 17:40:09 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:40:09] "DELETE /whitelist HTTP/1.1" 200 -
+2025-05-28 17:40:18 - utils.config - INFO - Saved whitelist configuration
+2025-05-28 17:40:18 - services.whitelist - INFO - Updated whitelist limit rate to 20mbit
+2025-05-28 17:40:18 - services.whitelist - INFO - Applying whitelist TC rules.
+2025-05-28 17:40:18 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: whitelist. Target IPs: 0. Limit: 20mbit, Full: 1000mbit
+2025-05-28 17:40:19 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 17:40:19 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-28 17:40:19 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 17:40:19 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-28 17:40:19 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 17:40:20 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-28 17:40:20 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 17:40:20 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-28 17:40:20 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 17:40:21 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-28 17:40:21 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 17:40:21 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-28 17:40:21 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 17:40:21 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-28 17:40:21 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 17:40:22 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-28 17:40:22 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 17:40:22 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-28 17:40:22 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 17:40:22 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-28 17:40:22 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode whitelist on all interfaces
+2025-05-28 17:40:22 - services.whitelist - INFO - Whitelist TC rules applied successfully.
+2025-05-28 17:40:22 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:40:22] "POST /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 17:41:07 - utils.config - INFO - Saved whitelist configuration
+2025-05-28 17:41:07 - services.whitelist - INFO - Updated whitelist limit rate to 50mbit
+2025-05-28 17:41:07 - services.whitelist - INFO - Applying whitelist TC rules.
+2025-05-28 17:41:07 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: whitelist. Target IPs: 0. Limit: 50mbit, Full: 1000mbit
+2025-05-28 17:41:07 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:41:08 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-28 17:41:08 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:41:08 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-28 17:41:08 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:41:08 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-28 17:41:08 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:41:09 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-28 17:41:09 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:41:09 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-28 17:41:09 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:41:09 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-28 17:41:09 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:41:10 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-28 17:41:10 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:41:10 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-28 17:41:10 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:41:10 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-28 17:41:10 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:41:11 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-28 17:41:11 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode whitelist on all interfaces
+2025-05-28 17:41:11 - services.whitelist - INFO - Whitelist TC rules applied successfully.
+2025-05-28 17:41:11 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:41:11] "POST /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 17:41:50 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-05-28 17:41:50 - services.whitelist - INFO - Applying whitelist TC rules.
+2025-05-28 17:41:50 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: whitelist. Target IPs: 1. Limit: 50mbit, Full: 1000mbit
+2025-05-28 17:41:50 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:41:51 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-28 17:41:51 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:41:51 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-28 17:41:51 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:41:51 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-28 17:41:51 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:41:52 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-28 17:41:52 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:41:52 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-28 17:41:52 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:41:52 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-28 17:41:52 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:41:53 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-28 17:41:53 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:41:53 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-28 17:41:53 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:41:53 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-28 17:41:53 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:41:54 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-28 17:41:54 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode whitelist on all interfaces
+2025-05-28 17:41:54 - services.whitelist - INFO - Whitelist TC rules applied successfully.
+2025-05-28 17:41:54 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:41:54] "POST /whitelist HTTP/1.1" 200 -
+2025-05-28 17:42:34 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 17:42:34 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 17:42:34 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 17:42:34 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 17:42:34 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:42:34] "GET /api/scan/router HTTP/1.1" 200 -
+2025-05-28 17:42:36 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:42:36] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 17:42:36 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:42:36] "[33mGET /whitelist/limit_rate HTTP/1.1[0m" 404 -
+2025-05-28 17:42:36 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:42:36] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 17:42:36 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:42:36] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 17:42:36 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:42:36] "[33mGET /whitelist/limit_rate HTTP/1.1[0m" 404 -
+2025-05-28 17:42:36 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:42:36] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 17:42:44 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:42:44] "OPTIONS /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 17:42:45 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:42:45] "[31m[1mDELETE /whitelist/mode HTTP/1.1[0m" 405 -
+2025-05-28 17:43:44 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:43:44] "[33mGET /api/speed_test HTTP/1.1[0m" 404 -
+2025-05-28 17:49:22 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 17:49:22 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 17:49:22 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 17:49:22 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 17:49:22 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:49:22] "GET /api/scan/router HTTP/1.1" 200 -
+2025-05-28 17:58:46 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-05-28 17:58:46 - services.whitelist - INFO - Applying whitelist TC rules.
+2025-05-28 17:58:46 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: whitelist. Target IPs: 0. Limit: 50mbit, Full: 1000mbit
+2025-05-28 17:58:46 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:58:47 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-28 17:58:47 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:58:47 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-28 17:58:47 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:58:47 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-28 17:58:47 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:58:48 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-28 17:58:48 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:58:48 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-28 17:58:48 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:58:48 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-28 17:58:48 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:58:49 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-28 17:58:49 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:58:49 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-28 17:58:49 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:58:50 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-28 17:58:50 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 17:58:50 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-28 17:58:50 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode whitelist on all interfaces
+2025-05-28 17:58:50 - services.whitelist - INFO - Whitelist TC rules applied successfully.
+2025-05-28 17:58:50 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:58:50] "DELETE /whitelist HTTP/1.1" 200 -
+2025-05-28 17:59:08 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:59:08] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 17:59:08 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:59:08] "[33mGET /whitelist/limit_rate HTTP/1.1[0m" 404 -
+2025-05-28 17:59:08 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:59:08] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 17:59:08 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:59:08] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 17:59:08 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:59:08] "[33mGET /whitelist/limit_rate HTTP/1.1[0m" 404 -
+2025-05-28 17:59:08 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 17:59:08] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:06:45 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 18:06:45 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 18:06:45 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 18:06:45 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 18:06:45 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:06:45] "GET /api/scan/router HTTP/1.1" 200 -
+2025-05-28 18:06:47 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:06:47] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:06:47 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:06:47] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:06:47 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:06:47] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:06:47 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:06:47] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:06:47 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:06:47] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:06:47 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:06:47] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:06:47 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:06:47] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:06:48 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:06:48] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:06:48 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:06:48] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:06:48 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:06:48] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:06:48 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:06:48] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:06:48 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:06:48] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:07:23 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:07:23] "OPTIONS /whitelist/deactivate HTTP/1.1" 200 -
+2025-05-28 18:07:23 - services.reset_rules - INFO - Flushing iptables mangle table.
+2025-05-28 18:07:23 - services.reset_rules - INFO - Successfully flushed iptables mangle table.
+2025-05-28 18:07:23 - services.reset_rules - INFO - Successfully deleted qdisc on eth0 or no qdisc was present. Output: 
+2025-05-28 18:07:23 - services.reset_rules - INFO - Successfully deleted qdisc on wan or no qdisc was present. Output: 
+2025-05-28 18:07:24 - services.reset_rules - INFO - Successfully deleted qdisc on teql0 or no qdisc was present. Output: 
+2025-05-28 18:07:24 - services.reset_rules - INFO - Successfully deleted qdisc on wlan1 or no qdisc was present. Output: 
+2025-05-28 18:07:24 - services.reset_rules - INFO - Successfully deleted qdisc on br-lan or no qdisc was present. Output: 
+2025-05-28 18:07:24 - services.reset_rules - INFO - Successfully deleted qdisc on phy0-ap0 or no qdisc was present. Output: 
+2025-05-28 18:07:24 - utils.config - INFO - Saved mode configuration
+2025-05-28 18:07:24 - services.mode_state - INFO - Updated bandwidth mode to none
+2025-05-28 18:07:24 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:07:24] "POST /whitelist/deactivate HTTP/1.1" 200 -
+2025-05-28 18:07:28 - services.speed_test - ERROR - Error running speed test: Speed test failed: ash: speedtest-cli: not found
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\speed_test.py", line 24, in run_ookla_speedtest
+    raise Exception(f"Speed test failed: {error}")
+Exception: Speed test failed: ash: speedtest-cli: not found
+2025-05-28 18:07:28 - endpoints.network - ERROR - Error running speed test: Speed test failed: ash: speedtest-cli: not found
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\api.py", line 97, in speedtest
+    result = run_ookla_speedtest()
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\speed_test.py", line 24, in run_ookla_speedtest
+    raise Exception(f"Speed test failed: {error}")
+Exception: Speed test failed: ash: speedtest-cli: not found
+2025-05-28 18:07:28 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:07:28] "GET /api/speedtest HTTP/1.1" 200 -
+2025-05-28 18:07:29 - services.speed_test - ERROR - Error running speed test: Speed test failed: ash: speedtest-cli: not found
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\speed_test.py", line 24, in run_ookla_speedtest
+    raise Exception(f"Speed test failed: {error}")
+Exception: Speed test failed: ash: speedtest-cli: not found
+2025-05-28 18:07:29 - endpoints.network - ERROR - Error running speed test: Speed test failed: ash: speedtest-cli: not found
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\api.py", line 97, in speedtest
+    result = run_ookla_speedtest()
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\speed_test.py", line 24, in run_ookla_speedtest
+    raise Exception(f"Speed test failed: {error}")
+Exception: Speed test failed: ash: speedtest-cli: not found
+2025-05-28 18:07:29 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:07:29] "GET /api/speedtest HTTP/1.1" 200 -
+2025-05-28 18:07:38 - services.speed_test - ERROR - Error running speed test: Speed test failed: ash: speedtest-cli: not found
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\speed_test.py", line 24, in run_ookla_speedtest
+    raise Exception(f"Speed test failed: {error}")
+Exception: Speed test failed: ash: speedtest-cli: not found
+2025-05-28 18:07:38 - endpoints.network - ERROR - Error running speed test: Speed test failed: ash: speedtest-cli: not found
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\api.py", line 97, in speedtest
+    result = run_ookla_speedtest()
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\speed_test.py", line 24, in run_ookla_speedtest
+    raise Exception(f"Speed test failed: {error}")
+Exception: Speed test failed: ash: speedtest-cli: not found
+2025-05-28 18:07:38 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:07:38] "GET /api/speedtest HTTP/1.1" 200 -
+2025-05-28 18:09:24 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\speed_test.py', reloading
+2025-05-28 18:09:24 - __main__ - INFO - Cleaning up resources
+2025-05-28 18:09:24 - db.tinydb - INFO - TinyDB connections closed
+2025-05-28 18:09:24 - __main__ - INFO - Resources cleaned up
+2025-05-28 18:09:24 - werkzeug - INFO -  * Restarting with stat
+2025-05-28 18:09:24 - root - INFO - Logging initialized at 2025-05-28 18:09:24
+2025-05-28 18:09:24 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-28 18:09:24 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-28 18:09:24 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-28 18:09:24 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-28 18:09:25 - __main__ - INFO - Initializing database tables
+2025-05-28 18:09:25 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-28 18:09:25 - __main__ - INFO - Database tables initialized
+2025-05-28 18:09:25 - __main__ - INFO - Registering API blueprints
+2025-05-28 18:09:25 - __main__ - INFO - API blueprints registered
+2025-05-28 18:09:25 - __main__ - INFO - Starting server on port 5000
+2025-05-28 18:09:25 - werkzeug - WARNING -  * Debugger is active!
+2025-05-28 18:09:25 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-28 18:09:40 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\speed_test.py', reloading
+2025-05-28 18:09:40 - __main__ - INFO - Cleaning up resources
+2025-05-28 18:09:40 - db.tinydb - INFO - TinyDB connections closed
+2025-05-28 18:09:40 - __main__ - INFO - Resources cleaned up
+2025-05-28 18:09:40 - werkzeug - INFO -  * Restarting with stat
+2025-05-28 18:09:40 - root - INFO - Logging initialized at 2025-05-28 18:09:40
+2025-05-28 18:09:40 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-28 18:09:40 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-28 18:09:40 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-28 18:09:40 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-28 18:09:41 - __main__ - INFO - Initializing database tables
+2025-05-28 18:09:41 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-28 18:09:41 - __main__ - INFO - Database tables initialized
+2025-05-28 18:09:41 - __main__ - INFO - Registering API blueprints
+2025-05-28 18:09:41 - __main__ - INFO - API blueprints registered
+2025-05-28 18:09:41 - __main__ - INFO - Starting server on port 5000
+2025-05-28 18:09:41 - werkzeug - WARNING -  * Debugger is active!
+2025-05-28 18:09:41 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-28 18:10:26 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\speed_test.py', reloading
+2025-05-28 18:10:26 - __main__ - INFO - Cleaning up resources
+2025-05-28 18:10:26 - db.tinydb - INFO - TinyDB connections closed
+2025-05-28 18:10:26 - __main__ - INFO - Resources cleaned up
+2025-05-28 18:10:26 - werkzeug - INFO -  * Restarting with stat
+2025-05-28 18:10:26 - root - INFO - Logging initialized at 2025-05-28 18:10:26
+2025-05-28 18:10:26 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-28 18:10:26 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-28 18:10:26 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-28 18:10:26 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-28 18:10:27 - __main__ - INFO - Initializing database tables
+2025-05-28 18:10:27 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-28 18:10:27 - __main__ - INFO - Database tables initialized
+2025-05-28 18:10:27 - __main__ - INFO - Registering API blueprints
+2025-05-28 18:10:27 - __main__ - INFO - API blueprints registered
+2025-05-28 18:10:27 - __main__ - INFO - Starting server on port 5000
+2025-05-28 18:10:27 - werkzeug - WARNING -  * Debugger is active!
+2025-05-28 18:10:27 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-28 18:11:06 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\speed_test.py', reloading
+2025-05-28 18:11:06 - __main__ - INFO - Cleaning up resources
+2025-05-28 18:11:06 - db.tinydb - INFO - TinyDB connections closed
+2025-05-28 18:11:06 - __main__ - INFO - Resources cleaned up
+2025-05-28 18:11:06 - werkzeug - INFO -  * Restarting with stat
+2025-05-28 18:11:07 - root - INFO - Logging initialized at 2025-05-28 18:11:07
+2025-05-28 18:11:07 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-28 18:11:07 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-28 18:11:07 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-28 18:11:07 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-28 18:11:07 - __main__ - INFO - Initializing database tables
+2025-05-28 18:11:07 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-28 18:11:07 - __main__ - INFO - Database tables initialized
+2025-05-28 18:11:07 - __main__ - INFO - Registering API blueprints
+2025-05-28 18:11:07 - __main__ - INFO - API blueprints registered
+2025-05-28 18:11:07 - __main__ - INFO - Starting server on port 5000
+2025-05-28 18:11:08 - werkzeug - WARNING -  * Debugger is active!
+2025-05-28 18:11:08 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-28 18:11:19 - services.speed_test - INFO - Running speed test locally using speedtest-cli
+2025-05-28 18:11:49 - services.speed_test - INFO - Speed test completed: 552.5 Mbps down, 85.19 Mbps up
+2025-05-28 18:11:49 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:11:49] "GET /api/speedtest HTTP/1.1" 200 -
+2025-05-28 18:12:03 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-28 18:12:03 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-28 18:12:05 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:05] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:12:05 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:05] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:12:05 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:05] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:12:05 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:05] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:12:05 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:05] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:12:05 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:05] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:12:05 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:05] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:12:05 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:05] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:12:05 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:05] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:12:05 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:05] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:12:05 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:05] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:12:05 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:05] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:12:08 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 18:12:08 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 18:12:08 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 18:12:08 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 18:12:08 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:08] "GET /api/scan/router HTTP/1.1" 200 -
+2025-05-28 18:12:22 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 18:12:22 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 18:12:22 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 18:12:22 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 18:12:22 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:22] "GET /api/scan/router HTTP/1.1" 200 -
+2025-05-28 18:12:23 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:23] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:12:23 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:23] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:12:23 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:23] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:12:23 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:23] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:12:23 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:23] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:12:23 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:23] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:12:23 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:23] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:12:24 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:24] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:12:24 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:24] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:12:24 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:24] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:12:24 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:24] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:12:24 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:24] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:12:44 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:44] "OPTIONS /whitelist HTTP/1.1" 200 -
+2025-05-28 18:12:44 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-05-28 18:12:44 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:44] "POST /whitelist HTTP/1.1" 200 -
+2025-05-28 18:12:46 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:46] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:12:47 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:47] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:12:47 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:47] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:12:47 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:47] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:12:47 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:47] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:12:47 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:47] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:12:47 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:47] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:12:47 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:47] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:12:47 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:47] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:12:47 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:47] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:12:47 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:47] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:12:47 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:47] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:12:51 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:51] "OPTIONS /whitelist HTTP/1.1" 200 -
+2025-05-28 18:12:51 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-05-28 18:12:51 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:12:51] "DELETE /whitelist HTTP/1.1" 200 -
+2025-05-28 18:13:01 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:13:01] "[33mOPTIONS /api/blacklist HTTP/1.1[0m" 404 -
+2025-05-28 18:13:09 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:13:09] "[33mOPTIONS /api/blacklist HTTP/1.1[0m" 404 -
+2025-05-28 18:15:23 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:23] "OPTIONS /blacklist HTTP/1.1" 200 -
+2025-05-28 18:15:23 - db.blacklist - INFO - Added device 192.168.1.122 to blacklist
+2025-05-28 18:15:23 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:23] "POST /blacklist HTTP/1.1" 200 -
+2025-05-28 18:15:26 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:26] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:15:26 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:26] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:15:26 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:26] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:15:26 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:26] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:15:26 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:26] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:15:26 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:26] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:15:26 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:26] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:15:26 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:26] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:15:26 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:26] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:15:26 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:26] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:15:26 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:26] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:15:26 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:26] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:15:45 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:45] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:15:45 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:45] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:15:45 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:45] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:15:45 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:45] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:15:45 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:45] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:15:45 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:45] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:15:45 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:45] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:15:45 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:45] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:15:45 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:45] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:15:45 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:45] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:15:45 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:45] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:15:45 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:45] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:15:58 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:58] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:15:58 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:58] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:15:58 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:58] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:15:58 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:58] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:15:58 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:58] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:15:58 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:58] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:15:59 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:59] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:15:59 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:59] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:15:59 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:59] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:15:59 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:59] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:15:59 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:59] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:15:59 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:15:59] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:16:30 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:16:30] "OPTIONS /blacklist HTTP/1.1" 200 -
+2025-05-28 18:16:31 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
+2025-05-28 18:16:31 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:16:31] "DELETE /blacklist HTTP/1.1" 200 -
+2025-05-28 18:18:36 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:36] "OPTIONS /blacklist HTTP/1.1" 200 -
+2025-05-28 18:18:36 - db.blacklist - INFO - Added device 192.168.1.122 to blacklist
+2025-05-28 18:18:36 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:36] "POST /blacklist HTTP/1.1" 200 -
+2025-05-28 18:18:38 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:38] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:18:38 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:38] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:18:38 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:38] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:18:39 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:39] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:18:39 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:39] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:18:39 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:39] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:18:39 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:39] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:18:39 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:39] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:18:39 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:39] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:18:39 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:39] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:18:39 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:39] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:18:39 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:39] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:18:44 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:44] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:18:44 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:44] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:18:44 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:44] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:18:44 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:44] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:18:44 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:44] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:18:44 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:44] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:18:44 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:44] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:18:44 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:44] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:18:44 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:44] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:18:44 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:44] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:18:44 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:44] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:18:44 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:18:44] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:19:03 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 18:19:03 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 18:19:03 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 18:19:03 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 18:19:03 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:19:03] "GET /api/scan/router HTTP/1.1" 200 -
+2025-05-28 18:19:04 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:19:04] "OPTIONS /blacklist HTTP/1.1" 200 -
+2025-05-28 18:19:04 - db.blacklist - INFO - Updated blacklist entry for device 192.168.1.122
+2025-05-28 18:19:04 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:19:04] "POST /blacklist HTTP/1.1" 200 -
+2025-05-28 18:19:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:19:06] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:19:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:19:06] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:19:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:19:06] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:19:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:19:06] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:19:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:19:06] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:19:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:19:06] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:19:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:19:06] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:19:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:19:06] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:19:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:19:06] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:19:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:19:06] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:19:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:19:06] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:19:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:19:06] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:24:46 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\whitelist_service.py', reloading
+2025-05-28 18:24:46 - __main__ - INFO - Cleaning up resources
+2025-05-28 18:24:46 - db.tinydb - INFO - TinyDB connections closed
+2025-05-28 18:24:46 - __main__ - INFO - Resources cleaned up
+2025-05-28 18:24:46 - werkzeug - INFO -  * Restarting with stat
+2025-05-28 18:24:46 - root - INFO - Logging initialized at 2025-05-28 18:24:46
+2025-05-28 18:24:46 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-28 18:24:46 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-28 18:24:46 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-28 18:24:46 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-28 18:24:47 - __main__ - INFO - Initializing database tables
+2025-05-28 18:24:47 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-28 18:24:47 - __main__ - INFO - Database tables initialized
+2025-05-28 18:24:47 - __main__ - INFO - Registering API blueprints
+2025-05-28 18:24:47 - __main__ - INFO - API blueprints registered
+2025-05-28 18:24:47 - __main__ - INFO - Starting server on port 5000
+2025-05-28 18:24:47 - werkzeug - WARNING -  * Debugger is active!
+2025-05-28 18:24:47 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-28 18:24:56 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\blacklist_service.py', reloading
+2025-05-28 18:24:56 - __main__ - INFO - Cleaning up resources
+2025-05-28 18:24:56 - db.tinydb - INFO - TinyDB connections closed
+2025-05-28 18:24:56 - __main__ - INFO - Resources cleaned up
+2025-05-28 18:24:56 - werkzeug - INFO -  * Restarting with stat
+2025-05-28 18:24:56 - root - INFO - Logging initialized at 2025-05-28 18:24:56
+2025-05-28 18:24:56 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-28 18:24:56 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-28 18:24:56 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-28 18:24:56 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-28 18:24:57 - __main__ - INFO - Initializing database tables
+2025-05-28 18:24:57 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-28 18:24:57 - __main__ - INFO - Database tables initialized
+2025-05-28 18:24:57 - __main__ - INFO - Registering API blueprints
+2025-05-28 18:24:57 - __main__ - INFO - API blueprints registered
+2025-05-28 18:24:57 - __main__ - INFO - Starting server on port 5000
+2025-05-28 18:24:57 - werkzeug - WARNING -  * Debugger is active!
+2025-05-28 18:24:57 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-28 18:25:27 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:25:27] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:25:27 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:25:27] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:25:27 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:25:27] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:25:27 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:25:27] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:25:27 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:25:27] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:25:27 - db.whitelist - ERROR - Error retrieving whitelist: Expecting value: line 1 column 1 (char 0)
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 23, in get_whitelist
+    entries = whitelist_table.all()
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\venv\Lib\site-packages\tinydb\table.py", line 237, in all
+    return list(iter(self))
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\venv\Lib\site-packages\tinydb\table.py", line 659, in __iter__
+    for doc_id, doc in self._read_table().items():
+                       ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\venv\Lib\site-packages\tinydb\table.py", line 708, in _read_table
+    tables = self._storage.read()
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\venv\Lib\site-packages\tinydb\middlewares.py", line 99, in read
+    self.cache = self.storage.read()
+                 ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\venv\Lib\site-packages\tinydb\storages.py", line 136, in read
+    return json.load(self._handle)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\AppData\Local\Programs\Python\Python312\Lib\json\__init__.py", line 293, in load
+    return loads(fp.read(),
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\AppData\Local\Programs\Python\Python312\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\AppData\Local\Programs\Python\Python312\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\AppData\Local\Programs\Python\Python312\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2025-05-28 18:25:27 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:25:27] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:25:28 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:25:28] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:25:28 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:25:28] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:25:28 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:25:28] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:25:28 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:25:28] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:25:28 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:25:28] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:25:28 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:25:28] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:25:51 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:25:51] "OPTIONS /blacklist HTTP/1.1" 200 -
+2025-05-28 18:25:51 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
+2025-05-28 18:25:51 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:25:51] "DELETE /blacklist HTTP/1.1" 200 -
+2025-05-28 18:25:54 - services.speed_test - INFO - Running speed test locally using speedtest-cli
+2025-05-28 18:26:21 - services.speed_test - INFO - Speed test completed: 501.95 Mbps down, 88.65 Mbps up
+2025-05-28 18:26:21 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:26:21] "GET /api/speedtest HTTP/1.1" 200 -
+2025-05-28 18:30:05 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:30:05] "OPTIONS /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:30:06 - utils.config - INFO - Saved whitelist configuration
+2025-05-28 18:30:06 - services.whitelist - INFO - Updated whitelist limit rate to 20mbit
+2025-05-28 18:30:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:30:06] "POST /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:30:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:30:06] "OPTIONS /whitelist/activate HTTP/1.1" 200 -
+2025-05-28 18:30:06 - utils.config - INFO - Saved mode configuration
+2025-05-28 18:30:06 - services.mode_state - INFO - Updated bandwidth mode to whitelist
+2025-05-28 18:30:06 - services.whitelist - INFO - Applying whitelist TC rules.
+2025-05-28 18:30:06 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: whitelist. Target IPs: 0. Limit: 20mbit, Full: 1000mbit
+2025-05-28 18:30:06 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-28 18:30:06 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-28 18:30:06 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:30:07 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-28 18:30:07 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:30:07 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-28 18:30:07 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:30:07 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-28 18:30:07 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:30:07 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-28 18:30:07 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:30:08 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-28 18:30:08 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:30:08 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-28 18:30:08 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:30:08 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-28 18:30:08 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:30:09 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-28 18:30:09 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:30:09 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-28 18:30:09 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:30:09 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-28 18:30:09 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode whitelist on all interfaces
+2025-05-28 18:30:09 - services.whitelist - INFO - Whitelist TC rules applied successfully.
+2025-05-28 18:30:09 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:30:09] "POST /whitelist/activate HTTP/1.1" 200 -
+2025-05-28 18:30:12 - services.speed_test - INFO - Running speed test locally using speedtest-cli
+2025-05-28 18:30:46 - services.speed_test - INFO - Speed test completed: 17.74 Mbps down, 18.17 Mbps up
+2025-05-28 18:30:46 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:30:46] "GET /api/speedtest HTTP/1.1" 200 -
+2025-05-28 18:31:24 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:31:24] "OPTIONS /whitelist/deactivate HTTP/1.1" 200 -
+2025-05-28 18:31:24 - services.reset_rules - INFO - Flushing iptables mangle table.
+2025-05-28 18:31:24 - services.reset_rules - INFO - Successfully flushed iptables mangle table.
+2025-05-28 18:31:24 - services.reset_rules - INFO - Successfully deleted qdisc on eth0 or no qdisc was present. Output: 
+2025-05-28 18:31:24 - services.reset_rules - INFO - Successfully deleted qdisc on wan or no qdisc was present. Output: 
+2025-05-28 18:31:24 - services.reset_rules - INFO - Successfully deleted qdisc on teql0 or no qdisc was present. Output: 
+2025-05-28 18:31:24 - services.reset_rules - INFO - Successfully deleted qdisc on wlan1 or no qdisc was present. Output: 
+2025-05-28 18:31:24 - services.reset_rules - INFO - Successfully deleted qdisc on br-lan or no qdisc was present. Output: 
+2025-05-28 18:31:24 - services.reset_rules - INFO - Successfully deleted qdisc on phy0-ap0 or no qdisc was present. Output: 
+2025-05-28 18:31:24 - utils.config - INFO - Saved mode configuration
+2025-05-28 18:31:24 - services.mode_state - INFO - Updated bandwidth mode to none
+2025-05-28 18:31:24 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:31:24] "POST /whitelist/deactivate HTTP/1.1" 200 -
+2025-05-28 18:31:45 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:31:45] "OPTIONS /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:31:46 - utils.config - INFO - Saved blacklist configuration
+2025-05-28 18:31:46 - services.blacklist - INFO - Updated blacklist limit rate to 20mbit
+2025-05-28 18:31:46 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:31:46] "POST /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:31:46 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:31:46] "OPTIONS /blacklist/activate HTTP/1.1" 200 -
+2025-05-28 18:31:46 - utils.config - INFO - Saved mode configuration
+2025-05-28 18:31:46 - services.mode_state - INFO - Updated bandwidth mode to blacklist
+2025-05-28 18:31:46 - services.blacklist - INFO - Applying blacklist TC rules.
+2025-05-28 18:31:46 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: blacklist. Target IPs: 0. Limit: 20mbit, Full: 1000mbit
+2025-05-28 18:31:46 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:31:46 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-28 18:31:46 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:31:47 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-28 18:31:47 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:31:47 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-28 18:31:47 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:31:47 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-28 18:31:47 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:31:47 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-28 18:31:47 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:31:48 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-28 18:31:48 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:31:48 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-28 18:31:48 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:31:48 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-28 18:31:48 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:31:49 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-28 18:31:49 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:31:49 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-28 18:31:49 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode blacklist on all interfaces
+2025-05-28 18:31:49 - services.blacklist - INFO - Blacklist TC rules applied successfully.
+2025-05-28 18:31:49 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:31:49] "POST /blacklist/activate HTTP/1.1" 200 -
+2025-05-28 18:32:36 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:32:36] "OPTIONS /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:32:37 - utils.config - INFO - Saved whitelist configuration
+2025-05-28 18:32:37 - services.whitelist - INFO - Updated whitelist limit rate to 20mbit
+2025-05-28 18:32:37 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:32:37] "POST /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:32:37 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:32:37] "OPTIONS /whitelist/activate HTTP/1.1" 200 -
+2025-05-28 18:32:37 - utils.config - INFO - Saved mode configuration
+2025-05-28 18:32:37 - services.mode_state - INFO - Updated bandwidth mode to whitelist
+2025-05-28 18:32:37 - services.whitelist - INFO - Applying whitelist TC rules.
+2025-05-28 18:32:37 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: whitelist. Target IPs: 0. Limit: 20mbit, Full: 1000mbit
+2025-05-28 18:32:37 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:32:37 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-28 18:32:37 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:32:37 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-28 18:32:37 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:32:38 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-28 18:32:38 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:32:38 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-28 18:32:38 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:32:38 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-28 18:32:38 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:32:38 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-28 18:32:38 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:32:39 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-28 18:32:39 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:32:39 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-28 18:32:39 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:32:39 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-28 18:32:39 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:32:39 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-28 18:32:39 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode whitelist on all interfaces
+2025-05-28 18:32:39 - services.whitelist - INFO - Whitelist TC rules applied successfully.
+2025-05-28 18:32:39 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:32:39] "POST /whitelist/activate HTTP/1.1" 200 -
+2025-05-28 18:32:39 - services.reset_rules - INFO - Flushing iptables mangle table.
+2025-05-28 18:32:39 - services.reset_rules - INFO - Successfully flushed iptables mangle table.
+2025-05-28 18:32:39 - services.reset_rules - INFO - Successfully deleted qdisc on eth0 or no qdisc was present. Output: 
+2025-05-28 18:32:40 - services.reset_rules - INFO - Successfully deleted qdisc on wan or no qdisc was present. Output: 
+2025-05-28 18:32:40 - services.reset_rules - INFO - Successfully deleted qdisc on teql0 or no qdisc was present. Output: 
+2025-05-28 18:32:40 - services.reset_rules - INFO - Successfully deleted qdisc on wlan1 or no qdisc was present. Output: 
+2025-05-28 18:32:40 - services.reset_rules - INFO - Successfully deleted qdisc on br-lan or no qdisc was present. Output: 
+2025-05-28 18:32:40 - services.reset_rules - INFO - Successfully deleted qdisc on phy0-ap0 or no qdisc was present. Output: 
+2025-05-28 18:32:40 - utils.config - INFO - Saved mode configuration
+2025-05-28 18:32:40 - services.mode_state - INFO - Updated bandwidth mode to none
+2025-05-28 18:32:40 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:32:40] "POST /blacklist/deactivate HTTP/1.1" 200 -
+2025-05-28 18:32:43 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:32:43] "OPTIONS /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:32:43 - utils.config - INFO - Saved blacklist configuration
+2025-05-28 18:32:43 - services.blacklist - INFO - Updated blacklist limit rate to 20mbit
+2025-05-28 18:32:43 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:32:43] "POST /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:32:43 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:32:43] "OPTIONS /blacklist/activate HTTP/1.1" 200 -
+2025-05-28 18:32:43 - utils.config - INFO - Saved mode configuration
+2025-05-28 18:32:43 - services.mode_state - INFO - Updated bandwidth mode to blacklist
+2025-05-28 18:32:43 - services.blacklist - INFO - Applying blacklist TC rules.
+2025-05-28 18:32:43 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: blacklist. Target IPs: 0. Limit: 20mbit, Full: 1000mbit
+2025-05-28 18:32:43 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:32:44 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-28 18:32:44 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:32:44 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-28 18:32:44 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:32:45 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-28 18:32:45 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:32:45 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-28 18:32:45 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:32:45 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-28 18:32:45 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:32:46 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-28 18:32:46 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:32:46 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-28 18:32:46 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:32:46 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-28 18:32:46 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:32:47 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-28 18:32:47 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:32:47 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-28 18:32:47 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode blacklist on all interfaces
+2025-05-28 18:32:47 - services.blacklist - INFO - Blacklist TC rules applied successfully.
+2025-05-28 18:32:47 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:32:47] "POST /blacklist/activate HTTP/1.1" 200 -
+2025-05-28 18:32:47 - services.reset_rules - INFO - Flushing iptables mangle table.
+2025-05-28 18:32:47 - services.reset_rules - INFO - Successfully flushed iptables mangle table.
+2025-05-28 18:32:47 - services.reset_rules - INFO - Successfully deleted qdisc on eth0 or no qdisc was present. Output: 
+2025-05-28 18:32:47 - services.reset_rules - INFO - Successfully deleted qdisc on wan or no qdisc was present. Output: 
+2025-05-28 18:32:47 - services.reset_rules - INFO - Successfully deleted qdisc on teql0 or no qdisc was present. Output: 
+2025-05-28 18:32:47 - services.reset_rules - INFO - Successfully deleted qdisc on wlan1 or no qdisc was present. Output: 
+2025-05-28 18:32:47 - services.reset_rules - INFO - Successfully deleted qdisc on br-lan or no qdisc was present. Output: 
+2025-05-28 18:32:47 - services.reset_rules - INFO - Successfully deleted qdisc on phy0-ap0 or no qdisc was present. Output: 
+2025-05-28 18:32:47 - utils.config - INFO - Saved mode configuration
+2025-05-28 18:32:47 - services.mode_state - INFO - Updated bandwidth mode to none
+2025-05-28 18:32:47 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:32:47] "POST /whitelist/deactivate HTTP/1.1" 200 -
+2025-05-28 18:33:10 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:33:10] "OPTIONS /blacklist HTTP/1.1" 200 -
+2025-05-28 18:33:10 - db.blacklist - INFO - Added device 192.168.1.122 to blacklist
+2025-05-28 18:33:10 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:33:10] "POST /blacklist HTTP/1.1" 200 -
+2025-05-28 18:33:26 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:33:26] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:33:26 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:33:26] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:33:26 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:33:26] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:33:26 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:33:26] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:33:26 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:33:26] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:33:26 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:33:26] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:33:26 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:33:26] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:33:26 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:33:26] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:33:26 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:33:26] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:33:26 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:33:26] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:33:26 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:33:26] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:33:26 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:33:26] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:33:37 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:33:37] "OPTIONS /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:33:38 - utils.config - INFO - Saved blacklist configuration
+2025-05-28 18:33:38 - services.blacklist - INFO - Updated blacklist limit rate to 20mbit
+2025-05-28 18:33:38 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:33:38] "POST /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:33:38 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:33:38] "OPTIONS /blacklist/activate HTTP/1.1" 200 -
+2025-05-28 18:33:38 - utils.config - INFO - Saved mode configuration
+2025-05-28 18:33:38 - services.mode_state - INFO - Updated bandwidth mode to blacklist
+2025-05-28 18:33:38 - services.blacklist - INFO - Applying blacklist TC rules.
+2025-05-28 18:33:38 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: blacklist. Target IPs: 1. Limit: 20mbit, Full: 1000mbit
+2025-05-28 18:33:38 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:33:38 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-28 18:33:38 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:33:39 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-28 18:33:39 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:33:39 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-28 18:33:39 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:33:40 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-28 18:33:40 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:33:40 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-28 18:33:40 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:33:40 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-28 18:33:40 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:33:41 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-28 18:33:41 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:33:41 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-28 18:33:41 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:33:41 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-28 18:33:41 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=20mbit, Full Rate=1000mbit
+2025-05-28 18:33:42 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-28 18:33:42 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode blacklist on all interfaces
+2025-05-28 18:33:42 - services.blacklist - INFO - Blacklist TC rules applied successfully.
+2025-05-28 18:33:42 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:33:42] "POST /blacklist/activate HTTP/1.1" 200 -
+2025-05-28 18:34:05 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:34:05] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:34:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:34:06] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:34:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:34:06] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:34:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:34:06] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:34:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:34:06] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:34:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:34:06] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:34:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:34:06] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:34:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:34:06] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:34:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:34:06] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:34:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:34:06] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:34:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:34:06] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:34:06 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:34:06] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:34:43 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:34:43] "OPTIONS /blacklist/deactivate HTTP/1.1" 200 -
+2025-05-28 18:34:43 - services.reset_rules - INFO - Flushing iptables mangle table.
+2025-05-28 18:34:43 - services.reset_rules - INFO - Successfully flushed iptables mangle table.
+2025-05-28 18:34:43 - services.reset_rules - INFO - Successfully deleted qdisc on eth0 or no qdisc was present. Output: 
+2025-05-28 18:34:43 - services.reset_rules - INFO - Successfully deleted qdisc on wan or no qdisc was present. Output: 
+2025-05-28 18:34:43 - services.reset_rules - INFO - Successfully deleted qdisc on teql0 or no qdisc was present. Output: 
+2025-05-28 18:34:43 - services.reset_rules - INFO - Successfully deleted qdisc on wlan1 or no qdisc was present. Output: 
+2025-05-28 18:34:43 - services.reset_rules - INFO - Successfully deleted qdisc on br-lan or no qdisc was present. Output: 
+2025-05-28 18:34:44 - services.reset_rules - INFO - Successfully deleted qdisc on phy0-ap0 or no qdisc was present. Output: 
+2025-05-28 18:34:44 - utils.config - INFO - Saved mode configuration
+2025-05-28 18:34:44 - services.mode_state - INFO - Updated bandwidth mode to none
+2025-05-28 18:34:44 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:34:44] "POST /blacklist/deactivate HTTP/1.1" 200 -
+2025-05-28 18:34:45 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:34:45] "OPTIONS /blacklist HTTP/1.1" 200 -
+2025-05-28 18:34:45 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
+2025-05-28 18:34:45 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:34:45] "DELETE /blacklist HTTP/1.1" 200 -
+2025-05-28 18:36:25 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:36:25] "OPTIONS /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:36:25 - utils.config - INFO - Saved blacklist configuration
+2025-05-28 18:36:25 - services.blacklist - INFO - Updated blacklist limit rate to 50mbit
+2025-05-28 18:36:25 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:36:25] "POST /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:36:25 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:36:25] "OPTIONS /blacklist/activate HTTP/1.1" 200 -
+2025-05-28 18:36:25 - utils.config - INFO - Saved mode configuration
+2025-05-28 18:36:25 - services.mode_state - INFO - Updated bandwidth mode to blacklist
+2025-05-28 18:36:25 - services.blacklist - INFO - Applying blacklist TC rules.
+2025-05-28 18:36:25 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: blacklist. Target IPs: 0. Limit: 50mbit, Full: 1000mbit
+2025-05-28 18:36:25 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:36:26 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-28 18:36:26 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:36:26 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-28 18:36:26 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:36:27 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-28 18:36:27 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:36:27 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-28 18:36:27 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:36:27 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-28 18:36:27 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:36:28 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-28 18:36:28 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:36:28 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-28 18:36:28 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:36:28 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-28 18:36:28 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:36:29 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-28 18:36:29 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:36:29 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-28 18:36:29 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode blacklist on all interfaces
+2025-05-28 18:36:29 - services.blacklist - INFO - Blacklist TC rules applied successfully.
+2025-05-28 18:36:29 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:36:29] "POST /blacklist/activate HTTP/1.1" 200 -
+2025-05-28 18:39:17 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:39:17] "OPTIONS /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:39:17 - utils.config - INFO - Saved whitelist configuration
+2025-05-28 18:39:17 - services.whitelist - INFO - Updated whitelist limit rate to 50mbit
+2025-05-28 18:39:17 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:39:17] "POST /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:39:17 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:39:17] "OPTIONS /whitelist/activate HTTP/1.1" 200 -
+2025-05-28 18:39:17 - utils.config - INFO - Saved mode configuration
+2025-05-28 18:39:17 - services.mode_state - INFO - Updated bandwidth mode to whitelist
+2025-05-28 18:39:17 - services.whitelist - INFO - Applying whitelist TC rules.
+2025-05-28 18:39:17 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: whitelist. Target IPs: 0. Limit: 50mbit, Full: 1000mbit
+2025-05-28 18:39:17 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:39:18 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-28 18:39:18 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:39:18 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-28 18:39:18 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:39:18 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-28 18:39:18 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:39:19 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-28 18:39:19 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:39:19 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-28 18:39:19 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:39:19 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-28 18:39:19 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:39:20 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-28 18:39:20 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:39:20 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-28 18:39:20 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:39:20 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-28 18:39:20 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:39:21 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-28 18:39:21 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode whitelist on all interfaces
+2025-05-28 18:39:21 - services.whitelist - INFO - Whitelist TC rules applied successfully.
+2025-05-28 18:39:21 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:39:21] "POST /whitelist/activate HTTP/1.1" 200 -
+2025-05-28 18:39:21 - services.reset_rules - INFO - Flushing iptables mangle table.
+2025-05-28 18:39:21 - services.reset_rules - INFO - Successfully flushed iptables mangle table.
+2025-05-28 18:39:21 - services.reset_rules - INFO - Successfully deleted qdisc on eth0 or no qdisc was present. Output: 
+2025-05-28 18:39:21 - services.reset_rules - INFO - Successfully deleted qdisc on wan or no qdisc was present. Output: 
+2025-05-28 18:39:21 - services.reset_rules - INFO - Successfully deleted qdisc on teql0 or no qdisc was present. Output: 
+2025-05-28 18:39:21 - services.reset_rules - INFO - Successfully deleted qdisc on wlan1 or no qdisc was present. Output: 
+2025-05-28 18:39:21 - services.reset_rules - INFO - Successfully deleted qdisc on br-lan or no qdisc was present. Output: 
+2025-05-28 18:39:21 - services.reset_rules - INFO - Successfully deleted qdisc on phy0-ap0 or no qdisc was present. Output: 
+2025-05-28 18:39:21 - utils.config - INFO - Saved mode configuration
+2025-05-28 18:39:21 - services.mode_state - INFO - Updated bandwidth mode to none
+2025-05-28 18:39:21 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:39:21] "POST /blacklist/deactivate HTTP/1.1" 200 -
+2025-05-28 18:39:29 - services.speed_test - INFO - Running speed test locally using speedtest-cli
+2025-05-28 18:39:51 - services.speed_test - INFO - Speed test completed: 591.59 Mbps down, 87.53 Mbps up
+2025-05-28 18:39:51 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:39:51] "GET /api/speedtest HTTP/1.1" 200 -
+2025-05-28 18:40:34 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:40:34] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:43:09 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:43:09] "OPTIONS /whitelist/deactivate HTTP/1.1" 200 -
+2025-05-28 18:43:10 - services.reset_rules - INFO - Flushing iptables mangle table.
+2025-05-28 18:43:10 - services.reset_rules - INFO - Successfully flushed iptables mangle table.
+2025-05-28 18:43:10 - services.reset_rules - ERROR - Error deleting qdisc on eth0: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-28 18:43:10 - services.reset_rules - ERROR - Error deleting qdisc on wan: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-28 18:43:10 - services.reset_rules - ERROR - Error deleting qdisc on teql0: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-28 18:43:10 - services.reset_rules - ERROR - Error deleting qdisc on wlan1: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-28 18:43:10 - services.reset_rules - ERROR - Error deleting qdisc on br-lan: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-28 18:43:10 - services.reset_rules - ERROR - Error deleting qdisc on phy0-ap0: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-28 18:43:10 - utils.config - INFO - Saved mode configuration
+2025-05-28 18:43:10 - services.mode_state - INFO - Updated bandwidth mode to none
+2025-05-28 18:43:10 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:43:10] "POST /whitelist/deactivate HTTP/1.1" 200 -
+2025-05-28 18:43:45 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:43:45] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:43:46 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:43:46] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:43:46 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:43:46] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:43:46 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:43:46] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:43:46 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:43:46] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:43:46 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:43:46] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:43:46 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:43:46] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:43:46 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:43:46] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:43:46 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:43:46] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:43:46 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:43:46] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:43:46 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:43:46] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:43:46 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:43:46] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:44:05 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:05] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:44:05 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:05] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:44:05 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:05] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:44:05 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:05] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:44:05 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:05] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:44:05 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:05] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:44:10 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:10] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:44:10 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:10] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:44:15 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:15] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:44:15 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:15] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:44:20 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:20] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:44:20 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:20] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:44:25 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:25] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:44:25 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:25] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:44:30 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:30] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:44:30 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:30] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:44:35 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:35] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:44:35 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:35] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:44:40 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:40] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:44:40 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:40] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:44:45 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:45] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:44:45 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:45] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:44:50 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:50] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:44:50 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:50] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:44:55 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:55] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:44:55 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:44:55] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:45:00 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:45:00] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:45:00 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:45:00] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:45:05 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:45:05] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:45:05 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:45:05] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:45:10 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:45:10] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:45:10 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:45:10] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:45:15 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:45:15] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:45:15 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:45:15] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:45:20 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:45:20] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:45:20 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:45:20] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:45:25 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:45:25] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:45:25 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:45:25] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:45:30 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:45:30] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:45:30 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:45:30] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:45:35 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:45:35] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:45:35 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:45:35] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:45:40 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:45:40] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:45:40 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:45:40] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:45:45 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:45:45] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:45:45 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:45:45] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:45:53 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:45:53] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:45:53 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:45:53] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:46:53 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:46:53] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:46:53 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:46:53] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:47:53 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:47:53] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:47:53 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:47:53] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:48:53 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:48:53] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:48:53 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:48:53] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:49:53 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:49:53] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:49:53 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:49:53] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:50:25 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:50:25] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:50:25 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:50:25] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:50:25 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:50:25] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:50:25 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:50:25] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:50:25 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:50:25] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:50:25 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:50:25] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:51:09 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:51:09] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:51:09 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:51:09] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:51:09 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:51:09] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:51:09 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:51:09] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:51:09 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:51:09] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:51:09 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:51:09] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:51:09 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:51:09] "GET /whitelist HTTP/1.1" 200 -
+2025-05-28 18:51:09 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:51:09] "GET /blacklist HTTP/1.1" 200 -
+2025-05-28 18:51:09 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:51:09] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-28 18:51:09 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:51:09] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:51:09 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:51:09] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:51:09 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:51:09] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-28 18:51:20 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:51:20] "OPTIONS /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:51:20 - utils.config - INFO - Saved blacklist configuration
+2025-05-28 18:51:20 - services.blacklist - INFO - Updated blacklist limit rate to 50mbit
+2025-05-28 18:51:20 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:51:20] "POST /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:51:20 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:51:20] "OPTIONS /blacklist/activate HTTP/1.1" 200 -
+2025-05-28 18:51:20 - utils.config - INFO - Saved mode configuration
+2025-05-28 18:51:20 - services.mode_state - INFO - Updated bandwidth mode to blacklist
+2025-05-28 18:51:20 - services.blacklist - INFO - Applying blacklist TC rules.
+2025-05-28 18:51:20 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: blacklist. Target IPs: 0. Limit: 50mbit, Full: 1000mbit
+2025-05-28 18:51:20 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:51:21 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-28 18:51:21 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:51:21 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-28 18:51:21 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:51:21 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-28 18:51:21 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:51:22 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-28 18:51:22 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:51:22 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-28 18:51:22 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:51:22 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-28 18:51:22 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:51:23 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-28 18:51:23 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:51:23 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-28 18:51:23 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:51:23 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-28 18:51:23 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:51:24 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-28 18:51:24 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode blacklist on all interfaces
+2025-05-28 18:51:24 - services.blacklist - INFO - Blacklist TC rules applied successfully.
+2025-05-28 18:51:24 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:51:24] "POST /blacklist/activate HTTP/1.1" 200 -
+2025-05-28 18:51:30 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:51:30] "OPTIONS /blacklist/deactivate HTTP/1.1" 200 -
+2025-05-28 18:51:30 - services.reset_rules - INFO - Flushing iptables mangle table.
+2025-05-28 18:51:30 - services.reset_rules - INFO - Successfully flushed iptables mangle table.
+2025-05-28 18:51:30 - services.reset_rules - INFO - Successfully deleted qdisc on eth0 or no qdisc was present. Output: 
+2025-05-28 18:51:30 - services.reset_rules - INFO - Successfully deleted qdisc on wan or no qdisc was present. Output: 
+2025-05-28 18:51:30 - services.reset_rules - INFO - Successfully deleted qdisc on teql0 or no qdisc was present. Output: 
+2025-05-28 18:51:30 - services.reset_rules - INFO - Successfully deleted qdisc on wlan1 or no qdisc was present. Output: 
+2025-05-28 18:51:30 - services.reset_rules - INFO - Successfully deleted qdisc on br-lan or no qdisc was present. Output: 
+2025-05-28 18:51:30 - services.reset_rules - INFO - Successfully deleted qdisc on phy0-ap0 or no qdisc was present. Output: 
+2025-05-28 18:51:30 - utils.config - INFO - Saved mode configuration
+2025-05-28 18:51:30 - services.mode_state - INFO - Updated bandwidth mode to none
+2025-05-28 18:51:30 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:51:30] "POST /blacklist/deactivate HTTP/1.1" 200 -
+2025-05-28 18:51:30 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:51:30] "OPTIONS /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:51:31 - utils.config - INFO - Saved whitelist configuration
+2025-05-28 18:51:31 - services.whitelist - INFO - Updated whitelist limit rate to 50mbit
+2025-05-28 18:51:31 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:51:31] "POST /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-28 18:51:31 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:51:31] "OPTIONS /whitelist/activate HTTP/1.1" 200 -
+2025-05-28 18:51:31 - utils.config - INFO - Saved mode configuration
+2025-05-28 18:51:31 - services.mode_state - INFO - Updated bandwidth mode to whitelist
+2025-05-28 18:51:31 - services.whitelist - INFO - Applying whitelist TC rules.
+2025-05-28 18:51:31 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: whitelist. Target IPs: 0. Limit: 50mbit, Full: 1000mbit
+2025-05-28 18:51:31 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:51:32 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-05-28 18:51:32 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:51:32 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-05-28 18:51:32 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:51:32 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-05-28 18:51:32 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:51:33 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-05-28 18:51:33 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:51:33 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-05-28 18:51:33 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:51:33 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-05-28 18:51:33 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:51:34 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-05-28 18:51:34 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:51:34 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-05-28 18:51:34 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:51:34 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-05-28 18:51:34 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-05-28 18:51:35 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-05-28 18:51:35 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode whitelist on all interfaces
+2025-05-28 18:51:35 - services.whitelist - INFO - Whitelist TC rules applied successfully.
+2025-05-28 18:51:35 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:51:35] "POST /whitelist/activate HTTP/1.1" 200 -
+2025-05-28 18:51:53 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:51:53] "OPTIONS /whitelist/deactivate HTTP/1.1" 200 -
+2025-05-28 18:51:54 - services.reset_rules - INFO - Flushing iptables mangle table.
+2025-05-28 18:51:54 - services.reset_rules - INFO - Successfully flushed iptables mangle table.
+2025-05-28 18:51:55 - services.reset_rules - INFO - Successfully deleted qdisc on eth0 or no qdisc was present. Output: 
+2025-05-28 18:51:55 - services.reset_rules - INFO - Successfully deleted qdisc on wan or no qdisc was present. Output: 
+2025-05-28 18:51:55 - services.reset_rules - INFO - Successfully deleted qdisc on teql0 or no qdisc was present. Output: 
+2025-05-28 18:51:55 - services.reset_rules - INFO - Successfully deleted qdisc on wlan1 or no qdisc was present. Output: 
+2025-05-28 18:51:55 - services.reset_rules - INFO - Successfully deleted qdisc on br-lan or no qdisc was present. Output: 
+2025-05-28 18:51:55 - services.reset_rules - INFO - Successfully deleted qdisc on phy0-ap0 or no qdisc was present. Output: 
+2025-05-28 18:51:55 - utils.config - INFO - Saved mode configuration
+2025-05-28 18:51:55 - services.mode_state - INFO - Updated bandwidth mode to none
+2025-05-28 18:51:55 - werkzeug - INFO - 127.0.0.1 - - [28/May/2025 18:51:55] "POST /whitelist/deactivate HTTP/1.1" 200 -
+2025-05-28 18:52:01 - __main__ - INFO - Cleaning up resources
+2025-05-28 18:52:01 - db.tinydb - INFO - TinyDB connections closed
+2025-05-28 18:52:01 - __main__ - INFO - Resources cleaned up
+2025-05-28 18:52:01 - __main__ - INFO - Cleaning up resources
+2025-05-28 18:52:01 - db.tinydb - INFO - TinyDB connections closed
+2025-05-28 18:52:01 - __main__ - INFO - Resources cleaned up

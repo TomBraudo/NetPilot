@@ -159,14 +159,19 @@ const iconMap = {
 const identifyDeviceType = (hostname, ip) => {
   if (hostname.toLowerCase().includes("router") || ip.endsWith(".1"))
     return "router";
-  if (hostname.toLowerCase().includes("laptop")) return "laptop";
   if (
-    hostname.toLowerCase().includes("iphone") ||
+    hostname.toLowerCase().includes("laptop") ||
+    hostname.toLowerCase().includes("desktop")
+  )
+    return "laptop";
+  if (
+    hostname.toLowerCase().includes("phone") ||
     hostname.toLowerCase().includes("mobile")
   )
     return "mobile";
   if (hostname.toLowerCase().includes("tv")) return "tv";
   return "unknown";
+
 };
 
 const formatDevices = (data) => {
@@ -232,7 +237,7 @@ const ScanPage = () => {
     setError(null);
 
     try {
-      const res = await fetch("http://localhost:5000/api/router_scan");
+      const res = await fetch("http://localhost:5000/api/scan/router");
 
       if (!res.ok) {
         throw new Error(`HTTP error! Status: ${res.status}`);

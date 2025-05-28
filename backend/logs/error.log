@@ -1171,3 +1171,80 @@ ValueError: Device with IP 192.168.1.122 already in whitelist
 2025-05-27 21:31:25 - services.reset_rules - ERROR - Error deleting qdisc on wlan1: Error: Cannot delete qdisc with handle of zero.. Output: 
 2025-05-27 21:31:25 - services.reset_rules - ERROR - Error deleting qdisc on br-lan: Error: Cannot delete qdisc with handle of zero.. Output: 
 2025-05-27 21:31:26 - services.reset_rules - ERROR - Error deleting qdisc on phy0-ap0: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-28 18:07:28 - services.speed_test - ERROR - Error running speed test: Speed test failed: ash: speedtest-cli: not found
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\speed_test.py", line 24, in run_ookla_speedtest
+    raise Exception(f"Speed test failed: {error}")
+Exception: Speed test failed: ash: speedtest-cli: not found
+2025-05-28 18:07:28 - endpoints.network - ERROR - Error running speed test: Speed test failed: ash: speedtest-cli: not found
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\api.py", line 97, in speedtest
+    result = run_ookla_speedtest()
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\speed_test.py", line 24, in run_ookla_speedtest
+    raise Exception(f"Speed test failed: {error}")
+Exception: Speed test failed: ash: speedtest-cli: not found
+2025-05-28 18:07:29 - services.speed_test - ERROR - Error running speed test: Speed test failed: ash: speedtest-cli: not found
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\speed_test.py", line 24, in run_ookla_speedtest
+    raise Exception(f"Speed test failed: {error}")
+Exception: Speed test failed: ash: speedtest-cli: not found
+2025-05-28 18:07:29 - endpoints.network - ERROR - Error running speed test: Speed test failed: ash: speedtest-cli: not found
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\api.py", line 97, in speedtest
+    result = run_ookla_speedtest()
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\speed_test.py", line 24, in run_ookla_speedtest
+    raise Exception(f"Speed test failed: {error}")
+Exception: Speed test failed: ash: speedtest-cli: not found
+2025-05-28 18:07:38 - services.speed_test - ERROR - Error running speed test: Speed test failed: ash: speedtest-cli: not found
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\speed_test.py", line 24, in run_ookla_speedtest
+    raise Exception(f"Speed test failed: {error}")
+Exception: Speed test failed: ash: speedtest-cli: not found
+2025-05-28 18:07:38 - endpoints.network - ERROR - Error running speed test: Speed test failed: ash: speedtest-cli: not found
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\api.py", line 97, in speedtest
+    result = run_ookla_speedtest()
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\speed_test.py", line 24, in run_ookla_speedtest
+    raise Exception(f"Speed test failed: {error}")
+Exception: Speed test failed: ash: speedtest-cli: not found
+2025-05-28 18:25:27 - db.whitelist - ERROR - Error retrieving whitelist: Expecting value: line 1 column 1 (char 0)
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 23, in get_whitelist
+    entries = whitelist_table.all()
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\venv\Lib\site-packages\tinydb\table.py", line 237, in all
+    return list(iter(self))
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\venv\Lib\site-packages\tinydb\table.py", line 659, in __iter__
+    for doc_id, doc in self._read_table().items():
+                       ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\venv\Lib\site-packages\tinydb\table.py", line 708, in _read_table
+    tables = self._storage.read()
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\venv\Lib\site-packages\tinydb\middlewares.py", line 99, in read
+    self.cache = self.storage.read()
+                 ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\venv\Lib\site-packages\tinydb\storages.py", line 136, in read
+    return json.load(self._handle)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\AppData\Local\Programs\Python\Python312\Lib\json\__init__.py", line 293, in load
+    return loads(fp.read(),
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\AppData\Local\Programs\Python\Python312\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\AppData\Local\Programs\Python\Python312\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\AppData\Local\Programs\Python\Python312\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2025-05-28 18:43:10 - services.reset_rules - ERROR - Error deleting qdisc on eth0: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-28 18:43:10 - services.reset_rules - ERROR - Error deleting qdisc on wan: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-28 18:43:10 - services.reset_rules - ERROR - Error deleting qdisc on teql0: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-28 18:43:10 - services.reset_rules - ERROR - Error deleting qdisc on wlan1: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-28 18:43:10 - services.reset_rules - ERROR - Error deleting qdisc on br-lan: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-05-28 18:43:10 - services.reset_rules - ERROR - Error deleting qdisc on phy0-ap0: Error: Cannot delete qdisc with handle of zero.. Output: 

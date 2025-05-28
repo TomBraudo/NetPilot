@@ -1,23 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Trash2, Shield, ShieldOff } from "lucide-react";
 
-const mockDevices = [
-  { name: "iPhone 13", mac: "00:1A:2B:3C:4D:5E" },
-  { name: "iPad Pro", mac: "00:3C:4D:5E:6F:7G" },
-];
-
-const mockBlacklistedDevices = [
-  { name: "Unknown Device", mac: "00:2B:3C:4D:5E:6F" },
-  { name: "Suspicious Device", mac: "00:4D:5E:6F:7G:8H" },
-];
-
 export default function ControlPage() {
 
   const [devices, setDevices] = useState([]);
-  const [blacklistedDevices, setBlacklistedDevices] = useState(mockBlacklistedDevices);
+  const [blacklistedDevices, setBlacklistedDevices] = useState([]);
   const [isWhitelistMode, setIsWhitelistMode] = useState(true);
   const [whitelistModeActive, setWhitelistModeActive] = useState(false);
+  const [blacklistModeActive, setBlacklistModeActive] = useState(false);
   const [loadingWhitelistMode, setLoadingWhitelistMode] = useState(false);
+  const [loadingBlacklistMode, setLoadingBlacklistMode] = useState(false);
   const [scannedDevices, setScannedDevices] = useState(() => {
     const savedDevices = localStorage.getItem("scannedDevices");
     return savedDevices ? JSON.parse(savedDevices) : [];
@@ -32,6 +24,7 @@ export default function ControlPage() {
   });
   const [isSpeedTesting, setIsSpeedTesting] = useState(false);
   const [whitelistSpeedLimit, setWhitelistSpeedLimit] = useState("");
+  const [blacklistSpeedLimit, setBlacklistSpeedLimit] = useState("");
 
   // Get speed test timestamp
   const getSpeedTestTimestamp = () => {
@@ -58,9 +51,28 @@ export default function ControlPage() {
         if (result.success) {
           setDevices(result.data || []);
         }
+      } else {
+        console.error("Failed to fetch whitelist data:", response.status);
       }
     } catch (error) {
       console.error("Error fetching whitelist:", error);
+    }
+  };
+
+  // Fetch blacklist data from backend
+  const fetchBlacklistData = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/blacklist");
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success) {
+          setBlacklistedDevices(result.data || []);
+        }
+      } else {
+        console.error("Failed to fetch blacklist data:", response.status);
+      }
+    } catch (error) {
+      console.error("Error fetching blacklist:", error);
     }
   };
 
@@ -71,62 +83,266 @@ export default function ControlPage() {
       if (response.ok) {
         const result = await response.json();
         if (result.success) {
-          setWhitelistModeActive(result.data);
+          setWhitelistModeActive(result.data?.active || false);
         }
+      } else {
+        console.error("Failed to fetch whitelist mode:", response.status);
       }
     } catch (error) {
       console.error("Error fetching whitelist mode:", error);
     }
   };
 
+  // Fetch blacklist mode status
+  const fetchBlacklistMode = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/blacklist/mode");
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success) {
+          setBlacklistModeActive(result.data?.active || false);
+        }
+      } else {
+        console.error("Failed to fetch blacklist mode:", response.status);
+      }
+    } catch (error) {
+      console.error("Error fetching blacklist mode:", error);
+    }
+  };
+
   // Fetch whitelist speed limit
   const fetchWhitelistSpeedLimit = async () => {
     try {
-      const response = await fetch("http://localhost:5000/whitelist/limit_rate", { method: "GET" });
+      const response = await fetch("http://localhost:5000/whitelist/limit-rate", { method: "GET" });
       if (response.ok) {
         const result = await response.json();
         if (result.success && result.data) {
           setWhitelistSpeedLimit(result.data.rate || "");
         }
+      } else {
+        console.error("Failed to fetch whitelist speed limit:", response.status);
       }
     } catch (error) {
       console.error("Error fetching whitelist speed limit:", error);
     }
   };
 
-  // Toggle whitelist mode
-  const handleToggleWhitelistMode = async () => {
-    setLoadingWhitelistMode(true);
+  // Fetch blacklist speed limit
+  const fetchBlacklistSpeedLimit = async () => {
     try {
-      if (!whitelistModeActive) {
-        // Set speed limit before activating
-        await fetch("http://localhost:5000/whitelist/limit_rate", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ rate: whitelistSpeedLimit })
-        });
-      }
-      const method = whitelistModeActive ? "DELETE" : "POST";
-      const response = await fetch("http://localhost:5000/whitelist/mode", {
-        method: method,
-        headers: { "Content-Type": "application/json" }
-      });
-      
+      const response = await fetch("http://localhost:5000/blacklist/limit-rate", { method: "GET" });
       if (response.ok) {
         const result = await response.json();
-        if (result.success) {
-          setWhitelistModeActive(!whitelistModeActive);
-        } else {
-          throw new Error(result.message);
+        if (result.success && result.data) {
+          setBlacklistSpeedLimit(result.data.rate || "");
         }
       } else {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        console.error("Failed to fetch blacklist speed limit:", response.status);
       }
     } catch (error) {
-      console.error("Error toggling whitelist mode:", error);
-      alert(`Failed to ${whitelistModeActive ? 'deactivate' : 'activate'} whitelist mode: ${error.message}`);
-    } finally {
-      setLoadingWhitelistMode(false);
+      console.error("Error fetching blacklist speed limit:", error);
+    }
+  };
+
+  // Toggle access control mode (unified function)
+  const handleToggleAccessControl = async () => {
+    // Check if trying to activate a mode while the other mode is active
+    const isActivatingWhitelistWhileBlacklistActive = isWhitelistMode && !whitelistModeActive && blacklistModeActive;
+    const isActivatingBlacklistWhileWhitelistActive = !isWhitelistMode && !blacklistModeActive && whitelistModeActive;
+    
+    if (isActivatingWhitelistWhileBlacklistActive || isActivatingBlacklistWhileWhitelistActive) {
+      const currentActiveMode = whitelistModeActive ? 'Whitelist' : 'Blacklist';
+      const newMode = isWhitelistMode ? 'Whitelist' : 'Blacklist';
+      
+      const confirmed = window.confirm(
+        `${currentActiveMode} mode is currently active. Are you sure you want to switch to ${newMode} mode? This will deactivate ${currentActiveMode} mode.`
+      );
+      
+      if (!confirmed) {
+        return; // User cancelled, don't proceed
+      }
+    }
+
+    if (isWhitelistMode) {
+      // Handle whitelist mode
+      setLoadingWhitelistMode(true);
+      try {
+        if (!whitelistModeActive) {
+          // If blacklist is active, deactivate it first
+          if (blacklistModeActive) {
+            console.log("Deactivating blacklist mode before activating whitelist...");
+            const deactivateResponse = await fetch("http://localhost:5000/blacklist/deactivate", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" }
+            });
+            
+            if (!deactivateResponse.ok) {
+              throw new Error(`Failed to deactivate blacklist mode: ${deactivateResponse.status}`);
+            }
+            
+            const deactivateResult = await deactivateResponse.json();
+            if (!deactivateResult.success) {
+              throw new Error(deactivateResult.message || "Failed to deactivate blacklist mode");
+            }
+            
+            setBlacklistModeActive(false);
+            console.log("Blacklist mode deactivated successfully");
+          }
+          
+          // Set speed limit before activating
+          if (whitelistSpeedLimit) {
+            console.log("Setting whitelist speed limit...");
+            const limitResponse = await fetch("http://localhost:5000/whitelist/limit-rate", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ rate: whitelistSpeedLimit })
+            });
+            
+            if (!limitResponse.ok) {
+              throw new Error(`Failed to set speed limit: ${limitResponse.status}`);
+            }
+            
+            const limitResult = await limitResponse.json();
+            if (!limitResult.success) {
+              throw new Error(limitResult.message || "Failed to set speed limit");
+            }
+            console.log("Whitelist speed limit set successfully");
+          }
+          
+          // Activate whitelist mode
+          console.log("Activating whitelist mode...");
+          const response = await fetch("http://localhost:5000/whitelist/activate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }
+          });
+          
+          if (response.ok) {
+            const result = await response.json();
+            if (result.success) {
+              setWhitelistModeActive(true);
+              console.log("Whitelist mode activated successfully");
+            } else {
+              throw new Error(result.message || "Failed to activate whitelist mode");
+            }
+          } else {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+        } else {
+          // Deactivate whitelist mode
+          console.log("Deactivating whitelist mode...");
+          const response = await fetch("http://localhost:5000/whitelist/deactivate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }
+          });
+          
+          if (response.ok) {
+            const result = await response.json();
+            if (result.success) {
+              setWhitelistModeActive(false);
+              console.log("Whitelist mode deactivated successfully");
+            } else {
+              throw new Error(result.message || "Failed to deactivate whitelist mode");
+            }
+          } else {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+        }
+      } catch (error) {
+        console.error("Error toggling whitelist mode:", error);
+        alert(`Failed to ${whitelistModeActive ? 'deactivate' : 'activate'} whitelist mode: ${error.message}`);
+      } finally {
+        setLoadingWhitelistMode(false);
+      }
+    } else {
+      // Handle blacklist mode
+      setLoadingBlacklistMode(true);
+      try {
+        if (!blacklistModeActive) {
+          // If whitelist is active, deactivate it first
+          if (whitelistModeActive) {
+            console.log("Deactivating whitelist mode before activating blacklist...");
+            const deactivateResponse = await fetch("http://localhost:5000/whitelist/deactivate", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" }
+            });
+            
+            if (!deactivateResponse.ok) {
+              throw new Error(`Failed to deactivate whitelist mode: ${deactivateResponse.status}`);
+            }
+            
+            const deactivateResult = await deactivateResponse.json();
+            if (!deactivateResult.success) {
+              throw new Error(deactivateResult.message || "Failed to deactivate whitelist mode");
+            }
+            
+            setWhitelistModeActive(false);
+            console.log("Whitelist mode deactivated successfully");
+          }
+          
+          // Set speed limit before activating
+          if (blacklistSpeedLimit) {
+            console.log("Setting blacklist speed limit...");
+            const limitResponse = await fetch("http://localhost:5000/blacklist/limit-rate", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ rate: blacklistSpeedLimit })
+            });
+            
+            if (!limitResponse.ok) {
+              throw new Error(`Failed to set speed limit: ${limitResponse.status}`);
+            }
+            
+            const limitResult = await limitResponse.json();
+            if (!limitResult.success) {
+              throw new Error(limitResult.message || "Failed to set speed limit");
+            }
+            console.log("Blacklist speed limit set successfully");
+          }
+          
+          // Activate blacklist mode
+          console.log("Activating blacklist mode...");
+          const response = await fetch("http://localhost:5000/blacklist/activate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }
+          });
+          
+          if (response.ok) {
+            const result = await response.json();
+            if (result.success) {
+              setBlacklistModeActive(true);
+              console.log("Blacklist mode activated successfully");
+            } else {
+              throw new Error(result.message || "Failed to activate blacklist mode");
+            }
+          } else {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+        } else {
+          // Deactivate blacklist mode
+          console.log("Deactivating blacklist mode...");
+          const response = await fetch("http://localhost:5000/blacklist/deactivate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }
+          });
+          
+          if (response.ok) {
+            const result = await response.json();
+            if (result.success) {
+              setBlacklistModeActive(false);
+              console.log("Blacklist mode deactivated successfully");
+            } else {
+              throw new Error(result.message || "Failed to deactivate blacklist mode");
+            }
+          } else {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+        }
+      } catch (error) {
+        console.error("Error toggling blacklist mode:", error);
+        alert(`Failed to ${blacklistModeActive ? 'deactivate' : 'activate'} blacklist mode: ${error.message}`);
+      } finally {
+        setLoadingBlacklistMode(false);
+      }
     }
   };
 
@@ -143,9 +359,14 @@ export default function ControlPage() {
       fetchWhitelistData();
     };
 
+    const handleBlacklistUpdate = () => {
+      fetchBlacklistData();
+    };
+
     // Listen for storage events (when localStorage changes from other tabs/components)
     window.addEventListener('storage', handleStorageChange);
     window.addEventListener('storage', handleWhitelistUpdate);
+    window.addEventListener('storage', handleBlacklistUpdate);
     
     // Also check for updates periodically in case localStorage was updated in the same tab
     const interval = setInterval(handleStorageChange, 1000);
@@ -153,21 +374,35 @@ export default function ControlPage() {
     return () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('storage', handleWhitelistUpdate);
+      window.removeEventListener('storage', handleBlacklistUpdate);
       clearInterval(interval);
     };
   }, []);
 
   // Initial data fetch
   useEffect(() => {
-    fetchWhitelistData();
-    fetchWhitelistMode();
-    fetchWhitelistSpeedLimit();
+    const initializeData = async () => {
+      try {
+        await Promise.all([
+          fetchWhitelistData(),
+          fetchBlacklistData(),
+          fetchWhitelistMode(),
+          fetchBlacklistMode(),
+          fetchWhitelistSpeedLimit(),
+          fetchBlacklistSpeedLimit()
+        ]);
+      } catch (error) {
+        console.error("Error initializing data:", error);
+      }
+    };
+
+    initializeData();
   }, []);
 
   const handleSpeedTest = async () => {
     setIsSpeedTesting(true);
     try {
-      const response = await fetch("http://localhost:5000/api/speed_test");
+      const response = await fetch("http://localhost:5000/api/speedtest");
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -203,9 +438,10 @@ export default function ControlPage() {
   const handleDeleteDevice = async (deviceToRemove) => {
     if (isWhitelistMode) {
       try {
-        const response = await fetch(`http://localhost:5000/whitelist/${deviceToRemove.ip}`, {
+        const response = await fetch(`http://localhost:5000/whitelist`, {
           method: "DELETE",
-          headers: { "Content-Type": "application/json" }
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ip: deviceToRemove.ip })
         });
         
         if (response.ok) {
@@ -225,9 +461,10 @@ export default function ControlPage() {
       }
     } else {
       try {
-        const response = await fetch(`http://localhost:5000/blacklist/${deviceToRemove.ip}`, {
+        const response = await fetch(`http://localhost:5000/blacklist`, {
           method: "DELETE",
-          headers: { "Content-Type": "application/json" }
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ip: deviceToRemove.ip })
         });
         
         if (response.ok) {
@@ -299,61 +536,70 @@ export default function ControlPage() {
               subtitle={activeDevices === 0 ? "Run a scan to see devices" : null}
             />
           </div>
-          {whitelistModeActive && (
-            <div className="bg-green-50 dark:bg-green-900/40 text-green-600 dark:text-green-300 rounded p-2 text-sm font-medium border border-green-200 dark:border-green-400/30">
-              <span>• Whitelist mode is currently active</span>
+          {(whitelistModeActive || blacklistModeActive) && (
+            <div className={`${whitelistModeActive ? 'bg-green-50 dark:bg-green-900/40 text-green-600 dark:text-green-300 border-green-200 dark:border-green-400/30' : 'bg-red-50 dark:bg-red-900/40 text-red-600 dark:text-red-300 border-red-200 dark:border-red-400/30'} rounded p-2 text-sm font-medium border`}>
+              <span>• {whitelistModeActive ? 'Whitelist' : 'Blacklist'} mode is currently active</span>
             </div>
           )}
         </div>
-        {/* Whitelist Mode Control */}
+        {/* Access Control Mode */}
         <div className="w-full md:w-1/3 bg-white dark:bg-gray-800 rounded-xl shadow p-4 sm:p-6 flex flex-col gap-4 min-w-0 mt-4 md:mt-0">
           <h2 className="text-lg font-semibold mb-2 dark:text-white">Access Control Mode</h2>
           <div className="mb-3">
             <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
-              Current Status: <span className={`font-semibold ${whitelistModeActive ? 'text-green-600' : 'text-red-600'}`}>
-                {whitelistModeActive ? 'Active' : 'Inactive'}
+              Current Status: <span className={`font-semibold ${(whitelistModeActive || blacklistModeActive) ? 'text-green-600' : 'text-red-600'}`}>
+                {(whitelistModeActive || blacklistModeActive) ? 'Active' : 'Inactive'}
               </span>
             </p>
             <p className="text-xs text-gray-500 dark:text-gray-400">
               {whitelistModeActive 
                 ? "Only whitelisted devices have full network access" 
+                : blacklistModeActive
+                ? "Blacklisted devices have limited network access"
                 : "All devices have normal network access"
               }
             </p>
           </div>
-          <label className="text-sm mb-1 dark:text-gray-300 mt-2">Speed Limit (Mbps)</label>
-          <input
-            type="number"
-            min={1}
-            className="border rounded px-3 py-2 mb-1 bg-white dark:bg-gray-900 dark:text-white dark:border-gray-700 w-full"
-            value={whitelistSpeedLimit}
-            onChange={e => setWhitelistSpeedLimit(e.target.value)}
-            placeholder="Enter speed limit"
-            disabled={whitelistModeActive || loadingWhitelistMode}
-          />
-          {whitelistSpeedLimit && (
-            <div className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-              Current limit: {whitelistSpeedLimit} Mbps
-            </div>
-          )}
-          <button
-            className={`${
-              whitelistModeActive 
-                ? "bg-red-500 hover:bg-red-600" 
-                : "bg-green-500 hover:bg-green-600"
-            } text-white font-semibold rounded py-2 transition w-full flex items-center justify-center gap-2`}
-            onClick={handleToggleWhitelistMode}
-            disabled={loadingWhitelistMode}
-          >
-            {loadingWhitelistMode ? (
-              <>
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                Processing...
-              </>
-            ) : (
-              whitelistModeActive ? "Deactivate Whitelist Mode" : "Activate Whitelist Mode"
-            )}
-          </button>
+          
+          {/* Speed Limit Input based on current mode */}
+          <div className="mb-4">
+            <label className="text-sm mb-1 dark:text-gray-300">
+              {isWhitelistMode ? 'Whitelist' : 'Blacklist'} Speed Limit (Mbps)
+            </label>
+            <input
+              type="number"
+              min={1}
+              className="border rounded px-3 py-2 mb-3 bg-white dark:bg-gray-900 dark:text-white dark:border-gray-700 w-full"
+              value={isWhitelistMode ? whitelistSpeedLimit : blacklistSpeedLimit}
+              onChange={e => isWhitelistMode ? setWhitelistSpeedLimit(e.target.value) : setBlacklistSpeedLimit(e.target.value)}
+              placeholder="Enter speed limit"
+              disabled={(isWhitelistMode ? whitelistModeActive : blacklistModeActive) || (loadingWhitelistMode || loadingBlacklistMode)}
+            />
+            
+            {/* Single Activate/Deactivate Button */}
+            <button
+              className={`${
+                (isWhitelistMode ? whitelistModeActive : blacklistModeActive)
+                  ? "bg-red-500 hover:bg-red-600" 
+                  : isWhitelistMode 
+                    ? "bg-green-500 hover:bg-green-600"
+                    : "bg-orange-500 hover:bg-orange-600"
+              } text-white font-semibold rounded py-2 transition w-full flex items-center justify-center gap-2`}
+              onClick={handleToggleAccessControl}
+              disabled={loadingWhitelistMode || loadingBlacklistMode}
+            >
+              {(loadingWhitelistMode || loadingBlacklistMode) ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Processing...
+                </>
+              ) : (
+                (isWhitelistMode ? whitelistModeActive : blacklistModeActive) 
+                  ? `Deactivate ${isWhitelistMode ? 'Whitelist' : 'Blacklist'} Mode`
+                  : `Activate ${isWhitelistMode ? 'Whitelist' : 'Blacklist'} Mode`
+              )}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -390,7 +636,7 @@ export default function ControlPage() {
             >
               <div>
                 <div className="font-medium text-gray-900 dark:text-white">
-                  {device.name || device.hostname || "Unknown Device"}
+                  {device.hostname || device.name || "Unknown Device"}
                 </div>
                 <div className="text-xs text-gray-500 dark:text-gray-400">
                   IP: {device.ip}
