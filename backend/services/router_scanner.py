@@ -1,9 +1,8 @@
-import socket
 import requests
 import time
 import re
 from utils.ssh_client import ssh_manager
-from utils.response_helpers import error, success
+from utils.response_helpers import success
 from db.device_repository import register_device
 import ipaddress
 
@@ -37,7 +36,7 @@ def scan_network_via_router():
     dhcp_output, dhcp_error = ssh_manager.execute_command(dhcp_command)
 
     if dhcp_error:
-        return error("Failed to fetch DHCP leases", dhcp_error)
+        raise Exception("Failed to fetch DHCP leases")
 
     # Create a lookup dictionary from DHCP leases
     dhcp_info = {}
@@ -55,7 +54,7 @@ def scan_network_via_router():
     arp_output, arp_error = ssh_manager.execute_command(arp_command)
 
     if arp_error:
-        return error("Failed to fetch ARP table", arp_error)
+        raise Exception("Failed to fetch ARP table")
 
     # Process active devices from ARP table - group by MAC address
     device_map = {}

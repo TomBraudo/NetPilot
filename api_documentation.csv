@@ -1,0 +1,63 @@
+/*/ API Endpoints
+Endpoint,Method,Request format,data={...},Description
+/api/blocked,GET,None,{ data: [ { mac: string, ip: string, hostname: string } ] },Get all currently blocked devices
+/api/block,POST,{ "ip": "<ip_address>" },{ status: string, message: string },Block a device by IP address
+/api/unblock,POST,{ "ip": "<ip_address>" },{ status: string, message: string },Unblock a device by IP address
+/api/reset,POST,None,{ status: string, message: string },Reset all network rules
+/api/scan,GET,None,{ data: [ { mac: string, ip: string, hostname: string } ] },Scan the network for devices
+/api/scan/router,GET,None,{ data: [ { mac: string, ip: string, hostname: string, vendor: string } ] },Scan the network via router
+/api/speedtest,GET,None,{ data: { download: number, upload: number, ping: number } },Run a speed test
+
+/*/ DB Endpoints
+Endpoint,Method,Request format,data={...},Description
+/db/devices,GET,None,{ "success": true, "message": "", "data": [ { mac: string, ip: string, hostname: string, device_name: string, first_seen: string, last_seen: string } ] },Get all devices from the database
+/db/devices/<mac>,GET,None,{ "success": true, "message": "", "data": { mac: string, ip: string, hostname: string, device_name: string, first_seen: string, last_seen: string } },Get a specific device by MAC address
+/db/devices/<mac>/name,PUT,{ "name": "<name>" },{ "success": true, "message": "Device name updated", "data": {} },Update a device's name
+/db/clear,DELETE,None,{ "success": true, "message": "All devices cleared from the database", "data": {} },Clear all device records from the database
+/db/groups,GET,None,{ "success": true, "message": "", "data": [ { name: string } ] },Get all device groups
+/db/groups/<group_id>/members,GET,None,{ "success": true, "message": "", "data": [ { mac: string, ip: string, group_id: int } ] },Get all members of a device group
+/db/devices/<mac>/rules,GET,None,{ "success": true, "message": "", "data": [ { mac: string, ip: string, rule_name: string, rule_value: string|number|bool } ] },Get all rules for a specific device
+
+/*/ WiFi Endpoints
+Endpoint,Method,Request format,data={...},Description
+/wifi/enable,POST,None,{ success: true, message: string, data: {} },Enable WiFi on the router
+/wifi/change_password,POST,{ "password": "<new_password>", "interface": <interface_number> },{ success: true, message: string, data: {} },Change the WiFi password
+/wifi/status,GET,None,{ success: true, message: string, data: { enabled: bool, ssid: string, encryption: string } },Get current WiFi status
+/wifi/ssid,GET,?interface=<interface_number> (optional),{ success: true, message: string, data: { ssid: string } },Get the current WiFi SSID
+/wifi/ssid,POST,{ "ssid": "<new_ssid>", "interface": <interface_number> },{ success: true, message: string, data: {} },Change the WiFi SSID
+
+/*/ Whitelist Endpoints
+Endpoint,Method,Request format,data={...},Description
+/whitelist,GET,None,{ devices: [ { mac: string, ip: string, hostname: string, ... } ] },Get all devices in the whitelist
+/whitelist/<ip>,POST,None,{ message: string } or { error: string },Add a device to the whitelist
+/whitelist/<ip>,DELETE,None,{ message: string } or { error: string },Remove a device from the whitelist
+/whitelist/limit-rate,GET,None,{ rate: string },Get the current whitelist bandwidth limit
+/whitelist/limit-rate/<rate>,POST,None,{ rate: string },Set the whitelist bandwidth limit rate
+/whitelist/full-rate,GET,None,{ rate: string },Get the current whitelist full bandwidth
+/whitelist/full-rate/<rate>,POST,None,{ rate: string },Set the whitelist full bandwidth rate
+/whitelist/mode/activate,POST,None,{ message: string } or { error: string },Activate whitelist mode
+/whitelist/mode/deactivate,POST,None,{ message: string } or { error: string },Deactivate whitelist mode
+/whitelist/mode,GET,None,{ active: bool },Get the current whitelist mode status
+/whitelist,DELETE,None,{ message: string } or { error: string },Clear all devices from the whitelist
+
+/*/ Blacklist Endpoints
+Endpoint,Method,Request format,data={...},Description
+/blacklist,GET,None,{ devices: [ { mac: string, ip: string, hostname: string, ... } ] },Get all devices in the blacklist
+/blacklist/<ip>,POST,None,{ message: string } or { error: string },Add a device to the blacklist
+/blacklist/<ip>,DELETE,None,{ message: string } or { error: string },Remove a device from the blacklist
+/blacklist/limit-rate,GET,None,{ rate: string },Get the current blacklist bandwidth limit
+/blacklist/limit-rate/<rate>,POST,None,{ rate: string },Set the blacklist bandwidth limit rate
+/blacklist/full-rate,GET,None,{ rate: string },Get the current blacklist full bandwidth
+/blacklist/full-rate/<rate>,POST,None,{ rate: string },Set the blacklist full bandwidth rate
+/blacklist/mode,GET,None,{ active: bool },Get the current blacklist mode status
+/blacklist/mode/activate,POST,None,{ message: string } or { error: string },Activate blacklist mode
+/blacklist/mode/deactivate,POST,None,{ message: string } or { error: string },Deactivate blacklist mode
+/blacklist,DELETE,None,{ message: string } or { error: string },Clear all devices from the blacklist
+
+/*/ Config Endpoints
+Endpoint,Method,Request format,data={...},Description
+/config/set_admin,POST,{ "username": "<username>", "password": "<password>" },{ success: true, message: string, data: {} },Set the admin username and password
+
+/*/ Health Endpoints
+Endpoint,Method,Request format,data={...},Description
+/health,GET,None,{ success: true, message: string, data: {} },Health check (server is running) 

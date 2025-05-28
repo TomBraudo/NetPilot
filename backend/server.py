@@ -6,7 +6,6 @@ from utils.ssh_client import ssh_manager
 from db.tinydb_client import db_client
 from utils.logging_config import get_logger
 import os
-import json
 import atexit
 from dotenv import load_dotenv
 
@@ -20,6 +19,7 @@ from endpoints.api import network_bp
 from endpoints.db import db_bp
 from endpoints.wifi import wifi_bp
 from endpoints.whitelist import whitelist_bp
+from endpoints.blacklist import blacklist_bp
 
 # Function to get the external .env path
 def get_env_path():
@@ -54,12 +54,14 @@ app.register_blueprint(network_bp)
 app.register_blueprint(db_bp)
 app.register_blueprint(wifi_bp)
 app.register_blueprint(whitelist_bp)
+app.register_blueprint(blacklist_bp)
 logger.info("API blueprints registered")
 
 # Function to clean up resources on exit
 def cleanup_resources():
     logger.info("Cleaning up resources")
     ssh_manager.close_connection()
+    db_client.flush()
     db_client.close()
     logger.info("Resources cleaned up")
 

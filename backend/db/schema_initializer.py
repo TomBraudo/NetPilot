@@ -1,74 +1,41 @@
 from db.tinydb_client import db_client
-from tinydb import Query
 import logging
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def initialize_predefined_rules():
-    """Initialize all predefined network rules in the database."""
-    # Define all available rules here - use consistent naming
-    rules = [
-        {"name": "block", "type": "boolean", "default": "0", "desc": "Block device from network"},
-        {"name": "limit_bandwidth", "type": "number", "default": "0", "desc": "Bandwidth limit in Mbps"},
-        {"name": "schedule", "type": "string", "default": "", "desc": "Schedule for device access"},
-        {"name": "priority", "type": "number", "default": "0", "desc": "Traffic priority (QoS)"}
-    ]
-    
-    # TinyDB's upsert functionality
-    for rule in rules:
-        # Check if the rule already exists
-        Rule = Query()
-        existing_rule = db_client.rules.get(Rule.name == rule["name"])
-        
-        if not existing_rule:
-            # Insert new rule
-            db_client.rules.insert(rule)
-        else:
-            # Update existing rule
-            db_client.rules.update(rule, Rule.name == rule["name"])
-        
-    # Initialize settings table
-    settings = [
-        {"name": "whitelist_mode", "type": "boolean", "default": "0", "desc": "Whitelist mode for bandwidth limiting"}
-    ]
-    
-    for setting in settings:
-        # Check if the setting already exists
-        Setting = Query()
-        existing_setting = db_client.settings.get(Setting.name == setting["name"])
-        
-        if not existing_setting:
-            # Insert new setting    
-            db_client.settings.insert(setting)
-        else:
-            # Update existing setting
-            db_client.settings.update(setting, Setting.name == setting["name"])
-    
-    
-    
-    logger.info("Predefined rules initialized")
-
-def initialize_default_group():
-    """Ensure a default group 'general' exists."""
-    Group = Query()
-    if not db_client.device_groups.contains(Group.name == 'general'):
-        db_client.device_groups.insert({"name": "general"})
-        logger.info("Default 'general' group created")
-
 def initialize_all_tables():
-    """
-    Initialize all database tables with TinyDB.
-    Since TinyDB creates tables on-demand, we just need to ensure
-    the default data is present.
-    """
-    initialize_default_group()
-    initialize_predefined_rules()
-    logger.info("All tables initialized")
+    """Ensure the database client is initialized. Specific table setup is handled elsewhere or not needed."""
+    try:
+        # db_client is already initialized on import.
+        # Flushing here might be redundant if no changes are made by this function.
+        # db_client.flush()
+        logger.info("Database client ensured to be initialized. No specific table initialization here.")
+    except Exception as e:
+        logger.error(f"Error during minimal table initialization: {e}", exc_info=True)
+        raise
 
 def reset_all_tables():
-    """Reset all tables and reinitialize with default values."""
-    db_client.clear_all()
-    initialize_all_tables()
-    logger.info("All tables reset and reinitialized")
+    """Reset tables in the main database (netpilot.json) except for 'whitelist' and 'blacklist'."""
+    try:
+        logger.info("Resetting tables in main database (netpilot.json)...")
+        
+        # Get all table names from the main db
+        all_table_names_in_main_db = db_client.db.tables()
+        
+        tables_to_keep = {'whitelist', 'blacklist'}
+        
+        for table_name in all_table_names_in_main_db:
+            if table_name not in tables_to_keep:
+                db_client.db.drop_table(table_name)
+                logger.info(f"Dropped table: {table_name} from main DB")
+            else:
+                logger.info(f"Kept table: {table_name} in main DB")
+
+        # Re-initialize any necessary structures for the kept tables if needed (currently none defined here)
+        # initialize_all_tables() # This function is now minimal, so calling it might be for logging/consistency
+        logger.info("Main database tables reset (excluding whitelist, blacklist). Devices DB is separate.")
+    except Exception as e:
+        logger.error(f"Error resetting main DB tables: {e}", exc_info=True)
+        raise

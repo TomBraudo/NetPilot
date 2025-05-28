@@ -34,7 +34,7 @@ const DeviceCard = ({ device }) => {
     try {
       const endpoint = {
         whitelist: "http://localhost:5000/whitelist",
-        blacklist: "http://localhost:5000/api/blacklist",
+        blacklist: "http://localhost:5000/blacklist",
         block: "http://localhost:5000/api/block"
       }[action];
 

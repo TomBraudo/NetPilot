@@ -220,3 +220,242 @@
 2025-05-21 17:01:24 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
 2025-05-21 17:01:25 - whitelist.bandwidth - INFO - Whitelist mode deactivated on router
 2025-05-21 17:01:25 - whitelist.endpoints - INFO - Whitelist mode successfully deactivated
+2025-05-27 13:55:50 - whitelist.endpoints - INFO - Getting whitelist devices
+2025-05-27 13:55:50 - whitelist.endpoints - INFO - Found 0 devices in whitelist
+2025-05-27 13:55:58 - whitelist.endpoints - INFO - Attempting to activate whitelist mode
+2025-05-27 13:55:58 - whitelist.endpoints - INFO - Activating whitelist mode on router
+2025-05-27 13:55:58 - whitelist.bandwidth - INFO - Activating whitelist mode on router
+2025-05-27 13:55:58 - whitelist.bandwidth - WARNING - No IPs found in whitelist
+2025-05-27 13:55:58 - whitelist.bandwidth - INFO - Whitelist contains 0 IPs
+2025-05-27 13:55:58 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 13:55:58 - whitelist.bandwidth - INFO - Setting up traffic control on br-lan with limit 50mbit
+2025-05-27 13:55:59 - whitelist.bandwidth - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 13:55:59 - whitelist.bandwidth - INFO - Setting up traffic control on eth0 with limit 50mbit
+2025-05-27 13:55:59 - whitelist.bandwidth - INFO - Traffic control setup completed for interface eth0
+2025-05-27 13:55:59 - whitelist.bandwidth - INFO - Setting up traffic control on lan1 with limit 50mbit
+2025-05-27 13:55:59 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan1
+2025-05-27 13:55:59 - whitelist.bandwidth - INFO - Setting up traffic control on lan2 with limit 50mbit
+2025-05-27 13:56:00 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan2
+2025-05-27 13:56:00 - whitelist.bandwidth - INFO - Setting up traffic control on lan3 with limit 50mbit
+2025-05-27 13:56:00 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan3
+2025-05-27 13:56:00 - whitelist.bandwidth - INFO - Setting up traffic control on lan4 with limit 50mbit
+2025-05-27 13:56:00 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan4
+2025-05-27 13:56:00 - whitelist.bandwidth - INFO - Setting up traffic control on phy0-ap0 with limit 50mbit
+2025-05-27 13:56:01 - whitelist.bandwidth - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 13:56:01 - whitelist.bandwidth - INFO - Setting up traffic control on teql0 with limit 50mbit
+2025-05-27 13:56:01 - whitelist.bandwidth - INFO - Traffic control setup completed for interface teql0
+2025-05-27 13:56:01 - whitelist.bandwidth - INFO - Setting up traffic control on wan with limit 50mbit
+2025-05-27 13:56:01 - whitelist.bandwidth - INFO - Traffic control setup completed for interface wan
+2025-05-27 13:56:01 - whitelist.bandwidth - INFO - Setting up traffic control on wlan1 with limit 50mbit
+2025-05-27 13:56:02 - whitelist.bandwidth - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 13:56:02 - whitelist.bandwidth - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 13:56:02 - whitelist.bandwidth - INFO - Whitelist mode activation succeeded
+2025-05-27 13:56:02 - whitelist.endpoints - INFO - Whitelist mode successfully activated
+2025-05-27 13:56:17 - whitelist.endpoints - INFO - Updating whitelist limit rate to 10
+2025-05-27 13:56:17 - whitelist.bandwidth - INFO - Updated whitelist limit rate to 10.0mbit
+2025-05-27 13:56:17 - whitelist.bandwidth - WARNING - No IPs found in whitelist
+2025-05-27 13:56:17 - whitelist.bandwidth - INFO - Whitelist contains 0 IPs
+2025-05-27 13:56:18 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 13:56:20 - whitelist.bandwidth - INFO - Setting up traffic control on br-lan with limit 10.0mbit
+2025-05-27 13:56:23 - whitelist.bandwidth - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 13:56:23 - whitelist.bandwidth - INFO - Setting up traffic control on eth0 with limit 10.0mbit
+2025-05-27 13:56:23 - whitelist.bandwidth - INFO - Traffic control setup completed for interface eth0
+2025-05-27 13:56:23 - whitelist.bandwidth - INFO - Setting up traffic control on lan1 with limit 10.0mbit
+2025-05-27 13:56:24 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan1
+2025-05-27 13:56:24 - whitelist.bandwidth - INFO - Setting up traffic control on lan2 with limit 10.0mbit
+2025-05-27 13:56:24 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan2
+2025-05-27 13:56:24 - whitelist.bandwidth - INFO - Setting up traffic control on lan3 with limit 10.0mbit
+2025-05-27 13:56:24 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan3
+2025-05-27 13:56:24 - whitelist.bandwidth - INFO - Setting up traffic control on lan4 with limit 10.0mbit
+2025-05-27 13:56:25 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan4
+2025-05-27 13:56:25 - whitelist.bandwidth - INFO - Setting up traffic control on phy0-ap0 with limit 10.0mbit
+2025-05-27 13:56:25 - whitelist.bandwidth - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 13:56:25 - whitelist.bandwidth - INFO - Setting up traffic control on teql0 with limit 10.0mbit
+2025-05-27 13:56:26 - whitelist.bandwidth - INFO - Traffic control setup completed for interface teql0
+2025-05-27 13:56:26 - whitelist.bandwidth - INFO - Setting up traffic control on wan with limit 10.0mbit
+2025-05-27 13:56:26 - whitelist.bandwidth - INFO - Traffic control setup completed for interface wan
+2025-05-27 13:56:26 - whitelist.bandwidth - INFO - Setting up traffic control on wlan1 with limit 10.0mbit
+2025-05-27 13:56:26 - whitelist.bandwidth - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 13:56:26 - whitelist.bandwidth - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 13:56:26 - whitelist.endpoints - INFO - Whitelist limit rate successfully updated to 10.0mbit
+2025-05-27 13:56:38 - whitelist.endpoints - INFO - Adding device 192.168.1.122 to whitelist with name: Test Device
+2025-05-27 13:56:38 - whitelist.endpoints - INFO - Whitelist mode is active, updating traffic control for 192.168.1.122
+2025-05-27 13:56:38 - whitelist.bandwidth - INFO - Adding device 192.168.1.122 to traffic control rules
+2025-05-27 13:56:43 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 13:56:45 - whitelist.bandwidth - INFO - Device 192.168.1.122 successfully added to traffic control on all interfaces
+2025-05-27 13:56:45 - whitelist.endpoints - INFO - Successfully added device 192.168.1.122 to whitelist
+2025-05-27 13:56:54 - whitelist.endpoints - INFO - Updating whitelist limit rate to 50
+2025-05-27 13:56:54 - whitelist.bandwidth - INFO - Updated whitelist limit rate to 50.0mbit
+2025-05-27 13:56:54 - whitelist.bandwidth - INFO - Found 1 IPs in whitelist
+2025-05-27 13:56:54 - whitelist.bandwidth - INFO - Whitelist contains 1 IPs
+2025-05-27 13:56:54 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 13:56:54 - whitelist.bandwidth - INFO - Setting up traffic control on br-lan with limit 50.0mbit
+2025-05-27 13:56:55 - whitelist.bandwidth - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 13:56:55 - whitelist.bandwidth - INFO - Setting up traffic control on eth0 with limit 50.0mbit
+2025-05-27 13:56:55 - whitelist.bandwidth - INFO - Traffic control setup completed for interface eth0
+2025-05-27 13:56:55 - whitelist.bandwidth - INFO - Setting up traffic control on lan1 with limit 50.0mbit
+2025-05-27 13:56:56 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan1
+2025-05-27 13:56:56 - whitelist.bandwidth - INFO - Setting up traffic control on lan2 with limit 50.0mbit
+2025-05-27 13:56:56 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan2
+2025-05-27 13:56:56 - whitelist.bandwidth - INFO - Setting up traffic control on lan3 with limit 50.0mbit
+2025-05-27 13:56:56 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan3
+2025-05-27 13:56:56 - whitelist.bandwidth - INFO - Setting up traffic control on lan4 with limit 50.0mbit
+2025-05-27 13:56:57 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan4
+2025-05-27 13:56:57 - whitelist.bandwidth - INFO - Setting up traffic control on phy0-ap0 with limit 50.0mbit
+2025-05-27 13:56:57 - whitelist.bandwidth - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 13:56:57 - whitelist.bandwidth - INFO - Setting up traffic control on teql0 with limit 50.0mbit
+2025-05-27 13:56:58 - whitelist.bandwidth - INFO - Traffic control setup completed for interface teql0
+2025-05-27 13:56:58 - whitelist.bandwidth - INFO - Setting up traffic control on wan with limit 50.0mbit
+2025-05-27 13:56:58 - whitelist.bandwidth - INFO - Traffic control setup completed for interface wan
+2025-05-27 13:56:58 - whitelist.bandwidth - INFO - Setting up traffic control on wlan1 with limit 50.0mbit
+2025-05-27 13:56:58 - whitelist.bandwidth - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 13:56:58 - whitelist.bandwidth - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 13:56:58 - whitelist.endpoints - INFO - Whitelist limit rate successfully updated to 50.0mbit
+2025-05-27 13:57:31 - whitelist.endpoints - INFO - Removing device 192.168.1.122 from whitelist
+2025-05-27 13:57:31 - whitelist.endpoints - ERROR - Error removing device from whitelist: 'Table' object has no attribute 'ip'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 88, in remove_from_whitelist_route
+    removed_entry = db_client.bandwidth_whitelist.remove(db_client.bandwidth_whitelist.ip == ip)
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Table' object has no attribute 'ip'
+2025-05-27 13:57:52 - whitelist.endpoints - INFO - Getting whitelist devices
+2025-05-27 13:57:52 - whitelist.endpoints - INFO - Found 1 devices in whitelist
+2025-05-27 13:58:02 - whitelist.endpoints - INFO - Removing device 192.168.1.122 from whitelist
+2025-05-27 13:58:02 - whitelist.endpoints - ERROR - Error removing device from whitelist: 'Table' object has no attribute 'ip'
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 88, in remove_from_whitelist_route
+    removed_entry = db_client.bandwidth_whitelist.remove(db_client.bandwidth_whitelist.ip == ip)
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Table' object has no attribute 'ip'
+2025-05-27 13:59:43 - whitelist.endpoints - INFO - Removing device 192.168.1.122 from whitelist
+2025-05-27 13:59:43 - whitelist.bandwidth - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-05-27 13:59:43 - whitelist.endpoints - INFO - Whitelist mode is active, removing 192.168.1.122 from traffic control
+2025-05-27 13:59:43 - whitelist.bandwidth - INFO - Removing device 192.168.1.122 from traffic control rules
+2025-05-27 13:59:44 - whitelist.bandwidth - INFO - Device 192.168.1.122 successfully removed from traffic control
+2025-05-27 13:59:44 - whitelist.endpoints - INFO - Successfully removed device 192.168.1.122 from whitelist
+2025-05-27 14:00:57 - whitelist.endpoints - INFO - Attempting to deactivate whitelist mode
+2025-05-27 14:00:57 - whitelist.endpoints - INFO - Deactivating whitelist mode on router
+2025-05-27 14:00:57 - whitelist.bandwidth - INFO - Deactivating whitelist mode on router
+2025-05-27 14:00:57 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 14:00:58 - whitelist.bandwidth - INFO - Whitelist mode deactivated on router
+2025-05-27 14:00:58 - whitelist.endpoints - INFO - Whitelist mode successfully deactivated
+2025-05-27 14:05:23 - whitelist.endpoints - INFO - Getting whitelist devices
+2025-05-27 14:05:23 - whitelist.endpoints - INFO - Found 0 devices in whitelist
+2025-05-27 14:12:31 - whitelist.endpoints - INFO - Adding device 192.168.1.122 to whitelist with name: Test Device
+2025-05-27 14:12:31 - whitelist.endpoints - INFO - Successfully added device 192.168.1.122 to whitelist
+2025-05-27 14:12:37 - whitelist.endpoints - INFO - Getting whitelist devices
+2025-05-27 14:12:37 - whitelist.endpoints - INFO - Found 1 devices in whitelist
+2025-05-27 14:12:50 - whitelist.endpoints - INFO - Attempting to activate whitelist mode
+2025-05-27 14:12:50 - whitelist.endpoints - INFO - Activating whitelist mode on router
+2025-05-27 14:12:50 - whitelist.bandwidth - INFO - Activating whitelist mode on router
+2025-05-27 14:12:50 - whitelist.bandwidth - INFO - Found 1 IPs in whitelist
+2025-05-27 14:12:50 - whitelist.bandwidth - INFO - Whitelist contains 1 IPs
+2025-05-27 14:12:50 - whitelist.bandwidth - INFO - Found network interfaces: ['br-lan', 'eth0', 'lan1', 'lan2', 'lan3', 'lan4', 'phy0-ap0', 'teql0', 'wan', 'wlan1']
+2025-05-27 14:12:50 - whitelist.bandwidth - INFO - Setting up traffic control on br-lan with limit 50.0mbit
+2025-05-27 14:12:50 - whitelist.bandwidth - INFO - Traffic control setup completed for interface br-lan
+2025-05-27 14:12:50 - whitelist.bandwidth - INFO - Setting up traffic control on eth0 with limit 50.0mbit
+2025-05-27 14:12:51 - whitelist.bandwidth - INFO - Traffic control setup completed for interface eth0
+2025-05-27 14:12:51 - whitelist.bandwidth - INFO - Setting up traffic control on lan1 with limit 50.0mbit
+2025-05-27 14:12:51 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan1
+2025-05-27 14:12:51 - whitelist.bandwidth - INFO - Setting up traffic control on lan2 with limit 50.0mbit
+2025-05-27 14:12:51 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan2
+2025-05-27 14:12:51 - whitelist.bandwidth - INFO - Setting up traffic control on lan3 with limit 50.0mbit
+2025-05-27 14:12:52 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan3
+2025-05-27 14:12:52 - whitelist.bandwidth - INFO - Setting up traffic control on lan4 with limit 50.0mbit
+2025-05-27 14:12:52 - whitelist.bandwidth - INFO - Traffic control setup completed for interface lan4
+2025-05-27 14:12:52 - whitelist.bandwidth - INFO - Setting up traffic control on phy0-ap0 with limit 50.0mbit
+2025-05-27 14:12:52 - whitelist.bandwidth - INFO - Traffic control setup completed for interface phy0-ap0
+2025-05-27 14:12:52 - whitelist.bandwidth - INFO - Setting up traffic control on teql0 with limit 50.0mbit
+2025-05-27 14:12:52 - whitelist.bandwidth - INFO - Traffic control setup completed for interface teql0
+2025-05-27 14:12:52 - whitelist.bandwidth - INFO - Setting up traffic control on wan with limit 50.0mbit
+2025-05-27 14:12:53 - whitelist.bandwidth - INFO - Traffic control setup completed for interface wan
+2025-05-27 14:12:53 - whitelist.bandwidth - INFO - Setting up traffic control on wlan1 with limit 50.0mbit
+2025-05-27 14:12:53 - whitelist.bandwidth - INFO - Traffic control setup completed for interface wlan1
+2025-05-27 14:12:53 - whitelist.bandwidth - INFO - Traffic control with iptables set up successfully on all interfaces
+2025-05-27 14:12:53 - whitelist.bandwidth - INFO - Whitelist mode activation succeeded
+2025-05-27 14:12:53 - whitelist.endpoints - INFO - Whitelist mode successfully activated
+2025-05-27 14:13:02 - whitelist.endpoints - INFO - Removing device 192.168.1.122 from whitelist
+2025-05-27 14:13:02 - whitelist.bandwidth - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-05-27 14:13:02 - whitelist.endpoints - INFO - Whitelist mode is active, removing 192.168.1.122 from traffic control
+2025-05-27 14:13:02 - whitelist.bandwidth - INFO - Removing device 192.168.1.122 from traffic control rules
+2025-05-27 14:13:02 - whitelist.bandwidth - INFO - Device 192.168.1.122 successfully removed from traffic control
+2025-05-27 14:13:02 - whitelist.endpoints - INFO - Successfully removed device 192.168.1.122 from whitelist
+2025-05-27 19:59:13 - whitelist.endpoints - ERROR - Error adding device to whitelist: Invalid configuration name: bandwidth
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 40, in add_to_whitelist
+    result = add_device_to_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 52, in add_device_to_whitelist
+    if get_current_mode_value() == 'whitelist':
+       ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\mode_state_service.py", line 10, in get_current_mode_value
+    config = config_manager.load_config('bandwidth')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\utils\config_manager.py", line 69, in load_config
+    raise ValueError(f"Invalid configuration name: {config_name}")
+ValueError: Invalid configuration name: bandwidth
+2025-05-27 20:52:16 - whitelist.endpoints - ERROR - Error adding device to whitelist: Device with IP 192.168.1.122 already in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 40, in add_to_whitelist
+    result = add_device_to_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 42, in add_device_to_whitelist
+    device = add_to_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 48, in add_to_whitelist
+    raise ValueError(f"Device with IP {ip} already in whitelist")
+ValueError: Device with IP 192.168.1.122 already in whitelist
+2025-05-27 20:52:24 - whitelist.endpoints - ERROR - Error removing device from whitelist: Invalid configuration name: bandwidth
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 55, in remove_from_whitelist
+    result = remove_device_from_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 71, in remove_device_from_whitelist
+    if get_current_mode_value() == 'whitelist':
+       ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\mode_state_service.py", line 10, in get_current_mode_value
+    config = config_manager.load_config('bandwidth')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\utils\config_manager.py", line 69, in load_config
+    raise ValueError(f"Invalid configuration name: {config_name}")
+ValueError: Invalid configuration name: bandwidth
+2025-05-27 20:53:09 - whitelist.endpoints - ERROR - Error removing device from whitelist: Device with IP 192.168.1.122 not found in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 55, in remove_from_whitelist
+    result = remove_device_from_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 62, in remove_device_from_whitelist
+    raise ValueError(f"Device with IP {ip} not found in whitelist")
+ValueError: Device with IP 192.168.1.122 not found in whitelist
+2025-05-27 20:53:40 - whitelist.endpoints - ERROR - Error activating whitelist mode: Traffic control setup failed on some interfaces
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 125, in activate
+    result = activate_whitelist_mode()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 147, in activate_whitelist_mode
+    setup_tc_with_iptables()
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 274, in setup_tc_with_iptables
+    raise Exception("Traffic control setup failed on some interfaces")
+Exception: Traffic control setup failed on some interfaces
+2025-05-27 20:58:08 - whitelist.endpoints - ERROR - Error activating whitelist mode: 'bool' object is not callable
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 125, in activate
+    result = activate_whitelist_mode()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 147, in activate_whitelist_mode
+    setup_tc_with_iptables()
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 279, in setup_tc_with_iptables
+    return success(message="Traffic control with iptables set up successfully")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'bool' object is not callable
+2025-05-27 21:03:36 - whitelist.endpoints - ERROR - Error adding device to whitelist: Device with IP 192.168.1.122 already in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 40, in add_to_whitelist
+    result = add_device_to_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 42, in add_device_to_whitelist
+    device = add_to_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 48, in add_to_whitelist
+    raise ValueError(f"Device with IP {ip} already in whitelist")
+ValueError: Device with IP 192.168.1.122 already in whitelist

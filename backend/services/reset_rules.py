@@ -1,30 +1,60 @@
+from utils.logging_config import get_logger
 from utils.ssh_client import ssh_manager
-from utils.response_helpers import success, error
-from services.block_ip import get_blocked_devices, unblock_mac_address
-from services.limit_bandwidth import remove_bandwidth_limit
+from utils.response_helpers import success
+from services.block_ip import get_blocked_devices, unblock_device_by_ip
 from db.device_repository import get_all_devices
-from db.device_groups_repository import get_rules_for_device
+
+logger = get_logger('services.reset_rules')
 
 def reset_all_tc_rules():
     """
     Remove all traffic control (bandwidth limit) rules from the router.
+    This is used when resetting blacklist/whitelist modes.
     """
-    # Get all interfaces first
-    iface_cmd = "ip link show | grep -v '@' | grep -v 'lo:' | awk -F': ' '{print $2}' | cut -d'@' -f1"
-    interfaces_output, iface_error = ssh_manager.execute_command(iface_cmd)
-    
-    if iface_error:
-        return error(f"Failed to fetch network interfaces: {iface_error}")
+    try:
+        # Flush iptables mangle table first to remove any packet marks
+        logger.info("Flushing iptables mangle table.")
+        iptables_flush_output, iptables_flush_error = ssh_manager.execute_command("iptables -t mangle -F")
+        if iptables_flush_error:
+            # Log an error but proceed with trying to remove tc rules
+            logger.error(f"Error flushing iptables mangle table: {iptables_flush_error}. Output: {iptables_flush_output}")
+            # Depending on policy, you might choose to raise an exception here
+            # raise Exception(f"Failed to flush iptables mangle table: {iptables_flush_error}")
+        else:
+            logger.info("Successfully flushed iptables mangle table.")
+
+        # Get all interfaces first
+        iface_cmd = "ip link show | grep -v '@' | grep -v 'lo:' | awk -F': ' '{print $2}' | cut -d'@' -f1"
+        interfaces_output, iface_error = ssh_manager.execute_command(iface_cmd)
         
-    # For each interface, remove all tc rules
-    for interface in interfaces_output.strip().split('\n'):
-        if not interface.strip():
-            continue
+        if iface_error:
+            raise Exception(f"Failed to fetch network interfaces: {iface_error}")
+        
+        # For each interface, remove all tc rules
+        for interface in interfaces_output.strip().split('\n'):
+            if not interface.strip():
+                continue
             
-        # Remove all qdisc rules
-        ssh_manager.execute_command(f"tc qdisc del dev {interface} root 2>/dev/null")
+            # Remove all qdisc rules. Capture stderr.
+            cmd = f"tc qdisc del dev {interface} root"
+            output, error = ssh_manager.execute_command(cmd) # error will now contain tc's stderr
+
+            # Log the outcome, even if 'successful' due to no qdisc existing
+            if error:
+                # Log common 'Cannot find device' or 'RTNETLINK answers: No such file or directory' as info, others as error
+                if "Cannot find device" in error or "No such file or directory" in error:
+                    logger.info(f"Interface {interface} or qdisc not found (normal for reset): {error}")
+                else:
+                    logger.error(f"Error deleting qdisc on {interface}: {error}. Output: {output}")
+                    # Optionally, re-raise an exception if a critical error occurs during reset
+                    # raise Exception(f"Failed to delete qdisc on {interface}: {error}") 
+            else:
+                logger.info(f"Successfully deleted qdisc on {interface} or no qdisc was present. Output: {output}")
         
-    return success("All bandwidth limits removed")
+        return success(message="All traffic control rules removed (or attempted)")
+    except Exception as e:
+        logger.error(f"Error resetting traffic control rules: {str(e)}", exc_info=True)
+        raise
 
 def unblock_all_devices():
     """
@@ -40,7 +70,7 @@ def unblock_all_devices():
     
     for device in blocked_devices:
         if device["ip"] != "Unknown":
-            unblock_mac_address(device["ip"])
+            unblock_device_by_ip(device["ip"])
             unblocked_count += 1
             
     # Also reset the OpenWrt blocklist settings
@@ -55,20 +85,24 @@ def reset_all_rules():
     """
     Reset all network rules including bandwidth limits and blocks.
     """
-    # Reset bandwidth limits
-    tc_result = reset_all_tc_rules()
-    
-    # Unblock devices
-    unblock_result = unblock_all_devices()
-    
-    # Get all rules from database to report what was cleared
-    all_devices = get_all_devices()
-    
-    return success(
-        message="All network rules have been reset successfully",
-        data={
-            "bandwidth_reset": tc_result.get("message", "Failed"),
-            "unblock_reset": unblock_result.get("message", "Failed"),
-            "affected_devices": len(all_devices)
-        }
-    )
+    try:
+        # Reset bandwidth limits
+        tc_result = reset_all_tc_rules()
+        
+        # Unblock devices
+        unblock_result = unblock_all_devices()
+        
+        # Get all rules from database to report what was cleared
+        all_devices = get_all_devices()
+        
+        return success(
+            message="All network rules have been reset successfully",
+            data={
+                "bandwidth_reset": tc_result.get("message", "Failed"),
+                "unblock_reset": unblock_result.get("message", "Failed"),
+                "affected_devices": len(all_devices)
+            }
+        )
+    except Exception as e:
+        logger.error(f"Error resetting network rules: {str(e)}", exc_info=True)
+        raise

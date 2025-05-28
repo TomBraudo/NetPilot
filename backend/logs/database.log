@@ -318,3 +318,1018 @@
 2025-05-21 17:27:11 - db.schema_initializer - INFO - All tables initialized
 2025-05-21 17:27:14 - db.tinydb - INFO - TinyDB connection closed
 2025-05-21 17:27:14 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 13:42:51 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 13:42:51 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 13:45:12 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 13:45:12 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 13:45:13 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 13:45:13 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 13:45:13 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 13:45:13 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 13:45:14 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 13:45:14 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 13:58:35 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 13:58:36 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 13:58:36 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 13:58:37 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 13:58:37 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 13:59:13 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 13:59:14 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 13:59:14 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 13:59:15 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 13:59:15 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 13:59:27 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 13:59:28 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 13:59:28 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 13:59:29 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 13:59:29 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 13:59:34 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 13:59:35 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 13:59:35 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 13:59:35 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 13:59:35 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:00:18 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:00:18 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:00:18 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:00:19 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:00:19 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:00:33 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:00:33 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:00:33 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:00:34 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:00:34 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:00:48 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:00:48 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:00:48 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:00:49 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:00:49 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:02:14 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:02:15 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:02:15 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:02:16 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:02:16 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:03:17 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:03:17 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:03:17 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:03:18 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:03:18 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:06:49 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:06:52 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:07:21 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:07:21 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:08:36 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:08:36 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:09:37 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:09:37 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:09:38 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:09:38 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:09:38 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:09:38 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:09:39 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:09:39 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:10:49 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:10:49 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:10:49 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:10:50 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:10:50 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:11:02 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:11:03 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:11:04 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:11:04 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:11:05 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:11:05 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:11:05 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:11:05 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:11:06 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:11:06 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:13:12 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:13:12 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:34:18 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:34:18 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:35:01 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:35:01 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:39:49 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:39:49 - db.tinydb - INFO - Initialized setting whitelist_mode to False
+2025-05-27 14:39:49 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:40:25 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:40:25 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:41:00 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:41:00 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:42:04 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:42:04 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:42:34 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:42:34 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:42:39 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:42:39 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:49:49 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:49:49 - db.tinydb - INFO - Initialized setting blacklist_mode to False
+2025-05-27 14:49:49 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:50:44 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:50:44 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:50:45 - db.schema_initializer - INFO - Default 'general' group created
+2025-05-27 14:50:45 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:50:45 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:50:45 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:50:45 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:50:46 - db.schema_initializer - INFO - Default 'general' group created
+2025-05-27 14:50:46 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:50:46 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:51:57 - db.blacklist - WARNING - Attempted to add IP 192.168.1.122 that is not in network
+2025-05-27 14:52:03 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:52:03 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:52:03 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:52:04 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:52:04 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:52:13 - db.device_repository - INFO - Registered new device router with IP 192.168.1.1
+2025-05-27 14:52:13 - db.device_repository - INFO - Added device router to general group
+2025-05-27 14:52:13 - db.device_repository - INFO - Registered new device d8:bb:c1:47:3a:43 with IP 192.168.1.122
+2025-05-27 14:52:13 - db.device_repository - INFO - Added device d8:bb:c1:47:3a:43 to general group
+2025-05-27 14:52:13 - db.device_repository - INFO - Registered new device 12:2a:0a:02:ce:19 with IP 192.168.1.221
+2025-05-27 14:52:13 - db.device_repository - INFO - Added device 12:2a:0a:02:ce:19 to general group
+2025-05-27 14:52:19 - db.blacklist - INFO - Added device with IP 192.168.1.122 (MAC: d8:bb:c1:47:3a:43) to blacklist
+2025-05-27 14:54:35 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:54:36 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:54:36 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:54:37 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:54:37 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:54:39 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:54:39 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:55:13 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:55:13 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:55:14 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:55:14 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:55:14 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:55:14 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:55:15 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:55:15 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:55:51 - db.blacklist - WARNING - Attempted to add IP 192.168.1.122 that is not in network
+2025-05-27 14:55:59 - db.device_repository - INFO - Registered new device router with IP 192.168.1.1
+2025-05-27 14:55:59 - db.device_repository - INFO - Added device router to general group
+2025-05-27 14:55:59 - db.device_repository - INFO - Registered new device d8:bb:c1:47:3a:43 with IP 192.168.1.122
+2025-05-27 14:55:59 - db.device_repository - INFO - Added device d8:bb:c1:47:3a:43 to general group
+2025-05-27 14:55:59 - db.device_repository - INFO - Registered new device 12:2a:0a:02:ce:19 with IP 192.168.1.221
+2025-05-27 14:55:59 - db.device_repository - INFO - Added device 12:2a:0a:02:ce:19 to general group
+2025-05-27 14:56:07 - db.blacklist - INFO - Added device with IP 192.168.1.122 (MAC: d8:bb:c1:47:3a:43) to blacklist
+2025-05-27 14:56:16 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:56:17 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:56:18 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:56:18 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:56:19 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:56:19 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:56:20 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 14:56:20 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 14:56:20 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 14:56:20 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 14:56:34 - db.blacklist - WARNING - Attempted to remove IP 192.168.1.122 that does not exist in blacklist
+2025-05-27 14:56:43 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 14:56:43 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:00:30 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:00:30 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:00:31 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:00:31 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:00:31 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:00:31 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:00:32 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:00:32 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:00:43 - db.blacklist - WARNING - Attempted to add IP 192.168.1.122 that is not in network
+2025-05-27 15:00:43 - db.blacklist - ERROR - Error adding to blacklist: Device with IP 192.168.1.122 not found in network
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 53, in add_to_blacklist
+    raise ValueError(f"Device with IP {ip} not found in network")
+ValueError: Device with IP 192.168.1.122 not found in network
+2025-05-27 15:00:53 - db.device_repository - INFO - Registered new device router with IP 192.168.1.1
+2025-05-27 15:00:53 - db.device_repository - INFO - Added device router to general group
+2025-05-27 15:00:53 - db.device_repository - INFO - Registered new device d8:bb:c1:47:3a:43 with IP 192.168.1.122
+2025-05-27 15:00:53 - db.device_repository - INFO - Added device d8:bb:c1:47:3a:43 to general group
+2025-05-27 15:00:53 - db.device_repository - INFO - Registered new device 12:2a:0a:02:ce:19 with IP 192.168.1.221
+2025-05-27 15:00:53 - db.device_repository - INFO - Added device 12:2a:0a:02:ce:19 to general group
+2025-05-27 15:00:57 - db.blacklist - WARNING - Attempted to remove IP 192.168.1.122 that does not exist in blacklist
+2025-05-27 15:00:57 - db.blacklist - ERROR - Error removing from blacklist: Device with IP 192.168.1.122 not found in blacklist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 94, in remove_from_blacklist
+    raise ValueError(f"Device with IP {ip} not found in blacklist")
+ValueError: Device with IP 192.168.1.122 not found in blacklist
+2025-05-27 15:00:59 - db.blacklist - INFO - Added device with IP 192.168.1.122 (MAC: d8:bb:c1:47:3a:43) to blacklist
+2025-05-27 15:01:12 - db.blacklist - INFO - Removed device with IP 192.168.1.122 from blacklist
+2025-05-27 15:01:21 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:01:21 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:01:22 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:01:22 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:01:23 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:01:23 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:01:23 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:01:23 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:01:24 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:01:24 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:01:30 - db.blacklist - WARNING - Attempted to add IP 192.168.1.122 that is not in network
+2025-05-27 15:01:30 - db.blacklist - ERROR - Error adding to blacklist: Device with IP 192.168.1.122 not found in network
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 53, in add_to_blacklist
+    raise ValueError(f"Device with IP {ip} not found in network")
+ValueError: Device with IP 192.168.1.122 not found in network
+2025-05-27 15:02:46 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:02:47 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:02:47 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:02:48 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:12:15 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:12:15 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:12:16 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:12:16 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:12:16 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:12:16 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:12:17 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:12:17 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:12:38 - db.blacklist - WARNING - Attempted to add IP 192.168.1.122 that does not exist in devices table
+2025-05-27 15:12:38 - db.blacklist - ERROR - Error adding to blacklist: Device with IP 192.168.1.122 not found in devices table
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 58, in add_to_blacklist
+    raise ValueError(f"Device with IP {ip} not found in devices table")
+ValueError: Device with IP 192.168.1.122 not found in devices table
+2025-05-27 15:12:46 - db.device_repository - INFO - Registered new device router with IP 192.168.1.1
+2025-05-27 15:12:46 - db.device_repository - INFO - Added device router to general group
+2025-05-27 15:12:46 - db.device_repository - INFO - Registered new device d8:bb:c1:47:3a:43 with IP 192.168.1.122
+2025-05-27 15:12:46 - db.device_repository - INFO - Added device d8:bb:c1:47:3a:43 to general group
+2025-05-27 15:12:46 - db.device_repository - INFO - Registered new device 12:2a:0a:02:ce:19 with IP 192.168.1.221
+2025-05-27 15:12:46 - db.device_repository - INFO - Added device 12:2a:0a:02:ce:19 to general group
+2025-05-27 15:12:52 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:12:52 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:12:53 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:12:53 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:12:54 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:12:54 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:12:54 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:12:54 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:12:55 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:12:55 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:13:00 - db.blacklist - WARNING - Attempted to add IP 192.168.1.122 that does not exist in devices table
+2025-05-27 15:13:00 - db.blacklist - ERROR - Error adding to blacklist: Device with IP 192.168.1.122 not found in devices table
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 58, in add_to_blacklist
+    raise ValueError(f"Device with IP {ip} not found in devices table")
+ValueError: Device with IP 192.168.1.122 not found in devices table
+2025-05-27 15:13:08 - db.device_repository - INFO - Registered new device router with IP 192.168.1.1
+2025-05-27 15:13:08 - db.device_repository - INFO - Added device router to general group
+2025-05-27 15:13:08 - db.device_repository - INFO - Registered new device d8:bb:c1:47:3a:43 with IP 192.168.1.122
+2025-05-27 15:13:08 - db.device_repository - INFO - Added device d8:bb:c1:47:3a:43 to general group
+2025-05-27 15:13:08 - db.device_repository - INFO - Registered new device 12:2a:0a:02:ce:19 with IP 192.168.1.221
+2025-05-27 15:13:08 - db.device_repository - INFO - Added device 12:2a:0a:02:ce:19 to general group
+2025-05-27 15:13:11 - db.blacklist - INFO - Added device with IP 192.168.1.122 to blacklist
+2025-05-27 15:15:01 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:15:01 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:15:01 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:15:02 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:15:02 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:15:17 - db.blacklist - INFO - Removed device with IP 192.168.1.122 from blacklist
+2025-05-27 15:15:25 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:15:25 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:15:26 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:15:26 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:15:27 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:15:27 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:15:28 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:15:28 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:15:29 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:15:29 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:15:34 - db.device_repository - INFO - Registered new device router with IP 192.168.1.1
+2025-05-27 15:15:34 - db.device_repository - INFO - Added device router to general group
+2025-05-27 15:15:34 - db.device_repository - INFO - Registered new device d8:bb:c1:47:3a:43 with IP 192.168.1.122
+2025-05-27 15:15:34 - db.device_repository - INFO - Added device d8:bb:c1:47:3a:43 to general group
+2025-05-27 15:15:34 - db.device_repository - INFO - Registered new device 12:2a:0a:02:ce:19 with IP 192.168.1.221
+2025-05-27 15:15:34 - db.device_repository - INFO - Added device 12:2a:0a:02:ce:19 to general group
+2025-05-27 15:15:39 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:15:39 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:15:41 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:15:41 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:15:41 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:15:41 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:15:42 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:15:42 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:15:43 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:15:43 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:15:50 - db.blacklist - WARNING - Attempted to add IP 192.168.1.122 that does not exist in devices table
+2025-05-27 15:15:50 - db.blacklist - ERROR - Error adding to blacklist: Device with IP 192.168.1.122 not found in devices table
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 58, in add_to_blacklist
+    raise ValueError(f"Device with IP {ip} not found in devices table")
+ValueError: Device with IP 192.168.1.122 not found in devices table
+2025-05-27 15:16:18 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:16:18 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:16:18 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:16:19 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:16:19 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:16:31 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:16:31 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:16:32 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:16:32 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:16:33 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:16:33 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:16:33 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:16:33 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:16:34 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:16:34 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:16:36 - db.blacklist - WARNING - Attempted to add IP 192.168.1.122 that does not exist in devices table
+2025-05-27 15:16:36 - db.blacklist - ERROR - Error adding to blacklist: Device with IP 192.168.1.122 not found in devices table
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 58, in add_to_blacklist
+    raise ValueError(f"Device with IP {ip} not found in devices table")
+ValueError: Device with IP 192.168.1.122 not found in devices table
+2025-05-27 15:16:44 - db.device_repository - INFO - Registered new device router with IP 192.168.1.1
+2025-05-27 15:16:44 - db.device_repository - INFO - Added device router to general group
+2025-05-27 15:16:44 - db.device_repository - INFO - Registered new device d8:bb:c1:47:3a:43 with IP 192.168.1.122
+2025-05-27 15:16:44 - db.device_repository - INFO - Added device d8:bb:c1:47:3a:43 to general group
+2025-05-27 15:16:44 - db.device_repository - INFO - Registered new device 12:2a:0a:02:ce:19 with IP 192.168.1.221
+2025-05-27 15:16:44 - db.device_repository - INFO - Added device 12:2a:0a:02:ce:19 to general group
+2025-05-27 15:16:45 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:16:45 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:16:46 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:16:46 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:16:47 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:16:47 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:16:47 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:16:47 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:16:48 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:16:48 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:16:53 - db.blacklist - WARNING - Attempted to add IP 192.168.1.122 that does not exist in devices table
+2025-05-27 15:16:53 - db.blacklist - ERROR - Error adding to blacklist: Device with IP 192.168.1.122 not found in devices table
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 58, in add_to_blacklist
+    raise ValueError(f"Device with IP {ip} not found in devices table")
+ValueError: Device with IP 192.168.1.122 not found in devices table
+2025-05-27 15:20:58 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:20:59 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:20:59 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:20:59 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:20:59 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:21:05 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:21:05 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:21:12 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:21:12 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:21:13 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:21:13 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:21:13 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:21:13 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:21:14 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:21:14 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:21:18 - db.device_repository - INFO - Registered new device router with IP 192.168.1.1
+2025-05-27 15:21:18 - db.device_repository - INFO - Added device router to general group
+2025-05-27 15:21:18 - db.device_repository - INFO - Registered new device d8:bb:c1:47:3a:43 with IP 192.168.1.122
+2025-05-27 15:21:18 - db.device_repository - INFO - Added device d8:bb:c1:47:3a:43 to general group
+2025-05-27 15:21:19 - db.device_repository - INFO - Registered new device 12:2a:0a:02:ce:19 with IP 192.168.1.221
+2025-05-27 15:21:19 - db.device_repository - INFO - Added device 12:2a:0a:02:ce:19 to general group
+2025-05-27 15:21:20 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:21:20 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:21:21 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:21:21 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:21:22 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:21:22 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:21:22 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:21:22 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:21:23 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:21:23 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:21:25 - db.blacklist - WARNING - Attempted to add IP 192.168.1.122 that does not exist in devices table
+2025-05-27 15:21:25 - db.blacklist - ERROR - Error adding to blacklist: Device with IP 192.168.1.122 not found in devices table
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\blacklist_management.py", line 58, in add_to_blacklist
+    raise ValueError(f"Device with IP {ip} not found in devices table")
+ValueError: Device with IP 192.168.1.122 not found in devices table
+2025-05-27 15:22:20 - db.device_repository - INFO - Registered new device router with IP 192.168.1.1
+2025-05-27 15:22:20 - db.device_repository - INFO - Added device router to general group
+2025-05-27 15:22:20 - db.device_repository - INFO - Registered new device d8:bb:c1:47:3a:43 with IP 192.168.1.122
+2025-05-27 15:22:20 - db.device_repository - INFO - Added device d8:bb:c1:47:3a:43 to general group
+2025-05-27 15:22:20 - db.device_repository - INFO - Registered new device 12:2a:0a:02:ce:19 with IP 192.168.1.221
+2025-05-27 15:22:20 - db.device_repository - INFO - Added device 12:2a:0a:02:ce:19 to general group
+2025-05-27 15:22:28 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:22:28 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:25:27 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:25:27 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:25:28 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:25:28 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:25:28 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:25:28 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:25:29 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 15:25:29 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 15:25:34 - db.device_repository - INFO - Registered new device router with IP 192.168.1.1
+2025-05-27 15:25:34 - db.device_repository - INFO - Added device router to general group
+2025-05-27 15:25:34 - db.device_repository - INFO - Registered new device d8:bb:c1:47:3a:43 with IP 192.168.1.122
+2025-05-27 15:25:34 - db.device_repository - INFO - Added device d8:bb:c1:47:3a:43 to general group
+2025-05-27 15:25:34 - db.device_repository - INFO - Registered new device 12:2a:0a:02:ce:19 with IP 192.168.1.221
+2025-05-27 15:25:34 - db.device_repository - INFO - Added device 12:2a:0a:02:ce:19 to general group
+2025-05-27 15:25:37 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:25:38 - db.tinydb - INFO - TinyDB connection closed
+2025-05-27 15:30:34 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:30:34 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 15:30:34 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:45:32 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:45:32 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 15:45:32 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:47:04 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:47:04 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 15:47:04 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:48:22 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:48:22 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 15:48:22 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:49:42 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:49:42 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 15:49:42 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:50:55 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:50:55 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 15:50:55 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:53:52 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:53:52 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 15:53:52 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:55:34 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:55:34 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 15:55:34 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:56:15 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:56:15 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 15:56:15 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:57:20 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:57:20 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 15:57:20 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 15:59:23 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 15:59:23 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 15:59:23 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:00:46 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:00:46 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:00:46 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:01:34 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:01:34 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:01:34 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:01:35 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:01:35 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:01:35 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:01:35 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:01:35 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:01:36 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:01:36 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:01:43 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 16:01:43 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 16:37:09 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:37:09 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:37:09 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:37:10 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:37:10 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:37:10 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:37:10 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:37:10 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:37:11 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:37:11 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:39:38 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 16:39:39 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:39:39 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:39:39 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:39:40 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:39:40 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:40:32 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 16:40:33 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:40:33 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:40:33 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:40:34 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:40:34 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:40:40 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 16:40:40 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 16:40:42 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:40:42 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:40:42 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:40:43 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:40:43 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:40:43 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:40:43 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:40:43 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:40:44 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:40:44 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:42:41 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 16:42:41 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:42:41 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:42:41 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:42:42 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:42:42 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:43:06 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 16:43:06 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 16:43:54 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:43:54 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:43:54 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:43:55 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:43:55 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:43:55 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:43:55 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:43:55 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:43:56 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:43:56 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:44:00 - db.device_groups_repository - INFO - Added rule block for device d8:bb:c1:47:3a:43
+2025-05-27 16:44:59 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 16:44:59 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:44:59 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:44:59 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:45:00 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:45:00 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:45:09 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 16:45:09 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:45:09 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:45:09 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:45:10 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:45:10 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:45:31 - db.device_groups_repository - INFO - Updated rule block for device d8:bb:c1:47:3a:43
+2025-05-27 16:45:55 - db.device_groups_repository - INFO - Updated rule block for device d8:bb:c1:47:3a:43
+2025-05-27 16:47:12 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 16:47:12 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:47:12 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:47:12 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:47:13 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:47:13 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:47:18 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 16:47:18 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 16:48:09 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:48:09 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:48:09 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:48:10 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:48:10 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:48:10 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:48:10 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:48:10 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:48:11 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:48:11 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:49:30 - db.device_groups_repository - INFO - Updated rule block for device d8:bb:c1:47:3a:43
+2025-05-27 16:51:01 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 16:51:02 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:51:02 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:51:02 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:51:03 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:51:03 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:51:06 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 16:51:06 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 16:52:16 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:52:16 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:52:16 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:52:17 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:52:17 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:52:17 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:52:17 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:52:17 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:52:18 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:52:18 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:52:19 - db.blacklist - INFO - Added device 192.168.1.122 to blacklist
+2025-05-27 16:52:19 - db.device_groups_repository - INFO - Updated rule block for device d8:bb:c1:47:3a:43
+2025-05-27 16:56:12 - db.blacklist - INFO - Updated blacklist entry for device 192.168.1.122
+2025-05-27 16:56:12 - db.device_groups_repository - INFO - Updated rule block for device d8:bb:c1:47:3a:43
+2025-05-27 16:56:32 - db.blacklist - INFO - Updated blacklist entry for device 192.168.1.122
+2025-05-27 16:56:32 - db.device_groups_repository - INFO - Updated rule block for device d8:bb:c1:47:3a:43
+2025-05-27 16:57:40 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 16:57:40 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:57:40 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:57:40 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:57:41 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:57:41 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:58:23 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 16:58:24 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:58:24 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:58:24 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:58:25 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:58:25 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:58:34 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 16:58:35 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:58:35 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:58:35 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:58:36 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:58:36 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:58:39 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 16:58:39 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:58:39 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:58:39 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:58:40 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:58:40 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 16:59:55 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 16:59:55 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 16:59:55 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 16:59:55 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 16:59:56 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 16:59:56 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 17:00:08 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 17:00:08 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 17:00:08 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 17:00:08 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 17:00:09 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 17:00:09 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 17:00:21 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
+2025-05-27 17:00:21 - db.device_groups_repository - INFO - Removed rule block from device d8:bb:c1:47:3a:43
+2025-05-27 17:01:38 - db.blacklist - INFO - Added device 192.168.1.122 to blacklist
+2025-05-27 17:01:38 - db.device_groups_repository - INFO - Added rule block for device d8:bb:c1:47:3a:43
+2025-05-27 17:02:54 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 17:02:54 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 17:02:54 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 17:02:54 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 17:02:55 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 17:02:55 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 17:03:11 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 17:03:11 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 17:03:11 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 17:03:11 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 17:03:12 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 17:03:12 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 17:03:31 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 17:03:31 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 17:35:28 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 17:35:28 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 17:35:28 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 17:35:29 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 17:35:29 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 17:35:29 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 17:35:29 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 17:35:29 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 17:35:30 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 17:35:30 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 18:52:32 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 18:52:32 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 18:52:32 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 18:52:33 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 18:52:33 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 18:52:33 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 18:52:33 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 18:52:33 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 18:52:34 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 19:10:31 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:10:31 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:10:31 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:14:03 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:14:03 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:14:03 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:21:58 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:21:58 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:21:58 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:26:58 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:26:58 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:26:58 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:27:29 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:27:29 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:27:29 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:43:27 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:43:27 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:43:27 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:46:46 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:46:46 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:46:46 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:50:35 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:50:35 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:50:35 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:50:36 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 19:50:36 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 19:50:37 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:50:37 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:50:37 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:50:38 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 19:50:38 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 19:52:11 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 19:52:12 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:52:12 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:52:12 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:52:13 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 19:52:13 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 19:52:58 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 19:52:58 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:52:58 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:52:58 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:52:59 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 19:52:59 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 19:55:11 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 19:55:12 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:55:12 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:55:12 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:55:13 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 19:55:13 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 19:55:15 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 19:55:15 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 19:58:36 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:58:36 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:58:36 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:58:37 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 19:58:37 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 19:58:37 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 19:58:37 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 19:58:37 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 19:58:38 - db.schema_initializer - INFO - Predefined rules initialized
+2025-05-27 19:58:38 - db.schema_initializer - INFO - All tables initialized
+2025-05-27 19:59:13 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-05-27 19:59:13 - db.device_groups_repository - ERROR - Error setting rule for device: Rule 'whitelist' is not defined
+2025-05-27 20:01:11 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 20:01:11 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:01:11 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:01:11 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:01:12 - db.schema_initializer - ERROR - Error initializing tables: 'TinyDBClient' object has no attribute 'rules'
+2025-05-27 20:01:12 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 20:11:56 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:11:56 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:11:56 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:18:33 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:18:33 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:18:33 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:24:39 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:24:39 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:24:39 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:52:10 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:52:10 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:52:10 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:52:11 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 20:52:11 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:52:11 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:52:11 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:52:12 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 20:52:16 - db.whitelist - WARNING - Attempted to add IP 192.168.1.122 that already exists in whitelist
+2025-05-27 20:52:16 - db.whitelist - ERROR - Error adding to whitelist: Device with IP 192.168.1.122 already in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 48, in add_to_whitelist
+    raise ValueError(f"Device with IP {ip} already in whitelist")
+ValueError: Device with IP 192.168.1.122 already in whitelist
+2025-05-27 20:52:24 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-05-27 20:52:42 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 20:52:42 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:52:42 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:52:42 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:52:43 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 20:53:14 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-05-27 20:53:17 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-05-27 20:54:33 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 20:54:33 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:54:33 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:54:33 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:54:34 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 20:54:45 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 20:54:46 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:54:46 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:54:46 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:54:47 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 20:54:54 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 20:54:54 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 20:57:59 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:57:59 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:57:59 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:58:00 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 20:58:00 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:58:00 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:58:00 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:58:01 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 20:59:18 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 20:59:19 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:59:19 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:59:19 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:59:19 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 20:59:29 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 20:59:29 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:59:29 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:59:29 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:59:30 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 20:59:54 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 20:59:55 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 20:59:55 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 20:59:55 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 20:59:56 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:00:15 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-05-27 21:02:08 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:02:09 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:02:09 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:02:09 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:02:09 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:02:19 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:02:19 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:02:19 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:02:19 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:02:20 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:03:36 - db.whitelist - WARNING - Attempted to add IP 192.168.1.122 that already exists in whitelist
+2025-05-27 21:03:36 - db.whitelist - ERROR - Error adding to whitelist: Device with IP 192.168.1.122 already in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 48, in add_to_whitelist
+    raise ValueError(f"Device with IP {ip} already in whitelist")
+ValueError: Device with IP 192.168.1.122 already in whitelist
+2025-05-27 21:03:39 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-05-27 21:03:48 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-05-27 21:04:43 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:04:44 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:04:44 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:04:44 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:04:45 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:04:50 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:04:50 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:04:50 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:04:50 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:04:51 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:04:55 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:04:56 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:04:56 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:04:56 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:04:57 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:05:10 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-05-27 21:05:16 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-05-27 21:06:05 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:06:05 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:06:10 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:06:10 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:06:10 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:06:11 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:06:11 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:06:11 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:06:11 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:06:12 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:06:20 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-27 21:06:20 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-27 21:06:20 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Unknown
+2025-05-27 21:06:53 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-27 21:06:53 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-27 21:06:53 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Unknown
+2025-05-27 21:08:03 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:08:04 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:09:09 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:09:09 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:09:09 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:09:09 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:09:10 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:09:10 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:09:10 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:09:11 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:09:14 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-27 21:09:14 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-27 21:09:14 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-27 21:09:26 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:09:26 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:19:21 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:19:21 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:19:21 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:19:22 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:19:22 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:19:22 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:19:22 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:19:23 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:19:33 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-05-27 21:20:03 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-05-27 21:20:21 - db.blacklist - INFO - Added device 192.168.1.122 to blacklist
+2025-05-27 21:24:46 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:24:46 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:24:46 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:24:46 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:24:47 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:25:16 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:25:17 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:25:17 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:25:17 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:25:18 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:26:26 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:26:27 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:26:27 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:26:27 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:26:27 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:26:35 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:26:35 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:26:35 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:26:35 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:26:36 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:27:30 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:27:30 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:27:32 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:27:32 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:27:32 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:27:33 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:27:34 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:27:34 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:27:34 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:27:35 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:30:34 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:30:35 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:30:35 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:30:35 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:30:35 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:31:15 - db.tinydb - INFO - TinyDB connections closed
+2025-05-27 21:31:16 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-27 21:31:16 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-27 21:31:16 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-27 21:31:17 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-27 21:32:17 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
+2025-05-27 21:32:39 - db.blacklist - INFO - Added device 192.168.1.122 to blacklist
+2025-05-27 21:34:16 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
+2025-05-28 17:29:55 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-28 17:29:55 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-28 17:29:55 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-28 17:29:57 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-28 17:29:57 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-28 17:29:57 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-28 17:29:57 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-28 17:29:58 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-28 17:30:19 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 17:30:19 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 17:30:19 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 17:30:45 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 17:30:45 - db.device_repository - INFO - Registering new device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 17:30:45 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 17:30:45 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 17:32:11 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 17:32:11 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 17:32:11 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 17:32:11 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 17:33:43 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 17:33:43 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 17:33:43 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 17:33:43 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 17:34:28 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 17:34:28 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 17:34:28 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 17:34:28 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 17:36:38 - db.blacklist - INFO - Added device 192.168.1.122 to blacklist
+2025-05-28 17:38:44 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
+2025-05-28 17:39:54 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-05-28 17:40:05 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-05-28 17:41:50 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-05-28 17:42:34 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 17:42:34 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 17:42:34 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 17:42:34 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 17:49:22 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 17:49:22 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 17:49:22 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 17:49:22 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 17:58:46 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-05-28 18:06:45 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 18:06:45 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 18:06:45 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 18:06:45 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 18:09:24 - db.tinydb - INFO - TinyDB connections closed
+2025-05-28 18:09:24 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-28 18:09:24 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-28 18:09:24 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-28 18:09:25 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-28 18:09:40 - db.tinydb - INFO - TinyDB connections closed
+2025-05-28 18:09:40 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-28 18:09:40 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-28 18:09:40 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-28 18:09:41 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-28 18:10:26 - db.tinydb - INFO - TinyDB connections closed
+2025-05-28 18:10:26 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-28 18:10:26 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-28 18:10:26 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-28 18:10:27 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-28 18:11:06 - db.tinydb - INFO - TinyDB connections closed
+2025-05-28 18:11:07 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-28 18:11:07 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-28 18:11:07 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-28 18:11:07 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-28 18:12:08 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 18:12:08 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 18:12:08 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 18:12:08 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 18:12:22 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 18:12:22 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 18:12:22 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 18:12:22 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 18:12:44 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-05-28 18:12:51 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-05-28 18:15:23 - db.blacklist - INFO - Added device 192.168.1.122 to blacklist
+2025-05-28 18:16:31 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
+2025-05-28 18:18:36 - db.blacklist - INFO - Added device 192.168.1.122 to blacklist
+2025-05-28 18:19:03 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-28 18:19:03 - db.device_repository - INFO - Updated existing device (MAC: 0a:f5:1f:e8:65:3d) - IP: 192.168.1.138, Hostname: Tom-s-phone
+2025-05-28 18:19:03 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-28 18:19:03 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-28 18:19:04 - db.blacklist - INFO - Updated blacklist entry for device 192.168.1.122
+2025-05-28 18:24:46 - db.tinydb - INFO - TinyDB connections closed
+2025-05-28 18:24:46 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-28 18:24:46 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-28 18:24:46 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-28 18:24:47 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-28 18:24:56 - db.tinydb - INFO - TinyDB connections closed
+2025-05-28 18:24:56 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-28 18:24:56 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-28 18:24:56 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-28 18:24:57 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-28 18:25:27 - db.whitelist - ERROR - Error retrieving whitelist: Expecting value: line 1 column 1 (char 0)
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 23, in get_whitelist
+    entries = whitelist_table.all()
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\venv\Lib\site-packages\tinydb\table.py", line 237, in all
+    return list(iter(self))
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\venv\Lib\site-packages\tinydb\table.py", line 659, in __iter__
+    for doc_id, doc in self._read_table().items():
+                       ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\venv\Lib\site-packages\tinydb\table.py", line 708, in _read_table
+    tables = self._storage.read()
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\venv\Lib\site-packages\tinydb\middlewares.py", line 99, in read
+    self.cache = self.storage.read()
+                 ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\venv\Lib\site-packages\tinydb\storages.py", line 136, in read
+    return json.load(self._handle)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\AppData\Local\Programs\Python\Python312\Lib\json\__init__.py", line 293, in load
+    return loads(fp.read(),
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\AppData\Local\Programs\Python\Python312\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\AppData\Local\Programs\Python\Python312\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\AppData\Local\Programs\Python\Python312\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2025-05-28 18:25:51 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
+2025-05-28 18:33:10 - db.blacklist - INFO - Added device 192.168.1.122 to blacklist
+2025-05-28 18:34:45 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
+2025-05-28 18:52:01 - db.tinydb - INFO - TinyDB connections closed
+2025-05-28 18:52:01 - db.tinydb - INFO - TinyDB connections closed
