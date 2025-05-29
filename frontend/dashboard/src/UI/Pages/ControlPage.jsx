@@ -5,7 +5,10 @@ export default function ControlPage() {
 
   const [devices, setDevices] = useState([]);
   const [blacklistedDevices, setBlacklistedDevices] = useState([]);
-  const [isWhitelistMode, setIsWhitelistMode] = useState(true);
+  const [isWhitelistMode, setIsWhitelistMode] = useState(() => {
+    const savedMode = localStorage.getItem("controlPageMode");
+    return savedMode ? savedMode === "whitelist" : true;
+  });
   const [whitelistModeActive, setWhitelistModeActive] = useState(false);
   const [blacklistModeActive, setBlacklistModeActive] = useState(false);
   const [loadingWhitelistMode, setLoadingWhitelistMode] = useState(false);
@@ -399,6 +402,11 @@ export default function ControlPage() {
     initializeData();
   }, []);
 
+  // Update localStorage when mode changes
+  useEffect(() => {
+    localStorage.setItem("controlPageMode", isWhitelistMode ? "whitelist" : "blacklist");
+  }, [isWhitelistMode]);
+
   const handleSpeedTest = async () => {
     setIsSpeedTesting(true);
     try {
@@ -490,16 +498,16 @@ export default function ControlPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-6 px-2 sm:px-4 flex flex-col items-center w-full overflow-x-hidden">
-      <div className="w-full max-w-3xl flex flex-col md:flex-row gap-4 md:gap-6 mb-6 md:mb-8">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-8 px-4 sm:px-6 flex flex-col items-center w-full overflow-x-hidden">
+      <div className="w-full max-w-4xl flex flex-col md:flex-row gap-6 md:gap-8 mb-8 md:mb-10">
         {/* Network Status */}
-        <div className="flex-1 bg-white dark:bg-gray-800 rounded-xl shadow p-4 sm:p-6 flex flex-col gap-4 min-w-0">
-          <div className="flex justify-between items-center mb-2">
-            <h2 className="text-lg font-semibold dark:text-white">Network Status</h2>
+        <div className="flex-1 bg-white dark:bg-gray-800 rounded-xl shadow p-6 sm:p-8 flex flex-col gap-6 min-w-0">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-semibold dark:text-white">Network Status</h2>
             <button
               onClick={handleSpeedTest}
               disabled={isSpeedTesting}
-              className={`px-3 py-1 text-sm rounded-lg font-medium transition ${
+              className={`px-4 py-2 text-sm rounded-lg font-medium transition ${
                 isSpeedTesting 
                   ? "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed" 
                   : "bg-blue-500 hover:bg-blue-600 text-white"
@@ -515,7 +523,7 @@ export default function ControlPage() {
               )}
             </button>
           </div>
-          <div className="flex flex-wrap gap-2 sm:gap-4 mb-2">
+          <div className="flex flex-wrap gap-4 sm:gap-6 mb-4">
             <StatusBox 
               label="Download" 
               value={download} 
@@ -537,15 +545,15 @@ export default function ControlPage() {
             />
           </div>
           {(whitelistModeActive || blacklistModeActive) && (
-            <div className={`${whitelistModeActive ? 'bg-green-50 dark:bg-green-900/40 text-green-600 dark:text-green-300 border-green-200 dark:border-green-400/30' : 'bg-red-50 dark:bg-red-900/40 text-red-600 dark:text-red-300 border-red-200 dark:border-red-400/30'} rounded p-2 text-sm font-medium border`}>
+            <div className={`${whitelistModeActive ? 'bg-green-50 dark:bg-green-900/40 text-green-600 dark:text-green-300 border-green-200 dark:border-green-400/30' : 'bg-red-50 dark:bg-red-900/40 text-red-600 dark:text-red-300 border-red-200 dark:border-red-400/30'} rounded-lg p-4 text-sm font-medium border`}>
               <span>• {whitelistModeActive ? 'Whitelist' : 'Blacklist'} mode is currently active</span>
             </div>
           )}
         </div>
         {/* Access Control Mode */}
-        <div className="w-full md:w-1/3 bg-white dark:bg-gray-800 rounded-xl shadow p-4 sm:p-6 flex flex-col gap-4 min-w-0 mt-4 md:mt-0">
-          <h2 className="text-lg font-semibold mb-2 dark:text-white">Access Control Mode</h2>
-          <div className="mb-3">
+        <div className="w-full md:w-1/3 bg-white dark:bg-gray-800 rounded-xl shadow p-6 sm:p-8 flex flex-col gap-6 min-w-0 mt-6 md:mt-0">
+          <h2 className="text-xl font-semibold mb-4 dark:text-white">Access Control Mode</h2>
+          <div className="mb-6">
             <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
               Current Status: <span className={`font-semibold ${(whitelistModeActive || blacklistModeActive) ? 'text-green-600' : 'text-red-600'}`}>
                 {(whitelistModeActive || blacklistModeActive) ? 'Active' : 'Inactive'}
@@ -562,14 +570,14 @@ export default function ControlPage() {
           </div>
           
           {/* Speed Limit Input based on current mode */}
-          <div className="mb-4">
-            <label className="text-sm mb-1 dark:text-gray-300">
+          <div className="mb-6">
+            <label className="text-sm mb-2 block dark:text-gray-300">
               {isWhitelistMode ? 'Whitelist' : 'Blacklist'} Speed Limit (Mbps)
             </label>
             <input
               type="number"
               min={1}
-              className="border rounded px-3 py-2 mb-3 bg-white dark:bg-gray-900 dark:text-white dark:border-gray-700 w-full"
+              className="border rounded-lg px-4 py-3 mb-4 bg-white dark:bg-gray-900 dark:text-white dark:border-gray-700 w-full"
               value={isWhitelistMode ? whitelistSpeedLimit : blacklistSpeedLimit}
               onChange={e => isWhitelistMode ? setWhitelistSpeedLimit(e.target.value) : setBlacklistSpeedLimit(e.target.value)}
               placeholder="Enter speed limit"
@@ -584,7 +592,7 @@ export default function ControlPage() {
                   : isWhitelistMode 
                     ? "bg-green-500 hover:bg-green-600"
                     : "bg-orange-500 hover:bg-orange-600"
-              } text-white font-semibold rounded py-2 transition w-full flex items-center justify-center gap-2`}
+              } text-white font-semibold rounded-lg py-3 transition w-full flex items-center justify-center gap-3`}
               onClick={handleToggleAccessControl}
               disabled={loadingWhitelistMode || loadingBlacklistMode}
             >
@@ -604,10 +612,10 @@ export default function ControlPage() {
       </div>
 
       {/* Mode Toggle Button */}
-      <div className="w-full max-w-3xl mb-4">
+      <div className="w-full max-w-4xl mb-6">
         <button
           onClick={toggleMode}
-          className="flex items-center gap-2 bg-white dark:bg-gray-800 rounded-xl shadow px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+          className="flex items-center gap-3 bg-white dark:bg-gray-800 rounded-xl shadow px-6 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
         >
           {isWhitelistMode ? (
             <>
@@ -624,15 +632,15 @@ export default function ControlPage() {
       </div>
 
       {/* Device List */}
-      <div className="w-full max-w-3xl bg-white dark:bg-gray-800 rounded-xl shadow p-4 sm:p-6">
-        <h2 className="text-lg font-semibold mb-4 dark:text-white">
+      <div className="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-xl shadow p-6 sm:p-8">
+        <h2 className="text-xl font-semibold mb-6 dark:text-white">
           {isWhitelistMode ? "Whitelisted Devices" : "Blacklisted Devices"}
         </h2>
-        <div className="flex flex-col gap-3 max-h-80 overflow-y-auto">
+        <div className="flex flex-col gap-4 max-h-96 overflow-y-auto">
           {(isWhitelistMode ? devices : blacklistedDevices).map((device) => (
             <div
               key={device.ip || device.mac}
-              className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-gray-50 dark:bg-gray-900 rounded p-3 gap-2 sm:gap-0"
+              className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-gray-50 dark:bg-gray-900 rounded-lg p-4 gap-3 sm:gap-0"
             >
               <div>
                 <div className="font-medium text-gray-900 dark:text-white">
@@ -648,7 +656,7 @@ export default function ControlPage() {
                 )}
               </div>
               <button
-                className="p-2 rounded hover:bg-red-100 dark:hover:bg-red-900/40 self-end sm:self-auto"
+                className="p-3 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 self-end sm:self-auto"
                 onClick={() => handleDeleteDevice(device)}
                 title={`Remove from ${isWhitelistMode ? 'whitelist' : 'blacklist'}`}
               >
@@ -657,7 +665,7 @@ export default function ControlPage() {
             </div>
           ))}
           {isWhitelistMode && devices.length === 0 && (
-            <div className="text-center py-4 text-gray-500 dark:text-gray-400">
+            <div className="text-center py-6 text-gray-500 dark:text-gray-400">
               No devices in whitelist. Go to Scan page to add devices.
             </div>
           )}
@@ -669,14 +677,14 @@ export default function ControlPage() {
 
 function StatusBox({ label, value, unit, subtitle }) {
   return (
-    <div className="flex flex-col items-center bg-gray-50 dark:bg-gray-900 rounded-lg px-3 py-2 min-w-[80px] flex-1">
-      <span className="text-sm text-gray-500 dark:text-gray-300">{label}</span>
-      <span className="text-xl font-bold text-gray-800 dark:text-white">
+    <div className="flex flex-col items-center bg-gray-50 dark:bg-gray-900 rounded-lg px-4 py-3 min-w-[100px] flex-1">
+      <span className="text-sm text-gray-500 dark:text-gray-300 mb-1">{label}</span>
+      <span className="text-2xl font-bold text-gray-800 dark:text-white">
         {value}
         {unit && <span className="text-base font-normal ml-1">{unit}</span>}
       </span>
       {subtitle && (
-        <span className="text-xs text-gray-400 dark:text-gray-500 text-center mt-1">
+        <span className="text-xs text-gray-400 dark:text-gray-500 text-center mt-2">
           {subtitle}
         </span>
       )}

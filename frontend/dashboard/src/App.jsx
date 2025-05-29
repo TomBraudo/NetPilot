@@ -7,6 +7,7 @@ import ScanPage from "./UI/Pages/ScanPage";
 import ScanTest from "./UI/Pages/ScanTest";
 import FaqsPage from "./UI/Pages/FaqsPage";
 import Dashboard from "./UI/Pages/Dashboard";
+import AboutPage from "./UI/Pages/AboutPage";
 
 const AppLayout = ({
   darkMode,
@@ -38,6 +39,7 @@ const AppLayout = ({
             <Route path="/scan" element={<ScanPage />} />
             <Route path="/control" element={<ControlPage />} />
             <Route path="/scanTest" element={<ScanTest />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route path="/faqs" element={<FaqsPage />} />
           </Routes>
         </main>

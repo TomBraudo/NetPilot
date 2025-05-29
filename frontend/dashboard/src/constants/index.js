@@ -20,6 +20,7 @@ import { FaRegQuestionCircle } from "react-icons/fa";
 import { AiOutlineControl } from "react-icons/ai";
 import { MdOutlineSecurity } from "react-icons/md";
 import { GiRadarSweep } from "react-icons/gi";
+import { BsInfoCircle } from "react-icons/bs";
 
 export const staticDevices = [
   {
@@ -82,27 +83,22 @@ export const links = [
   {
     href: "/scan",
     icon: GiRadarSweep,
-    text: "Scan",
-    badge: {
-      text: "Pro",
-      color: "bg-gray-100 text-gray-800",
-      darkColor: "dark:bg-gray-700 dark:text-gray-300",
-    },
+    text: "Scan"
   },
   {
     href: "/control",
     icon: AiOutlineControl,
-    text: "Control",
-    badge: {
-      text: "4",
-      color: "bg-blue-100 text-blue-800",
-      darkColor: "dark:bg-blue-900 dark:text-blue-300",
-    },
+    text: "Control"
   },
   {
     href: "/scantest",
     icon: MdOutlineSecurity,
     text: "Security",
+  },
+  {
+    href: "/about",
+    icon: BsInfoCircle,
+    text: "About Us",
   },
   {
     href: "/faqs",
