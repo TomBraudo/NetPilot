@@ -1333,3 +1333,27 @@ json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
 2025-05-28 18:34:45 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
 2025-05-28 18:52:01 - db.tinydb - INFO - TinyDB connections closed
 2025-05-28 18:52:01 - db.tinydb - INFO - TinyDB connections closed
+2025-05-29 19:39:56 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-29 19:39:56 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-29 19:39:56 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-29 19:39:58 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-29 19:39:58 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-29 19:39:58 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-29 19:39:58 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-29 19:39:59 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-29 19:40:23 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-29 19:40:23 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-29 19:40:23 - db.device_repository - INFO - Registering new device (MAC: 9a:8d:bc:24:5a:7c) - IP: 192.168.1.135, Hostname: Tom-s-phone
+2025-05-29 19:40:23 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-29 19:42:10 - db.whitelist - INFO - Added device with IP 192.168.1.221 to whitelist
+2025-05-29 19:42:30 - db.blacklist - INFO - Added device 192.168.1.135 to blacklist
+2025-05-29 19:42:44 - db.blacklist - INFO - Removed device 192.168.1.135 from blacklist
+2025-05-29 19:42:45 - db.whitelist - INFO - Removed device with IP 192.168.1.221 from whitelist
+2025-05-29 19:43:03 - db.whitelist - INFO - Added device with IP 192.168.1.135 to whitelist
+2025-05-29 19:43:05 - db.blacklist - INFO - Added device 192.168.1.135 to blacklist
+2025-05-29 19:43:12 - db.whitelist - INFO - Removed device with IP 192.168.1.135 from whitelist
+2025-05-29 19:43:20 - db.blacklist - INFO - Removed device 192.168.1.135 from blacklist
+2025-05-29 19:43:24 - db.whitelist - INFO - Added device with IP 192.168.1.135 to whitelist
+2025-05-29 19:43:31 - db.whitelist - INFO - Removed device with IP 192.168.1.135 from whitelist
+2025-05-29 19:46:21 - db.whitelist - INFO - Added device with IP 192.168.1.135 to whitelist
+2025-05-29 19:46:22 - db.blacklist - INFO - Added device 192.168.1.135 to blacklist

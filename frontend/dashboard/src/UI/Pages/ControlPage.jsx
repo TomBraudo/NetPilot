@@ -677,12 +677,18 @@ export default function ControlPage() {
 
 function StatusBox({ label, value, unit, subtitle }) {
   return (
-    <div className="flex flex-col items-center bg-gray-50 dark:bg-gray-900 rounded-lg px-4 py-3 min-w-[100px] flex-1">
-      <span className="text-sm text-gray-500 dark:text-gray-300 mb-1">{label}</span>
-      <span className="text-2xl font-bold text-gray-800 dark:text-white">
-        {value}
-        {unit && <span className="text-base font-normal ml-1">{unit}</span>}
-      </span>
+    <div className="flex flex-col items-center bg-gray-50 dark:bg-gray-900 rounded-lg px-3 py-3 min-w-[100px] max-w-[140px] flex-1">
+      <span className="text-sm text-gray-500 dark:text-gray-300 mb-1 text-center">{label}</span>
+      <div className="flex flex-col items-center">
+        <span className="text-xl font-bold text-gray-800 dark:text-white text-center break-all">
+          {value}
+        </span>
+        {unit && (
+          <span className="text-sm font-normal text-gray-600 dark:text-gray-400">
+            {unit}
+          </span>
+        )}
+      </div>
       {subtitle && (
         <span className="text-xs text-gray-400 dark:text-gray-500 text-center mt-2">
           {subtitle}

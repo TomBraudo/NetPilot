@@ -7270,3 +7270,231 @@ json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
 2025-05-28 18:52:01 - __main__ - INFO - Cleaning up resources
 2025-05-28 18:52:01 - db.tinydb - INFO - TinyDB connections closed
 2025-05-28 18:52:01 - __main__ - INFO - Resources cleaned up
+2025-05-29 19:39:56 - root - INFO - Logging initialized at 2025-05-29 19:39:56
+2025-05-29 19:39:56 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-29 19:39:56 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-29 19:39:56 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-29 19:39:56 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-29 19:39:58 - __main__ - INFO - Initializing database tables
+2025-05-29 19:39:58 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-29 19:39:58 - __main__ - INFO - Database tables initialized
+2025-05-29 19:39:58 - __main__ - INFO - Registering API blueprints
+2025-05-29 19:39:58 - __main__ - INFO - API blueprints registered
+2025-05-29 19:39:58 - __main__ - INFO - Starting server on port 5000
+2025-05-29 19:39:58 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-05-29 19:39:58 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-29 19:39:58 - werkzeug - INFO -  * Restarting with stat
+2025-05-29 19:39:58 - root - INFO - Logging initialized at 2025-05-29 19:39:58
+2025-05-29 19:39:58 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-05-29 19:39:58 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-05-29 19:39:58 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-05-29 19:39:58 - db.tinydb - INFO - TinyDB tables initialized
+2025-05-29 19:39:59 - __main__ - INFO - Initializing database tables
+2025-05-29 19:39:59 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-05-29 19:39:59 - __main__ - INFO - Database tables initialized
+2025-05-29 19:39:59 - __main__ - INFO - Registering API blueprints
+2025-05-29 19:39:59 - __main__ - INFO - API blueprints registered
+2025-05-29 19:39:59 - __main__ - INFO - Starting server on port 5000
+2025-05-29 19:39:59 - werkzeug - WARNING -  * Debugger is active!
+2025-05-29 19:39:59 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-05-29 19:40:18 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-05-29 19:40:18 - paramiko.transport - INFO - Authentication (password) successful!
+2025-05-29 19:40:23 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-05-29 19:40:23 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Tom-s-phone
+2025-05-29 19:40:23 - db.device_repository - INFO - Registering new device (MAC: 9a:8d:bc:24:5a:7c) - IP: 192.168.1.135, Hostname: Tom-s-phone
+2025-05-29 19:40:23 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-05-29 19:40:23 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:40:23] "GET /api/scan/router HTTP/1.1" 200 -
+2025-05-29 19:40:26 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:40:26] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:40:26 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:40:26] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:40:26 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:40:26] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:40:26 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:40:26] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:40:26 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:40:26] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:40:26 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:40:26] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:40:26 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:40:26] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:40:26 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:40:26] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:40:26 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:40:26] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:40:26 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:40:26] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:40:26 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:40:26] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:40:26 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:40:26] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:41:01 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:41:01] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:41:01 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:41:01] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:41:01 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:41:01] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:41:01 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:41:01] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:41:01 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:41:01] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:41:01 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:41:01] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:41:11 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:41:11] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:41:11 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:41:11] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:41:11 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:41:11] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:41:11 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:41:11] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:41:11 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:41:11] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:41:11 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:41:11] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:41:11 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:41:11] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:41:11 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:41:11] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:41:11 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:41:11] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:41:11 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:41:11] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:41:11 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:41:11] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:41:11 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:41:11] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:42:04 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:04] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:42:04 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:04] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:42:04 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:04] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:42:04 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:04] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:42:04 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:04] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:42:04 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:04] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:42:04 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:04] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:42:04 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:04] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:42:04 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:04] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:42:04 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:04] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:42:04 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:04] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:42:04 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:04] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:42:10 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:10] "OPTIONS /whitelist HTTP/1.1" 200 -
+2025-05-29 19:42:10 - db.whitelist - INFO - Added device with IP 192.168.1.221 to whitelist
+2025-05-29 19:42:10 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:10] "POST /whitelist HTTP/1.1" 200 -
+2025-05-29 19:42:11 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:11] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:42:11 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:11] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:42:11 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:11] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:42:11 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:11] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:42:11 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:11] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:42:11 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:11] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:42:11 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:11] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:42:12 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:12] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:42:12 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:12] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:42:12 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:12] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:42:12 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:12] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:42:12 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:12] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:42:22 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:22] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:42:22 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:22] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:42:22 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:22] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:42:22 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:22] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:42:22 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:22] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:42:22 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:22] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:42:22 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:22] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:42:22 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:22] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:42:22 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:22] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:42:22 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:22] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:42:22 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:22] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:42:22 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:22] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:42:30 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:30] "OPTIONS /blacklist HTTP/1.1" 200 -
+2025-05-29 19:42:30 - db.blacklist - INFO - Added device 192.168.1.135 to blacklist
+2025-05-29 19:42:30 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:30] "POST /blacklist HTTP/1.1" 200 -
+2025-05-29 19:42:34 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:34] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:42:34 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:34] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:42:34 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:34] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:42:34 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:34] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:42:34 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:34] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:42:34 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:34] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:42:34 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:34] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:42:34 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:34] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:42:34 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:34] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:42:34 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:34] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:42:34 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:34] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:42:34 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:34] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:42:43 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:43] "OPTIONS /blacklist HTTP/1.1" 200 -
+2025-05-29 19:42:44 - db.blacklist - INFO - Removed device 192.168.1.135 from blacklist
+2025-05-29 19:42:44 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:44] "DELETE /blacklist HTTP/1.1" 200 -
+2025-05-29 19:42:45 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:45] "OPTIONS /whitelist HTTP/1.1" 200 -
+2025-05-29 19:42:45 - db.whitelist - INFO - Removed device with IP 192.168.1.221 from whitelist
+2025-05-29 19:42:45 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:42:45] "DELETE /whitelist HTTP/1.1" 200 -
+2025-05-29 19:43:03 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:03] "OPTIONS /whitelist HTTP/1.1" 200 -
+2025-05-29 19:43:03 - db.whitelist - INFO - Added device with IP 192.168.1.135 to whitelist
+2025-05-29 19:43:03 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:03] "POST /whitelist HTTP/1.1" 200 -
+2025-05-29 19:43:05 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:05] "OPTIONS /blacklist HTTP/1.1" 200 -
+2025-05-29 19:43:05 - db.blacklist - INFO - Added device 192.168.1.135 to blacklist
+2025-05-29 19:43:05 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:05] "POST /blacklist HTTP/1.1" 200 -
+2025-05-29 19:43:07 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:07] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:43:07 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:07] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:43:07 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:07] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:43:07 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:07] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:43:07 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:07] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:43:07 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:07] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:43:07 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:07] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:43:07 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:07] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:43:07 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:07] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:43:07 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:07] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:43:07 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:07] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:43:07 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:07] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:43:12 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:12] "OPTIONS /whitelist HTTP/1.1" 200 -
+2025-05-29 19:43:12 - db.whitelist - INFO - Removed device with IP 192.168.1.135 from whitelist
+2025-05-29 19:43:12 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:12] "DELETE /whitelist HTTP/1.1" 200 -
+2025-05-29 19:43:16 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:16] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:43:17 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:17] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:43:17 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:17] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:43:17 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:17] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:43:17 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:17] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:43:17 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:17] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:43:17 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:17] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:43:17 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:17] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:43:17 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:17] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:43:17 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:17] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:43:17 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:17] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:43:17 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:17] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:43:19 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:19] "OPTIONS /blacklist HTTP/1.1" 200 -
+2025-05-29 19:43:20 - db.blacklist - INFO - Removed device 192.168.1.135 from blacklist
+2025-05-29 19:43:20 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:20] "DELETE /blacklist HTTP/1.1" 200 -
+2025-05-29 19:43:24 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:24] "OPTIONS /whitelist HTTP/1.1" 200 -
+2025-05-29 19:43:24 - db.whitelist - INFO - Added device with IP 192.168.1.135 to whitelist
+2025-05-29 19:43:24 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:24] "POST /whitelist HTTP/1.1" 200 -
+2025-05-29 19:43:25 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:25] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:43:25 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:25] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:43:25 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:25] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:43:25 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:25] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:43:25 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:25] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:43:25 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:25] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:43:25 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:25] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:43:26 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:26] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:43:26 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:26] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:43:26 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:26] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:43:26 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:26] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:43:26 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:26] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:43:29 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:29] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:43:29 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:29] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:43:29 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:29] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:43:29 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:29] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:43:29 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:29] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:43:29 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:29] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:43:29 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:29] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:43:29 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:29] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:43:29 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:29] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:43:29 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:29] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:43:29 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:29] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:43:29 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:29] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:43:31 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:31] "OPTIONS /whitelist HTTP/1.1" 200 -
+2025-05-29 19:43:31 - db.whitelist - INFO - Removed device with IP 192.168.1.135 from whitelist
+2025-05-29 19:43:31 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:43:31] "DELETE /whitelist HTTP/1.1" 200 -
+2025-05-29 19:46:16 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:16] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:46:16 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:16] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:46:16 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:16] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:46:16 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:16] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:46:16 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:16] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:46:16 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:16] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:46:17 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:17] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:46:17 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:17] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:46:17 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:17] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:46:17 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:17] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:46:17 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:17] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:46:17 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:17] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:46:20 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:20] "OPTIONS /whitelist HTTP/1.1" 200 -
+2025-05-29 19:46:21 - db.whitelist - INFO - Added device with IP 192.168.1.135 to whitelist
+2025-05-29 19:46:21 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:21] "POST /whitelist HTTP/1.1" 200 -
+2025-05-29 19:46:21 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:21] "OPTIONS /blacklist HTTP/1.1" 200 -
+2025-05-29 19:46:22 - db.blacklist - INFO - Added device 192.168.1.135 to blacklist
+2025-05-29 19:46:22 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:22] "POST /blacklist HTTP/1.1" 200 -
+2025-05-29 19:46:24 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:24] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:46:24 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:24] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:46:24 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:24] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:46:24 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:24] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:46:24 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:24] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:46:24 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:24] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:46:24 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:24] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 19:46:24 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:24] "GET /blacklist HTTP/1.1" 200 -
+2025-05-29 19:46:24 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:24] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-05-29 19:46:24 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:24] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-05-29 19:46:24 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:24] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:46:24 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:46:24] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-05-29 19:47:38 - services.speed_test - INFO - Running speed test locally using speedtest-cli
+2025-05-29 19:48:14 - services.speed_test - INFO - Speed test completed: 257.49 Mbps down, 67.92 Mbps up
+2025-05-29 19:48:14 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 19:48:14] "GET /api/speedtest HTTP/1.1" 200 -
+2025-05-29 20:23:25 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 20:23:25] "GET /whitelist HTTP/1.1" 200 -
+2025-05-29 20:23:25 - werkzeug - INFO - 127.0.0.1 - - [29/May/2025 20:23:25] "GET /blacklist HTTP/1.1" 200 -
