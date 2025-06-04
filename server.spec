@@ -3,10 +3,10 @@
 
 a = Analysis(
     ['backend\\server.py'],
-    pathex=['backend', 'backend/venv/Lib/site-packages'],
+    pathex=['./backend'],
     binaries=[],
     datas=[],
-    hiddenimports=['flask', 'flask.helpers', 'flask.app', 'flask.json', 'flask_cors', 'flask_cors.decorator', 'tinydb', 'paramiko', 'netifaces', 'scapy', 'requests', 'bcrypt', 'python-dotenv', 'endpoints.health', 'endpoints.config', 'endpoints.api', 'endpoints.db', 'endpoints.wifi', 'endpoints.whitelist'],
+    hiddenimports=['endpoints.health', 'endpoints.config', 'endpoints.api', 'endpoints.db', 'endpoints.wifi', 'endpoints.whitelist', 'endpoints.blacklist', 'utils.path_utils', 'utils.ssh_client', 'utils.logging_config', 'utils.config_manager', 'utils.response_helpers', 'utils.network_utils', 'utils.commands', 'utils.traffic_control_helpers', 'services.whitelist_service', 'services.blacklist_service', 'services.wifi_management', 'services.speed_test', 'services.router_scanner', 'services.reset_rules', 'services.network_service', 'services.network_scanner', 'services.mode_state_service', 'services.config_service', 'services.block_ip', 'services.bandwidth_mode', 'services.subnets_manager', 'db.schema_initializer', 'db.tinydb_client', 'db.device_repository', 'db.device_groups_repository', 'db.whitelist_management', 'db.blacklist_management'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],

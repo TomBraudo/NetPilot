@@ -38,7 +38,7 @@ const AppLayout = ({
           <Routes>
             <Route path="/scan" element={<ScanPage />} />
             <Route path="/control" element={<ControlPage />} />
-            <Route path="/scanTest" element={<ScanTest />} />
+            {/* <Route path="/scanTest" element={<ScanTest />} /> */}
             <Route path="/about" element={<AboutPage />} />
             <Route path="/faqs" element={<FaqsPage />} />
           </Routes>

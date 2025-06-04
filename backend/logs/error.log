@@ -1248,3 +1248,129 @@ json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
 2025-05-28 18:43:10 - services.reset_rules - ERROR - Error deleting qdisc on wlan1: Error: Cannot delete qdisc with handle of zero.. Output: 
 2025-05-28 18:43:10 - services.reset_rules - ERROR - Error deleting qdisc on br-lan: Error: Cannot delete qdisc with handle of zero.. Output: 
 2025-05-28 18:43:10 - services.reset_rules - ERROR - Error deleting qdisc on phy0-ap0: Error: Cannot delete qdisc with handle of zero.. Output: 
+2025-06-04 12:02:33 - db.whitelist - ERROR - Error adding to whitelist: Device with IP 192.168.1.122 already in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 48, in add_to_whitelist
+    raise ValueError(f"Device with IP {ip} already in whitelist")
+ValueError: Device with IP 192.168.1.122 already in whitelist
+2025-06-04 12:02:33 - services.whitelist - ERROR - Error adding device to whitelist: Device with IP 192.168.1.122 already in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 67, in add_device_to_whitelist
+    device = add_to_whitelist(ip) # This already handles DB interaction and potential ValueError
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 48, in add_to_whitelist
+    raise ValueError(f"Device with IP {ip} already in whitelist")
+ValueError: Device with IP 192.168.1.122 already in whitelist
+2025-06-04 12:02:33 - whitelist.endpoints - ERROR - Error adding device to whitelist: Device with IP 192.168.1.122 already in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 40, in add_to_whitelist
+    result = add_device_to_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 67, in add_device_to_whitelist
+    device = add_to_whitelist(ip) # This already handles DB interaction and potential ValueError
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 48, in add_to_whitelist
+    raise ValueError(f"Device with IP {ip} already in whitelist")
+ValueError: Device with IP 192.168.1.122 already in whitelist
+2025-06-04 12:35:08 - db.whitelist - ERROR - Error adding to whitelist: Device with IP 192.168.1.122 already in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 48, in add_to_whitelist
+    raise ValueError(f"Device with IP {ip} already in whitelist")
+ValueError: Device with IP 192.168.1.122 already in whitelist
+2025-06-04 12:35:08 - services.whitelist - ERROR - Error adding device to whitelist: Device with IP 192.168.1.122 already in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 67, in add_device_to_whitelist
+    device = add_to_whitelist(ip) # This already handles DB interaction and potential ValueError
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 48, in add_to_whitelist
+    raise ValueError(f"Device with IP {ip} already in whitelist")
+ValueError: Device with IP 192.168.1.122 already in whitelist
+2025-06-04 12:35:08 - whitelist.endpoints - ERROR - Error adding device to whitelist: Device with IP 192.168.1.122 already in whitelist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\whitelist.py", line 40, in add_to_whitelist
+    result = add_device_to_whitelist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\whitelist_service.py", line 67, in add_device_to_whitelist
+    device = add_to_whitelist(ip) # This already handles DB interaction and potential ValueError
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\db\whitelist_management.py", line 48, in add_to_whitelist
+    raise ValueError(f"Device with IP {ip} already in whitelist")
+ValueError: Device with IP 192.168.1.122 already in whitelist
+2025-06-04 12:37:49 - services.blacklist - ERROR - Error removing device from blacklist: Device with IP 192.168.1.122 not found in blacklist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_service.py", line 77, in remove_device_from_blacklist
+    raise ValueError(f"Device with IP {ip} not found in blacklist")
+ValueError: Device with IP 192.168.1.122 not found in blacklist
+2025-06-04 12:37:49 - blacklist.endpoints - ERROR - Error removing device from blacklist: Device with IP 192.168.1.122 not found in blacklist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\blacklist.py", line 55, in remove_from_blacklist
+    result = remove_device_from_blacklist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_service.py", line 77, in remove_device_from_blacklist
+    raise ValueError(f"Device with IP {ip} not found in blacklist")
+ValueError: Device with IP 192.168.1.122 not found in blacklist
+2025-06-04 12:37:49 - services.blacklist - ERROR - Error removing device from blacklist: Device with IP 192.168.1.122 not found in blacklist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_service.py", line 77, in remove_device_from_blacklist
+    raise ValueError(f"Device with IP {ip} not found in blacklist")
+ValueError: Device with IP 192.168.1.122 not found in blacklist
+2025-06-04 12:37:49 - blacklist.endpoints - ERROR - Error removing device from blacklist: Device with IP 192.168.1.122 not found in blacklist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\blacklist.py", line 55, in remove_from_blacklist
+    result = remove_device_from_blacklist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_service.py", line 77, in remove_device_from_blacklist
+    raise ValueError(f"Device with IP {ip} not found in blacklist")
+ValueError: Device with IP 192.168.1.122 not found in blacklist
+2025-06-04 12:37:50 - services.blacklist - ERROR - Error removing device from blacklist: Device with IP 192.168.1.122 not found in blacklist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_service.py", line 77, in remove_device_from_blacklist
+    raise ValueError(f"Device with IP {ip} not found in blacklist")
+ValueError: Device with IP 192.168.1.122 not found in blacklist
+2025-06-04 12:37:50 - blacklist.endpoints - ERROR - Error removing device from blacklist: Device with IP 192.168.1.122 not found in blacklist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\blacklist.py", line 55, in remove_from_blacklist
+    result = remove_device_from_blacklist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_service.py", line 77, in remove_device_from_blacklist
+    raise ValueError(f"Device with IP {ip} not found in blacklist")
+ValueError: Device with IP 192.168.1.122 not found in blacklist
+2025-06-04 12:37:50 - services.blacklist - ERROR - Error removing device from blacklist: Device with IP 192.168.1.122 not found in blacklist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_service.py", line 77, in remove_device_from_blacklist
+    raise ValueError(f"Device with IP {ip} not found in blacklist")
+ValueError: Device with IP 192.168.1.122 not found in blacklist
+2025-06-04 12:37:50 - blacklist.endpoints - ERROR - Error removing device from blacklist: Device with IP 192.168.1.122 not found in blacklist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\blacklist.py", line 55, in remove_from_blacklist
+    result = remove_device_from_blacklist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_service.py", line 77, in remove_device_from_blacklist
+    raise ValueError(f"Device with IP {ip} not found in blacklist")
+ValueError: Device with IP 192.168.1.122 not found in blacklist
+2025-06-04 12:37:50 - services.blacklist - ERROR - Error removing device from blacklist: Device with IP 192.168.1.122 not found in blacklist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_service.py", line 77, in remove_device_from_blacklist
+    raise ValueError(f"Device with IP {ip} not found in blacklist")
+ValueError: Device with IP 192.168.1.122 not found in blacklist
+2025-06-04 12:37:50 - blacklist.endpoints - ERROR - Error removing device from blacklist: Device with IP 192.168.1.122 not found in blacklist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\blacklist.py", line 55, in remove_from_blacklist
+    result = remove_device_from_blacklist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_service.py", line 77, in remove_device_from_blacklist
+    raise ValueError(f"Device with IP {ip} not found in blacklist")
+ValueError: Device with IP 192.168.1.122 not found in blacklist
+2025-06-04 12:37:50 - services.blacklist - ERROR - Error removing device from blacklist: Device with IP 192.168.1.122 not found in blacklist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_service.py", line 77, in remove_device_from_blacklist
+    raise ValueError(f"Device with IP {ip} not found in blacklist")
+ValueError: Device with IP 192.168.1.122 not found in blacklist
+2025-06-04 12:37:50 - blacklist.endpoints - ERROR - Error removing device from blacklist: Device with IP 192.168.1.122 not found in blacklist
+Traceback (most recent call last):
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\endpoints\blacklist.py", line 55, in remove_from_blacklist
+    result = remove_device_from_blacklist(ip)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_service.py", line 77, in remove_device_from_blacklist
+    raise ValueError(f"Device with IP {ip} not found in blacklist")
+ValueError: Device with IP 192.168.1.122 not found in blacklist

@@ -29,7 +29,16 @@ const DeviceCard = ({ device }) => {
   const [loading, setLoading] = useState(false);
   const [actionMessage, setActionMessage] = useState(null);
 
+  // Check if this device is a router
+  const isRouter = device.icon === "BsRouter";
+
   const handleAction = async (action) => {
+    // Don't allow actions on router devices
+    if (isRouter) {
+      setActionMessage("Actions cannot be performed on router devices.");
+      return;
+    }
+
     setLoading(true);
     try {
       const endpoint = {
@@ -92,27 +101,39 @@ const DeviceCard = ({ device }) => {
       <div className="flex gap-2 mt-3">
         <button
           onClick={() => handleAction('whitelist')}
-          disabled={loading}
-          className="bg-green-500 text-white p-2 rounded-full shadow-md hover:bg-green-600 transition flex items-center gap-1"
-          title="Add to Whitelist"
+          disabled={loading || isRouter}
+          className={`p-2 rounded-full shadow-md transition flex items-center gap-1 ${
+            isRouter 
+              ? "bg-gray-400 text-gray-600 cursor-not-allowed" 
+              : "bg-green-500 text-white hover:bg-green-600"
+          }`}
+          title={isRouter ? "Cannot whitelist router device" : "Add to Whitelist"}
         >
           <FaCheck size={16} />
           <span className="text-xs">Whitelist</span>
         </button>
         <button
           onClick={() => handleAction('blacklist')}
-          disabled={loading}
-          className="bg-yellow-500 text-white p-2 rounded-full shadow-md hover:bg-yellow-600 transition flex items-center gap-1"
-          title="Add to Blacklist"
+          disabled={loading || isRouter}
+          className={`p-2 rounded-full shadow-md transition flex items-center gap-1 ${
+            isRouter 
+              ? "bg-gray-400 text-gray-600 cursor-not-allowed" 
+              : "bg-yellow-500 text-white hover:bg-yellow-600"
+          }`}
+          title={isRouter ? "Cannot blacklist router device" : "Add to Blacklist"}
         >
           <FaShieldAlt size={16} />
           <span className="text-xs">Blacklist</span>
         </button>
         <button
           onClick={() => handleAction('block')}
-          disabled={loading}
-          className="bg-red-500 text-white p-2 rounded-full shadow-md hover:bg-red-600 transition flex items-center gap-1"
-          title="Block Device"
+          disabled={loading || isRouter}
+          className={`p-2 rounded-full shadow-md transition flex items-center gap-1 ${
+            isRouter 
+              ? "bg-gray-400 text-gray-600 cursor-not-allowed" 
+              : "bg-red-500 text-white hover:bg-red-600"
+          }`}
+          title={isRouter ? "Cannot block router device" : "Block Device"}
         >
           <FaBan size={16} />
           <span className="text-xs">Block</span>
@@ -123,7 +144,7 @@ const DeviceCard = ({ device }) => {
       {actionMessage && (
         <p
           className={`text-sm text-center mt-2 ${
-            /error|fail|failed/i.test(actionMessage)
+            /error|fail|failed|cannot/i.test(actionMessage)
               ? "text-red-500 dark:text-red-400"
               : "text-green-500 dark:text-green-400"
           }`}

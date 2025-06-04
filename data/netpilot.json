@@ -1,1 +1,1 @@
-{"whitelist": {"4": {"ip": "192.168.1.135", "mac": "9a:8d:bc:24:5a:7c", "name": "Device-192.168.1.135", "description": "", "added_at": "2025-05-29 19:46:21.106918"}}, "blacklist": {"3": {"ip": "192.168.1.135", "mac": "9a:8d:bc:24:5a:7c", "name": "Device-192.168.1.135", "added_at": "2025-05-29T19:46:22.130908"}}}
+{"whitelist": {}, "blacklist": {}}

@@ -90,11 +90,13 @@ export const links = [
     icon: AiOutlineControl,
     text: "Control"
   },
+  /*
   {
     href: "/scantest",
     icon: MdOutlineSecurity,
     text: "Security",
   },
+  */
   {
     href: "/about",
     icon: BsInfoCircle,
