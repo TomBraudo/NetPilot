@@ -5,3 +5,6 @@ node_modules/
 frontend/node_modules/
 data/config.json
 .env
+backend/logs/database.log
+backend/logs/netpilot.log
+data/devices.json
