@@ -1797,3 +1797,8 @@ ValueError: Device with IP 192.168.1.122 already in whitelist
 2025-06-06 12:29:22 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
 2025-06-06 12:29:22 - db.tinydb - INFO - TinyDB tables initialized
 2025-06-06 12:29:23 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:29:51 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:29:52 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:29:52 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:29:52 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:29:53 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.

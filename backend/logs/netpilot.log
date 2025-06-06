@@ -9537,3 +9537,21 @@ fe80::53ef:1047:2300:9ced dev wan lladdr 0c:c6:fd:b8:4d:3b STALE
 2025-06-06 12:29:23 - __main__ - INFO - Starting server on port 5000
 2025-06-06 12:29:23 - werkzeug - WARNING -  * Debugger is active!
 2025-06-06 12:29:23 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:29:51 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\db\\device_repository.py', reloading
+2025-06-06 12:29:51 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:29:51 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:29:51 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:29:51 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:29:52 - root - INFO - Logging initialized at 2025-06-06 12:29:52
+2025-06-06 12:29:52 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:29:52 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:29:52 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:29:52 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:29:53 - __main__ - INFO - Initializing database tables
+2025-06-06 12:29:53 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:29:53 - __main__ - INFO - Database tables initialized
+2025-06-06 12:29:53 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:29:53 - __main__ - INFO - API blueprints registered
+2025-06-06 12:29:53 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:29:53 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:29:53 - werkzeug - INFO -  * Debugger PIN: 323-223-189

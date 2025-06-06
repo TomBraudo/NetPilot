@@ -64,6 +64,7 @@ def register_device(ip, mac, hostname="Unknown"):
                 'last_seen': datetime.now().isoformat()
             })
         
+        db_client.flush()
         return True
     except Exception as e:
         logger.error(f"Error registering device {ip} (MAC: {mac}): {str(e)}", exc_info=True)
