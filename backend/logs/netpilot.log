@@ -8616,3 +8616,1628 @@ ValueError: Device with IP 192.168.1.122 not found in blacklist
 2025-06-06 12:13:56 - __main__ - INFO - Starting server on port 5000
 2025-06-06 12:13:56 - werkzeug - WARNING -  * Debugger is active!
 2025-06-06 12:13:56 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:16:24 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:16:24 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:16:24 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:16:24 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:16:24 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:16:24 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:16:36 - root - INFO - Logging initialized at 2025-06-06 12:16:36
+2025-06-06 12:16:36 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:16:36 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:16:36 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:16:36 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:16:37 - __main__ - INFO - Initializing database tables
+2025-06-06 12:16:37 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:16:37 - __main__ - INFO - Database tables initialized
+2025-06-06 12:16:37 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:16:37 - __main__ - INFO - API blueprints registered
+2025-06-06 12:16:37 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:16:37 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-06-06 12:16:37 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-06 12:16:37 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:16:38 - root - INFO - Logging initialized at 2025-06-06 12:16:38
+2025-06-06 12:16:38 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:16:38 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:16:38 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:16:38 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:16:39 - __main__ - INFO - Initializing database tables
+2025-06-06 12:16:39 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:16:39 - __main__ - INFO - Database tables initialized
+2025-06-06 12:16:39 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:16:39 - __main__ - INFO - API blueprints registered
+2025-06-06 12:16:39 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:16:39 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:16:39 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:16:40 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-06-06 12:16:40 - paramiko.transport - INFO - Authentication (password) successful!
+2025-06-06 12:16:45 - db.device_repository - INFO - Registering new device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-06-06 12:16:45 - db.device_repository - INFO - Registering new device (MAC: d6:9e:a9:b2:63:5a) - IP: 192.168.1.172, Hostname: Unknown
+2025-06-06 12:16:45 - db.device_repository - INFO - Registering new device (MAC: a2:1d:19:97:dc:52) - IP: 192.168.1.199, Hostname: Unknown
+2025-06-06 12:16:45 - db.device_repository - INFO - Registering new device (MAC: fa:82:dc:8c:f9:5a) - IP: 192.168.1.125, Hostname: Unknown
+2025-06-06 12:16:45 - db.device_repository - INFO - Registering new device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Unknown
+2025-06-06 12:16:45 - db.device_repository - INFO - Registering new device (MAC: 82:4b:46:21:38:ab) - IP: 192.168.1.237, Hostname: Tom-s-phone
+2025-06-06 12:16:45 - db.device_repository - INFO - Registering new device (MAC: 0e:2f:dd:57:ab:19) - IP: 192.168.1.151, Hostname: Unknown
+2025-06-06 12:16:45 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:16:45] "GET /api/scan/router HTTP/1.1" 200 -
+2025-06-06 12:16:53 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-06-06 12:16:53 - db.device_repository - INFO - Updated existing device (MAC: d6:9e:a9:b2:63:5a) - IP: 192.168.1.172, Hostname: Unknown
+2025-06-06 12:16:53 - db.device_repository - INFO - Updated existing device (MAC: a2:1d:19:97:dc:52) - IP: 192.168.1.199, Hostname: Unknown
+2025-06-06 12:16:53 - db.device_repository - INFO - Updated existing device (MAC: fa:82:dc:8c:f9:5a) - IP: 192.168.1.125, Hostname: Unknown
+2025-06-06 12:16:53 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Unknown
+2025-06-06 12:16:53 - db.device_repository - INFO - Updated existing device (MAC: 82:4b:46:21:38:ab) - IP: 192.168.1.237, Hostname: Tom-s-phone
+2025-06-06 12:16:53 - db.device_repository - INFO - Updated existing device (MAC: 0e:2f:dd:57:ab:19) - IP: 192.168.1.151, Hostname: Unknown
+2025-06-06 12:16:53 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:16:53] "GET /api/scan/router HTTP/1.1" 200 -
+2025-06-06 12:17:24 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\db\\device_repository.py', reloading
+2025-06-06 12:17:24 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:17:24 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:17:24 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:17:24 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:17:25 - root - INFO - Logging initialized at 2025-06-06 12:17:25
+2025-06-06 12:17:25 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:17:25 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:17:25 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:17:25 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:17:26 - __main__ - INFO - Initializing database tables
+2025-06-06 12:17:26 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:17:26 - __main__ - INFO - Database tables initialized
+2025-06-06 12:17:26 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:17:26 - __main__ - INFO - API blueprints registered
+2025-06-06 12:17:26 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:17:26 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:17:26 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:18:35 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-06-06 12:18:35 - paramiko.transport - INFO - Authentication (password) successful!
+2025-06-06 12:18:39 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-06-06 12:18:39 - db.device_repository - INFO - Updated existing device (MAC: d6:9e:a9:b2:63:5a) - IP: 192.168.1.172, Hostname: Unknown
+2025-06-06 12:18:39 - db.device_repository - INFO - Updated existing device (MAC: a2:1d:19:97:dc:52) - IP: 192.168.1.199, Hostname: Unknown
+2025-06-06 12:18:39 - db.device_repository - INFO - Updated existing device (MAC: fa:82:dc:8c:f9:5a) - IP: 192.168.1.125, Hostname: Unknown
+2025-06-06 12:18:39 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Unknown
+2025-06-06 12:18:39 - db.device_repository - INFO - Updated existing device (MAC: 82:4b:46:21:38:ab) - IP: 192.168.1.237, Hostname: Tom-s-phone
+2025-06-06 12:18:39 - db.device_repository - INFO - Updated existing device (MAC: 0e:2f:dd:57:ab:19) - IP: 192.168.1.151, Hostname: Unknown
+2025-06-06 12:18:39 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:18:39] "GET /api/scan/router HTTP/1.1" 200 -
+2025-06-06 12:20:14 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\router_scanner.py', reloading
+2025-06-06 12:20:14 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:20:14 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:20:14 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:20:14 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:20:15 - root - INFO - Logging initialized at 2025-06-06 12:20:15
+2025-06-06 12:20:15 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:20:15 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:20:15 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:20:15 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:20:15 - __main__ - INFO - Initializing database tables
+2025-06-06 12:20:15 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:20:15 - __main__ - INFO - Database tables initialized
+2025-06-06 12:20:15 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:20:15 - __main__ - INFO - API blueprints registered
+2025-06-06 12:20:15 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:20:15 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:20:15 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:20:24 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-06-06 12:20:24 - paramiko.transport - INFO - Authentication (password) successful!
+2025-06-06 12:20:25 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\router_scanner.py', reloading
+2025-06-06 12:20:25 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:20:25 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:20:25 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:20:25 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:20:25 - root - INFO - Logging initialized at 2025-06-06 12:20:25
+2025-06-06 12:20:25 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:20:25 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:20:25 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:20:25 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:20:26 - __main__ - INFO - Initializing database tables
+2025-06-06 12:20:26 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:20:26 - __main__ - INFO - Database tables initialized
+2025-06-06 12:20:26 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:20:26 - __main__ - INFO - API blueprints registered
+2025-06-06 12:20:26 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:20:26 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:20:26 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:20:26 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-06-06 12:20:27 - paramiko.transport - INFO - Authentication (password) successful!
+2025-06-06 12:20:31 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-06-06 12:20:31 - db.device_repository - INFO - Updated existing device (MAC: d6:9e:a9:b2:63:5a) - IP: 192.168.1.172, Hostname: Unknown
+2025-06-06 12:20:31 - db.device_repository - INFO - Updated existing device (MAC: a2:1d:19:97:dc:52) - IP: 192.168.1.199, Hostname: Unknown
+2025-06-06 12:20:31 - db.device_repository - INFO - Updated existing device (MAC: fa:82:dc:8c:f9:5a) - IP: 192.168.1.125, Hostname: Unknown
+2025-06-06 12:20:31 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Unknown
+2025-06-06 12:20:31 - db.device_repository - INFO - Updated existing device (MAC: 82:4b:46:21:38:ab) - IP: 192.168.1.237, Hostname: Tom-s-phone
+2025-06-06 12:20:31 - db.device_repository - INFO - Updated existing device (MAC: 0e:2f:dd:57:ab:19) - IP: 192.168.1.151, Hostname: Unknown
+2025-06-06 12:20:31 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:20:31] "GET /api/scan/router HTTP/1.1" 200 -
+2025-06-06 12:20:42 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-06-06 12:20:42 - db.device_repository - INFO - Updated existing device (MAC: d6:9e:a9:b2:63:5a) - IP: 192.168.1.172, Hostname: Unknown
+2025-06-06 12:20:42 - db.device_repository - INFO - Updated existing device (MAC: a2:1d:19:97:dc:52) - IP: 192.168.1.199, Hostname: Unknown
+2025-06-06 12:20:42 - db.device_repository - INFO - Updated existing device (MAC: fa:82:dc:8c:f9:5a) - IP: 192.168.1.125, Hostname: Unknown
+2025-06-06 12:20:42 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Unknown
+2025-06-06 12:20:42 - db.device_repository - INFO - Updated existing device (MAC: 82:4b:46:21:38:ab) - IP: 192.168.1.237, Hostname: Tom-s-phone
+2025-06-06 12:20:42 - db.device_repository - INFO - Updated existing device (MAC: 0e:2f:dd:57:ab:19) - IP: 192.168.1.151, Hostname: Unknown
+2025-06-06 12:20:42 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:20:42] "GET /api/scan/router HTTP/1.1" 200 -
+2025-06-06 12:20:51 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\router_scanner.py', reloading
+2025-06-06 12:20:51 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:20:51 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:20:51 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:20:51 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:20:51 - root - INFO - Logging initialized at 2025-06-06 12:20:51
+2025-06-06 12:20:51 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:20:51 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:20:51 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:20:51 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:20:52 - __main__ - INFO - Initializing database tables
+2025-06-06 12:20:52 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:20:52 - __main__ - INFO - Database tables initialized
+2025-06-06 12:20:52 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:20:52 - __main__ - INFO - API blueprints registered
+2025-06-06 12:20:52 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:20:52 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:20:52 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:21:02 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\router_scanner.py', reloading
+2025-06-06 12:21:02 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:21:02 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:21:02 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:21:02 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:21:02 - root - INFO - Logging initialized at 2025-06-06 12:21:02
+2025-06-06 12:21:02 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:21:02 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:21:02 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:21:02 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:21:03 - __main__ - INFO - Initializing database tables
+2025-06-06 12:21:03 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:21:03 - __main__ - INFO - Database tables initialized
+2025-06-06 12:21:03 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:21:03 - __main__ - INFO - API blueprints registered
+2025-06-06 12:21:03 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:21:03 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:21:03 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:21:13 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\router_scanner.py', reloading
+2025-06-06 12:21:13 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:21:13 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:21:13 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:21:13 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:21:13 - root - INFO - Logging initialized at 2025-06-06 12:21:13
+2025-06-06 12:21:13 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:21:13 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:21:13 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:21:13 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:21:14 - __main__ - INFO - Initializing database tables
+2025-06-06 12:21:14 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:21:14 - __main__ - INFO - Database tables initialized
+2025-06-06 12:21:14 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:21:14 - __main__ - INFO - API blueprints registered
+2025-06-06 12:21:14 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:21:14 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:21:14 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:21:24 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-06-06 12:21:24 - paramiko.transport - INFO - Authentication (password) successful!
+2025-06-06 12:21:29 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-06-06 12:21:29 - db.device_repository - INFO - Updated existing device (MAC: d6:9e:a9:b2:63:5a) - IP: 192.168.1.172, Hostname: Unknown
+2025-06-06 12:21:29 - db.device_repository - INFO - Updated existing device (MAC: a2:1d:19:97:dc:52) - IP: 192.168.1.199, Hostname: Unknown
+2025-06-06 12:21:29 - db.device_repository - INFO - Updated existing device (MAC: fa:82:dc:8c:f9:5a) - IP: 192.168.1.125, Hostname: Unknown
+2025-06-06 12:21:29 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Unknown
+2025-06-06 12:21:29 - db.device_repository - INFO - Updated existing device (MAC: 82:4b:46:21:38:ab) - IP: 192.168.1.237, Hostname: Tom-s-phone
+2025-06-06 12:21:29 - db.device_repository - INFO - Updated existing device (MAC: 0e:2f:dd:57:ab:19) - IP: 192.168.1.151, Hostname: Unknown
+2025-06-06 12:21:29 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:21:29] "GET /api/scan/router HTTP/1.1" 200 -
+2025-06-06 12:21:31 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\router_scanner.py', reloading
+2025-06-06 12:21:31 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:21:31 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:21:31 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:21:31 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:21:31 - root - INFO - Logging initialized at 2025-06-06 12:21:31
+2025-06-06 12:21:31 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:21:31 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:21:31 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:21:31 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:21:32 - __main__ - INFO - Initializing database tables
+2025-06-06 12:21:32 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:21:32 - __main__ - INFO - Database tables initialized
+2025-06-06 12:21:32 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:21:32 - __main__ - INFO - API blueprints registered
+2025-06-06 12:21:32 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:21:32 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:21:32 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:21:32 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-06-06 12:21:33 - paramiko.transport - INFO - Authentication (password) successful!
+2025-06-06 12:21:37 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-06-06 12:21:37 - db.device_repository - INFO - Updated existing device (MAC: d6:9e:a9:b2:63:5a) - IP: 192.168.1.172, Hostname: Unknown
+2025-06-06 12:21:37 - db.device_repository - INFO - Updated existing device (MAC: a2:1d:19:97:dc:52) - IP: 192.168.1.199, Hostname: Unknown
+2025-06-06 12:21:37 - db.device_repository - INFO - Updated existing device (MAC: fa:82:dc:8c:f9:5a) - IP: 192.168.1.125, Hostname: Unknown
+2025-06-06 12:21:37 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Unknown
+2025-06-06 12:21:37 - db.device_repository - INFO - Updated existing device (MAC: 82:4b:46:21:38:ab) - IP: 192.168.1.237, Hostname: Tom-s-phone
+2025-06-06 12:21:37 - db.device_repository - INFO - Updated existing device (MAC: 0e:2f:dd:57:ab:19) - IP: 192.168.1.151, Hostname: Unknown
+2025-06-06 12:21:37 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:21:37] "GET /api/scan/router HTTP/1.1" 200 -
+2025-06-06 12:21:51 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\router_scanner.py', reloading
+2025-06-06 12:21:51 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:21:51 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:21:51 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:21:52 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:21:52 - root - INFO - Logging initialized at 2025-06-06 12:21:52
+2025-06-06 12:21:52 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:21:52 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:21:52 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:21:52 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:21:53 - __main__ - INFO - Initializing database tables
+2025-06-06 12:21:53 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:21:53 - __main__ - INFO - Database tables initialized
+2025-06-06 12:21:53 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:21:53 - __main__ - INFO - API blueprints registered
+2025-06-06 12:21:53 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:21:53 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:21:53 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:21:58 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\router_scanner.py', reloading
+2025-06-06 12:21:58 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:21:58 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:21:58 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:21:58 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:21:59 - root - INFO - Logging initialized at 2025-06-06 12:21:59
+2025-06-06 12:21:59 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:21:59 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:21:59 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:21:59 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:22:00 - __main__ - INFO - Initializing database tables
+2025-06-06 12:22:00 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:22:00 - __main__ - INFO - Database tables initialized
+2025-06-06 12:22:00 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:22:00 - __main__ - INFO - API blueprints registered
+2025-06-06 12:22:00 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:22:00 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:22:00 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:22:01 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\router_scanner.py', reloading
+2025-06-06 12:22:01 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:22:01 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:22:01 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:22:01 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:22:01 - root - INFO - Logging initialized at 2025-06-06 12:22:01
+2025-06-06 12:22:01 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:22:01 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:22:01 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:22:01 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:22:02 - __main__ - INFO - Initializing database tables
+2025-06-06 12:22:02 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:22:02 - __main__ - INFO - Database tables initialized
+2025-06-06 12:22:02 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:22:02 - __main__ - INFO - API blueprints registered
+2025-06-06 12:22:02 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:22:02 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:22:02 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:22:09 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\router_scanner.py', reloading
+2025-06-06 12:22:09 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:22:09 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:22:09 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:22:09 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:22:09 - root - INFO - Logging initialized at 2025-06-06 12:22:09
+2025-06-06 12:22:09 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:22:09 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:22:09 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:22:09 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:22:10 - __main__ - INFO - Initializing database tables
+2025-06-06 12:22:10 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:22:10 - __main__ - INFO - Database tables initialized
+2025-06-06 12:22:10 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:22:10 - __main__ - INFO - API blueprints registered
+2025-06-06 12:22:10 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:22:10 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:22:10 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:22:18 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\router_scanner.py', reloading
+2025-06-06 12:22:18 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:22:18 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:22:18 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:22:18 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:22:19 - root - INFO - Logging initialized at 2025-06-06 12:22:19
+2025-06-06 12:22:19 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:22:19 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:22:19 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:22:19 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:22:20 - __main__ - INFO - Initializing database tables
+2025-06-06 12:22:20 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:22:20 - __main__ - INFO - Database tables initialized
+2025-06-06 12:22:20 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:22:20 - __main__ - INFO - API blueprints registered
+2025-06-06 12:22:20 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:22:20 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:22:20 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:22:47 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-06-06 12:22:47 - paramiko.transport - INFO - Authentication (password) successful!
+2025-06-06 12:22:47 - services.router_scanner - INFO - DHCP leases found: 2 devices
+2025-06-06 12:22:47 - services.router_scanner - INFO - DHCP: d8:bb:c1:47:3a:43 -> 192.168.1.122 (DESKTOP-DQ80I51)
+2025-06-06 12:22:47 - services.router_scanner - INFO - DHCP: 82:4b:46:21:38:ab -> 192.168.1.237 (Tom-s-phone)
+2025-06-06 12:22:48 - services.router_scanner - INFO - ARP table output:
+10.0.0.3 dev wan lladdr 6e:4c:bf:50:63:96 STALE 
+192.168.1.172 dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+10.0.0.22 dev wan lladdr 70:1a:b8:59:80:e9 STALE 
+10.0.0.29 dev wan lladdr 80:b6:55:b7:bf:51 STALE 
+10.0.0.9 dev wan lladdr b8:37:b2:c2:6a:60 STALE 
+10.0.0.12 dev wan lladdr b8:13:32:fb:56:70 STALE 
+192.168.1.199 dev br-lan lladdr a2:1d:19:97:dc:52 STALE 
+10.0.0.138 dev wan lladdr 00:b8:c2:b7:e0:67 REACHABLE 
+192.168.1.122 dev br-lan lladdr d8:bb:c1:47:3a:43 REACHABLE 
+192.168.1.125 dev br-lan lladdr fa:82:dc:8c:f9:5a STALE 
+10.0.0.48 dev wan lladdr 4c:e1:73:42:66:a5 STALE 
+10.0.0.25 dev wan lladdr 00:e1:8c:c6:ab:d3 STALE 
+10.0.0.28 dev wan lladdr 10:38:1f:6e:17:ce STALE 
+10.0.0.15 dev wan lladdr f2:76:8e:a4:d5:06 STALE 
+10.0.0.8 dev wan lladdr 6a:2c:3f:c9:b9:f2 STALE 
+192.168.1.221 dev br-lan lladdr 12:2a:0a:02:ce:19 STALE 
+10.0.0.14 dev wan lladdr 20:9c:b4:c5:f8:8e STALE 
+169.254.226.230 dev br-lan lladdr d8:bb:c1:47:3a:43 STALE 
+192.168.1.237 dev br-lan lladdr 82:4b:46:21:38:ab STALE 
+192.168.1.151 dev br-lan lladdr 0e:2f:dd:57:ab:19 STALE 
+fe80::1817:918e:a116:c332 dev wan lladdr da:d8:73:65:26:7d STALE 
+fd26:9e51:ac53:0:a3e1:cf4a:8efd:aa31 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:ce07:ddb6:9bf3:d0d2 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::804b:46ff:fe21:38ab dev br-lan lladdr 82:4b:46:21:38:ab STALE 
+fd26:9e51:ac53:0:729e:5509:e5ab:8d0 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::48fb:94ae:8e57:87a9 dev wan lladdr b8:13:32:fb:56:70 STALE 
+fe80::1ce7:388a:f2a4:ce31 dev wan lladdr c2:8e:5d:c8:ea:93 STALE 
+fe80::d49e:a9ff:feb2:635a dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fd26:9e51:ac53:0:ddcf:1ed3:c894:544e dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fd26:9e51:ac53:0:41ce:66d9:b57a:f126 dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fe80::184d:efcf:96bb:35c6 dev wan lladdr 5a:ad:ba:4b:fd:5f STALE 
+fd26:9e51:ac53:0:5cdb:876f:bce6:8bf1 dev br-lan lladdr 82:4b:46:21:38:ab STALE 
+fe80::1050:74bc:5861:7eca dev wan lladdr a6:6b:ea:92:81:0c STALE 
+fd26:9e51:ac53:0:2758:5fc5:c46d:df5a dev br-lan lladdr 92:3f:e3:83:c8:eb STALE 
+fd26:9e51:ac53:0:81c3:6fb9:7277:8c2e dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fd26:9e51:ac53:0:16f0:78b5:37e8:2332 dev br-lan lladdr 92:3f:e3:83:c8:eb STALE 
+fe80::6cde:48a4:7cca:6009 dev wan lladdr 64:6c:80:77:f5:d7 STALE 
+fe80::3c3d:4bdf:390b:2528 dev wan lladdr 10:38:1f:6e:17:ce STALE 
+fe80::942d:7073:8894:f91a dev wan lladdr 4c:e1:73:42:66:a5 STALE 
+fd26:9e51:ac53:0:ae95:21ff:2614:190c dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:d0d5:7609:4ff6:3f61 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:e348:3783:ee29:9b4d dev br-lan lladdr a2:1d:19:97:dc:52 STALE 
+fd26:9e51:ac53:0:ec57:ac47:ad47:302c dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fd26:9e51:ac53:0:f759:f5c2:dba8:8cc0 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::682c:3fff:fec9:b9f2 dev wan lladdr 6a:2c:3f:c9:b9:f2 STALE 
+fd26:9e51:ac53:0:a309:e8f8:1f79:2cca dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:74af:5d1e:3115:958e dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::ca8:e58c:15cf:e35c dev wan lladdr 9e:41:b0:2f:16:da STALE 
+fd26:9e51:ac53:0:4e56:8f4b:26da:322c dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:5b1b:5db7:6d2c:bd7a dev br-lan lladdr a2:1d:19:97:dc:52 STALE 
+fe80::1889:c767:9912:c28a dev wan lladdr 9e:41:b0:2f:16:da STALE 
+fe80::1476:5a47:5b09:32e1 dev wan lladdr f8:e4:3b:80:9d:f5 STALE 
+fd26:9e51:ac53:0:f2f8:7df3:d36d:ac8f dev br-lan lladdr a2:1d:19:97:dc:52 STALE 
+fd26:9e51:ac53:0:6850:baea:1fce:a96c dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::a01d:19ff:fe97:dc52 dev br-lan lladdr a2:1d:19:97:dc:52 STALE 
+fd26:9e51:ac53:0:e375:a077:f08:83b0 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:500a:1903:4bb:420d dev br-lan lladdr 92:3f:e3:83:c8:eb STALE 
+fd26:9e51:ac53:0:9a06:3b5c:e04a:9e15 dev br-lan lladdr 82:4b:46:21:38:ab STALE 
+fd26:9e51:ac53:0:e2d9:da0a:cb76:7f6a dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fe80::2b8:c2ff:feb7:e067 dev wan lladdr 00:b8:c2:b7:e0:67 router DELAY 
+fd26:9e51:ac53:0:1602:5978:a7f4:2a34 dev br-lan lladdr 92:3f:e3:83:c8:eb STALE 
+fd26:9e51:ac53:0:5d71:d7ef:f02c:435a dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::426:928a:156e:39f dev wan lladdr 5a:ad:ba:4b:fd:5f STALE 
+fe80::91b5:1174:39a1:5a1b dev wan lladdr 7c:7a:91:73:b6:35 STALE 
+fd26:9e51:ac53:0:481e:475f:1eca:a27b dev br-lan lladdr 82:4b:46:21:38:ab STALE 
+fd26:9e51:ac53:0:d805:54df:1d1:fbec dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fe80::e037:aaff:fe91:1a3c dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::f076:8eff:fea4:d506 dev wan lladdr f2:76:8e:a4:d5:06 STALE 
+fd26:9e51:ac53:0:1b48:bd09:2f1c:b751 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:f8bc:7722:adc8:e057 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::1453:b555:feeb:92e3 dev wan lladdr f6:c3:59:90:5e:f1 STALE 
+fe80::8fe:be37:3c40:e50c dev wan lladdr 2e:10:5e:99:f9:c0 STALE 
+fd26:9e51:ac53:0:c0b1:a4ab:e48b:84f9 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:9a2b:3f16:8424:9103 dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fe80::1ce9:7caa:efdc:8e8b dev wan lladdr 6e:4c:bf:50:63:96 STALE 
+fe80::903f:e3ff:fe83:c8eb dev br-lan lladdr 92:3f:e3:83:c8:eb STALE 
+fe80::53ef:1047:2300:9ced dev wan lladdr 0c:c6:fd:b8:4d:3b STALE
+2025-06-06 12:22:52 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-06-06 12:22:52 - db.device_repository - INFO - Updated existing device (MAC: d6:9e:a9:b2:63:5a) - IP: 192.168.1.172, Hostname: Unknown
+2025-06-06 12:22:52 - db.device_repository - INFO - Updated existing device (MAC: a2:1d:19:97:dc:52) - IP: 192.168.1.199, Hostname: Unknown
+2025-06-06 12:22:52 - db.device_repository - INFO - Updated existing device (MAC: fa:82:dc:8c:f9:5a) - IP: 192.168.1.125, Hostname: Unknown
+2025-06-06 12:22:52 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Unknown
+2025-06-06 12:22:52 - db.device_repository - INFO - Updated existing device (MAC: 82:4b:46:21:38:ab) - IP: 192.168.1.237, Hostname: Tom-s-phone
+2025-06-06 12:22:52 - db.device_repository - INFO - Updated existing device (MAC: 0e:2f:dd:57:ab:19) - IP: 192.168.1.151, Hostname: Unknown
+2025-06-06 12:22:52 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:22:52] "GET /api/scan/router HTTP/1.1" 200 -
+2025-06-06 12:23:16 - services.router_scanner - INFO - DHCP leases found: 2 devices
+2025-06-06 12:23:16 - services.router_scanner - INFO - DHCP: d8:bb:c1:47:3a:43 -> 192.168.1.122 (DESKTOP-DQ80I51)
+2025-06-06 12:23:16 - services.router_scanner - INFO - DHCP: 82:4b:46:21:38:ab -> 192.168.1.237 (Tom-s-phone)
+2025-06-06 12:23:16 - services.router_scanner - INFO - ARP table output:
+10.0.0.3 dev wan lladdr 6e:4c:bf:50:63:96 STALE 
+192.168.1.172 dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+10.0.0.22 dev wan lladdr 70:1a:b8:59:80:e9 STALE 
+10.0.0.29 dev wan lladdr 80:b6:55:b7:bf:51 STALE 
+10.0.0.9 dev wan lladdr b8:37:b2:c2:6a:60 STALE 
+10.0.0.12 dev wan lladdr b8:13:32:fb:56:70 STALE 
+192.168.1.199 dev br-lan lladdr a2:1d:19:97:dc:52 STALE 
+10.0.0.138 dev wan lladdr 00:b8:c2:b7:e0:67 REACHABLE 
+192.168.1.122 dev br-lan lladdr d8:bb:c1:47:3a:43 REACHABLE 
+192.168.1.125 dev br-lan lladdr fa:82:dc:8c:f9:5a STALE 
+10.0.0.48 dev wan lladdr 4c:e1:73:42:66:a5 STALE 
+10.0.0.25 dev wan lladdr 00:e1:8c:c6:ab:d3 STALE 
+10.0.0.28 dev wan lladdr 10:38:1f:6e:17:ce STALE 
+10.0.0.15 dev wan lladdr f2:76:8e:a4:d5:06 STALE 
+10.0.0.8 dev wan lladdr 6a:2c:3f:c9:b9:f2 STALE 
+192.168.1.221 dev br-lan lladdr 12:2a:0a:02:ce:19 STALE 
+10.0.0.14 dev wan lladdr 20:9c:b4:c5:f8:8e STALE 
+169.254.226.230 dev br-lan lladdr d8:bb:c1:47:3a:43 STALE 
+192.168.1.237 dev br-lan lladdr 82:4b:46:21:38:ab REACHABLE 
+192.168.1.151 dev br-lan lladdr 0e:2f:dd:57:ab:19 STALE 
+fe80::1817:918e:a116:c332 dev wan lladdr da:d8:73:65:26:7d STALE 
+fd26:9e51:ac53:0:a3e1:cf4a:8efd:aa31 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:ce07:ddb6:9bf3:d0d2 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::804b:46ff:fe21:38ab dev br-lan lladdr 82:4b:46:21:38:ab STALE 
+fd26:9e51:ac53:0:729e:5509:e5ab:8d0 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::48fb:94ae:8e57:87a9 dev wan lladdr b8:13:32:fb:56:70 STALE 
+fe80::1ce7:388a:f2a4:ce31 dev wan lladdr c2:8e:5d:c8:ea:93 STALE 
+fe80::d49e:a9ff:feb2:635a dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fd26:9e51:ac53:0:ddcf:1ed3:c894:544e dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fd26:9e51:ac53:0:41ce:66d9:b57a:f126 dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fe80::184d:efcf:96bb:35c6 dev wan lladdr 5a:ad:ba:4b:fd:5f STALE 
+fd26:9e51:ac53:0:5cdb:876f:bce6:8bf1 dev br-lan lladdr 82:4b:46:21:38:ab STALE 
+fe80::1050:74bc:5861:7eca dev wan lladdr a6:6b:ea:92:81:0c STALE 
+fd26:9e51:ac53:0:2758:5fc5:c46d:df5a dev br-lan lladdr 92:3f:e3:83:c8:eb STALE 
+fd26:9e51:ac53:0:81c3:6fb9:7277:8c2e dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fd26:9e51:ac53:0:16f0:78b5:37e8:2332 dev br-lan lladdr 92:3f:e3:83:c8:eb STALE 
+fe80::6cde:48a4:7cca:6009 dev wan lladdr 64:6c:80:77:f5:d7 STALE 
+fe80::3c3d:4bdf:390b:2528 dev wan lladdr 10:38:1f:6e:17:ce STALE 
+fe80::942d:7073:8894:f91a dev wan lladdr 4c:e1:73:42:66:a5 STALE 
+fd26:9e51:ac53:0:ae95:21ff:2614:190c dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:d0d5:7609:4ff6:3f61 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:e348:3783:ee29:9b4d dev br-lan lladdr a2:1d:19:97:dc:52 STALE 
+fd26:9e51:ac53:0:ec57:ac47:ad47:302c dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fd26:9e51:ac53:0:f759:f5c2:dba8:8cc0 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::682c:3fff:fec9:b9f2 dev wan lladdr 6a:2c:3f:c9:b9:f2 STALE 
+fd26:9e51:ac53:0:a309:e8f8:1f79:2cca dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:74af:5d1e:3115:958e dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::ca8:e58c:15cf:e35c dev wan lladdr 9e:41:b0:2f:16:da STALE 
+fd26:9e51:ac53:0:4e56:8f4b:26da:322c dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:5b1b:5db7:6d2c:bd7a dev br-lan lladdr a2:1d:19:97:dc:52 STALE 
+fe80::1889:c767:9912:c28a dev wan lladdr 9e:41:b0:2f:16:da STALE 
+fe80::1476:5a47:5b09:32e1 dev wan lladdr f8:e4:3b:80:9d:f5 STALE 
+fd26:9e51:ac53:0:f2f8:7df3:d36d:ac8f dev br-lan lladdr a2:1d:19:97:dc:52 STALE 
+fd26:9e51:ac53:0:6850:baea:1fce:a96c dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::a01d:19ff:fe97:dc52 dev br-lan lladdr a2:1d:19:97:dc:52 STALE 
+fd26:9e51:ac53:0:e375:a077:f08:83b0 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:500a:1903:4bb:420d dev br-lan lladdr 92:3f:e3:83:c8:eb STALE 
+fd26:9e51:ac53:0:9a06:3b5c:e04a:9e15 dev br-lan lladdr 82:4b:46:21:38:ab DELAY 
+fd26:9e51:ac53:0:e2d9:da0a:cb76:7f6a dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fe80::2b8:c2ff:feb7:e067 dev wan lladdr 00:b8:c2:b7:e0:67 router REACHABLE 
+fd26:9e51:ac53:0:1602:5978:a7f4:2a34 dev br-lan lladdr 92:3f:e3:83:c8:eb STALE 
+fd26:9e51:ac53:0:5d71:d7ef:f02c:435a dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::426:928a:156e:39f dev wan lladdr 5a:ad:ba:4b:fd:5f STALE 
+fe80::91b5:1174:39a1:5a1b dev wan lladdr 7c:7a:91:73:b6:35 STALE 
+fd26:9e51:ac53:0:481e:475f:1eca:a27b dev br-lan lladdr 82:4b:46:21:38:ab STALE 
+fd26:9e51:ac53:0:d805:54df:1d1:fbec dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fe80::e037:aaff:fe91:1a3c dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::f076:8eff:fea4:d506 dev wan lladdr f2:76:8e:a4:d5:06 STALE 
+fd26:9e51:ac53:0:1b48:bd09:2f1c:b751 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:f8bc:7722:adc8:e057 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::1453:b555:feeb:92e3 dev wan lladdr f6:c3:59:90:5e:f1 STALE 
+fe80::8fe:be37:3c40:e50c dev wan lladdr 2e:10:5e:99:f9:c0 STALE 
+fd26:9e51:ac53:0:c0b1:a4ab:e48b:84f9 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:9a2b:3f16:8424:9103 dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fe80::1ce9:7caa:efdc:8e8b dev wan lladdr 6e:4c:bf:50:63:96 STALE 
+fe80::903f:e3ff:fe83:c8eb dev br-lan lladdr 92:3f:e3:83:c8:eb STALE 
+fe80::53ef:1047:2300:9ced dev wan lladdr 0c:c6:fd:b8:4d:3b STALE
+2025-06-06 12:23:20 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-06-06 12:23:20 - db.device_repository - INFO - Updated existing device (MAC: d6:9e:a9:b2:63:5a) - IP: 192.168.1.172, Hostname: Unknown
+2025-06-06 12:23:20 - db.device_repository - INFO - Updated existing device (MAC: a2:1d:19:97:dc:52) - IP: 192.168.1.199, Hostname: Unknown
+2025-06-06 12:23:20 - db.device_repository - INFO - Updated existing device (MAC: fa:82:dc:8c:f9:5a) - IP: 192.168.1.125, Hostname: Unknown
+2025-06-06 12:23:20 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Unknown
+2025-06-06 12:23:20 - db.device_repository - INFO - Updated existing device (MAC: 82:4b:46:21:38:ab) - IP: 192.168.1.237, Hostname: Tom-s-phone
+2025-06-06 12:23:20 - db.device_repository - INFO - Updated existing device (MAC: 0e:2f:dd:57:ab:19) - IP: 192.168.1.151, Hostname: Unknown
+2025-06-06 12:23:20 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:20] "GET /api/scan/router HTTP/1.1" 200 -
+2025-06-06 12:23:25 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\router_scanner.py', reloading
+2025-06-06 12:23:25 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:23:25 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:23:25 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:23:25 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:23:25 - root - INFO - Logging initialized at 2025-06-06 12:23:25
+2025-06-06 12:23:25 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:23:25 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:23:25 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:23:25 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:23:26 - __main__ - INFO - Initializing database tables
+2025-06-06 12:23:26 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:23:26 - __main__ - INFO - Database tables initialized
+2025-06-06 12:23:26 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:23:26 - __main__ - INFO - API blueprints registered
+2025-06-06 12:23:26 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:23:26 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:23:26 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:24:07 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\router_scanner.py', reloading
+2025-06-06 12:24:07 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:24:07 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:24:07 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:24:07 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:24:08 - root - INFO - Logging initialized at 2025-06-06 12:24:08
+2025-06-06 12:24:08 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:24:08 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:24:08 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:24:08 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:24:09 - __main__ - INFO - Initializing database tables
+2025-06-06 12:24:09 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:24:09 - __main__ - INFO - Database tables initialized
+2025-06-06 12:24:09 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:24:09 - __main__ - INFO - API blueprints registered
+2025-06-06 12:24:09 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:24:09 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:24:09 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:24:13 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\router_scanner.py', reloading
+2025-06-06 12:24:13 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:24:13 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:24:13 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:24:13 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:24:14 - root - INFO - Logging initialized at 2025-06-06 12:24:14
+2025-06-06 12:24:14 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:24:14 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:24:14 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:24:14 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:24:14 - __main__ - INFO - Initializing database tables
+2025-06-06 12:24:14 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:24:14 - __main__ - INFO - Database tables initialized
+2025-06-06 12:24:14 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:24:14 - __main__ - INFO - API blueprints registered
+2025-06-06 12:24:14 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:24:14 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:24:14 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:24:15 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-06-06 12:24:15 - paramiko.transport - INFO - Authentication (password) successful!
+2025-06-06 12:24:16 - services.router_scanner - INFO - DHCP leases found: 2 devices
+2025-06-06 12:24:16 - services.router_scanner - INFO - DHCP: d8:bb:c1:47:3a:43 -> 192.168.1.122 (DESKTOP-DQ80I51)
+2025-06-06 12:24:16 - services.router_scanner - INFO - DHCP: 82:4b:46:21:38:ab -> 192.168.1.237 (Tom-s-phone)
+2025-06-06 12:24:16 - services.router_scanner - INFO - ARP table output:
+10.0.0.3 dev wan lladdr 6e:4c:bf:50:63:96 STALE 
+192.168.1.172 dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+10.0.0.22 dev wan lladdr 70:1a:b8:59:80:e9 STALE 
+10.0.0.29 dev wan lladdr 80:b6:55:b7:bf:51 STALE 
+10.0.0.9 dev wan lladdr b8:37:b2:c2:6a:60 STALE 
+10.0.0.12 dev wan lladdr b8:13:32:fb:56:70 STALE 
+192.168.1.199 dev br-lan lladdr a2:1d:19:97:dc:52 STALE 
+10.0.0.138 dev wan lladdr 00:b8:c2:b7:e0:67 REACHABLE 
+192.168.1.122 dev br-lan lladdr d8:bb:c1:47:3a:43 REACHABLE 
+192.168.1.125 dev br-lan lladdr fa:82:dc:8c:f9:5a STALE 
+10.0.0.48 dev wan lladdr 4c:e1:73:42:66:a5 STALE 
+10.0.0.25 dev wan lladdr 00:e1:8c:c6:ab:d3 STALE 
+10.0.0.28 dev wan lladdr 10:38:1f:6e:17:ce STALE 
+10.0.0.15 dev wan lladdr f2:76:8e:a4:d5:06 STALE 
+10.0.0.8 dev wan lladdr 6a:2c:3f:c9:b9:f2 STALE 
+192.168.1.221 dev br-lan lladdr 12:2a:0a:02:ce:19 STALE 
+10.0.0.14 dev wan lladdr 20:9c:b4:c5:f8:8e STALE 
+169.254.226.230 dev br-lan lladdr d8:bb:c1:47:3a:43 STALE 
+192.168.1.237 dev br-lan lladdr 82:4b:46:21:38:ab REACHABLE 
+192.168.1.151 dev br-lan lladdr 0e:2f:dd:57:ab:19 STALE 
+fe80::1817:918e:a116:c332 dev wan lladdr da:d8:73:65:26:7d STALE 
+fd26:9e51:ac53:0:a3e1:cf4a:8efd:aa31 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:ce07:ddb6:9bf3:d0d2 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::804b:46ff:fe21:38ab dev br-lan lladdr 82:4b:46:21:38:ab DELAY 
+fd26:9e51:ac53:0:729e:5509:e5ab:8d0 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::48fb:94ae:8e57:87a9 dev wan lladdr b8:13:32:fb:56:70 STALE 
+fe80::1ce7:388a:f2a4:ce31 dev wan lladdr c2:8e:5d:c8:ea:93 STALE 
+fe80::d49e:a9ff:feb2:635a dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fd26:9e51:ac53:0:ddcf:1ed3:c894:544e dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fd26:9e51:ac53:0:41ce:66d9:b57a:f126 dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fe80::184d:efcf:96bb:35c6 dev wan lladdr 5a:ad:ba:4b:fd:5f STALE 
+fd26:9e51:ac53:0:5cdb:876f:bce6:8bf1 dev br-lan lladdr 82:4b:46:21:38:ab STALE 
+fe80::1050:74bc:5861:7eca dev wan lladdr a6:6b:ea:92:81:0c STALE 
+fd26:9e51:ac53:0:2758:5fc5:c46d:df5a dev br-lan lladdr 92:3f:e3:83:c8:eb STALE 
+fd26:9e51:ac53:0:81c3:6fb9:7277:8c2e dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fd26:9e51:ac53:0:16f0:78b5:37e8:2332 dev br-lan lladdr 92:3f:e3:83:c8:eb STALE 
+fe80::6cde:48a4:7cca:6009 dev wan lladdr 64:6c:80:77:f5:d7 STALE 
+fe80::3c3d:4bdf:390b:2528 dev wan lladdr 10:38:1f:6e:17:ce STALE 
+fe80::942d:7073:8894:f91a dev wan lladdr 4c:e1:73:42:66:a5 STALE 
+fd26:9e51:ac53:0:ae95:21ff:2614:190c dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:d0d5:7609:4ff6:3f61 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:e348:3783:ee29:9b4d dev br-lan lladdr a2:1d:19:97:dc:52 STALE 
+fd26:9e51:ac53:0:ec57:ac47:ad47:302c dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fd26:9e51:ac53:0:f759:f5c2:dba8:8cc0 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::682c:3fff:fec9:b9f2 dev wan lladdr 6a:2c:3f:c9:b9:f2 STALE 
+fd26:9e51:ac53:0:a309:e8f8:1f79:2cca dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:74af:5d1e:3115:958e dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::ca8:e58c:15cf:e35c dev wan lladdr 9e:41:b0:2f:16:da STALE 
+fd26:9e51:ac53:0:4e56:8f4b:26da:322c dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:5b1b:5db7:6d2c:bd7a dev br-lan lladdr a2:1d:19:97:dc:52 STALE 
+fe80::1889:c767:9912:c28a dev wan lladdr 9e:41:b0:2f:16:da STALE 
+fe80::1476:5a47:5b09:32e1 dev wan lladdr f8:e4:3b:80:9d:f5 STALE 
+fd26:9e51:ac53:0:f2f8:7df3:d36d:ac8f dev br-lan lladdr a2:1d:19:97:dc:52 STALE 
+fd26:9e51:ac53:0:6850:baea:1fce:a96c dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::a01d:19ff:fe97:dc52 dev br-lan lladdr a2:1d:19:97:dc:52 STALE 
+fd26:9e51:ac53:0:e375:a077:f08:83b0 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:500a:1903:4bb:420d dev br-lan lladdr 92:3f:e3:83:c8:eb STALE 
+fd26:9e51:ac53:0:9a06:3b5c:e04a:9e15 dev br-lan lladdr 82:4b:46:21:38:ab REACHABLE 
+fd26:9e51:ac53:0:e2d9:da0a:cb76:7f6a dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fe80::2b8:c2ff:feb7:e067 dev wan lladdr 00:b8:c2:b7:e0:67 router STALE 
+fd26:9e51:ac53:0:1602:5978:a7f4:2a34 dev br-lan lladdr 92:3f:e3:83:c8:eb STALE 
+fd26:9e51:ac53:0:5d71:d7ef:f02c:435a dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::426:928a:156e:39f dev wan lladdr 5a:ad:ba:4b:fd:5f STALE 
+fe80::91b5:1174:39a1:5a1b dev wan lladdr 7c:7a:91:73:b6:35 STALE 
+fd26:9e51:ac53:0:481e:475f:1eca:a27b dev br-lan lladdr 82:4b:46:21:38:ab STALE 
+fd26:9e51:ac53:0:d805:54df:1d1:fbec dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fe80::e037:aaff:fe91:1a3c dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::f076:8eff:fea4:d506 dev wan lladdr f2:76:8e:a4:d5:06 STALE 
+fd26:9e51:ac53:0:1b48:bd09:2f1c:b751 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:f8bc:7722:adc8:e057 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::1453:b555:feeb:92e3 dev wan lladdr f6:c3:59:90:5e:f1 STALE 
+fe80::8fe:be37:3c40:e50c dev wan lladdr 2e:10:5e:99:f9:c0 STALE 
+fd26:9e51:ac53:0:c0b1:a4ab:e48b:84f9 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:9a2b:3f16:8424:9103 dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fe80::1ce9:7caa:efdc:8e8b dev wan lladdr 6e:4c:bf:50:63:96 STALE 
+fe80::903f:e3ff:fe83:c8eb dev br-lan lladdr 92:3f:e3:83:c8:eb STALE 
+fe80::53ef:1047:2300:9ced dev wan lladdr 0c:c6:fd:b8:4d:3b STALE
+2025-06-06 12:24:16 - services.router_scanner - INFO - Updated IP for 6e:4c:bf:50:63:96: None -> 10.0.0.3 (in_subnet: False)
+2025-06-06 12:24:16 - services.router_scanner - INFO - Updated IP for d6:9e:a9:b2:63:5a: None -> 192.168.1.172 (in_subnet: True)
+2025-06-06 12:24:16 - services.router_scanner - INFO - Updated IP for 70:1a:b8:59:80:e9: None -> 10.0.0.22 (in_subnet: False)
+2025-06-06 12:24:16 - services.router_scanner - INFO - Updated IP for 80:b6:55:b7:bf:51: None -> 10.0.0.29 (in_subnet: False)
+2025-06-06 12:24:16 - services.router_scanner - INFO - Updated IP for b8:37:b2:c2:6a:60: None -> 10.0.0.9 (in_subnet: False)
+2025-06-06 12:24:16 - services.router_scanner - INFO - Updated IP for b8:13:32:fb:56:70: None -> 10.0.0.12 (in_subnet: False)
+2025-06-06 12:24:16 - services.router_scanner - INFO - Updated IP for a2:1d:19:97:dc:52: None -> 192.168.1.199 (in_subnet: True)
+2025-06-06 12:24:16 - services.router_scanner - INFO - Updated IP for 00:b8:c2:b7:e0:67: None -> 10.0.0.138 (in_subnet: False)
+2025-06-06 12:24:16 - services.router_scanner - INFO - Updated IP for d8:bb:c1:47:3a:43: None -> 192.168.1.122 (in_subnet: True)
+2025-06-06 12:24:16 - services.router_scanner - INFO - Updated IP for fa:82:dc:8c:f9:5a: None -> 192.168.1.125 (in_subnet: True)
+2025-06-06 12:24:16 - services.router_scanner - INFO - Updated IP for 4c:e1:73:42:66:a5: None -> 10.0.0.48 (in_subnet: False)
+2025-06-06 12:24:16 - services.router_scanner - INFO - Updated IP for 00:e1:8c:c6:ab:d3: None -> 10.0.0.25 (in_subnet: False)
+2025-06-06 12:24:16 - services.router_scanner - INFO - Updated IP for 10:38:1f:6e:17:ce: None -> 10.0.0.28 (in_subnet: False)
+2025-06-06 12:24:16 - services.router_scanner - INFO - Updated IP for f2:76:8e:a4:d5:06: None -> 10.0.0.15 (in_subnet: False)
+2025-06-06 12:24:16 - services.router_scanner - INFO - Updated IP for 6a:2c:3f:c9:b9:f2: None -> 10.0.0.8 (in_subnet: False)
+2025-06-06 12:24:16 - services.router_scanner - INFO - Updated IP for 12:2a:0a:02:ce:19: None -> 192.168.1.221 (in_subnet: True)
+2025-06-06 12:24:16 - services.router_scanner - INFO - Updated IP for 20:9c:b4:c5:f8:8e: None -> 10.0.0.14 (in_subnet: False)
+2025-06-06 12:24:16 - services.router_scanner - INFO - Updated IP for 82:4b:46:21:38:ab: None -> 192.168.1.237 (in_subnet: True)
+2025-06-06 12:24:16 - services.router_scanner - INFO - Updated IP for 0e:2f:dd:57:ab:19: None -> 192.168.1.151 (in_subnet: True)
+2025-06-06 12:24:21 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-06-06 12:24:21 - db.device_repository - INFO - Updated existing device (MAC: d6:9e:a9:b2:63:5a) - IP: 192.168.1.172, Hostname: Unknown
+2025-06-06 12:24:21 - db.device_repository - INFO - Updated existing device (MAC: a2:1d:19:97:dc:52) - IP: 192.168.1.199, Hostname: Unknown
+2025-06-06 12:24:21 - db.device_repository - INFO - Registering new device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-06-06 12:24:21 - db.device_repository - INFO - Updated existing device (MAC: fa:82:dc:8c:f9:5a) - IP: 192.168.1.125, Hostname: Unknown
+2025-06-06 12:24:21 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Unknown
+2025-06-06 12:24:21 - db.device_repository - INFO - Updated existing device (MAC: 82:4b:46:21:38:ab) - IP: 192.168.1.237, Hostname: Tom-s-phone
+2025-06-06 12:24:21 - db.device_repository - INFO - Updated existing device (MAC: 0e:2f:dd:57:ab:19) - IP: 192.168.1.151, Hostname: Unknown
+2025-06-06 12:24:21 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:24:21] "GET /api/scan/router HTTP/1.1" 200 -
+2025-06-06 12:24:43 - services.router_scanner - INFO - DHCP leases found: 2 devices
+2025-06-06 12:24:43 - services.router_scanner - INFO - DHCP: d8:bb:c1:47:3a:43 -> 192.168.1.122 (DESKTOP-DQ80I51)
+2025-06-06 12:24:43 - services.router_scanner - INFO - DHCP: 82:4b:46:21:38:ab -> 192.168.1.237 (Tom-s-phone)
+2025-06-06 12:24:43 - services.router_scanner - INFO - ARP table output:
+10.0.0.3 dev wan lladdr 6e:4c:bf:50:63:96 STALE 
+192.168.1.172 dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+10.0.0.22 dev wan lladdr 70:1a:b8:59:80:e9 STALE 
+10.0.0.29 dev wan lladdr 80:b6:55:b7:bf:51 STALE 
+10.0.0.9 dev wan lladdr b8:37:b2:c2:6a:60 STALE 
+10.0.0.12 dev wan lladdr b8:13:32:fb:56:70 STALE 
+192.168.1.199 dev br-lan lladdr a2:1d:19:97:dc:52 STALE 
+10.0.0.138 dev wan lladdr 00:b8:c2:b7:e0:67 REACHABLE 
+192.168.1.122 dev br-lan lladdr d8:bb:c1:47:3a:43 REACHABLE 
+192.168.1.125 dev br-lan lladdr fa:82:dc:8c:f9:5a STALE 
+10.0.0.48 dev wan lladdr 4c:e1:73:42:66:a5 STALE 
+10.0.0.25 dev wan lladdr 00:e1:8c:c6:ab:d3 STALE 
+10.0.0.28 dev wan lladdr 10:38:1f:6e:17:ce STALE 
+10.0.0.15 dev wan lladdr f2:76:8e:a4:d5:06 STALE 
+10.0.0.8 dev wan lladdr 6a:2c:3f:c9:b9:f2 STALE 
+192.168.1.221 dev br-lan lladdr 12:2a:0a:02:ce:19 STALE 
+10.0.0.14 dev wan lladdr 20:9c:b4:c5:f8:8e STALE 
+169.254.226.230 dev br-lan lladdr d8:bb:c1:47:3a:43 STALE 
+192.168.1.237 dev br-lan lladdr 82:4b:46:21:38:ab STALE 
+192.168.1.151 dev br-lan lladdr 0e:2f:dd:57:ab:19 STALE 
+fe80::1817:918e:a116:c332 dev wan lladdr da:d8:73:65:26:7d STALE 
+fd26:9e51:ac53:0:a3e1:cf4a:8efd:aa31 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:ce07:ddb6:9bf3:d0d2 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::804b:46ff:fe21:38ab dev br-lan lladdr 82:4b:46:21:38:ab REACHABLE 
+fd26:9e51:ac53:0:729e:5509:e5ab:8d0 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::48fb:94ae:8e57:87a9 dev wan lladdr b8:13:32:fb:56:70 STALE 
+fe80::1ce7:388a:f2a4:ce31 dev wan lladdr c2:8e:5d:c8:ea:93 STALE 
+fe80::d49e:a9ff:feb2:635a dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fd26:9e51:ac53:0:ddcf:1ed3:c894:544e dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fd26:9e51:ac53:0:41ce:66d9:b57a:f126 dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fe80::184d:efcf:96bb:35c6 dev wan lladdr 5a:ad:ba:4b:fd:5f STALE 
+fd26:9e51:ac53:0:5cdb:876f:bce6:8bf1 dev br-lan lladdr 82:4b:46:21:38:ab STALE 
+fe80::1050:74bc:5861:7eca dev wan lladdr a6:6b:ea:92:81:0c STALE 
+fd26:9e51:ac53:0:2758:5fc5:c46d:df5a dev br-lan lladdr 92:3f:e3:83:c8:eb STALE 
+fd26:9e51:ac53:0:81c3:6fb9:7277:8c2e dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fd26:9e51:ac53:0:16f0:78b5:37e8:2332 dev br-lan lladdr 92:3f:e3:83:c8:eb STALE 
+fe80::6cde:48a4:7cca:6009 dev wan lladdr 64:6c:80:77:f5:d7 STALE 
+fe80::3c3d:4bdf:390b:2528 dev wan lladdr 10:38:1f:6e:17:ce STALE 
+fe80::942d:7073:8894:f91a dev wan lladdr 4c:e1:73:42:66:a5 STALE 
+fd26:9e51:ac53:0:ae95:21ff:2614:190c dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:d0d5:7609:4ff6:3f61 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:e348:3783:ee29:9b4d dev br-lan lladdr a2:1d:19:97:dc:52 STALE 
+fd26:9e51:ac53:0:ec57:ac47:ad47:302c dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fd26:9e51:ac53:0:f759:f5c2:dba8:8cc0 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::682c:3fff:fec9:b9f2 dev wan lladdr 6a:2c:3f:c9:b9:f2 STALE 
+fd26:9e51:ac53:0:a309:e8f8:1f79:2cca dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:74af:5d1e:3115:958e dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::ca8:e58c:15cf:e35c dev wan lladdr 9e:41:b0:2f:16:da STALE 
+fd26:9e51:ac53:0:4e56:8f4b:26da:322c dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:5b1b:5db7:6d2c:bd7a dev br-lan lladdr a2:1d:19:97:dc:52 STALE 
+fe80::1889:c767:9912:c28a dev wan lladdr 9e:41:b0:2f:16:da STALE 
+fe80::1476:5a47:5b09:32e1 dev wan lladdr f8:e4:3b:80:9d:f5 STALE 
+fd26:9e51:ac53:0:f2f8:7df3:d36d:ac8f dev br-lan lladdr a2:1d:19:97:dc:52 STALE 
+fd26:9e51:ac53:0:6850:baea:1fce:a96c dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::a01d:19ff:fe97:dc52 dev br-lan lladdr a2:1d:19:97:dc:52 STALE 
+fd26:9e51:ac53:0:e375:a077:f08:83b0 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:500a:1903:4bb:420d dev br-lan lladdr 92:3f:e3:83:c8:eb STALE 
+fd26:9e51:ac53:0:9a06:3b5c:e04a:9e15 dev br-lan lladdr 82:4b:46:21:38:ab REACHABLE 
+fd26:9e51:ac53:0:e2d9:da0a:cb76:7f6a dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fe80::2b8:c2ff:feb7:e067 dev wan lladdr 00:b8:c2:b7:e0:67 router STALE 
+fd26:9e51:ac53:0:1602:5978:a7f4:2a34 dev br-lan lladdr 92:3f:e3:83:c8:eb STALE 
+fd26:9e51:ac53:0:5d71:d7ef:f02c:435a dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::426:928a:156e:39f dev wan lladdr 5a:ad:ba:4b:fd:5f STALE 
+fe80::91b5:1174:39a1:5a1b dev wan lladdr 7c:7a:91:73:b6:35 STALE 
+fd26:9e51:ac53:0:481e:475f:1eca:a27b dev br-lan lladdr 82:4b:46:21:38:ab STALE 
+fd26:9e51:ac53:0:d805:54df:1d1:fbec dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fe80::e037:aaff:fe91:1a3c dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::f076:8eff:fea4:d506 dev wan lladdr f2:76:8e:a4:d5:06 STALE 
+fd26:9e51:ac53:0:1b48:bd09:2f1c:b751 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:f8bc:7722:adc8:e057 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fe80::1453:b555:feeb:92e3 dev wan lladdr f6:c3:59:90:5e:f1 STALE 
+fe80::8fe:be37:3c40:e50c dev wan lladdr 2e:10:5e:99:f9:c0 STALE 
+fd26:9e51:ac53:0:c0b1:a4ab:e48b:84f9 dev br-lan lladdr e2:37:aa:91:1a:3c STALE 
+fd26:9e51:ac53:0:9a2b:3f16:8424:9103 dev br-lan lladdr d6:9e:a9:b2:63:5a STALE 
+fe80::1ce9:7caa:efdc:8e8b dev wan lladdr 6e:4c:bf:50:63:96 STALE 
+fe80::903f:e3ff:fe83:c8eb dev br-lan lladdr 92:3f:e3:83:c8:eb STALE 
+fe80::53ef:1047:2300:9ced dev wan lladdr 0c:c6:fd:b8:4d:3b STALE
+2025-06-06 12:24:43 - services.router_scanner - INFO - Updated IP for 6e:4c:bf:50:63:96: None -> 10.0.0.3 (in_subnet: False)
+2025-06-06 12:24:43 - services.router_scanner - INFO - Updated IP for d6:9e:a9:b2:63:5a: None -> 192.168.1.172 (in_subnet: True)
+2025-06-06 12:24:43 - services.router_scanner - INFO - Updated IP for 70:1a:b8:59:80:e9: None -> 10.0.0.22 (in_subnet: False)
+2025-06-06 12:24:43 - services.router_scanner - INFO - Updated IP for 80:b6:55:b7:bf:51: None -> 10.0.0.29 (in_subnet: False)
+2025-06-06 12:24:43 - services.router_scanner - INFO - Updated IP for b8:37:b2:c2:6a:60: None -> 10.0.0.9 (in_subnet: False)
+2025-06-06 12:24:43 - services.router_scanner - INFO - Updated IP for b8:13:32:fb:56:70: None -> 10.0.0.12 (in_subnet: False)
+2025-06-06 12:24:43 - services.router_scanner - INFO - Updated IP for a2:1d:19:97:dc:52: None -> 192.168.1.199 (in_subnet: True)
+2025-06-06 12:24:43 - services.router_scanner - INFO - Updated IP for 00:b8:c2:b7:e0:67: None -> 10.0.0.138 (in_subnet: False)
+2025-06-06 12:24:43 - services.router_scanner - INFO - Updated IP for d8:bb:c1:47:3a:43: None -> 192.168.1.122 (in_subnet: True)
+2025-06-06 12:24:43 - services.router_scanner - INFO - Updated IP for fa:82:dc:8c:f9:5a: None -> 192.168.1.125 (in_subnet: True)
+2025-06-06 12:24:43 - services.router_scanner - INFO - Updated IP for 4c:e1:73:42:66:a5: None -> 10.0.0.48 (in_subnet: False)
+2025-06-06 12:24:43 - services.router_scanner - INFO - Updated IP for 00:e1:8c:c6:ab:d3: None -> 10.0.0.25 (in_subnet: False)
+2025-06-06 12:24:43 - services.router_scanner - INFO - Updated IP for 10:38:1f:6e:17:ce: None -> 10.0.0.28 (in_subnet: False)
+2025-06-06 12:24:43 - services.router_scanner - INFO - Updated IP for f2:76:8e:a4:d5:06: None -> 10.0.0.15 (in_subnet: False)
+2025-06-06 12:24:43 - services.router_scanner - INFO - Updated IP for 6a:2c:3f:c9:b9:f2: None -> 10.0.0.8 (in_subnet: False)
+2025-06-06 12:24:43 - services.router_scanner - INFO - Updated IP for 12:2a:0a:02:ce:19: None -> 192.168.1.221 (in_subnet: True)
+2025-06-06 12:24:43 - services.router_scanner - INFO - Updated IP for 20:9c:b4:c5:f8:8e: None -> 10.0.0.14 (in_subnet: False)
+2025-06-06 12:24:43 - services.router_scanner - INFO - Updated IP for 82:4b:46:21:38:ab: None -> 192.168.1.237 (in_subnet: True)
+2025-06-06 12:24:43 - services.router_scanner - INFO - Updated IP for 0e:2f:dd:57:ab:19: None -> 192.168.1.151 (in_subnet: True)
+2025-06-06 12:24:48 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-06-06 12:24:48 - db.device_repository - INFO - Updated existing device (MAC: d6:9e:a9:b2:63:5a) - IP: 192.168.1.172, Hostname: Unknown
+2025-06-06 12:24:48 - db.device_repository - INFO - Updated existing device (MAC: a2:1d:19:97:dc:52) - IP: 192.168.1.199, Hostname: Unknown
+2025-06-06 12:24:48 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-06-06 12:24:48 - db.device_repository - INFO - Updated existing device (MAC: fa:82:dc:8c:f9:5a) - IP: 192.168.1.125, Hostname: Unknown
+2025-06-06 12:24:48 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Unknown
+2025-06-06 12:24:48 - db.device_repository - INFO - Updated existing device (MAC: 82:4b:46:21:38:ab) - IP: 192.168.1.237, Hostname: Tom-s-phone
+2025-06-06 12:24:48 - db.device_repository - INFO - Updated existing device (MAC: 0e:2f:dd:57:ab:19) - IP: 192.168.1.151, Hostname: Unknown
+2025-06-06 12:24:48 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:24:48] "GET /api/scan/router HTTP/1.1" 200 -
+2025-06-06 12:25:10 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\router_scanner.py', reloading
+2025-06-06 12:25:10 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:25:10 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:25:10 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:25:10 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:25:11 - root - INFO - Logging initialized at 2025-06-06 12:25:11
+2025-06-06 12:25:11 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:25:11 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:25:11 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:25:11 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:25:12 - __main__ - INFO - Initializing database tables
+2025-06-06 12:25:12 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:25:12 - __main__ - INFO - Database tables initialized
+2025-06-06 12:25:12 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:25:12 - __main__ - INFO - API blueprints registered
+2025-06-06 12:25:12 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:25:12 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:25:12 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:25:17 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\router_scanner.py', reloading
+2025-06-06 12:25:17 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:25:17 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:25:17 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:25:17 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:25:17 - root - INFO - Logging initialized at 2025-06-06 12:25:17
+2025-06-06 12:25:17 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:25:17 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:25:17 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:25:17 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:25:18 - __main__ - INFO - Initializing database tables
+2025-06-06 12:25:18 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:25:18 - __main__ - INFO - Database tables initialized
+2025-06-06 12:25:18 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:25:18 - __main__ - INFO - API blueprints registered
+2025-06-06 12:25:18 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:25:18 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:25:18 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:25:26 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\router_scanner.py', reloading
+2025-06-06 12:25:26 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:25:26 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:25:26 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:25:26 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:25:26 - root - INFO - Logging initialized at 2025-06-06 12:25:26
+2025-06-06 12:25:26 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:25:26 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:25:26 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:25:26 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:25:27 - __main__ - INFO - Initializing database tables
+2025-06-06 12:25:27 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:25:27 - __main__ - INFO - Database tables initialized
+2025-06-06 12:25:27 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:25:27 - __main__ - INFO - API blueprints registered
+2025-06-06 12:25:27 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:25:27 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:25:27 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:25:34 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\router_scanner.py', reloading
+2025-06-06 12:25:34 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:25:34 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:25:34 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:25:34 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:25:34 - root - INFO - Logging initialized at 2025-06-06 12:25:34
+2025-06-06 12:25:34 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:25:34 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:25:34 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:25:34 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:25:35 - __main__ - INFO - Initializing database tables
+2025-06-06 12:25:35 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:25:35 - __main__ - INFO - Database tables initialized
+2025-06-06 12:25:35 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:25:35 - __main__ - INFO - API blueprints registered
+2025-06-06 12:25:35 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:25:35 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:25:35 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:25:46 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-06-06 12:25:46 - paramiko.transport - INFO - Authentication (password) successful!
+2025-06-06 12:25:46 - services.router_scanner - INFO - DHCP leases found: 2 devices
+2025-06-06 12:25:46 - services.router_scanner - INFO - ARP scan completed, processing 77 entries
+2025-06-06 12:25:51 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-06-06 12:25:51 - db.device_repository - INFO - Updated existing device (MAC: d6:9e:a9:b2:63:5a) - IP: 192.168.1.172, Hostname: Unknown
+2025-06-06 12:25:51 - db.device_repository - INFO - Updated existing device (MAC: a2:1d:19:97:dc:52) - IP: 192.168.1.199, Hostname: Unknown
+2025-06-06 12:25:51 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-06-06 12:25:51 - db.device_repository - INFO - Updated existing device (MAC: fa:82:dc:8c:f9:5a) - IP: 192.168.1.125, Hostname: Unknown
+2025-06-06 12:25:51 - db.device_repository - INFO - Updated existing device (MAC: 12:2a:0a:02:ce:19) - IP: 192.168.1.221, Hostname: Unknown
+2025-06-06 12:25:51 - db.device_repository - INFO - Updated existing device (MAC: 82:4b:46:21:38:ab) - IP: 192.168.1.237, Hostname: Tom-s-phone
+2025-06-06 12:25:51 - db.device_repository - INFO - Updated existing device (MAC: 0e:2f:dd:57:ab:19) - IP: 192.168.1.151, Hostname: Unknown
+2025-06-06 12:25:51 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:25:51] "GET /api/scan/router HTTP/1.1" 200 -
+2025-06-06 12:26:17 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\router_scanner.py', reloading
+2025-06-06 12:26:17 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:26:17 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:26:17 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:26:17 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:26:17 - root - INFO - Logging initialized at 2025-06-06 12:26:17
+2025-06-06 12:26:17 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:26:17 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:26:17 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:26:17 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:26:18 - __main__ - INFO - Initializing database tables
+2025-06-06 12:26:18 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:26:18 - __main__ - INFO - Database tables initialized
+2025-06-06 12:26:18 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:26:18 - __main__ - INFO - API blueprints registered
+2025-06-06 12:26:18 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:26:18 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:26:18 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:28:48 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\router_scanner.py', reloading
+2025-06-06 12:28:48 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:28:48 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:28:48 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:28:48 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:28:49 - root - INFO - Logging initialized at 2025-06-06 12:28:49
+2025-06-06 12:28:49 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:28:49 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:28:49 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:28:49 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:28:50 - __main__ - INFO - Initializing database tables
+2025-06-06 12:28:50 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:28:50 - __main__ - INFO - Database tables initialized
+2025-06-06 12:28:50 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:28:50 - __main__ - INFO - API blueprints registered
+2025-06-06 12:28:50 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:28:50 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:28:50 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:28:51 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-06-06 12:28:51 - paramiko.transport - INFO - Authentication (password) successful!
+2025-06-06 12:28:51 - services.router_scanner - INFO - DHCP leases found: 2 devices
+2025-06-06 12:28:51 - services.router_scanner - INFO - ARP scan completed, processing 77 entries
+2025-06-06 12:28:56 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-06-06 12:28:56 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-06-06 12:28:56 - db.device_repository - INFO - Updated existing device (MAC: 82:4b:46:21:38:ab) - IP: 192.168.1.237, Hostname: Tom-s-phone
+2025-06-06 12:28:56 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:28:56] "GET /api/scan/router HTTP/1.1" 200 -
+2025-06-06 12:29:21 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\router_scanner.py', reloading
+2025-06-06 12:29:21 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:29:21 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:29:21 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:29:21 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:29:22 - root - INFO - Logging initialized at 2025-06-06 12:29:22
+2025-06-06 12:29:22 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:29:22 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:29:22 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:29:22 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:29:23 - __main__ - INFO - Initializing database tables
+2025-06-06 12:29:23 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:29:23 - __main__ - INFO - Database tables initialized
+2025-06-06 12:29:23 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:29:23 - __main__ - INFO - API blueprints registered
+2025-06-06 12:29:23 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:29:23 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:29:23 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:29:51 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\db\\device_repository.py', reloading
+2025-06-06 12:29:51 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:29:51 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:29:51 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:29:51 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:29:52 - root - INFO - Logging initialized at 2025-06-06 12:29:52
+2025-06-06 12:29:52 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:29:52 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:29:52 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:29:52 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:29:53 - __main__ - INFO - Initializing database tables
+2025-06-06 12:29:53 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:29:53 - __main__ - INFO - Database tables initialized
+2025-06-06 12:29:53 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:29:53 - __main__ - INFO - API blueprints registered
+2025-06-06 12:29:53 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:29:53 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:29:53 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:30:07 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\router_scanner.py', reloading
+2025-06-06 12:30:07 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:30:07 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:30:07 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:30:07 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:30:07 - root - INFO - Logging initialized at 2025-06-06 12:30:07
+2025-06-06 12:30:07 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:30:07 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:30:07 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:30:07 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:30:08 - __main__ - INFO - Initializing database tables
+2025-06-06 12:30:08 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:30:08 - __main__ - INFO - Database tables initialized
+2025-06-06 12:30:08 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:30:08 - __main__ - INFO - API blueprints registered
+2025-06-06 12:30:08 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:30:08 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:30:08 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:30:15 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Tom\\OneDrive\\Desktop\\NetPilot\\NetPilot\\backend\\services\\router_scanner.py', reloading
+2025-06-06 12:30:15 - __main__ - INFO - Cleaning up resources
+2025-06-06 12:30:15 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 12:30:15 - __main__ - INFO - Resources cleaned up
+2025-06-06 12:30:15 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:30:15 - root - INFO - Logging initialized at 2025-06-06 12:30:15
+2025-06-06 12:30:15 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 12:30:15 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 12:30:15 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 12:30:15 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 12:30:16 - __main__ - INFO - Initializing database tables
+2025-06-06 12:30:16 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 12:30:16 - __main__ - INFO - Database tables initialized
+2025-06-06 12:30:16 - __main__ - INFO - Registering API blueprints
+2025-06-06 12:30:16 - __main__ - INFO - API blueprints registered
+2025-06-06 12:30:16 - __main__ - INFO - Starting server on port 5000
+2025-06-06 12:30:16 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:30:16 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 12:30:22 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-06-06 12:30:22 - paramiko.transport - INFO - Authentication (password) successful!
+2025-06-06 12:30:22 - services.router_scanner - INFO - DHCP leases found: 2 devices
+2025-06-06 12:30:22 - services.router_scanner - INFO - ARP scan completed, processing 77 entries
+2025-06-06 12:30:27 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-06-06 12:30:27 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-06-06 12:30:27 - db.device_repository - INFO - Updated existing device (MAC: 82:4b:46:21:38:ab) - IP: 192.168.1.237, Hostname: Tom-s-phone
+2025-06-06 12:30:27 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:30:27] "GET /api/scan/router HTTP/1.1" 200 -
+2025-06-06 12:30:48 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:30:48] "OPTIONS /blacklist HTTP/1.1" 200 -
+2025-06-06 12:30:48 - db.blacklist - INFO - Added device 192.168.1.122 to blacklist
+2025-06-06 12:30:48 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:30:48] "POST /blacklist HTTP/1.1" 200 -
+2025-06-06 12:30:50 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:30:50] "GET /whitelist HTTP/1.1" 200 -
+2025-06-06 12:30:50 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:30:50] "GET /blacklist HTTP/1.1" 200 -
+2025-06-06 12:30:50 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:30:50] "GET /whitelist HTTP/1.1" 200 -
+2025-06-06 12:30:50 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:30:50] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:30:50 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:30:50] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-06-06 12:30:50 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:30:50] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:30:50 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:30:50] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-06-06 12:30:51 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:30:51] "GET /blacklist HTTP/1.1" 200 -
+2025-06-06 12:30:51 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:30:51] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:30:51 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:30:51] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:30:51 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:30:51] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-06-06 12:30:51 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:30:51] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-06-06 12:31:00 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:31:00] "OPTIONS /blacklist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:31:00 - utils.config - INFO - Saved blacklist configuration
+2025-06-06 12:31:00 - services.blacklist - INFO - Updated blacklist limit rate to 70mbit
+2025-06-06 12:31:00 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:31:00] "POST /blacklist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:31:00 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:31:00] "OPTIONS /blacklist/activate HTTP/1.1" 200 -
+2025-06-06 12:31:00 - utils.config - INFO - Saved mode configuration
+2025-06-06 12:31:00 - services.mode_state - INFO - Updated bandwidth mode to blacklist
+2025-06-06 12:31:00 - services.blacklist - INFO - Applying blacklist TC rules.
+2025-06-06 12:31:00 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: blacklist. Target IPs: 1. Limit: 70mbit, Full: 1000mbit
+2025-06-06 12:31:01 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:31:01 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-06-06 12:31:01 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:31:01 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-06-06 12:31:01 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:31:02 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-06-06 12:31:02 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:31:02 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-06-06 12:31:02 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:31:02 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-06-06 12:31:02 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:31:03 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-06-06 12:31:03 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:31:03 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-06-06 12:31:03 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:31:03 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-06-06 12:31:03 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:31:04 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-06-06 12:31:04 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:31:04 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-06-06 12:31:04 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode blacklist on all interfaces
+2025-06-06 12:31:04 - services.blacklist - INFO - Blacklist TC rules applied successfully.
+2025-06-06 12:31:04 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:31:04] "POST /blacklist/activate HTTP/1.1" 200 -
+2025-06-06 12:31:13 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:31:13] "OPTIONS /blacklist HTTP/1.1" 200 -
+2025-06-06 12:31:13 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
+2025-06-06 12:31:13 - services.blacklist - INFO - Applying blacklist TC rules.
+2025-06-06 12:31:13 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: blacklist. Target IPs: 0. Limit: 70mbit, Full: 1000mbit
+2025-06-06 12:31:13 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:31:14 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-06-06 12:31:14 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:31:15 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-06-06 12:31:15 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:31:15 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-06-06 12:31:15 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:31:16 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-06-06 12:31:16 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:31:17 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-06-06 12:31:17 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:31:18 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-06-06 12:31:18 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:31:18 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-06-06 12:31:18 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:31:19 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-06-06 12:31:19 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:31:20 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-06-06 12:31:20 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:31:21 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-06-06 12:31:21 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode blacklist on all interfaces
+2025-06-06 12:31:21 - services.blacklist - INFO - Blacklist TC rules applied successfully.
+2025-06-06 12:31:21 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:31:21] "DELETE /blacklist HTTP/1.1" 200 -
+2025-06-06 12:31:32 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:31:32] "OPTIONS /blacklist/deactivate HTTP/1.1" 200 -
+2025-06-06 12:31:32 - services.reset_rules - INFO - Flushing iptables mangle table.
+2025-06-06 12:31:32 - services.reset_rules - INFO - Successfully flushed iptables mangle table.
+2025-06-06 12:31:32 - services.reset_rules - INFO - Successfully deleted qdisc on eth0 or no qdisc was present. Output: 
+2025-06-06 12:31:32 - services.reset_rules - INFO - Successfully deleted qdisc on wan or no qdisc was present. Output: 
+2025-06-06 12:31:33 - services.reset_rules - INFO - Successfully deleted qdisc on teql0 or no qdisc was present. Output: 
+2025-06-06 12:31:33 - services.reset_rules - INFO - Successfully deleted qdisc on wlan1 or no qdisc was present. Output: 
+2025-06-06 12:31:33 - services.reset_rules - INFO - Successfully deleted qdisc on br-lan or no qdisc was present. Output: 
+2025-06-06 12:31:33 - services.reset_rules - INFO - Successfully deleted qdisc on phy0-ap0 or no qdisc was present. Output: 
+2025-06-06 12:31:33 - utils.config - INFO - Saved mode configuration
+2025-06-06 12:31:33 - services.mode_state - INFO - Updated bandwidth mode to none
+2025-06-06 12:31:33 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:31:33] "POST /blacklist/deactivate HTTP/1.1" 200 -
+2025-06-06 12:31:53 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:31:53] "OPTIONS /whitelist HTTP/1.1" 200 -
+2025-06-06 12:31:53 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-06-06 12:31:53 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:31:53] "POST /whitelist HTTP/1.1" 200 -
+2025-06-06 12:31:57 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:31:57] "GET /whitelist HTTP/1.1" 200 -
+2025-06-06 12:31:57 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:31:57] "GET /blacklist HTTP/1.1" 200 -
+2025-06-06 12:31:57 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:31:57] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:31:57 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:31:57] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:31:57 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:31:57] "GET /whitelist HTTP/1.1" 200 -
+2025-06-06 12:31:57 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:31:57] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-06-06 12:31:57 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:31:57] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-06-06 12:31:57 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:31:57] "GET /blacklist HTTP/1.1" 200 -
+2025-06-06 12:31:57 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:31:57] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:31:57 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:31:57] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:31:57 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:31:57] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-06-06 12:31:57 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:31:57] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-06-06 12:32:03 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:32:03] "OPTIONS /whitelist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:32:03 - utils.config - INFO - Saved whitelist configuration
+2025-06-06 12:32:03 - services.whitelist - INFO - Updated whitelist limit rate to 80mbit
+2025-06-06 12:32:03 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:32:03] "POST /whitelist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:32:04 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:32:04] "OPTIONS /whitelist/activate HTTP/1.1" 200 -
+2025-06-06 12:32:04 - utils.config - INFO - Saved mode configuration
+2025-06-06 12:32:04 - services.mode_state - INFO - Updated bandwidth mode to whitelist
+2025-06-06 12:32:04 - services.whitelist - INFO - Applying whitelist TC rules.
+2025-06-06 12:32:04 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: whitelist. Target IPs: 1. Limit: 80mbit, Full: 1000mbit
+2025-06-06 12:32:04 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=80mbit, Full Rate=1000mbit
+2025-06-06 12:32:04 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-06-06 12:32:04 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=80mbit, Full Rate=1000mbit
+2025-06-06 12:32:05 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-06-06 12:32:05 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=80mbit, Full Rate=1000mbit
+2025-06-06 12:32:05 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-06-06 12:32:05 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=80mbit, Full Rate=1000mbit
+2025-06-06 12:32:05 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-06-06 12:32:05 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=80mbit, Full Rate=1000mbit
+2025-06-06 12:32:06 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-06-06 12:32:06 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=80mbit, Full Rate=1000mbit
+2025-06-06 12:32:06 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-06-06 12:32:06 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=80mbit, Full Rate=1000mbit
+2025-06-06 12:32:07 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-06-06 12:32:07 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=80mbit, Full Rate=1000mbit
+2025-06-06 12:32:07 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-06-06 12:32:07 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=80mbit, Full Rate=1000mbit
+2025-06-06 12:32:07 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-06-06 12:32:07 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=80mbit, Full Rate=1000mbit
+2025-06-06 12:32:08 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-06-06 12:32:08 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode whitelist on all interfaces
+2025-06-06 12:32:08 - services.whitelist - INFO - Whitelist TC rules applied successfully.
+2025-06-06 12:32:08 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:32:08] "POST /whitelist/activate HTTP/1.1" 200 -
+2025-06-06 12:32:18 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:32:18] "OPTIONS /whitelist HTTP/1.1" 200 -
+2025-06-06 12:32:19 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-06-06 12:32:19 - services.whitelist - INFO - Applying whitelist TC rules.
+2025-06-06 12:32:19 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: whitelist. Target IPs: 0. Limit: 80mbit, Full: 1000mbit
+2025-06-06 12:32:19 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=80mbit, Full Rate=1000mbit
+2025-06-06 12:32:20 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-06-06 12:32:20 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=80mbit, Full Rate=1000mbit
+2025-06-06 12:32:21 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-06-06 12:32:21 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=80mbit, Full Rate=1000mbit
+2025-06-06 12:32:23 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-06-06 12:32:23 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=80mbit, Full Rate=1000mbit
+2025-06-06 12:32:25 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-06-06 12:32:25 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=80mbit, Full Rate=1000mbit
+2025-06-06 12:32:26 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-06-06 12:32:26 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=80mbit, Full Rate=1000mbit
+2025-06-06 12:32:26 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-06-06 12:32:26 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=80mbit, Full Rate=1000mbit
+2025-06-06 12:32:26 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-06-06 12:32:26 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=80mbit, Full Rate=1000mbit
+2025-06-06 12:32:27 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-06-06 12:32:27 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=80mbit, Full Rate=1000mbit
+2025-06-06 12:32:27 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-06-06 12:32:27 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=80mbit, Full Rate=1000mbit
+2025-06-06 12:32:28 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-06-06 12:32:28 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode whitelist on all interfaces
+2025-06-06 12:32:28 - services.whitelist - INFO - Whitelist TC rules applied successfully.
+2025-06-06 12:32:28 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:32:28] "DELETE /whitelist HTTP/1.1" 200 -
+2025-06-06 12:34:03 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:34:03] "OPTIONS /whitelist/deactivate HTTP/1.1" 200 -
+2025-06-06 12:34:04 - services.reset_rules - INFO - Flushing iptables mangle table.
+2025-06-06 12:34:04 - services.reset_rules - INFO - Successfully flushed iptables mangle table.
+2025-06-06 12:34:04 - services.reset_rules - INFO - Successfully deleted qdisc on eth0 or no qdisc was present. Output: 
+2025-06-06 12:34:04 - services.reset_rules - INFO - Successfully deleted qdisc on wan or no qdisc was present. Output: 
+2025-06-06 12:34:04 - services.reset_rules - INFO - Successfully deleted qdisc on teql0 or no qdisc was present. Output: 
+2025-06-06 12:34:04 - services.reset_rules - INFO - Successfully deleted qdisc on wlan1 or no qdisc was present. Output: 
+2025-06-06 12:34:04 - services.reset_rules - INFO - Successfully deleted qdisc on br-lan or no qdisc was present. Output: 
+2025-06-06 12:34:04 - services.reset_rules - INFO - Successfully deleted qdisc on phy0-ap0 or no qdisc was present. Output: 
+2025-06-06 12:34:04 - utils.config - INFO - Saved mode configuration
+2025-06-06 12:34:04 - services.mode_state - INFO - Updated bandwidth mode to none
+2025-06-06 12:34:04 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:34:04] "POST /whitelist/deactivate HTTP/1.1" 200 -
+2025-06-06 12:34:22 - services.router_scanner - INFO - DHCP leases found: 2 devices
+2025-06-06 12:34:22 - services.router_scanner - INFO - ARP scan completed, processing 77 entries
+2025-06-06 12:34:27 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-06-06 12:34:27 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-06-06 12:34:27 - db.device_repository - INFO - Updated existing device (MAC: 82:4b:46:21:38:ab) - IP: 192.168.1.237, Hostname: Tom-s-phone
+2025-06-06 12:34:27 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:34:27] "GET /api/scan/router HTTP/1.1" 200 -
+2025-06-06 12:34:29 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:34:29] "OPTIONS /blacklist HTTP/1.1" 200 -
+2025-06-06 12:34:29 - db.blacklist - INFO - Added device 192.168.1.122 to blacklist
+2025-06-06 12:34:29 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:34:29] "POST /blacklist HTTP/1.1" 200 -
+2025-06-06 12:34:30 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:34:30] "GET /whitelist HTTP/1.1" 200 -
+2025-06-06 12:34:31 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:34:31] "GET /blacklist HTTP/1.1" 200 -
+2025-06-06 12:34:31 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:34:31] "GET /whitelist HTTP/1.1" 200 -
+2025-06-06 12:34:31 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:34:31] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:34:31 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:34:31] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-06-06 12:34:31 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:34:31] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-06-06 12:34:31 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:34:31] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:34:31 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:34:31] "GET /blacklist HTTP/1.1" 200 -
+2025-06-06 12:34:31 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:34:31] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:34:31 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:34:31] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-06-06 12:34:31 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:34:31] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-06-06 12:34:31 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:34:31] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:34:37 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:34:37] "OPTIONS /blacklist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:34:37 - utils.config - INFO - Saved blacklist configuration
+2025-06-06 12:34:37 - services.blacklist - INFO - Updated blacklist limit rate to 50mbit
+2025-06-06 12:34:37 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:34:37] "POST /blacklist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:34:37 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:34:37] "OPTIONS /blacklist/activate HTTP/1.1" 200 -
+2025-06-06 12:34:38 - utils.config - INFO - Saved mode configuration
+2025-06-06 12:34:38 - services.mode_state - INFO - Updated bandwidth mode to blacklist
+2025-06-06 12:34:38 - services.blacklist - INFO - Applying blacklist TC rules.
+2025-06-06 12:34:38 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: blacklist. Target IPs: 1. Limit: 50mbit, Full: 1000mbit
+2025-06-06 12:34:38 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-06-06 12:34:38 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-06-06 12:34:38 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-06-06 12:34:38 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-06-06 12:34:38 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-06-06 12:34:38 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-06-06 12:34:38 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=50mbit, Full Rate=1000mbit
+2025-06-06 12:34:39 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-06-06 12:34:39 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=50mbit, Full Rate=1000mbit
+2025-06-06 12:34:39 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-06-06 12:34:39 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=50mbit, Full Rate=1000mbit
+2025-06-06 12:34:40 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-06-06 12:34:40 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-06-06 12:34:40 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-06-06 12:34:40 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-06-06 12:34:40 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-06-06 12:34:40 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-06-06 12:34:40 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-06-06 12:34:40 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-06-06 12:34:41 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-06-06 12:34:41 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode blacklist on all interfaces
+2025-06-06 12:34:41 - services.blacklist - INFO - Blacklist TC rules applied successfully.
+2025-06-06 12:34:41 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:34:41] "POST /blacklist/activate HTTP/1.1" 200 -
+2025-06-06 12:34:55 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:34:55] "OPTIONS /blacklist HTTP/1.1" 200 -
+2025-06-06 12:34:55 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
+2025-06-06 12:34:55 - services.blacklist - INFO - Applying blacklist TC rules.
+2025-06-06 12:34:55 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: blacklist. Target IPs: 0. Limit: 50mbit, Full: 1000mbit
+2025-06-06 12:34:56 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-06-06 12:34:56 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-06-06 12:34:56 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-06-06 12:34:57 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-06-06 12:34:57 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-06-06 12:34:57 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-06-06 12:34:57 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=50mbit, Full Rate=1000mbit
+2025-06-06 12:34:58 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-06-06 12:34:58 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=50mbit, Full Rate=1000mbit
+2025-06-06 12:34:59 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-06-06 12:34:59 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=50mbit, Full Rate=1000mbit
+2025-06-06 12:34:59 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-06-06 12:34:59 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-06-06 12:35:00 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-06-06 12:35:00 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=50mbit, Full Rate=1000mbit
+2025-06-06 12:35:01 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-06-06 12:35:01 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=50mbit, Full Rate=1000mbit
+2025-06-06 12:35:01 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-06-06 12:35:01 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=50mbit, Full Rate=1000mbit
+2025-06-06 12:35:02 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-06-06 12:35:02 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode blacklist on all interfaces
+2025-06-06 12:35:02 - services.blacklist - INFO - Blacklist TC rules applied successfully.
+2025-06-06 12:35:02 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:35:02] "DELETE /blacklist HTTP/1.1" 200 -
+2025-06-06 12:35:19 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:35:19] "OPTIONS /blacklist/deactivate HTTP/1.1" 200 -
+2025-06-06 12:35:20 - services.reset_rules - INFO - Flushing iptables mangle table.
+2025-06-06 12:35:20 - services.reset_rules - INFO - Successfully flushed iptables mangle table.
+2025-06-06 12:35:20 - services.reset_rules - INFO - Successfully deleted qdisc on eth0 or no qdisc was present. Output: 
+2025-06-06 12:35:20 - services.reset_rules - INFO - Successfully deleted qdisc on wan or no qdisc was present. Output: 
+2025-06-06 12:35:20 - services.reset_rules - INFO - Successfully deleted qdisc on teql0 or no qdisc was present. Output: 
+2025-06-06 12:35:20 - services.reset_rules - INFO - Successfully deleted qdisc on wlan1 or no qdisc was present. Output: 
+2025-06-06 12:35:20 - services.reset_rules - INFO - Successfully deleted qdisc on br-lan or no qdisc was present. Output: 
+2025-06-06 12:35:20 - services.reset_rules - INFO - Successfully deleted qdisc on phy0-ap0 or no qdisc was present. Output: 
+2025-06-06 12:35:20 - utils.config - INFO - Saved mode configuration
+2025-06-06 12:35:20 - services.mode_state - INFO - Updated bandwidth mode to none
+2025-06-06 12:35:20 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:35:20] "POST /blacklist/deactivate HTTP/1.1" 200 -
+2025-06-06 12:44:39 - services.router_scanner - INFO - DHCP leases found: 2 devices
+2025-06-06 12:44:39 - services.router_scanner - INFO - ARP scan completed, processing 77 entries
+2025-06-06 12:44:44 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-06-06 12:44:44 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-06-06 12:44:44 - db.device_repository - INFO - Updated existing device (MAC: 82:4b:46:21:38:ab) - IP: 192.168.1.237, Hostname: Tom-s-phone
+2025-06-06 12:44:44 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:44:44] "GET /api/scan/router HTTP/1.1" 200 -
+2025-06-06 12:45:44 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:45:44] "OPTIONS /blacklist HTTP/1.1" 200 -
+2025-06-06 12:45:45 - db.blacklist - INFO - Added device 192.168.1.122 to blacklist
+2025-06-06 12:45:45 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:45:45] "POST /blacklist HTTP/1.1" 200 -
+2025-06-06 12:45:48 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:45:48] "GET /whitelist HTTP/1.1" 200 -
+2025-06-06 12:45:49 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:45:49] "GET /blacklist HTTP/1.1" 200 -
+2025-06-06 12:45:49 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:45:49] "GET /whitelist HTTP/1.1" 200 -
+2025-06-06 12:45:49 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:45:49] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-06-06 12:45:49 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:45:49] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-06-06 12:45:49 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:45:49] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:45:49 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:45:49] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:45:49 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:45:49] "GET /blacklist HTTP/1.1" 200 -
+2025-06-06 12:45:49 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:45:49] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-06-06 12:45:49 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:45:49] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-06-06 12:45:49 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:45:49] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:45:49 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:45:49] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:46:20 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:46:20] "OPTIONS /blacklist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:46:20 - utils.config - INFO - Saved blacklist configuration
+2025-06-06 12:46:20 - services.blacklist - INFO - Updated blacklist limit rate to 70mbit
+2025-06-06 12:46:20 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:46:20] "POST /blacklist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:46:20 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:46:20] "OPTIONS /blacklist/activate HTTP/1.1" 200 -
+2025-06-06 12:46:20 - utils.config - INFO - Saved mode configuration
+2025-06-06 12:46:20 - services.mode_state - INFO - Updated bandwidth mode to blacklist
+2025-06-06 12:46:20 - services.blacklist - INFO - Applying blacklist TC rules.
+2025-06-06 12:46:20 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: blacklist. Target IPs: 1. Limit: 70mbit, Full: 1000mbit
+2025-06-06 12:46:22 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:46:22 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-06-06 12:46:22 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:46:23 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-06-06 12:46:23 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:46:23 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-06-06 12:46:23 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:46:23 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-06-06 12:46:23 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:46:24 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-06-06 12:46:24 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:46:24 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-06-06 12:46:24 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:46:24 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-06-06 12:46:24 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:46:25 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-06-06 12:46:25 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:46:25 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-06-06 12:46:25 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:46:25 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-06-06 12:46:25 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode blacklist on all interfaces
+2025-06-06 12:46:25 - services.blacklist - INFO - Blacklist TC rules applied successfully.
+2025-06-06 12:46:25 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:46:25] "POST /blacklist/activate HTTP/1.1" 200 -
+2025-06-06 12:46:44 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:46:44] "OPTIONS /blacklist HTTP/1.1" 200 -
+2025-06-06 12:46:45 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
+2025-06-06 12:46:45 - services.blacklist - INFO - Applying blacklist TC rules.
+2025-06-06 12:46:45 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: blacklist. Target IPs: 0. Limit: 70mbit, Full: 1000mbit
+2025-06-06 12:46:45 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:46:46 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-06-06 12:46:46 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:46:47 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-06-06 12:46:47 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:46:47 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-06-06 12:46:47 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:46:48 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-06-06 12:46:48 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:46:48 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-06-06 12:46:48 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:46:48 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-06-06 12:46:48 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:46:49 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-06-06 12:46:49 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:46:49 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-06-06 12:46:49 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:46:49 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-06-06 12:46:49 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 12:46:50 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-06-06 12:46:50 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode blacklist on all interfaces
+2025-06-06 12:46:50 - services.blacklist - INFO - Blacklist TC rules applied successfully.
+2025-06-06 12:46:50 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:46:50] "DELETE /blacklist HTTP/1.1" 200 -
+2025-06-06 12:46:55 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:46:55] "OPTIONS /blacklist/deactivate HTTP/1.1" 200 -
+2025-06-06 12:46:56 - services.reset_rules - INFO - Flushing iptables mangle table.
+2025-06-06 12:46:56 - services.reset_rules - INFO - Successfully flushed iptables mangle table.
+2025-06-06 12:46:56 - services.reset_rules - INFO - Successfully deleted qdisc on eth0 or no qdisc was present. Output: 
+2025-06-06 12:46:56 - services.reset_rules - INFO - Successfully deleted qdisc on wan or no qdisc was present. Output: 
+2025-06-06 12:46:56 - services.reset_rules - INFO - Successfully deleted qdisc on teql0 or no qdisc was present. Output: 
+2025-06-06 12:46:56 - services.reset_rules - INFO - Successfully deleted qdisc on wlan1 or no qdisc was present. Output: 
+2025-06-06 12:46:56 - services.reset_rules - INFO - Successfully deleted qdisc on br-lan or no qdisc was present. Output: 
+2025-06-06 12:46:56 - services.reset_rules - INFO - Successfully deleted qdisc on phy0-ap0 or no qdisc was present. Output: 
+2025-06-06 12:46:56 - utils.config - INFO - Saved mode configuration
+2025-06-06 12:46:56 - services.mode_state - INFO - Updated bandwidth mode to none
+2025-06-06 12:46:56 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:46:56] "POST /blacklist/deactivate HTTP/1.1" 200 -
+2025-06-06 12:47:02 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:47:02] "OPTIONS /whitelist HTTP/1.1" 200 -
+2025-06-06 12:47:03 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-06-06 12:47:03 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:47:03] "POST /whitelist HTTP/1.1" 200 -
+2025-06-06 12:47:07 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:47:07] "GET /whitelist HTTP/1.1" 200 -
+2025-06-06 12:47:07 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:47:07] "GET /blacklist HTTP/1.1" 200 -
+2025-06-06 12:47:07 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:47:07] "GET /whitelist HTTP/1.1" 200 -
+2025-06-06 12:47:07 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:47:07] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:47:07 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:47:07] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-06-06 12:47:07 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:47:07] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-06-06 12:47:07 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:47:07] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:47:07 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:47:07] "GET /blacklist HTTP/1.1" 200 -
+2025-06-06 12:47:07 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:47:07] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-06-06 12:47:07 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:47:07] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:47:07 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:47:07] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-06-06 12:47:07 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:47:07] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:47:46 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:47:46] "OPTIONS /whitelist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:47:46 - utils.config - INFO - Saved whitelist configuration
+2025-06-06 12:47:46 - services.whitelist - INFO - Updated whitelist limit rate to 90mbit
+2025-06-06 12:47:46 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:47:46] "POST /whitelist/limit-rate HTTP/1.1" 200 -
+2025-06-06 12:47:46 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:47:46] "OPTIONS /whitelist/activate HTTP/1.1" 200 -
+2025-06-06 12:47:47 - utils.config - INFO - Saved mode configuration
+2025-06-06 12:47:47 - services.mode_state - INFO - Updated bandwidth mode to whitelist
+2025-06-06 12:47:47 - services.whitelist - INFO - Applying whitelist TC rules.
+2025-06-06 12:47:47 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: whitelist. Target IPs: 1. Limit: 90mbit, Full: 1000mbit
+2025-06-06 12:47:47 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=90mbit, Full Rate=1000mbit
+2025-06-06 12:47:47 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-06-06 12:47:47 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=90mbit, Full Rate=1000mbit
+2025-06-06 12:47:48 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-06-06 12:47:48 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=90mbit, Full Rate=1000mbit
+2025-06-06 12:47:48 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-06-06 12:47:48 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=90mbit, Full Rate=1000mbit
+2025-06-06 12:47:48 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-06-06 12:47:48 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=90mbit, Full Rate=1000mbit
+2025-06-06 12:47:49 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-06-06 12:47:49 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=90mbit, Full Rate=1000mbit
+2025-06-06 12:47:49 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-06-06 12:47:49 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=90mbit, Full Rate=1000mbit
+2025-06-06 12:47:49 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-06-06 12:47:49 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=90mbit, Full Rate=1000mbit
+2025-06-06 12:47:49 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-06-06 12:47:49 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=90mbit, Full Rate=1000mbit
+2025-06-06 12:47:50 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-06-06 12:47:50 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=90mbit, Full Rate=1000mbit
+2025-06-06 12:47:50 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-06-06 12:47:50 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode whitelist on all interfaces
+2025-06-06 12:47:50 - services.whitelist - INFO - Whitelist TC rules applied successfully.
+2025-06-06 12:47:50 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:47:50] "POST /whitelist/activate HTTP/1.1" 200 -
+2025-06-06 12:48:21 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:48:21] "OPTIONS /whitelist/deactivate HTTP/1.1" 200 -
+2025-06-06 12:48:21 - services.reset_rules - INFO - Flushing iptables mangle table.
+2025-06-06 12:48:21 - services.reset_rules - INFO - Successfully flushed iptables mangle table.
+2025-06-06 12:48:21 - services.reset_rules - INFO - Successfully deleted qdisc on eth0 or no qdisc was present. Output: 
+2025-06-06 12:48:21 - services.reset_rules - INFO - Successfully deleted qdisc on wan or no qdisc was present. Output: 
+2025-06-06 12:48:21 - services.reset_rules - INFO - Successfully deleted qdisc on teql0 or no qdisc was present. Output: 
+2025-06-06 12:48:21 - services.reset_rules - INFO - Successfully deleted qdisc on wlan1 or no qdisc was present. Output: 
+2025-06-06 12:48:22 - services.reset_rules - INFO - Successfully deleted qdisc on br-lan or no qdisc was present. Output: 
+2025-06-06 12:48:22 - services.reset_rules - INFO - Successfully deleted qdisc on phy0-ap0 or no qdisc was present. Output: 
+2025-06-06 12:48:22 - utils.config - INFO - Saved mode configuration
+2025-06-06 12:48:22 - services.mode_state - INFO - Updated bandwidth mode to none
+2025-06-06 12:48:22 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:48:22] "POST /whitelist/deactivate HTTP/1.1" 200 -
+2025-06-06 12:51:38 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:51:38] "OPTIONS /whitelist HTTP/1.1" 200 -
+2025-06-06 12:51:38 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-06-06 12:51:38 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:51:38] "DELETE /whitelist HTTP/1.1" 200 -
+2025-06-06 13:15:47 - __main__ - INFO - Cleaning up resources
+2025-06-06 13:15:47 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 13:15:47 - __main__ - INFO - Resources cleaned up
+2025-06-06 13:15:47 - __main__ - INFO - Cleaning up resources
+2025-06-06 13:15:47 - db.tinydb - INFO - TinyDB connections closed
+2025-06-06 13:15:47 - __main__ - INFO - Resources cleaned up
+2025-06-06 13:23:25 - root - INFO - Logging initialized at 2025-06-06 13:23:25
+2025-06-06 13:23:25 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 13:23:25 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 13:23:25 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 13:23:25 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 13:23:27 - __main__ - INFO - Initializing database tables
+2025-06-06 13:23:27 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 13:23:27 - __main__ - INFO - Database tables initialized
+2025-06-06 13:23:27 - __main__ - INFO - Registering API blueprints
+2025-06-06 13:23:27 - __main__ - INFO - API blueprints registered
+2025-06-06 13:23:27 - __main__ - INFO - Starting server on port 5000
+2025-06-06 13:23:28 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.122:5000
+2025-06-06 13:23:28 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-06 13:23:28 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 13:23:28 - root - INFO - Logging initialized at 2025-06-06 13:23:28
+2025-06-06 13:23:28 - root - INFO - Log files directory: C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\logs
+2025-06-06 13:23:28 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-06 13:23:28 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-06 13:23:28 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-06 13:23:29 - __main__ - INFO - Initializing database tables
+2025-06-06 13:23:29 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-06 13:23:29 - __main__ - INFO - Database tables initialized
+2025-06-06 13:23:29 - __main__ - INFO - Registering API blueprints
+2025-06-06 13:23:29 - __main__ - INFO - API blueprints registered
+2025-06-06 13:23:29 - __main__ - INFO - Starting server on port 5000
+2025-06-06 13:23:29 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 13:23:29 - werkzeug - INFO -  * Debugger PIN: 323-223-189
+2025-06-06 13:23:42 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-06-06 13:23:43 - paramiko.transport - INFO - Authentication (password) successful!
+2025-06-06 13:23:43 - services.router_scanner - INFO - DHCP leases found: 2 devices
+2025-06-06 13:23:43 - services.router_scanner - INFO - ARP scan completed, processing 79 entries
+2025-06-06 13:23:44 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-06-06 13:23:44 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-06-06 13:23:44 - db.device_repository - INFO - Updated existing device (MAC: 82:4b:46:21:38:ab) - IP: 192.168.1.237, Hostname: Tom-s-phone
+2025-06-06 13:23:44 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:23:44] "GET /api/scan/router HTTP/1.1" 200 -
+2025-06-06 13:23:44 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:23:44] "GET /whitelist HTTP/1.1" 200 -
+2025-06-06 13:23:45 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:23:45] "GET /blacklist HTTP/1.1" 200 -
+2025-06-06 13:42:18 - services.router_scanner - INFO - DHCP leases found: 2 devices
+2025-06-06 13:42:18 - services.router_scanner - INFO - ARP scan completed, processing 80 entries
+2025-06-06 13:42:19 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-06-06 13:42:19 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-06-06 13:42:19 - db.device_repository - INFO - Updated existing device (MAC: 82:4b:46:21:38:ab) - IP: 192.168.1.237, Hostname: Tom-s-phone
+2025-06-06 13:42:19 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:42:19] "GET /api/scan/router HTTP/1.1" 200 -
+2025-06-06 13:42:49 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:42:49] "OPTIONS /blacklist HTTP/1.1" 200 -
+2025-06-06 13:42:49 - db.blacklist - INFO - Added device 192.168.1.122 to blacklist
+2025-06-06 13:42:49 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:42:49] "POST /blacklist HTTP/1.1" 200 -
+2025-06-06 13:42:51 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:42:51] "GET /whitelist HTTP/1.1" 200 -
+2025-06-06 13:42:52 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:42:52] "GET /blacklist HTTP/1.1" 200 -
+2025-06-06 13:42:52 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:42:52] "GET /whitelist HTTP/1.1" 200 -
+2025-06-06 13:42:52 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:42:52] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-06-06 13:42:52 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:42:52] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-06-06 13:42:52 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:42:52] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-06-06 13:42:52 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:42:52] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-06-06 13:42:52 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:42:52] "GET /blacklist HTTP/1.1" 200 -
+2025-06-06 13:42:52 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:42:52] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-06-06 13:42:52 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:42:52] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-06-06 13:42:52 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:42:52] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-06-06 13:42:52 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:42:52] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-06-06 13:43:25 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:43:25] "OPTIONS /blacklist/limit-rate HTTP/1.1" 200 -
+2025-06-06 13:43:25 - utils.config - INFO - Saved blacklist configuration
+2025-06-06 13:43:25 - services.blacklist - INFO - Updated blacklist limit rate to 70mbit
+2025-06-06 13:43:25 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:43:25] "POST /blacklist/limit-rate HTTP/1.1" 200 -
+2025-06-06 13:43:25 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:43:25] "OPTIONS /blacklist/activate HTTP/1.1" 200 -
+2025-06-06 13:43:26 - utils.config - INFO - Saved mode configuration
+2025-06-06 13:43:26 - services.mode_state - INFO - Updated bandwidth mode to blacklist
+2025-06-06 13:43:26 - services.blacklist - INFO - Applying blacklist TC rules.
+2025-06-06 13:43:26 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: blacklist. Target IPs: 1. Limit: 70mbit, Full: 1000mbit
+2025-06-06 13:43:27 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 13:43:28 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-06-06 13:43:28 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 13:43:30 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-06-06 13:43:30 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 13:43:31 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-06-06 13:43:31 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 13:43:31 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-06-06 13:43:31 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 13:43:32 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-06-06 13:43:32 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 13:43:32 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-06-06 13:43:32 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 13:43:32 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-06-06 13:43:32 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 13:43:33 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-06-06 13:43:33 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 13:43:33 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-06-06 13:43:33 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 13:43:34 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-06-06 13:43:34 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode blacklist on all interfaces
+2025-06-06 13:43:34 - services.blacklist - INFO - Blacklist TC rules applied successfully.
+2025-06-06 13:43:34 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:43:34] "POST /blacklist/activate HTTP/1.1" 200 -
+2025-06-06 13:43:46 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:43:46] "OPTIONS /blacklist HTTP/1.1" 200 -
+2025-06-06 13:43:47 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
+2025-06-06 13:43:47 - services.blacklist - INFO - Applying blacklist TC rules.
+2025-06-06 13:43:47 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: blacklist. Target IPs: 0. Limit: 70mbit, Full: 1000mbit
+2025-06-06 13:43:47 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 13:43:48 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-06-06 13:43:48 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 13:43:49 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-06-06 13:43:49 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 13:43:50 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-06-06 13:43:50 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 13:43:51 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-06-06 13:43:51 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 13:43:51 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-06-06 13:43:51 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 13:43:52 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-06-06 13:43:52 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 13:43:53 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-06-06 13:43:53 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 13:43:54 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-06-06 13:43:54 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 13:43:54 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-06-06 13:43:54 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=70mbit, Full Rate=1000mbit
+2025-06-06 13:43:55 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-06-06 13:43:55 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode blacklist on all interfaces
+2025-06-06 13:43:55 - services.blacklist - INFO - Blacklist TC rules applied successfully.
+2025-06-06 13:43:55 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:43:55] "DELETE /blacklist HTTP/1.1" 200 -
+2025-06-06 13:43:58 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:43:58] "OPTIONS /blacklist/deactivate HTTP/1.1" 200 -
+2025-06-06 13:43:59 - services.reset_rules - INFO - Flushing iptables mangle table.
+2025-06-06 13:43:59 - services.reset_rules - INFO - Successfully flushed iptables mangle table.
+2025-06-06 13:43:59 - services.reset_rules - INFO - Successfully deleted qdisc on eth0 or no qdisc was present. Output: 
+2025-06-06 13:43:59 - services.reset_rules - INFO - Successfully deleted qdisc on wan or no qdisc was present. Output: 
+2025-06-06 13:43:59 - services.reset_rules - INFO - Successfully deleted qdisc on teql0 or no qdisc was present. Output: 
+2025-06-06 13:43:59 - services.reset_rules - INFO - Successfully deleted qdisc on wlan1 or no qdisc was present. Output: 
+2025-06-06 13:43:59 - services.reset_rules - INFO - Successfully deleted qdisc on br-lan or no qdisc was present. Output: 
+2025-06-06 13:43:59 - services.reset_rules - INFO - Successfully deleted qdisc on phy0-ap0 or no qdisc was present. Output: 
+2025-06-06 13:43:59 - utils.config - INFO - Saved mode configuration
+2025-06-06 13:43:59 - services.mode_state - INFO - Updated bandwidth mode to none
+2025-06-06 13:43:59 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:43:59] "POST /blacklist/deactivate HTTP/1.1" 200 -
+2025-06-06 13:44:05 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:44:05] "OPTIONS /whitelist HTTP/1.1" 200 -
+2025-06-06 13:44:05 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-06-06 13:44:05 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:44:05] "POST /whitelist HTTP/1.1" 200 -
+2025-06-06 13:44:13 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:44:13] "GET /whitelist HTTP/1.1" 200 -
+2025-06-06 13:44:13 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:44:13] "GET /blacklist HTTP/1.1" 200 -
+2025-06-06 13:44:13 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:44:13] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-06-06 13:44:13 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:44:13] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-06-06 13:44:13 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:44:13] "GET /whitelist HTTP/1.1" 200 -
+2025-06-06 13:44:13 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:44:13] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-06-06 13:44:13 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:44:13] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-06-06 13:44:14 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:44:14] "GET /blacklist HTTP/1.1" 200 -
+2025-06-06 13:44:14 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:44:14] "GET /blacklist/limit-rate HTTP/1.1" 200 -
+2025-06-06 13:44:14 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:44:14] "GET /whitelist/mode HTTP/1.1" 200 -
+2025-06-06 13:44:14 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:44:14] "GET /blacklist/mode HTTP/1.1" 200 -
+2025-06-06 13:44:14 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:44:14] "GET /whitelist/limit-rate HTTP/1.1" 200 -
+2025-06-06 13:44:21 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:44:21] "OPTIONS /whitelist/limit-rate HTTP/1.1" 200 -
+2025-06-06 13:44:22 - utils.config - INFO - Saved whitelist configuration
+2025-06-06 13:44:22 - services.whitelist - INFO - Updated whitelist limit rate to 100mbit
+2025-06-06 13:44:22 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:44:22] "POST /whitelist/limit-rate HTTP/1.1" 200 -
+2025-06-06 13:44:22 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:44:22] "OPTIONS /whitelist/activate HTTP/1.1" 200 -
+2025-06-06 13:44:22 - utils.config - INFO - Saved mode configuration
+2025-06-06 13:44:22 - services.mode_state - INFO - Updated bandwidth mode to whitelist
+2025-06-06 13:44:22 - services.whitelist - INFO - Applying whitelist TC rules.
+2025-06-06 13:44:22 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: whitelist. Target IPs: 1. Limit: 100mbit, Full: 1000mbit
+2025-06-06 13:44:22 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=100mbit, Full Rate=1000mbit
+2025-06-06 13:44:22 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-06-06 13:44:22 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=100mbit, Full Rate=1000mbit
+2025-06-06 13:44:23 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-06-06 13:44:23 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=100mbit, Full Rate=1000mbit
+2025-06-06 13:44:23 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-06-06 13:44:23 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=100mbit, Full Rate=1000mbit
+2025-06-06 13:44:24 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-06-06 13:44:24 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=100mbit, Full Rate=1000mbit
+2025-06-06 13:44:24 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-06-06 13:44:24 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=100mbit, Full Rate=1000mbit
+2025-06-06 13:44:24 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-06-06 13:44:24 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=100mbit, Full Rate=1000mbit
+2025-06-06 13:44:24 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-06-06 13:44:24 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=100mbit, Full Rate=1000mbit
+2025-06-06 13:44:25 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-06-06 13:44:25 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=100mbit, Full Rate=1000mbit
+2025-06-06 13:44:25 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-06-06 13:44:25 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=100mbit, Full Rate=1000mbit
+2025-06-06 13:44:25 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-06-06 13:44:25 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode whitelist on all interfaces
+2025-06-06 13:44:25 - services.whitelist - INFO - Whitelist TC rules applied successfully.
+2025-06-06 13:44:25 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:44:25] "POST /whitelist/activate HTTP/1.1" 200 -
+2025-06-06 13:45:09 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:45:09] "OPTIONS /whitelist HTTP/1.1" 200 -
+2025-06-06 13:45:09 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-06-06 13:45:09 - services.whitelist - INFO - Applying whitelist TC rules.
+2025-06-06 13:45:09 - utils.traffic_control_helpers - INFO - Setting up traffic rules for mode: whitelist. Target IPs: 0. Limit: 100mbit, Full: 1000mbit
+2025-06-06 13:45:09 - utils.traffic_control_helpers - INFO - Setting up TC on br-lan: Limit Rate=100mbit, Full Rate=1000mbit
+2025-06-06 13:45:09 - utils.traffic_control_helpers - INFO - TC setup completed for interface br-lan
+2025-06-06 13:45:09 - utils.traffic_control_helpers - INFO - Setting up TC on eth0: Limit Rate=100mbit, Full Rate=1000mbit
+2025-06-06 13:45:10 - utils.traffic_control_helpers - INFO - TC setup completed for interface eth0
+2025-06-06 13:45:10 - utils.traffic_control_helpers - INFO - Setting up TC on lan1: Limit Rate=100mbit, Full Rate=1000mbit
+2025-06-06 13:45:10 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan1
+2025-06-06 13:45:10 - utils.traffic_control_helpers - INFO - Setting up TC on lan2: Limit Rate=100mbit, Full Rate=1000mbit
+2025-06-06 13:45:10 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan2
+2025-06-06 13:45:10 - utils.traffic_control_helpers - INFO - Setting up TC on lan3: Limit Rate=100mbit, Full Rate=1000mbit
+2025-06-06 13:45:11 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan3
+2025-06-06 13:45:11 - utils.traffic_control_helpers - INFO - Setting up TC on lan4: Limit Rate=100mbit, Full Rate=1000mbit
+2025-06-06 13:45:11 - utils.traffic_control_helpers - INFO - TC setup completed for interface lan4
+2025-06-06 13:45:11 - utils.traffic_control_helpers - INFO - Setting up TC on phy0-ap0: Limit Rate=100mbit, Full Rate=1000mbit
+2025-06-06 13:45:11 - utils.traffic_control_helpers - INFO - TC setup completed for interface phy0-ap0
+2025-06-06 13:45:11 - utils.traffic_control_helpers - INFO - Setting up TC on teql0: Limit Rate=100mbit, Full Rate=1000mbit
+2025-06-06 13:45:12 - utils.traffic_control_helpers - INFO - TC setup completed for interface teql0
+2025-06-06 13:45:12 - utils.traffic_control_helpers - INFO - Setting up TC on wan: Limit Rate=100mbit, Full Rate=1000mbit
+2025-06-06 13:45:12 - utils.traffic_control_helpers - INFO - TC setup completed for interface wan
+2025-06-06 13:45:12 - utils.traffic_control_helpers - INFO - Setting up TC on wlan1: Limit Rate=100mbit, Full Rate=1000mbit
+2025-06-06 13:45:12 - utils.traffic_control_helpers - INFO - TC setup completed for interface wlan1
+2025-06-06 13:45:12 - utils.traffic_control_helpers - INFO - Traffic control with iptables set up successfully for mode whitelist on all interfaces
+2025-06-06 13:45:12 - services.whitelist - INFO - Whitelist TC rules applied successfully.
+2025-06-06 13:45:12 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:45:12] "DELETE /whitelist HTTP/1.1" 200 -
+2025-06-06 13:45:19 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:45:19] "OPTIONS /whitelist/deactivate HTTP/1.1" 200 -
+2025-06-06 13:45:20 - services.reset_rules - INFO - Flushing iptables mangle table.
+2025-06-06 13:45:20 - services.reset_rules - INFO - Successfully flushed iptables mangle table.
+2025-06-06 13:45:20 - services.reset_rules - INFO - Successfully deleted qdisc on eth0 or no qdisc was present. Output: 
+2025-06-06 13:45:21 - services.reset_rules - INFO - Successfully deleted qdisc on wan or no qdisc was present. Output: 
+2025-06-06 13:45:21 - services.reset_rules - INFO - Successfully deleted qdisc on teql0 or no qdisc was present. Output: 
+2025-06-06 13:45:21 - services.reset_rules - INFO - Successfully deleted qdisc on wlan1 or no qdisc was present. Output: 
+2025-06-06 13:45:21 - services.reset_rules - INFO - Successfully deleted qdisc on br-lan or no qdisc was present. Output: 
+2025-06-06 13:45:21 - services.reset_rules - INFO - Successfully deleted qdisc on phy0-ap0 or no qdisc was present. Output: 
+2025-06-06 13:45:21 - utils.config - INFO - Saved mode configuration
+2025-06-06 13:45:21 - services.mode_state - INFO - Updated bandwidth mode to none
+2025-06-06 13:45:21 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 13:45:21] "POST /whitelist/deactivate HTTP/1.1" 200 -
