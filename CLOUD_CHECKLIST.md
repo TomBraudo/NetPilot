@@ -420,7 +420,7 @@ gcloud services enable monitoring.googleapis.com
    - **Check Type**: `HTTP`
    - **Resource Type**: `URL`
    - **Hostname**: `netpilot.work.gd`
-   - **Path**: `/api/health`
+   - **Path**: `/health`
    - **Check frequency**: `5 minutes`
 4. Click "Create"
 
