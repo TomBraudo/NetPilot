@@ -5,6 +5,102 @@
 
 ---
 
+## 🚨 Troubleshooting Common Issues
+
+### Permission Issues: "Email does not have permission to access projects instance"
+
+If you're getting permission errors, follow these steps:
+
+#### 1. Verify You're in the Right Project
+```bash
+# Check current project
+gcloud config get-value project
+
+# List all projects you have access to
+gcloud projects list
+
+# Switch to the correct project
+gcloud config set project YOUR_PROJECT_ID
+```
+
+#### 2. Check Your Account and Permissions
+```bash
+# Verify which account you're logged in as
+gcloud auth list
+
+# Check your permissions in the current project
+gcloud projects get-iam-policy $(gcloud config get-value project)
+```
+
+#### 3. Re-authenticate if Needed
+```bash
+# Re-login to refresh permissions
+gcloud auth login
+
+# If using application default credentials
+gcloud auth application-default login
+```
+
+#### 4. Verify Project Ownership/Access
+- Go to [Google Cloud Console](https://console.cloud.google.com/)
+- Check if you can see your project in the project selector
+- If not, you may need to:
+  - Create a new project (if you don't have one)
+  - Ask the project owner to invite you
+  - Switch to a different Google account
+
+#### 5. Enable Required APIs (Common Fix)
+```bash
+# Enable Compute Engine API (required for VM instances)
+gcloud services enable compute.googleapis.com
+
+# Check if APIs are enabled
+gcloud services list --enabled
+```
+
+#### 6. Check Billing Account
+```bash
+# List billing accounts
+gcloud billing accounts list
+
+# Link billing to your project (replace BILLING_ACCOUNT_ID)
+gcloud billing projects link YOUR_PROJECT_ID --billing-account=BILLING_ACCOUNT_ID
+```
+
+#### 7. Grant Yourself Necessary Roles (If you're project owner)
+```bash
+# Add yourself as compute admin
+gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
+    --member="user:YOUR_EMAIL@gmail.com" \
+    --role="roles/compute.admin"
+
+# Add yourself as project editor (broader permissions)
+gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
+    --member="user:YOUR_EMAIL@gmail.com" \
+    --role="roles/editor"
+```
+
+#### 8. Create Project if You Don't Have One
+```bash
+# Create a new project (try this if you don't have access to any project)
+gcloud projects create netpilot-$(date +%s) --name="NetPilot Production"
+```
+
+#### 9. Web Console Alternative
+If CLI isn't working:
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Click the project selector (top bar)
+3. Click "New Project"
+4. Create a project there
+5. Then return to CLI and set the project:
+```bash
+gcloud config set project YOUR_NEW_PROJECT_ID
+```
+
+**Most Common Solution**: Enable the Compute Engine API and ensure billing is set up!
+
+---
+
 ## 🎯 Overview
 
 This checklist covers all Google Cloud services needed to deploy NetPilot with:
@@ -63,15 +159,15 @@ This checklist covers all Google Cloud services needed to deploy NetPilot with:
 ```bash
 # Using gcloud CLI (install from https://cloud.google.com/sdk/docs/install)
 gcloud auth login
-gcloud projects create netpilot-prod --name="NetPilot Production"
-gcloud config set project netpilot-prod
+gcloud projects create net-pilot-463708 --name="NetPilot Production"
+gcloud config set project net-pilot-463708
 ```
 
 **Manual Steps:**
 1. Go to [Google Cloud Console](https://console.cloud.google.com/)
 2. Click "Select a project" → "New Project"
 3. Name: `NetPilot Production`
-4. Project ID: `netpilot-prod` (or auto-generated)
+4. Project ID: `net-pilot-463708` (your actual project ID)
 5. Click "Create"
 
 #### 1.2 Enable Required APIs
@@ -104,16 +200,17 @@ gcloud services enable storage.googleapis.com
 # Create service account for the application
 gcloud iam service-accounts create netpilot-app \
     --description="NetPilot application service account" \
-    --display-name="NetPilot App"
+    --display-name="NetPilot App" \
+    --project=net-pilot-463708
 
 # Grant necessary roles
-gcloud projects add-iam-policy-binding netpilot-prod \
-    --member="serviceAccount:netpilot-app@netpilot-prod.iam.gserviceaccount.com" \
+gcloud projects add-iam-policy-binding net-pilot-463708 \
+    --member="serviceAccount:netpilot-app@net-pilot-463708.iam.gserviceaccount.com" \
     --role="roles/storage.objectAdmin"
 
 # Create and download key
 gcloud iam service-accounts keys create ~/netpilot-sa-key.json \
-    --iam-account=netpilot-app@netpilot-prod.iam.gserviceaccount.com
+    --iam-account=netpilot-app@net-pilot-463708.iam.gserviceaccount.com
 ```
 
 ---
@@ -135,9 +232,9 @@ gcloud compute instances create netpilot-vm \
     --network-interface=network-tier=PREMIUM,subnet=default \
     --maintenance-policy=MIGRATE \
     --provisioning-model=STANDARD \
-    --service-account=netpilot-app@netpilot-prod.iam.gserviceaccount.com \
+    --service-account=netpilot-app@net-pilot-463708.iam.gserviceaccount.com \
     --scopes=https://www.googleapis.com/auth/cloud-platform \
-    --create-disk=auto-delete=yes,boot=yes,device-name=netpilot-vm,image=projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20240319,mode=rw,size=20,type=projects/netpilot-prod/zones/us-central1-a/diskTypes/pd-standard \
+    --create-disk=auto-delete=yes,boot=yes,device-name=netpilot-vm,image=projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20240319,mode=rw,size=20,type=projects/net-pilot-463708/zones/us-central1-a/diskTypes/pd-standard \
     --no-shielded-secure-boot \
     --shielded-vtpm \
     --shielded-integrity-monitoring \
@@ -208,8 +305,8 @@ gcloud auth configure-docker us-central1-docker.pkg.dev
 
 # Test access
 docker pull hello-world
-docker tag hello-world us-central1-docker.pkg.dev/netpilot-prod/netpilot-docker/hello-world
-docker push us-central1-docker.pkg.dev/netpilot-prod/netpilot-docker/hello-world
+docker tag hello-world us-central1-docker.pkg.dev/net-pilot-463708/netpilot-docker/hello-world
+docker push us-central1-docker.pkg.dev/net-pilot-463708/netpilot-docker/hello-world
 ```
 
 ---
