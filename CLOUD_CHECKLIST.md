@@ -313,29 +313,55 @@ docker push europe-west1-docker.pkg.dev/net-pilot-463708/netpilot-docker/hello-w
 
 ### 4. Cloud DNS (Optional - if not using external provider)
 
-#### 4.1 Set up DNS Zone
+#### 4.1 Set up DNS Zone for netpilot.work.gd
 ```bash
 # Create DNS zone for your domain
 gcloud dns managed-zones create netpilot-zone \
     --description="NetPilot DNS zone" \
-    --dns-name=yourdomain.com \
+    --dns-name=netpilot.work.gd \
     --visibility=public
 ```
 
-#### 4.2 Configure Domain Records
+#### 4.2 Get Google Cloud Nameservers
 ```bash
-# Get name servers
-gcloud dns managed-zones describe netpilot-zone
+# Get the nameservers you need to set in your domain provider
+gcloud dns managed-zones describe netpilot-zone --format="value(nameServers[].join(' '))"
+```
 
-# Add A record pointing to your VM
+**Important: Update Your Domain's Nameservers**
+1. Go back to your domain control panel (where you registered netpilot.work.gd)
+2. Click "Modify Name Servers" 
+3. Replace the current nameservers (ns10.dnsexit.com, etc.) with Google Cloud's nameservers from the command above
+4. Save changes and wait 1-24 hours for DNS propagation
+
+#### 4.3 Configure Domain Records
+```bash
+# Get your VM's external IP
 gcloud compute instances describe netpilot-vm --zone=europe-west1-b --format="value(networkInterfaces[0].accessConfigs[0].natIP)"
 
-# Create A record
-gcloud dns record-sets create yourdomain.com \
+# Create A record pointing to your VM (replace VM_EXTERNAL_IP with the actual IP from above)
+gcloud dns record-sets create netpilot.work.gd \
     --zone=netpilot-zone \
     --type=A \
     --ttl=300 \
     --rrdatas=VM_EXTERNAL_IP
+```
+
+**Example:**
+If your VM IP is `34.77.123.456`, run:
+```bash
+gcloud dns record-sets create netpilot.work.gd \
+    --zone=netpilot-zone \
+    --type=A \
+    --ttl=300 \
+    --rrdatas=34.77.123.456
+```
+
+#### 4.4 Verify DNS Setup
+```bash
+# Test DNS resolution (may take 1-24 hours to work)
+nslookup netpilot.work.gd
+dig netpilot.work.gd
 ```
 
 ---
@@ -389,7 +415,7 @@ gcloud services enable monitoring.googleapis.com
    - **Title**: `NetPilot Health Check`
    - **Check Type**: `HTTP`
    - **Resource Type**: `URL`
-   - **Hostname**: `yourdomain.com`
+   - **Hostname**: `netpilot.work.gd`
    - **Path**: `/api/health`
    - **Check frequency**: `5 minutes`
 4. Click "Create"
@@ -454,7 +480,7 @@ sudo snap install --classic certbot
 sudo ln -s /snap/bin/certbot /usr/bin/certbot
 
 # After deploying your app with domain pointing to the VM:
-sudo certbot --nginx -d yourdomain.com
+sudo certbot --nginx -d netpilot.work.gd
 ```
 
 ---
