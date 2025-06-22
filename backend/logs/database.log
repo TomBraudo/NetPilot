@@ -1851,3 +1851,24 @@ ValueError: Device with IP 192.168.1.122 already in whitelist
 2025-06-06 13:43:47 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
 2025-06-06 13:44:05 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
 2025-06-06 13:45:09 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-06-06 14:33:45 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-06-06 14:33:45 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-06-06 14:33:45 - db.device_repository - INFO - Updated existing device (MAC: 82:4b:46:21:38:ab) - IP: 192.168.1.237, Hostname: Tom-s-phone
+2025-06-06 14:35:16 - db.blacklist - INFO - Added device 192.168.1.122 to blacklist
+2025-06-06 14:36:10 - db.blacklist - INFO - Removed device 192.168.1.122 from blacklist
+2025-06-06 14:36:33 - db.whitelist - INFO - Added device with IP 192.168.1.122 to whitelist
+2025-06-06 14:37:20 - db.whitelist - INFO - Removed device with IP 192.168.1.122 from whitelist
+2025-06-15 16:11:56 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-15 16:11:56 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-15 16:11:56 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-15 16:11:59 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-15 16:12:00 - db.tinydb - INFO - TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\netpilot.json
+2025-06-15 16:12:00 - db.tinydb - INFO - Devices TinyDB initialized with caching middleware at C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\data\devices.json
+2025-06-15 16:12:00 - db.tinydb - INFO - TinyDB tables initialized
+2025-06-15 16:12:01 - db.schema_initializer - INFO - Database client ensured to be initialized. No specific table initialization here.
+2025-06-15 16:12:14 - db.device_repository - INFO - Updated existing device (MAC: router) - IP: 192.168.1.1, Hostname: Router
+2025-06-15 16:12:14 - db.device_repository - INFO - Registering new device (MAC: b8:13:32:fb:56:70) - IP: 192.168.1.146, Hostname: yes
+2025-06-15 16:12:14 - db.device_repository - INFO - Registering new device (MAC: 76:25:b0:35:aa:e0) - IP: 192.168.1.152, Hostname: Tom-s-phone
+2025-06-15 16:12:14 - db.device_repository - INFO - Updated existing device (MAC: d8:bb:c1:47:3a:43) - IP: 192.168.1.122, Hostname: DESKTOP-DQ80I51
+2025-06-15 16:17:55 - db.tinydb - INFO - TinyDB connections closed
+2025-06-15 16:17:55 - db.tinydb - INFO - TinyDB connections closed
