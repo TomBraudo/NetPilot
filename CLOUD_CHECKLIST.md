@@ -222,19 +222,19 @@ gcloud iam service-accounts keys create ~/netpilot-sa-key.json \
 **Recommended Specs (Cost-Optimized):**
 - **Machine Type**: `e2-micro` (0.25-2 vCPUs, 1 GB RAM)
 - **Boot Disk**: 20 GB Standard persistent disk
-- **Region**: Choose closest to your users (e.g., `us-central1-a`)
+- **Region**: Choose closest to your users (e.g., `europe-west1-b` for Israel)
 - **OS**: Ubuntu 22.04 LTS
 
 ```bash
 gcloud compute instances create netpilot-vm \
-    --zone=us-central1-a \
+    --zone=europe-west1-b \
     --machine-type=e2-micro \
     --network-interface=network-tier=PREMIUM,subnet=default \
     --maintenance-policy=MIGRATE \
     --provisioning-model=STANDARD \
     --service-account=netpilot-app@net-pilot-463708.iam.gserviceaccount.com \
     --scopes=https://www.googleapis.com/auth/cloud-platform \
-    --create-disk=auto-delete=yes,boot=yes,device-name=netpilot-vm,image=projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20240319,mode=rw,size=20,type=projects/net-pilot-463708/zones/us-central1-a/diskTypes/pd-standard \
+    --create-disk=auto-delete=yes,boot=yes,device-name=netpilot-vm,image=projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20240319,mode=rw,size=20,type=projects/net-pilot-463708/zones/europe-west1-b/diskTypes/pd-standard \
     --no-shielded-secure-boot \
     --shielded-vtpm \
     --shielded-integrity-monitoring \
@@ -247,8 +247,8 @@ gcloud compute instances create netpilot-vm \
 2. Click "Create Instance"
 3. Configure:
    - **Name**: `netpilot-vm`
-   - **Region**: `us-central1` (Iowa)
-   - **Zone**: `us-central1-a`
+   - **Region**: `europe-west1` (Belgium)
+   - **Zone**: `europe-west1-b`
    - **Machine configuration**: 
      - Series: `E2`
      - Machine type: `e2-micro` (1 vCPU, 1 GB memory)
@@ -282,7 +282,7 @@ gcloud compute firewall-rules create netpilot-allow-ssh-restricted \
 ssh-keygen -t rsa -b 4096 -f ~/.ssh/netpilot-gcp
 
 # Add SSH key to VM
-gcloud compute ssh netpilot-vm --zone=us-central1-a --ssh-key-file=~/.ssh/netpilot-gcp
+gcloud compute ssh netpilot-vm --zone=europe-west1-b --ssh-key-file=~/.ssh/netpilot-gcp
 ```
 
 ---
@@ -294,19 +294,19 @@ gcloud compute ssh netpilot-vm --zone=us-central1-a --ssh-key-file=~/.ssh/netpil
 # Create Docker repository
 gcloud artifacts repositories create netpilot-docker \
     --repository-format=docker \
-    --location=us-central1 \
+    --location=europe-west1 \
     --description="NetPilot Docker images"
 ```
 
 #### 3.2 Configure Docker Authentication
 ```bash
 # Configure Docker to authenticate with Artifact Registry
-gcloud auth configure-docker us-central1-docker.pkg.dev
+gcloud auth configure-docker europe-west1-docker.pkg.dev
 
 # Test access
 docker pull hello-world
-docker tag hello-world us-central1-docker.pkg.dev/net-pilot-463708/netpilot-docker/hello-world
-docker push us-central1-docker.pkg.dev/net-pilot-463708/netpilot-docker/hello-world
+docker tag hello-world europe-west1-docker.pkg.dev/net-pilot-463708/netpilot-docker/hello-world
+docker push europe-west1-docker.pkg.dev/net-pilot-463708/netpilot-docker/hello-world
 ```
 
 ---
@@ -328,7 +328,7 @@ gcloud dns managed-zones create netpilot-zone \
 gcloud dns managed-zones describe netpilot-zone
 
 # Add A record pointing to your VM
-gcloud compute instances describe netpilot-vm --zone=us-central1-a --format="value(networkInterfaces[0].accessConfigs[0].natIP)"
+gcloud compute instances describe netpilot-vm --zone=europe-west1-b --format="value(networkInterfaces[0].accessConfigs[0].natIP)"
 
 # Create A record
 gcloud dns record-sets create yourdomain.com \
@@ -346,7 +346,7 @@ gcloud dns record-sets create yourdomain.com \
 ```bash
 # Create bucket for backups
 gcloud storage buckets create gs://netpilot-backups-$(date +%s) \
-    --location=us-central1 \
+    --location=europe-west1 \
     --storage-class=STANDARD
 ```
 
@@ -409,7 +409,7 @@ gcloud services enable monitoring.googleapis.com
 #### 7.1 Connect to VM and Install Dependencies
 ```bash
 # SSH into the VM
-gcloud compute ssh netpilot-vm --zone=us-central1-a
+gcloud compute ssh netpilot-vm --zone=europe-west1-b
 
 # Update system
 sudo apt update && sudo apt upgrade -y
@@ -510,13 +510,13 @@ gcloud billing budgets list --billing-account=YOUR_BILLING_ACCOUNT_ID
 gcloud logging read "resource.type=gce_instance"
 
 # SSH to VM
-gcloud compute ssh netpilot-vm --zone=us-central1-a
+gcloud compute ssh netpilot-vm --zone=europe-west1-b
 
 # Stop VM (cost saving)
-gcloud compute instances stop netpilot-vm --zone=us-central1-a
+gcloud compute instances stop netpilot-vm --zone=europe-west1-b
 
 # Start VM
-gcloud compute instances start netpilot-vm --zone=us-central1-a
+gcloud compute instances start netpilot-vm --zone=europe-west1-b
 ```
 
 ---
