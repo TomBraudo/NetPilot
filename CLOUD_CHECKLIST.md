@@ -132,9 +132,68 @@ This checklist covers all Google Cloud services needed to deploy NetPilot with:
 - [ ] **Create Docker Repository**
 - [ ] **Configure Docker Authentication**
 
-### 4. Cloud DNS (Optional)
-- [ ] **Set up DNS Zone**
-- [ ] **Configure Domain Records**
+### 4. Domain DNS Setup (Free Domain - Provider Managed)
+
+**Note: Since netpilot.work.gd doesn't allow custom nameservers, we'll manage DNS through your domain provider instead of Google Cloud DNS.**
+
+#### 4.1 Get Your VM's External IP
+```bash
+# Get your VM's external IP address
+gcloud compute instances describe netpilot-vm --zone=europe-west1-b --format="value(networkInterfaces[0].accessConfigs[0].natIP)"
+```
+
+#### 4.2 Set Up A Record Through Your Domain Provider (freedomain.one)
+**Manual Steps for freedomain.one:**
+1. Go to your **freedomain.one** control panel where you registered `netpilot.work.gd`
+2. **Find the current DNS section** - Look for:
+   - **"DNS Management"** 
+   - **"DNS Records"** 
+   - **"Manage DNS"**
+   - Or similar DNS-related options in your dashboard
+3. **Look for existing A record** - You may see an entry pointing to `162.120.188.199` (or another IP)
+4. **Edit or add A record:**
+   - **Name/Host**: `@` (for root domain) or leave blank  
+   - **Type**: `A`
+   - **Value/Points to**: `YOUR_VM_IP` (from step 4.1)
+   - **TTL**: `300` or `Auto` (if available)
+5. **Save the record**
+6. **Wait 5-30 minutes** for DNS propagation
+
+**Alternative Method (if available):**
+- Some free domain providers have a **"DNS Express"** or **"Quick Setup"** option
+- This automatically points your domain to a specified IP address
+- Enter your VM IP when prompted
+
+**Note:** freedomain.one may have limited DNS editing options since it's a free provider. If you can't find DNS management options, check:
+- **Account dashboard** main page
+- **Domain settings** or **Domain control**
+- **Technical settings**
+
+#### 4.3 Verify DNS Setup
+```bash
+# Test if your domain resolves to your VM (may take 5-30 minutes)
+nslookup netpilot.work.gd
+ping netpilot.work.gd
+```
+
+**Expected result:** The domain should resolve to your VM's IP address
+
+#### 4.4 Optional: Add WWW Subdomain
+If you want `www.netpilot.work.gd` to also work, add another A record:
+- **Name/Host**: `www`
+- **Type**: `A` 
+- **Value**: `YOUR_VM_IP` (same as above)
+
+**✅ This setup will work perfectly for:**
+- ✅ Web access to NetPilot
+- ✅ SSL certificates (Let's Encrypt)
+- ✅ Reverse SSH tunnels from OpenWrt routers
+- ✅ All NetPilot functionality
+
+**❌ What you miss by not using Google Cloud DNS:**
+- DNS management not in Google Cloud Console
+- No advanced DNS features (geo-routing, health checks)
+- Manual DNS record updates
 
 ### 5. Cloud Storage
 - [ ] **Create Storage Bucket**
@@ -311,61 +370,6 @@ docker push europe-west1-docker.pkg.dev/net-pilot-463708/netpilot-docker/hello-w
 
 ---
 
-### 4. Cloud DNS (Optional - if not using external provider)
-
-#### 4.1 Set up DNS Zone for netpilot.work.gd
-```bash
-# Create DNS zone for your domain
-gcloud dns managed-zones create netpilot-zone \
-    --description="NetPilot DNS zone" \
-    --dns-name=netpilot.work.gd \
-    --visibility=public
-```
-
-#### 4.2 Get Google Cloud Nameservers
-```bash
-# Get the nameservers you need to set in your domain provider
-gcloud dns managed-zones describe netpilot-zone --format="value(nameServers[].join(' '))"
-```
-
-**Important: Update Your Domain's Nameservers**
-1. Go back to your domain control panel (where you registered netpilot.work.gd)
-2. Click "Modify Name Servers" 
-3. Replace the current nameservers (ns10.dnsexit.com, etc.) with Google Cloud's nameservers from the command above
-4. Save changes and wait 1-24 hours for DNS propagation
-
-#### 4.3 Configure Domain Records
-```bash
-# Get your VM's external IP
-gcloud compute instances describe netpilot-vm --zone=europe-west1-b --format="value(networkInterfaces[0].accessConfigs[0].natIP)"
-
-# Create A record pointing to your VM (replace VM_EXTERNAL_IP with the actual IP from above)
-gcloud dns record-sets create netpilot.work.gd \
-    --zone=netpilot-zone \
-    --type=A \
-    --ttl=300 \
-    --rrdatas=VM_EXTERNAL_IP
-```
-
-**Example:**
-If your VM IP is `34.77.123.456`, run:
-```bash
-gcloud dns record-sets create netpilot.work.gd \
-    --zone=netpilot-zone \
-    --type=A \
-    --ttl=300 \
-    --rrdatas=34.77.123.456
-```
-
-#### 4.4 Verify DNS Setup
-```bash
-# Test DNS resolution (may take 1-24 hours to work)
-nslookup netpilot.work.gd
-dig netpilot.work.gd
-```
-
----
-
 ### 5. Cloud Storage (Backups)
 
 #### 5.1 Create Storage Bucket
@@ -394,7 +398,7 @@ Create `lifecycle.json`:
 ```
 
 ```bash
-gcloud storage buckets update gs://netpilot-backups-XXXXX --lifecycle-file=lifecycle.json
+gcloud storage buckets update gs://netpilot-backups-1750588818 --lifecycle-file=lifecycle.json
 ```
 
 ---
@@ -430,9 +434,9 @@ gcloud services enable monitoring.googleapis.com
 
 ---
 
-### 7. VM Initial Setup
+### 7. VM Initial Setup (For SSH Testing Only)
 
-#### 7.1 Connect to VM and Install Dependencies
+#### 7.1 Connect to VM and Install Basic Dependencies
 ```bash
 # SSH into the VM
 gcloud compute ssh netpilot-vm --zone=europe-west1-b
@@ -440,24 +444,29 @@ gcloud compute ssh netpilot-vm --zone=europe-west1-b
 # Update system
 sudo apt update && sudo apt upgrade -y
 
-# Install Docker
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-sudo usermod -aG docker $USER
+# Install SSH and network tools for router testing
+sudo apt install -y openssh-client curl wget net-tools iputils-ping nmap
 
-# Install Docker Compose
-sudo apt install docker-compose-plugin
+# Test basic connectivity
+ping google.com
+```
 
-# Create application user
-sudo useradd -m -s /bin/bash netpilot
-sudo usermod -aG docker netpilot
+#### 7.4 Test SSH Connection to Router
+```bash
+# Test SSH connection to your router (replace with your router's IP/domain)
+# This is the main goal - to verify cloud VM can reach your router
+ssh root@YOUR_ROUTER_IP
 
-# Create application directories
-sudo mkdir -p /opt/netpilot/{data,logs}
-sudo chown -R netpilot:netpilot /opt/netpilot
+# Example commands to run on router once connected:
+# - uci show network
+# - ip route show
+# - iptables -L
+# - exit
 
-# Install other dependencies
-sudo apt install -y git curl wget unzip
+# If you get connection refused or timeout, check:
+# 1. Router's external IP/port forwarding
+# 2. Firewall rules on both ends
+# 3. SSH daemon running on router
 ```
 
 #### 7.2 Configure Firewall (UFW)
@@ -470,17 +479,21 @@ sudo ufw allow 2200/tcp  # SSH tunnel port
 sudo ufw status
 ```
 
-#### 7.3 Set up SSL with Let's Encrypt
+#### 7.3 Optional: Set up SSL with Let's Encrypt (Skip for SSH Testing Phase)
 ```bash
-# Install certbot
-sudo apt install snapd
-sudo snap install core
-sudo snap refresh core
-sudo snap install --classic certbot
-sudo ln -s /snap/bin/certbot /usr/bin/certbot
+# SKIP THIS SECTION FOR NOW
+# This is only needed when deploying the actual NetPilot application
+# For SSH testing, this is not required
+
+# Install certbot (when ready for app deployment)
+# sudo apt install snapd
+# sudo snap install core
+# sudo snap refresh core
+# sudo snap install --classic certbot
+# sudo ln -s /snap/bin/certbot /usr/bin/certbot
 
 # After deploying your app with domain pointing to the VM:
-sudo certbot --nginx -d netpilot.work.gd
+# sudo certbot --nginx -d netpilot.work.gd
 ```
 
 ---
@@ -515,6 +528,12 @@ gcloud billing budgets create \
 
 ## 🔧 Next Steps After Cloud Setup
 
+### For SSH Testing Phase (Current Goal):
+1. **Complete Cloud Setup**: Phases 1-7 (modified for SSH testing)
+2. **Test Manual SSH Connection**: VM → Your Router
+3. **Verify Router Access**: Confirm you can execute commands on router
+
+### For Future Application Deployment:
 1. **Deploy Application**: Follow Phase 2-3 of IMPLEMENTATION_PLAN.md
 2. **Configure Reverse SSH**: Set up tunnel from OpenWrt router
 3. **Test End-to-End**: Verify full functionality
