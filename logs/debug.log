@@ -1,0 +1,6 @@
+[90m[2025-06-23 16:02:17.764][0m [36m[DEBUG][0m [90m[DEBUG][0m Detailed tunnel configuration: {
+  "cloudVmIp": "34.38.207.87",
+  "port": 2211,
+  "username": "netpilot-agent"
+}
+[90m[2025-06-23 16:02:17.764][0m [36m[DEBUG][0m [90m[DEBUG][0m SSH command executed: autossh -M 0 -N -R 2211:localhost:22...

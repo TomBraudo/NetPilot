@@ -1,0 +1,4 @@
+[90m[2025-06-23 16:02:17.764][0m [32m[INFO][0m [1m[32m[ROUTER][0m Connecting to router at 192.168.1.1...
+[90m[2025-06-23 16:02:17.764][0m [32m[INFO][0m [1m[32m[ROUTER][0m SSH connection established
+[90m[2025-06-23 16:02:17.764][0m [32m[INFO][0m [1m[32m[ROUTER][0m Installing packages: openssh-client, autossh, sshpass
+[90m[2025-06-23 16:02:17.764][0m [32m[INFO][0m [1m[32m[ROUTER][0m Package installation completed

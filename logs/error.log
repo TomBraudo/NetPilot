@@ -1,0 +1,4 @@
+[90m[2025-06-23 16:02:17.764][0m [31m[ERROR][0m [1m[31m[ERROR][0m Test error message
+[90m[2025-06-23 16:02:17.764][0m [31m[ERROR][0m [1m[31m[ERROR][0m Connection failed: {}
+[90m[2025-06-23 16:02:17.764][0m [33m[WARN][0m [WARN][0m Router connection unstable
+[90m[2025-06-23 16:02:17.764][0m [33m[WARN][0m [WARN][0m Retrying operation...

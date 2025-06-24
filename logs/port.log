@@ -1,0 +1,6 @@
+[90m[2025-06-23 16:02:17.764][0m [32m[INFO][0m [1m[33m[PORT][0m Requesting port allocation...
+[90m[2025-06-23 16:02:17.764][0m [32m[INFO][0m [1m[33m[PORT][0m Port response received: {
+  "port": 2211,
+  "status": "allocated"
+}
+[90m[2025-06-23 16:02:17.764][0m [32m[INFO][0m [1m[33m[PORT][0m Sending heartbeat for port 2211

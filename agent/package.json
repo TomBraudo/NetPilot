@@ -1,0 +1,60 @@
+{
+  "name": "netpilot-router-agent",
+  "version": "1.0.0",
+  "description": "NetPilot Router Agent - Automates OpenWrt router setup and establishes reverse SSH tunnels",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder",
+    "build-win": "electron-builder --win",
+    "build-mac": "electron-builder --mac",
+    "build-linux": "electron-builder --linux"
+  },
+  "keywords": [
+    "netpilot",
+    "router",
+    "openwrt",
+    "ssh",
+    "tunnel",
+    "network"
+  ],
+  "author": "NetPilot Team",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.0",
+    "express": "^4.18.2",
+    "keytar": "^7.9.0",
+    "node-ssh": "^13.1.0",
+    "uuid": "^9.0.0"
+  },
+  "build": {
+    "appId": "com.netpilot.router-agent",
+    "productName": "NetPilot Router Agent",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "assets/icon.icns"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "assets/icon.png"
+    }
+  }
+}

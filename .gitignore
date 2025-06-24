@@ -1,0 +1,24 @@
+venv/
+backend/venv/
+.qodo
+node_modules/
+frontend/node_modules/
+agent/node_modules/
+data/config.json
+.env
+backend/logs/database.log
+backend/logs/netpilot.log
+data/devices.json
+
+# Agent deployment scripts (contain passwords)
+agent/cloud-port-manager/deploy.sh
+agent/DEBUG_AND_FIX.md
+agent/PHASE_2_VERIFICATION_SUMMARY.md
+agent/PHASE_3_INVESTIGATION_SUMMARY.md
+agent/PHASE_4_VERIFICATION_SUMMARY.md
+agent/PHASE_5_VERIFICATION_SUMMARY.md
+agent/PHASE_6_VERIFICATION_SUMMARY.md
+agent/PHASE_7_VERIFICATION_SUMMARY.md
+agent/PHASE_8_VERIFICATION_SUMMARY.md
+agent/PHASE_9_VERIFICATION_SUMMARY.md
+agent/PHASE_10_VERIFICATION_SUMMARY.md

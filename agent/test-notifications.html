@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification Test</title>
+    <link rel="stylesheet" href="src/renderer/styles/main.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="app-header">
+            <h1>Notification Press Outside Test</h1>
+        </div>
+        <div class="main-content">
+            <section>
+                <h2>Test Notifications</h2>
+                <p>Click buttons to create notifications, then click outside any notification to close ALL notifications.</p>
+                
+                <div class="form-actions">
+                    <button id="add-success" class="btn btn-success">Add Success Notification</button>
+                    <button id="add-error" class="btn btn-danger">Add Error Notification</button>
+                    <button id="add-warning" class="btn btn-secondary">Add Warning Notification</button>
+                    <button id="add-info" class="btn btn-primary">Add Info Notification</button>
+                    <button id="clear-all" class="btn btn-utility">Clear All Notifications</button>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <script>
+        // Simplified notification system for testing
+        class NotificationTester {
+            constructor() {
+                this.setupEventListeners();
+            }
+
+            setupEventListeners() {
+                document.getElementById('add-success').addEventListener('click', () => {
+                    this.showNotification('✅ Operation completed successfully!', 'success');
+                });
+                
+                document.getElementById('add-error').addEventListener('click', () => {
+                    this.showNotification('❌ Something went wrong. Please try again.', 'error');
+                });
+                
+                document.getElementById('add-warning').addEventListener('click', () => {
+                    this.showNotification('⚠️ Warning: This action may have consequences.', 'warning');
+                });
+                
+                document.getElementById('add-info').addEventListener('click', () => {
+                    this.showNotification('📋 Information: Process is running in background.', 'info');
+                });
+                
+                document.getElementById('clear-all').addEventListener('click', () => {
+                    this.removeAllNotifications();
+                });
+            }
+
+            showNotification(message, type = 'info') {
+                const container = document.getElementById('notification-container');
+                if (!container) return;
+
+                // Create or get existing shared backdrop for all notifications
+                let backdrop = document.querySelector('.notification-backdrop');
+                if (!backdrop) {
+                    backdrop = document.createElement('div');
+                    backdrop.className = 'notification-backdrop';
+                    document.body.appendChild(backdrop);
+                    
+                    // Click outside to dismiss ALL notifications
+                    backdrop.addEventListener('click', () => {
+                        this.removeAllNotifications();
+                    });
+                }
+
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                
+                // Extract emoji from message for cleaner display
+                const emojiMatch = message.match(/^([✅❌⚠️🔒⚙️📋]+)\s*(.*)/);
+                const emoji = emojiMatch ? emojiMatch[1] : this.getNotificationIcon(type);
+                const cleanMessage = emojiMatch ? emojiMatch[2] : message;
+                
+                notification.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 500; margin-bottom: 0.25rem;">
+                        <span style="font-size: 1rem;">${emoji}</span>
+                        <span>${this.getNotificationTitle(type)}</span>
+                    </div>
+                    <div style="font-size: 0.85rem; line-height: 1.4;">${cleanMessage}</div>
+                `;
+
+                container.appendChild(notification);
+
+                // Auto-remove after 6 seconds
+                const autoRemove = setTimeout(() => {
+                    this.removeNotification(notification);
+                }, 6000);
+
+                // Allow manual dismiss on click
+                notification.addEventListener('click', () => {
+                    clearTimeout(autoRemove);
+                    this.removeNotification(notification);
+                });
+
+                // Store timeout for cleanup
+                notification._autoRemove = autoRemove;
+            }
+
+            removeNotification(notification) {
+                if (notification && notification.parentNode) {
+                    // Clear any pending auto-remove timeout
+                    if (notification._autoRemove) {
+                        clearTimeout(notification._autoRemove);
+                    }
+                    notification.parentNode.removeChild(notification);
+                }
+                
+                // Remove backdrop if no more notifications
+                this.cleanupBackdrop();
+            }
+
+            removeAllNotifications() {
+                const container = document.getElementById('notification-container');
+                if (!container) return;
+
+                // Get all notifications and clear their timeouts
+                const notifications = container.querySelectorAll('.notification');
+                notifications.forEach(notification => {
+                    if (notification._autoRemove) {
+                        clearTimeout(notification._autoRemove);
+                    }
+                });
+
+                // Clear all notifications
+                container.innerHTML = '';
+                
+                // Remove backdrop
+                this.cleanupBackdrop();
+            }
+
+            cleanupBackdrop() {
+                const container = document.getElementById('notification-container');
+                const backdrop = document.querySelector('.notification-backdrop');
+                
+                // Remove backdrop if no notifications remain
+                if (backdrop && container && container.children.length === 0) {
+                    backdrop.parentNode.removeChild(backdrop);
+                }
+            }
+
+            getNotificationTitle(type) {
+                const titles = {
+                    success: 'Success',
+                    error: 'Error',
+                    warning: 'Warning',
+                    info: 'Information'
+                };
+                return titles[type] || 'Notification';
+            }
+
+            getNotificationIcon(type) {
+                const icons = {
+                    success: '✅',
+                    error: '❌',
+                    warning: '⚠️',
+                    info: '📋'
+                };
+                return icons[type] || '📋';
+            }
+        }
+
+        // Initialize the notification tester
+        new NotificationTester();
+    </script>
+</body>
+</html> 
