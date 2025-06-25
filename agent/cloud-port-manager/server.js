@@ -170,6 +170,33 @@ class CloudPortManagerServer {
       }
     });
 
+    // Port ownership verification endpoint (NEW)
+    this.app.post('/api/verify-port-ownership', async (req, res) => {
+      try {
+        const { port, routerId } = req.body;
+
+        if (!port || !routerId) {
+          return res.status(400).json({
+            success: false,
+            error: 'Both port and routerId are required'
+          });
+        }
+
+        const verification = await this.portManager.verifyPortOwnership(parseInt(port), routerId);
+        
+        res.json({
+          success: true,
+          data: verification
+        });
+      } catch (error) {
+        console.error('Port ownership verification error:', error);
+        res.status(500).json({
+          success: false,
+          error: error.message
+        });
+      }
+    });
+
     // Tunnel connectivity test endpoint - actually tests SSH through reverse tunnel
     this.app.post('/api/test-tunnel/:port', async (req, res) => {
       try {

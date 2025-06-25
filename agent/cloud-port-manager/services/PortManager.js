@@ -15,7 +15,10 @@ class PortManager {
     };
     
     // Timeout configuration (in milliseconds)
-    this.inactivityTimeout = 24 * 60 * 60 * 1000; // 24 hours
+    this.inactivityTimeout = 7 * 24 * 60 * 60 * 1000; // 1 week (7 days)
+    
+    // Start the daily cleanup scheduler
+    this.startCleanupScheduler();
   }
 
   async initialize() {
@@ -47,32 +50,121 @@ class PortManager {
   }
 
   async createTables() {
-    const sql = `
-      CREATE TABLE IF NOT EXISTS port_allocations (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        port INTEGER NOT NULL UNIQUE,
-        router_id TEXT NOT NULL,
-        router_username TEXT,
-        router_password TEXT,
-        allocated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        last_heartbeat DATETIME DEFAULT CURRENT_TIMESTAMP,
-        status TEXT DEFAULT 'active',
-        metadata TEXT
-      );
-      
-      CREATE INDEX IF NOT EXISTS idx_router_id ON port_allocations(router_id);
-      CREATE INDEX IF NOT EXISTS idx_port ON port_allocations(port);
-      CREATE INDEX IF NOT EXISTS idx_status ON port_allocations(status);
-    `;
+    return new Promise((resolve, reject) => {
+      // First, try to create the main table
+      const createTableSql = `
+        CREATE TABLE IF NOT EXISTS port_allocations (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          port INTEGER NOT NULL UNIQUE,
+          router_id TEXT NOT NULL,
+          router_username TEXT,
+          router_password TEXT,
+          allocated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          last_heartbeat DATETIME DEFAULT CURRENT_TIMESTAMP,
+          status TEXT DEFAULT 'active',
+          metadata TEXT
+        )
+      `;
+
+      this.db.run(createTableSql, (err) => {
+        if (err) {
+          console.error('Failed to create main table:', err);
+          reject(err);
+          return;
+        }
+
+        console.log('Main table created/verified');
+        
+        // Then create indexes
+        this.createIndexes()
+          .then(() => this.addLastVerificationColumn())
+          .then(resolve)
+          .catch(reject);
+      });
+    });
+  }
+
+  async createIndexes() {
+    const indexes = [
+      'CREATE INDEX IF NOT EXISTS idx_router_id ON port_allocations(router_id)',
+      'CREATE INDEX IF NOT EXISTS idx_port ON port_allocations(port)',
+      'CREATE INDEX IF NOT EXISTS idx_status ON port_allocations(status)'
+    ];
 
     return new Promise((resolve, reject) => {
-      this.db.exec(sql, (err) => {
+      let completed = 0;
+      const total = indexes.length;
+
+      indexes.forEach((indexSql, i) => {
+        this.db.run(indexSql, (err) => {
+          if (err && !err.message.includes('already exists')) {
+            console.warn(`Index ${i} creation warning:`, err.message);
+          }
+          
+          completed++;
+          if (completed === total) {
+            console.log('Database indexes created/verified');
+            resolve();
+          }
+        });
+      });
+    });
+  }
+
+  async addLastVerificationColumn() {
+    // Add last_verification column if it doesn't exist (for existing databases)
+    return new Promise((resolve) => {
+      // First, check if column already exists
+      this.db.all("PRAGMA table_info(port_allocations)", (err, columns) => {
         if (err) {
-          console.error('Failed to create tables:', err);
-          reject(err);
-        } else {
-          console.log('Database tables initialized');
+          console.log('⚠️ Error checking table structure:', err.message);
           resolve();
+          return;
+        }
+        
+        const hasVerificationColumn = columns.some(col => col.name === 'last_verification');
+        
+        if (hasVerificationColumn) {
+          console.log('✅ last_verification column already exists');
+          // Still create index if needed
+          this.db.run('CREATE INDEX IF NOT EXISTS idx_last_verification ON port_allocations(last_verification)', (indexErr) => {
+            if (indexErr) {
+              console.log('⚠️ Error creating verification index:', indexErr.message);
+            } else {
+              console.log('✅ last_verification index created/verified');
+            }
+            resolve();
+          });
+        } else {
+          // Add column without default value, then update existing rows
+          this.db.run('ALTER TABLE port_allocations ADD COLUMN last_verification DATETIME', (addErr) => {
+            if (addErr) {
+              console.log('⚠️ Error adding last_verification column:', addErr.message);
+              resolve();
+              return;
+            }
+            
+            console.log('✅ Added last_verification column to existing table');
+            
+            // Update existing rows to have current timestamp
+            this.db.run('UPDATE port_allocations SET last_verification = CURRENT_TIMESTAMP WHERE last_verification IS NULL', (updateErr) => {
+              if (updateErr) {
+                console.log('⚠️ Error updating existing rows:', updateErr.message);
+              } else {
+                console.log('✅ Updated existing rows with current timestamp');
+              }
+              
+              // Create the index
+              this.db.run('CREATE INDEX IF NOT EXISTS idx_last_verification ON port_allocations(last_verification)', (indexErr) => {
+                if (indexErr) {
+                  console.log('⚠️ Error creating verification index:', indexErr.message);
+                } else {
+                  console.log('✅ last_verification index created/verified');
+                }
+                resolve();
+              });
+            });
+          });
         }
       });
     });
@@ -119,8 +211,8 @@ class PortManager {
         }
         
         const insertSql = `
-          INSERT OR IGNORE INTO port_allocations (port, router_id, router_username, router_password, metadata, allocated_at, last_heartbeat, status)
-          VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'active')
+          INSERT OR IGNORE INTO port_allocations (port, router_id, router_username, router_password, metadata, allocated_at, last_heartbeat, last_verification, status)
+          VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'active')
         `;
         
         const username = routerCredentials?.username || null;
@@ -292,7 +384,7 @@ class PortManager {
       // First try to update with exact router ID match
       const sql = `
         UPDATE port_allocations 
-        SET last_heartbeat = CURRENT_TIMESTAMP
+        SET last_heartbeat = CURRENT_TIMESTAMP, last_verification = CURRENT_TIMESTAMP
         WHERE port = ? AND router_id = ? AND status = 'active'
       `;
 
@@ -303,7 +395,7 @@ class PortManager {
         }
 
         if (this.changes > 0) {
-          console.log(`Heartbeat updated for port ${port} with router ${routerId}`);
+          console.log(`Heartbeat and verification updated for port ${port} with router ${routerId}`);
           resolve(true);
           return;
         }
@@ -311,7 +403,7 @@ class PortManager {
         // If no exact match, try to update just by port (for legacy compatibility)
         const fallbackSql = `
           UPDATE port_allocations 
-          SET last_heartbeat = CURRENT_TIMESTAMP
+          SET last_heartbeat = CURRENT_TIMESTAMP, last_verification = CURRENT_TIMESTAMP
           WHERE port = ? AND status = 'active'
         `;
 
@@ -325,8 +417,8 @@ class PortManager {
             // Create a new allocation entry if port is not found
             console.log(`Creating new allocation for heartbeat on port ${port} with router ${routerId}`);
             const insertSql = `
-              INSERT OR REPLACE INTO port_allocations (port, router_id, metadata, allocated_at, last_heartbeat, status)
-              VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'active')
+              INSERT OR REPLACE INTO port_allocations (port, router_id, metadata, allocated_at, last_heartbeat, last_verification, status)
+              VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'active')
             `;
             
             this.db.run(insertSql, [port, routerId, JSON.stringify({})], function(insertErr) {
@@ -338,7 +430,7 @@ class PortManager {
               resolve(true);
             });
           } else {
-            console.log(`Heartbeat updated for port ${port} (fallback mode)`);
+            console.log(`Heartbeat and verification updated for port ${port} (fallback mode)`);
             resolve(true);
           }
         });
@@ -350,24 +442,48 @@ class PortManager {
     const cutoffTime = new Date(Date.now() - this.inactivityTimeout).toISOString();
     
     return new Promise((resolve, reject) => {
-      const sql = `
-        UPDATE port_allocations 
-        SET status = 'expired'
+      // First, get the ports that will be cleaned up for logging
+      const selectSql = `
+        SELECT port, router_id, last_verification 
+        FROM port_allocations 
         WHERE status = 'active' 
-        AND last_heartbeat < ?
+        AND last_verification < ?
       `;
-
-      this.db.run(sql, [cutoffTime], function(err) {
-        if (err) {
-          reject(err);
+      
+      this.db.all(selectSql, [cutoffTime], (selectErr, rows) => {
+        if (selectErr) {
+          reject(selectErr);
           return;
         }
-
-        if (this.changes > 0) {
-          console.log(`Cleaned up ${this.changes} inactive port allocations`);
+        
+        if (rows.length > 0) {
+          console.log(`🧹 Port cleanup: Found ${rows.length} ports to release due to 1-week inactivity:`);
+          rows.forEach(row => {
+            const daysSinceVerification = Math.floor((Date.now() - new Date(row.last_verification).getTime()) / (24 * 60 * 60 * 1000));
+            console.log(`  - Port ${row.port} (Router: ${row.router_id}, Last verified: ${daysSinceVerification} days ago)`);
+          });
         }
+        
+        // Now update the status to expired
+        const sql = `
+          UPDATE port_allocations 
+          SET status = 'expired'
+          WHERE status = 'active' 
+          AND last_verification < ?
+        `;
 
-        resolve(this.changes);
+        this.db.run(sql, [cutoffTime], function(err) {
+          if (err) {
+            reject(err);
+            return;
+          }
+
+          if (this.changes > 0) {
+            console.log(`✅ Cleaned up ${this.changes} inactive port allocations (1-week cooldown expired)`);
+          }
+
+          resolve(this.changes);
+        });
       });
     });
   }
@@ -475,6 +591,106 @@ class PortManager {
         });
       });
     });
+  }
+
+  // New method: Port ownership verification
+  async verifyPortOwnership(port, routerId) {
+    return new Promise((resolve, reject) => {
+      const sql = `
+        SELECT port, router_id 
+        FROM port_allocations 
+        WHERE port = ? AND router_id = ? AND status = 'active'
+        LIMIT 1
+      `;
+
+      this.db.get(sql, [port, routerId], (err, row) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        const isOwner = !!row;
+        
+        if (isOwner) {
+          // Update last_verification timestamp if ownership is confirmed
+          const updateSql = `
+            UPDATE port_allocations 
+            SET last_verification = CURRENT_TIMESTAMP
+            WHERE port = ? AND router_id = ? AND status = 'active'
+          `;
+          
+          this.db.run(updateSql, [port, routerId], (updateErr) => {
+            if (updateErr) {
+              console.warn(`Failed to update verification timestamp for port ${port}:`, updateErr);
+              // Still resolve with ownership confirmation even if timestamp update fails
+            } else {
+              console.log(`✅ Port ownership verified and verification timestamp updated for port ${port}, router ${routerId}`);
+            }
+            
+            resolve({
+              isOwner: true,
+              port: port,
+              routerId: routerId,
+              verifiedAt: new Date().toISOString()
+            });
+          });
+        } else {
+          console.log(`❌ Port ownership verification failed for port ${port}, router ${routerId}`);
+          resolve({
+            isOwner: false,
+            port: port,
+            routerId: routerId,
+            reason: 'Port not allocated to this router or not active'
+          });
+        }
+      });
+    });
+  }
+
+  // New method: Daily cleanup scheduler
+  startCleanupScheduler() {
+    console.log('🕐 Starting daily port cleanup scheduler (12:00 AM UTC)');
+    
+    // Calculate milliseconds until next 12:00 AM UTC
+    const now = new Date();
+    const nextMidnight = new Date();
+    nextMidnight.setUTCHours(24, 0, 0, 0); // Next day at 00:00 UTC
+    
+    const msUntilMidnight = nextMidnight.getTime() - now.getTime();
+    
+    // Set initial timeout to next midnight
+    setTimeout(() => {
+      this.runScheduledCleanup();
+      
+      // Then run every 24 hours
+      setInterval(() => {
+        this.runScheduledCleanup();
+      }, 24 * 60 * 60 * 1000); // 24 hours
+      
+    }, msUntilMidnight);
+    
+    console.log(`⏱️ Next cleanup scheduled for: ${nextMidnight.toISOString()}`);
+  }
+
+  async runScheduledCleanup() {
+    console.log('🧹 Running scheduled daily port cleanup (12:00 AM UTC)...');
+    
+    try {
+      const cleanedCount = await this.cleanupInactiveAllocations();
+      
+      if (cleanedCount > 0) {
+        console.log(`🎯 Daily cleanup completed: Released ${cleanedCount} ports due to 1-week inactivity`);
+      } else {
+        console.log('✨ Daily cleanup completed: No ports required cleanup');
+      }
+      
+      // Log current stats after cleanup
+      const stats = await this.getStats();
+      console.log('📊 Port allocation stats after cleanup:', stats);
+      
+    } catch (error) {
+      console.error('❌ Daily cleanup failed:', error);
+    }
   }
 
   async cleanup() {

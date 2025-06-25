@@ -273,30 +273,45 @@ class PortAllocator {
     logger.port(`Verifying port ${port} ownership for router ${routerId}...`);
     
     try {
-      // TEMPORARY: Try the new verification endpoint first
-      const response = await this.callCloudVmAPI('GET', `/api/verify-port-ownership?port=${port}&routerId=${routerId}`);
-      
-      if (response.success) {
-        const isOwner = response.data.isOwner;
-        const status = response.data.status;
+      // Test cloud VM connectivity first
+      const isCloudAvailable = await this.testCloudVmConnectivity();
+      if (!isCloudAvailable) {
+        logger.warn('Cloud VM not available, falling back to local verification');
+        return await this.verifyPortOwnershipLocal(port, routerId);
+      }
+
+      // Call cloud VM port ownership verification API (new endpoint)
+      const response = await this.callCloudVmAPI('POST', '/api/verify-port-ownership', {
+        port: port,
+        routerId: routerId
+      });
+
+      if (response.success && response.data) {
+        const verification = response.data;
         
-        logger.port(`Port ${port} verification result: ${isOwner ? 'OWNED' : 'NOT_OWNED'} (status: ${status})`);
-        
+        if (verification.isOwner) {
+          logger.port(`✅ Port ${port} ownership verified via cloud VM (resets 1-week cooldown timer)`);
+        } else {
+          logger.port(`❌ Port ${port} ownership verification failed: ${verification.reason || 'Not owner'}`);
+        }
+
         return {
-          isOwner: isOwner,
-          status: status,
-          lastHeartbeat: response.data.lastHeartbeat,
-          allocatedAt: response.data.allocatedAt
+          isOwner: verification.isOwner,
+          status: verification.isOwner ? 'active' : 'not_owned',
+          verifiedAt: verification.verifiedAt,
+          verificationMethod: 'cloud',
+          reason: verification.reason
         };
       } else {
-        logger.warn(`Port ownership verification failed: ${response.error}`);
-        return { isOwner: false, status: 'verification_failed' };
+        throw new Error(response.error || 'Port ownership verification failed');
       }
-    } catch (error) {
-      logger.warn('New verification endpoint not available, falling back to port status check...');
       
-      // FALLBACK: Use existing port status endpoint as temporary verification
+    } catch (error) {
+      logger.warn('Cloud port ownership verification failed:', error.message);
+      
+      // FALLBACK: Use existing port status endpoint as backup verification
       try {
+        logger.port('Attempting fallback verification via port status endpoint...');
         const statusResponse = await this.callCloudVmAPI('GET', `/api/port-status?port=${port}`);
         
         if (statusResponse.success && statusResponse.data) {
@@ -311,17 +326,51 @@ class PortAllocator {
             isOwner: isOwner,
             status: portData.status,
             lastHeartbeat: portData.lastHeartbeat,
-            allocatedAt: portData.allocatedAt
+            allocatedAt: portData.allocatedAt,
+            verificationMethod: 'fallback_status'
           };
         } else {
           logger.warn('Port status check also failed');
-          return { isOwner: false, status: 'port_not_found' };
+          return await this.verifyPortOwnershipLocal(port, routerId);
         }
       } catch (fallbackError) {
-        logger.error('Port ownership verification failed completely:', fallbackError);
-        // If port manager is completely unavailable, conservatively assume ownership is lost
-        return { isOwner: false, status: 'port_manager_unavailable' };
+        logger.error('Fallback port ownership verification failed:', fallbackError);
+        return await this.verifyPortOwnershipLocal(port, routerId);
       }
+    }
+  }
+
+  async verifyPortOwnershipLocal(port, routerId) {
+    // Local verification as final fallback
+    logger.port('Using local port ownership verification (final fallback)');
+    
+    try {
+      if (this.allocatedPort === port && this.routerId === routerId) {
+        logger.port(`✅ Port ${port} ownership verified locally`);
+        return {
+          isOwner: true,
+          status: 'active',
+          verifiedAt: new Date().toISOString(),
+          verificationMethod: 'local_fallback',
+          note: 'Cloud verification unavailable, using local state'
+        };
+      } else {
+        logger.port(`❌ Local port ${port} ownership verification failed (allocated: ${this.allocatedPort}, router: ${this.routerId})`);
+        return {
+          isOwner: false,
+          status: 'not_owned',
+          verificationMethod: 'local_fallback',
+          reason: 'Port not allocated to this router (local check)'
+        };
+      }
+    } catch (error) {
+      logger.error('Local port ownership verification failed:', error);
+      return {
+        isOwner: false,
+        status: 'verification_error',
+        verificationMethod: 'local_fallback',
+        error: error.message
+      };
     }
   }
 
