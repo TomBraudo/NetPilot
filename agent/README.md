@@ -60,6 +60,265 @@ This opens the app with developer tools enabled.
 npm start
 ```
 
+## Local Testing Guide
+
+### Testing on Windows
+
+1. **Native Windows (Recommended)**:
+   ```bash
+   # Navigate to agent directory
+   cd agent
+
+   # Install dependencies and run
+   npm install
+   npm run dev
+   ```
+
+2. **Windows with WSL** (requires additional setup - see WSL section below)
+
+### Testing on macOS
+
+```bash
+# Navigate to agent directory
+cd agent
+
+# Install dependencies
+npm install
+
+# Run in development mode
+npm run dev
+```
+
+### Testing on Linux
+
+#### Native Linux (Ubuntu/Debian)
+
+1. **Install system dependencies**:
+   ```bash
+   # Update package lists
+   sudo apt-get update
+
+   # Install required Electron dependencies
+   sudo apt-get install build-essential clang libdbus-1-dev libgtk-3-dev \
+                        libnotify-dev libasound2-dev libcap-dev \
+                        libcups2-dev libxtst-dev libxss1 libnss3-dev \
+                        gcc-multilib g++-multilib curl gperf bison \
+                        python3-dbusmock openjdk-8-jre
+
+   # Install runtime libraries
+   sudo apt-get install libnss3 libnss3-tools libatk-bridge2.0-0 \
+                        libdrm2 libxcomposite1 libxdamage1 libxrandr2 \
+                        libgbm1 libxkbcommon0 libgtk-3-0 libasound2
+
+   # Install keytar dependencies (for secure credential storage)
+   sudo apt-get install libsecret-1-0
+   ```
+
+2. **Run the application**:
+   ```bash
+   cd agent
+   npm install
+   npm run dev
+   ```
+
+#### WSL (Windows Subsystem for Linux)
+
+1. **Install system dependencies** (same as Linux above):
+   ```bash
+   sudo apt-get update
+   sudo apt-get install build-essential clang libdbus-1-dev libgtk-3-dev \
+                        libnotify-dev libasound2-dev libcap-dev \
+                        libcups2-dev libxtst-dev libxss1 libnss3-dev \
+                        gcc-multilib g++-multilib curl gperf bison \
+                        python3-dbusmock openjdk-8-jre
+
+   sudo apt-get install libnss3 libnss3-tools libatk-bridge2.0-0 \
+                        libdrm2 libxcomposite1 libxdamage1 libxrandr2 \
+                        libgbm1 libxkbcommon0 libgtk-3-0 libasound2 \
+                        libsecret-1-0
+   ```
+
+2. **Setup display server** (for GUI):
+   ```bash
+   # Option 1: Use WSLg (Windows 11 with WSL 2.0+)
+   # WSLg should work automatically - just run the app
+
+   # Option 2: Use X11 forwarding (if WSLg not available)
+   export DISPLAY=:0
+   
+   # Option 3: Use software rendering (fallback)
+   npm run dev -- --disable-gpu --disable-software-rasterizer
+   ```
+
+3. **Run the application**:
+   ```bash
+   cd agent
+   npm install
+   npm run dev
+   ```
+
+4. **Common WSL warnings** (can be ignored):
+   ```
+   Warning: vkCreateInstance: Found no drivers!
+   Warning: EGL_EXT_create_context_robustness must be supported
+   ```
+   These are normal graphics warnings in WSL and don't affect functionality.
+
+### Testing Environment Setup
+
+1. **Create test configuration**:
+   ```bash
+   # Copy example environment
+   cp env.example .env
+
+   # Edit with test credentials
+   nano .env
+   ```
+
+2. **Test credentials** (for local testing):
+   ```env
+   CLOUD_VM_IP=34.38.207.87
+   CLOUD_VM_USER=netpilot-agent
+   CLOUD_VM_PASSWORD=your_cloud_vm_password
+   CLOUD_VM_PORT=22
+   PORT_RANGE_MIN=2200
+   PORT_RANGE_MAX=2299
+   ```
+
+### Testing Different Scenarios
+
+#### 1. **Router Connection Testing**
+   - Test with valid router credentials
+   - Test with invalid credentials
+   - Test connection timeout scenarios
+   - Test with different router IP formats
+
+#### 2. **Package Installation Testing**
+   - Test on routers with internet access
+   - Test on routers without internet access
+   - Test with insufficient storage space
+   - Test package installation rollback
+
+#### 3. **Tunnel Establishment Testing**
+   - Test successful tunnel creation
+   - Test tunnel with cloud VM authentication
+   - Test tunnel persistence and auto-restart
+   - Test multiple simultaneous tunnels
+
+#### 4. **Error Handling Testing**
+   - Test network connectivity issues
+   - Test SSH authentication failures
+   - Test cloud VM unreachable scenarios
+   - Test port allocation conflicts
+
+### Development Tools
+
+1. **Enable Developer Tools**:
+   ```bash
+   npm run dev  # Automatically enables DevTools
+   ```
+
+2. **View Application Logs**:
+   - Use the "View Logs" button in the app footer
+   - Or check log files in `logs/` directory
+   - Real-time logging in DevTools console
+
+3. **Debug Mode**:
+   ```bash
+   # Run with additional debugging
+   DEBUG=* npm run dev
+   ```
+
+### Testing Commands Reference
+
+```bash
+# Install and run
+npm install && npm run dev
+
+# Clean install (if dependencies have issues)
+rm -rf node_modules package-lock.json
+npm install
+npm run dev
+
+# Test build process
+npm run build
+
+# Run with specific Electron version
+npx electron@28.0.0 .
+
+# Run with software rendering (WSL)
+npm run dev -- --disable-gpu --disable-software-rasterizer
+
+# Run in verbose mode
+DEBUG=* npm run dev
+```
+
+### Troubleshooting Local Testing
+
+#### **Missing Shared Libraries (Linux/WSL)**
+If you encounter `libXXX.so: cannot open shared object file`:
+
+1. **Identify the missing library**:
+   ```bash
+   ldd node_modules/electron/dist/electron | grep "not found"
+   ```
+
+2. **Install the missing library**:
+   ```bash
+   # For Ubuntu/Debian
+   sudo apt-get install lib[package-name]
+   
+   # Examples:
+   sudo apt-get install libnss3        # for libnss3.so
+   sudo apt-get install libasound2     # for libasound.so.2
+   sudo apt-get install libsecret-1-0  # for libsecret-1.so.0
+   ```
+
+#### **Display Issues (WSL)**
+```bash
+# Try different display configurations
+export DISPLAY=:0.0
+export DISPLAY=localhost:0.0
+
+# Use software rendering
+npm run dev -- --disable-gpu
+
+# Check if WSLg is available
+echo $WAYLAND_DISPLAY
+```
+
+#### **Permission Errors**
+```bash
+# Fix npm permissions (Linux/macOS)
+sudo chown -R $(whoami) ~/.npm
+sudo chown -R $(whoami) node_modules/
+
+# Fix Electron permissions
+chmod +x node_modules/electron/dist/electron
+```
+
+#### **Port Already in Use**
+```bash
+# Find and kill process using port 3000
+sudo lsof -ti:3000 | xargs kill -9
+
+# Or use different port
+PORT=3001 npm run dev
+```
+
+### Testing Checklist
+
+Before submitting changes, verify:
+
+- ✅ App starts without errors on your platform
+- ✅ UI loads and displays correctly
+- ✅ Router connection test works
+- ✅ Environment variables are loaded
+- ✅ Logs are being written correctly
+- ✅ No sensitive data in logs
+- ✅ DevTools console shows no critical errors
+- ✅ App can be built for distribution
+
 ## Building for Distribution
 
 ### Build for current platform
@@ -132,77 +391,3 @@ Application logs are available through the "View Logs" button in the footer.
 ## Architecture
 
 ```
-┌─────────────────┐    ┌──────────────┐    ┌──────────────┐
-│ NetPilot Agent  │───▶│ OpenWrt      │───▶│ Cloud VM     │
-│ (This App)      │    │ Router       │    │ (34.38.207.87)│
-└─────────────────┘    └──────────────┘    └──────────────┘
-        │                       │                    │
-        │                       │                    │
-        ▼                       ▼                    ▼
-   - Router Setup          - Package Install    - Port Allocation
-   - Tunnel Config         - SSH Tunnel         - NetPilot Backend
-   - Status Monitor        - Auto-restart       - Dashboard Access
-```
-
-## Required Router Packages
-
-The agent automatically installs these packages:
-
-- `openssh-client`, `autossh` - For tunnel establishment
-- `firewall4`, `iptables-mod-ipopt` - For NetPilot firewall features
-- `tc`, `kmod-sched`, `kmod-sched-core` - For bandwidth limiting
-- `uci`, `ip-full`, `dnsmasq` - For configuration management
-- `curl`, `wget`, `ca-certificates` - For external communication
-- `cron` - For scheduled operations
-
-## API Integration
-
-After successful setup, the agent provides router credentials for NetPilot frontend integration:
-
-```javascript
-// Access router credentials in frontend
-const credentials = app.getRouterApiCredentials();
-if (credentials) {
-  // Use for API calls to router through tunnel
-  console.log('Router Host:', credentials.host);
-  console.log('Tunnel Port:', credentials.tunnelPort);
-  console.log('Cloud VM IP:', credentials.cloudVmIp);
-}
-```
-
-**Available API Methods:**
-- `getRouterApiCredentials()`: Returns router connection details
-- `getConfig()`: Returns current application configuration
-- `getRouterCredentials()`: Returns full router credential object
-- `getCloudVmAccess()`: Returns cloud VM access information
-
-## Security
-
-### Password Management
-- Router passwords are stored securely using the system keychain (keytar)
-- All passwords in logs are automatically redacted as `[REDACTED]`
-- Environment variables are used for sensitive configuration
-- No credentials are hardcoded in source files
-
-### Test Files
-- All test files use placeholder credentials (`YOUR_ROUTER_PASSWORD_HERE`)
-- Update test credentials locally before running tests
-- Never commit real passwords or keys to the repository
-
-### Log File Security
-- Log files are automatically gitignored
-- Sensitive data is masked in log output
-- Clear logs before committing changes
-
-### Environment Configuration
-1. Copy `env.example` to `.env`
-2. Fill in your actual credentials
-3. Never commit the `.env` file
-
-## License
-
-MIT License - © 2024 NetPilot Team
-
----
-
-**Need Help?** Check the troubleshooting section or contact support. 
