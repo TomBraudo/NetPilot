@@ -1,6 +1,7 @@
 const { NodeSSH } = require('node-ssh');
 const path = require('path');
 const ConfigManager = require('./ConfigManager');
+const StateManager = require('./StateManager');
 const axios = require('axios');
 const logger = require('../utils/Logger');
 
@@ -23,6 +24,9 @@ class TunnelManager {
     this.heartbeatInterval = null;
     this.monitorInterval = null;
     this._lastFuncCheck = 0; // For periodic functionality checks
+    
+    // Initialize state manager for persistent storage
+    this.stateManager = new StateManager();
   }
 
   async establishTunnel(credentials, port, routerId = null) {
@@ -73,6 +77,9 @@ class TunnelManager {
       this.startHeartbeat();
       
       logger.tunnel(`Tunnel established successfully on port ${port}`);
+      
+      // Save tunnel state for persistence
+      await this.saveTunnelState();
       
       return {
         success: true,
@@ -924,8 +931,37 @@ EOF`);
     }
   }
 
+  // Cleanup for app shutdown - preserves state for auto-restore
+  async cleanupForShutdown() {
+    logger.tunnel('Cleaning up tunnel manager for app shutdown (preserving state)...');
+    
+    try {
+      // Stop monitoring and heartbeat
+      this.stopMonitoring();
+      this.stopHeartbeat();
+      
+      // Stop tunnel processes on router but keep them auto-restartable
+      if (this.isConnected && this.tunnelPort) {
+        logger.tunnel('Stopping tunnel processes for shutdown...');
+        await this.stopTunnel();
+      }
+      
+      // Disconnect SSH but don't clear credentials/state
+      if (this.isConnected && this.ssh) {
+        await this.ssh.dispose();
+        this.isConnected = false;
+      }
+      
+      // DON'T clear state - it will be restored on next startup
+      logger.tunnel('Tunnel manager shutdown cleanup completed (state preserved)');
+    } catch (error) {
+      logger.error('Shutdown cleanup error:', error);
+    }
+  }
+
+  // Cleanup for user disconnect - clears all state
   async cleanup() {
-    logger.tunnel('Cleaning up tunnel manager...');
+    logger.tunnel('Cleaning up tunnel manager for user disconnect...');
     
     try {
       await this.stopTunnel();
@@ -938,6 +974,9 @@ EOF`);
       this.routerCredentials = null;
       this.tunnelPort = null;
       this.routerId = null;
+      
+      // Clear persistent state only for user disconnect
+      await this.clearTunnelState();
       
       logger.tunnel('Tunnel manager cleanup completed');
     } catch (error) {
@@ -1337,6 +1376,164 @@ EOF`);
       if (error.stdout) logger.error('Cleanup error stdout:', error.stdout);
       if (error.stderr) logger.error('Cleanup error stderr:', error.stderr);
       // Don't throw error - cleanup is best effort
+    }
+  }
+
+  // State Management Methods
+  async saveTunnelState() {
+    if (!this.tunnelPort || !this.routerCredentials || !this.routerId) {
+      logger.warn('Cannot save tunnel state - missing required data');
+      return false;
+    }
+
+    const tunnelState = {
+      port: this.tunnelPort,
+      routerId: this.routerId,
+      routerCredentials: {
+        host: this.routerCredentials.host,
+        username: this.routerCredentials.username,
+        password: this.routerCredentials.password,
+        port: this.routerCredentials.port || 22
+      },
+      cloudVmIp: this.cloudVmIp,
+      cloudUser: this.cloudUser,
+      cloudPort: this.cloudPort,
+      established: new Date().toISOString(),
+      lastHeartbeat: new Date().toISOString()
+    };
+
+    try {
+      const success = await this.stateManager.saveTunnelState(tunnelState);
+      if (success) {
+        logger.info('Tunnel state saved successfully');
+      } else {
+        logger.error('Failed to save tunnel state');
+      }
+      return success;
+    } catch (error) {
+      logger.error('Error saving tunnel state:', error);
+      return false;
+    }
+  }
+
+  async restoreFromState() {
+    try {
+      const savedState = await this.stateManager.getTunnelState();
+      if (!savedState) {
+        logger.info('No saved tunnel state found');
+        return null;
+      }
+
+      logger.info('Found saved tunnel state, attempting to restore...');
+      
+      // Restore tunnel properties
+      this.tunnelPort = savedState.port;
+      this.routerId = savedState.routerId;
+      this.routerCredentials = savedState.routerCredentials;
+      this.cloudVmIp = savedState.cloudVmIp;
+      this.cloudUser = savedState.cloudUser;
+      this.cloudPort = savedState.cloudPort;
+
+      // Try to reconnect to router
+      try {
+        await this.ssh.connect({
+          host: this.routerCredentials.host,
+          username: this.routerCredentials.username,
+          password: this.routerCredentials.password,
+          port: this.routerCredentials.port || 22,
+          readyTimeout: 30000
+        });
+
+        this.isConnected = true;
+        logger.info('Successfully reconnected to router');
+
+        // Check if tunnel processes are still active
+        const isActive = await this.verifyTunnelActive();
+        if (isActive) {
+          logger.info('Tunnel processes are still active, resuming monitoring');
+          // Start monitoring and heartbeat
+          this.startMonitoring();
+          this.startHeartbeat();
+          return {
+            success: true,
+            port: this.tunnelPort,
+            status: 'restored',
+            message: 'Tunnel restored and processes are active'
+          };
+        } else {
+          logger.info('Tunnel processes stopped during shutdown, attempting to restart...');
+          
+          // Restart the tunnel using existing script
+          try {
+            await this.startTunnel();
+            
+            // Give it time to establish
+            await new Promise(resolve => setTimeout(resolve, 8000));
+            
+            // Verify it's working
+            await this.verifyTunnel(this.tunnelPort);
+            
+            // Start monitoring and heartbeat
+            this.startMonitoring();
+            this.startHeartbeat();
+            
+            logger.info(`Tunnel restored and restarted successfully on port ${this.tunnelPort}`);
+            return {
+              success: true,
+              port: this.tunnelPort,
+              status: 'restored_restarted',
+              message: 'Tunnel restored and restarted from saved state'
+            };
+          } catch (restartError) {
+            logger.error('Failed to restart tunnel during restore:', restartError);
+            // Don't clear state yet - maybe temporary network issue
+            return null;
+          }
+        }
+      } catch (error) {
+        logger.error('Failed to reconnect to router during restore:', error);
+        // Don't clear state immediately - could be temporary network issue
+        return null;
+      }
+    } catch (error) {
+      logger.error('Error restoring tunnel state:', error);
+      return null;
+    }
+  }
+
+  async verifyTunnelActive() {
+    try {
+      if (!this.tunnelPort || !this.isConnected) {
+        return false;
+      }
+
+      // Check if tunnel processes are running
+      const processCheck = await this.ssh.execCommand(`ps | grep -v grep | grep "autossh.*-R ${this.tunnelPort}:localhost:22" || true`);
+      if (!processCheck.stdout.trim()) {
+        logger.warn('Tunnel processes not found');
+        return false;
+      }
+
+      logger.info('Tunnel processes are active');
+      return true;
+    } catch (error) {
+      logger.error('Error verifying tunnel active state:', error);
+      return false;
+    }
+  }
+
+  async clearTunnelState() {
+    try {
+      const success = await this.stateManager.clearTunnelState();
+      if (success) {
+        logger.info('Tunnel state cleared successfully');
+      } else {
+        logger.error('Failed to clear tunnel state');
+      }
+      return success;
+    } catch (error) {
+      logger.error('Error clearing tunnel state:', error);
+      return false;
     }
   }
 }

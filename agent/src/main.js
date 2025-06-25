@@ -117,6 +117,9 @@ class NetPilotAgent {
       logger.error('MAIN', 'Failed to start Status API Server:', error);
     }
 
+    // NOTE: Auto-restore is now triggered by UI when ready (fixes race condition)
+    logger.main('Window created, waiting for UI ready signal to start auto-restore...');
+
     logger.main(`[ENV] AUTOSSH_CLEANUP_TOKEN loaded: ${this.configManager.get('autosshCleanupToken') ? '******' : 'NOT FOUND'}`);
   }
 
@@ -256,11 +259,17 @@ class NetPilotAgent {
       }
     });
 
-    // Disconnect tunnel
+    // Disconnect tunnel (user initiated - clears state)
     ipcMain.handle('disconnect-tunnel', async (event) => {
       try {
-        const result = await this.tunnelManager.stopTunnel();
-        return { success: result };
+        // Use full cleanup for user disconnect (clears state)
+        if (this.tunnelManager && this.tunnelManager.isConnected) {
+          await this.tunnelManager.cleanup();
+        }
+        if (this.portAllocator && this.portAllocator.allocatedPort) {
+          await this.portAllocator.cleanup();
+        }
+        return { success: true };
       } catch (error) {
         return { success: false, error: error.message };
       }
@@ -461,6 +470,77 @@ class NetPilotAgent {
         return { success: false, error: error.message };
       }
     });
+
+    // Auto-restore functionality IPC handlers (Phase 8: UI-coordinated auto-restore)
+    ipcMain.handle('ui-ready-start-auto-restore', async (event) => {
+      try {
+        logger.main('🎯 UI ready signal received, starting coordinated auto-restore...');
+        
+        // Send progress updates to UI during restoration
+        const sendProgress = (step, message) => {
+          this.mainWindow?.webContents.send('auto-restore-progress', { step, message });
+        };
+        
+        sendProgress(1, 'Checking for saved state...');
+        
+        // Enhanced auto-restore with progress updates
+        const restorationResults = await this.autoRestoreWithProgress(sendProgress);
+        
+        sendProgress(2, 'Auto-restore completed');
+        
+        // Notify UI that restoration is complete
+        this.mainWindow?.webContents.send('auto-restore-complete', restorationResults);
+        
+        return { 
+          success: true, 
+          data: restorationResults 
+        };
+      } catch (error) {
+        logger.error('MAIN', 'Auto-restore failed:', error);
+        // Notify UI of failure
+        this.mainWindow?.webContents.send('auto-restore-error', { error: error.message });
+        return { success: false, error: error.message };
+      }
+    });
+
+    ipcMain.handle('get-restoration-status', async (event) => {
+      try {
+        return { 
+          success: true, 
+          data: this.lastRestoration || null 
+        };
+      } catch (error) {
+        return { success: false, error: error.message };
+      }
+    });
+
+    ipcMain.handle('manual-restore', async (event) => {
+      try {
+        const result = await this.autoRestore();
+        return { success: true, data: result };
+      } catch (error) {
+        return { success: false, error: error.message };
+      }
+    });
+
+    ipcMain.handle('get-state-info', async (event) => {
+      try {
+        // Get state info from StateManager through one of the managers
+        const stateInfo = await this.tunnelManager.stateManager.getStateInfo();
+        return { success: true, data: stateInfo };
+      } catch (error) {
+        return { success: false, error: error.message };
+      }
+    });
+
+    ipcMain.handle('clear-saved-state', async (event) => {
+      try {
+        const success = await this.tunnelManager.stateManager.clearAllState();
+        return { success };
+      } catch (error) {
+        return { success: false, error: error.message };
+      }
+    });
   }
 
   init() {
@@ -494,8 +574,123 @@ class NetPilotAgent {
     });
   }
 
+  async autoRestore() {
+    logger.main('Attempting to auto-restore saved state...');
+    
+    try {
+      // Track restoration results
+      const restorationResults = {
+        portRestored: false,
+        tunnelRestored: false,
+        details: {}
+      };
+
+      // STEP 1: Check and verify port allocation with port manager
+      logger.main('🔍 Step 1: Checking for saved port allocations...');
+      const portResult = await this.portAllocator.restorePortAllocationState();
+      if (portResult) {
+        restorationResults.portRestored = true;
+        restorationResults.details.port = portResult;
+        logger.main(`✅ Port allocation verified and restored: ${portResult.port} (owned by router ${portResult.routerId})`);
+        
+        // STEP 2: Only try tunnel restoration if port ownership is verified
+        logger.main('🔍 Step 2: Port verified, attempting tunnel restoration...');
+        const tunnelResult = await this.tunnelManager.restoreFromState();
+        if (tunnelResult) {
+          restorationResults.tunnelRestored = true;
+          restorationResults.details.tunnel = tunnelResult;
+          logger.main(`✅ Tunnel restored: ${tunnelResult.port} (${tunnelResult.message})`);
+        } else {
+          logger.main('⚠️ Tunnel restoration failed - port verified but tunnel couldn\'t be restored');
+        }
+      } else {
+        logger.main('❌ No valid port allocation found to restore (port may have been released by port manager)');
+        logger.main('ℹ️ Skipping tunnel restoration since port is not available');
+      }
+
+      // Log summary
+      if (restorationResults.portRestored || restorationResults.tunnelRestored) {
+        logger.main('🎉 Auto-restore completed successfully:', restorationResults);
+      } else {
+        logger.main('🆕 No previous state found to restore - starting fresh');
+      }
+
+      // Store restoration results for the UI
+      this.lastRestoration = restorationResults;
+      
+      return restorationResults;
+    } catch (error) {
+      logger.error('MAIN', 'Auto-restore failed:', error);
+      throw error;
+    }
+  }
+
+  async autoRestoreWithProgress(progressCallback) {
+    logger.main('Attempting to auto-restore saved state with UI progress updates...');
+    
+    try {
+      // Track restoration results
+      const restorationResults = {
+        portRestored: false,
+        tunnelRestored: false,
+        details: {}
+      };
+
+      // Progress update: Checking port allocations
+      progressCallback(1.1, 'Checking for saved port allocations...');
+      
+      // STEP 1: Check and verify port allocation with port manager
+      logger.main('🔍 Step 1: Checking for saved port allocations...');
+      const portResult = await this.portAllocator.restorePortAllocationState();
+      
+      if (portResult) {
+        restorationResults.portRestored = true;
+        restorationResults.details.port = portResult;
+        logger.main(`✅ Port allocation verified and restored: ${portResult.port} (owned by router ${portResult.routerId})`);
+        
+        // Progress update: Port found, checking tunnel
+        progressCallback(1.5, `Port ${portResult.port} verified, restoring tunnel...`);
+        
+        // STEP 2: Only try tunnel restoration if port ownership is verified
+        logger.main('🔍 Step 2: Port verified, attempting tunnel restoration...');
+        const tunnelResult = await this.tunnelManager.restoreFromState();
+        
+        if (tunnelResult) {
+          restorationResults.tunnelRestored = true;
+          restorationResults.details.tunnel = tunnelResult;
+          logger.main(`✅ Tunnel restored: ${tunnelResult.port} (${tunnelResult.message})`);
+          
+          // Progress update: Tunnel restored successfully
+          progressCallback(1.8, `Tunnel restored on port ${tunnelResult.port}`);
+        } else {
+          logger.main('⚠️ Tunnel restoration failed - port verified but tunnel couldn\'t be restored');
+          progressCallback(1.7, 'Port verified but tunnel restoration failed');
+        }
+      } else {
+        logger.main('❌ No valid port allocation found to restore (port may have been released by port manager)');
+        logger.main('ℹ️ Skipping tunnel restoration since port is not available');
+        progressCallback(1.5, 'No previous state found - starting fresh');
+      }
+
+      // Log summary
+      if (restorationResults.portRestored || restorationResults.tunnelRestored) {
+        logger.main('🎉 Auto-restore completed successfully:', restorationResults);
+      } else {
+        logger.main('🆕 No previous state found to restore - starting fresh');
+      }
+
+      // Store restoration results for the UI
+      this.lastRestoration = restorationResults;
+      
+      return restorationResults;
+    } catch (error) {
+      logger.error('MAIN', 'Auto-restore failed:', error);
+      throw error;
+    }
+  }
+
   async cleanup() {
-    logger.main('Cleaning up NetPilot Agent resources...');
+    logger.main('Cleaning up NetPilot Agent resources for app shutdown...');
     
     try {
       // Stop Status API Server
@@ -504,10 +699,10 @@ class NetPilotAgent {
         logger.main('Status API Server stopped');
       }
 
-      // Disconnect tunnel
+      // Use shutdown cleanup for tunnel (preserves state)
       if (this.tunnelManager && this.tunnelManager.isConnected) {
-        await this.tunnelManager.disconnect();
-        logger.main('Tunnel disconnected');
+        await this.tunnelManager.cleanupForShutdown();
+        logger.main('Tunnel disconnected (state preserved)');
       }
 
       // Disconnect router
@@ -516,13 +711,13 @@ class NetPilotAgent {
         logger.main('Router disconnected');
       }
 
-      // Release allocated port
+      // Use shutdown cleanup for port allocator (preserves state)
       if (this.portAllocator && this.portAllocator.allocatedPort) {
-        await this.portAllocator.releasePort();
-        logger.main('Port released');
+        await this.portAllocator.cleanupForShutdown();
+        logger.main('Port allocator shutdown cleanup completed (state preserved)');
       }
 
-      logger.main('NetPilot Agent cleanup completed');
+      logger.main('NetPilot Agent shutdown cleanup completed');
     } catch (error) {
       logger.error('MAIN', 'Error during cleanup:', error);
     }
@@ -532,8 +727,22 @@ class NetPilotAgent {
     logger.main('Resetting cached user data (preserving .env configuration)...');
     
     try {
-      // First perform normal cleanup
-      await this.cleanup();
+      // For reset all data, we need to release ports and clear everything
+      logger.main('Releasing allocated ports and clearing all state...');
+      if (this.tunnelManager && this.tunnelManager.isConnected) {
+        await this.tunnelManager.cleanup(); // Full cleanup that clears state
+      }
+      if (this.portAllocator && this.portAllocator.allocatedPort) {
+        await this.portAllocator.cleanup(); // Full cleanup that releases port
+      }
+      
+      // Stop other services
+      if (this.statusServer) {
+        await this.statusServer.stop();
+      }
+      if (this.routerManager && this.routerManager.isConnected) {
+        await this.routerManager.disconnect();
+      }
       
       // Delete all stored passwords and credentials
       logger.main('Deleting stored credentials...');

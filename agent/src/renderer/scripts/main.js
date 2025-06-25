@@ -145,6 +145,10 @@ class NetPilotAgentUI {
 
     // Check if router is already connected
     await this.checkExistingConnection();
+    
+    // Phase 8: Start coordinated auto-restore process now that UI is ready
+    logger.main('🎯 UI initialization complete, triggering coordinated auto-restore...');
+    await this.startCoordinatedAutoRestore();
   }
 
   async loadConfiguration() {
@@ -386,6 +390,149 @@ class NetPilotAgentUI {
     } catch (error) {
       console.log('No existing connection found');
     }
+  }
+
+  async startCoordinatedAutoRestore() {
+    try {
+      logger.main('🎯 Starting coordinated auto-restore with UI feedback...');
+      
+      // Set up event listeners for auto-restore progress
+      window.electronAPI.onAutoRestoreProgress(this.handleAutoRestoreProgress.bind(this));
+      window.electronAPI.onAutoRestoreComplete(this.handleAutoRestoreComplete.bind(this));
+      window.electronAPI.onAutoRestoreError(this.handleAutoRestoreError.bind(this));
+      
+      // Show progress and start auto-restore
+      this.showTunnelProgress();
+      this.updateProgress(0, 'Starting auto-restore...');
+      this.updateTunnelStepStatus(1, 'active');
+      
+      // Signal to main process that UI is ready and start auto-restore
+      const result = await window.electronAPI.uiReadyStartAutoRestore();
+      
+      if (!result.success) {
+        throw new Error(result.error);
+      }
+      
+    } catch (error) {
+      logger.error('Failed to start coordinated auto-restore:', error);
+      this.handleAutoRestoreError({ error: error.message });
+    }
+  }
+
+  handleAutoRestoreProgress(data) {
+    logger.main(`Auto-restore progress: Step ${data.step} - ${data.message}`);
+    
+    if (data.step === 1) {
+      this.updateProgress(25, data.message);
+      this.updateTunnelStepStatus(1, 'completed');
+      this.updateTunnelStepStatus(2, 'active');
+    } else if (data.step === 2) {
+      this.updateProgress(75, data.message);
+      this.updateTunnelStepStatus(2, 'completed');
+    }
+  }
+
+  async handleAutoRestoreComplete(restoration) {
+    try {
+      logger.info('Auto-restore completed with results:', restoration);
+      
+      this.updateProgress(100, 'Auto-restore completed');
+      this.updateTunnelStepStatus(3, 'completed');
+      
+      // Update UI based on restored state
+      if (restoration.tunnelRestored) {
+        const tunnelData = restoration.details.tunnel;
+        this.allocatedPort = tunnelData.port;
+        
+        // Set the button states for connected status
+        this.setButtonState('connectTunnelBtn', 'hidden');
+        this.setButtonState('disconnectTunnelBtn', 'normal');
+        this.setButtonState('reconnectTunnelBtn', 'normal');
+        
+        if (tunnelData.status === 'restored_restarted') {
+          this.updateConnectionStatus('connected', `Tunnel auto-restored and restarted on port ${tunnelData.port}`);
+          this.showNotification(`🔄 Tunnel auto-restored and restarted on port ${tunnelData.port}`, 'success');
+        } else {
+          this.updateConnectionStatus('connected', `Tunnel auto-restored on port ${tunnelData.port}`);
+          this.showNotification(`✅ Tunnel auto-restored on port ${tunnelData.port}`, 'success');
+        }
+        
+        // Show connection actions since tunnel is restored
+        this.showStatusActions();
+        
+        // Load router credentials if available
+        const routerCreds = await window.electronAPI.getRouterCredentials();
+        if (routerCreds && routerCreds.host) {
+          this.elements.routerIpInput.value = routerCreds.host;
+          this.elements.usernameInput.value = routerCreds.username;
+          if (routerCreds.password) {
+            this.elements.passwordInput.value = routerCreds.password;
+          }
+          
+          // Store credentials for current session
+          this.routerCredentials = {
+            host: routerCreds.host,
+            username: routerCreds.username,
+            password: routerCreds.password,
+            port: routerCreds.port || 22,
+            tunnelPort: tunnelData.port
+          };
+        }
+        
+        // Verify the tunnel is actually working
+        try {
+          const statusResult = await window.electronAPI.getTunnelStatus();
+          if (statusResult.success && statusResult.data) {
+            const status = statusResult.data;
+            logger.info('Tunnel status verified:', status);
+            
+            if (status.isConnected) {
+              logger.info('✅ Auto-restored tunnel verified as active');
+            } else {
+              logger.warn('⚠️ Auto-restored tunnel status shows disconnected');
+              this.updateConnectionStatus('warning', `Tunnel restored on port ${tunnelData.port} but status unclear`);
+            }
+          }
+        } catch (statusError) {
+          logger.warn('Could not verify tunnel status:', statusError);
+        }
+        
+      } else if (restoration.portRestored) {
+        const portData = restoration.details.port;
+        this.allocatedPort = portData.port;
+        this.showNotification(`📦 Port allocation restored: ${portData.port}`, 'info');
+      } else {
+        logger.info('No previous state found to restore - starting fresh');
+        this.showNotification('No previous connection to restore', 'info');
+      }
+      
+      // Hide progress after a short delay
+      setTimeout(() => {
+        const progressSection = document.getElementById('progress-section');
+        if (progressSection) {
+          progressSection.style.display = 'none';
+        }
+      }, 2000);
+      
+    } catch (error) {
+      logger.error('Error handling auto-restore completion:', error);
+      this.handleAutoRestoreError({ error: error.message });
+    }
+  }
+
+  handleAutoRestoreError(data) {
+    logger.error('Auto-restore failed:', data.error);
+    this.updateProgress(0, 'Auto-restore failed');
+    this.updateTunnelStepStatus(1, 'error');
+    this.showNotification(`Auto-restore failed: ${data.error}`, 'error');
+    
+    // Hide progress after showing error
+    setTimeout(() => {
+      const progressSection = document.getElementById('progress-section');
+      if (progressSection) {
+        progressSection.style.display = 'none';
+      }
+    }, 3000);
   }
 
   async handleTestConnection(event) {

@@ -71,6 +71,18 @@ contextBridge.exposeInMainWorld('electronAPI', {
   resetAllData: () => ipcRenderer.invoke('reset-all-data'),
   onResetComplete: (callback) => ipcRenderer.on('reset-completed', () => callback()),
   
+  // Auto-restore functionality (Phase 8: UI-coordinated auto-restore)
+  uiReadyStartAutoRestore: () => ipcRenderer.invoke('ui-ready-start-auto-restore'),
+  getRestorationStatus: () => ipcRenderer.invoke('get-restoration-status'),
+  manualRestore: () => ipcRenderer.invoke('manual-restore'),
+  getStateInfo: () => ipcRenderer.invoke('get-state-info'),
+  clearSavedState: () => ipcRenderer.invoke('clear-saved-state'),
+  
+  // Auto-restore progress event listeners
+  onAutoRestoreProgress: (callback) => ipcRenderer.on('auto-restore-progress', (event, data) => callback(data)),
+  onAutoRestoreComplete: (callback) => ipcRenderer.on('auto-restore-complete', (event, data) => callback(data)),
+  onAutoRestoreError: (callback) => ipcRenderer.on('auto-restore-error', (event, data) => callback(data)),
+  
   // Version info
   version: process.versions.electron
 }); 

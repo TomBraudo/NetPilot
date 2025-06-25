@@ -1,6 +1,7 @@
 const axios = require('axios');
 const { v4: uuidv4 } = require('uuid');
 const ConfigManager = require('./ConfigManager');
+const StateManager = require('./StateManager');
 const logger = require('../utils/Logger');
 
 class PortAllocator {
@@ -17,6 +18,9 @@ class PortAllocator {
     this.allocatedPort = null;
     this.routerId = null;
     this.heartbeatInterval = null;
+    
+    // Initialize state manager for persistent storage
+    this.stateManager = new StateManager();
   }
 
   async allocatePort(routerCredentials = null) {
@@ -48,6 +52,9 @@ class PortAllocator {
       
       // Start heartbeat to maintain allocation
       this.startHeartbeat();
+      
+      // Save port allocation state
+      await this.savePortAllocationState(routerCredentials);
       
       logger.port(`Port ${port} allocated for router ${this.routerId}`);
       
@@ -228,6 +235,9 @@ class PortAllocator {
         this.allocatedPort = null;
         this.routerId = null;
         
+        // Clear port allocation state
+        await this.clearPortAllocationState();
+        
         return true;
       } catch (error) {
         logger.error('Failed to release port:', error);
@@ -255,6 +265,63 @@ class PortAllocator {
     } catch (error) {
       logger.error('Port status check failed:', error);
       return null;
+    }
+  }
+
+  // Verify if a port still belongs to a specific router ID with the port manager
+  async verifyPortOwnership(port, routerId) {
+    logger.port(`Verifying port ${port} ownership for router ${routerId}...`);
+    
+    try {
+      // TEMPORARY: Try the new verification endpoint first
+      const response = await this.callCloudVmAPI('GET', `/api/verify-port-ownership?port=${port}&routerId=${routerId}`);
+      
+      if (response.success) {
+        const isOwner = response.data.isOwner;
+        const status = response.data.status;
+        
+        logger.port(`Port ${port} verification result: ${isOwner ? 'OWNED' : 'NOT_OWNED'} (status: ${status})`);
+        
+        return {
+          isOwner: isOwner,
+          status: status,
+          lastHeartbeat: response.data.lastHeartbeat,
+          allocatedAt: response.data.allocatedAt
+        };
+      } else {
+        logger.warn(`Port ownership verification failed: ${response.error}`);
+        return { isOwner: false, status: 'verification_failed' };
+      }
+    } catch (error) {
+      logger.warn('New verification endpoint not available, falling back to port status check...');
+      
+      // FALLBACK: Use existing port status endpoint as temporary verification
+      try {
+        const statusResponse = await this.callCloudVmAPI('GET', `/api/port-status?port=${port}`);
+        
+        if (statusResponse.success && statusResponse.data) {
+          const portData = statusResponse.data;
+          
+          // Check if the routerId matches and port is active
+          const isOwner = (portData.routerId === routerId && portData.status === 'active');
+          
+          logger.port(`Port ${port} fallback verification: ${isOwner ? 'OWNED' : 'NOT_OWNED'} (routerId match: ${portData.routerId === routerId}, status: ${portData.status})`);
+          
+          return {
+            isOwner: isOwner,
+            status: portData.status,
+            lastHeartbeat: portData.lastHeartbeat,
+            allocatedAt: portData.allocatedAt
+          };
+        } else {
+          logger.warn('Port status check also failed');
+          return { isOwner: false, status: 'port_not_found' };
+        }
+      } catch (fallbackError) {
+        logger.error('Port ownership verification failed completely:', fallbackError);
+        // If port manager is completely unavailable, conservatively assume ownership is lost
+        return { isOwner: false, status: 'port_manager_unavailable' };
+      }
     }
   }
 
@@ -326,10 +393,123 @@ class PortAllocator {
     return this.routerId;
   }
 
-  // Cleanup method to be called when agent shuts down
+  // Cleanup for app shutdown - preserves state for auto-restore
+  async cleanupForShutdown() {
+    logger.port('Cleaning up port allocator for app shutdown (preserving state)...');
+    this.stopHeartbeat();
+    
+    // DON'T release port or clear state - it will be restored on next startup
+    logger.port('Port allocator shutdown cleanup completed (state preserved)');
+  }
+
+  // Cleanup method for user disconnect - releases port and clears state
   async cleanup() {
+    logger.port('Cleaning up port allocator for user disconnect...');
     this.stopHeartbeat();
     await this.releasePort();
+    logger.port('Port allocator cleanup completed');
+  }
+
+  // State Management Methods
+  async savePortAllocationState(routerCredentials = null) {
+    if (!this.allocatedPort || !this.routerId) {
+      logger.warn('Cannot save port allocation state - missing required data');
+      return false;
+    }
+
+    const portData = {
+      port: this.allocatedPort,
+      routerId: this.routerId,
+      cloudVmIp: this.cloudVmIp,
+      routerCredentials: routerCredentials ? {
+        host: routerCredentials.host,
+        username: routerCredentials.username,
+        password: routerCredentials.password,
+        port: routerCredentials.port || 22
+      } : null
+    };
+
+    try {
+      const success = await this.stateManager.savePortAllocation(portData);
+      if (success) {
+        logger.info('Port allocation state saved successfully');
+      } else {
+        logger.error('Failed to save port allocation state');
+      }
+      return success;
+    } catch (error) {
+      logger.error('Error saving port allocation state:', error);
+      return false;
+    }
+  }
+
+  async clearPortAllocationState() {
+    if (!this.routerId) {
+      logger.warn('Cannot clear port allocation state - no router ID');
+      return false;
+    }
+
+    try {
+      const success = await this.stateManager.removePortAllocation(this.routerId);
+      if (success) {
+        logger.info('Port allocation state cleared successfully');
+      } else {
+        logger.error('Failed to clear port allocation state');
+      }
+      return success;
+    } catch (error) {
+      logger.error('Error clearing port allocation state:', error);
+      return false;
+    }
+  }
+
+  async restorePortAllocationState() {
+    try {
+      const allocations = await this.stateManager.getPortAllocations();
+      if (!allocations || allocations.length === 0) {
+        logger.info('No saved port allocations found');
+        return null;
+      }
+
+      // Get the most recent allocation
+      const latestAllocation = allocations[allocations.length - 1];
+      
+      logger.info('Found saved port allocation, attempting to restore...');
+      
+      // CRITICAL: Verify port ownership with the port manager first
+      const verification = await this.verifyPortOwnership(latestAllocation.port, latestAllocation.routerId);
+      
+      if (!verification.isOwner) {
+        logger.warn(`Port ${latestAllocation.port} is no longer owned by router ${latestAllocation.routerId} (status: ${verification.status})`);
+        logger.warn('Clearing stale port allocation state...');
+        await this.clearPortAllocationState();
+        return null;
+      }
+      
+      logger.info(`Port ownership verified! Port ${latestAllocation.port} still belongs to router ${latestAllocation.routerId}`);
+      
+      // Restore port allocation properties
+      this.allocatedPort = latestAllocation.port;
+      this.routerId = latestAllocation.routerId;
+      this.cloudVmIp = latestAllocation.cloudVmIp;
+
+      logger.info(`Port allocation restored: port ${this.allocatedPort} for router ${this.routerId}`);
+      
+      // Start heartbeat for restored allocation
+      this.startHeartbeat();
+      
+      return {
+        success: true,
+        port: this.allocatedPort,
+        routerId: this.routerId,
+        status: 'restored',
+        credentials: latestAllocation.routerCredentials,
+        verification: verification
+      };
+    } catch (error) {
+      logger.error('Error restoring port allocation state:', error);
+      return null;
+    }
   }
 }
 
