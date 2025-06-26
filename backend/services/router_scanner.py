@@ -3,7 +3,6 @@ import time
 import re
 from utils.ssh_client import ssh_manager
 from utils.response_helpers import success
-from db.device_repository import register_device
 import ipaddress
 from utils.logging_config import get_logger
 
@@ -165,9 +164,7 @@ def scan_network_via_router():
                     "vendor": device["vendor"]
                 })
 
-    
-    # Register active devices in database (only one entry per MAC)
-    for device in connected_devices:
-        register_device(device["ip"], device["mac"], device["hostname"])
+    # Note: Removed database registration since commands-server won't use local database
+    logger.info(f"Router scan completed, found {len(connected_devices)} devices")
 
     return success(message="Active devices fetched", data=connected_devices)

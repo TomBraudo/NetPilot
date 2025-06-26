@@ -1,8 +1,6 @@
 from utils.logging_config import get_logger
 from utils.ssh_client import ssh_manager
 from utils.response_helpers import success
-from services.block_ip import get_blocked_devices, unblock_device_by_ip
-from db.device_repository import get_all_devices
 
 logger = get_logger('services.reset_rules')
 
@@ -56,51 +54,38 @@ def reset_all_tc_rules():
         logger.error(f"Error resetting traffic control rules: {str(e)}", exc_info=True)
         raise
 
-def unblock_all_devices():
+def reset_all_wireless_blocking():
     """
-    Unblock all currently blocked devices.
+    Reset all wireless device blocking (MAC filtering).
     """
-    blocked_response = get_blocked_devices()
-    
-    if "error" in blocked_response:
-        return blocked_response
+    try:
+        # Reset the OpenWrt blocklist settings
+        ssh_manager.execute_command("uci set wireless.@wifi-iface[1].macfilter='disable'")
+        ssh_manager.execute_command("uci delete wireless.@wifi-iface[1].maclist")
+        ssh_manager.execute_command("uci commit wireless")
+        ssh_manager.execute_command("wifi")
         
-    blocked_devices = blocked_response.get("data", [])
-    unblocked_count = 0
-    
-    for device in blocked_devices:
-        if device["ip"] != "Unknown":
-            unblock_device_by_ip(device["ip"])
-            unblocked_count += 1
-            
-    # Also reset the OpenWrt blocklist settings
-    ssh_manager.execute_command("uci set wireless.@wifi-iface[1].macfilter='disable'")
-    ssh_manager.execute_command("uci delete wireless.@wifi-iface[1].maclist")
-    ssh_manager.execute_command("uci commit wireless")
-    ssh_manager.execute_command("wifi")
-    
-    return success(f"Unblocked {unblocked_count} devices")
+        return success(message="All wireless blocking rules reset")
+    except Exception as e:
+        logger.error(f"Error resetting wireless blocking: {str(e)}", exc_info=True)
+        raise
 
 def reset_all_rules():
     """
-    Reset all network rules including bandwidth limits and blocks.
+    Reset all network rules including bandwidth limits and wireless blocks.
     """
     try:
         # Reset bandwidth limits
         tc_result = reset_all_tc_rules()
         
-        # Unblock devices
-        unblock_result = unblock_all_devices()
-        
-        # Get all rules from database to report what was cleared
-        all_devices = get_all_devices()
+        # Reset wireless blocking
+        wireless_result = reset_all_wireless_blocking()
         
         return success(
             message="All network rules have been reset successfully",
             data={
                 "bandwidth_reset": tc_result.get("message", "Failed"),
-                "unblock_reset": unblock_result.get("message", "Failed"),
-                "affected_devices": len(all_devices)
+                "wireless_reset": wireless_result.get("message", "Failed")
             }
         )
     except Exception as e:

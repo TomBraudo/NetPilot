@@ -22,3 +22,6 @@ agent/PHASE_7_VERIFICATION_SUMMARY.md
 agent/PHASE_8_VERIFICATION_SUMMARY.md
 agent/PHASE_9_VERIFICATION_SUMMARY.md
 agent/PHASE_10_VERIFICATION_SUMMARY.md
+
+# Commands Server deployment scripts (contain SSH credentials)
+backend/scripts/
