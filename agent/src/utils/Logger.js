@@ -35,7 +35,21 @@ class Logger {
       return Logger.instance;
     }
 
-    this.logsDir = path.join(__dirname, '../../logs');
+    // Determine writable logs directory
+    try {
+      // In Electron main process, app.getPath('userData') is a safe, writable location
+      const { app: electronApp } = require('electron');
+      if (electronApp && electronApp.getPath) {
+        this.logsDir = path.join(electronApp.getPath('userData'), 'logs');
+      } else {
+        // Fallback to current working directory if electron app is not available yet
+        this.logsDir = path.join(process.cwd(), 'logs');
+      }
+    } catch (err) {
+      // Not running inside Electron (unit tests, etc.)
+      this.logsDir = path.join(process.cwd(), 'logs');
+    }
+
     this.maxFileSize = 10 * 1024 * 1024; // 10MB
     this.writeQueue = [];
     this.isProcessing = false;

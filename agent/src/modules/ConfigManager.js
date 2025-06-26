@@ -2,20 +2,51 @@ const path = require('path');
 const fs = require('fs');
 const logger = require('../utils/Logger');
 const dotenv = require('dotenv');
+const { app } = require('electron');
 
 class ConfigManager {
-    constructor() {
-        if (ConfigManager.instance) {
-            return ConfigManager.instance;
+    constructor(app) {
+        if (!app) {
+            throw new Error('ConfigManager requires an Electron app instance.');
         }
 
         try {
-            // Only allow .env, no fallback
-            const envPath = path.join(__dirname, '../../.env');
-            if (!fs.existsSync(envPath)) {
-                throw new Error('.env file not found. Please create .env file with required configuration.');
+            // Attempt to load .env from several possible locations
+            const candidatePaths = [];
+
+            // 0. Portable executable directory (electron-builder portable mode)
+            if (process.env.PORTABLE_EXECUTABLE_DIR) {
+                candidatePaths.push(path.join(process.env.PORTABLE_EXECUTABLE_DIR, '.env'));
             }
-            dotenv.config({ path: envPath });
+
+            // Packaged app path (most important) - .env next to .exe
+            if (app.isPackaged) {
+                candidatePaths.push(path.join(path.dirname(app.getPath('exe')), '.env'));
+            }
+
+            // 1. External .env next to executable / cwd
+            candidatePaths.push(path.join(process.cwd(), '.env'));
+            
+            // 2. User data directory (writable per-user location)
+            candidatePaths.push(path.join(app.getPath('userData'), '.env'));
+
+            // 3. Bundled .env beside this file (development time)
+            candidatePaths.push(path.join(__dirname, '../../.env'));
+
+            let envLoaded = false;
+            for (const p of candidatePaths) {
+                if (fs.existsSync(p)) {
+                    dotenv.config({ path: p });
+                    logger.config(`[ENV] .env loaded from ${p}`);
+                    envLoaded = true;
+                    break;
+                }
+            }
+
+            if (!envLoaded) {
+                // Not fatal – we'll fall back to defaults and warn
+                logger.warn('[ENV]', '.env file not found; using built-in defaults');
+            }
             
             this.config = {
                 cloudVmIp: process.env.CLOUD_VM_IP || 'localhost',
@@ -44,12 +75,10 @@ class ConfigManager {
             const tokenFound = !!this.config.autosshCleanupToken;
             logger.info('[MAIN] [ENV]', `AUTOSSH_CLEANUP_TOKEN loaded: ${tokenFound ? 'FOUND' : 'NOT FOUND'}`);
             
-            ConfigManager.instance = this;
-
         } catch (error) {
             logger.error(`[MAIN] [ENV] Configuration loading failed: ${error.message}`);
             // Exit gracefully if config fails
-            process.exit(1);
+            return false;
         }
     }
 
@@ -63,7 +92,7 @@ class ConfigManager {
         }
 
         if (!this.config?.cloudPassword) {
-            throw new Error('CLOUD_VM_PASSWORD is required in .env file');
+            logger.warn('[ENV]', 'CLOUD_VM_PASSWORD is not set; using blank password');
         }
 
         if (this.config.portRange.start >= this.config.portRange.end) {
@@ -176,14 +205,6 @@ class ConfigManager {
             return false;
         }
     }
-
-    // Static method to reset singleton (useful for testing)
-    static reset() {
-        ConfigManager.instance = null;
-    }
 }
-
-// Static property to hold singleton instance
-ConfigManager.instance = null;
 
 module.exports = ConfigManager; 

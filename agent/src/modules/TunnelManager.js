@@ -6,10 +6,19 @@ const axios = require('axios');
 const logger = require('../utils/Logger');
 
 class TunnelManager {
-  constructor() {
+  constructor(configManager) {
+    // Accept a ConfigManager instance from the main process. When running in
+    // isolation (e.g., unit tests) we lazily construct our own instance using
+    // the Electron `app` reference.
+    if (!configManager) {
+      const { app } = require('electron');
+      this.configManager = new ConfigManager(app);
+    } else {
+      this.configManager = configManager;
+    }
+
     this.ssh = new NodeSSH();
-    const config = new ConfigManager();
-    const cloudVmConfig = config.getCloudVmConfig();
+    const cloudVmConfig = this.configManager.getCloudVmConfig();
     
     this.isConnected = false;
     this.tunnelPort = null;

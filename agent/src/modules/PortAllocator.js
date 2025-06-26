@@ -5,9 +5,18 @@ const StateManager = require('./StateManager');
 const logger = require('../utils/Logger');
 
 class PortAllocator {
-  constructor() {
-    const config = new ConfigManager();
-    const cloudVmConfig = config.getCloudVmConfig();
+  constructor(configManager) {
+    // Allow calling without a ConfigManager (e.g., unit tests) by lazily
+    // constructing one with the Electron `app` reference. In production the
+    // main process will always provide the instance.
+    if (!configManager) {
+      const { app } = require('electron');
+      this.configManager = new ConfigManager(app);
+    } else {
+      this.configManager = configManager;
+    }
+
+    const cloudVmConfig = this.configManager.getCloudVmConfig();
     
     this.cloudVmIp = cloudVmConfig.ip;
     this.cloudApiPort = 8080; // Port for the cloud port management API
