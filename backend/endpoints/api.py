@@ -1,101 +1,104 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request
 from utils.logging_config import get_logger
-from utils.response_helpers import error
+from utils.response_helpers import build_success_response, build_error_response
 from services.network_service import (
     get_blocked_devices_list,
     block_device,
     unblock_device,
     reset_network_rules,
-    scan_network,
     scan_network_via_router,
-    run_ookla_speedtest
 )
+import time
 
 network_bp = Blueprint('network', __name__)
 logger = get_logger('endpoints.network')
 
-@network_bp.route("/api/blocked", methods=["GET"])
+@network_bp.route("/blocked", methods=["GET"])
 def get_blocked():
     """Get all currently blocked devices"""
+    start_time = time.time()
     try:
-        result = get_blocked_devices_list()
-        return jsonify(result)
-    except Exception as e:
+        result, error = get_blocked_devices_list()
+        if error:
+            return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
+        return build_success_response(result, start_time)
+    except RuntimeError as e:
         logger.error(f"Error getting blocked devices: {str(e)}", exc_info=True)
-        return jsonify(error(str(e), status_code=500))
+        return build_error_response(str(e), 503, "TUNNEL_OR_ROUTER_UNAVAILABLE", start_time)
+    except Exception as e:
+        logger.error(f"Unexpected error getting blocked devices: {str(e)}", exc_info=True)
+        return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time)
 
-@network_bp.route("/api/block", methods=["POST"])
+@network_bp.route("/block", methods=["POST"])
 def block():
     """Block a device by IP address"""
+    start_time = time.time()
     try:
         data = request.get_json()
         ip = data.get("ip")
         if not ip:
-            return jsonify(error("Missing 'ip' in request body", status_code=400))
+            return build_error_response("Missing 'ip' in request body", 400, "BAD_REQUEST", start_time)
         
-        result = block_device(ip)
-        return jsonify(result)
-    except ValueError as e:
-        logger.error(f"Validation error: {str(e)}")
-        return jsonify(error(str(e), status_code=404))
-    except Exception as e:
+        result, error = block_device(ip)
+        if error:
+            return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
+        return build_success_response(result, start_time)
+    except RuntimeError as e:
         logger.error(f"Error blocking device: {str(e)}", exc_info=True)
-        return jsonify(error(str(e), status_code=500))
+        return build_error_response(str(e), 503, "TUNNEL_OR_ROUTER_UNAVAILABLE", start_time)
+    except Exception as e:
+        logger.error(f"Unexpected error blocking device: {str(e)}", exc_info=True)
+        return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time)
 
-@network_bp.route("/api/unblock", methods=["POST"])
+@network_bp.route("/unblock", methods=["POST"])
 def unblock():
     """Unblock a device by IP address"""
+    start_time = time.time()
     try:
         data = request.get_json()
         ip = data.get("ip")
         if not ip:
-            return jsonify(error("Missing 'ip' in request body", status_code=400))
+            return build_error_response("Missing 'ip' in request body", 400, "BAD_REQUEST", start_time)
         
-        result = unblock_device(ip)
-        return jsonify(result)
-    except ValueError as e:
-        logger.error(f"Validation error: {str(e)}")
-        return jsonify(error(str(e), status_code=404))
-    except Exception as e:
+        result, error = unblock_device(ip)
+        if error:
+            return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
+        return build_success_response(result, start_time)
+    except RuntimeError as e:
         logger.error(f"Error unblocking device: {str(e)}", exc_info=True)
-        return jsonify(error(str(e), status_code=500))
+        return build_error_response(str(e), 503, "TUNNEL_OR_ROUTER_UNAVAILABLE", start_time)
+    except Exception as e:
+        logger.error(f"Unexpected error unblocking device: {str(e)}", exc_info=True)
+        return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time)
 
-@network_bp.route("/api/reset", methods=["POST"])
+@network_bp.route("/reset", methods=["POST"])
 def reset():
     """Reset all network rules"""
+    start_time = time.time()
     try:
-        result = reset_network_rules()
-        return jsonify(result)
-    except Exception as e:
+        result, error = reset_network_rules()
+        if error:
+            return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
+        return build_success_response(result, start_time)
+    except RuntimeError as e:
         logger.error(f"Error resetting network rules: {str(e)}", exc_info=True)
-        return jsonify(error(str(e), status_code=500))
-
-@network_bp.route("/api/scan", methods=["GET"])
-def scan():
-    """Scan the network for devices"""
-    try:
-        result = scan_network()
-        return jsonify(result)
+        return build_error_response(str(e), 503, "TUNNEL_OR_ROUTER_UNAVAILABLE", start_time)
     except Exception as e:
-        logger.error(f"Error scanning network: {str(e)}", exc_info=True)
-        return jsonify(error(str(e), status_code=500))
+        logger.error(f"Unexpected error resetting network rules: {str(e)}", exc_info=True)
+        return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time)
 
-@network_bp.route("/api/scan/router", methods=["GET"])
+@network_bp.route("/scan", methods=["GET"])
 def scan_router():
     """Scan the network via router"""
+    start_time = time.time()
     try:
-        result = scan_network_via_router()
-        return jsonify(result)
-    except Exception as e:
+        result, error = scan_network_via_router()
+        if error:
+            return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
+        return build_success_response(result, start_time)
+    except RuntimeError as e:
         logger.error(f"Error scanning network via router: {str(e)}", exc_info=True)
-        return jsonify(error(str(e), status_code=500))
-
-@network_bp.route("/api/speedtest", methods=["GET"])
-def speedtest():
-    """Run a speed test"""
-    try:
-        result = run_ookla_speedtest()
-        return jsonify(result)
+        return build_error_response(str(e), 503, "TUNNEL_OR_ROUTER_UNAVAILABLE", start_time)
     except Exception as e:
-        logger.error(f"Error running speed test: {str(e)}", exc_info=True)
-        return jsonify(error(str(e), status_code=500))
+        logger.error(f"Unexpected error scanning network via router: {str(e)}", exc_info=True)
+        return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time)

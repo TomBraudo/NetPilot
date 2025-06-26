@@ -133,6 +133,9 @@ The commands server maintains an **in-memory, session-aware connection pool** th
 ## Phase 1: Core Infrastructure Setup (Week 1) - NEXT PHASE
 
 ### Step 1.1: Project Setup on VM
+
+> **REMINDER (2025-06-26)**  — Deployment to the VM is temporarily **paused** while local development proceeds. Re-enable this step once local testing passes all checks.
+
 - [ ] **Deploy Cleaned Commands Server to VM**
   - Copy cleaned backend structure to `/opt/netpilot-commands-server`
   - Set up Python virtual environment with simplified dependencies
@@ -145,20 +148,20 @@ The commands server maintains an **in-memory, session-aware connection pool** th
   - Set logging levels and file paths
 
 ### Step 1.2: RouterConnectionManager Development
-- [ ] **Design Session-Based Connection Manager**
+- [x] **Design Session-Based Connection Manager**
   - Implement thread-safe session management
   - Create connection pool with hierarchical structure
   - Add port-manager integration for credential lookup
   - Implement persistent paramiko connections via tunnel ports
 
-- [ ] **Connection Lifecycle Management**
+- [x] **Connection Lifecycle Management**
   - Implement automatic connection health monitoring
   - Add idle timeout detection and cleanup
   - Create background cleanup thread for expired sessions
   - Handle connection failures and automatic recreation
 
 ### Step 1.3: Update SSH Client Interface
-- [ ] **Modify SSH Client for Session Awareness**
+- [x] **Modify SSH Client for Session Awareness**
   - Update interface to accept sessionId and routerId parameters
   - Integrate with new RouterConnectionManager
   - Preserve existing error handling patterns
@@ -173,14 +176,14 @@ The commands server maintains an **in-memory, session-aware connection pool** th
   - Session status endpoint for debugging and monitoring
 
 ### Step 2.2: Update Existing Endpoints
-- [ ] **Modify All Existing Endpoints**
-  - Add sessionId and routerId parameter validation
-  - Update error handling for session-related failures
-  - Implement session context setting for service calls
-  - **Implement standardized response format** for database layer integration
-  - Ensure all responses include complete metadata and structured data
+- [x] **Modify All Existing Endpoints**
+  - [x] Add sessionId and routerId parameter validation
+  - [x] Update error handling for session-related failures
+  - [x] Implement session context setting for service calls
+  - [x] **Implement standardized response format** for database layer integration
+  - [x] Ensure all responses include complete metadata and structured data
 
-- [ ] **Update Endpoint Categories**
+- [x] **Update Endpoint Categories**
   - Network operations: block, unblock, scan, speedtest, reset
   - WiFi management: status, enable, disable, password, SSID changes
   - Whitelist/Blacklist: add, remove, list operations

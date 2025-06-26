@@ -2,6 +2,9 @@ import paramiko
 import os
 from utils.path_utils import get_data_folder
 from dotenv import load_dotenv
+from typing import Optional
+from flask import g, current_app
+from managers.router_connection_manager import RouterConnectionManager
 
 class SSHClientManager:
     """
@@ -42,18 +45,29 @@ class SSHClientManager:
             self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             self.ssh.connect(self.router_ip, username=self.username, password=self.password)
 
-    def execute_command(self, command):
+    def execute_command(self, command, session_id: Optional[str] = None, router_id: Optional[str] = None):
         """
-        Executes a command on the router via SSH.
+        Execute *command* on the target router identified by *(session_id,
+        router_id)*.  If the identifiers are omitted they are pulled from the
+        active Flask request context (`flask.g`).  Both identifiers are
+        mandatory – legacy single-connection behaviour has been removed.
         """
+        # Attempt to pull IDs from Flask request context (no exception
+        # raised if outside of an active request).
         try:
-            self.connect()  # Ensure connection is active
-            stdin, stdout, stderr = self.ssh.exec_command(command)
-            output = stdout.read().decode().strip()
-            error = stderr.read().decode().strip()
-            return output, error if error else None
-        except Exception as e:
-            return None, str(e)
+            session_id = session_id or getattr(g, "session_id", None)
+            router_id = router_id or getattr(g, "router_id", None)
+        except RuntimeError:
+            # Not inside Flask application context
+            pass
+        if not session_id or not router_id:
+            raise ValueError("session_id and router_id must be supplied for SSH commands")
+
+        # Obtain connection via RouterConnectionManager
+        
+        rcm = current_app.router_connection_manager
+        output, error = rcm.execute(session_id, router_id, command)
+        return output, error if error else None
 
     def close_connection(self):
         """
