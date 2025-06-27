@@ -8,23 +8,30 @@ router_connection_manager = RouterConnectionManager()
 
 # Constants for iptables and tc
 BLACKLIST_CHAIN = "NETPILOT_BLACKLIST"
-BLACKLIST_MARK = "10"
+BLACKLIST_MARK = "10" # Mark for traffic to be limited
+UNLIMITED_CLASSID = "1:11"
+LIMITED_CLASSID = "1:12"
 
-def _execute_command(command):
+def _execute_command(command, timeout=15):
     """Executes a command on the router and logs errors."""
-    _, err = router_connection_manager.execute(command)
+    _, err = router_connection_manager.execute(command, timeout=timeout)
     if err and "File exists" not in err and "No such file or directory" not in err and "does not exist" not in err:
         logger.error(f"Command '{command}' failed with error: {err}")
-    return err is None or "File exists" in err
+        return False
+    return True
 
 def _get_lan_interface():
-    """Dynamically find the LAN bridge interface, defaulting to 'br-lan'."""
-    iface_cmd = "ip -o link show | grep 'br-lan' | awk '{print $2}' | cut -d: -f1"
-    interface, iface_err = router_connection_manager.execute(iface_cmd)
-    if iface_err or not interface:
-        logger.warning("Could not dynamically find LAN bridge, falling back to br-lan.")
+    """Dynamically finds the LAN bridge interface, defaulting to 'br-lan'."""
+    # The 'br-lan' interface is typically the master bridge for all LAN and WLAN traffic.
+    # Applying TC rules here is the correct way to manage all connected device bandwidth.
+    iface_cmd = "ip -o link show | grep -o 'br-lan' | head -n 1"
+    interface, err = router_connection_manager.execute(iface_cmd)
+    if err or not interface.strip():
+        logger.warning("Could not dynamically find 'br-lan' interface, falling back to default 'br-lan'.")
         return "br-lan"
-    return interface.strip()
+    found_iface = interface.strip()
+    logger.info(f"Found LAN interface: {found_iface}")
+    return found_iface
 
 def _ensure_blacklist_infrastructure():
     """
@@ -34,23 +41,23 @@ def _ensure_blacklist_infrastructure():
     logger.info("Ensuring blacklist infrastructure is in place.")
     interface = _get_lan_interface()
     limit_rate, error = get_blacklist_limit_rate()
-    if error:
-        # This is an internal call, so we'll log the error and proceed with a default.
-        # A more robust implementation might raise an exception.
+    if error or not limit_rate:
         logger.error(f"Could not get limit rate, falling back to default. Error: {error}")
-        limit_rate = "1kbit"
+        limit_rate = "50mbit" # A safe, albeit slow, default
     
+    # Use a high default rate for the unlimited class
+    unlimited_rate = "1000mbit"
+
     # 1. Create a custom iptables chain for blacklist rules
     _execute_command(f"iptables -t mangle -N {BLACKLIST_CHAIN}")
 
-    # 2. Setup tc qdisc, class, and filter
-    _execute_command(f"tc qdisc add dev {interface} root handle 1: htb default 12")
-    _execute_command(f"tc class add dev {interface} parent 1: classid 1:11 htb rate {limit_rate}")
+    # 2. Setup tc qdisc, class, and filter. Default to the UNLIMITED class.
+    if not _execute_command(f"tc qdisc add dev {interface} root handle 1: htb default {UNLIMITED_CLASSID.split(':')[1]}"): return False
+    if not _execute_command(f"tc class add dev {interface} parent 1: classid {UNLIMITED_CLASSID} htb rate {unlimited_rate}"): return False
+    if not _execute_command(f"tc class add dev {interface} parent 1: classid {LIMITED_CLASSID} htb rate {limit_rate}"): return False
     
-    check_filter_cmd = f"tc filter show dev {interface} | grep 'handle {BLACKLIST_MARK}'"
-    filter_exists, _ = router_connection_manager.execute(check_filter_cmd)
-    if not filter_exists:
-        _execute_command(f"tc filter add dev {interface} parent 1: protocol ip prio 1 handle {BLACKLIST_MARK} fw flowid 1:11")
+    # Filter to slow down traffic marked with the BLACKLIST_MARK
+    if not _execute_command(f"tc filter add dev {interface} parent 1: protocol ip prio 1 handle {BLACKLIST_MARK} fw flowid {LIMITED_CLASSID}"): return False
 
     logger.info("Blacklist infrastructure verified.")
     return True
@@ -98,29 +105,44 @@ def activate_blacklist_mode():
         logger.info("Whitelist mode is active. Deactivating it before enabling blacklist mode.")
         deactivate_whitelist_mode()
 
-    _ensure_blacklist_infrastructure()
-    
-    logger.info("Activating blacklist mode.")
-    check_cmd = f"iptables -t mangle -C PREROUTING -j {BLACKLIST_CHAIN}"
-    exists, _ = router_connection_manager.execute(check_cmd)
+    if not _ensure_blacklist_infrastructure():
+        logger.error("Failed to build blacklist infrastructure. Aborting activation.")
+        deactivate_blacklist_mode()
+        return None, "Failed to build blacklist infrastructure. All rules have been cleared."
 
-    if not exists:
-        command = f"iptables -t mangle -I PREROUTING 1 -j {BLACKLIST_CHAIN}"
-        if not _execute_command(command):
-            return None, "Failed to activate blacklist mode by adding jump rule."
+    logger.info("Activating blacklist mode.")
+    command = f"iptables -t mangle -I PREROUTING 1 -j {BLACKLIST_CHAIN}"
+    if not _execute_command(command):
+        logger.error("Failed to add jump rule to activate blacklist. Cleaning up.")
+        deactivate_blacklist_mode()
+        return None, "Failed to activate blacklist mode. All rules have been cleared."
     
     set_current_mode_value('blacklist')
     return "Blacklist mode activated.", None
 
 def deactivate_blacklist_mode():
     """
-    Deactivates the blacklist mode by removing the jump rule from the PREROUTING chain.
+    Deactivates the blacklist mode by removing the jump rule from the PREROUTING chain
+    and clearing all associated rules.
     """
-    logger.info("Deactivating blacklist mode.")
-    command = f"iptables -t mangle -D PREROUTING -j {BLACKLIST_CHAIN}"
-    _execute_command(command)
+    logger.info("Deactivating blacklist mode and cleaning up all related rules.")
+    # Detach the main rule from the PREROUTING chain
+    detach_cmd = f"iptables -t mangle -D PREROUTING -j {BLACKLIST_CHAIN}"
+    _execute_command(detach_cmd)
+
+    # Flush the custom chain to remove all rules
+    flush_cmd = f"iptables -t mangle -F {BLACKLIST_CHAIN}"
+    _execute_command(flush_cmd)
+    
+    # Delete the custom chain itself
+    delete_chain_cmd = f"iptables -t mangle -X {BLACKLIST_CHAIN}"
+    _execute_command(delete_chain_cmd)
+    
+    # Reset all traffic control rules completely to ensure a clean state
+    reset_all_tc_rules()
     
     set_current_mode_value('none')
+    logger.info("Blacklist mode deactivated and all rules cleared.")
     return "Blacklist mode deactivated.", None
 
 # --- Configuration Management ---

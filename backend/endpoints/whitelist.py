@@ -16,16 +16,6 @@ whitelist_bp = Blueprint('whitelist', __name__)
 logger = get_logger('endpoints.whitelist')
 router_connection_manager = RouterConnectionManager()
 
-def _get_mac_from_ip(ip):
-    """Helper to get MAC address from an IP via the router's ARP table."""
-    if not ip:
-        return None, "IP address is required"
-    arp_cmd = f"arp -n | grep '{ip}' | awk '{{print $3}}'"
-    mac, err = router_connection_manager.execute(arp_cmd)
-    if err or not mac:
-        return None, f"Could not find MAC for IP {ip}"
-    return mac.strip(), None
-
 @whitelist_bp.route("/", methods=["GET"])
 @router_context_required
 def get_whitelist_route():
@@ -39,15 +29,13 @@ def get_whitelist_route():
 @whitelist_bp.route("/add", methods=["POST"])
 @router_context_required
 def add_to_whitelist_route():
-    """Add a device to the whitelist"""
+    """Add a device to the whitelist by its MAC address."""
     start_time = time.time()
     data = request.get_json()
-    if not data or 'ip' not in data:
-        return build_error_response("Missing 'ip' in request body", 400, "BAD_REQUEST", start_time)
-    
-    mac, err = _get_mac_from_ip(data['ip'])
-    if err:
-        return build_error_response(err, 404, "MAC_NOT_FOUND", start_time)
+    mac = data.get('mac')
+
+    if not mac:
+        return build_error_response("Missing 'mac' in request body", 400, "BAD_REQUEST", start_time)
 
     result, error = add_device_to_whitelist(mac)
     if error:
@@ -57,15 +45,13 @@ def add_to_whitelist_route():
 @whitelist_bp.route("/remove", methods=["POST"])
 @router_context_required
 def remove_from_whitelist_route():
-    """Remove a device from the whitelist"""
+    """Remove a device from the whitelist by its MAC address."""
     start_time = time.time()
     data = request.get_json()
-    if not data or 'ip' not in data:
-        return build_error_response("Missing 'ip' in request body", 400, "BAD_REQUEST", start_time)
+    mac = data.get('mac')
 
-    mac, err = _get_mac_from_ip(data['ip'])
-    if err:
-        return build_error_response(err, 404, "MAC_NOT_FOUND", start_time)
+    if not mac:
+        return build_error_response("Missing 'mac' in request body", 400, "BAD_REQUEST", start_time)
 
     result, error = remove_device_from_whitelist(mac)
     if error:

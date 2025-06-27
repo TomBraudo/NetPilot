@@ -1,0 +1,960 @@
+{
+	"info": {
+		"_postman_id": "a8a1b2c3-d4e5-f6a7-b8c9-d0e1f2a3b4c5",
+		"name": "NetPilot Local Commands Server",
+		"description": "A collection for testing the NetPilot commands server running locally. Uses {{sessionId}} and {{routerId}} from an environment.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/health",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"health"
+							]
+						},
+						"description": "Checks if the server is running."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Session Management",
+			"item": [
+				{
+					"name": "Start Session",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sessionId\": \"{{sessionId}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/session/start",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"start"
+							]
+						},
+						"description": "Starts a new session."
+					},
+					"response": []
+				},
+				{
+					"name": "End Session",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sessionId\": \"{{sessionId}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/session/end",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"end"
+							]
+						},
+						"description": "Ends an active session."
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Session",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sessionId\": \"{{sessionId}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/session/refresh",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"refresh"
+							]
+						},
+						"description": "Refreshes a session's timeout."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Session Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/session/status?sessionId={{sessionId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"status"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								}
+							]
+						},
+						"description": "Gets the status of a specific session."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Sessions Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/session/status",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"status"
+							]
+						},
+						"description": "Gets the status of all active sessions."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Network Commands",
+			"item": [
+				{
+					"name": "Scan Network",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/network/scan?sessionId={{sessionId}}&routerId={{routerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"network",
+								"scan"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								},
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Blocked Devices",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/network/blocked?sessionId={{sessionId}}&routerId={{routerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"network",
+								"blocked"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								},
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Block Device",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ip\": \"192.168.1.100\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/network/block?sessionId={{sessionId}}&routerId={{routerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"network",
+								"block"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								},
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unblock Device",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ip\": \"192.168.1.100\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/network/unblock?sessionId={{sessionId}}&routerId={{routerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"network",
+								"unblock"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								},
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Network Rules",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/network/reset?sessionId={{sessionId}}&routerId={{routerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"network",
+								"reset"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								},
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "WiFi Management",
+			"item": [
+				{
+					"name": "Get WiFi Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/wifi/status?sessionId={{sessionId}}&routerId={{routerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"wifi",
+								"status"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								},
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enable WiFi",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/wifi/enable?sessionId={{sessionId}}&routerId={{routerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"wifi",
+								"enable"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								},
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Disable WiFi",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/wifi/disable?sessionId={{sessionId}}&routerId={{routerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"wifi",
+								"disable"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								},
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get WiFi SSID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/wifi/ssid?sessionId={{sessionId}}&routerId={{routerId}}&interface=0",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"wifi",
+								"ssid"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								},
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								},
+								{
+									"key": "interface",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change WiFi SSID",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ssid\": \"NewWiFiName\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/wifi/ssid?sessionId={{sessionId}}&routerId={{routerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"wifi",
+								"ssid"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								},
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change WiFi Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"NewSecurePassword123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/wifi/password?sessionId={{sessionId}}&routerId={{routerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"wifi",
+								"password"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								},
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Whitelist Management",
+			"item": [
+				{
+					"name": "Get Whitelist",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/whitelist?sessionId={{sessionId}}&routerId={{routerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"whitelist"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								},
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add to Whitelist",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mac\": \"00:11:22:33:44:55\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/whitelist/add?sessionId={{sessionId}}&routerId={{routerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"whitelist",
+								"add"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								},
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove from Whitelist",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mac\": \"00:11:22:33:44:55\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/whitelist/remove?sessionId={{sessionId}}&routerId={{routerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"whitelist",
+								"remove"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								},
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set Whitelist Limit Rate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"rate\": \"1024kbit\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/whitelist/limit-rate?sessionId={{sessionId}}&routerId={{routerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"whitelist",
+								"limit-rate"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								},
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate Whitelist Mode",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/whitelist/mode/activate?sessionId={{sessionId}}&routerId={{routerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"whitelist",
+								"mode",
+								"activate"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								},
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate Whitelist Mode",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/whitelist/mode/deactivate?sessionId={{sessionId}}&routerId={{routerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"whitelist",
+								"mode",
+								"deactivate"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								},
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Blacklist Management",
+			"item": [
+				{
+					"name": "Get Blacklist",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/blacklist?sessionId={{sessionId}}&routerId={{routerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"blacklist"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								},
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add to Blacklist",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mac\": \"00:11:22:33:44:56\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/blacklist/add?sessionId={{sessionId}}&routerId={{routerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"blacklist",
+								"add"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								},
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove from Blacklist",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mac\": \"00:11:22:33:44:56\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/blacklist/remove?sessionId={{sessionId}}&routerId={{routerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"blacklist",
+								"remove"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								},
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set Blacklist Limit Rate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"rate\": \"512kbit\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/blacklist/limit-rate?sessionId={{sessionId}}&routerId={{routerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"blacklist",
+								"limit-rate"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								},
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate Blacklist Mode",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/blacklist/mode/activate?sessionId={{sessionId}}&routerId={{routerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"blacklist",
+								"mode",
+								"activate"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								},
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate Blacklist Mode",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/blacklist/mode/deactivate?sessionId={{sessionId}}&routerId={{routerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"blacklist",
+								"mode",
+								"deactivate"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								},
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000"
+		}
+	]
+} 

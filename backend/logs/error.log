@@ -1376,3 +1376,121 @@ Traceback (most recent call last):
 ValueError: Device with IP 192.168.1.122 not found in blacklist
 2025-06-27 12:50:33 - services.wifi - ERROR - Connection error getting WiFi status: Router <your_router_id> not found in Port-Manager
 2025-06-27 12:56:39 - services.wifi - ERROR - Connection error getting WiFi status: Router 2ed45235-b5d8-4ace-af5c-d9c2e4e1ca9d not found in Port-Manager
+2025-06-27 17:40:02 - services.router_scanner - ERROR - Connection error scanning for devices: Router your-router-id not found in Port-Manager
+2025-06-27 17:46:07 - session.endpoints - ERROR - Error getting session status: 'RouterConnectionManager' object has no attribute 'get_all_sessions_status'
+Traceback (most recent call last):
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/endpoints/session.py", line 74, in session_status
+    status = current_app.router_connection_manager.get_all_sessions_status()
+AttributeError: 'RouterConnectionManager' object has no attribute 'get_all_sessions_status'
+2025-06-27 17:57:10 - services.whitelist - ERROR - Command 'tc qdisc add dev lan4@eth0
+lan3@eth0
+lan2@eth0
+lan1@eth0
+br-lan
+phy0-ap0 root handle 1: htb default 12' failed with error: Cannot find device "lan4@eth0"
+ash: lan3@eth0: not found
+ash: lan2@eth0: not found
+ash: lan1@eth0: not found
+ash: br-lan: not found
+ash: phy0-ap0: not found
+2025-06-27 17:57:10 - services.whitelist - ERROR - Command 'tc class add dev lan4@eth0
+lan3@eth0
+lan2@eth0
+lan1@eth0
+br-lan
+phy0-ap0 parent 1: classid 1:11 htb rate None' failed with error: Cannot find device "lan4@eth0"
+ash: lan3@eth0: not found
+ash: lan2@eth0: not found
+ash: lan1@eth0: not found
+ash: br-lan: not found
+ash: phy0-ap0: not found
+2025-06-27 17:57:11 - services.whitelist - ERROR - Command 'tc class add dev lan4@eth0
+lan3@eth0
+lan2@eth0
+lan1@eth0
+br-lan
+phy0-ap0 parent 1: classid 1:12 htb rate None' failed with error: Cannot find device "lan4@eth0"
+ash: lan3@eth0: not found
+ash: lan2@eth0: not found
+ash: lan1@eth0: not found
+ash: br-lan: not found
+ash: phy0-ap0: not found
+2025-06-27 17:57:11 - services.whitelist - ERROR - Command 'tc filter add dev lan4@eth0
+lan3@eth0
+lan2@eth0
+lan1@eth0
+br-lan
+phy0-ap0 parent 1: protocol ip prio 1 handle 20 fw flowid 1:11' failed with error: Cannot find device "lan4@eth0"
+ash: lan3@eth0: not found
+ash: lan2@eth0: not found
+ash: lan1@eth0: not found
+ash: br-lan: not found
+ash: phy0-ap0: not found
+2025-06-27 18:09:09 - services.whitelist - ERROR - Command 'iptables -t mangle -N NETPILOT_WHITELIST' failed with error: iptables: Chain already exists.
+2025-06-27 18:09:10 - services.whitelist - ERROR - Command 'tc qdisc add dev lan4@eth0 root handle 1: htb default 12' failed with error: Cannot find device "lan4@eth0"
+2025-06-27 18:09:10 - services.whitelist - ERROR - Command 'tc class add dev lan4@eth0 parent 1: classid 1:11 htb rate None' failed with error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-06-27 18:09:10 - services.whitelist - ERROR - Command 'tc class add dev lan4@eth0 parent 1: classid 1:12 htb rate None' failed with error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-06-27 18:09:11 - services.whitelist - ERROR - Command 'tc filter add dev lan4@eth0 parent 1: protocol ip prio 1 handle 20 fw flowid 1:11' failed with error: Cannot find device "lan4@eth0"
+2025-06-27 18:13:49 - services.whitelist - ERROR - Command 'iptables -t mangle -N NETPILOT_WHITELIST' failed with error: iptables: Chain already exists.
+2025-06-27 18:26:37 - services.whitelist - ERROR - Command 'iptables -t mangle -F NETPILOT_WHITELIST' failed with error: iptables: No chain/target/match by that name.
+2025-06-27 18:26:37 - services.whitelist - ERROR - Command 'iptables -t mangle -X NETPILOT_WHITELIST' failed with error: iptables: No chain/target/match by that name.
+2025-06-27 18:36:29 - services.whitelist - ERROR - Command 'tc qdisc add dev br-lan root handle 1: htb default 11' failed with error: Error: Exclusivity flag on, cannot modify.
+2025-06-27 18:36:29 - services.whitelist - ERROR - Failed to build whitelist infrastructure. Aborting activation and cleaning up.
+2025-06-27 18:36:30 - services.whitelist - ERROR - Command 'iptables -t mangle -F NETPILOT_WHITELIST' failed with error: iptables: No chain/target/match by that name.
+2025-06-27 18:36:30 - services.whitelist - ERROR - Command 'iptables -t mangle -X NETPILOT_WHITELIST' failed with error: iptables: No chain/target/match by that name.
+2025-06-27 18:36:48 - services.whitelist - ERROR - Command 'iptables -t mangle -I NETPILOT_WHITELIST 1 -m mac --mac-source D8:BB:C1:47:3A:43 -j RETURN' failed with error: iptables: No chain/target/match by that name.
+2025-06-27 18:38:44 - services.whitelist - ERROR - Command 'iptables -t mangle -F NETPILOT_WHITELIST' failed with error: iptables: No chain/target/match by that name.
+2025-06-27 18:38:45 - services.whitelist - ERROR - Command 'iptables -t mangle -X NETPILOT_WHITELIST' failed with error: iptables: No chain/target/match by that name.
+2025-06-27 18:43:49 - services.whitelist - ERROR - Command 'iptables -t mangle -I NETPILOT_WHITELIST 1 -m mac --mac-source D8:BB:C1:47:3A:43 -j RETURN' failed with error: iptables: No chain/target/match by that name.
+2025-06-27 18:43:57 - services.whitelist - ERROR - Command 'iptables -t mangle -F NETPILOT_WHITELIST' failed with error: iptables: No chain/target/match by that name.
+2025-06-27 18:43:56 - services.whitelist - ERROR - Command 'iptables -t mangle -X NETPILOT_WHITELIST' failed with error: iptables: No chain/target/match by that name.
+2025-06-27 18:43:58 - services.whitelist - ERROR - Command 'tc qdisc add dev br-lan root handle 1: htb default 11' failed with error: Error: Exclusivity flag on, cannot modify.
+2025-06-27 18:43:58 - services.whitelist - ERROR - Failed to build whitelist infrastructure. Aborting activation and cleaning up.
+2025-06-27 18:43:59 - services.whitelist - ERROR - Command 'iptables -t mangle -F NETPILOT_WHITELIST' failed with error: iptables: No chain/target/match by that name.
+2025-06-27 18:43:59 - services.whitelist - ERROR - Command 'iptables -t mangle -X NETPILOT_WHITELIST' failed with error: iptables: No chain/target/match by that name.

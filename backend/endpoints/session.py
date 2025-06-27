@@ -6,7 +6,7 @@ logger = get_logger('session.endpoints')
 
 session_bp = Blueprint('session', __name__)
 
-@session_bp.route("/session/start", methods=["POST"])
+@session_bp.route("/start", methods=["POST"])
 def start_session():
     """Starts a new session in the connection manager."""
     data = request.get_json()
@@ -22,7 +22,7 @@ def start_session():
         logger.error(f"Error starting session {session_id}: {e}", exc_info=True)
         return jsonify(error(str(e), 500))
 
-@session_bp.route("/session/end", methods=["POST"])
+@session_bp.route("/end", methods=["POST"])
 def end_session():
     """Ends a session, closing all associated router connections."""
     data = request.get_json()
@@ -38,7 +38,7 @@ def end_session():
         logger.error(f"Error ending session {session_id}: {e}", exc_info=True)
         return jsonify(error(str(e), 500))
 
-@session_bp.route("/session/refresh", methods=["POST"])
+@session_bp.route("/refresh", methods=["POST"])
 def refresh_session():
     """Refreshes a session's activity timer."""
     data = request.get_json()
@@ -58,7 +58,7 @@ def refresh_session():
         logger.error(f"Error refreshing session {session_id}: {e}", exc_info=True)
         return jsonify(error(str(e), 500))
 
-@session_bp.route("/session/status", methods=["GET"])
+@session_bp.route("/status", methods=["GET"])
 def session_status():
     """Gets the status of a specific session or all sessions."""
     session_id = request.args.get('sessionId')

@@ -81,11 +81,11 @@ def _capture_session_router():
 # Register all blueprints
 logger.info("Registering API blueprints")
 app.register_blueprint(health_bp)
-app.register_blueprint(network_bp, url_prefix='/api')
-app.register_blueprint(wifi_bp, url_prefix='/api')
-app.register_blueprint(whitelist_bp, url_prefix='/api')
-app.register_blueprint(blacklist_bp, url_prefix='/api')
-app.register_blueprint(session_bp, url_prefix='/api')
+app.register_blueprint(network_bp, url_prefix='/api/network')
+app.register_blueprint(wifi_bp, url_prefix='/api/wifi')
+app.register_blueprint(whitelist_bp, url_prefix='/api/whitelist')
+app.register_blueprint(blacklist_bp, url_prefix='/api/blacklist')
+app.register_blueprint(session_bp, url_prefix='/api/session')
 logger.info("API blueprints registered")
 
 # Function to clean up resources on exit

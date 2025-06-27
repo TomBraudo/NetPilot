@@ -19,7 +19,7 @@ wifi_bp = Blueprint('wifi', __name__)
 '''
     API endpoint to enable WiFi on the router
 '''
-@wifi_bp.route("/wifi/enable", methods=["POST"])
+@wifi_bp.route("/enable", methods=["POST"])
 @router_context_required
 def enable_wifi_route():
     """Enable WiFi on the router"""
@@ -33,7 +33,7 @@ def enable_wifi_route():
     API endpoint to change the WiFi password
     Expects JSON: { "password": "<new_password>", "interface": <interface_number> }
 '''
-@wifi_bp.route("/wifi/password", methods=["POST"])
+@wifi_bp.route("/password", methods=["POST"])
 @router_context_required
 def change_password():
     """Change the WiFi password"""
@@ -51,7 +51,7 @@ def change_password():
 '''
     API endpoint to get current WiFi status
 '''
-@wifi_bp.route("/wifi/status", methods=["GET"])
+@wifi_bp.route("/status", methods=["GET"])
 @router_context_required
 def get_status():
     """Get the current WiFi status"""
@@ -65,7 +65,7 @@ def get_status():
     API endpoint to get the current WiFi SSID
     Optional query param: interface (defaults to 0)
 '''
-@wifi_bp.route("/wifi/ssid", methods=["GET"])
+@wifi_bp.route("/ssid", methods=["GET"])
 @router_context_required
 def get_wifi_ssid_route():
     """Get the current WiFi SSID"""
@@ -80,7 +80,7 @@ def get_wifi_ssid_route():
     API endpoint to change the WiFi SSID
     Expects JSON: { "ssid": "<new_ssid>", "interface": <interface_number> }
 '''
-@wifi_bp.route("/wifi/ssid", methods=["POST"])
+@wifi_bp.route("/ssid", methods=["POST"])
 @router_context_required
 def change_ssid():
     """Change the WiFi SSID"""
@@ -96,7 +96,7 @@ def change_ssid():
         return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
     return build_success_response(result, start_time)
 
-@wifi_bp.route("/wifi/disable", methods=["POST"])
+@wifi_bp.route("/disable", methods=["POST"])
 @router_context_required
 def disable_wifi_route():
     """Disable WiFi on the router"""
