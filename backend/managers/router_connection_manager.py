@@ -7,6 +7,8 @@ import paramiko
 import requests
 from flask import g
 
+from services.router_setup_service import setup_router_infrastructure
+
 __all__ = ["RouterConnectionManager"]
 
 
@@ -119,9 +121,20 @@ class RouterConnectionManager:
             with self._lock:
                 self._sessions.get(session_id, {}).pop(router_id, None)
             
-            # After failure, create a fresh connection
+            # After failure, create a fresh connection and retry command
             new_conn = self._get_or_create_connection(session_id, router_id)
             return new_conn.exec_command(command, timeout=timeout)
+
+    def _get_current_connection(self) -> Optional['_RouterConnection']:
+        """Helper to get the connection for the current request context."""
+        session_id = g.get("session_id")
+        router_id = g.get("router_id")
+        if not session_id or not router_id:
+            return None
+        
+        with self._lock:
+            # This assumes the connection exists, created by a previous execute call
+            return self._sessions.get(session_id, {}).get(router_id)
 
     # ------------------------ helpers --------------------------
     def _get_or_create_connection(self, session_id: str, router_id: str) -> _RouterConnection:
@@ -153,6 +166,11 @@ class RouterConnectionManager:
         conn = _RouterConnection(client, tunnel_port)
         with self._lock:
             self._sessions.setdefault(session_id, {})[router_id] = conn
+        
+        # After a new connection is established, ensure router infra is set up.
+        # This is idempotent, so it's safe to run on every new connection.
+        setup_router_infrastructure(conn)
+        
         return conn
 
     @staticmethod

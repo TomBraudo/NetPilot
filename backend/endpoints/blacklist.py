@@ -16,16 +16,6 @@ blacklist_bp = Blueprint('blacklist', __name__)
 logger = get_logger('endpoints.blacklist')
 router_connection_manager = RouterConnectionManager()
 
-@blacklist_bp.route("/", methods=["GET"])
-@router_context_required
-def get_blacklist_route():
-    """Get the current blacklist"""
-    start_time = time.time()
-    result, error = get_blacklist()
-    if error:
-        return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
-    return build_success_response(result, start_time)
-
 @blacklist_bp.route("/add", methods=["POST"])
 @router_context_required
 def add_to_blacklist_route():
@@ -91,7 +81,7 @@ def activate():
         logger.error(f"Unexpected error activating blacklist mode: {str(e)}", exc_info=True)
         return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time)
 
-@blacklist_bp.route("/mode/deactivate", methods=["DELETE"])
+@blacklist_bp.route("/mode/deactivate", methods=["POST"])
 @router_context_required
 def deactivate():
     """Deactivate blacklist mode"""

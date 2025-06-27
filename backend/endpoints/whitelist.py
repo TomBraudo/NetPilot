@@ -5,6 +5,7 @@ from services.whitelist_service import (
     add_device_to_whitelist,
     remove_device_from_whitelist,
     set_whitelist_limit_rate,
+    set_whitelist_full_rate,
     activate_whitelist_mode,
     deactivate_whitelist_mode,
 )
@@ -78,6 +79,28 @@ def set_limit_rate():
         return build_error_response(str(e), 503, "TUNNEL_OR_ROUTER_UNAVAILABLE", start_time)
     except Exception as e:
         logger.error(f"Unexpected error setting whitelist limit rate: {str(e)}", exc_info=True)
+        return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time)
+
+@whitelist_bp.route("/full-rate", methods=["POST"])
+@router_context_required
+def set_full_rate():
+    """Set the whitelist bandwidth full rate"""
+    start_time = time.time()
+    try:
+        data = request.get_json()
+        rate = data.get("rate")
+        if not rate:
+            return build_error_response("Missing 'rate' in request body", 400, "BAD_REQUEST", start_time)
+            
+        result, error = set_whitelist_full_rate(rate)
+        if error:
+            return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
+        return build_success_response(result, start_time)
+    except RuntimeError as e:
+        logger.error(f"Error setting whitelist full rate: {str(e)}", exc_info=True)
+        return build_error_response(str(e), 503, "TUNNEL_OR_ROUTER_UNAVAILABLE", start_time)
+    except Exception as e:
+        logger.error(f"Unexpected error setting whitelist full rate: {str(e)}", exc_info=True)
         return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time)
 
 @whitelist_bp.route("/mode/activate", methods=["POST"])

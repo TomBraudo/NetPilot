@@ -1,7 +1,6 @@
 from utils.logging_config import get_logger
-from utils.config_manager import config_manager
-from services.bandwidth_mode import get_current_mode_value, set_current_mode_value
 from managers.router_connection_manager import RouterConnectionManager
+from services.router_state_manager import get_router_state, write_router_state
 
 logger = get_logger('services.blacklist')
 router_connection_manager = RouterConnectionManager()
@@ -9,176 +8,103 @@ router_connection_manager = RouterConnectionManager()
 # Constants for iptables and tc
 BLACKLIST_CHAIN = "NETPILOT_BLACKLIST"
 BLACKLIST_MARK = "10" # Mark for traffic to be limited
-UNLIMITED_CLASSID = "1:11"
 LIMITED_CLASSID = "1:12"
 
-def _execute_command(command, timeout=15):
-    """Executes a command on the router and logs errors."""
-    _, err = router_connection_manager.execute(command, timeout=timeout)
-    if err and "File exists" not in err and "No such file or directory" not in err and "does not exist" not in err:
-        logger.error(f"Command '{command}' failed with error: {err}")
-        return False
-    return True
+def _rebuild_blacklist_rules(conn, state):
+    """Flushes and rebuilds blacklist iptables rules based on the provided state."""
+    conn.exec_command("iptables -t mangle -F NETPILOT_BLACKLIST")
 
-def _get_lan_interface():
-    """Dynamically finds the LAN bridge interface, defaulting to 'br-lan'."""
-    # The 'br-lan' interface is typically the master bridge for all LAN and WLAN traffic.
-    # Applying TC rules here is the correct way to manage all connected device bandwidth.
-    iface_cmd = "ip -o link show | grep -o 'br-lan' | head -n 1"
-    interface, err = router_connection_manager.execute(iface_cmd)
-    if err or not interface.strip():
-        logger.warning("Could not dynamically find 'br-lan' interface, falling back to default 'br-lan'.")
-        return "br-lan"
-    found_iface = interface.strip()
-    logger.info(f"Found LAN interface: {found_iface}")
-    return found_iface
-
-def _ensure_blacklist_infrastructure():
-    """
-    Ensures that all necessary iptables chains and tc rules for the blacklist are present.
-    This function is idempotent and can be safely called multiple times.
-    """
-    logger.info("Ensuring blacklist infrastructure is in place.")
-    interface = _get_lan_interface()
-    limit_rate, error = get_blacklist_limit_rate()
-    if error or not limit_rate:
-        logger.error(f"Could not get limit rate, falling back to default. Error: {error}")
-        limit_rate = "50mbit" # A safe, albeit slow, default
-    
-    # Use a high default rate for the unlimited class
-    unlimited_rate = "1000mbit"
-
-    # 1. Create a custom iptables chain for blacklist rules
-    _execute_command(f"iptables -t mangle -N {BLACKLIST_CHAIN}")
-
-    # 2. Setup tc qdisc, class, and filter. Default to the UNLIMITED class.
-    if not _execute_command(f"tc qdisc add dev {interface} root handle 1: htb default {UNLIMITED_CLASSID.split(':')[1]}"): return False
-    if not _execute_command(f"tc class add dev {interface} parent 1: classid {UNLIMITED_CLASSID} htb rate {unlimited_rate}"): return False
-    if not _execute_command(f"tc class add dev {interface} parent 1: classid {LIMITED_CLASSID} htb rate {limit_rate}"): return False
-    
-    # Filter to slow down traffic marked with the BLACKLIST_MARK
-    if not _execute_command(f"tc filter add dev {interface} parent 1: protocol ip prio 1 handle {BLACKLIST_MARK} fw flowid {LIMITED_CLASSID}"): return False
-
-    logger.info("Blacklist infrastructure verified.")
-    return True
+    if state['active_mode'] == 'blacklist':
+        for mac in state['devices']['blacklist']:
+            conn.exec_command(f"iptables -t mangle -A NETPILOT_BLACKLIST -m mac --mac-source {mac} -j MARK --set-mark 10")
+    logger.info("Blacklist rules rebuilt on router.")
 
 def add_device_to_blacklist(mac):
-    """
-    Adds a device's MAC address to the persistent blacklist iptables chain.
-    """
-    if not mac:
-        return None, "MAC address is required."
-    
-    logger.info(f"Adding MAC {mac} to the {BLACKLIST_CHAIN} chain.")
-    check_cmd = f"iptables -t mangle -C {BLACKLIST_CHAIN} -m mac --mac-source {mac} -j MARK --set-mark {BLACKLIST_MARK}"
-    exists, _ = router_connection_manager.execute(check_cmd)
-    
-    if not exists:
-        command = f"iptables -t mangle -A {BLACKLIST_CHAIN} -m mac --mac-source {mac} -j MARK --set-mark {BLACKLIST_MARK}"
-        if not _execute_command(command):
-            return None, f"Failed to add MAC {mac} to blacklist chain."
+    """Adds a device to the blacklist if it's not already there."""
+    if not mac: return None, "MAC address is required."
 
-    return f"Device {mac} added to blacklist ruleset.", None
+    conn = router_connection_manager._get_current_connection()
+    if not conn: return None, "No active router connection."
+
+    state = get_router_state(conn)
+    if mac in state['devices']['blacklist']:
+        return f"Device {mac} already in blacklist.", None
+        
+    state['devices']['blacklist'].append(mac)
+    if write_router_state(conn, state):
+        _rebuild_blacklist_rules(conn, state)
+        return f"Device {mac} added to blacklist.", None
+    return None, "Failed to update state file on router."
 
 def remove_device_from_blacklist(mac):
-    """
-    Removes a device's MAC address from the persistent blacklist iptables chain.
-    """
-    if not mac:
-        return None, "MAC address is required."
-        
-    logger.info(f"Removing MAC {mac} from the {BLACKLIST_CHAIN} chain.")
-    command = f"iptables -t mangle -D {BLACKLIST_CHAIN} -m mac --mac-source {mac} -j MARK --set-mark {BLACKLIST_MARK}"
-    _execute_command(command)
-    
-    return f"Device {mac} removed from blacklist ruleset.", None
+    """Removes a device from the blacklist if it exists."""
+    if not mac: return None, "MAC address is required."
+
+    conn = router_connection_manager._get_current_connection()
+    if not conn: return None, "No active router connection."
+
+    state = get_router_state(conn)
+    if mac not in state['devices']['blacklist']:
+        return f"Device {mac} not in blacklist.", None
+
+    state['devices']['blacklist'].remove(mac)
+    if write_router_state(conn, state):
+        _rebuild_blacklist_rules(conn, state)
+        return f"Device {mac} removed from blacklist.", None
+    return None, "Failed to update state file on router."
 
 def activate_blacklist_mode():
-    """
-    Activates the blacklist mode. If the whitelist is active, it will be
-    deactivated first.
-    """
-    from services.whitelist_service import deactivate_whitelist_mode
-    
-    current_mode, _ = get_current_mode_value()
-    if current_mode == 'whitelist':
-        logger.info("Whitelist mode is active. Deactivating it before enabling blacklist mode.")
-        deactivate_whitelist_mode()
+    """Activates blacklist mode if not already active."""
+    conn = router_connection_manager._get_current_connection()
+    if not conn: return None, "No active router connection."
 
-    if not _ensure_blacklist_infrastructure():
-        logger.error("Failed to build blacklist infrastructure. Aborting activation.")
-        deactivate_blacklist_mode()
-        return None, "Failed to build blacklist infrastructure. All rules have been cleared."
+    state = get_router_state(conn)
+    if state['active_mode'] == 'blacklist':
+        return "Blacklist mode is already active.", None
 
-    logger.info("Activating blacklist mode.")
-    command = f"iptables -t mangle -I PREROUTING 1 -j {BLACKLIST_CHAIN}"
-    if not _execute_command(command):
-        logger.error("Failed to add jump rule to activate blacklist. Cleaning up.")
-        deactivate_blacklist_mode()
-        return None, "Failed to activate blacklist mode. All rules have been cleared."
-    
-    set_current_mode_value('blacklist')
-    return "Blacklist mode activated.", None
+    state['active_mode'] = 'blacklist'
+    if write_router_state(conn, state):
+        # When activating, set TC rules to the specific rate for this mode
+        rate = state['rates']['blacklist']['limited_rate']
+        
+        # Set the limited class to the blacklist rate
+        conn.exec_command(f"tc class change dev br-lan parent 1: classid 1:12 htb rate {rate}")
+        # Set the full rate class to a high default, as it's not used by blacklist
+        conn.exec_command(f"tc class change dev br-lan parent 1: classid 1:11 htb rate 1000mbit")
+        
+        # Also clear the other list's rules for a clean state
+        conn.exec_command("iptables -t mangle -F NETPILOT_WHITELIST")
+        _rebuild_blacklist_rules(conn, state)
+        return "Blacklist mode activated.", None
+    return None, "Failed to update state file on router."
 
 def deactivate_blacklist_mode():
-    """
-    Deactivates the blacklist mode by removing the jump rule from the PREROUTING chain
-    and clearing all associated rules.
-    """
-    logger.info("Deactivating blacklist mode and cleaning up all related rules.")
-    # Detach the main rule from the PREROUTING chain
-    detach_cmd = f"iptables -t mangle -D PREROUTING -j {BLACKLIST_CHAIN}"
-    _execute_command(detach_cmd)
+    """Deactivates any active mode."""
+    conn = router_connection_manager._get_current_connection()
+    if not conn: return None, "No active router connection."
 
-    # Flush the custom chain to remove all rules
-    flush_cmd = f"iptables -t mangle -F {BLACKLIST_CHAIN}"
-    _execute_command(flush_cmd)
-    
-    # Delete the custom chain itself
-    delete_chain_cmd = f"iptables -t mangle -X {BLACKLIST_CHAIN}"
-    _execute_command(delete_chain_cmd)
-    
-    # Reset all traffic control rules completely to ensure a clean state
-    reset_all_tc_rules()
-    
-    set_current_mode_value('none')
-    logger.info("Blacklist mode deactivated and all rules cleared.")
-    return "Blacklist mode deactivated.", None
-
-# --- Configuration Management ---
-
-def get_blacklist_limit_rate():
-    """Get the current blacklist bandwidth limit rate from config."""
-    try:
-        config = config_manager.load_config('blacklist')
-        return config.get('Limit_Rate', "1kbit"), None
-    except Exception as e:
-        return None, f"Could not load blacklist config: {e}"
-
-def format_rate(rate):
-    """Format rate value to include units if not present."""
-    if isinstance(rate, (int, float)) and not isinstance(rate, bool):
-        return f"{rate}kbit"
-    if isinstance(rate, str) and rate.isnumeric():
-        return f"{rate}kbit"
-    return str(rate)
+    state = get_router_state(conn)
+    if state['active_mode'] == 'none':
+        return "Modes are already inactive.", None
+        
+    state['active_mode'] = 'none'
+    if write_router_state(conn, state):
+        _rebuild_blacklist_rules(conn, state) # This will just flush the rules
+        return "Blacklist mode deactivated.", None
+    return None, "Failed to update state file on router."
 
 def set_blacklist_limit_rate(rate):
-    """
-    Set the blacklist bandwidth limit rate in config and updates the tc rule if it exists.
-    """
-    formatted_r = format_rate(rate)
-    try:
-        config = config_manager.load_config('blacklist')
-        config['Limit_Rate'] = formatted_r
-        config_manager.save_config('blacklist', config)
-        logger.info(f"Updated blacklist limit rate to {formatted_r}")
+    """Sets the blacklist limited rate."""
+    conn = router_connection_manager._get_current_connection()
+    if not conn: return None, "No active router connection."
 
-        interface = _get_lan_interface()
-        command = f"tc class change dev {interface} parent 1: classid 1:11 htb rate {formatted_r}"
-        _execute_command(command)
-
-        return {"rate": formatted_r}, None
-    except Exception as e:
-        logger.error(f"Error setting blacklist limit rate: {e}", exc_info=True)
-        return None, "Failed to set blacklist limit rate." 
+    state = get_router_state(conn)
+    formatted_rate = f"{rate}kbit"
+    state['rates']['blacklist']['limited_rate'] = formatted_rate
+    
+    if write_router_state(conn, state):
+        # If blacklist mode is active, apply the change immediately
+        if state['active_mode'] == 'blacklist':
+            conn.exec_command(f"tc class change dev br-lan parent 1: classid 1:12 htb rate {formatted_rate}")
+        return {"rate": formatted_rate}, None
+    return None, "Failed to update state file on router." 

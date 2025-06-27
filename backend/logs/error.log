@@ -1494,3 +1494,26 @@ TC HTB version 3.3
 2025-06-27 18:43:58 - services.whitelist - ERROR - Failed to build whitelist infrastructure. Aborting activation and cleaning up.
 2025-06-27 18:43:59 - services.whitelist - ERROR - Command 'iptables -t mangle -F NETPILOT_WHITELIST' failed with error: iptables: No chain/target/match by that name.
 2025-06-27 18:43:59 - services.whitelist - ERROR - Command 'iptables -t mangle -X NETPILOT_WHITELIST' failed with error: iptables: No chain/target/match by that name.
+2025-06-27 20:55:28 - session.endpoints - ERROR - Error starting session 123: Session context (sessionId, routerId) not found in g
+Traceback (most recent call last):
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/endpoints/session.py", line 20, in start_session
+    success_setup, error_setup = setup_router_infrastructure()
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/services/router_setup_service.py", line 40, in setup_router_infrastructure
+    _execute_command(f"iptables -t mangle -N {WHITELIST_CHAIN}")
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/services/router_setup_service.py", line 20, in _execute_command
+    _, err = router_connection_manager.execute(command, timeout=10)
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/managers/router_connection_manager.py", line 111, in execute
+    raise RuntimeError("Session context (sessionId, routerId) not found in g")
+RuntimeError: Session context (sessionId, routerId) not found in g
+2025-06-27 20:59:43 - middleware - ERROR - Unexpected error for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: name 'get_whitelist' is not defined
+Traceback (most recent call last):
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/utils/middleware.py", line 33, in decorated_function
+    return f(*args, **kwargs)
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/endpoints/whitelist.py", line 24, in get_whitelist_route
+    result, error = get_whitelist()
+NameError: name 'get_whitelist' is not defined
+2025-06-27 21:00:00 - services.router_setup - ERROR - Command 'iptables -t mangle -C PREROUTING -j NETPILOT_WHITELIST' failed with error: iptables: Bad rule (does a matching rule exist in that chain?).
+2025-06-27 21:00:01 - services.router_setup - ERROR - Command 'iptables -t mangle -C PREROUTING -j NETPILOT_BLACKLIST' failed with error: iptables: Bad rule (does a matching rule exist in that chain?).
+2025-06-27 21:06:56 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_WHITELIST' failed with error: iptables: Chain already exists.
+2025-06-27 21:06:56 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_BLACKLIST' failed with error: iptables: Chain already exists.
+2025-06-27 21:06:57 - services.router_setup - ERROR - Command 'tc qdisc add dev br-lan root handle 1: htb default 11' failed with error: Error: Exclusivity flag on, cannot modify.
