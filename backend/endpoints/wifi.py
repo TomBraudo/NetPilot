@@ -7,9 +7,6 @@ from services.wifi_management import (
     get_wifi_status,
     get_wifi_ssid,
     change_wifi_ssid,
-    disable_wifi,
-    set_wifi_password,
-    set_wifi_ssid,
 )
 import time
 from utils.middleware import router_context_required
@@ -99,42 +96,11 @@ def change_ssid():
         return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
     return build_success_response(result, start_time)
 
-@wifi_bp.route("/disable", methods=["POST"])
+@wifi_bp.route("/wifi/disable", methods=["POST"])
 @router_context_required
-def disable():
-    """Disable WiFi"""
+def disable_wifi_route():
+    """Disable WiFi on the router"""
     start_time = time.time()
-    result, error = disable_wifi()
-    if error:
-        return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
-    return build_success_response(result, start_time)
-
-@wifi_bp.route("/password", methods=["POST"])
-@router_context_required
-def password():
-    """Set WiFi password"""
-    start_time = time.time()
-    data = request.get_json()
-    new_password = data.get("password")
-    if not new_password:
-        return build_error_response("Missing 'password' in request body", 400, "BAD_REQUEST", start_time)
-    
-    result, error = set_wifi_password(new_password)
-    if error:
-        return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
-    return build_success_response(result, start_time)
-
-@wifi_bp.route("/ssid", methods=["POST"])
-@router_context_required
-def ssid():
-    """Set WiFi SSID"""
-    start_time = time.time()
-    data = request.get_json()
-    new_ssid = data.get("ssid")
-    if not new_ssid:
-        return build_error_response("Missing 'ssid' in request body", 400, "BAD_REQUEST", start_time)
-    
-    result, error = set_wifi_ssid(new_ssid)
-    if error:
-        return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
-    return build_success_response(result, start_time)
+    # In the new implementation, there is no separate 'disable' function.
+    # We will need to add one to the service layer. For now, return 'not implemented'.
+    return build_error_response("Disabling WiFi is not currently supported.", 501, "NOT_IMPLEMENTED", start_time)

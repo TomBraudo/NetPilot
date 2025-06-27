@@ -76,9 +76,12 @@ class RouterManager {
         'tc',               // Traffic control (bandwidth limiting) - may install as tc-bpf
         'kmod-sched-core',  // Core traffic scheduling (minimal scheduler)
         
+        // ADDED BACK: ip-full is required for the 'arp' command used in network scanning.
+        // The default BusyBox 'arp' is not always available or sufficient.
+        'ip-full',
+        
         // REMOVED for extreme memory optimization:
         // 'uci',              // Usually pre-installed on OpenWrt
-        // 'ip-full',          // BusyBox 'ip' command is sufficient for basic operations
         // 'procps-ng-pkill',  // Will use BusyBox alternatives (ps|grep|awk|xargs|kill)
         // 'dropbear'          // Usually pre-installed on OpenWrt
         
@@ -282,7 +285,8 @@ class RouterManager {
         'coreutils-nohup',  // Process detachment
         'iptables',         // Firewall rules
         'tc',               // Traffic control
-        'kmod-sched-core'   // Core scheduler
+        'kmod-sched-core',  // Core scheduler
+        'ip-full'           // Provides 'arp' command
       ];
       for (const pkg of criticalPackages) {
         try {
@@ -368,6 +372,42 @@ class RouterManager {
         uptime: 'unknown',
         memory: 'unknown'
       };
+    }
+  }
+
+  async getRouterMacAddress(credentials) {
+    logger.router(`Getting MAC address from ${credentials.host}`);
+    const ssh = new NodeSSH();
+    try {
+      await ssh.connect({
+        host: credentials.host,
+        username: credentials.username,
+        password: credentials.password,
+        port: credentials.port || 22,
+        readyTimeout: 20000
+      });
+
+      // Command to get MAC address from the main LAN bridge interface
+      const result = await ssh.execCommand('cat /sys/class/net/br-lan/address');
+      
+      if (result.stderr) {
+        // Fallback for devices that might not have br-lan (e.g., eth0)
+        logger.warn(`Could not get MAC from br-lan, trying eth0. Error: ${result.stderr}`);
+        const fallbackResult = await ssh.execCommand('cat /sys/class/net/eth0/address');
+        if (fallbackResult.stderr) {
+            throw new Error(`Failed to get MAC address from br-lan and eth0: ${fallbackResult.stderr}`);
+        }
+        return fallbackResult.stdout.trim();
+      }
+
+      return result.stdout.trim();
+    } catch (error) {
+      logger.error(`Failed to get MAC address: ${error.message}`);
+      throw error;
+    } finally {
+      if (ssh.isConnected()) {
+        ssh.dispose();
+      }
     }
   }
 

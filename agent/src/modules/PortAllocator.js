@@ -1,7 +1,8 @@
 const axios = require('axios');
-const { v4: uuidv4 } = require('uuid');
+const crypto = require('crypto');
 const ConfigManager = require('./ConfigManager');
 const StateManager = require('./StateManager');
+const RouterManager = require('./RouterManager');
 const logger = require('../utils/Logger');
 
 class PortAllocator {
@@ -43,16 +44,35 @@ class PortAllocator {
     }
     
     try {
-      // Generate unique router ID if not exists
-      if (!this.routerId) {
-        this.routerId = uuidv4();
+      // Try to load routerId from state first for performance
+      const savedState = await this.stateManager.loadState('routerIdentity');
+      if (savedState && savedState.routerId) {
+        this.routerId = savedState.routerId;
+        logger.port(`Restored router ID from state: ${this.routerId}`);
+      } else {
+        // If not found, generate deterministic router ID from MAC address
+        logger.port('No router ID found in state, generating a new one...');
+        if (!routerCredentials) {
+            throw new Error('Router credentials are required to generate a router ID.');
+        }
+        const routerManager = new RouterManager(this.configManager);
+        const macAddress = await routerManager.getRouterMacAddress(routerCredentials);
+        if (!macAddress) {
+            throw new Error('Could not retrieve MAC address to generate router ID.');
+        }
+        this.routerId = crypto.createHash('sha256').update(macAddress).digest('hex');
+        logger.port(`Generated deterministic router ID: ${this.routerId}`);
+
+        // Save the newly generated routerId to the state for future use
+        await this.stateManager.saveState('routerIdentity', { routerId: this.routerId });
+        logger.port('Saved new router ID to state.');
       }
       
       // Test cloud VM connectivity first
       const isCloudAvailable = await this.testCloudVmConnectivity();
       if (!isCloudAvailable) {
-        logger.warn('Cloud VM not available, falling back to local allocation');
-        return await this.allocatePortTemporary();
+        // If cloud is not available, we should fail instead of using a fallback.
+        throw new Error('Cloud VM is not available. Cannot allocate port.');
       }
 
       // Call cloud VM port allocation API
@@ -70,10 +90,8 @@ class PortAllocator {
       return port;
     } catch (error) {
       logger.error('Port allocation failed:', error);
-      
-      // Fallback to temporary allocation if cloud fails
-      logger.warn('Falling back to temporary port allocation');
-      return await this.allocatePortTemporary();
+      // Re-throw the error to ensure the calling process knows about the failure.
+      throw error;
     }
   }
 
@@ -99,66 +117,6 @@ class PortAllocator {
 
     logger.port(`Cloud VM port allocation successful: ${JSON.stringify(response.data)}`);
     return response.data.port;
-  }
-
-  async allocatePortTemporary() {
-    // Fallback implementation when cloud VM is not available
-    logger.port('Using temporary port allocation (cloud VM unavailable)');
-    
-    // Use router ID hash to make port selection more deterministic
-    const routerHash = this.routerId ? this.hashString(this.routerId) : Math.random();
-    const portOffset = Math.floor(routerHash * (this.portRange.max - this.portRange.min + 1));
-    
-    // Try ports starting from the hashed position
-    for (let i = 0; i < (this.portRange.max - this.portRange.min + 1); i++) {
-      const port = this.portRange.min + ((portOffset + i) % (this.portRange.max - this.portRange.min + 1));
-      
-      try {
-        const isAvailable = await this.testPortAvailabilityLocally(port);
-        if (isAvailable) {
-          logger.port(`Temporary port ${port} allocated for router ${this.routerId}`);
-          return port;
-        }
-      } catch (error) {
-        logger.warn(`Port ${port} test failed:`, error.message);
-        continue;
-      }
-    }
-    
-    throw new Error('No available ports in range 2200-2299');
-  }
-
-  hashString(str) {
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-      const char = str.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash; // Convert to 32-bit integer
-    }
-    return Math.abs(hash) / 2147483647; // Normalize to 0-1
-  }
-
-  async testPortAvailabilityLocally(port) {
-    // Test if the port is likely available by checking if it's being used
-    // This is a simplified test - in production you might want to test actual connectivity
-    try {
-      // For temporary allocation, we'll use a simple strategy:
-      // Avoid common SSH ports and assume most ports in our range are available
-      const commonPorts = [22, 80, 443, 8080, 3000, 3030];
-      if (commonPorts.includes(port)) {
-        return false;
-      }
-
-      // Simple availability test - in a real implementation you might test actual binding
-      return true;
-    } catch (error) {
-      return false;
-    }
-  }
-
-  async testPortAvailability(port) {
-    // Legacy method - now calls the improved local test
-    return await this.testPortAvailabilityLocally(port);
   }
 
   async testCloudVmConnectivity() {
@@ -444,11 +402,6 @@ class PortAllocator {
   setCloudVmIp(ip) {
     this.cloudVmIp = ip;
     logger.port(`Cloud VM IP updated to: ${ip}`);
-  }
-
-  generateRouterId() {
-    this.routerId = uuidv4();
-    return this.routerId;
   }
 
   // Cleanup for app shutdown - preserves state for auto-restore

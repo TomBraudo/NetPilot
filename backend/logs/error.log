@@ -1374,3 +1374,5 @@ Traceback (most recent call last):
   File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_service.py", line 77, in remove_device_from_blacklist
     raise ValueError(f"Device with IP {ip} not found in blacklist")
 ValueError: Device with IP 192.168.1.122 not found in blacklist
+2025-06-27 12:50:33 - services.wifi - ERROR - Connection error getting WiFi status: Router <your_router_id> not found in Port-Manager
+2025-06-27 12:56:39 - services.wifi - ERROR - Connection error getting WiFi status: Router 2ed45235-b5d8-4ace-af5c-d9c2e4e1ca9d not found in Port-Manager

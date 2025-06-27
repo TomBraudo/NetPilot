@@ -15,7 +15,6 @@ if _env_local_path.exists():
 
 # Rest of the imports can safely rely on env vars
 from flask_cors import CORS
-from utils.ssh_client import ssh_manager
 from utils.logging_config import get_logger
 from managers.router_connection_manager import RouterConnectionManager
 import atexit

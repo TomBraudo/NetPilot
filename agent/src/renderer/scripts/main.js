@@ -53,6 +53,7 @@ class NetPilotAgentUI {
     this.handleEnableWifi = this.handleEnableWifi.bind(this);
     this.handleReconnect = this.handleReconnect.bind(this);
     this.handleDisconnect = this.handleDisconnect.bind(this);
+    this.handleDisconnectTunnel = this.handleDisconnectTunnel.bind(this);
     this.handleUninstall = this.handleUninstall.bind(this);
     this.showNotification = this.showNotification.bind(this);
     this.updateProgress = this.updateProgress.bind(this);
@@ -99,6 +100,7 @@ class NetPilotAgentUI {
       statusActions: document.getElementById('status-actions'),
       reconnectBtn: document.getElementById('reconnect-btn'),
       disconnectBtn: document.getElementById('disconnect-btn'),
+      disconnectTunnelBtn: document.getElementById('disconnect-tunnel-btn'),
       uninstallBtn: document.getElementById('uninstall-btn'),
       settingsBtn: document.getElementById('settings-btn'),
       logsBtn: document.getElementById('logs-btn'),
@@ -220,6 +222,7 @@ class NetPilotAgentUI {
     // Status actions
     this.elements.reconnectBtn?.addEventListener('click', this.handleReconnect);
     this.elements.disconnectBtn?.addEventListener('click', this.handleDisconnect);
+    this.elements.disconnectTunnelBtn?.addEventListener('click', this.handleDisconnectTunnel);
     this.elements.uninstallBtn?.addEventListener('click', this.handleUninstall);
     
     // Utility buttons
@@ -1230,56 +1233,53 @@ Built with Electron ${window.electronAPI?.version || 'Unknown'}${configInfo}${ro
 
   async handleDisconnect(event) {
     event.preventDefault();
-    
-    if (this.isProcessing) return;
-    
-    const confirmed = await window.electronAPI.showConfirm({
-      title: 'Disconnect Router',
-      message: 'Are you sure you want to disconnect the tunnel? This will stop remote access to your router.',
-      buttons: ['Disconnect', 'Cancel']
-    });
-    
-    if (!confirmed) return;
-    
-    this.isProcessing = true;
-    this.showNotification('Disconnecting...', 'info');
-    
+    this.setButtonLoading(this.elements.disconnectBtn, true);
+    this.showNotification('Disconnecting from router and releasing port...', 'info');
+
+    try {
+      const result = await window.electronAPI.disconnect();
+      if (result.success) {
+        this.updateConnectionStatus('disconnected', 'Disconnected from router.');
+        this.showNotification('Disconnected successfully.', 'success');
+        this.allocatedPort = null;
+        this.routerConfigured = false;
+        this.saveRouterConfigurationState();
+        this.updateRouterConfigButtonsVisibility();
+      } else {
+        throw new Error(result.error || 'An unknown error occurred.');
+      }
+    } catch (error) {
+      logger.error('Disconnection failed:', error);
+      this.showNotification(`Disconnection failed: ${error.message}`, 'error');
+    } finally {
+      this.setButtonLoading(this.elements.disconnectBtn, false);
+    }
+  }
+
+  async handleDisconnectTunnel(event) {
+    event.preventDefault();
+    this.setButtonLoading(this.elements.disconnectTunnelBtn, true);
+    this.showNotification('Disconnecting tunnel (port will be kept)...', 'info');
+
     try {
       const result = await window.electronAPI.disconnectTunnel();
-      
       if (result.success) {
-        // Return to configured-disconnected state if router is still configured
-        if (this.currentRouterProfile && this.currentRouterProfile.isConfigured) {
-          this.updateConnectionStatus('configured-disconnected', 'Tunnel disconnected - router ready for reconnection');
-        } else {
-          this.updateConnectionStatus('unconfigured', 'Tunnel disconnected');
-        }
-        this.showNotification('✅ Tunnel disconnected successfully', 'success');
-        this.addLog('INFO', 'Tunnel disconnected by user');
+        this.updateConnectionStatus('port_allocated', `Tunnel disconnected. Port ${this.allocatedPort} is still reserved.`);
+        this.showNotification('Tunnel disconnected successfully.', 'success');
       } else {
-        throw new Error(result.error);
+        throw new Error(result.error || 'An unknown error occurred.');
       }
-      
     } catch (error) {
-      console.error('Disconnect error:', error);
-      this.showNotification(`❌ Disconnect failed: ${error.message}`, 'error');
-      this.addLog('ERROR', `Disconnect failed: ${error.message}`);
+      logger.error('Tunnel disconnection failed:', error);
+      this.showNotification(`Tunnel disconnection failed: ${error.message}`, 'error');
     } finally {
-      this.isProcessing = false;
-      // Button states are managed by updateConnectionStatus() -> updateButtonVisibility()
+      this.setButtonLoading(this.elements.disconnectTunnelBtn, false);
     }
   }
 
   async handleUninstall(event) {
     event.preventDefault();
-
-    if (this.isProcessing) return;
-
-    const confirmed = await window.electronAPI.showConfirm({
-      title: 'Uninstall NetPilot',
-      message: 'This will remove NetPilot configurations and cleanup packages from your router. Continue?',
-      buttons: ['Uninstall', 'Cancel']
-    });
+    const confirmed = confirm('Are you sure you want to uninstall NetPilot from this router? This will remove all related files and services.');
 
     if (!confirmed) return;
 

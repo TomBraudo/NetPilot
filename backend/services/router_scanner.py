@@ -27,7 +27,9 @@ def get_connected_devices():
     leases to enrich the data with hostnames.
     """
     try:
-        arp_cmd = "arp -n"
+        # Read directly from the kernel's ARP table file for maximum compatibility.
+        # This avoids issues with PATH and the 'arp' command not being a real executable.
+        arp_cmd = "cat /proc/net/arp"
         arp_output, arp_err = router_connection_manager.execute(arp_cmd)
         if arp_err:
             return None, f"Failed to get ARP table: {arp_err}"
@@ -109,14 +111,20 @@ def _parse_scan_results(arp_data, dhcp_data):
             dhcp_map[mac] = hostname
 
     devices = []
-    # Regex to capture IP and MAC from 'arp -n' output
-    arp_pattern = re.compile(r'^\? \(([\d\.]+)\) at (([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2})')
+    # Regex to capture the IP address, HW address (MAC), and device from /proc/net/arp
+    # Example line: 192.168.1.194    0x1         0x2         d2:f0:7b:2b:69:15     *        br-lan
+    arp_pattern = re.compile(r'^\s*([^\s]+)\s+0x\d\s+0x\d\s+([0-9a-fA-F:]+)\s+\*\s+([^\s]+)')
 
-    for line in arp_data.strip().split('\n'):
+    # Skip the header line
+    for line in arp_data.strip().split('\n')[1:]:
         if not line: continue
         match = arp_pattern.search(line)
         if match:
-            ip, mac = match.groups()
+            ip, mac, device = match.groups()
+            # Only include devices on the LAN bridge
+            if device != "br-lan":
+                continue
+            
             mac = mac.lower()
             hostname = dhcp_map.get(mac, 'Unknown')
             vendor = get_mac_vendor(mac)

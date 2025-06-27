@@ -208,13 +208,9 @@ class NetPilotAgent {
     // Allocate port for tunnel
     ipcMain.handle('allocate-port', async (event, credentials = null) => {
       try {
-        // Pass router credentials to port allocation so they can be stored with the port
-        const routerCredentials = credentials ? {
-          username: credentials.username,
-          password: credentials.password
-        } : null;
-        
-        const port = await this.portAllocator.allocatePort(routerCredentials);
+        // Pass the full router credentials object.
+        // This is critical for the new routerId generation which needs the host to get the MAC address.
+        const port = await this.portAllocator.allocatePort(credentials);
         return { success: true, data: { port } };
       } catch (error) {
         return { success: false, error: error.message };
@@ -270,18 +266,13 @@ class NetPilotAgent {
       }
     });
 
-    // Disconnect tunnel (user initiated - clears state)
-    ipcMain.handle('disconnect-tunnel', async (event) => {
+    // Disconnect tunnel but keep port allocation
+    ipcMain.handle('disconnect-tunnel', async () => {
       try {
-        // Use full cleanup for user disconnect (clears state)
-        if (this.tunnelManager && this.tunnelManager.isConnected) {
-          await this.tunnelManager.cleanup();
-        }
-        if (this.portAllocator && this.portAllocator.allocatedPort) {
-          await this.portAllocator.cleanup();
-        }
+        await this.tunnelManager.disconnect();
         return { success: true };
       } catch (error) {
+        logger.error('Failed to disconnect tunnel:', error);
         return { success: false, error: error.message };
       }
     });

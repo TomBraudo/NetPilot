@@ -4,6 +4,7 @@ const ConfigManager = require('./ConfigManager');
 const StateManager = require('./StateManager');
 const axios = require('axios');
 const logger = require('../utils/Logger');
+const crypto = require('crypto');
 
 class TunnelManager {
   constructor(configManager) {
@@ -44,8 +45,8 @@ class TunnelManager {
     try {
       this.routerCredentials = credentials;
       this.tunnelPort = port;
-      // Use provided routerId from PortAllocator, or fallback to generating one
-      this.routerId = routerId || `router_${credentials.host.replace(/\./g, '_')}_${Date.now()}`;
+      // Use provided routerId from PortAllocator. If it's missing, create a deterministic one.
+      this.routerId = routerId || crypto.createHash('sha256').update(credentials.host).digest('hex');
       
       // Set cloudPort from credentials or default to 22
       this.cloudPort = credentials?.cloudPort || 22;
@@ -899,98 +900,54 @@ EOF`);
     }
   }
 
+  // Stops the tunnel process on the router but keeps the SSH connection to the router open.
+  // This is for a temporary disconnect, allowing for a quick restart.
   async stopTunnel() {
-    logger.tunnel(`Stopping tunnel for port ${this.tunnelPort}...`);
-    
+    logger.tunnel(`Stopping tunnel process for port ${this.tunnelPort}...`);
+    if (!this.isConnected || !this.tunnelPort) {
+      logger.warn('Cannot stop tunnel, not connected or no port assigned.');
+      return;
+    }
     try {
-      if (!this.tunnelPort) {
-        logger.warn('No tunnel port assigned for stopping');
-        return true;
-      }
-      
-      if (this.isConnected) {
-        // Kill only the tunnel processes for this specific port (BusyBox compatible)
-        await this.ssh.execCommand(`ps | grep "netpilot_tunnel.*${this.tunnelPort}" | grep -v grep | awk '{print $1}' | xargs -r kill || true`);
-        await this.ssh.execCommand(`ps | grep "autossh.*-R ${this.tunnelPort}:localhost:22" | grep -v grep | awk '{print $1}' | xargs -r kill || true`);
-        await this.ssh.execCommand(`ps | grep "sshpass.*autossh.*${this.tunnelPort}" | grep -v grep | awk '{print $1}' | xargs -r kill || true`);
-        
-        // Also check PID file if it exists
-        await this.ssh.execCommand(`
-          PID_FILE="/var/run/netpilot_tunnel_${this.tunnelPort}.pid"
-          if [ -f "$PID_FILE" ]; then
-            PID=$(cat "$PID_FILE" 2>/dev/null)
-            if [ -n "$PID" ]; then
-              kill $PID 2>/dev/null || kill -9 $PID 2>/dev/null || true
-            fi
-            rm -f "$PID_FILE"
-          fi
-        `);
-        
-        logger.tunnel(`Tunnel processes for port ${this.tunnelPort} stopped`);
-      }
-      
+      // Use the init.d script to gracefully stop the service
+      await this.ssh.execCommand(`/etc/init.d/netpilot_tunnel stop`);
       this.stopMonitoring();
       this.stopHeartbeat();
       this.tunnelProcess = null;
-      
-      return true;
+      logger.tunnel('Tunnel process stopped successfully.');
     } catch (error) {
-      logger.error('Failed to stop tunnel:', error);
-      return false;
+      logger.error('Failed to stop tunnel process via init.d script, falling back to manual cleanup.', error);
+      await this.aggressiveProcessCleanup();
     }
   }
 
-  // Cleanup for app shutdown - preserves state for auto-restore
-  async cleanupForShutdown() {
-    logger.tunnel('Cleaning up tunnel manager for app shutdown (preserving state)...');
-    
-    try {
-      // Stop monitoring and heartbeat
-      this.stopMonitoring();
-      this.stopHeartbeat();
-      
-      // Stop tunnel processes on router but keep them auto-restartable
-      if (this.isConnected && this.tunnelPort) {
-        logger.tunnel('Stopping tunnel processes for shutdown...');
-        await this.stopTunnel();
-      }
-      
-      // Disconnect SSH but don't clear credentials/state
-      if (this.isConnected && this.ssh) {
-        await this.ssh.dispose();
-        this.isConnected = false;
-      }
-      
-      // DON'T clear state - it will be restored on next startup
-      logger.tunnel('Tunnel manager shutdown cleanup completed (state preserved)');
-    } catch (error) {
-      logger.error('Shutdown cleanup error:', error);
+  // Disconnects the SSH session from the router. This does NOT release the port.
+  // This is the method for the "Disconnect Tunnel" button.
+  async disconnect() {
+    logger.tunnel('Disconnecting tunnel and closing SSH session...');
+    await this.stopTunnel();
+    if (this.ssh.isConnected()) {
+      this.ssh.dispose();
     }
+    this.isConnected = false;
+    // Note: We do NOT clear tunnelPort or routerId here.
+    logger.tunnel('Tunnel disconnected.');
   }
 
-  // Cleanup for user disconnect - clears all state
+  // A full cleanup for when the user wants to disconnect AND release the port.
+  // This is for the "Disconnect & Release Port" button.
   async cleanup() {
-    logger.tunnel('Cleaning up tunnel manager for user disconnect...');
-    
-    try {
-      await this.stopTunnel();
-      
-      if (this.isConnected && this.ssh) {
-        await this.ssh.dispose();
-        this.isConnected = false;
-      }
-      
-      this.routerCredentials = null;
-      this.tunnelPort = null;
-      this.routerId = null;
-      
-      // Clear persistent state only for user disconnect
-      await this.clearTunnelState();
-      
-      logger.tunnel('Tunnel manager cleanup completed');
-    } catch (error) {
-      logger.error('Cleanup error:', error);
-    }
+    logger.tunnel('Performing full cleanup: disconnecting tunnel and clearing all state...');
+    await this.disconnect(); // Disconnects SSH and stops tunnel process
+
+    // Clear all state variables
+    this.routerCredentials = null;
+    this.tunnelPort = null;
+    this.routerId = null;
+
+    // Clear persistent state from disk
+    await this.clearTunnelState();
+    logger.tunnel('Full cleanup complete.');
   }
 
   getStatus() {
