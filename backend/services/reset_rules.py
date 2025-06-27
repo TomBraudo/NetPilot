@@ -1,93 +1,86 @@
 from utils.logging_config import get_logger
-from utils.ssh_client import ssh_manager
-from utils.response_helpers import success
+from managers.router_connection_manager import RouterConnectionManager
 
 logger = get_logger('services.reset_rules')
-
-def reset_all_tc_rules():
-    """
-    Remove all traffic control (bandwidth limit) rules from the router.
-    This is used when resetting blacklist/whitelist modes.
-    """
-    try:
-        # Flush iptables mangle table first to remove any packet marks
-        logger.info("Flushing iptables mangle table.")
-        iptables_flush_output, iptables_flush_error = ssh_manager.execute_command("iptables -t mangle -F")
-        if iptables_flush_error:
-            # Log an error but proceed with trying to remove tc rules
-            logger.error(f"Error flushing iptables mangle table: {iptables_flush_error}. Output: {iptables_flush_output}")
-            # Depending on policy, you might choose to raise an exception here
-            # raise Exception(f"Failed to flush iptables mangle table: {iptables_flush_error}")
-        else:
-            logger.info("Successfully flushed iptables mangle table.")
-
-        # Get all interfaces first
-        iface_cmd = "ip link show | grep -v '@' | grep -v 'lo:' | awk -F': ' '{print $2}' | cut -d'@' -f1"
-        interfaces_output, iface_error = ssh_manager.execute_command(iface_cmd)
-        
-        if iface_error:
-            raise Exception(f"Failed to fetch network interfaces: {iface_error}")
-        
-        # For each interface, remove all tc rules
-        for interface in interfaces_output.strip().split('\n'):
-            if not interface.strip():
-                continue
-            
-            # Remove all qdisc rules. Capture stderr.
-            cmd = f"tc qdisc del dev {interface} root"
-            output, error = ssh_manager.execute_command(cmd) # error will now contain tc's stderr
-
-            # Log the outcome, even if 'successful' due to no qdisc existing
-            if error:
-                # Log common 'Cannot find device' or 'RTNETLINK answers: No such file or directory' as info, others as error
-                if "Cannot find device" in error or "No such file or directory" in error:
-                    logger.info(f"Interface {interface} or qdisc not found (normal for reset): {error}")
-                else:
-                    logger.error(f"Error deleting qdisc on {interface}: {error}. Output: {output}")
-                    # Optionally, re-raise an exception if a critical error occurs during reset
-                    # raise Exception(f"Failed to delete qdisc on {interface}: {error}") 
-            else:
-                logger.info(f"Successfully deleted qdisc on {interface} or no qdisc was present. Output: {output}")
-        
-        return success(message="All traffic control rules removed (or attempted)")
-    except Exception as e:
-        logger.error(f"Error resetting traffic control rules: {str(e)}", exc_info=True)
-        raise
-
-def reset_all_wireless_blocking():
-    """
-    Reset all wireless device blocking (MAC filtering).
-    """
-    try:
-        # Reset the OpenWrt blocklist settings
-        ssh_manager.execute_command("uci set wireless.@wifi-iface[1].macfilter='disable'")
-        ssh_manager.execute_command("uci delete wireless.@wifi-iface[1].maclist")
-        ssh_manager.execute_command("uci commit wireless")
-        ssh_manager.execute_command("wifi")
-        
-        return success(message="All wireless blocking rules reset")
-    except Exception as e:
-        logger.error(f"Error resetting wireless blocking: {str(e)}", exc_info=True)
-        raise
+router_connection_manager = RouterConnectionManager()
 
 def reset_all_rules():
     """
-    Reset all network rules including bandwidth limits and wireless blocks.
+    Resets all firewall rules to a default state by removing all but the essential
+    forwarding and system rules. Also clears any MAC-based blocklists.
     """
     try:
-        # Reset bandwidth limits
-        tc_result = reset_all_tc_rules()
-        
-        # Reset wireless blocking
-        wireless_result = reset_all_wireless_blocking()
-        
-        return success(
-            message="All network rules have been reset successfully",
-            data={
-                "bandwidth_reset": tc_result.get("message", "Failed"),
-                "wireless_reset": wireless_result.get("message", "Failed")
-            }
+        get_rules_cmd = "uci show firewall | grep 'firewall.@rule' | sed 's/\\[\\([0-9]*\\)\\].*/\\1/' | sort -rn"
+        rule_indices_str, err = router_connection_manager.execute(get_rules_cmd)
+
+        if err:
+            return None, f"Failed to retrieve firewall rules: {err}"
+
+        delete_commands = []
+        if rule_indices_str:
+            indices = rule_indices_str.strip().split('\n')
+            for index in indices:
+                if int(index) > 5:
+                    delete_commands.append(f"uci delete firewall.@rule[{index}]")
+
+        clear_maclist_cmd = (
+            "uci show wireless.@wifi-iface[0].maclist > /dev/null 2>&1 && "
+            "uci set wireless.@wifi-iface[0].maclist='' && "
+            "uci set wireless.@wifi-iface[0].macfilter='none'"
         )
+        delete_commands.append(clear_maclist_cmd)
+
+        delete_commands.append("uci commit firewall")
+        delete_commands.append("uci commit wireless")
+        delete_commands.append("/etc/init.d/firewall restart")
+        delete_commands.append("wifi")
+
+        full_command = " && ".join(delete_commands)
+        _, final_err = router_connection_manager.execute(full_command)
+        
+        if final_err:
+            if "uci: Entry not found" not in final_err:
+                return None, f"An error occurred during reset: {final_err}"
+
+        return "All firewall rules and MAC blocks have been reset.", None
+
+    except RuntimeError as e:
+        logger.error(f"Connection error resetting rules: {str(e)}")
+        return None, str(e)
     except Exception as e:
-        logger.error(f"Error resetting network rules: {str(e)}", exc_info=True)
-        raise
+        logger.error(f"An unexpected error occurred during rule reset: {str(e)}", exc_info=True)
+        return None, "An unexpected error occurred during rule reset."
+
+def reset_all_tc_rules():
+    """
+    Removes all traffic control (tc) qdiscs from the LAN interface, effectively
+    resetting any bandwidth shaping rules.
+    """
+    try:
+        # Find the LAN bridge interface
+        iface_cmd = "ip -o link show | grep 'br-lan' | awk '{print $2}' | cut -d: -f1"
+        interface, iface_err = router_connection_manager.execute(iface_cmd)
+        if iface_err or not interface:
+            interface = "br-lan"
+            logger.warning("Could not dynamically find LAN bridge, falling back to br-lan.")
+        
+        interface = interface.strip()
+
+        # Command to delete the root qdisc, which removes all child classes and filters
+        cmd = f"tc qdisc del dev {interface} root"
+        _, err = router_connection_manager.execute(cmd)
+
+        # It's not an error if the qdisc doesn't exist (it may have been already cleared)
+        if err and "Cannot find device" not in err and "No such file or directory" not in err:
+            logger.error(f"Failed to delete tc qdisc on {interface}: {err}")
+            return None, f"Failed to delete tc qdisc on {interface}: {err}"
+        
+        logger.info(f"Successfully cleared all TC rules on interface {interface}.")
+        return f"Successfully cleared all TC rules on interface {interface}.", None
+
+    except RuntimeError as e:
+        logger.error(f"Connection error resetting TC rules: {str(e)}")
+        return None, str(e)
+    except Exception as e:
+        logger.error(f"An unexpected error occurred during TC rule reset: {str(e)}", exc_info=True)
+        return None, "An unexpected error occurred during TC rule reset."

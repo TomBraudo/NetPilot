@@ -5,6 +5,7 @@ from typing import Dict, Tuple, Optional
 import os
 import paramiko
 import requests
+from flask import g
 
 __all__ = ["RouterConnectionManager"]
 
@@ -74,6 +75,7 @@ class RouterConnectionManager:
     def _init_internal(self):
         self._lock = threading.RLock()
         self._sessions: Dict[str, Dict[str, _RouterConnection]] = {}
+        self._active_sessions: Dict[str, datetime] = {}
 
         # Config
         base_url = os.getenv("PORT_MANAGER_URL", "http://localhost:3001")
@@ -87,21 +89,47 @@ class RouterConnectionManager:
         self._janitor.start()
 
     # ------------------------ public API -----------------------
-    def execute(self, session_id: str, router_id: str, command: str, timeout: int = 30) -> Tuple[str, str]:
+    def start_session(self, session_id: str):
+        with self._lock:
+            self._active_sessions[session_id] = datetime.utcnow()
+
+    def end_session(self, session_id: str):
+        with self._lock:
+            self._active_sessions.pop(session_id, None)
+            routers = self._sessions.pop(session_id, {})
+            for conn in routers.values():
+                conn.close()
+
+    def get_session_status(self, session_id: str) -> bool:
+        with self._lock:
+            return session_id in self._active_sessions
+
+    def execute(self, command: str, timeout: int = 30) -> Tuple[str, str]:
+        session_id = g.get("session_id")
+        router_id = g.get("router_id")
+        if not session_id or not router_id:
+            raise RuntimeError("Session context (sessionId, routerId) not found in g")
+
         conn = self._get_or_create_connection(session_id, router_id)
         try:
             return conn.exec_command(command, timeout=timeout)
-        except Exception:
+        except Exception as e:
             # Mark connection dead and retry once
             conn.close()
             with self._lock:
                 self._sessions.get(session_id, {}).pop(router_id, None)
-            conn = self._get_or_create_connection(session_id, router_id)
-            return conn.exec_command(command, timeout=timeout)
+            
+            # After failure, create a fresh connection
+            new_conn = self._get_or_create_connection(session_id, router_id)
+            return new_conn.exec_command(command, timeout=timeout)
 
     # ------------------------ helpers --------------------------
     def _get_or_create_connection(self, session_id: str, router_id: str) -> _RouterConnection:
         with self._lock:
+            # First, ensure the session is active
+            if not self.get_session_status(session_id):
+                raise RuntimeError(f"Session {session_id} is not active or has expired.")
+
             session = self._sessions.setdefault(session_id, {})
             if router_id in session:
                 conn = session[router_id]
@@ -146,27 +174,30 @@ class RouterConnectionManager:
             time.sleep(30)  # run every 30s
             now = datetime.utcnow()
             with self._lock:
+                # --- Session Cleanup ---
                 sessions_to_delete = []
+                for session_id, last_active in list(self._active_sessions.items()):
+                    if (now - last_active).total_seconds() > self._session_idle:
+                        sessions_to_delete.append(session_id)
+                
+                for sid in sessions_to_delete:
+                    self.end_session(sid) # Use end_session to ensure proper cleanup
+
+                # --- Connection Cleanup ---
                 for session_id, routers in list(self._sessions.items()):
                     routers_to_delete = []
                     for router_id, conn in list(routers.items()):
                         if (now - conn.last_used).total_seconds() > self._connection_idle:
                             conn.close()
                             routers_to_delete.append(router_id)
+                    
                     for router_id in routers_to_delete:
                         routers.pop(router_id, None)
-                    # remove session if empty or idle
-                    if not routers:
-                        sessions_to_delete.append(session_id)
-                        continue
-                    # session idle check based on oldest last_used
-                    oldest_last_used = max(r.last_used for r in routers.values())
-                    if (now - oldest_last_used).total_seconds() > self._session_idle:
-                        sessions_to_delete.append(session_id)
-                for sid in sessions_to_delete:
-                    for conn in self._sessions.get(sid, {}).values():
-                        conn.close()
-                    self._sessions.pop(sid, None)
+                    
+                    # Update session's last active time if it's still alive
+                    if routers:
+                        latest_activity = max(c.last_used for c in routers.values())
+                        self._active_sessions[session_id] = latest_activity
 
     # ---------------------- shutdown ---------------------------
     def shutdown(self):
