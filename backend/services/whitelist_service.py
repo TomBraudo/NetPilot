@@ -122,4 +122,16 @@ def set_whitelist_full_rate(rate):
         if state['active_mode'] == 'whitelist':
             conn.exec_command(f"tc class change dev br-lan parent 1: classid 1:11 htb rate {formatted_rate}")
         return {"rate": formatted_rate}, None
-    return None, "Failed to update state file on router." 
+    return None, "Failed to update state file on router."
+
+def get_whitelist():
+    """Gets the current whitelist state."""
+    conn = router_connection_manager._get_current_connection()
+    if not conn: return None, "No active router connection."
+
+    state = get_router_state(conn)
+    return {
+        "devices": state['devices']['whitelist'],
+        "active_mode": state['active_mode'],
+        "rates": state['rates']['whitelist']
+    }, None 
