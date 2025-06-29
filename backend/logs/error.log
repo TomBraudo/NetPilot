@@ -1574,3 +1574,28 @@ add chain inet netpilot gate {{ type filter hook prerouting priority mangle; }}
 Error: syntax error, unexpected '}', expecting end of file or newline or semicolon
 add chain inet netpilot gate {{ type filter hook prerouting priority mangle; }}
                                                                               ^
+2025-06-29 22:04:16 - services.mode_activation - ERROR - Command failed: iptables -t mangle -A POSTROUTING -j NETPILOT_WHITELIST - Error: iptables v1.8.8 (nf_tables):  RULE_APPEND failed (Invalid argument): rule in chain POSTROUTING
+2025-06-29 22:04:16 - services.mode_activation - ERROR - Failed to add POSTROUTING jump to NETPILOT_WHITELIST
+2025-06-29 22:04:17 - services.whitelist - ERROR - Failed to activate whitelist mode rules: Failed to add POSTROUTING rule for whitelist mode
+2025-06-29 22:22:37 - services.mode_activation - ERROR - Command failed: iptables -t mangle -A POSTROUTING -j NETPILOT_WHITELIST - Error: iptables v1.8.8 (nf_tables):  RULE_APPEND failed (Invalid argument): rule in chain POSTROUTING
+2025-06-29 22:53:51 - services.mode_activation - ERROR - Command failed: iptables -t mangle -A POSTROUTING -j NETPILOT_WHITELIST - Error: iptables v1.8.8 (nf_tables):  RULE_APPEND failed (Invalid argument): rule in chain POSTROUTING
+2025-06-30 00:13:24 - paramiko.transport - ERROR - Exception (client): Error reading SSH protocol banner[Errno 104] Connection reset by peer
+2025-06-30 00:13:24 - paramiko.transport - ERROR - Traceback (most recent call last):
+2025-06-30 00:13:24 - paramiko.transport - ERROR -   File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/venv-local/lib/python3.10/site-packages/paramiko/transport.py", line 2369, in _check_banner
+2025-06-30 00:13:24 - paramiko.transport - ERROR -     buf = self.packetizer.readline(timeout)
+2025-06-30 00:13:24 - paramiko.transport - ERROR -   File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/venv-local/lib/python3.10/site-packages/paramiko/packet.py", line 395, in readline
+2025-06-30 00:13:24 - paramiko.transport - ERROR -     buf += self._read_timeout(timeout)
+2025-06-30 00:13:24 - paramiko.transport - ERROR -   File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/venv-local/lib/python3.10/site-packages/paramiko/packet.py", line 663, in _read_timeout
+2025-06-30 00:13:24 - paramiko.transport - ERROR -     x = self.__socket.recv(128)
+2025-06-30 00:13:24 - paramiko.transport - ERROR - ConnectionResetError: [Errno 104] Connection reset by peer
+2025-06-30 00:13:24 - paramiko.transport - ERROR - 
+2025-06-30 00:13:24 - paramiko.transport - ERROR - During handling of the above exception, another exception occurred:
+2025-06-30 00:13:24 - paramiko.transport - ERROR - 
+2025-06-30 00:13:24 - paramiko.transport - ERROR - Traceback (most recent call last):
+2025-06-30 00:13:24 - paramiko.transport - ERROR -   File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/venv-local/lib/python3.10/site-packages/paramiko/transport.py", line 2185, in run
+2025-06-30 00:13:24 - paramiko.transport - ERROR -     self._check_banner()
+2025-06-30 00:13:24 - paramiko.transport - ERROR -   File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/venv-local/lib/python3.10/site-packages/paramiko/transport.py", line 2373, in _check_banner
+2025-06-30 00:13:24 - paramiko.transport - ERROR -     raise SSHException(
+2025-06-30 00:13:24 - paramiko.transport - ERROR - paramiko.ssh_exception.SSHException: Error reading SSH protocol banner[Errno 104] Connection reset by peer
+2025-06-30 00:13:24 - paramiko.transport - ERROR - 
+2025-06-30 00:20:01 - services.device_rule - ERROR - Command failed: iptables -t mangle -D NETPILOT_WHITELIST -s 192.168.1.122 -j MARK --set-mark 0 - Error: iptables: Bad rule (does a matching rule exist in that chain?).

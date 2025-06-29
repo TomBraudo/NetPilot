@@ -1,0 +1,83 @@
+# ROUTER DIAGNOSTIC COMMANDS
+# Run these commands directly on your OpenWRT router via SSH
+
+# ============================================================================
+# 1. CHECK NETPILOT WHITELIST CHAIN (most important)
+# ============================================================================
+# This should show if your device rules were properly removed
+iptables -t mangle -L NETPILOT_WHITELIST -n --line-numbers -v
+
+# WHAT TO LOOK FOR:
+# ✅ GOOD: Only shows default rule like:
+#    1  MARK  all  --  *  *  0.0.0.0/0  0.0.0.0/0  MARK set 0x62
+# ❌ BAD: Still shows your MAC (d8:bb:c1:47:3a:43) or IP (192.168.1.122)
+
+# ============================================================================
+# 2. CHECK NETPILOT BLACKLIST CHAIN  
+# ============================================================================
+iptables -t mangle -L NETPILOT_BLACKLIST -n --line-numbers -v
+
+# ============================================================================
+# 3. CHECK WHICH CHAINS ARE ACTIVE
+# ============================================================================
+# Check PREROUTING (primary location)
+iptables -t mangle -L PREROUTING -n --line-numbers
+
+# Check FORWARD (fallback location)  
+iptables -t mangle -L FORWARD -n --line-numbers
+
+# ============================================================================
+# 4. CHECK TC INFRASTRUCTURE ON ALL INTERFACES
+# ============================================================================
+# List all network interfaces
+ls /sys/class/net/ | grep -v lo
+
+# For each interface, check TC setup (replace 'br-lan' with your interface):
+tc qdisc show dev br-lan
+tc class show dev br-lan  
+tc filter show dev br-lan
+
+# ============================================================================
+# 5. CHECK NETPILOT STATE FILE
+# ============================================================================
+cat /etc/config/netpilot_state.json
+
+# ============================================================================
+# 6. QUICK SUMMARY COMMANDS
+# ============================================================================
+# Show all mangle table rules (overview)
+iptables -t mangle -L -n
+
+# Count rules in whitelist chain
+iptables -t mangle -L NETPILOT_WHITELIST -n | wc -l
+
+# Search for your MAC address in all iptables rules  
+iptables-save | grep -i "d8:bb:c1:47:3a:43"
+
+# Search for your IP address in all iptables rules
+iptables-save | grep "192.168.1.122"
+
+# ============================================================================
+# EXPECTED RESULTS AFTER REMOVING DEVICE FROM WHITELIST:
+# ============================================================================
+# 
+# ✅ NETPILOT_WHITELIST chain should be CLEAN:
+#    - Only contain default rule: MARK set 0x62
+#    - NO rules with your MAC address (d8:bb:c1:47:3a:43)
+#    - NO rules with your IP address (192.168.1.122)
+#
+# ✅ grep commands should return EMPTY:
+#    - No MAC address found in any iptables rules
+#    - No IP address found in any iptables rules
+#
+# ✅ TC infrastructure should still exist:
+#    - HTB qdisc on all interfaces
+#    - Classes 1:1 (unlimited) and 1:10 (limited)
+#    - Filters for marks 97, 98, 99
+#
+# ❌ BAD SIGNS (old rules still present):
+#    - Your MAC/IP still appears in iptables rules
+#    - Multiple MARK rules in whitelist chain
+#    - Rules in wrong order (device rules after default rule)
+#
+# ============================================================================

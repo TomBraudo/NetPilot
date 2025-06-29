@@ -17,7 +17,11 @@ def start_session():
     # by the session_context_middleware before this function is called.
     logger = current_app.logger
     
-    logger.info(f"Attempting to start session for router {g.router_id} with session ID {g.session_id}")
+    # Get the restart flag from JSON body
+    data = request.get_json() or {}
+    restart = data.get('restart', False)
+    
+    logger.info(f"Attempting to start session for router {g.router_id} with session ID {g.session_id} (restart={restart})")
 
     # If the session is already active, reject the request.
     if current_app.router_connection_manager.get_session_status(g.session_id):
@@ -27,24 +31,35 @@ def start_session():
     # 1. Mark the session as active in the RouterConnectionManager first.
     current_app.router_connection_manager.start_session(g.session_id)
 
-    # 2. Set up the router's nftables and tc infrastructure.
-    # This function is idempotent and safe to run on every session start.
-    setup_success, setup_error = setup_router_infrastructure()
+    # 2. Quick reachability check and state file setup only (skip heavy infrastructure)
+    logger.info("Performing quick router reachability check...")
     
-    if not setup_success:
-        logger.error(f"Failed to set up router infrastructure for {g.router_id}: {setup_error}")
-        return error(f"Router infrastructure setup failed: {setup_error}", status_code=500)
-
-    # 2. If setup is successful, confirm the session is active.
-    # The RouterConnectionManager automatically handles session creation.
-    # We can add a simple ping or execute a harmless command to verify.
-    _, err = current_app.router_connection_manager.execute("echo 'Session verified'")
-    if err:
-        logger.error(f"Failed to verify session for router {g.router_id} after setup: {err}")
-        return error(f"Failed to establish a verified session: {err}", status_code=500)
-
-    logger.info(f"Session successfully started and infrastructure verified for router {g.router_id}")
-    return success("Session started and infrastructure is ready.", {"session_id": g.session_id})
+    try:
+        # Test basic connectivity with short timeout
+        output, err = current_app.router_connection_manager.execute("echo 'NetPilot ping'", timeout=5)
+        if err:
+            logger.error(f"Router reachability check failed: {err}")
+            return error(f"Router not reachable: {err}", status_code=500)
+        
+        # Quick state file check only (don't create heavy infrastructure)
+        logger.info("Checking state file status...")
+        state_output, state_err = current_app.router_connection_manager.execute(
+            "[ -f /etc/config/netpilot_state.json ] && echo 'exists' || echo 'missing'", timeout=3)
+        
+        state_status = state_output.strip() if state_output else "unknown"
+        logger.info(f"State file status: {state_status}")
+        
+        logger.info(f"Session established successfully for router {g.router_id} (lightweight setup)")
+        return success("Session established successfully", data={
+            "session_id": g.session_id,
+            "router_reachable": True,
+            "state_file_status": state_status,
+            "note": "Infrastructure will be set up on first mode activation"
+        })
+        
+    except Exception as e:
+        logger.error(f"Session setup failed: {str(e)}")
+        return error(f"Session setup failed: {str(e)}", status_code=500)
 
 @session_bp.route("/end", methods=["POST"])
 def end_session():
