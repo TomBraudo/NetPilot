@@ -1517,3 +1517,60 @@ NameError: name 'get_whitelist' is not defined
 2025-06-27 21:06:56 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_WHITELIST' failed with error: iptables: Chain already exists.
 2025-06-27 21:06:56 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_BLACKLIST' failed with error: iptables: Chain already exists.
 2025-06-27 21:06:57 - services.router_setup - ERROR - Command 'tc qdisc add dev br-lan root handle 1: htb default 11' failed with error: Error: Exclusivity flag on, cannot modify.
+2025-06-29 17:03:53 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_WHITELIST' failed with error: iptables: Chain already exists.
+2025-06-29 17:03:54 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_BLACKLIST' failed with error: iptables: Chain already exists.
+2025-06-29 17:03:54 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_GATE' failed with error: iptables: Chain already exists.
+2025-06-29 17:03:56 - services.router_setup - ERROR - Command 'tc filter add dev br-lan parent 1: protocol ip prio 2 handle 30 fw flowid 1:12' failed with error: Error: Filter already exists.
+We have an error talking to the kernel
+2025-06-29 17:03:56 - services.router_setup - ERROR - Command 'tc filter add dev br-lan parent 1: protocol ip prio 1 handle 10 fw flowid 1:12' failed with error: Error: Filter already exists.
+We have an error talking to the kernel
+2025-06-29 17:09:28 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_WHITELIST' failed with error: iptables: Chain already exists.
+2025-06-29 17:09:28 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_BLACKLIST' failed with error: iptables: Chain already exists.
+2025-06-29 17:09:29 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_GATE' failed with error: iptables: Chain already exists.
+2025-06-29 17:09:32 - services.router_setup - ERROR - Command 'tc filter add dev br-lan parent 1: protocol ip prio 2 handle 30 fw flowid 1:12' failed with error: Error: Filter already exists.
+We have an error talking to the kernel
+2025-06-29 17:09:32 - services.router_setup - ERROR - Command 'tc filter add dev br-lan parent 1: protocol ip prio 1 handle 10 fw flowid 1:12' failed with error: Error: Filter already exists.
+We have an error talking to the kernel
+2025-06-29 17:10:12 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_WHITELIST' failed with error: iptables: Chain already exists.
+2025-06-29 17:10:12 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_BLACKLIST' failed with error: iptables: Chain already exists.
+2025-06-29 17:10:13 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_GATE' failed with error: iptables: Chain already exists.
+2025-06-29 17:10:15 - services.router_setup - ERROR - Command 'tc filter add dev br-lan parent 1: protocol ip prio 2 handle 30 fw flowid 1:12' failed with error: Error: Filter already exists.
+We have an error talking to the kernel
+2025-06-29 17:10:15 - services.router_setup - ERROR - Command 'tc filter add dev br-lan parent 1: protocol ip prio 1 handle 10 fw flowid 1:12' failed with error: Error: Filter already exists.
+We have an error talking to the kernel
+2025-06-29 17:15:10 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_WHITELIST' failed with error: iptables: Chain already exists.
+2025-06-29 17:15:10 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_BLACKLIST' failed with error: iptables: Chain already exists.
+2025-06-29 17:15:11 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_GATE' failed with error: iptables: Chain already exists.
+2025-06-29 17:15:13 - services.router_setup - ERROR - Command 'tc filter add dev br-lan parent 1: protocol ip prio 2 handle 30 fw flowid 1:12' failed with error: Error: Filter already exists.
+We have an error talking to the kernel
+2025-06-29 17:15:13 - services.router_setup - ERROR - Command 'tc filter add dev br-lan parent 1: protocol ip prio 1 handle 10 fw flowid 1:12' failed with error: Error: Filter already exists.
+We have an error talking to the kernel
+2025-06-29 17:22:43 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_BLACKLIST' failed with error: iptables: Chain already exists.
+2025-06-29 17:22:44 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_GATE' failed with error: iptables: Chain already exists.
+2025-06-29 17:22:46 - services.router_setup - ERROR - Command 'tc filter add dev br-lan parent 1: protocol ip prio 2 handle 30 fw flowid 1:12' failed with error: Error: Filter already exists.
+We have an error talking to the kernel
+2025-06-29 17:22:47 - services.router_setup - ERROR - Command 'tc filter add dev br-lan parent 1: protocol ip prio 1 handle 10 fw flowid 1:12' failed with error: Error: Filter already exists.
+We have an error talking to the kernel
+2025-06-29 17:22:48 - services.router_setup - ERROR - Command 'iptables -t mangle -X NETPILOT_WHITELIST' failed with error: iptables v1.8.8 (nf_tables):  CHAIN_DEL failed (Resource busy): chain NETPILOT_WHITELIST
+2025-06-29 17:30:18 - services.router_setup - ERROR - Command 'tc filter add dev br-lan parent 1: protocol ip prio 2 handle 30 fw flowid 1:12' failed with error: Error: Filter already exists.
+We have an error talking to the kernel
+2025-06-29 17:30:19 - services.router_setup - ERROR - Command 'tc filter add dev br-lan parent 1: protocol ip prio 1 handle 10 fw flowid 1:12' failed with error: Error: Filter already exists.
+We have an error talking to the kernel
+2025-06-29 17:31:00 - services.whitelist - ERROR - nft command failed: Error: Could not process rule: No such file or directory
+flush chain inet netpilot gate
+                          ^^^^
+2025-06-29 17:31:06 - services.whitelist - ERROR - nft command failed: Error: Could not process rule: No such file or directory
+flush chain inet netpilot gate
+                          ^^^^
+2025-06-29 17:31:06 - services.whitelist - ERROR - nft command failed: Error: Could not process rule: No such file or directory
+add rule inet netpilot gate jump whitelist_devices
+                       ^^^^
+2025-06-29 17:31:06 - services.whitelist - ERROR - nft command failed: Error: Could not process rule: No such file or directory
+add rule inet netpilot gate jump whitelist_limit
+                       ^^^^
+2025-06-29 18:28:57 - services.router_setup - ERROR - Syntax error while running: nft add chain inet netpilot gate '{{ type filter hook prerouting priority mangle; }}' — Error: syntax error, unexpected type
+add chain inet netpilot gate {{ type filter hook prerouting priority mangle; }}
+                                ^^^^
+Error: syntax error, unexpected '}', expecting end of file or newline or semicolon
+add chain inet netpilot gate {{ type filter hook prerouting priority mangle; }}
+                                                                              ^

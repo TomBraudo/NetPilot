@@ -2,6 +2,7 @@ from flask import Blueprint, request
 from utils.logging_config import get_logger
 from utils.response_helpers import build_success_response, build_error_response
 from services.whitelist_service import (
+    get_whitelist,
     add_device_to_whitelist,
     remove_device_from_whitelist,
     set_whitelist_limit_rate,
@@ -10,7 +11,6 @@ from services.whitelist_service import (
     deactivate_whitelist_mode,
 )
 import time
-from utils.middleware import router_context_required
 from managers.router_connection_manager import RouterConnectionManager
 
 whitelist_bp = Blueprint('whitelist', __name__)
@@ -18,7 +18,6 @@ logger = get_logger('endpoints.whitelist')
 router_connection_manager = RouterConnectionManager()
 
 @whitelist_bp.route("/", methods=["GET"])
-@router_context_required
 def get_whitelist_route():
     """Get the current whitelist"""
     start_time = time.time()
@@ -28,7 +27,6 @@ def get_whitelist_route():
     return build_success_response(result, start_time)
 
 @whitelist_bp.route("/add", methods=["POST"])
-@router_context_required
 def add_to_whitelist_route():
     """Add a device to the whitelist by its MAC address."""
     start_time = time.time()
@@ -44,7 +42,6 @@ def add_to_whitelist_route():
     return build_success_response(result, start_time)
 
 @whitelist_bp.route("/remove", methods=["POST"])
-@router_context_required
 def remove_from_whitelist_route():
     """Remove a device from the whitelist by its MAC address."""
     start_time = time.time()
@@ -60,7 +57,6 @@ def remove_from_whitelist_route():
     return build_success_response(result, start_time)
 
 @whitelist_bp.route("/limit-rate", methods=["POST"])
-@router_context_required
 def set_limit_rate():
     """Set the whitelist bandwidth limit rate"""
     start_time = time.time()
@@ -82,7 +78,6 @@ def set_limit_rate():
         return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time)
 
 @whitelist_bp.route("/full-rate", methods=["POST"])
-@router_context_required
 def set_full_rate():
     """Set the whitelist bandwidth full rate"""
     start_time = time.time()
@@ -104,7 +99,6 @@ def set_full_rate():
         return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time)
 
 @whitelist_bp.route("/mode/activate", methods=["POST"])
-@router_context_required
 def activate():
     """Activate whitelist mode"""
     start_time = time.time()
@@ -121,7 +115,6 @@ def activate():
         return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time)
 
 @whitelist_bp.route("/mode/deactivate", methods=["DELETE"])
-@router_context_required
 def deactivate():
     """Deactivate whitelist mode"""
     start_time = time.time()

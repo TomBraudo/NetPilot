@@ -9,13 +9,11 @@ from services.network_service import (
     scan_network_via_router,
 )
 import time
-from utils.middleware import router_context_required
 
 network_bp = Blueprint('network', __name__)
 logger = get_logger('endpoints.network')
 
 @network_bp.route("/blocked", methods=["GET"])
-@router_context_required
 def get_blocked():
     """Get all currently blocked devices"""
     start_time = time.time()
@@ -25,7 +23,6 @@ def get_blocked():
     return build_success_response(result, start_time)
 
 @network_bp.route("/block", methods=["POST"])
-@router_context_required
 def block():
     """Block a device by IP address"""
     start_time = time.time()
@@ -40,7 +37,6 @@ def block():
     return build_success_response(result, start_time)
 
 @network_bp.route("/unblock", methods=["POST"])
-@router_context_required
 def unblock():
     """Unblock a device by IP address"""
     start_time = time.time()
@@ -55,7 +51,6 @@ def unblock():
     return build_success_response(result, start_time)
 
 @network_bp.route("/reset", methods=["POST"])
-@router_context_required
 def reset():
     """Reset all network rules"""
     start_time = time.time()
@@ -65,7 +60,6 @@ def reset():
     return build_success_response(result, start_time)
 
 @network_bp.route("/scan", methods=["GET"])
-@router_context_required
 def scan_router():
     """Scan the network via router"""
     start_time = time.time()

@@ -2,6 +2,7 @@ from flask import Blueprint, request
 from utils.logging_config import get_logger
 from utils.response_helpers import build_success_response, build_error_response
 from services.blacklist_service import (
+    get_blacklist,
     add_device_to_blacklist,
     remove_device_from_blacklist,
     set_blacklist_limit_rate,
@@ -9,15 +10,22 @@ from services.blacklist_service import (
     deactivate_blacklist_mode,
 )
 import time
-from utils.middleware import router_context_required
 from managers.router_connection_manager import RouterConnectionManager
 
 blacklist_bp = Blueprint('blacklist', __name__)
 logger = get_logger('endpoints.blacklist')
 router_connection_manager = RouterConnectionManager()
 
+@blacklist_bp.route("/", methods=["GET"])
+def get_blacklist_route():
+    """Get the current blacklist"""
+    start_time = time.time()
+    result, error = get_blacklist()
+    if error:
+        return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
+    return build_success_response(result, start_time)
+
 @blacklist_bp.route("/add", methods=["POST"])
-@router_context_required
 def add_to_blacklist_route():
     """Add a device to the blacklist by its MAC address."""
     start_time = time.time()
@@ -33,7 +41,6 @@ def add_to_blacklist_route():
     return build_success_response(result, start_time)
 
 @blacklist_bp.route("/remove", methods=["POST"])
-@router_context_required
 def remove_from_blacklist_route():
     """Remove a device from the blacklist by its MAC address."""
     start_time = time.time()
@@ -49,7 +56,6 @@ def remove_from_blacklist_route():
     return build_success_response(result, start_time)
 
 @blacklist_bp.route("/limit-rate", methods=["POST"])
-@router_context_required
 def set_limit_rate():
     """Set the blacklist bandwidth limit rate"""
     start_time = time.time()
@@ -68,7 +74,6 @@ def set_limit_rate():
         return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time)
 
 @blacklist_bp.route("/mode/activate", methods=["POST"])
-@router_context_required
 def activate():
     """Activate blacklist mode"""
     start_time = time.time()
@@ -82,7 +87,6 @@ def activate():
         return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time)
 
 @blacklist_bp.route("/mode/deactivate", methods=["POST"])
-@router_context_required
 def deactivate():
     """Deactivate blacklist mode"""
     start_time = time.time()

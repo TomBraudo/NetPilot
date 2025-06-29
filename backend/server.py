@@ -19,6 +19,7 @@ from utils.logging_config import get_logger
 from managers.router_connection_manager import RouterConnectionManager
 import atexit
 from utils.response_helpers import error
+from utils.middleware import verify_session_and_router
 
 # Get logger for this module
 logger = get_logger(__name__)
@@ -39,44 +40,20 @@ if isinstance(server_port, str):
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
+# Register the session verification middleware to run before all requests
+@app.before_request
+def before_request_hook():
+    # The verify_session_and_router function will check for session/router context
+    # and return a response if checks fail, effectively protecting the endpoints.
+    # It will internally skip checks for exempt endpoints like /health.
+    response = verify_session_and_router()
+    if response is not None:
+        return response
+
 # --------------------------------------------------------------------------
 # Create and attach the RouterConnectionManager to the app context
 # --------------------------------------------------------------------------
 app.router_connection_manager = RouterConnectionManager()
-
-# List of blueprints that do not require session/router validation
-EXEMPT_BLUEPRINTS = ['session', 'health']
-
-# -----------------------------------------------------------------------------
-# Attach sessionId & routerId from incoming requests into Flask `g` so that
-# lower layers (ssh_client / RouterConnectionManager) can pick them up without
-# each service needing to pass the values explicitly.
-# -----------------------------------------------------------------------------
-@app.before_request
-def _capture_session_router():
-    # If the request is for a blueprint that doesn't need this validation, skip.
-    if request.blueprint in EXEMPT_BLUEPRINTS:
-        return
-
-    if request.method in ("POST", "PUT", "PATCH"):
-        data = request.get_json(silent=True) or {}
-    else:
-        data = {}
-    g.session_id = request.args.get("sessionId") or data.get("sessionId")
-    g.router_id = request.args.get("routerId") or data.get("routerId")
-
-    # For protected endpoints, validate that the required IDs were provided.
-    if not g.session_id:
-        # routerId is checked separately because some future endpoints might
-        # operate on a session without a specific router.
-        return jsonify(error("sessionId is required for this endpoint.", status_code=400)), 400
-    
-    if not g.router_id:
-        return jsonify(error("routerId is required for this endpoint.", status_code=400)), 400
-
-    # Check if the session is valid and active.
-    if not app.router_connection_manager.get_session_status(g.session_id):
-        return jsonify(error(f"Session not found or has expired: {g.session_id}", status_code=404)), 404
 
 # Register all blueprints
 logger.info("Registering API blueprints")

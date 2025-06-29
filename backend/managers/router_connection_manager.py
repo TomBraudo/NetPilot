@@ -7,7 +7,11 @@ import paramiko
 import requests
 from flask import g
 
-from services.router_setup_service import setup_router_infrastructure
+# Local
+from utils.logging_config import get_logger
+
+# Module-level logger
+logger = get_logger('managers.router_connection_manager')
 
 __all__ = ["RouterConnectionManager"]
 
@@ -116,14 +120,8 @@ class RouterConnectionManager:
         try:
             return conn.exec_command(command, timeout=timeout)
         except Exception as e:
-            # Mark connection dead and retry once
-            conn.close()
-            with self._lock:
-                self._sessions.get(session_id, {}).pop(router_id, None)
-            
-            # After failure, create a fresh connection and retry command
-            new_conn = self._get_or_create_connection(session_id, router_id)
-            return new_conn.exec_command(command, timeout=timeout)
+            logger.error(f"Unexpected error when executing command for router {router_id}: {e}")
+            return None, str(e)
 
     def _get_current_connection(self) -> Optional['_RouterConnection']:
         """Helper to get the connection for the current request context."""
@@ -166,10 +164,6 @@ class RouterConnectionManager:
         conn = _RouterConnection(client, tunnel_port)
         with self._lock:
             self._sessions.setdefault(session_id, {})[router_id] = conn
-        
-        # After a new connection is established, ensure router infra is set up.
-        # This is idempotent, so it's safe to run on every new connection.
-        setup_router_infrastructure(conn)
         
         return conn
 
