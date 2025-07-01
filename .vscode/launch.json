@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Sequential Thinking MCP Server",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/@smithery-ai/server-sequential-thinking/dist/index.js",
+      "args": [],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
+  ]
+}

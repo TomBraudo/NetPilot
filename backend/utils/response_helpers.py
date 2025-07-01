@@ -2,22 +2,6 @@ from flask import g, jsonify
 from datetime import datetime
 import time
 
-def success(message="", data=None, status_code=200):
-    return {
-        "success": True,
-        "message": message,
-        "data": {} if data is None else data,
-        "status_code": status_code
-    }
-
-def error(message="", status_code=400):
-    return {
-        "success": False,
-        "message": message,
-        "data": {},
-        "status_code": status_code
-    }
-
 def build_success_response(data, execution_start_time):
     """Builds a standardized success response."""
     return jsonify({

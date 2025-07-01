@@ -18,7 +18,6 @@ from flask_cors import CORS
 from utils.logging_config import get_logger
 from managers.router_connection_manager import RouterConnectionManager
 import atexit
-from utils.response_helpers import error
 from utils.middleware import verify_session_and_router
 
 # Get logger for this module

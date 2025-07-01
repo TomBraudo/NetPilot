@@ -28,30 +28,30 @@ def get_whitelist_route():
 
 @whitelist_bp.route("/add", methods=["POST"])
 def add_to_whitelist_route():
-    """Add a device to the whitelist by its MAC address."""
+    """Add a device to the whitelist by its IP address."""
     start_time = time.time()
     data = request.get_json()
-    mac = data.get('mac')
+    ip = data.get('ip')
 
-    if not mac:
-        return build_error_response("Missing 'mac' in request body", 400, "BAD_REQUEST", start_time)
+    if not ip:
+        return build_error_response("Missing 'ip' in request body", 400, "BAD_REQUEST", start_time)
 
-    result, error = add_device_to_whitelist(mac)
+    result, error = add_device_to_whitelist(ip)
     if error:
         return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
     return build_success_response(result, start_time)
 
 @whitelist_bp.route("/remove", methods=["POST"])
 def remove_from_whitelist_route():
-    """Remove a device from the whitelist by its MAC address."""
+    """Remove a device from the whitelist by its IP address."""
     start_time = time.time()
     data = request.get_json()
-    mac = data.get('mac')
+    ip = data.get('ip')
 
-    if not mac:
-        return build_error_response("Missing 'mac' in request body", 400, "BAD_REQUEST", start_time)
+    if not ip:
+        return build_error_response("Missing 'ip' in request body", 400, "BAD_REQUEST", start_time)
 
-    result, error = remove_device_from_whitelist(mac)
+    result, error = remove_device_from_whitelist(ip)
     if error:
         return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
     return build_success_response(result, start_time)

@@ -1599,3 +1599,20 @@ add chain inet netpilot gate {{ type filter hook prerouting priority mangle; }}
 2025-06-30 00:13:24 - paramiko.transport - ERROR - paramiko.ssh_exception.SSHException: Error reading SSH protocol banner[Errno 104] Connection reset by peer
 2025-06-30 00:13:24 - paramiko.transport - ERROR - 
 2025-06-30 00:20:01 - services.device_rule - ERROR - Command failed: iptables -t mangle -D NETPILOT_WHITELIST -s 192.168.1.122 -j MARK --set-mark 0 - Error: iptables: Bad rule (does a matching rule exist in that chain?).
+2025-07-01 21:28:37 - server - ERROR - Session setup failed: Router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f not found in Port-Manager
+2025-07-01 21:30:59 - server - ERROR - Session setup failed: Router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f not found in Port-Manager
+2025-07-01 23:21:03 - services.device_rule - ERROR - Invalid IP address format: 192.168.1.256
+2025-07-01 23:21:03 - services.device_rule - ERROR - Invalid IP address format: 192.168.1
+2025-07-01 23:21:03 - services.device_rule - ERROR - Invalid IP address format: 192.168.1.1.1
+2025-07-01 23:21:03 - services.device_rule - ERROR - Invalid IP address format: aa:bb:cc:dd:ee:ff
+2025-07-01 23:21:03 - services.device_rule - ERROR - Invalid IP address format: AA:BB:CC:DD:EE:FF
+2025-07-01 23:21:03 - services.device_rule - ERROR - Invalid IP address format: aa-bb-cc-dd-ee-ff
+2025-07-01 23:21:03 - services.device_rule - ERROR - Invalid IP address format: aabbccddeeff
+2025-07-01 23:21:03 - services.device_rule - ERROR - Invalid IP address format: not.an.ip.address
+2025-07-01 23:21:03 - services.device_rule - ERROR - Invalid IP address format: 256.256.256.256
+2025-07-01 23:21:03 - services.device_rule - ERROR - Invalid IP address format: 
+2025-07-01 23:21:03 - services.device_rule - ERROR - Invalid IP address format: 192.168.1.1/24
+2025-07-01 23:21:03 - services.device_rule - ERROR - Invalid IP address format: 192.168.1.1:8080
+2025-07-01 23:24:54 - services.device_rule - ERROR - Command failed: iptables -t mangle -D NETPILOT_BLACKLIST -d 192.168.1.122 -j MARK --set-mark 97 - Error: iptables: Bad rule (does a matching rule exist in that chain?).
+2025-07-01 23:46:25 - services.device_rule - ERROR - Command failed: iptables -t mangle -D NETPILOT_BLACKLIST -s 192.168.1.122 -j MARK --set-mark 97 - Error: iptables: Bad rule (does a matching rule exist in that chain?).
+2025-07-01 23:46:26 - services.device_rule - ERROR - Command failed: iptables -t mangle -D NETPILOT_BLACKLIST -d 192.168.1.122 -j MARK --set-mark 97 - Error: iptables: Bad rule (does a matching rule exist in that chain?).

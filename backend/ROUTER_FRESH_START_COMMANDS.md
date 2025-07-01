@@ -24,13 +24,18 @@ iptables -t mangle -X NETPILOT_WHITELIST 2>/dev/null || true
 iptables -t mangle -X NETPILOT_BLACKLIST 2>/dev/null || true
 ```
 
-### **Step 2: Remove ALL TC (Traffic Control) rules from ALL interfaces**
+### **Step 2: Remove NetPilot TC (Traffic Control) rules from ALL interfaces**
 ```bash
-# Remove TC from all interfaces (except loopback)
+# Remove NetPilot TC rules from all interfaces (except loopback)
 for interface in $(ls /sys/class/net/ | grep -v lo); do
     echo "Cleaning TC on interface: $interface"
-    tc qdisc del dev $interface root 2>/dev/null || true
-    tc qdisc del dev $interface ingress 2>/dev/null || true
+    # Only remove HTB qdiscs (used by NetPilot) to preserve router defaults
+    if tc qdisc show dev $interface | grep -q "htb"; then
+        echo "  Found NetPilot HTB qdisc - removing"
+        tc qdisc del dev $interface root 2>/dev/null || true
+    else
+        echo "  No NetPilot HTB qdisc found - preserving default config"
+    fi
 done
 ```
 
@@ -40,11 +45,17 @@ done
 echo "=== Checking for remaining NetPilot chains ==="
 iptables -t mangle -L | grep -i netpilot || echo "No NetPilot chains found ✅"
 
-# Check that no TC rules exist
-echo "=== Checking for remaining TC rules ==="
+# Check that no NetPilot HTB TC rules exist
+echo "=== Checking for remaining NetPilot TC rules ==="
 for interface in $(ls /sys/class/net/ | grep -v lo); do
     echo "Interface $interface:"
-    tc qdisc show dev $interface | grep -v "qdisc noqueue\|qdisc pfifo_fast" || echo "  Clean ✅"
+    # Only check for HTB qdiscs (used by NetPilot)
+    if tc qdisc show dev $interface | grep -q "htb"; then
+        tc qdisc show dev $interface | grep "htb"
+        echo "  ❌ NetPilot HTB qdisc still present!"
+    else
+        echo "  Clean ✅ (No NetPilot HTB qdisc)"
+    fi
 done
 
 # Check internet connectivity
@@ -54,8 +65,8 @@ ping -c 3 8.8.8.8 && echo "Internet working ✅" || echo "Internet issue ❌"
 
 ## 🔧 **ONE-LINER FOR EMERGENCY CLEANUP**
 ```bash
-# Single command to clean everything
-for interface in $(ls /sys/class/net/ | grep -v lo); do tc qdisc del dev $interface root 2>/dev/null || true; done; iptables -t mangle -F NETPILOT_WHITELIST 2>/dev/null || true; iptables -t mangle -F NETPILOT_BLACKLIST 2>/dev/null || true; iptables -t mangle -X NETPILOT_WHITELIST 2>/dev/null || true; iptables -t mangle -X NETPILOT_BLACKLIST 2>/dev/null || true; iptables -t mangle -D FORWARD -j NETPILOT_WHITELIST 2>/dev/null || true; iptables -t mangle -D FORWARD -j NETPILOT_BLACKLIST 2>/dev/null || true; echo "Complete cleanup done ✅"
+# Single command to clean only NetPilot-specific rules
+for interface in $(ls /sys/class/net/ | grep -v lo); do if tc qdisc show dev $interface | grep -q "htb"; then tc qdisc del dev $interface root 2>/dev/null || true; fi; done; iptables -t mangle -F NETPILOT_WHITELIST 2>/dev/null || true; iptables -t mangle -F NETPILOT_BLACKLIST 2>/dev/null || true; iptables -t mangle -X NETPILOT_WHITELIST 2>/dev/null || true; iptables -t mangle -X NETPILOT_BLACKLIST 2>/dev/null || true; iptables -t mangle -D FORWARD -j NETPILOT_WHITELIST 2>/dev/null || true; iptables -t mangle -D FORWARD -j NETPILOT_BLACKLIST 2>/dev/null || true; iptables -t mangle -D INPUT -j NETPILOT_WHITELIST 2>/dev/null || true; iptables -t mangle -D INPUT -j NETPILOT_BLACKLIST 2>/dev/null || true; iptables -t mangle -D OUTPUT -j NETPILOT_WHITELIST 2>/dev/null || true; iptables -t mangle -D OUTPUT -j NETPILOT_BLACKLIST 2>/dev/null || true; iptables -t mangle -D PREROUTING -j NETPILOT_WHITELIST 2>/dev/null || true; iptables -t mangle -D PREROUTING -j NETPILOT_BLACKLIST 2>/dev/null || true; iptables -t mangle -D POSTROUTING -j NETPILOT_WHITELIST 2>/dev/null || true; iptables -t mangle -D POSTROUTING -j NETPILOT_BLACKLIST 2>/dev/null || true; echo "Complete cleanup done ✅"
 ```
 
 ## 📋 **Diagnostic Commands**
@@ -105,9 +116,13 @@ Modify the infrastructure setup to not create persistent rules when using naive 
 If persistent infrastructure was already created, use these commands to remove it:
 
 ```bash
-# Remove persistent TC infrastructure
+# Remove persistent NetPilot TC infrastructure (only HTB qdiscs)
 for interface in $(ls /sys/class/net/ | grep -v lo); do
-    tc qdisc del dev $interface root 2>/dev/null || true
+    # Only remove HTB qdiscs (used by NetPilot)
+    if tc qdisc show dev $interface | grep -q "htb"; then
+        echo "Removing NetPilot HTB qdisc from $interface"
+        tc qdisc del dev $interface root 2>/dev/null || true
+    fi
 done
 
 # Remove persistent iptables chains  

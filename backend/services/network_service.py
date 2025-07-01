@@ -9,7 +9,6 @@ from services.block_ip import (
 )
 from services.router_scanner import get_connected_devices
 from services.reset_rules import reset_all_rules
-from utils.response_helpers import success
 
 def get_blocked_devices_list():
     """Get list of blocked devices"""
@@ -34,9 +33,3 @@ def scan_network():
 def scan_network_via_router():
     """Scan network via router"""
     return get_connected_devices()
-
-def run_ookla_speedtest():
-    """Run speedtest - simplified implementation"""
-    # For commands-server, we'll use a simple placeholder
-    # The actual speedtest implementation would be router-based
-    return success(message="Speedtest not implemented in commands-server mode") 

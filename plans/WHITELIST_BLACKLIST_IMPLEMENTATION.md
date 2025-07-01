@@ -13,8 +13,8 @@
    ```
 
 2. **Packet Marking Logic**
-   - **Whitelist Mode**: Mark ALL traffic with 99 → limited, then unmark whitelisted IPs to 0 → unlimited
-   - **Blacklist Mode**: Only mark blacklisted IPs with 99 → limited, others stay unmarked → unlimited
+   - **Whitelist Mode**: Mark ALL traffic with 98 → limited, then mark whitelisted IPs with 1 → unlimited
+   - **Blacklist Mode**: Only mark blacklisted IPs with 98 → limited, others stay unmarked → unlimited
 
 3. **Multi-Interface Application**
    - Apply to ALL network interfaces (br-lan, eth0, lan1-4, phy0-ap0, etc.)

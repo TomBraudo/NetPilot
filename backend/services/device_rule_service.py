@@ -28,89 +28,79 @@ def _execute_command(command: str):
     logger.debug(f"Command successful: {command}")
     return True
 
-def _convert_to_ip(device_identifier):
+def _validate_ip_address(ip_address):
     """
-    Converts MAC address to IP address or validates IP address.
-    Returns the IP if successful, None if conversion fails.
+    Validates that the input is a valid IP address.
+    Returns the IP if valid, None if invalid.
     """
-    # Check if it's already an IP address
     import re
     ip_pattern = r'^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
     
-    if re.match(ip_pattern, device_identifier):
-        return device_identifier
+    if re.match(ip_pattern, ip_address):
+        return ip_address
     
-    # Check if it's a MAC address pattern
-    mac_pattern = r'^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$'
-    if re.match(mac_pattern, device_identifier):
-        # For now, we'll use the MAC as-is since the existing API seems to use MAC addresses
-        # In a real implementation, you might want to resolve MAC to IP via ARP table
-        # For this phase, we'll treat it as MAC and use iptables MAC matching
-        return None  # Indicates MAC address, needs different iptables syntax
-    
-    logger.error(f"Invalid device identifier format: {device_identifier}")
+    logger.error(f"Invalid IP address format: {ip_address}")
     return None
 
 # === WHITELIST DEVICE MANAGEMENT ===
 
-def add_device_to_whitelist_rules(device_identifier):
+def add_device_to_whitelist_rules(ip_address):
     """
-    Add device rule to NETPILOT_WHITELIST chain using PROVEN WORKING logic.
+    Add device rule to NETPILOT_WHITELIST chain using IP-only logic.
     Uses mark 1 (unlimited) + RETURN to prevent hitting default limiting rule.
     """
-    logger.info(f"Adding device {device_identifier} to whitelist rules (proven logic)")
+    logger.info(f"Adding IP {ip_address} to whitelist rules")
     
-    # Check if it's IP or MAC
-    ip = _convert_to_ip(device_identifier)
+    # Validate IP address
+    if not _validate_ip_address(ip_address):
+        return False, f"Invalid IP address: {ip_address}"
     
-    if ip:
-        # IP-based rules for downloads (mark 1 + RETURN)
-        mark_cmd = f"iptables -t mangle -I NETPILOT_WHITELIST 1 -d {ip} -j MARK --set-mark 1"
-        return_cmd = f"iptables -t mangle -I NETPILOT_WHITELIST 2 -d {ip} -j RETURN"
-    else:
-        # MAC-based rules for uploads (mark 1 + RETURN)
-        mac = device_identifier
-        mark_cmd = f"iptables -t mangle -I NETPILOT_WHITELIST 1 -m mac --mac-source {mac} -j MARK --set-mark 1"
-        return_cmd = f"iptables -t mangle -I NETPILOT_WHITELIST 2 -m mac --mac-source {mac} -j RETURN"
+    # IP-based rules for traffic control (mark 1 + RETURN)
+    mark_cmd = f"iptables -t mangle -I NETPILOT_WHITELIST 1 -s {ip_address} -j MARK --set-mark 1"
+    return_cmd = f"iptables -t mangle -I NETPILOT_WHITELIST 2 -s {ip_address} -j RETURN"
     
-    # Execute both commands
-    if not _execute_command(mark_cmd):
-        logger.error(f"Failed to add mark rule for {device_identifier}")
-        return False, f"Failed to add mark rule for {device_identifier}"
+    # Also add destination rules for bidirectional traffic
+    mark_cmd_dest = f"iptables -t mangle -I NETPILOT_WHITELIST 3 -d {ip_address} -j MARK --set-mark 1"
+    return_cmd_dest = f"iptables -t mangle -I NETPILOT_WHITELIST 4 -d {ip_address} -j RETURN"
     
-    if not _execute_command(return_cmd):
-        logger.error(f"Failed to add return rule for {device_identifier}")
-        # Try to clean up the mark rule
-        _execute_command(mark_cmd.replace("-I", "-D").replace("1 ", ""))
-        return False, f"Failed to add return rule for {device_identifier}"
+    # Execute all commands
+    commands = [mark_cmd, return_cmd, mark_cmd_dest, return_cmd_dest]
+    for cmd in commands:
+        if not _execute_command(cmd):
+            logger.error(f"Failed to add whitelist rule: {cmd}")
+            # Try to clean up any successfully added rules
+            _execute_command(f"iptables -t mangle -D NETPILOT_WHITELIST -s {ip_address} -j MARK --set-mark 1")
+            _execute_command(f"iptables -t mangle -D NETPILOT_WHITELIST -s {ip_address} -j RETURN")
+            _execute_command(f"iptables -t mangle -D NETPILOT_WHITELIST -d {ip_address} -j MARK --set-mark 1")
+            _execute_command(f"iptables -t mangle -D NETPILOT_WHITELIST -d {ip_address} -j RETURN")
+            return False, f"Failed to add whitelist rules for {ip_address}"
     
-    logger.info(f"Successfully added whitelist rules (mark+return) for {device_identifier}")
+    logger.info(f"Successfully added whitelist rules for IP {ip_address}")
     return True, None
 
-def remove_device_from_whitelist_rules(device_identifier):
+def remove_device_from_whitelist_rules(ip_address):
     """
-    Remove device rules from NETPILOT_WHITELIST chain (both mark and return rules).
+    Remove device rules from NETPILOT_WHITELIST chain (both source and destination rules).
     """
-    logger.info(f"Removing device {device_identifier} from whitelist rules")
+    logger.info(f"Removing IP {ip_address} from whitelist rules")
     
-    # Check if it's IP or MAC
-    ip = _convert_to_ip(device_identifier)
+    # Validate IP address
+    if not _validate_ip_address(ip_address):
+        return False, f"Invalid IP address: {ip_address}"
     
-    if ip:
-        # IP-based rule removal (both mark and return)
-        mark_cmd = f"iptables -t mangle -D NETPILOT_WHITELIST -d {ip} -j MARK --set-mark 1"
-        return_cmd = f"iptables -t mangle -D NETPILOT_WHITELIST -d {ip} -j RETURN"
-    else:
-        # MAC-based rule removal (both mark and return)
-        mac = device_identifier
-        mark_cmd = f"iptables -t mangle -D NETPILOT_WHITELIST -m mac --mac-source {mac} -j MARK --set-mark 1"
-        return_cmd = f"iptables -t mangle -D NETPILOT_WHITELIST -m mac --mac-source {mac} -j RETURN"
+    # Remove all rules for this IP (both source and destination)
+    commands = [
+        f"iptables -t mangle -D NETPILOT_WHITELIST -s {ip_address} -j MARK --set-mark 1",
+        f"iptables -t mangle -D NETPILOT_WHITELIST -s {ip_address} -j RETURN",
+        f"iptables -t mangle -D NETPILOT_WHITELIST -d {ip_address} -j MARK --set-mark 1",
+        f"iptables -t mangle -D NETPILOT_WHITELIST -d {ip_address} -j RETURN"
+    ]
     
-    # Execute both removal commands (ignore errors since rules might not exist)
-    _execute_command(mark_cmd)
-    _execute_command(return_cmd)
+    # Execute all removal commands (ignore errors since rules might not exist)
+    for cmd in commands:
+        _execute_command(cmd)
     
-    logger.info(f"Successfully removed whitelist rules for {device_identifier}")
+    logger.info(f"Successfully removed whitelist rules for IP {ip_address}")
     return True, None
 
 def rebuild_whitelist_chain():
@@ -150,54 +140,99 @@ def rebuild_whitelist_chain():
 
 # === BLACKLIST DEVICE MANAGEMENT ===
 
-def add_device_to_blacklist_rules(device_identifier):
+def add_device_to_blacklist_rules(ip_address):
     """
-    Add device rule to NETPILOT_BLACKLIST chain (doesn't activate mode).
-    According to the plan: iptables -t mangle -A NETPILOT_BLACKLIST -s {ip} -j MARK --set-mark 97
+    Add device rule to NETPILOT_BLACKLIST chain using IP-only logic.
+    Uses mark 97 for blacklist traffic.
     """
-    logger.info(f"Adding device {device_identifier} to blacklist rules")
+    logger.info(f"Adding IP {ip_address} to blacklist rules")
     
-    # Check if it's IP or MAC
-    ip = _convert_to_ip(device_identifier)
+    # Validate IP address
+    if not _validate_ip_address(ip_address):
+        logger.error(f"Invalid IP address: {ip_address}")
+        return False, f"Invalid IP address: {ip_address}"
     
-    if ip:
-        # IP-based rule
-        command = f"iptables -t mangle -A NETPILOT_BLACKLIST -s {ip} -j MARK --set-mark 97"
-    else:
-        # MAC-based rule
-        mac = device_identifier
-        command = f"iptables -t mangle -A NETPILOT_BLACKLIST -m mac --mac-source {mac} -j MARK --set-mark 97"
+    # Add source IP rule - Mark with 98 to match the TC filter handle
+    command_src = f"iptables -t mangle -A NETPILOT_BLACKLIST -s {ip_address} -j MARK --set-mark 98"
+    if not _execute_command(command_src):
+        logger.error(f"Failed to add blacklist source rule for {ip_address}")
+        return False, f"Failed to add blacklist source rule for {ip_address}"
     
-    if not _execute_command(command):
-        logger.error(f"Failed to add blacklist rule for {device_identifier}")
-        return False, f"Failed to add blacklist rule for {device_identifier}"
+    # Add destination IP rule - Mark with 98 to match the TC filter handle
+    command_dst = f"iptables -t mangle -A NETPILOT_BLACKLIST -d {ip_address} -j MARK --set-mark 98"
+    if not _execute_command(command_dst):
+        logger.error(f"Failed to add blacklist destination rule for {ip_address}")
+        # Try to clean up the source rule we just added
+        _execute_command(f"iptables -t mangle -D NETPILOT_BLACKLIST -s {ip_address} -j MARK --set-mark 97")
+        return False, f"Failed to add blacklist destination rule for {ip_address}"
     
-    logger.info(f"Successfully added blacklist rule for {device_identifier}")
+    logger.info(f"Successfully added blacklist rules for IP {ip_address}")
     return True, None
 
-def remove_device_from_blacklist_rules(device_identifier):
+def remove_device_from_blacklist_rules(ip_address):
     """
-    Remove device rule from NETPILOT_BLACKLIST chain.
+    Remove device rule from NETPILOT_BLACKLIST chain using IP-only logic.
+    First checks if the rules exist, then removes them.
     """
-    logger.info(f"Removing device {device_identifier} from blacklist rules")
+    logger.info(f"Removing IP {ip_address} from blacklist rules")
     
-    # Check if it's IP or MAC
-    ip = _convert_to_ip(device_identifier)
+    # Validate IP address
+    if not _validate_ip_address(ip_address):
+        logger.error(f"Invalid IP address: {ip_address}")
+        return False, f"Invalid IP address: {ip_address}"
     
-    if ip:
-        # IP-based rule removal
-        command = f"iptables -t mangle -D NETPILOT_BLACKLIST -s {ip} -j MARK --set-mark 97"
+    # First, check if the rules exist using a safer grep approach - check for both mark values
+    # (in case there are old rules with mark 97 or new ones with mark 98)
+    check_cmd = f"iptables-save -t mangle | grep -F '{ip_address} -j MARK --set-mark'"
+    output, _ = router_connection_manager.execute(check_cmd)
+    
+    if not output.strip():
+        logger.warning(f"No blacklist rules found for {ip_address} in iptables")
+        # If no rules found, we consider it a success since the end state is correct
+        return True, None
+    
+    # Rules exist, proceed with removal
+    success = True
+    error_messages = []
+    
+    # Try to remove with mark 98 (new correct value)
+    command_src = f"iptables -t mangle -D NETPILOT_BLACKLIST -s {ip_address} -j MARK --set-mark 98"
+    output_src, err_src = router_connection_manager.execute(command_src)
+    if err_src and "Bad rule" in err_src:
+        # If it failed with mark 98, try with mark 97 (old value)
+        old_command_src = f"iptables -t mangle -D NETPILOT_BLACKLIST -s {ip_address} -j MARK --set-mark 97"
+        output_src_old, err_src_old = router_connection_manager.execute(old_command_src)
+        if err_src_old:
+            logger.error(f"Failed to remove blacklist source rule for {ip_address}: {err_src_old}")
+            success = False
+            error_messages.append(f"Source rule: {err_src_old}")
+    elif err_src:
+        logger.error(f"Failed to remove blacklist source rule for {ip_address}: {err_src}")
+        success = False
+        error_messages.append(f"Source rule: {err_src}")
+    
+    # Try to remove with mark 98 (new correct value)
+    command_dst = f"iptables -t mangle -D NETPILOT_BLACKLIST -d {ip_address} -j MARK --set-mark 98"
+    output_dst, err_dst = router_connection_manager.execute(command_dst)
+    if err_dst and "Bad rule" in err_dst:
+        # If it failed with mark 98, try with mark 97 (old value)
+        old_command_dst = f"iptables -t mangle -D NETPILOT_BLACKLIST -d {ip_address} -j MARK --set-mark 97"
+        output_dst_old, err_dst_old = router_connection_manager.execute(old_command_dst)
+        if err_dst_old:
+            logger.error(f"Failed to remove blacklist destination rule for {ip_address}: {err_dst_old}")
+            success = False
+            error_messages.append(f"Destination rule: {err_dst_old}")
+    elif err_dst:
+        logger.error(f"Failed to remove blacklist destination rule for {ip_address}: {err_dst}")
+        success = False
+        error_messages.append(f"Destination rule: {err_dst}")
+    
+    if success:
+        logger.info(f"Successfully removed blacklist rules for IP {ip_address}")
+        return True, None
     else:
-        # MAC-based rule removal
-        mac = device_identifier
-        command = f"iptables -t mangle -D NETPILOT_BLACKLIST -m mac --mac-source {mac} -j MARK --set-mark 97"
-    
-    if not _execute_command(command):
-        logger.warning(f"Could not remove blacklist rule for {device_identifier} (may not exist)")
-        return True, None  # Not finding the rule to remove is not an error
-    
-    logger.info(f"Successfully removed blacklist rule for {device_identifier}")
-    return True, None
+        error_msg = "; ".join(error_messages)
+        return False, f"Failed to remove blacklist rules: {error_msg}"
 
 def rebuild_blacklist_chain():
     """
