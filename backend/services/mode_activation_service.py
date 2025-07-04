@@ -350,14 +350,30 @@ def add_device_to_active_blacklist(ip):
 def update_active_mode_limits(unlimited_rate=None, limited_rate=None):
     """
     Update TC rate limits while mode is active (no restart needed).
+    Automatically detects the active mode and uses appropriate rates.
     """
     logger.info(f"Updating active mode limits: unlimited={unlimited_rate}, limited={limited_rate}")
     
-    # Get current state if rates not provided
+    # Get current state to determine active mode and rates
+    state = get_router_state()
+    active_mode = state.get('active_mode', 'none')
+    
+    if active_mode == 'none':
+        logger.warning("No mode is active - cannot update limits")
+        return False
+    
+    # Get rates based on active mode if not provided
     if not unlimited_rate or not limited_rate:
-        state = get_router_state()
-        unlimited_rate = unlimited_rate or state['rates'].get('whitelist_full', '1000mbit')
-        limited_rate = limited_rate or state['rates'].get('whitelist_limited', '50mbit')
+        if active_mode == 'whitelist':
+            unlimited_rate = unlimited_rate or state['rates'].get('whitelist_full', '1000mbit')
+            limited_rate = limited_rate or state['rates'].get('whitelist_limited', '50mbit')
+        elif active_mode == 'blacklist':
+            # In blacklist mode, unlimited rate is still needed for TC class 1:1 (non-blacklisted devices)
+            unlimited_rate = unlimited_rate or state['rates'].get('whitelist_full', '1000mbit')  # Use whitelist_full for non-blacklisted
+            limited_rate = limited_rate or state['rates'].get('blacklist_limited', '50mbit')  # Use blacklist_limited for blacklisted
+        else:
+            logger.error(f"Unknown active mode: {active_mode}")
+            return False
     
     # Update TC classes on all interfaces
     output, _ = router_connection_manager.execute("ls /sys/class/net/ | grep -v lo")
@@ -365,12 +381,12 @@ def update_active_mode_limits(unlimited_rate=None, limited_rate=None):
         interfaces = [iface.strip() for iface in output.split() if iface.strip()]
         
         for interface in interfaces:
-            # Update unlimited class rate
+            # Update unlimited class rate (1:1)
             _execute_command(f"tc class change dev {interface} classid 1:1 htb rate {unlimited_rate}")
-            # Update limited class rate  
+            # Update limited class rate (1:10)
             _execute_command(f"tc class change dev {interface} classid 1:10 htb rate {limited_rate}")
             
-        logger.info(f"Updated limits on {len(interfaces)} interfaces - changes applied immediately")
+        logger.info(f"Updated limits on {len(interfaces)} interfaces for {active_mode} mode - changes applied immediately")
         return True
     
     return False
@@ -392,3 +408,35 @@ def _ensure_state_file_exists():
         logger.info("Default state file created successfully")
     else:
         logger.info("State file already exists")
+
+def remove_device_from_active_blacklist(ip):
+    """
+    Remove device from blacklist while mode is active (no restart needed).
+    Uses IP-only logic for consistency.
+    """
+    logger.info(f"Removing device from active blacklist: IP={ip}")
+    
+    # Remove IP rules for limiting (both source and destination)
+    _execute_command(f"iptables -t mangle -D NETPILOT_BLACKLIST -s {ip} -j MARK --set-mark 98")
+    _execute_command(f"iptables -t mangle -D NETPILOT_BLACKLIST -d {ip} -j MARK --set-mark 98")
+    
+    # Also try removing with old mark 97 (in case there are legacy rules)
+    _execute_command(f"iptables -t mangle -D NETPILOT_BLACKLIST -s {ip} -j MARK --set-mark 97")
+    _execute_command(f"iptables -t mangle -D NETPILOT_BLACKLIST -d {ip} -j MARK --set-mark 97")
+    
+    logger.info("Device removed from active blacklist - immediately unlimited")
+
+def remove_device_from_active_whitelist(ip):
+    """
+    Remove device from whitelist while mode is active (no restart needed).
+    Uses IP-only logic for consistency.
+    """
+    logger.info(f"Removing device from active whitelist: IP={ip}")
+    
+    # Remove IP rules (both MARK and RETURN rules for source and destination)
+    _execute_command(f"iptables -t mangle -D NETPILOT_WHITELIST -s {ip} -j MARK --set-mark 1")
+    _execute_command(f"iptables -t mangle -D NETPILOT_WHITELIST -s {ip} -j RETURN")
+    _execute_command(f"iptables -t mangle -D NETPILOT_WHITELIST -d {ip} -j MARK --set-mark 1")
+    _execute_command(f"iptables -t mangle -D NETPILOT_WHITELIST -d {ip} -j RETURN")
+    
+    logger.info("Device removed from active whitelist - now follows default rules")

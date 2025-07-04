@@ -18,6 +18,7 @@ def _get_default_state() -> Dict[str, Any]:
         "rates": {
             "whitelist_full": "1000mbit",
             "whitelist_limited": "50mbit",
+            "blacklist_full": "1000mbit",
             "blacklist_limited": "50mbit"
         },
         "devices": {

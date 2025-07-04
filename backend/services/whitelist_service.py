@@ -36,12 +36,21 @@ def add_device_to_whitelist(ip):
     # First update the state file
     state['devices']['whitelist'].append(ip)
     if write_router_state(state):
-        # Then add the iptables rule
-        rule_success, rule_error = add_device_to_whitelist_rules(ip)
-        if not rule_success:
-            logger.error(f"Failed to add iptables rule for {ip}: {rule_error}")
-            # Note: State is already updated, but rule failed. This is logged but not rolled back.
-            # The rule will be applied when the chain is rebuilt or mode is activated.
+        # Check if whitelist mode is currently active
+        is_whitelist_active = state.get('active_mode') == 'whitelist'
+        
+        if is_whitelist_active:
+            # Use live update function for immediate effect when mode is active
+            logger.info(f"Whitelist mode is active - using live update to add {ip}")
+            from services.mode_activation_service import add_device_to_active_whitelist
+            add_device_to_active_whitelist(ip)
+        else:
+            # Mode is not active, use standard rule addition
+            rule_success, rule_error = add_device_to_whitelist_rules(ip)
+            if not rule_success:
+                logger.error(f"Failed to add iptables rule for {ip}: {rule_error}")
+                # Note: State is already updated, but rule failed. This is logged but not rolled back.
+                # The rule will be applied when the chain is rebuilt or mode is activated.
         
         logger.info(f"Device {ip} added to whitelist with iptables rule")
         return f"Device {ip} added to whitelist.", None
@@ -60,15 +69,24 @@ def remove_device_from_whitelist(ip):
     if ip not in state['devices']['whitelist']:
         return f"Device {ip} not in whitelist.", None
 
-    # First remove from state
-    state['devices']['whitelist'].remove(ip)
-    if write_router_state(state):
-        # Then remove the iptables rule
+    # Check if whitelist mode is currently active
+    is_whitelist_active = state.get('active_mode') == 'whitelist'
+    
+    if is_whitelist_active:
+        # Use live update function for immediate effect when mode is active
+        logger.info(f"Whitelist mode is active - using live update to remove {ip}")
+        from services.mode_activation_service import remove_device_from_active_whitelist
+        remove_device_from_active_whitelist(ip)
+    else:
+        # Mode is not active, use standard rule removal
         rule_success, rule_error = remove_device_from_whitelist_rules(ip)
         if not rule_success:
             logger.error(f"Failed to remove iptables rule for {ip}: {rule_error}")
             # Note: State is already updated. Rule removal failure is logged but not considered fatal.
-        
+
+    # Update state file (same for both cases)
+    state['devices']['whitelist'].remove(ip)
+    if write_router_state(state):
         logger.info(f"Device {ip} removed from whitelist with iptables rule cleanup")
         return f"Device {ip} removed from whitelist.", None
     return None, "Failed to update state file on router."
@@ -127,7 +145,18 @@ def set_whitelist_limit_rate(rate):
     state['rates']['whitelist_limited'] = formatted_rate
 
     if write_router_state(state):
-        logger.info(f"Whitelist limited rate set to {formatted_rate} (will apply on next mode activation)")
+        # Check if whitelist mode is currently active
+        is_whitelist_active = state.get('active_mode') == 'whitelist'
+        
+        if is_whitelist_active:
+            # Use live update function for immediate effect when mode is active
+            logger.info(f"Whitelist mode is active - applying rate change immediately: {formatted_rate}")
+            from services.mode_activation_service import update_active_mode_limits
+            update_active_mode_limits()  # Will auto-detect mode and use appropriate rates
+            logger.info(f"Whitelist limited rate set to {formatted_rate} and applied immediately")
+        else:
+            logger.info(f"Whitelist limited rate set to {formatted_rate} (will apply on next mode activation)")
+        
         return {"rate_mbps": rate}, None
     return None, "Failed to update state file on router."
 
@@ -145,6 +174,17 @@ def set_whitelist_full_rate(rate):
     state['rates']['whitelist_full'] = formatted_rate
 
     if write_router_state(state):
-        logger.info(f"Whitelist full rate set to {formatted_rate} (will apply on next mode activation)")
+        # Check if whitelist mode is currently active
+        is_whitelist_active = state.get('active_mode') == 'whitelist'
+        
+        if is_whitelist_active:
+            # Use live update function for immediate effect when mode is active
+            logger.info(f"Whitelist mode is active - applying rate change immediately: {formatted_rate}")
+            from services.mode_activation_service import update_active_mode_limits
+            update_active_mode_limits()  # Will auto-detect mode and use appropriate rates
+            logger.info(f"Whitelist full rate set to {formatted_rate} and applied immediately")
+        else:
+            logger.info(f"Whitelist full rate set to {formatted_rate} (will apply on next mode activation)")
+        
         return {"rate_mbps": rate}, None
     return None, "Failed to update state file on router." 

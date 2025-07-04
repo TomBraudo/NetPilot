@@ -16,7 +16,8 @@ def _execute_command(command: str):
         # Check for idempotent operations that are safe to ignore
         if any(phrase in error_lower for phrase in [
             "file exists", "already exists", "cannot find", 
-            "no such file", "chain already exists", "no chain/target/match"
+            "no such file", "chain already exists", "no chain/target/match",
+            "bad rule", "does not exist"
         ]):
             logger.debug(f"Idempotent operation (safe to ignore): {command}")
             return True
@@ -54,6 +55,10 @@ def add_device_to_whitelist_rules(ip_address):
     # Validate IP address
     if not _validate_ip_address(ip_address):
         return False, f"Invalid IP address: {ip_address}"
+    
+    # Ensure chain exists (idempotent)
+    if not _execute_command("iptables -t mangle -N NETPILOT_WHITELIST"):
+        logger.debug("NETPILOT_WHITELIST chain might already exist")
     
     # IP-based rules for traffic control (mark 1 + RETURN)
     mark_cmd = f"iptables -t mangle -I NETPILOT_WHITELIST 1 -s {ip_address} -j MARK --set-mark 1"
@@ -106,7 +111,7 @@ def remove_device_from_whitelist_rules(ip_address):
 def rebuild_whitelist_chain():
     """
     Rebuild whitelist chain from database state.
-    This flushes the chain and recreates all rules from the stored whitelist.
+    This creates the chain if needed, flushes it, and recreates all rules from the stored whitelist.
     """
     logger.info("Rebuilding whitelist chain from database state")
     
@@ -114,6 +119,10 @@ def rebuild_whitelist_chain():
         # Get current whitelist from state
         state = get_router_state()
         whitelist_devices = state.get('devices', {}).get('whitelist', [])
+        
+        # Create chain if it doesn't exist (idempotent)
+        if not _execute_command("iptables -t mangle -N NETPILOT_WHITELIST"):
+            logger.debug("NETPILOT_WHITELIST chain might already exist")
         
         # Flush the chain
         if not _execute_command("iptables -t mangle -F NETPILOT_WHITELIST"):
@@ -143,7 +152,7 @@ def rebuild_whitelist_chain():
 def add_device_to_blacklist_rules(ip_address):
     """
     Add device rule to NETPILOT_BLACKLIST chain using IP-only logic.
-    Uses mark 97 for blacklist traffic.
+    Uses mark 98 for blacklist traffic.
     """
     logger.info(f"Adding IP {ip_address} to blacklist rules")
     
@@ -151,6 +160,10 @@ def add_device_to_blacklist_rules(ip_address):
     if not _validate_ip_address(ip_address):
         logger.error(f"Invalid IP address: {ip_address}")
         return False, f"Invalid IP address: {ip_address}"
+    
+    # Ensure chain exists (idempotent)
+    if not _execute_command("iptables -t mangle -N NETPILOT_BLACKLIST"):
+        logger.debug("NETPILOT_BLACKLIST chain might already exist")
     
     # Add source IP rule - Mark with 98 to match the TC filter handle
     command_src = f"iptables -t mangle -A NETPILOT_BLACKLIST -s {ip_address} -j MARK --set-mark 98"
@@ -237,7 +250,7 @@ def remove_device_from_blacklist_rules(ip_address):
 def rebuild_blacklist_chain():
     """
     Rebuild blacklist chain from database state.
-    This flushes the chain and recreates all rules from the stored blacklist.
+    This creates the chain if needed, flushes it, and recreates all rules from the stored blacklist.
     """
     logger.info("Rebuilding blacklist chain from database state")
     
@@ -245,6 +258,10 @@ def rebuild_blacklist_chain():
         # Get current blacklist from state
         state = get_router_state()
         blacklist_devices = state.get('devices', {}).get('blacklist', [])
+        
+        # Create chain if it doesn't exist (idempotent)
+        if not _execute_command("iptables -t mangle -N NETPILOT_BLACKLIST"):
+            logger.debug("NETPILOT_BLACKLIST chain might already exist")
         
         # Flush the chain (blacklist starts empty, no default rule)
         if not _execute_command("iptables -t mangle -F NETPILOT_BLACKLIST"):

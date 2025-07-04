@@ -28,7 +28,8 @@ def _setup_persistent_infrastructure():
             error_lower = err.lower()
             if any(phrase in error_lower for phrase in [
                 "file exists", "already exists", "cannot find", 
-                "no such file", "chain already exists"
+                "no such file", "chain already exists", "no chain/target/match",
+                "bad rule", "does not exist"
             ]):
                 return True
             logger.error(f"Command failed: {command} - Error: {err}")

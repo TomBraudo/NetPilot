@@ -6,6 +6,7 @@ from services.blacklist_service import (
     add_device_to_blacklist,
     remove_device_from_blacklist,
     set_blacklist_limit_rate,
+    set_blacklist_full_rate,
     activate_blacklist_mode,
     deactivate_blacklist_mode,
 )
@@ -73,6 +74,24 @@ def set_limit_rate():
         logger.error(f"Unexpected error setting blacklist limit rate: {str(e)}", exc_info=True)
         return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time)
 
+@blacklist_bp.route("/full-rate", methods=["POST"])
+def set_full_rate():
+    """Set the blacklist bandwidth full rate"""
+    start_time = time.time()
+    try:
+        data = request.get_json()
+        rate = data.get("rate")
+        if not rate:
+            return build_error_response("Missing 'rate' in request body", 400, "BAD_REQUEST", start_time)
+            
+        result, error = set_blacklist_full_rate(rate)
+        if error:
+            return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
+        return build_success_response(result, start_time)
+    except Exception as e:
+        logger.error(f"Unexpected error setting blacklist full rate: {str(e)}", exc_info=True)
+        return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time)
+
 @blacklist_bp.route("/mode/activate", methods=["POST"])
 def activate():
     """Activate blacklist mode"""
@@ -97,4 +116,4 @@ def deactivate():
         return build_success_response(result, start_time)
     except Exception as e:
         logger.error(f"Unexpected error deactivating blacklist mode: {str(e)}", exc_info=True)
-        return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time) 
+        return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time)

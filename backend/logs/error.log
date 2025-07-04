@@ -1616,3 +1616,9 @@ add chain inet netpilot gate {{ type filter hook prerouting priority mangle; }}
 2025-07-01 23:24:54 - services.device_rule - ERROR - Command failed: iptables -t mangle -D NETPILOT_BLACKLIST -d 192.168.1.122 -j MARK --set-mark 97 - Error: iptables: Bad rule (does a matching rule exist in that chain?).
 2025-07-01 23:46:25 - services.device_rule - ERROR - Command failed: iptables -t mangle -D NETPILOT_BLACKLIST -s 192.168.1.122 -j MARK --set-mark 97 - Error: iptables: Bad rule (does a matching rule exist in that chain?).
 2025-07-01 23:46:26 - services.device_rule - ERROR - Command failed: iptables -t mangle -D NETPILOT_BLACKLIST -d 192.168.1.122 -j MARK --set-mark 97 - Error: iptables: Bad rule (does a matching rule exist in that chain?).
+2025-07-04 07:16:22 - server - ERROR - Session setup failed: Router {{routerId}} not found in Port-Manager
+2025-07-04 07:52:14 - services.device_rule - ERROR - Command failed: iptables -t mangle -D NETPILOT_WHITELIST -s 192.168.1.122 -j MARK --set-mark 1 - Error: iptables: Bad rule (does a matching rule exist in that chain?).
+2025-07-04 07:52:15 - services.device_rule - ERROR - Command failed: iptables -t mangle -D NETPILOT_WHITELIST -s 192.168.1.122 -j RETURN - Error: iptables: Bad rule (does a matching rule exist in that chain?).
+2025-07-04 07:52:15 - services.device_rule - ERROR - Command failed: iptables -t mangle -D NETPILOT_WHITELIST -d 192.168.1.122 -j MARK --set-mark 1 - Error: iptables: Bad rule (does a matching rule exist in that chain?).
+2025-07-04 07:52:16 - services.device_rule - ERROR - Command failed: iptables -t mangle -D NETPILOT_WHITELIST -d 192.168.1.122 -j RETURN - Error: iptables: Bad rule (does a matching rule exist in that chain?).
+2025-07-04 08:05:48 - server - ERROR - Session setup failed: Router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f not found in Port-Manager

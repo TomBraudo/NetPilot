@@ -16,7 +16,8 @@ def _execute_command(command: str):
         # Check for idempotent operations that are safe to ignore
         if any(phrase in error_lower for phrase in [
             "file exists", "already exists", "cannot find", 
-            "no such file", "chain already exists"
+            "no such file", "chain already exists", "no chain/target/match",
+            "bad rule", "does not exist"
         ]):
             logger.debug(f"Idempotent operation (safe to ignore): {command}")
             return True
@@ -139,16 +140,9 @@ def setup_router_infrastructure(restart=False):
                 
             logger.info(f"TC setup completed on {interface}")
 
-        # Create empty iptables chains
-        logger.info("Creating empty iptables chains...")
-        if not _execute_command("iptables -t mangle -N NETPILOT_WHITELIST"):
-            logger.debug("NETPILOT_WHITELIST chain might already exist")
-        
-        if not _execute_command("iptables -t mangle -N NETPILOT_BLACKLIST"):
-            logger.debug("NETPILOT_BLACKLIST chain might already exist")
-        
         logger.info("Basic NetPilot infrastructure setup completed successfully!")
         logger.info(f"Infrastructure ready on {len(interfaces)} interfaces with rates: {unlimited_rate} unlimited, {limited_rate} limited")
+        logger.info("Note: iptables chains will be created/managed by mode activation (naive approach)")
         
         return True, None
 
