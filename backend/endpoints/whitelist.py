@@ -98,7 +98,7 @@ def set_full_rate():
         logger.error(f"Unexpected error setting whitelist full rate: {str(e)}", exc_info=True)
         return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time)
 
-@whitelist_bp.route("/mode/activate", methods=["POST"])
+@whitelist_bp.route("/mode", methods=["POST"])
 def activate():
     """Activate whitelist mode"""
     start_time = time.time()
@@ -114,7 +114,7 @@ def activate():
         logger.error(f"Unexpected error activating whitelist mode: {str(e)}", exc_info=True)
         return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time)
 
-@whitelist_bp.route("/mode/deactivate", methods=["DELETE"])
+@whitelist_bp.route("/mode", methods=["DELETE"])
 def deactivate():
     """Deactivate whitelist mode"""
     start_time = time.time()

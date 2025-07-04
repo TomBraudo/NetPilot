@@ -92,7 +92,7 @@ def set_full_rate():
         logger.error(f"Unexpected error setting blacklist full rate: {str(e)}", exc_info=True)
         return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time)
 
-@blacklist_bp.route("/mode/activate", methods=["POST"])
+@blacklist_bp.route("/mode", methods=["POST"])
 def activate():
     """Activate blacklist mode"""
     start_time = time.time()
@@ -105,7 +105,7 @@ def activate():
         logger.error(f"Unexpected error activating blacklist mode: {str(e)}", exc_info=True)
         return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time)
 
-@blacklist_bp.route("/mode/deactivate", methods=["POST"])
+@blacklist_bp.route("/mode", methods=["DELETE"])
 def deactivate():
     """Deactivate blacklist mode"""
     start_time = time.time()
