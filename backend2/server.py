@@ -14,6 +14,9 @@ from endpoints.whitelist import whitelist_bp
 from endpoints.blacklist import blacklist_bp
 from endpoints.wifi import wifi_bp
 from endpoints.api import network_bp
+from endpoints.devices import devices_bp
+from endpoints.whitelist_new import whitelist_new_bp
+from endpoints.blacklist_new import blacklist_bp as blacklist_new_bp
 
 def create_app():
     """Create and configure the Flask application"""
@@ -47,6 +50,9 @@ def create_app():
     app.register_blueprint(blacklist_bp, url_prefix='/api/blacklist')
     app.register_blueprint(wifi_bp, url_prefix='/api/wifi')
     app.register_blueprint(network_bp, url_prefix='/api/network')
+    app.register_blueprint(devices_bp, url_prefix='/api/devices')
+    app.register_blueprint(whitelist_new_bp, url_prefix='/api/whitelist-new')
+    app.register_blueprint(blacklist_new_bp, url_prefix='/api/blacklist-new')
     
     # Root route
     @app.route('/')

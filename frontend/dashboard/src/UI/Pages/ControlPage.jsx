@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Trash2, Shield, ShieldOff } from "lucide-react";
+import { blacklistAPI, whitelistAPI, API_ENDPOINTS } from "../../constants/api";
 
 export default function ControlPage() {
 
@@ -48,14 +49,11 @@ export default function ControlPage() {
   // Fetch whitelist data from backend
   const fetchWhitelistData = async () => {
     try {
-      const response = await fetch("http://localhost:5000/whitelist");
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success) {
-          setDevices(result.data || []);
-        }
+      const result = await whitelistAPI.getAll();
+      if (result.success) {
+        setDevices(result.data?.devices || []);
       } else {
-        console.error("Failed to fetch whitelist data:", response.status);
+        console.error("Failed to fetch whitelist data:", result.error);
       }
     } catch (error) {
       console.error("Error fetching whitelist:", error);
@@ -65,14 +63,11 @@ export default function ControlPage() {
   // Fetch blacklist data from backend
   const fetchBlacklistData = async () => {
     try {
-      const response = await fetch("http://localhost:5000/blacklist");
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success) {
-          setBlacklistedDevices(result.data || []);
-        }
+      const result = await blacklistAPI.getAll();
+      if (result.success) {
+        setBlacklistedDevices(result.data?.devices || []);
       } else {
-        console.error("Failed to fetch blacklist data:", response.status);
+        console.error("Failed to fetch blacklist data:", result.error);
       }
     } catch (error) {
       console.error("Error fetching blacklist:", error);
@@ -446,22 +441,12 @@ export default function ControlPage() {
   const handleDeleteDevice = async (deviceToRemove) => {
     if (isWhitelistMode) {
       try {
-        const response = await fetch(`http://localhost:5000/whitelist`, {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ip: deviceToRemove.ip })
-        });
-        
-        if (response.ok) {
-          const result = await response.json();
-          if (result.success) {
-            // Remove from local state
-            setDevices(devices.filter((d) => d.ip !== deviceToRemove.ip));
-          } else {
-            alert(`Failed to remove device: ${result.message}`);
-          }
+        const result = await whitelistAPI.remove(deviceToRemove.id);
+        if (result.success) {
+          // Remove from local state
+          setDevices(devices.filter((d) => d.id !== deviceToRemove.id));
         } else {
-          alert("Failed to remove device from whitelist");
+          alert(`Failed to remove device: ${result.error?.message || 'Unknown error'}`);
         }
       } catch (error) {
         console.error("Error removing device from whitelist:", error);
@@ -469,22 +454,12 @@ export default function ControlPage() {
       }
     } else {
       try {
-        const response = await fetch(`http://localhost:5000/blacklist`, {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ip: deviceToRemove.ip })
-        });
-        
-        if (response.ok) {
-          const result = await response.json();
-          if (result.success) {
-            // Remove from local state
-            setBlacklistedDevices(blacklistedDevices.filter((d) => d.ip !== deviceToRemove.ip));
-          } else {
-            alert(`Failed to remove device: ${result.message}`);
-          }
+        const result = await blacklistAPI.remove(deviceToRemove.id);
+        if (result.success) {
+          // Remove from local state
+          setBlacklistedDevices(blacklistedDevices.filter((d) => d.id !== deviceToRemove.id));
         } else {
-          alert("Failed to remove device from blacklist");
+          alert(`Failed to remove device: ${result.error?.message || 'Unknown error'}`);
         }
       } catch (error) {
         console.error("Error removing device from blacklist:", error);
@@ -639,19 +614,19 @@ export default function ControlPage() {
         <div className="flex flex-col gap-4 max-h-96 overflow-y-auto">
           {(isWhitelistMode ? devices : blacklistedDevices).map((device) => (
             <div
-              key={device.ip || device.mac}
+              key={device.id || device.mac_address}
               className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-gray-50 dark:bg-gray-900 rounded-lg p-4 gap-3 sm:gap-0"
             >
               <div>
                 <div className="font-medium text-gray-900 dark:text-white">
-                  {device.hostname || device.name || "Unknown Device"}
+                  {device.device_name || device.hostname || device.name || "Unknown Device"}
                 </div>
                 <div className="text-xs text-gray-500 dark:text-gray-400">
-                  IP: {device.ip}
+                  MAC: {device.mac_address || device.mac}
                 </div>
-                {device.description && (
+                {(device.reason || device.description) && (
                   <div className="text-xs text-gray-500 dark:text-gray-400">
-                    {device.description}
+                    {device.reason || device.description}
                   </div>
                 )}
               </div>
@@ -667,6 +642,11 @@ export default function ControlPage() {
           {isWhitelistMode && devices.length === 0 && (
             <div className="text-center py-6 text-gray-500 dark:text-gray-400">
               No devices in whitelist. Go to Scan page to add devices.
+            </div>
+          )}
+          {!isWhitelistMode && blacklistedDevices.length === 0 && (
+            <div className="text-center py-6 text-gray-500 dark:text-gray-400">
+              No devices in blacklist. Add devices to blacklist to restrict their access.
             </div>
           )}
         </div>

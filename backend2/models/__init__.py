@@ -6,6 +6,7 @@ from .router import UserRouter
 from .device import UserDevice
 from .whitelist import UserWhitelist
 from .blacklist import UserBlacklist
+from .blacklisted_devices import BlacklistedDevice
 from .blocked_device import UserBlockedDevice
 from .settings import UserSetting
 
@@ -18,6 +19,7 @@ __all__ = [
     'UserDevice',
     'UserWhitelist',
     'UserBlacklist',
+    'BlacklistedDevice',
     'UserBlockedDevice',
     'UserSetting'
 ] 

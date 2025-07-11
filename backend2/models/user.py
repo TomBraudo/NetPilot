@@ -18,5 +18,6 @@ class User(BaseModel):
     devices = relationship("UserDevice", back_populates="user", cascade="all, delete-orphan")
     whitelists = relationship("UserWhitelist", back_populates="user", cascade="all, delete-orphan")
     blacklists = relationship("UserBlacklist", back_populates="user", cascade="all, delete-orphan")
+    blacklisted_devices = relationship("BlacklistedDevice", back_populates="user", cascade="all, delete-orphan")
     blocked_devices = relationship("UserBlockedDevice", back_populates="user", cascade="all, delete-orphan")
     settings = relationship("UserSetting", back_populates="user", cascade="all, delete-orphan") 
