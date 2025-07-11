@@ -32,7 +32,7 @@ from endpoints.blacklist import blacklist_bp
 from endpoints.session import session_bp
 
 # Load environment variables
-server_port = os.getenv("SERVER_PORT", 3000)
+server_port = os.getenv("SERVER_PORT", 5000)
 if isinstance(server_port, str):
     server_port = int(server_port)
 

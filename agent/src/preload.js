@@ -18,6 +18,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // Cloud VM access
   getCloudVmAccess: () => ipcRenderer.invoke('get-cloud-vm-access'),
   
+  // Port allocation info (including routerId)
+  getPortInfo: () => ipcRenderer.invoke('get-port-info'),
+  
   // Router operations
   testRouterConnection: (credentials) => ipcRenderer.invoke('test-router-connection', credentials),
   installRouterPackages: (credentials) => ipcRenderer.invoke('install-router-packages', credentials),

@@ -160,6 +160,11 @@ class NetPilotAgent {
       return this.getCloudVmAccess();
     });
 
+    // Get port allocation info (including routerId)
+    ipcMain.handle('get-port-info', (event) => {
+      return this.portAllocator.getPortInfo();
+    });
+
     // Show info dialog
     ipcMain.handle('show-info', (event, { title, message }) => {
       return dialog.showErrorBox(title, message);

@@ -92,6 +92,9 @@ class NetPilotAgentUI {
       enableWifiStatus: document.getElementById('enable-wifi-status'),
       configStatus: document.getElementById('config-status'),
       configDetails: document.getElementById('config-details'),
+      routerIdDisplay: document.getElementById('router-id-display'),
+      routerIdValue: document.getElementById('router-id-value'),
+      routerIdCopyBtn: document.getElementById('router-id-copy-btn'),
       progressSection: document.getElementById('progress-section'),
       progressFill: document.getElementById('progress-fill'),
       progressText: document.getElementById('progress-text'),
@@ -139,6 +142,9 @@ class NetPilotAgentUI {
     // Initialize UI state
     this.updateConnectionStatus('unconfigured', 'Router not configured');
     await this.checkRouterConfiguration();
+    
+    // Check and display router ID if available
+    await this.updateRouterIdDisplay();
     
     // Set version info
     if (this.elements.versionText && window.electronAPI) {
@@ -230,6 +236,9 @@ class NetPilotAgentUI {
     this.elements.logsBtn?.addEventListener('click', this.openLogViewer);
     this.elements.helpBtn?.addEventListener('click', this.openHelp);
     this.elements.aboutBtn?.addEventListener('click', () => this.showAbout());
+    
+    // Router ID copy button
+    this.elements.routerIdCopyBtn?.addEventListener('click', this.handleCopyRouterId.bind(this));
     
     // Enter key in form fields
     const formFields = [
@@ -500,10 +509,16 @@ class NetPilotAgentUI {
           logger.warn('Could not verify tunnel status:', statusError);
         }
         
+        // Update router ID display after tunnel restoration
+        await this.updateRouterIdDisplay();
+        
       } else if (restoration.portRestored) {
         const portData = restoration.details.port;
         this.allocatedPort = portData.port;
         this.showNotification(`📦 Port allocation restored: ${portData.port}`, 'info');
+        
+        // Update router ID display when port allocation is restored
+        await this.updateRouterIdDisplay();
       } else {
         logger.info('No previous state found to restore - starting fresh');
         this.showNotification('No previous connection to restore', 'info');
@@ -1508,6 +1523,9 @@ Built with Electron ${window.electronAPI?.version || 'Unknown'}${configInfo}${ro
       this.updateConnectionStatus('configured-disconnected', 'Router ready for tunnel connection');
       this.updateProgress(100, 'Configuration completed successfully!');
       
+      // Update router ID display after configuration
+      await this.updateRouterIdDisplay();
+      
       this.showNotification('Router configured successfully!', 'success');
       this.addLog('INFO', 'Router configuration completed successfully');
       
@@ -1633,6 +1651,9 @@ Built with Electron ${window.electronAPI?.version || 'Unknown'}${configInfo}${ro
       this.updateProgress(100, 'Tunnel established successfully!');
       this.showNotification('Tunnel connected successfully!', 'success');
       this.addLog('INFO', `Tunnel established on port ${this.allocatedPort}`);
+      
+      // Update router ID display after tunnel establishment
+      await this.updateRouterIdDisplay();
       
       // Load router credentials for management
       await this.loadRouterCredentials();
@@ -2023,6 +2044,50 @@ Built with Electron ${window.electronAPI?.version || 'Unknown'}${configInfo}${ro
     }
     
     return true;
+  }
+
+  // Router ID Display Methods
+  async updateRouterIdDisplay() {
+    try {
+      const portInfo = await window.electronAPI.getPortInfo();
+      if (portInfo && portInfo.routerId) {
+        this.elements.routerIdValue.textContent = portInfo.routerId;
+        this.elements.routerIdDisplay.style.display = 'block';
+        logger.info('Router ID displayed:', portInfo.routerId);
+      } else {
+        this.elements.routerIdDisplay.style.display = 'none';
+        logger.info('No router ID available to display');
+      }
+    } catch (error) {
+      logger.error('Failed to get router ID:', error);
+      this.elements.routerIdDisplay.style.display = 'none';
+    }
+  }
+
+  async handleCopyRouterId() {
+    try {
+      const routerId = this.elements.routerIdValue.textContent;
+      await navigator.clipboard.writeText(routerId);
+      
+      // Show copy success feedback
+      const copyText = this.elements.routerIdCopyBtn.querySelector('.copy-text');
+      const copySuccess = this.elements.routerIdCopyBtn.querySelector('.copy-success');
+      
+      copyText.style.display = 'none';
+      copySuccess.style.display = 'inline';
+      
+      // Reset after 2 seconds
+      setTimeout(() => {
+        copyText.style.display = 'inline';
+        copySuccess.style.display = 'none';
+      }, 2000);
+      
+      this.showNotification('Router ID copied to clipboard!', 'success');
+      logger.info('Router ID copied to clipboard');
+    } catch (error) {
+      logger.error('Failed to copy router ID:', error);
+      this.showNotification('Failed to copy Router ID', 'error');
+    }
   }
 }
 
