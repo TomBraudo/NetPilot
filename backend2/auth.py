@@ -2,6 +2,10 @@
 from flask import Blueprint, url_for, session, redirect, request, jsonify
 from authlib.integrations.flask_client import OAuth
 from functools import wraps
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -16,8 +20,8 @@ def init_oauth(app):
     
     google = oauth.register(
         "NetPilot",
-        client_id='1053980213438-p4jvv47k3gmcuce206m5iv8cht0gpqhu.apps.googleusercontent.com',
-        client_secret='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',
+        client_id=os.getenv('GOOGLE_CLIENT_ID'),
+        client_secret=os.getenv('GOOGLE_CLIENT_SECRET'),
         server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
         client_kwargs={'scope': 'openid email profile'},
     )

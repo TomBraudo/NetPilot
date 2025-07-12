@@ -45,7 +45,7 @@ def create_app():
     
     # Register blueprints
     app.register_blueprint(auth_bp)  # No prefix - routes will be /login, /authorize, etc.
-    app.register_blueprint(health_bp, url_prefix='/api')
+    app.register_blueprint(health_bp)
     app.register_blueprint(whitelist_bp, url_prefix='/api/whitelist')
     app.register_blueprint(blacklist_bp, url_prefix='/api/blacklist')
     app.register_blueprint(wifi_bp, url_prefix='/api/wifi')

@@ -1,0 +1,60 @@
+2025-07-12 10:42:56 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-12 10:43:01 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-12 10:44:02 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-12 10:44:27 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-12 10:44:33 - endpoints.health - INFO - Checking commands server health
+2025-07-12 10:44:33 - managers.commands_server - INFO - Testing commands server connection...
+2025-07-12 10:44:33 - services.commands_server - INFO - Commands server service initialized with base URL: http://34.38.207.87:5000
+2025-07-12 10:44:33 - services.commands_server - INFO - Checking commands server health
+2025-07-12 10:44:33 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-07-12 10:44:33 - services.commands_server - DEBUG - Request completed in 0.17s with status 200
+2025-07-12 10:44:33 - services.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 0.00023984909057617188, 'routerId': None, 'sessionId': None, 'timestamp': '2025-07-12T07:44:33.058016'}, 'success': True}
+2025-07-12 10:44:33 - managers.commands_server - DEBUG - Commands server health check successful
+2025-07-12 10:44:33 - managers.commands_server - INFO - Commands server connection test successful
+2025-07-12 10:44:33 - services.commands_server - INFO - Getting commands server info
+2025-07-12 10:44:33 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/info
+2025-07-12 10:44:33 - services.commands_server - DEBUG - Request completed in 0.14s with status 400
+2025-07-12 10:44:33 - services.commands_server - ERROR - Commands server returned 400: <!doctype html>
+<html lang=en>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)</p>
+
+2025-07-12 10:44:33 - managers.commands_server - ERROR - Failed to get server info: Commands server returned 400: <!doctype html>
+<html lang=en>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)</p>
+
+2025-07-12 10:44:33 - endpoints.health - INFO - Health check completed - all systems healthy
+2025-07-12 10:47:53 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-12 10:48:07 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-12 10:48:16 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-12 10:48:51 - endpoints.health - INFO - Checking commands server health
+2025-07-12 10:48:51 - managers.commands_server - INFO - Testing commands server connection...
+2025-07-12 10:48:51 - services.commands_server - INFO - Commands server service initialized with base URL: http://34.38.207.87:5000
+2025-07-12 10:48:51 - services.commands_server - INFO - Checking commands server health
+2025-07-12 10:48:51 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-07-12 10:48:51 - services.commands_server - DEBUG - Request completed in 0.13s with status 200
+2025-07-12 10:48:51 - services.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 2.4318695068359375e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-07-12T07:48:51.753199'}, 'success': True}
+2025-07-12 10:48:51 - managers.commands_server - DEBUG - Commands server health check successful
+2025-07-12 10:48:51 - managers.commands_server - INFO - Commands server connection test successful
+2025-07-12 10:48:51 - services.commands_server - INFO - Getting commands server info
+2025-07-12 10:48:51 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/info
+2025-07-12 10:48:52 - services.commands_server - DEBUG - Request completed in 0.13s with status 400
+2025-07-12 10:48:52 - services.commands_server - ERROR - Commands server returned 400: <!doctype html>
+<html lang=en>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)</p>
+
+2025-07-12 10:48:52 - managers.commands_server - ERROR - Failed to get server info: Commands server returned 400: <!doctype html>
+<html lang=en>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)</p>
+
+2025-07-12 10:48:52 - endpoints.health - INFO - Health check completed - all systems healthy
+2025-07-12 10:51:33 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-12 11:03:05 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-12 11:03:10 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000

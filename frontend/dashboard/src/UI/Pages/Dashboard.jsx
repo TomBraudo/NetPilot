@@ -2,10 +2,19 @@ import { Wifi, ArrowRight } from "lucide-react";
 import NetworkBackground from "../../components/NetworkBackground";
 import ScanButton from "../../components/ScanButton";
 import LoginButton from "../../components/LoginButton";
+import RouterIdPopup from "../../components/RouterIdPopup";
 import { useAuth } from "../../context/AuthContext";
 
 function Dashboard() {
-  const { user, loading, checkAuthStatus } = useAuth();
+  const { 
+    user, 
+    loading, 
+    checkAuthStatus, 
+    routerId, 
+    showRouterIdPopup, 
+    setRouterIdValue, 
+    setShowRouterIdPopup 
+  } = useAuth();
 
   if (loading) {
     return (
@@ -33,12 +42,26 @@ function Dashboard() {
         </p>
 
         <div className="flex justify-center mb-12">
-          {user ? (
+          {user && routerId ? (
             <ScanButton />
+          ) : user ? (
+            <div className="text-center">
+              <div className="inline-flex items-center px-6 py-3 text-lg font-semibold text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-full">
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-600 mr-3"></div>
+                Setting up your router connection...
+              </div>
+            </div>
           ) : (
             <LoginButton />
           )}
         </div>
+
+        {/* Router ID Popup */}
+        <RouterIdPopup 
+          isOpen={showRouterIdPopup}
+          onClose={() => setShowRouterIdPopup(false)}
+          onConfirm={setRouterIdValue}
+        />
 
         <div className="text-gray-400 dark:text-gray-300">
           <p className="mb-2">

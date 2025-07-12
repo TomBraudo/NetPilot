@@ -13,6 +13,10 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [routerId, setRouterId] = useState(() => {
+    return localStorage.getItem('routerId') || null;
+  });
+  const [showRouterIdPopup, setShowRouterIdPopup] = useState(false);
 
   const API_BASE_URL = 'http://localhost:5000';
 
@@ -56,8 +60,11 @@ export const AuthProvider = ({ children }) => {
       
       if (response.ok) {
         console.log('Logout successful');
-        // Clear user state
+        // Clear user state and router ID
         setUser(null);
+        setRouterId(null);
+        setShowRouterIdPopup(false);
+        localStorage.removeItem('routerId');
         // Redirect to dashboard
         window.location.href = '/';
       } else {
@@ -67,8 +74,23 @@ export const AuthProvider = ({ children }) => {
       console.error('Error logging out:', error);
       // Even if logout fails, clear local state and redirect
       setUser(null);
+      setRouterId(null);
+      setShowRouterIdPopup(false);
+      localStorage.removeItem('routerId');
       window.location.href = '/';
     }
+  };
+
+  const setRouterIdValue = (id) => {
+    setRouterId(id);
+    localStorage.setItem('routerId', id);
+    setShowRouterIdPopup(false);
+  };
+
+  const clearRouterId = () => {
+    setRouterId(null);
+    localStorage.removeItem('routerId');
+    setShowRouterIdPopup(false);
   };
 
   useEffect(() => {
@@ -90,6 +112,10 @@ export const AuthProvider = ({ children }) => {
           await checkAuthStatus();
           if (user) {
             console.log('User authenticated successfully');
+            // Show Router ID popup if not already set
+            if (!routerId) {
+              setShowRouterIdPopup(true);
+            }
             break;
           }
         }
@@ -101,12 +127,24 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
+  // Show Router ID popup when user is authenticated but no Router ID is set
+  useEffect(() => {
+    if (user && !routerId && !showRouterIdPopup) {
+      setShowRouterIdPopup(true);
+    }
+  }, [user, routerId]);
+
   const value = {
     user,
     loading,
     login,
     logout,
     checkAuthStatus,
+    routerId,
+    showRouterIdPopup,
+    setRouterIdValue,
+    clearRouterId,
+    setShowRouterIdPopup,
   };
 
   return (

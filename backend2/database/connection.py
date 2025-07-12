@@ -3,6 +3,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import QueuePool
 from models.base import Base
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class DatabaseConfig:
     def __init__(self):
