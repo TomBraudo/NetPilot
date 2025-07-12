@@ -1,8 +1,24 @@
 import { Wifi, ArrowRight } from "lucide-react";
 import NetworkBackground from "../../components/NetworkBackground";
 import ScanButton from "../../components/ScanButton";
+import LoginButton from "../../components/LoginButton";
+import { useAuth } from "../../context/AuthContext";
 
-function App() {
+function Dashboard() {
+  const { user, loading, checkAuthStatus } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="relative text-gray-500 bg-gray-100 dark:bg-gray-800 w-full h-screen overflow-hidden flex items-center justify-center">
+        <NetworkBackground />
+        <main className="max-w-2xl text-center relative z-10 px-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-300">Loading...</p>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="relative text-gray-500 bg-gray-100 dark:bg-gray-800 w-full h-screen overflow-hidden flex items-center justify-center">
       <NetworkBackground />
@@ -17,7 +33,11 @@ function App() {
         </p>
 
         <div className="flex justify-center mb-12">
-          <ScanButton />
+          {user ? (
+            <ScanButton />
+          ) : (
+            <LoginButton />
+          )}
         </div>
 
         <div className="text-gray-400 dark:text-gray-300">
@@ -41,4 +61,4 @@ function App() {
   );
 }
 
-export default App;
+export default Dashboard;

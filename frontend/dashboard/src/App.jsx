@@ -8,6 +8,7 @@ import ScanTest from "./UI/Pages/ScanTest";
 import FaqsPage from "./UI/Pages/FaqsPage";
 import Dashboard from "./UI/Pages/Dashboard";
 import AboutPage from "./UI/Pages/AboutPage";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 
 const AppLayout = ({
   darkMode,
@@ -48,7 +49,7 @@ const AppLayout = ({
   );
 };
 
-const App = () => {
+const AppContent = () => {
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem("darkMode") === "true";
   });
@@ -67,46 +68,54 @@ const App = () => {
   };
 
   return (
-    <BrowserRouter>
-      <div className={darkMode ? "dark" : ""}>
-        <Routes>
-          {/* Root dashboard page without sidebar */}
-          <Route
-            path="/"
-            element={
-              <>
-                <header className="fixed top-0 left-0 right-0 h-16 z-30 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
-                  <div className="px-4 h-full flex items-center justify-between">
-                    <Header
-                      toggleDarkMode={toggleDarkMode}
-                      toggleSidebar={toggleSidebar}
-                      darkMode={darkMode}
-                      isSidebarOpen={isSidebarOpen}
-                    />
-                  </div>
-                </header>
-                <main className="pt-16 bg-gray-100 dark:bg-gray-900 h-screen overflow-hidden">
-                  <Dashboard />
-                </main>
-              </>
-            }
-          />
+    <div className={darkMode ? "dark" : ""}>
+      <Routes>
+        {/* Root dashboard page without sidebar */}
+        <Route
+          path="/"
+          element={
+            <>
+              <header className="fixed top-0 left-0 right-0 h-16 z-30 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
+                <div className="px-4 h-full flex items-center justify-between">
+                  <Header
+                    toggleDarkMode={toggleDarkMode}
+                    toggleSidebar={toggleSidebar}
+                    darkMode={darkMode}
+                    isSidebarOpen={isSidebarOpen}
+                  />
+                </div>
+              </header>
+              <main className="pt-16 bg-gray-100 dark:bg-gray-900 h-screen overflow-hidden">
+                <Dashboard />
+              </main>
+            </>
+          }
+        />
 
-          {/* Pages that include sidebar */}
-          <Route
-            path="/*"
-            element={
-              <AppLayout
-                darkMode={darkMode}
-                toggleDarkMode={toggleDarkMode}
-                toggleSidebar={toggleSidebar}
-                isSidebarOpen={isSidebarOpen}
-              />
-            }
-          />
-        </Routes>
-      </div>
-    </BrowserRouter>
+        {/* Pages that include sidebar */}
+        <Route
+          path="/*"
+          element={
+            <AppLayout
+              darkMode={darkMode}
+              toggleDarkMode={toggleDarkMode}
+              toggleSidebar={toggleSidebar}
+              isSidebarOpen={isSidebarOpen}
+            />
+          }
+        />
+      </Routes>
+    </div>
+  );
+};
+
+const App = () => {
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <AppContent />
+      </BrowserRouter>
+    </AuthProvider>
   );
 };
 
