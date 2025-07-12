@@ -1,5 +1,8 @@
 const { ipcRenderer } = require('electron');
 const logger = require('../utils/Logger');
+const fs = require('fs');
+const path = require('path');
+const os = require('os');
 
 class StateManager {
     constructor() {
@@ -10,7 +13,68 @@ class StateManager {
         // Check if we're in the main process or renderer process
         this.isMainProcess = !ipcRenderer;
         
+        // Set up file-based storage path
+        this.stateDir = path.join(os.homedir(), 'AppData', 'Roaming', 'netpilot-router-agent', 'netpilot-state');
+        this.ensureStateDirExists();
+        
         StateManager.instance = this;
+    }
+
+    // Ensure the netpilot-state directory exists
+    ensureStateDirExists() {
+        try {
+            if (!fs.existsSync(this.stateDir)) {
+                fs.mkdirSync(this.stateDir, { recursive: true });
+                logger.info(`Created state directory: ${this.stateDir}`);
+            }
+        } catch (error) {
+            logger.error('Failed to create state directory:', error);
+        }
+    }
+
+    // File-based storage methods
+    async saveStateToFile(filename, data) {
+        try {
+            const filePath = path.join(this.stateDir, `${filename}.json`);
+            fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+            logger.info(`State saved to file: ${filePath}`);
+            return true;
+        } catch (error) {
+            logger.error(`Failed to save state to file ${filename}:`, error);
+            return false;
+        }
+    }
+
+    async loadStateFromFile(filename) {
+        try {
+            const filePath = path.join(this.stateDir, `${filename}.json`);
+            if (!fs.existsSync(filePath)) {
+                logger.info(`State file ${filename}.json does not exist, returning null`);
+                return null;
+            }
+
+            const data = fs.readFileSync(filePath, 'utf8');
+            const parsed = JSON.parse(data);
+            logger.info(`State loaded from file: ${filePath}`);
+            return parsed;
+        } catch (error) {
+            logger.error(`Failed to load state from file ${filename}:`, error);
+            return null;
+        }
+    }
+
+    async deleteStateFile(filename) {
+        try {
+            const filePath = path.join(this.stateDir, `${filename}.json`);
+            if (fs.existsSync(filePath)) {
+                fs.unlinkSync(filePath);
+                logger.info(`State file deleted: ${filePath}`);
+            }
+            return true;
+        } catch (error) {
+            logger.error(`Failed to delete state file ${filename}:`, error);
+            return false;
+        }
     }
 
     // localStorage-based state management for Electron renderer process
@@ -94,28 +158,52 @@ class StateManager {
         }
     }
 
-    // Tunnel State Management
+    // Tunnel State Management - now using file-based storage for reliability
     async saveTunnelState(tunnelState) {
         const stateData = {
             activeTunnel: tunnelState,
             lastUpdated: new Date().toISOString(),
             version: '1.0'
         };
-        return await this.saveState('tunnelState', stateData);
+        
+        // Save to both file and localStorage for redundancy
+        const fileSuccess = await this.saveStateToFile('tunnel-state', stateData);
+        const localStorageSuccess = await this.saveState('tunnelState', stateData);
+        
+        if (fileSuccess) {
+            logger.info('Tunnel state saved to file successfully (includes PIDs for cleanup)');
+        }
+        
+        return fileSuccess || localStorageSuccess; // Success if either works
     }
 
     async getTunnelState() {
-        const data = await this.loadState('tunnelState');
+        // Try file-based storage first (more reliable), then fall back to localStorage
+        let data = await this.loadStateFromFile('tunnel-state');
+        if (!data) {
+            data = await this.loadState('tunnelState');
+        }
         return data ? data.activeTunnel : null;
     }
 
     async clearTunnelState() {
-        return await this.deleteState('tunnelState');
+        // Clear from both file and localStorage
+        const fileSuccess = await this.deleteStateFile('tunnel-state');
+        const localStorageSuccess = await this.deleteState('tunnelState');
+        
+        return fileSuccess || localStorageSuccess; // Success if either works
     }
 
-    // Port Allocation Management
+    // Port Allocation Management - now using file-based storage for reliability
     async savePortAllocation(portData) {
-        const existingAllocations = await this.loadState('portAllocations') || { allocations: [] };
+        // Try to load existing allocations from file first, then localStorage
+        let existingAllocations = await this.loadStateFromFile('port-allocations');
+        if (!existingAllocations) {
+            existingAllocations = await this.loadState('portAllocations') || { allocations: [] };
+        }
+        if (!existingAllocations.allocations) {
+            existingAllocations = { allocations: [] };
+        }
         
         // Remove any existing allocation for the same router ID
         existingAllocations.allocations = existingAllocations.allocations.filter(
@@ -131,16 +219,31 @@ class StateManager {
         existingAllocations.lastUpdated = new Date().toISOString();
         existingAllocations.version = '1.0';
         
-        return await this.saveState('portAllocations', existingAllocations);
+        // Save to both file and localStorage for redundancy
+        const fileSuccess = await this.saveStateToFile('port-allocations', existingAllocations);
+        const localStorageSuccess = await this.saveState('portAllocations', existingAllocations);
+        
+        return fileSuccess || localStorageSuccess; // Success if either works
     }
 
     async getPortAllocations() {
-        const data = await this.loadState('portAllocations');
+        // Try file-based storage first, then fall back to localStorage
+        let data = await this.loadStateFromFile('port-allocations');
+        if (!data) {
+            data = await this.loadState('portAllocations');
+        }
         return data ? data.allocations : [];
     }
 
     async removePortAllocation(routerId) {
-        const existingAllocations = await this.loadState('portAllocations') || { allocations: [] };
+        // Try to load existing allocations from file first, then localStorage
+        let existingAllocations = await this.loadStateFromFile('port-allocations');
+        if (!existingAllocations) {
+            existingAllocations = await this.loadState('portAllocations') || { allocations: [] };
+        }
+        if (!existingAllocations.allocations) {
+            existingAllocations = { allocations: [] };
+        }
         
         existingAllocations.allocations = existingAllocations.allocations.filter(
             allocation => allocation.routerId !== routerId
@@ -148,7 +251,11 @@ class StateManager {
         
         existingAllocations.lastUpdated = new Date().toISOString();
         
-        return await this.saveState('portAllocations', existingAllocations);
+        // Save to both file and localStorage
+        const fileSuccess = await this.saveStateToFile('port-allocations', existingAllocations);
+        const localStorageSuccess = await this.saveState('portAllocations', existingAllocations);
+        
+        return fileSuccess || localStorageSuccess; // Success if either works
     }
 
     // Router Connection History
@@ -182,15 +289,16 @@ class StateManager {
 
     // Utility methods
     async clearAllState() {
-        logger.info('Clearing all state from localStorage...');
+        logger.info('Clearing all state from both files and localStorage...');
         const results = await Promise.allSettled([
-            this.clearTunnelState(),
+            this.clearTunnelState(), // Already clears both file and localStorage
+            this.deleteStateFile('port-allocations'),
             this.deleteState('portAllocations'),
             this.deleteState('routerConnections')
         ]);
         
         const success = results.every(result => result.status === 'fulfilled' && result.value);
-        logger.info('All state cleared from localStorage:', success ? 'success' : 'partial failure');
+        logger.info('All state cleared:', success ? 'success' : 'partial failure');
         return success;
     }
 
@@ -199,11 +307,21 @@ class StateManager {
         const portAllocations = await this.getPortAllocations();
         const routerConnections = await this.getRouterConnections();
         
+        // Check file-based storage
+        const tunnelStateFile = await this.loadStateFromFile('tunnel-state');
+        const portAllocationsFile = await this.loadStateFromFile('port-allocations');
+        
         return {
             hasTunnelState: !!tunnelState,
+            tunnelStateHasPIDs: !!(tunnelState && tunnelState.processIds),
             portAllocationsCount: portAllocations.length,
             routerConnectionsCount: routerConnections.length,
-            lastConnection: routerConnections[0] || null
+            lastConnection: routerConnections[0] || null,
+            fileStorage: {
+                hasTunnelStateFile: !!tunnelStateFile,
+                hasPortAllocationsFile: !!portAllocationsFile,
+                stateDirectory: this.stateDir
+            }
         };
     }
 

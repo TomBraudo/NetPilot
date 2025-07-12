@@ -255,6 +255,92 @@ section h3 {
   margin-left: 1.125rem;
 }
 
+/* Router ID Display - Eye-catching highlighted box */
+.router-id-display {
+  border: 2px solid var(--primary-color);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+}
+
+.router-id-display:hover {
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.router-id-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.router-id-icon {
+  font-size: 1.25rem;
+}
+
+.router-id-title {
+  font-weight: 600;
+  color: var(--primary-color);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.router-id-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.router-id-value {
+  flex: 1;
+  font-family: 'Courier New', monospace;
+  font-size: 0.75rem;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 0.5rem;
+  color: var(--text-primary);
+  word-break: break-all;
+  user-select: all;
+  cursor: text;
+}
+
+.router-id-copy-btn {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 60px;
+}
+
+.router-id-copy-btn:hover {
+  background: var(--primary-hover);
+}
+
+.router-id-copy-btn:active {
+  transform: scale(0.95);
+}
+
+.router-id-instructions {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  text-align: center;
+  padding: 0.5rem;
+  background: rgba(59, 130, 246, 0.05);
+  border-radius: 4px;
+  border: 1px dashed rgba(59, 130, 246, 0.3);
+}
+
 /* Buttons */
 .btn {
   display: inline-flex;

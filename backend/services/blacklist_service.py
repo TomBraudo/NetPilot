@@ -1,203 +1,196 @@
 from utils.logging_config import get_logger
-from utils.response_helpers import success
-from utils.config_manager import config_manager
-from services.mode_state_service import get_current_mode_value, set_current_mode_value
-from db.tinydb_client import db_client
-from db.blacklist_management import add_to_blacklist, remove_from_blacklist, get_blacklist
-from services.reset_rules import reset_all_tc_rules
-from tinydb import Query
-# Import the new helper
-from utils.traffic_control_helpers import setup_traffic_rules
-# Import to get hostname from devices table
-from db.device_repository import get_device_by_mac
+from managers.router_connection_manager import RouterConnectionManager
+from services.router_state_manager import get_router_state, write_router_state
+from services.device_rule_service import (
+    add_device_to_blacklist_rules,
+    remove_device_from_blacklist_rules,
+    rebuild_blacklist_chain,
+    _validate_ip_address
+)
+from services.mode_activation_service import (
+    activate_blacklist_mode_rules,
+    deactivate_blacklist_mode_rules
+)
 
 logger = get_logger('services.blacklist')
+router_connection_manager = RouterConnectionManager()
 
-# Get the blacklist table directly
-blacklist_table = db_client.bandwidth_blacklist
-Device = Query()
-
-def get_blacklist_devices():
-    """Get all devices in the blacklist"""
-    try:
-        devices = get_blacklist()
-        formatted_devices = []
-        for device in devices:
-            # Get the actual hostname from the devices table using MAC address
-            device_info = get_device_by_mac(device.get("mac"))
-            actual_hostname = device_info.get("hostname", "Unknown") if device_info else "Unknown"
-            
-            formatted_devices.append({
-                "ip": device.get("ip"),
-                "mac": device.get("mac"),
-                "hostname": actual_hostname,  # Use hostname from devices table
-                "last_seen": device.get("added_at")
-            })
-        return success(data=formatted_devices)
-    except Exception as e:
-        logger.error(f"Error getting blacklist: {str(e)}", exc_info=True)
-        raise
-
-def _apply_blacklist_rules():
-    """Helper to apply current blacklist rules."""
-    logger.info("Applying blacklist TC rules.")
-    db_client.flush()
-    raw_blacklist_devices = get_blacklist()
-    blacklist_ips = [device['ip'] for device in raw_blacklist_devices]
-    
-    limit_rate_config = get_blacklist_limit_rate()['data']['rate']
-    full_rate_config = get_blacklist_full_rate()['data']['rate']
-
-    setup_traffic_rules(
-        mode='blacklist',
-        ips_to_target=blacklist_ips,
-        limit_rate=limit_rate_config,
-        full_rate=full_rate_config
-    )
-    logger.info("Blacklist TC rules applied successfully.")
+def get_blacklist():
+    """Gets the list of blacklisted devices."""
+    state = get_router_state()
+    return state['devices']['blacklist'], None
 
 def add_device_to_blacklist(ip):
-    """Add a device to the blacklist"""
-    try:
-        device = add_to_blacklist(ip)
+    """Adds a device to the blacklist and updates iptables rules."""
+    if not ip: 
+        return None, "IP address is required."
+
+    # Validate IP format
+    if not _validate_ip_address(ip):
+        return None, "Invalid IP address format."
+
+    state = get_router_state()
+    if ip in state['devices']['blacklist']:
+        return f"Device {ip} already in blacklist.", None
         
-        if get_current_mode_value() == 'blacklist':
-            _apply_blacklist_rules()
+    # First update the state file
+    state['devices']['blacklist'].append(ip)
+    if write_router_state(state):
+        # Check if blacklist mode is currently active
+        is_blacklist_active = state.get('active_mode') == 'blacklist'
         
-        return success(message=f"Device {ip} added to blacklist")
-    except Exception as e:
-        logger.error(f"Error adding device to blacklist: {str(e)}", exc_info=True)
-        raise
+        if is_blacklist_active:
+            # Use live update function for immediate effect when mode is active
+            logger.info(f"Blacklist mode is active - using live update to add {ip}")
+            from services.mode_activation_service import add_device_to_active_blacklist
+            add_device_to_active_blacklist(ip)
+        else:
+            # Mode is not active, use standard rule addition
+            rule_success, rule_error = add_device_to_blacklist_rules(ip)
+            if not rule_success:
+                logger.error(f"Failed to add iptables rule for {ip}: {rule_error}")
+                # Note: State is already updated, but rule failed. This is logged but not rolled back.
+        
+        logger.info(f"Device {ip} added to blacklist with iptables rule")
+        return f"Device {ip} added to blacklist.", None
+    return None, "Failed to update state file on router."
 
 def remove_device_from_blacklist(ip):
-    """Remove a device from the blacklist"""
-    try:
-        device_info = blacklist_table.get(Device.ip == ip)
-        if not device_info:
-            raise ValueError(f"Device with IP {ip} not found in blacklist")
+    """Removes a device from the blacklist and updates iptables rules."""
+    if not ip: 
+        return None, "IP address is required."
 
-        remove_from_blacklist(ip)
-        
-        if get_current_mode_value() == 'blacklist':
-            _apply_blacklist_rules()
-        
-        return success(message=f"Device {ip} removed from blacklist")
-    except Exception as e:
-        logger.error(f"Error removing device from blacklist: {str(e)}", exc_info=True)
-        raise
+    # Validate IP format
+    if not _validate_ip_address(ip):
+        return None, "Invalid IP address format."
 
-def clear_blacklist():
-    """Clear all devices from the blacklist"""
-    try:
-        devices_cleared = False
-        current_devices = get_blacklist()
+    state = get_router_state()
+    if ip not in state['devices']['blacklist']:
+        return f"Device {ip} not in blacklist.", None
 
-        if not current_devices:
-            return success(message="Blacklist is already empty.")
-
-        for device in current_devices:
-            remove_from_blacklist(device["ip"])
-            devices_cleared = True
-        
-        if devices_cleared and get_current_mode_value() == 'blacklist':
-            _apply_blacklist_rules() # Apply rules based on the now empty blacklist
-        
-        return success(message="Blacklist cleared")
-    except Exception as e:
-        logger.error(f"Error clearing blacklist: {str(e)}", exc_info=True)
-        raise
-
-def get_blacklist_limit_rate():
-    """Get the current blacklist bandwidth limit rate"""
-    try:
-        config = config_manager.load_config('blacklist')
-        return success(data={"rate": config.get('Limit_Rate', "2mbit")}) # Default if not set
-    except Exception as e:
-        logger.error(f"Error getting blacklist limit rate: {str(e)}", exc_info=True)
-        raise
-
-def format_rate(rate):
-    """Format rate value to include units if not present"""
-    if isinstance(rate, (int, float)) and not isinstance(rate, bool):
-        return f"{rate}mbit"
-    if isinstance(rate, str) and rate.isnumeric():
-        return f"{rate}mbit"
-    return str(rate)
-
-def set_blacklist_limit_rate(rate):
-    """Set the blacklist bandwidth limit rate"""
-    try:
-        formatted_r = format_rate(rate)
-        config = config_manager.load_config('blacklist')
-        config['Limit_Rate'] = formatted_r
-        config_manager.save_config('blacklist', config)
-        logger.info(f"Updated blacklist limit rate to {formatted_r}")
-        
-        if get_current_mode_value() == 'blacklist':
-            _apply_blacklist_rules()
-        
-        return success(data={"rate": formatted_r})
-    except Exception as e:
-        logger.error(f"Error setting blacklist limit rate: {str(e)}", exc_info=True)
-        raise
-
-def get_blacklist_full_rate():
-    """Get the current blacklist full bandwidth rate"""
-    try:
-        config = config_manager.load_config('blacklist')
-        return success(data={"rate": config.get('Full_Rate', "1000mbit")}) # Default if not set
-    except Exception as e:
-        logger.error(f"Error getting blacklist full rate: {str(e)}", exc_info=True)
-        raise
-
-def set_blacklist_full_rate(rate):
-    """Set the blacklist full bandwidth rate"""
-    try:
-        formatted_r = format_rate(rate)
-        config = config_manager.load_config('blacklist')
-        config['Full_Rate'] = formatted_r
-        config_manager.save_config('blacklist', config)
-        logger.info(f"Updated blacklist full rate to {formatted_r}")
-        
-        if get_current_mode_value() == 'blacklist':
-            _apply_blacklist_rules()
-            
-        return success(data={"rate": formatted_r})
-    except Exception as e:
-        logger.error(f"Error setting blacklist full rate: {str(e)}", exc_info=True)
-        raise
+    # Check if blacklist mode is currently active
+    is_blacklist_active = state.get('active_mode') == 'blacklist'
+    
+    if is_blacklist_active:
+        # Use live update function for immediate effect when mode is active
+        logger.info(f"Blacklist mode is active - using live update to remove {ip}")
+        from services.mode_activation_service import remove_device_from_active_blacklist
+        remove_device_from_active_blacklist(ip)
+    else:
+        # Mode is not active, use standard rule removal
+        rule_success, rule_error = remove_device_from_blacklist_rules(ip)
+        if not rule_success:
+            logger.error(f"Failed to remove iptables rules for {ip}: {rule_error}")
+            # Don't proceed with state update if critical rule removal failed
+            return None, f"Failed to remove blacklist rules: {rule_error}"
+    
+    # Update state file (same for both cases)
+    state['devices']['blacklist'].remove(ip)
+    if write_router_state(state):
+        logger.info(f"Device {ip} removed from blacklist with iptables rule cleanup")
+        return f"Device {ip} removed from blacklist.", None
+    else:
+        # Rules removed but state update failed - inconsistent state
+        logger.error(f"Rules removed but failed to update state file for {ip}")
+        return None, "Failed to update state file on router."
 
 def activate_blacklist_mode():
-    """Activate blacklist mode"""
-    try:
-        set_current_mode_value('blacklist')
-        _apply_blacklist_rules()
-        return success(message="Blacklist mode activated")
-    except Exception as e:
-        logger.error(f"Error activating blacklist mode: {str(e)}", exc_info=True)
-        set_current_mode_value('none') 
-        reset_all_tc_rules()
-        logger.info("Reverted mode to 'none' due to activation error.")
-        raise
+    """Activates blacklist mode using naive approach - complete teardown and rebuild."""
+    state = get_router_state()
+    if state['active_mode'] == 'blacklist':
+        return "Blacklist mode is already active.", None
+
+    state['active_mode'] = 'blacklist'
+    if write_router_state(state):
+        # Use naive approach: complete teardown and rebuild
+        rule_success, rule_error = activate_blacklist_mode_rules()
+        if not rule_success:
+            logger.error(f"Failed to activate blacklist mode rules: {rule_error}")
+            # Rollback state change
+            state['active_mode'] = 'none'
+            write_router_state(state)
+            return None, f"Failed to activate blacklist mode: {rule_error}"
+        
+        logger.info("Blacklist mode activated successfully using naive approach")
+        return "Blacklist mode activated.", None
+    return None, "Failed to update state file on router."
 
 def deactivate_blacklist_mode():
-    """Deactivate blacklist mode"""
-    try:
-        reset_all_tc_rules()
-        set_current_mode_value('none')
-        return success(message="Blacklist mode deactivated")
-    except Exception as e:
-        logger.error(f"Error deactivating blacklist mode: {str(e)}", exc_info=True)
-        raise
+    """Deactivates blacklist mode using naive approach - complete teardown and rebuild."""
+    state = get_router_state()
+    if state['active_mode'] == 'none':
+        return "Modes are already inactive.", None
+        
+    state['active_mode'] = 'none'
+    if write_router_state(state):
+        # Use naive approach: complete teardown and rebuild
+        rule_success, rule_error = deactivate_blacklist_mode_rules()
+        if not rule_success:
+            logger.error(f"Failed to deactivate blacklist mode rules: {rule_error}")
+            # Note: State is already updated to 'none', which is the desired end state
+            # We log the error but don't consider it fatal since the intent is to disable
+        
+        logger.info("Blacklist mode deactivated successfully using naive approach")
+        return "Blacklist mode deactivated.", None
+    return None, "Failed to update state file on router."
 
-def is_blacklist_mode():
-    """Check if blacklist mode is active (API response)"""
+def set_blacklist_limit_rate(rate):
+    """Sets the blacklist limited rate in Mbps."""
+    state = get_router_state()
     try:
-        is_active = get_current_mode_value() == 'blacklist'
-        return success(data={"active": is_active})
-    except Exception as e:
-        logger.error(f"Error checking blacklist mode: {str(e)}", exc_info=True)
-        raise
+        # Validate rate is a positive number
+        mbps = float(rate)
+        if mbps <= 0:
+            raise ValueError("Rate must be positive")
+        formatted_rate = f"{mbps}mbit"
+    except (ValueError, TypeError):
+        return None, "Rate must be a positive number (Mbps)"
 
-# Removed get_all_network_interfaces, run_command, 
-# setup_tc_on_interface, setup_tc_with_iptables as they are now in helpers 
+    state['rates']['blacklist_limited'] = formatted_rate
+
+    if write_router_state(state):
+        # Check if blacklist mode is currently active
+        is_blacklist_active = state.get('active_mode') == 'blacklist'
+        
+        if is_blacklist_active:
+            # Use live update function for immediate effect when mode is active
+            logger.info(f"Blacklist mode is active - applying rate change immediately: {formatted_rate}")
+            from services.mode_activation_service import update_active_mode_limits
+            update_active_mode_limits()  # Will auto-detect mode and use appropriate rates
+            logger.info(f"Blacklist limited rate set to {formatted_rate} and applied immediately")
+        else:
+            logger.info(f"Blacklist limited rate set to {formatted_rate} (will apply on next mode activation)")
+        
+        return {"rate_mbps": rate}, None
+    return None, "Failed to update state file on router."
+
+def set_blacklist_full_rate(rate):
+    """Sets the blacklist full rate in Mbps."""
+    state = get_router_state()
+    try:
+        # Validate rate is a positive number
+        mbps = float(rate)
+        if mbps <= 0:
+            raise ValueError("Rate must be positive")
+        formatted_rate = f"{mbps}mbit"
+    except (ValueError, TypeError):
+        return None, "Rate must be a positive number (Mbps)"
+
+    # Note: blacklist_full is not used in blacklist mode logic, but stored for consistency
+    state['rates']['blacklist_full'] = formatted_rate
+
+    if write_router_state(state):
+        # Check if blacklist mode is currently active
+        is_blacklist_active = state.get('active_mode') == 'blacklist'
+        
+        if is_blacklist_active:
+            # Use live update function for immediate effect when mode is active
+            logger.info(f"Blacklist mode is active - applying rate change immediately: {formatted_rate}")
+            from services.mode_activation_service import update_active_mode_limits
+            update_active_mode_limits()  # Will auto-detect mode and use appropriate rates
+            logger.info(f"Blacklist full rate set to {formatted_rate} and applied immediately (Note: blacklist mode only uses limited rate)")
+        else:
+            logger.info(f"Blacklist full rate set to {formatted_rate} (Note: blacklist mode only uses limited rate)")
+        
+        return {"rate_mbps": rate}, None
+    return None, "Failed to update state file on router."

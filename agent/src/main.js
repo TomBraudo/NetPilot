@@ -1,9 +1,9 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
-const keytar = require('keytar');
+const CredentialManager = require('./utils/CredentialManager');
 const logger = require('./utils/Logger');
 
-// Import our modules
+// Import module classes, but do not instantiate them yet
 const ConfigManager = require('./modules/ConfigManager');
 const PortAllocator = require('./modules/PortAllocator');
 const RouterManager = require('./modules/RouterManager');
@@ -14,18 +14,13 @@ class NetPilotAgent {
   constructor() {
     this.mainWindow = null;
     
-    // Initialize managers
-    this.configManager = new ConfigManager();
-    this.portAllocator = new PortAllocator();
-    this.routerManager = new RouterManager(this.configManager);
-    this.tunnelManager = new TunnelManager();
-    
-    // Initialize Status API Server (Phase 7.3)
-    this.statusServer = new StatusServer(
-      this.routerManager,
-      this.tunnelManager,
-      this.portAllocator
-    );
+    // Defer manager initialization until app is ready
+    this.configManager = null;
+    this.portAllocator = null;
+    this.routerManager = null;
+    this.tunnelManager = null;
+    this.credentialManager = new CredentialManager(); // This one has no dependencies, safe to init
+    this.statusServer = null;
     
     // Router configuration state
     this.routerConfigState = {
@@ -38,6 +33,22 @@ class NetPilotAgent {
     this.createWindow = this.createWindow.bind(this);
     this.setupIpcHandlers = this.setupIpcHandlers.bind(this);
     this.setupCredentialHandlers = this.setupCredentialHandlers.bind(this);
+  }
+
+  initializeManagers() {
+    // Now that the app is ready, we can safely instantiate our managers
+    this.configManager = new ConfigManager(app);
+    this.portAllocator = new PortAllocator(this.configManager);
+    this.routerManager = new RouterManager(this.configManager);
+    this.tunnelManager = new TunnelManager(this.configManager);
+    
+    // Initialize Status API Server
+    this.statusServer = new StatusServer(
+      this.routerManager,
+      this.tunnelManager,
+      this.portAllocator
+    );
+    logger.main('All managers initialized successfully.');
   }
 
   getCloudVmAccess() {
@@ -56,21 +67,21 @@ class NetPilotAgent {
     ipcMain.handle('save-router-password', async (event, password) => {
       try {
         if (password) {
-          await keytar.setPassword(service, account, password);
+          await this.credentialManager.setPassword(service, account, password);
           return { success: true };
         }
         // Allow saving an empty password
-        await keytar.setPassword(service, account, '');
+        await this.credentialManager.setPassword(service, account, '');
         return { success: true };
-          } catch (error) {
-      logger.error('MAIN', 'Failed to save password:', error);
-      return { success: false, error: error.message };
-    }
+      } catch (error) {
+        logger.error('MAIN', 'Failed to save password:', error);
+        return { success: false, error: error.message };
+      }
     });
 
     ipcMain.handle('get-router-password', async () => {
       try {
-        const password = await keytar.getPassword(service, account);
+        const password = await this.credentialManager.getPassword(service, account);
         return { success: true, password };
       } catch (error) {
         logger.main('Failed to get password:', error);
@@ -80,7 +91,7 @@ class NetPilotAgent {
 
     ipcMain.handle('delete-router-password', async () => {
       try {
-        const success = await keytar.deletePassword(service, account);
+        const success = await this.credentialManager.deletePassword(service, account);
         return { success };
       } catch (error) {
         logger.main('Failed to delete password:', error);
@@ -149,6 +160,11 @@ class NetPilotAgent {
       return this.getCloudVmAccess();
     });
 
+    // Get port allocation info (including routerId)
+    ipcMain.handle('get-port-info', (event) => {
+      return this.portAllocator.getPortInfo();
+    });
+
     // Show info dialog
     ipcMain.handle('show-info', (event, { title, message }) => {
       return dialog.showErrorBox(title, message);
@@ -197,13 +213,9 @@ class NetPilotAgent {
     // Allocate port for tunnel
     ipcMain.handle('allocate-port', async (event, credentials = null) => {
       try {
-        // Pass router credentials to port allocation so they can be stored with the port
-        const routerCredentials = credentials ? {
-          username: credentials.username,
-          password: credentials.password
-        } : null;
-        
-        const port = await this.portAllocator.allocatePort(routerCredentials);
+        // Pass the full router credentials object.
+        // This is critical for the new routerId generation which needs the host to get the MAC address.
+        const port = await this.portAllocator.allocatePort(credentials);
         return { success: true, data: { port } };
       } catch (error) {
         return { success: false, error: error.message };
@@ -259,18 +271,13 @@ class NetPilotAgent {
       }
     });
 
-    // Disconnect tunnel (user initiated - clears state)
-    ipcMain.handle('disconnect-tunnel', async (event) => {
+    // Disconnect tunnel but keep port allocation
+    ipcMain.handle('disconnect-tunnel', async () => {
       try {
-        // Use full cleanup for user disconnect (clears state)
-        if (this.tunnelManager && this.tunnelManager.isConnected) {
-          await this.tunnelManager.cleanup();
-        }
-        if (this.portAllocator && this.portAllocator.allocatedPort) {
-          await this.portAllocator.cleanup();
-        }
+        await this.tunnelManager.disconnect();
         return { success: true };
       } catch (error) {
+        logger.error('Failed to disconnect tunnel:', error);
         return { success: false, error: error.message };
       }
     });
@@ -545,10 +552,19 @@ class NetPilotAgent {
 
   init() {
     // Set up app event handlers
-    app.whenReady().then(() => {
+    this.setupCredentialHandlers();
+    
+    // Wait for app to be ready before doing anything
+    app.whenReady().then(async () => {
+      this.initializeManagers();
       this.setupIpcHandlers();
-      this.setupCredentialHandlers();
-      this.createWindow();
+      await this.createWindow();
+
+      app.on('activate', () => {
+        if (BrowserWindow.getAllWindows().length === 0) {
+          this.createWindow();
+        }
+      });
     });
 
     app.on('window-all-closed', async () => {
@@ -565,12 +581,6 @@ class NetPilotAgent {
       event.preventDefault();
       await this.cleanup();
       app.exit();
-    });
-
-    app.on('activate', () => {
-      if (BrowserWindow.getAllWindows().length === 0) {
-        this.createWindow();
-      }
     });
   }
 
@@ -747,7 +757,7 @@ class NetPilotAgent {
       // Delete all stored passwords and credentials
       logger.main('Deleting stored credentials...');
       try {
-        await keytar.deletePassword('NetPilotAgent', 'router-password');
+        await this.credentialManager.deletePassword('NetPilotAgent', 'router-password');
       } catch (error) {
         // Ignore if password doesn't exist
         logger.main('No stored router password to delete');
@@ -802,11 +812,10 @@ class NetPilotAgent {
   }
 }
 
-// Create and initialize the agent when the app is ready
-app.whenReady().then(() => {
-  const agent = new NetPilotAgent();
-  agent.init();
-});
+// Create and initialize the agent
+const agent = new NetPilotAgent();
+agent.init();
+
 
 // Security: Prevent new window creation
 app.on('web-contents-created', (event, contents) => {

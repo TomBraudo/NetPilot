@@ -1374,3 +1374,251 @@ Traceback (most recent call last):
   File "C:\Users\Tom\OneDrive\Desktop\NetPilot\NetPilot\backend\services\blacklist_service.py", line 77, in remove_device_from_blacklist
     raise ValueError(f"Device with IP {ip} not found in blacklist")
 ValueError: Device with IP 192.168.1.122 not found in blacklist
+2025-06-27 12:50:33 - services.wifi - ERROR - Connection error getting WiFi status: Router <your_router_id> not found in Port-Manager
+2025-06-27 12:56:39 - services.wifi - ERROR - Connection error getting WiFi status: Router 2ed45235-b5d8-4ace-af5c-d9c2e4e1ca9d not found in Port-Manager
+2025-06-27 17:40:02 - services.router_scanner - ERROR - Connection error scanning for devices: Router your-router-id not found in Port-Manager
+2025-06-27 17:46:07 - session.endpoints - ERROR - Error getting session status: 'RouterConnectionManager' object has no attribute 'get_all_sessions_status'
+Traceback (most recent call last):
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/endpoints/session.py", line 74, in session_status
+    status = current_app.router_connection_manager.get_all_sessions_status()
+AttributeError: 'RouterConnectionManager' object has no attribute 'get_all_sessions_status'
+2025-06-27 17:57:10 - services.whitelist - ERROR - Command 'tc qdisc add dev lan4@eth0
+lan3@eth0
+lan2@eth0
+lan1@eth0
+br-lan
+phy0-ap0 root handle 1: htb default 12' failed with error: Cannot find device "lan4@eth0"
+ash: lan3@eth0: not found
+ash: lan2@eth0: not found
+ash: lan1@eth0: not found
+ash: br-lan: not found
+ash: phy0-ap0: not found
+2025-06-27 17:57:10 - services.whitelist - ERROR - Command 'tc class add dev lan4@eth0
+lan3@eth0
+lan2@eth0
+lan1@eth0
+br-lan
+phy0-ap0 parent 1: classid 1:11 htb rate None' failed with error: Cannot find device "lan4@eth0"
+ash: lan3@eth0: not found
+ash: lan2@eth0: not found
+ash: lan1@eth0: not found
+ash: br-lan: not found
+ash: phy0-ap0: not found
+2025-06-27 17:57:11 - services.whitelist - ERROR - Command 'tc class add dev lan4@eth0
+lan3@eth0
+lan2@eth0
+lan1@eth0
+br-lan
+phy0-ap0 parent 1: classid 1:12 htb rate None' failed with error: Cannot find device "lan4@eth0"
+ash: lan3@eth0: not found
+ash: lan2@eth0: not found
+ash: lan1@eth0: not found
+ash: br-lan: not found
+ash: phy0-ap0: not found
+2025-06-27 17:57:11 - services.whitelist - ERROR - Command 'tc filter add dev lan4@eth0
+lan3@eth0
+lan2@eth0
+lan1@eth0
+br-lan
+phy0-ap0 parent 1: protocol ip prio 1 handle 20 fw flowid 1:11' failed with error: Cannot find device "lan4@eth0"
+ash: lan3@eth0: not found
+ash: lan2@eth0: not found
+ash: lan1@eth0: not found
+ash: br-lan: not found
+ash: phy0-ap0: not found
+2025-06-27 18:09:09 - services.whitelist - ERROR - Command 'iptables -t mangle -N NETPILOT_WHITELIST' failed with error: iptables: Chain already exists.
+2025-06-27 18:09:10 - services.whitelist - ERROR - Command 'tc qdisc add dev lan4@eth0 root handle 1: htb default 12' failed with error: Cannot find device "lan4@eth0"
+2025-06-27 18:09:10 - services.whitelist - ERROR - Command 'tc class add dev lan4@eth0 parent 1: classid 1:11 htb rate None' failed with error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-06-27 18:09:10 - services.whitelist - ERROR - Command 'tc class add dev lan4@eth0 parent 1: classid 1:12 htb rate None' failed with error: Illegal "rate"
+Usage: ... qdisc add ... htb [default N] [r2q N]
+                      [direct_qlen P] [offload]
+ default  minor id of class to which unclassified packets are sent {0}
+ r2q      DRR quantums are computed as rate in Bps/r2q {10}
+ debug    string of 16 numbers each 0-3 {0}
+
+ direct_qlen  Limit of the direct queue {in packets}
+ offload  enable hardware offload
+... class add ... htb rate R1 [burst B1] [mpu B] [overhead O]
+                      [prio P] [slot S] [pslot PS]
+                      [ceil R2] [cburst B2] [mtu MTU] [quantum Q]
+ rate     rate allocated to this class (class can still borrow)
+ burst    max bytes burst which can be accumulated during idle period {computed}
+ mpu      minimum packet size used in rate computations
+ overhead per-packet size overhead used in rate computations
+ linklay  adapting to a linklayer e.g. atm
+ ceil     definite upper class rate (no borrows) {rate}
+ cburst   burst but for ceil {computed}
+ mtu      max packet size we create rate map for {1600}
+ prio     priority of leaf; lower are served first {0}
+ quantum  how much bytes to serve from leaf at once {use r2q}
+
+TC HTB version 3.3
+2025-06-27 18:09:11 - services.whitelist - ERROR - Command 'tc filter add dev lan4@eth0 parent 1: protocol ip prio 1 handle 20 fw flowid 1:11' failed with error: Cannot find device "lan4@eth0"
+2025-06-27 18:13:49 - services.whitelist - ERROR - Command 'iptables -t mangle -N NETPILOT_WHITELIST' failed with error: iptables: Chain already exists.
+2025-06-27 18:26:37 - services.whitelist - ERROR - Command 'iptables -t mangle -F NETPILOT_WHITELIST' failed with error: iptables: No chain/target/match by that name.
+2025-06-27 18:26:37 - services.whitelist - ERROR - Command 'iptables -t mangle -X NETPILOT_WHITELIST' failed with error: iptables: No chain/target/match by that name.
+2025-06-27 18:36:29 - services.whitelist - ERROR - Command 'tc qdisc add dev br-lan root handle 1: htb default 11' failed with error: Error: Exclusivity flag on, cannot modify.
+2025-06-27 18:36:29 - services.whitelist - ERROR - Failed to build whitelist infrastructure. Aborting activation and cleaning up.
+2025-06-27 18:36:30 - services.whitelist - ERROR - Command 'iptables -t mangle -F NETPILOT_WHITELIST' failed with error: iptables: No chain/target/match by that name.
+2025-06-27 18:36:30 - services.whitelist - ERROR - Command 'iptables -t mangle -X NETPILOT_WHITELIST' failed with error: iptables: No chain/target/match by that name.
+2025-06-27 18:36:48 - services.whitelist - ERROR - Command 'iptables -t mangle -I NETPILOT_WHITELIST 1 -m mac --mac-source D8:BB:C1:47:3A:43 -j RETURN' failed with error: iptables: No chain/target/match by that name.
+2025-06-27 18:38:44 - services.whitelist - ERROR - Command 'iptables -t mangle -F NETPILOT_WHITELIST' failed with error: iptables: No chain/target/match by that name.
+2025-06-27 18:38:45 - services.whitelist - ERROR - Command 'iptables -t mangle -X NETPILOT_WHITELIST' failed with error: iptables: No chain/target/match by that name.
+2025-06-27 18:43:49 - services.whitelist - ERROR - Command 'iptables -t mangle -I NETPILOT_WHITELIST 1 -m mac --mac-source D8:BB:C1:47:3A:43 -j RETURN' failed with error: iptables: No chain/target/match by that name.
+2025-06-27 18:43:57 - services.whitelist - ERROR - Command 'iptables -t mangle -F NETPILOT_WHITELIST' failed with error: iptables: No chain/target/match by that name.
+2025-06-27 18:43:56 - services.whitelist - ERROR - Command 'iptables -t mangle -X NETPILOT_WHITELIST' failed with error: iptables: No chain/target/match by that name.
+2025-06-27 18:43:58 - services.whitelist - ERROR - Command 'tc qdisc add dev br-lan root handle 1: htb default 11' failed with error: Error: Exclusivity flag on, cannot modify.
+2025-06-27 18:43:58 - services.whitelist - ERROR - Failed to build whitelist infrastructure. Aborting activation and cleaning up.
+2025-06-27 18:43:59 - services.whitelist - ERROR - Command 'iptables -t mangle -F NETPILOT_WHITELIST' failed with error: iptables: No chain/target/match by that name.
+2025-06-27 18:43:59 - services.whitelist - ERROR - Command 'iptables -t mangle -X NETPILOT_WHITELIST' failed with error: iptables: No chain/target/match by that name.
+2025-06-27 20:55:28 - session.endpoints - ERROR - Error starting session 123: Session context (sessionId, routerId) not found in g
+Traceback (most recent call last):
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/endpoints/session.py", line 20, in start_session
+    success_setup, error_setup = setup_router_infrastructure()
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/services/router_setup_service.py", line 40, in setup_router_infrastructure
+    _execute_command(f"iptables -t mangle -N {WHITELIST_CHAIN}")
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/services/router_setup_service.py", line 20, in _execute_command
+    _, err = router_connection_manager.execute(command, timeout=10)
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/managers/router_connection_manager.py", line 111, in execute
+    raise RuntimeError("Session context (sessionId, routerId) not found in g")
+RuntimeError: Session context (sessionId, routerId) not found in g
+2025-06-27 20:59:43 - middleware - ERROR - Unexpected error for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: name 'get_whitelist' is not defined
+Traceback (most recent call last):
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/utils/middleware.py", line 33, in decorated_function
+    return f(*args, **kwargs)
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/endpoints/whitelist.py", line 24, in get_whitelist_route
+    result, error = get_whitelist()
+NameError: name 'get_whitelist' is not defined
+2025-06-27 21:00:00 - services.router_setup - ERROR - Command 'iptables -t mangle -C PREROUTING -j NETPILOT_WHITELIST' failed with error: iptables: Bad rule (does a matching rule exist in that chain?).
+2025-06-27 21:00:01 - services.router_setup - ERROR - Command 'iptables -t mangle -C PREROUTING -j NETPILOT_BLACKLIST' failed with error: iptables: Bad rule (does a matching rule exist in that chain?).
+2025-06-27 21:06:56 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_WHITELIST' failed with error: iptables: Chain already exists.
+2025-06-27 21:06:56 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_BLACKLIST' failed with error: iptables: Chain already exists.
+2025-06-27 21:06:57 - services.router_setup - ERROR - Command 'tc qdisc add dev br-lan root handle 1: htb default 11' failed with error: Error: Exclusivity flag on, cannot modify.
+2025-06-29 17:03:53 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_WHITELIST' failed with error: iptables: Chain already exists.
+2025-06-29 17:03:54 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_BLACKLIST' failed with error: iptables: Chain already exists.
+2025-06-29 17:03:54 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_GATE' failed with error: iptables: Chain already exists.
+2025-06-29 17:03:56 - services.router_setup - ERROR - Command 'tc filter add dev br-lan parent 1: protocol ip prio 2 handle 30 fw flowid 1:12' failed with error: Error: Filter already exists.
+We have an error talking to the kernel
+2025-06-29 17:03:56 - services.router_setup - ERROR - Command 'tc filter add dev br-lan parent 1: protocol ip prio 1 handle 10 fw flowid 1:12' failed with error: Error: Filter already exists.
+We have an error talking to the kernel
+2025-06-29 17:09:28 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_WHITELIST' failed with error: iptables: Chain already exists.
+2025-06-29 17:09:28 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_BLACKLIST' failed with error: iptables: Chain already exists.
+2025-06-29 17:09:29 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_GATE' failed with error: iptables: Chain already exists.
+2025-06-29 17:09:32 - services.router_setup - ERROR - Command 'tc filter add dev br-lan parent 1: protocol ip prio 2 handle 30 fw flowid 1:12' failed with error: Error: Filter already exists.
+We have an error talking to the kernel
+2025-06-29 17:09:32 - services.router_setup - ERROR - Command 'tc filter add dev br-lan parent 1: protocol ip prio 1 handle 10 fw flowid 1:12' failed with error: Error: Filter already exists.
+We have an error talking to the kernel
+2025-06-29 17:10:12 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_WHITELIST' failed with error: iptables: Chain already exists.
+2025-06-29 17:10:12 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_BLACKLIST' failed with error: iptables: Chain already exists.
+2025-06-29 17:10:13 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_GATE' failed with error: iptables: Chain already exists.
+2025-06-29 17:10:15 - services.router_setup - ERROR - Command 'tc filter add dev br-lan parent 1: protocol ip prio 2 handle 30 fw flowid 1:12' failed with error: Error: Filter already exists.
+We have an error talking to the kernel
+2025-06-29 17:10:15 - services.router_setup - ERROR - Command 'tc filter add dev br-lan parent 1: protocol ip prio 1 handle 10 fw flowid 1:12' failed with error: Error: Filter already exists.
+We have an error talking to the kernel
+2025-06-29 17:15:10 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_WHITELIST' failed with error: iptables: Chain already exists.
+2025-06-29 17:15:10 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_BLACKLIST' failed with error: iptables: Chain already exists.
+2025-06-29 17:15:11 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_GATE' failed with error: iptables: Chain already exists.
+2025-06-29 17:15:13 - services.router_setup - ERROR - Command 'tc filter add dev br-lan parent 1: protocol ip prio 2 handle 30 fw flowid 1:12' failed with error: Error: Filter already exists.
+We have an error talking to the kernel
+2025-06-29 17:15:13 - services.router_setup - ERROR - Command 'tc filter add dev br-lan parent 1: protocol ip prio 1 handle 10 fw flowid 1:12' failed with error: Error: Filter already exists.
+We have an error talking to the kernel
+2025-06-29 17:22:43 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_BLACKLIST' failed with error: iptables: Chain already exists.
+2025-06-29 17:22:44 - services.router_setup - ERROR - Command 'iptables -t mangle -N NETPILOT_GATE' failed with error: iptables: Chain already exists.
+2025-06-29 17:22:46 - services.router_setup - ERROR - Command 'tc filter add dev br-lan parent 1: protocol ip prio 2 handle 30 fw flowid 1:12' failed with error: Error: Filter already exists.
+We have an error talking to the kernel
+2025-06-29 17:22:47 - services.router_setup - ERROR - Command 'tc filter add dev br-lan parent 1: protocol ip prio 1 handle 10 fw flowid 1:12' failed with error: Error: Filter already exists.
+We have an error talking to the kernel
+2025-06-29 17:22:48 - services.router_setup - ERROR - Command 'iptables -t mangle -X NETPILOT_WHITELIST' failed with error: iptables v1.8.8 (nf_tables):  CHAIN_DEL failed (Resource busy): chain NETPILOT_WHITELIST
+2025-06-29 17:30:18 - services.router_setup - ERROR - Command 'tc filter add dev br-lan parent 1: protocol ip prio 2 handle 30 fw flowid 1:12' failed with error: Error: Filter already exists.
+We have an error talking to the kernel
+2025-06-29 17:30:19 - services.router_setup - ERROR - Command 'tc filter add dev br-lan parent 1: protocol ip prio 1 handle 10 fw flowid 1:12' failed with error: Error: Filter already exists.
+We have an error talking to the kernel
+2025-06-29 17:31:00 - services.whitelist - ERROR - nft command failed: Error: Could not process rule: No such file or directory
+flush chain inet netpilot gate
+                          ^^^^
+2025-06-29 17:31:06 - services.whitelist - ERROR - nft command failed: Error: Could not process rule: No such file or directory
+flush chain inet netpilot gate
+                          ^^^^
+2025-06-29 17:31:06 - services.whitelist - ERROR - nft command failed: Error: Could not process rule: No such file or directory
+add rule inet netpilot gate jump whitelist_devices
+                       ^^^^
+2025-06-29 17:31:06 - services.whitelist - ERROR - nft command failed: Error: Could not process rule: No such file or directory
+add rule inet netpilot gate jump whitelist_limit
+                       ^^^^
+2025-06-29 18:28:57 - services.router_setup - ERROR - Syntax error while running: nft add chain inet netpilot gate '{{ type filter hook prerouting priority mangle; }}' — Error: syntax error, unexpected type
+add chain inet netpilot gate {{ type filter hook prerouting priority mangle; }}
+                                ^^^^
+Error: syntax error, unexpected '}', expecting end of file or newline or semicolon
+add chain inet netpilot gate {{ type filter hook prerouting priority mangle; }}
+                                                                              ^
+2025-06-29 22:04:16 - services.mode_activation - ERROR - Command failed: iptables -t mangle -A POSTROUTING -j NETPILOT_WHITELIST - Error: iptables v1.8.8 (nf_tables):  RULE_APPEND failed (Invalid argument): rule in chain POSTROUTING
+2025-06-29 22:04:16 - services.mode_activation - ERROR - Failed to add POSTROUTING jump to NETPILOT_WHITELIST
+2025-06-29 22:04:17 - services.whitelist - ERROR - Failed to activate whitelist mode rules: Failed to add POSTROUTING rule for whitelist mode
+2025-06-29 22:22:37 - services.mode_activation - ERROR - Command failed: iptables -t mangle -A POSTROUTING -j NETPILOT_WHITELIST - Error: iptables v1.8.8 (nf_tables):  RULE_APPEND failed (Invalid argument): rule in chain POSTROUTING
+2025-06-29 22:53:51 - services.mode_activation - ERROR - Command failed: iptables -t mangle -A POSTROUTING -j NETPILOT_WHITELIST - Error: iptables v1.8.8 (nf_tables):  RULE_APPEND failed (Invalid argument): rule in chain POSTROUTING
+2025-06-30 00:13:24 - paramiko.transport - ERROR - Exception (client): Error reading SSH protocol banner[Errno 104] Connection reset by peer
+2025-06-30 00:13:24 - paramiko.transport - ERROR - Traceback (most recent call last):
+2025-06-30 00:13:24 - paramiko.transport - ERROR -   File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/venv-local/lib/python3.10/site-packages/paramiko/transport.py", line 2369, in _check_banner
+2025-06-30 00:13:24 - paramiko.transport - ERROR -     buf = self.packetizer.readline(timeout)
+2025-06-30 00:13:24 - paramiko.transport - ERROR -   File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/venv-local/lib/python3.10/site-packages/paramiko/packet.py", line 395, in readline
+2025-06-30 00:13:24 - paramiko.transport - ERROR -     buf += self._read_timeout(timeout)
+2025-06-30 00:13:24 - paramiko.transport - ERROR -   File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/venv-local/lib/python3.10/site-packages/paramiko/packet.py", line 663, in _read_timeout
+2025-06-30 00:13:24 - paramiko.transport - ERROR -     x = self.__socket.recv(128)
+2025-06-30 00:13:24 - paramiko.transport - ERROR - ConnectionResetError: [Errno 104] Connection reset by peer
+2025-06-30 00:13:24 - paramiko.transport - ERROR - 
+2025-06-30 00:13:24 - paramiko.transport - ERROR - During handling of the above exception, another exception occurred:
+2025-06-30 00:13:24 - paramiko.transport - ERROR - 
+2025-06-30 00:13:24 - paramiko.transport - ERROR - Traceback (most recent call last):
+2025-06-30 00:13:24 - paramiko.transport - ERROR -   File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/venv-local/lib/python3.10/site-packages/paramiko/transport.py", line 2185, in run
+2025-06-30 00:13:24 - paramiko.transport - ERROR -     self._check_banner()
+2025-06-30 00:13:24 - paramiko.transport - ERROR -   File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend/venv-local/lib/python3.10/site-packages/paramiko/transport.py", line 2373, in _check_banner
+2025-06-30 00:13:24 - paramiko.transport - ERROR -     raise SSHException(
+2025-06-30 00:13:24 - paramiko.transport - ERROR - paramiko.ssh_exception.SSHException: Error reading SSH protocol banner[Errno 104] Connection reset by peer
+2025-06-30 00:13:24 - paramiko.transport - ERROR - 
+2025-06-30 00:20:01 - services.device_rule - ERROR - Command failed: iptables -t mangle -D NETPILOT_WHITELIST -s 192.168.1.122 -j MARK --set-mark 0 - Error: iptables: Bad rule (does a matching rule exist in that chain?).
+2025-07-01 21:28:37 - server - ERROR - Session setup failed: Router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f not found in Port-Manager
+2025-07-01 21:30:59 - server - ERROR - Session setup failed: Router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f not found in Port-Manager
+2025-07-01 23:21:03 - services.device_rule - ERROR - Invalid IP address format: 192.168.1.256
+2025-07-01 23:21:03 - services.device_rule - ERROR - Invalid IP address format: 192.168.1
+2025-07-01 23:21:03 - services.device_rule - ERROR - Invalid IP address format: 192.168.1.1.1
+2025-07-01 23:21:03 - services.device_rule - ERROR - Invalid IP address format: aa:bb:cc:dd:ee:ff
+2025-07-01 23:21:03 - services.device_rule - ERROR - Invalid IP address format: AA:BB:CC:DD:EE:FF
+2025-07-01 23:21:03 - services.device_rule - ERROR - Invalid IP address format: aa-bb-cc-dd-ee-ff
+2025-07-01 23:21:03 - services.device_rule - ERROR - Invalid IP address format: aabbccddeeff
+2025-07-01 23:21:03 - services.device_rule - ERROR - Invalid IP address format: not.an.ip.address
+2025-07-01 23:21:03 - services.device_rule - ERROR - Invalid IP address format: 256.256.256.256
+2025-07-01 23:21:03 - services.device_rule - ERROR - Invalid IP address format: 
+2025-07-01 23:21:03 - services.device_rule - ERROR - Invalid IP address format: 192.168.1.1/24
+2025-07-01 23:21:03 - services.device_rule - ERROR - Invalid IP address format: 192.168.1.1:8080
+2025-07-01 23:24:54 - services.device_rule - ERROR - Command failed: iptables -t mangle -D NETPILOT_BLACKLIST -d 192.168.1.122 -j MARK --set-mark 97 - Error: iptables: Bad rule (does a matching rule exist in that chain?).
+2025-07-01 23:46:25 - services.device_rule - ERROR - Command failed: iptables -t mangle -D NETPILOT_BLACKLIST -s 192.168.1.122 -j MARK --set-mark 97 - Error: iptables: Bad rule (does a matching rule exist in that chain?).
+2025-07-01 23:46:26 - services.device_rule - ERROR - Command failed: iptables -t mangle -D NETPILOT_BLACKLIST -d 192.168.1.122 -j MARK --set-mark 97 - Error: iptables: Bad rule (does a matching rule exist in that chain?).
+2025-07-04 07:16:22 - server - ERROR - Session setup failed: Router {{routerId}} not found in Port-Manager
+2025-07-04 07:52:14 - services.device_rule - ERROR - Command failed: iptables -t mangle -D NETPILOT_WHITELIST -s 192.168.1.122 -j MARK --set-mark 1 - Error: iptables: Bad rule (does a matching rule exist in that chain?).
+2025-07-04 07:52:15 - services.device_rule - ERROR - Command failed: iptables -t mangle -D NETPILOT_WHITELIST -s 192.168.1.122 -j RETURN - Error: iptables: Bad rule (does a matching rule exist in that chain?).
+2025-07-04 07:52:15 - services.device_rule - ERROR - Command failed: iptables -t mangle -D NETPILOT_WHITELIST -d 192.168.1.122 -j MARK --set-mark 1 - Error: iptables: Bad rule (does a matching rule exist in that chain?).
+2025-07-04 07:52:16 - services.device_rule - ERROR - Command failed: iptables -t mangle -D NETPILOT_WHITELIST -d 192.168.1.122 -j RETURN - Error: iptables: Bad rule (does a matching rule exist in that chain?).
+2025-07-04 08:05:48 - server - ERROR - Session setup failed: Router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f not found in Port-Manager

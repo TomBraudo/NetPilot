@@ -4,12 +4,22 @@ const ConfigManager = require('./ConfigManager');
 const StateManager = require('./StateManager');
 const axios = require('axios');
 const logger = require('../utils/Logger');
+const crypto = require('crypto');
 
 class TunnelManager {
-  constructor() {
+  constructor(configManager) {
+    // Accept a ConfigManager instance from the main process. When running in
+    // isolation (e.g., unit tests) we lazily construct our own instance using
+    // the Electron `app` reference.
+    if (!configManager) {
+      const { app } = require('electron');
+      this.configManager = new ConfigManager(app);
+    } else {
+      this.configManager = configManager;
+    }
+
     this.ssh = new NodeSSH();
-    const config = new ConfigManager();
-    const cloudVmConfig = config.getCloudVmConfig();
+    const cloudVmConfig = this.configManager.getCloudVmConfig();
     
     this.isConnected = false;
     this.tunnelPort = null;
@@ -35,8 +45,8 @@ class TunnelManager {
     try {
       this.routerCredentials = credentials;
       this.tunnelPort = port;
-      // Use provided routerId from PortAllocator, or fallback to generating one
-      this.routerId = routerId || `router_${credentials.host.replace(/\./g, '_')}_${Date.now()}`;
+      // Use provided routerId from PortAllocator. If it's missing, create a deterministic one.
+      this.routerId = routerId || crypto.createHash('sha256').update(credentials.host).digest('hex');
       
       // Set cloudPort from credentials or default to 22
       this.cloudPort = credentials?.cloudPort || 22;
@@ -466,6 +476,16 @@ EOF`);
         logger.error('Tunnel script stderr:', result.stderr);
       }
       
+      // Extract the script PID from the result
+      let scriptPid = null;
+      if (result.stdout && result.stdout.includes('Script backgrounded with PID')) {
+        const pidMatch = result.stdout.match(/Script backgrounded with PID (\d+)/);
+        if (pidMatch) {
+          scriptPid = parseInt(pidMatch[1]);
+          logger.tunnel(`Tunnel script started with PID: ${scriptPid}`);
+        }
+      }
+      
       logger.tunnel('Tunnel script backgrounded, waiting for autossh to establish...');
       
       // Give the backgrounded script time to start autossh
@@ -478,18 +498,47 @@ EOF`);
       // Wait for autossh process to start and establish connection
       // Use progressive checking rather than fixed delay
       let autosshFound = false;
+      let autosshPid = null;
+      let sshpassPid = null;
       let maxAttempts = 10; // 10 attempts over ~20 seconds (reduced since script is properly backgrounded)
       
       for (let attempt = 1; attempt <= maxAttempts; attempt++) {
         logger.tunnel(`Checking for autossh process (attempt ${attempt}/${maxAttempts})...`);
         
-        // Check for specific autossh process for this port
+        // Check for specific autossh process for this port and capture its PID
         const processCheck = await this.ssh.execCommand(`ps | grep -v grep | grep "autossh.*-R ${this.tunnelPort}:localhost:22"`);
         
         if (processCheck.stdout) {
-          logger.tunnel(`✅ Autossh process found for port ${this.tunnelPort}: ${processCheck.stdout.trim()}`);
+          const processLine = processCheck.stdout.trim();
+          logger.tunnel(`✅ Autossh process found for port ${this.tunnelPort}: ${processLine}`);
+          
+          // Extract autossh PID (first column in ps output)
+          const pidMatch = processLine.match(/^\s*(\d+)/);
+          if (pidMatch) {
+            autosshPid = parseInt(pidMatch[1]);
+            logger.tunnel(`Captured autossh PID: ${autosshPid}`);
+          }
+          
+          // Also check for sshpass process (parent of autossh)
+          const sshpassCheck = await this.ssh.execCommand(`ps | grep -v grep | grep "sshpass.*autossh.*${this.tunnelPort}"`);
+          if (sshpassCheck.stdout) {
+            const sshpassLine = sshpassCheck.stdout.trim();
+            const sshpassPidMatch = sshpassLine.match(/^\s*(\d+)/);
+            if (sshpassPidMatch) {
+              sshpassPid = parseInt(sshpassPidMatch[1]);
+              logger.tunnel(`Captured sshpass PID: ${sshpassPid}`);
+            }
+          }
+          
           autosshFound = true;
-          this.tunnelProcess = 'autossh';
+          // Store PIDs if successfully captured, otherwise use legacy format
+          if (autosshPid || sshpassPid || scriptPid) {
+            this.tunnelProcess = { autosshPid, sshpassPid, scriptPid };
+            logger.tunnel('Successfully captured tunnel process PIDs for reliable cleanup');
+          } else {
+            this.tunnelProcess = 'autossh'; // Legacy fallback
+            logger.warn('Failed to capture PIDs, using legacy process tracking');
+          }
           break;
         }
         
@@ -562,6 +611,11 @@ EOF`);
         logger.tunnel('🔄 Attempting to restart tunnel since process died...');
         try {
           await this.startTunnel(); // Try to restart
+          
+          // CRITICAL: Save the new PIDs to file for reliable cleanup
+          await this.saveTunnelState();
+          logger.tunnel('New process IDs saved to state file after restart during verification');
+          
           logger.tunnel('✅ Tunnel restarted successfully, proceeding with verification...');
         } catch (restartError) {
           logger.error('❌ Failed to restart tunnel:', restartError.message);
@@ -882,6 +936,10 @@ EOF`);
       // Start tunnel again
       await this.startTunnel();
       
+      // CRITICAL: Save the new PIDs to file for reliable cleanup
+      await this.saveTunnelState();
+      logger.tunnel('New process IDs saved to state file after manual restart');
+      
       logger.tunnel('Tunnel restarted successfully');
       return true;
     } catch (error) {
@@ -890,97 +948,112 @@ EOF`);
     }
   }
 
+  // Stops the tunnel process on the router but keeps the SSH connection to the router open.
+  // This is for a temporary disconnect, allowing for a quick restart.
   async stopTunnel() {
-    logger.tunnel(`Stopping tunnel for port ${this.tunnelPort}...`);
-    
+    logger.tunnel(`Stopping tunnel process for port ${this.tunnelPort}...`);
+    if (!this.isConnected || !this.tunnelPort) {
+      logger.warn('Cannot stop tunnel, not connected or no port assigned.');
+      return;
+    }
     try {
-      if (!this.tunnelPort) {
-        logger.warn('No tunnel port assigned for stopping');
-        return true;
-      }
-      
-      if (this.isConnected) {
-        // Kill only the tunnel processes for this specific port (BusyBox compatible)
-        await this.ssh.execCommand(`ps | grep "netpilot_tunnel.*${this.tunnelPort}" | grep -v grep | awk '{print $1}' | xargs -r kill || true`);
-        await this.ssh.execCommand(`ps | grep "autossh.*-R ${this.tunnelPort}:localhost:22" | grep -v grep | awk '{print $1}' | xargs -r kill || true`);
-        await this.ssh.execCommand(`ps | grep "sshpass.*autossh.*${this.tunnelPort}" | grep -v grep | awk '{print $1}' | xargs -r kill || true`);
-        
-        // Also check PID file if it exists
-        await this.ssh.execCommand(`
-          PID_FILE="/var/run/netpilot_tunnel_${this.tunnelPort}.pid"
-          if [ -f "$PID_FILE" ]; then
-            PID=$(cat "$PID_FILE" 2>/dev/null)
-            if [ -n "$PID" ]; then
-              kill $PID 2>/dev/null || kill -9 $PID 2>/dev/null || true
-            fi
-            rm -f "$PID_FILE"
-          fi
-        `);
-        
-        logger.tunnel(`Tunnel processes for port ${this.tunnelPort} stopped`);
-      }
-      
+      // Use the init.d script to gracefully stop the service
+      await this.ssh.execCommand(`/etc/init.d/netpilot_tunnel stop`);
       this.stopMonitoring();
       this.stopHeartbeat();
       this.tunnelProcess = null;
-      
-      return true;
+      logger.tunnel('Tunnel process stopped successfully.');
     } catch (error) {
-      logger.error('Failed to stop tunnel:', error);
-      return false;
+      logger.error('Failed to stop tunnel process via init.d script, falling back to PID-based cleanup.', error);
+      await this.pidBasedProcessCleanup();
     }
   }
 
-  // Cleanup for app shutdown - preserves state for auto-restore
+  // Disconnects the SSH session from the router. This does NOT release the port.
+  // This is the method for the "Disconnect Tunnel" button.
+  async disconnect() {
+    logger.tunnel('Disconnecting tunnel and closing SSH session...');
+    await this.stopTunnel();
+    if (this.ssh.isConnected()) {
+      this.ssh.dispose();
+    }
+    this.isConnected = false;
+    // Note: We do NOT clear tunnelPort or routerId here.
+    logger.tunnel('Tunnel disconnected.');
+  }
+
+  // A full cleanup for when the user wants to disconnect AND release the port.
+  // This is for the "Disconnect & Release Port" button.
+  async cleanup() {
+    logger.tunnel('Performing full cleanup: disconnecting tunnel and clearing all state...');
+    await this.disconnect(); // Disconnects SSH and stops tunnel process
+
+    // Clear all state variables
+    this.routerCredentials = null;
+    this.tunnelPort = null;
+    this.routerId = null;
+    this.tunnelProcess = null;
+
+    // Clear persistent state from disk
+    await this.clearTunnelState();
+    logger.tunnel('Full cleanup complete.');
+  }
+
+  // Cleanup method specifically for app shutdown
+  // Terminates tunnel processes but preserves state for restoration on next startup
   async cleanupForShutdown() {
-    logger.tunnel('Cleaning up tunnel manager for app shutdown (preserving state)...');
+    logger.tunnel('Performing shutdown cleanup - terminating processes but preserving state...');
     
     try {
-      // Stop monitoring and heartbeat
+      // Save current state before shutdown (critical for restoration)
+      if (this.tunnelPort && this.routerCredentials && this.routerId) {
+        await this.saveTunnelState();
+        logger.tunnel('Tunnel state saved for next startup');
+      }
+      
+      // Stop monitoring and heartbeat activities
       this.stopMonitoring();
       this.stopHeartbeat();
+      logger.tunnel('Monitoring and heartbeat stopped');
       
-      // Stop tunnel processes on router but keep them auto-restartable
+      // Terminate tunnel processes using stored PIDs (more reliable after sleep/wake cycles)
       if (this.isConnected && this.tunnelPort) {
-        logger.tunnel('Stopping tunnel processes for shutdown...');
-        await this.stopTunnel();
+        logger.tunnel(`Cleaning up tunnel processes for port ${this.tunnelPort} using stored PIDs...`);
+        await this.pidBasedProcessCleanup();
+        logger.tunnel('Tunnel processes terminated');
+      } else {
+        logger.tunnel('No active tunnel connection to clean up');
       }
       
-      // Disconnect SSH but don't clear credentials/state
-      if (this.isConnected && this.ssh) {
-        await this.ssh.dispose();
-        this.isConnected = false;
+      // Disconnect SSH cleanly but don't clear state variables
+      if (this.ssh && this.ssh.isConnected()) {
+        this.ssh.dispose();
+        logger.tunnel('SSH connection disposed');
       }
       
-      // DON'T clear state - it will be restored on next startup
-      logger.tunnel('Tunnel manager shutdown cleanup completed (state preserved)');
+      // Reset connection status but preserve state variables for restoration
+      this.isConnected = false;
+      this.tunnelProcess = null;
+      
+      // DON'T clear: tunnelPort, routerId, routerCredentials - these are needed for restore
+      logger.tunnel('Shutdown cleanup completed - state preserved for next startup');
+      
     } catch (error) {
-      logger.error('Shutdown cleanup error:', error);
-    }
-  }
-
-  // Cleanup for user disconnect - clears all state
-  async cleanup() {
-    logger.tunnel('Cleaning up tunnel manager for user disconnect...');
-    
-    try {
-      await this.stopTunnel();
-      
-      if (this.isConnected && this.ssh) {
-        await this.ssh.dispose();
-        this.isConnected = false;
+      logger.error('TUNNEL', 'Error during shutdown cleanup:', error);
+      // Continue with cleanup attempt even if SSH operations fail
+      try {
+        if (this.ssh && this.ssh.isConnected()) {
+          this.ssh.dispose();
+        }
+      } catch (sshError) {
+        logger.error('TUNNEL', 'Additional error during SSH disposal:', sshError);
       }
       
-      this.routerCredentials = null;
-      this.tunnelPort = null;
-      this.routerId = null;
+      // Reset connection status regardless of errors
+      this.isConnected = false;
+      this.tunnelProcess = null;
       
-      // Clear persistent state only for user disconnect
-      await this.clearTunnelState();
-      
-      logger.tunnel('Tunnel manager cleanup completed');
-    } catch (error) {
-      logger.error('Cleanup error:', error);
+      logger.tunnel('Shutdown cleanup completed with errors - state preserved for next startup');
     }
   }
 
@@ -1346,7 +1419,7 @@ EOF`);
       if (result.stderr) logger.error(`SIGKILL sshpass stderr: ${result.stderr}`);
       
       // Step 6: Verify cleanup was successful
-      const remainingProcesses = await this.ssh.execCommand(`ps | grep -f ".*${this.tunnelPort}:localhost:22" | grep -v grep || true`);
+      const remainingProcesses = await this.ssh.execCommand(`ps | grep "${this.tunnelPort}:localhost:22" | grep -v grep || true`);
       if (remainingProcesses.stdout.trim()) {
         logger.tunnel(`Some processes for port ${this.tunnelPort} may still be running after cleanup:`);
         logger.tunnel(remainingProcesses.stdout);
@@ -1355,11 +1428,23 @@ EOF`);
         logger.tunnel(`Attempting targeted SIGKILL for residual processes on port ${this.tunnelPort}...`);
         result = await this.ssh.execCommand(`ps | grep "${this.tunnelPort}:localhost:22" | grep -v grep | awk '{print $1}' | xargs -r kill -9 || true`);
         
+        // Additional cleanup for any process with the port in its command line
+        result = await this.ssh.execCommand(`ps | grep "${this.tunnelPort}" | grep -v grep | awk '{print $1}' | xargs -r kill -9 || true`);
+        
+        // Wait a moment after force kill
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
         // Final verification
         const finalCheck = await this.ssh.execCommand(`ps | grep "${this.tunnelPort}:localhost:22" | grep -v grep || true`);
         if (finalCheck.stdout.trim()) {
           logger.warn(`Residual processes for port ${this.tunnelPort} still detected after force-kill:`);
           logger.warn(finalCheck.stdout);
+          // Log all processes for debugging
+          const allProcesses = await this.ssh.execCommand(`ps | grep "${this.tunnelPort}" | grep -v grep || true`);
+          if (allProcesses.stdout.trim()) {
+            logger.warn(`All processes containing port ${this.tunnelPort}:`);
+            logger.warn(allProcesses.stdout);
+          }
         } else {
           logger.tunnel(`All processes for port ${this.tunnelPort} successfully terminated`);
         }
@@ -1376,6 +1461,89 @@ EOF`);
       if (error.stdout) logger.error('Cleanup error stdout:', error.stdout);
       if (error.stderr) logger.error('Cleanup error stderr:', error.stderr);
       // Don't throw error - cleanup is best effort
+    }
+  }
+
+  // PID-based cleanup using stored process IDs from state file
+  // This is more reliable than grep-based process hunting, especially after sleep/wake cycles
+  async pidBasedProcessCleanup() {
+    logger.tunnel('Performing PID-based process cleanup using stored process IDs...');
+    
+    try {
+      if (!this.ssh.isConnected()) {
+        logger.error('PID cleanup error: SSH session is not connected.');
+        return;
+      }
+
+      let processIds = null;
+      
+      // Get process IDs from current session or from saved state
+      if (this.tunnelProcess && typeof this.tunnelProcess === 'object') {
+        processIds = this.tunnelProcess;
+      } else {
+        // Try to get PIDs from saved state
+        const savedState = await this.stateManager.getTunnelState();
+        if (savedState && savedState.processIds) {
+          processIds = savedState.processIds;
+          logger.tunnel('Using process IDs from saved state');
+        }
+      }
+
+      if (!processIds) {
+        logger.warn('No process IDs available for cleanup, falling back to aggressive cleanup');
+        return await this.aggressiveProcessCleanup();
+      }
+
+      const { autosshPid, sshpassPid, scriptPid } = processIds;
+      logger.tunnel(`Terminating processes - autossh: ${autosshPid}, sshpass: ${sshpassPid}, script: ${scriptPid}`);
+
+      // Kill processes in reverse order (children first, then parents)
+      const pidsToKill = [autosshPid, sshpassPid, scriptPid].filter(pid => pid != null);
+
+      for (const pid of pidsToKill) {
+        if (pid) {
+          // First try graceful termination
+          logger.tunnel(`Sending SIGTERM to process ${pid}...`);
+          await this.ssh.execCommand(`kill ${pid} 2>/dev/null || true`);
+        }
+      }
+
+      // Wait for graceful shutdown
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      // Force kill any remaining processes
+      for (const pid of pidsToKill) {
+        if (pid) {
+          logger.tunnel(`Force killing process ${pid}...`);
+          await this.ssh.execCommand(`kill -9 ${pid} 2>/dev/null || true`);
+        }
+      }
+
+      // Verify cleanup
+      let cleanupSuccessful = true;
+      for (const pid of pidsToKill) {
+        if (pid) {
+          const processCheck = await this.ssh.execCommand(`ps | grep "^\\s*${pid}\\s" || true`);
+          if (processCheck.stdout.trim()) {
+            logger.warn(`Process ${pid} still running after cleanup:`, processCheck.stdout.trim());
+            cleanupSuccessful = false;
+          }
+        }
+      }
+
+      if (cleanupSuccessful) {
+        logger.tunnel('✅ All tunnel processes successfully terminated using stored PIDs');
+      } else {
+        logger.warn('⚠️ Some processes may still be running, performing additional cleanup...');
+        // Fallback to aggressive cleanup if PID-based cleanup wasn't completely successful
+        await this.aggressiveProcessCleanup();
+      }
+
+    } catch (error) {
+      logger.error('PID-based cleanup encountered an error:', error);
+      logger.tunnel('Falling back to aggressive process cleanup...');
+      // Fallback to aggressive cleanup
+      await this.aggressiveProcessCleanup();
     }
   }
 
@@ -1399,7 +1567,13 @@ EOF`);
       cloudUser: this.cloudUser,
       cloudPort: this.cloudPort,
       established: new Date().toISOString(),
-      lastHeartbeat: new Date().toISOString()
+      lastHeartbeat: new Date().toISOString(),
+      // Store process IDs for reliable cleanup
+      processIds: this.tunnelProcess && typeof this.tunnelProcess === 'object' ? {
+        autosshPid: this.tunnelProcess.autosshPid,
+        sshpassPid: this.tunnelProcess.sshpassPid,
+        scriptPid: this.tunnelProcess.scriptPid
+      } : null
     };
 
     try {
@@ -1433,6 +1607,16 @@ EOF`);
       this.cloudVmIp = savedState.cloudVmIp;
       this.cloudUser = savedState.cloudUser;
       this.cloudPort = savedState.cloudPort;
+      
+      // Restore process IDs if available
+      if (savedState.processIds) {
+        this.tunnelProcess = {
+          autosshPid: savedState.processIds.autosshPid,
+          sshpassPid: savedState.processIds.sshpassPid,
+          scriptPid: savedState.processIds.scriptPid
+        };
+        logger.info(`Restored process IDs - autossh: ${savedState.processIds.autosshPid}, sshpass: ${savedState.processIds.sshpassPid}, script: ${savedState.processIds.scriptPid}`);
+      }
 
       // Try to reconnect to router
       try {
@@ -1477,6 +1661,10 @@ EOF`);
             this.startMonitoring();
             this.startHeartbeat();
             
+            // CRITICAL: Save the new PIDs to file for reliable cleanup
+            await this.saveTunnelState();
+            logger.info('New process IDs saved to state file after restart during restoration');
+            
             logger.info(`Tunnel restored and restarted successfully on port ${this.tunnelPort}`);
             return {
               success: true,
@@ -1507,7 +1695,28 @@ EOF`);
         return false;
       }
 
-      // Check if tunnel processes are running
+      // First try to check using stored PIDs if available
+      if (this.tunnelProcess && typeof this.tunnelProcess === 'object') {
+        const { autosshPid, sshpassPid } = this.tunnelProcess;
+        
+        if (autosshPid) {
+          const processCheck = await this.ssh.execCommand(`ps | grep "^\\s*${autosshPid}\\s" || true`);
+          if (processCheck.stdout.trim()) {
+            logger.info(`Tunnel processes are active (autossh PID ${autosshPid})`);
+            return true;
+          }
+        }
+        
+        if (sshpassPid) {
+          const processCheck = await this.ssh.execCommand(`ps | grep "^\\s*${sshpassPid}\\s" || true`);
+          if (processCheck.stdout.trim()) {
+            logger.info(`Tunnel processes are active (sshpass PID ${sshpassPid})`);
+            return true;
+          }
+        }
+      }
+
+      // Fallback to port-based process checking
       const processCheck = await this.ssh.execCommand(`ps | grep -v grep | grep "autossh.*-R ${this.tunnelPort}:localhost:22" || true`);
       if (!processCheck.stdout.trim()) {
         logger.warn('Tunnel processes not found');

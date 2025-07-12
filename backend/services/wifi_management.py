@@ -1,28 +1,23 @@
-import time
-from utils.ssh_client import ssh_manager
-from utils.response_helpers import success, error
 from utils.logging_config import get_logger
+from managers.router_connection_manager import RouterConnectionManager
 
 logger = get_logger('services.wifi')
+router_connection_manager = RouterConnectionManager()
 
 def enable_wifi():
     """
-    Enables WiFi on the OpenWrt router with default settings.
-    Returns success or error message.
+    Enables WiFi on the OpenWrt router.
     """
     try:
-        # Check if WiFi is already enabled
         status_cmd = "uci show wireless.@wifi-device[0].disabled"
-        status_output, status_error = ssh_manager.execute_command(status_cmd)
+        status_output, status_error = router_connection_manager.execute(status_cmd)
         
         if status_error:
-            return error(f"Failed to check WiFi status: {status_error}")
+            return None, f"Failed to check WiFi status: {status_error}"
         
-        # If WiFi is already enabled, just return success
         if "disabled='0'" in status_output:
-            return success("WiFi is already enabled")
+            return "WiFi is already enabled", None
             
-        # Enable the physical radio device (usually radio0)
         commands = [
             "uci set wireless.@wifi-device[0].disabled='0'",
             "uci set wireless.@wifi-iface[0].disabled='0'",
@@ -31,42 +26,33 @@ def enable_wifi():
         ]
         
         for cmd in commands:
-            output, err = ssh_manager.execute_command(cmd)
+            _, err = router_connection_manager.execute(cmd)
             if err:
-                return error(f"Failed to enable WiFi: {err}")
+                return None, f"Failed to execute enable command: {err}"
                 
-        # Wait for WiFi to initialize
-        time.sleep(2)
-        
-        # Get the current SSID
         ssid_cmd = "uci get wireless.@wifi-iface[0].ssid"
-        ssid_output, ssid_error = ssh_manager.execute_command(ssid_cmd)
+        ssid_output, ssid_error = router_connection_manager.execute(ssid_cmd)
         
         if ssid_error:
-            return success("WiFi enabled successfully, but couldn't retrieve SSID")
+            return "WiFi enabled, but could not retrieve current SSID.", None
             
-        return success(f"WiFi enabled successfully with SSID: {ssid_output}")
+        return f"WiFi enabled successfully with SSID: {ssid_output.strip()}", None
         
+    except RuntimeError as e:
+        logger.error(f"Connection error enabling WiFi: {str(e)}")
+        return None, str(e)
     except Exception as e:
-        logger.error(f"Error enabling WiFi: {str(e)}", exc_info=True)
-        return error(f"Error enabling WiFi: {str(e)}")
+        logger.error(f"Unexpected error enabling WiFi: {str(e)}", exc_info=True)
+        return None, f"An unexpected error occurred: {str(e)}"
 
 def change_wifi_password(password, interface_num=0):
     """
     Changes the WiFi password for the specified interface.
-    
-    Args:
-        password: New password to set
-        interface_num: WiFi interface number (default 0 for primary interface)
-        
-    Returns:
-        Success or error message
     """
     if not password or len(password) < 8:
-        return error("Password must be at least 8 characters")
+        return None, "Password must be at least 8 characters"
         
     try:
-        # Set the new password
         commands = [
             f"uci set wireless.@wifi-iface[{interface_num}].key='{password}'",
             f"uci set wireless.@wifi-iface[{interface_num}].encryption='psk2'",
@@ -75,72 +61,65 @@ def change_wifi_password(password, interface_num=0):
         ]
         
         for cmd in commands:
-            output, err = ssh_manager.execute_command(cmd)
+            _, err = router_connection_manager.execute(cmd)
             if err:
-                return error(f"Failed to change WiFi password: {err}")
+                return None, f"Failed to execute password change command: {err}"
                 
-        # Get the current SSID for the response
         ssid_cmd = f"uci get wireless.@wifi-iface[{interface_num}].ssid"
-        ssid_output, ssid_error = ssh_manager.execute_command(ssid_cmd)
+        ssid_output, ssid_error = router_connection_manager.execute(ssid_cmd)
         
         if ssid_error:
-            return success("WiFi password changed successfully")
+            return "WiFi password changed successfully.", None
         
-        return success(f"WiFi password changed successfully for network: {ssid_output}")
+        return f"WiFi password changed for network: {ssid_output.strip()}", None
         
+    except RuntimeError as e:
+        logger.error(f"Connection error changing WiFi password: {str(e)}")
+        return None, str(e)
     except Exception as e:
-        logger.error(f"Error changing WiFi password: {str(e)}", exc_info=True)
-        return error(f"Error changing WiFi password: {str(e)}")
+        logger.error(f"Unexpected error changing WiFi password: {str(e)}", exc_info=True)
+        return None, f"An unexpected error occurred: {str(e)}"
 
 def get_wifi_status():
     """
-    Gets the current WiFi status including SSID and enabled state.
-    Returns a dictionary with status information.
+    Gets the current WiFi status.
     """
     try:
-        # Check if radio is enabled
         enabled_cmd = "uci show wireless.@wifi-device[0].disabled"
-        enabled_output, enabled_error = ssh_manager.execute_command(enabled_cmd)
-        
+        enabled_output, enabled_error = router_connection_manager.execute(enabled_cmd)
         if enabled_error:
-            return error("Failed to get WiFi status")
+            return None, f"Failed to get WiFi enabled status: {enabled_error}"
             
-        # Get SSID
         ssid_cmd = "uci get wireless.@wifi-iface[0].ssid"
-        ssid_output, ssid_error = ssh_manager.execute_command(ssid_cmd)
+        ssid_output, ssid_error = router_connection_manager.execute(ssid_cmd)
         
-        # Get encryption type
         encryption_cmd = "uci get wireless.@wifi-iface[0].encryption"
-        encryption_output, encryption_error = ssh_manager.execute_command(encryption_cmd)
+        encryption_output, encryption_error = router_connection_manager.execute(encryption_cmd)
         
         is_enabled = "disabled='0'" in enabled_output or "disabled=0" in enabled_output
         
-        return success(data={
+        status_data = {
             "enabled": is_enabled,
             "ssid": ssid_output.strip() if not ssid_error else "Unknown",
             "encryption": encryption_output.strip() if not encryption_error else "Unknown"
-        })
+        }
+        return status_data, None
         
+    except RuntimeError as e:
+        logger.error(f"Connection error getting WiFi status: {str(e)}")
+        return None, str(e)
     except Exception as e:
-        logger.error(f"Error getting WiFi status: {str(e)}", exc_info=True)
-        return error(f"Error getting WiFi status: {str(e)}")
+        logger.error(f"Unexpected error getting WiFi status: {str(e)}", exc_info=True)
+        return None, f"An unexpected error occurred: {str(e)}"
 
 def change_wifi_ssid(ssid, interface_num=0):
     """
     Changes the WiFi SSID for the specified interface.
-    
-    Args:
-        ssid: New SSID to set
-        interface_num: WiFi interface number (default 0 for primary interface)
-        
-    Returns:
-        Success or error message
     """
     if not ssid:
-        return error("SSID cannot be empty")
+        return None, "SSID cannot be empty"
         
     try:
-        # Set the new SSID
         commands = [
             f"uci set wireless.@wifi-iface[{interface_num}].ssid='{ssid}'",
             "uci commit wireless",
@@ -148,36 +127,35 @@ def change_wifi_ssid(ssid, interface_num=0):
         ]
         
         for cmd in commands:
-            output, err = ssh_manager.execute_command(cmd)
+            _, err = router_connection_manager.execute(cmd)
             if err:
-                return error(f"Failed to change WiFi SSID: {err}")
+                return None, f"Failed to execute SSID change command: {err}"
                 
-        return success(f"WiFi SSID changed successfully to: {ssid}")
+        return f"WiFi SSID changed successfully to: {ssid}", None
         
+    except RuntimeError as e:
+        logger.error(f"Connection error changing WiFi SSID: {str(e)}")
+        return None, str(e)
     except Exception as e:
-        logger.error(f"Error changing WiFi SSID: {str(e)}", exc_info=True)
-        return error(f"Error changing WiFi SSID: {str(e)}")
+        logger.error(f"Unexpected error changing WiFi SSID: {str(e)}", exc_info=True)
+        return None, f"An unexpected error occurred: {str(e)}"
 
 def get_wifi_ssid(interface_num=0):
     """
     Gets the current WiFi SSID for the specified interface.
-    
-    Args:
-        interface_num: WiFi interface number (default 0 for primary interface)
-        
-    Returns:
-        Success or error message
     """
     try:
-        # Get SSID for the specified interface
         ssid_cmd = f"uci get wireless.@wifi-iface[{interface_num}].ssid"
-        ssid_output, ssid_error = ssh_manager.execute_command(ssid_cmd)
+        ssid_output, ssid_error = router_connection_manager.execute(ssid_cmd)
         
         if ssid_error:
-            return error(f"Failed to get SSID for interface {interface_num}")
+            return None, f"Failed to get SSID for interface {interface_num}"
             
-        return success(data={"ssid": ssid_output.strip()})
+        return {"ssid": ssid_output.strip()}, None
         
+    except RuntimeError as e:
+        logger.error(f"Connection error getting WiFi SSID: {str(e)}")
+        return None, str(e)
     except Exception as e:
         logger.error(f"Error getting WiFi SSID: {str(e)}", exc_info=True)
-        return error(f"Error getting WiFi SSID: {str(e)}") 
+        return None, f"An unexpected error occurred: {str(e)}" 

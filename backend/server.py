@@ -1,68 +1,75 @@
-from flask import Flask
-from flask_cors import CORS
-from utils.path_utils import get_data_folder
-from db.schema_initializer import initialize_all_tables
-from utils.ssh_client import ssh_manager
-from db.tinydb_client import db_client
-from utils.logging_config import get_logger
+from pathlib import Path
 import os
-import atexit
 from dotenv import load_dotenv
+from flask import Flask, request, g, jsonify
+
+# -----------------------------------------------------------------------------
+# Load environment variables EARLY so that downstream imports (e.g. ssh_client)
+# can read them.  When developing locally we keep secrets in `backend/.env.local`.
+# On the VM that file will be absent, so the process simply relies on real
+# environment variables set by the service manager.
+# -----------------------------------------------------------------------------
+_env_local_path = Path(__file__).resolve().parent / ".env.local"
+if _env_local_path.exists():
+    load_dotenv(_env_local_path)
+
+# Rest of the imports can safely rely on env vars
+from flask_cors import CORS
+from utils.logging_config import get_logger
+from managers.router_connection_manager import RouterConnectionManager
+import atexit
+from utils.middleware import verify_session_and_router
 
 # Get logger for this module
 logger = get_logger(__name__)
 
 # Import all blueprints
 from endpoints.health import health_bp
-from endpoints.config import config_bp
 from endpoints.api import network_bp
-from endpoints.db import db_bp
 from endpoints.wifi import wifi_bp
 from endpoints.whitelist import whitelist_bp
 from endpoints.blacklist import blacklist_bp
+from endpoints.session import session_bp
 
-# Function to get the external .env path
-def get_env_path():
-    data_folder = get_data_folder()
-    return os.path.join(data_folder, ".env")
-
-# Load .env externally
-env_path = get_env_path()
-if not os.path.exists(env_path):
-    raise FileNotFoundError(f".env file not found at {env_path}")
-
-load_dotenv(env_path)
-
-server_port = os.getenv("SERVER_PORT")
-if server_port is None:
-    raise ValueError("SERVER_PORT is not set in the .env file")
-server_port = int(server_port)
+# Load environment variables
+server_port = os.getenv("SERVER_PORT", 5000)
+if isinstance(server_port, str):
+    server_port = int(server_port)
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-# Initialize database tables
-logger.info("Initializing database tables")
-initialize_all_tables()
-logger.info("Database tables initialized")
+# Register the session verification middleware to run before all requests
+@app.before_request
+def before_request_hook():
+    # The verify_session_and_router function will check for session/router context
+    # and return a response if checks fail, effectively protecting the endpoints.
+    # It will internally skip checks for exempt endpoints like /health.
+    response = verify_session_and_router()
+    if response is not None:
+        return response
+
+# --------------------------------------------------------------------------
+# Create and attach the RouterConnectionManager to the app context
+# --------------------------------------------------------------------------
+app.router_connection_manager = RouterConnectionManager()
 
 # Register all blueprints
 logger.info("Registering API blueprints")
 app.register_blueprint(health_bp)
-app.register_blueprint(config_bp)
-app.register_blueprint(network_bp)
-app.register_blueprint(db_bp)
-app.register_blueprint(wifi_bp)
-app.register_blueprint(whitelist_bp)
-app.register_blueprint(blacklist_bp)
+app.register_blueprint(network_bp, url_prefix='/api/network')
+app.register_blueprint(wifi_bp, url_prefix='/api/wifi')
+app.register_blueprint(whitelist_bp, url_prefix='/api/whitelist')
+app.register_blueprint(blacklist_bp, url_prefix='/api/blacklist')
+app.register_blueprint(session_bp, url_prefix='/api/session')
 logger.info("API blueprints registered")
 
 # Function to clean up resources on exit
 def cleanup_resources():
     logger.info("Cleaning up resources")
-    ssh_manager.close_connection()
-    db_client.flush()
-    db_client.close()
+    # ssh_manager.close_connection() - This is legacy, RCM handles it.
+    if hasattr(app, 'router_connection_manager'):
+        app.router_connection_manager.shutdown()
     logger.info("Resources cleaned up")
 
 # Register cleanup function on application exit
@@ -70,7 +77,7 @@ atexit.register(cleanup_resources)
 
 if __name__ == "__main__":
     try:
-        logger.info(f"Starting server on port {server_port}")
+        logger.info(f"Starting Commands Server on port {server_port}")
         app.run(host="0.0.0.0", port=server_port, debug=True)
     except KeyboardInterrupt:
         logger.info("Server stopped by keyboard interrupt")

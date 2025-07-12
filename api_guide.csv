@@ -1,0 +1,61 @@
+NetPilot API Guide
+
+Table: /health
+Relative URL,Method,Required Body,Expected Response Body,Description
+/health,GET,None,"{""message"": ""Server is healthy""}",Health check endpoint to verify server is running
+/infrastructure,GET,None,"{""message"": ""Infrastructure validation completed"", ""details"": {...}}",Validates the NetPilot infrastructure setup including TC classes and iptables chains
+/device-chains,GET,None,"{""message"": ""Device chains validation completed"", ""details"": {...}}",Validates the NetPilot device chains (NETPILOT_WHITELIST and NETPILOT_BLACKLIST)
+/rebuild-chains,POST,None,"{""message"": ""Device chains rebuilt successfully"", ""details"": {...}}",Rebuilds all device chains from the current database state
+/mode-activation,GET,None,"{""message"": ""Mode activation validation completed"", ""details"": {...}}",Validates the NetPilot mode activation status and iptables jump rules
+/deactivate-all-modes,POST,None,"{""message"": ""All modes deactivated successfully"", ""details"": {...}}",Deactivates all modes by removing all iptables jump commands
+
+Table: /api/session
+Relative URL,Method,Required Body,Expected Response Body,Description
+/start,POST,"{""sessionId"": ""<session_id>"", ""routerId"": ""<router_id>"", ""restart"": false}","{""session_id"": ""<session_id>"", ""router_reachable"": true, ""infrastructure_ready"": true, ""message"": ""Session established successfully""}",Starts a new session for a router and sets up the required infrastructure
+/end,POST,"{""sessionId"": ""<session_id>"", ""routerId"": ""<router_id>""}","{""message"": ""Session ended""}",Ends the session for a router and cleans up connections
+/refresh,POST,"{""sessionId"": ""<session_id>""}","{""message"": ""Session <session_id> refreshed""}",Refreshes a session's activity timer
+/status,GET,None,"{""message"": ""Retrieved all session statuses"", ""sessions"": [...]}",Retrieves the status of all active sessions being managed (admin-level endpoint)
+
+Table: /api/network
+Relative URL,Method,Required Body,Expected Response Body,Description
+/blocked,GET,None,"[""<ip1>"", ""<ip2>"", ...]",Get all currently blocked devices by IP address
+/block,POST,"{""ip"": ""<ip_address>""}","{""message"": ""Device blocked""}",Block a device by IP address using iptables rules
+/unblock,POST,"{""ip"": ""<ip_address>""}","{""message"": ""Device unblocked""}",Unblock a device by IP address by removing iptables rules
+/reset,POST,None,"{""message"": ""Network rules reset""}",Reset all network rules and clear blocking configuration
+/scan,GET,None,"[{""ip"": ""<ip>"", ""mac"": ""<mac>"", ""hostname"": ""<hostname>"", ""vendor"": ""<vendor>""}]",Scan the network via router to find connected devices with their details
+
+Table: /api/wifi
+Relative URL,Method,Required Body,Expected Response Body,Description
+/enable,POST,None,"{""message"": ""WiFi enabled""}",Enable WiFi on the router
+/password,POST,"{""password"": ""<new_password>""}","{""message"": ""WiFi password changed""}",Change the WiFi password for the wireless interface
+/status,GET,None,"{""enabled"": true/false, ""ssid"": ""<ssid_name>"", ""encryption"": ""<encryption_type>""}",Get the current WiFi status including enabled state and SSID
+/ssid,GET,None,"{""ssid"": ""<current_ssid>""}",Get the current WiFi SSID
+/ssid,POST,"{""ssid"": ""<new_ssid>""}","{""message"": ""WiFi SSID changed""}",Change the WiFi SSID (network name)
+/disable,POST,None,"{""error"": ""Disabling WiFi is not currently supported.""}",Disable WiFi on the router (not currently implemented)
+
+Table: /api/whitelist
+Relative URL,Method,Required Body,Expected Response Body,Description
+/,GET,None,"[""<ip1>"", ""<ip2>"", ...]",Get the current list of whitelisted device IP addresses
+/add,POST,"{""ip"": ""<ip_address>""}","{""message"": ""Device <ip> added to whitelist.""}",Add a device to the whitelist by IP address and update iptables rules
+/remove,POST,"{""ip"": ""<ip_address>""}","{""message"": ""Device <ip> removed from whitelist.""}",Remove a device from the whitelist by IP address and update iptables rules
+/limit-rate,POST,"{""rate"": ""<bandwidth_rate>""}","{""message"": ""Whitelist limit rate set to <rate>""}",Set the bandwidth limit rate for whitelisted devices in limited mode
+/full-rate,POST,"{""rate"": ""<bandwidth_rate>""}","{""message"": ""Whitelist full rate set to <rate>""}",Set the bandwidth rate for whitelisted devices in full access mode
+/mode/activate,POST,None,"{""message"": ""Whitelist mode activated""}",Activate whitelist mode where only whitelisted devices get unlimited access
+/mode/deactivate,DELETE,None,"{""message"": ""Whitelist mode deactivated""}",Deactivate whitelist mode and return to normal network access
+
+Table: /api/blacklist
+Relative URL,Method,Required Body,Expected Response Body,Description
+/,GET,None,"[""<ip1>"", ""<ip2>"", ...]",Get the current list of blacklisted device IP addresses
+/add,POST,"{""ip"": ""<ip_address>""}","{""message"": ""Device <ip> added to blacklist.""}",Add a device to the blacklist by IP address and update iptables rules
+/remove,POST,"{""ip"": ""<ip_address>""}","{""message"": ""Device <ip> removed from blacklist.""}",Remove a device from the blacklist by IP address and update iptables rules
+/limit-rate,POST,"{""rate"": ""<bandwidth_rate>""}","{""message"": ""Blacklist limit rate set to <rate>""}",Set the bandwidth limit rate for blacklisted devices
+/full-rate,POST,"{""rate"": ""<bandwidth_rate>""}","{""message"": ""Blacklist full rate set to <rate>""}",Set the bandwidth rate for non-blacklisted devices
+/mode/activate,POST,None,"{""message"": ""Blacklist mode activated""}",Activate blacklist mode where blacklisted devices get limited access
+/mode/deactivate,POST,None,"{""message"": ""Blacklist mode deactivated""}",Deactivate blacklist mode and return to normal network access
+
+MIDDLEWARE NOTES:
+- All endpoints except /health require sessionId and routerId parameters (via query params or JSON body)
+- All endpoints except /health and /api/session/start require an active session
+- All responses follow the standard format: {""success"": true/false, ""data"": {...}, ""error"": {...}, ""metadata"": {...}}
+- The before_request hook (verify_session_and_router) runs before all requests to validate session context
+- Session context is stored in Flask's g object (g.session_id, g.router_id) for access throughout request lifecycle

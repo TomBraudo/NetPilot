@@ -1,8 +1,33 @@
 import { Wifi, ArrowRight } from "lucide-react";
 import NetworkBackground from "../../components/NetworkBackground";
 import ScanButton from "../../components/ScanButton";
+import LoginButton from "../../components/LoginButton";
+import RouterIdPopup from "../../components/RouterIdPopup";
+import { useAuth } from "../../context/AuthContext";
 
-function App() {
+function Dashboard() {
+  const { 
+    user, 
+    loading, 
+    checkAuthStatus, 
+    routerId, 
+    showRouterIdPopup, 
+    setRouterIdValue, 
+    setShowRouterIdPopup 
+  } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="relative text-gray-500 bg-gray-100 dark:bg-gray-800 w-full h-screen overflow-hidden flex items-center justify-center">
+        <NetworkBackground />
+        <main className="max-w-2xl text-center relative z-10 px-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-300">Loading...</p>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="relative text-gray-500 bg-gray-100 dark:bg-gray-800 w-full h-screen overflow-hidden flex items-center justify-center">
       <NetworkBackground />
@@ -17,8 +42,26 @@ function App() {
         </p>
 
         <div className="flex justify-center mb-12">
-          <ScanButton />
+          {user && routerId ? (
+            <ScanButton />
+          ) : user ? (
+            <div className="text-center">
+              <div className="inline-flex items-center px-6 py-3 text-lg font-semibold text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-full">
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-600 mr-3"></div>
+                Setting up your router connection...
+              </div>
+            </div>
+          ) : (
+            <LoginButton />
+          )}
         </div>
+
+        {/* Router ID Popup */}
+        <RouterIdPopup 
+          isOpen={showRouterIdPopup}
+          onClose={() => setShowRouterIdPopup(false)}
+          onConfirm={setRouterIdValue}
+        />
 
         <div className="text-gray-400 dark:text-gray-300">
           <p className="mb-2">
@@ -41,4 +84,4 @@ function App() {
   );
 }
 
-export default App;
+export default Dashboard;

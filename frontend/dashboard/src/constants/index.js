@@ -19,6 +19,7 @@ import {
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { AiOutlineControl } from "react-icons/ai";
 import { MdOutlineSecurity } from "react-icons/md";
+import { Shield } from "lucide-react";
 import { GiRadarSweep } from "react-icons/gi";
 import { BsInfoCircle } from "react-icons/bs";
 
@@ -90,6 +91,7 @@ export const links = [
     icon: AiOutlineControl,
     text: "Control"
   },
+
   /*
   {
     href: "/scantest",

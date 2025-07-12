@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Trash2, Shield, ShieldOff } from "lucide-react";
+import { Trash2, Shield, ShieldOff, Plus, Edit, X } from "lucide-react";
+import { blacklistAPI, whitelistAPI, API_ENDPOINTS } from "../../constants/api";
 
 export default function ControlPage() {
 
@@ -28,6 +29,15 @@ export default function ControlPage() {
   const [isSpeedTesting, setIsSpeedTesting] = useState(false);
   const [whitelistSpeedLimit, setWhitelistSpeedLimit] = useState("");
   const [blacklistSpeedLimit, setBlacklistSpeedLimit] = useState("");
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [editingDevice, setEditingDevice] = useState(null);
+  const [formData, setFormData] = useState({
+    mac_address: '',
+    device_name: '',
+    description: '',
+    reason: ''
+  });
+  const [formLoading, setFormLoading] = useState(false);
 
   // Get speed test timestamp
   const getSpeedTestTimestamp = () => {
@@ -48,14 +58,11 @@ export default function ControlPage() {
   // Fetch whitelist data from backend
   const fetchWhitelistData = async () => {
     try {
-      const response = await fetch("http://localhost:5000/whitelist");
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success) {
-          setDevices(result.data || []);
-        }
+      const result = await whitelistAPI.getAll();
+      if (result.success) {
+        setDevices(result.data?.devices || []);
       } else {
-        console.error("Failed to fetch whitelist data:", response.status);
+        console.error("Failed to fetch whitelist data:", result.error);
       }
     } catch (error) {
       console.error("Error fetching whitelist:", error);
@@ -65,14 +72,11 @@ export default function ControlPage() {
   // Fetch blacklist data from backend
   const fetchBlacklistData = async () => {
     try {
-      const response = await fetch("http://localhost:5000/blacklist");
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success) {
-          setBlacklistedDevices(result.data || []);
-        }
+      const result = await blacklistAPI.getAll();
+      if (result.success) {
+        setBlacklistedDevices(result.data?.devices || []);
       } else {
-        console.error("Failed to fetch blacklist data:", response.status);
+        console.error("Failed to fetch blacklist data:", result.error);
       }
     } catch (error) {
       console.error("Error fetching blacklist:", error);
@@ -443,25 +447,125 @@ export default function ControlPage() {
     }
   };
 
-  const handleDeleteDevice = async (deviceToRemove) => {
-    if (isWhitelistMode) {
-      try {
-        const response = await fetch(`http://localhost:5000/whitelist`, {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ip: deviceToRemove.ip })
+  const handleAddDevice = async (e) => {
+    e.preventDefault();
+    setFormLoading(true);
+
+    try {
+      let result;
+      if (isWhitelistMode) {
+        result = await whitelistAPI.add({
+          mac_address: formData.mac_address,
+          device_name: formData.device_name,
+          description: formData.description
         });
-        
-        if (response.ok) {
-          const result = await response.json();
-          if (result.success) {
-            // Remove from local state
-            setDevices(devices.filter((d) => d.ip !== deviceToRemove.ip));
-          } else {
-            alert(`Failed to remove device: ${result.message}`);
+      } else {
+        result = await blacklistAPI.add({
+          mac_address: formData.mac_address,
+          device_name: formData.device_name,
+          reason: formData.reason
+        });
+      }
+
+      if (result.success) {
+        // Refresh the appropriate list
+        if (isWhitelistMode) {
+          const updatedDevices = await whitelistAPI.getAll();
+          if (updatedDevices.success) {
+            setDevices(updatedDevices.data?.devices || []);
           }
         } else {
-          alert("Failed to remove device from whitelist");
+          const updatedDevices = await blacklistAPI.getAll();
+          if (updatedDevices.success) {
+            setBlacklistedDevices(updatedDevices.data?.devices || []);
+          }
+        }
+        
+        // Reset form
+        setFormData({ mac_address: '', device_name: '', description: '', reason: '' });
+        setShowAddForm(false);
+      } else {
+        alert(`Failed to add device: ${result.error?.message || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error("Error adding device:", error);
+      alert("Failed to add device");
+    } finally {
+      setFormLoading(false);
+    }
+  };
+
+  const handleEditDevice = (device) => {
+    setEditingDevice(device);
+    setFormData({
+      mac_address: device.mac_address || '',
+      device_name: device.device_name || '',
+      description: device.description || '',
+      reason: device.reason || ''
+    });
+    setShowAddForm(true);
+  };
+
+  const handleUpdateDevice = async (e) => {
+    e.preventDefault();
+    setFormLoading(true);
+
+    try {
+      let result;
+      if (isWhitelistMode) {
+        result = await whitelistAPI.update(editingDevice.id, {
+          device_name: formData.device_name,
+          description: formData.description
+        });
+      } else {
+        result = await blacklistAPI.update(editingDevice.id, {
+          device_name: formData.device_name,
+          reason: formData.reason
+        });
+      }
+
+      if (result.success) {
+        // Refresh the appropriate list
+        if (isWhitelistMode) {
+          const updatedDevices = await whitelistAPI.getAll();
+          if (updatedDevices.success) {
+            setDevices(updatedDevices.data?.devices || []);
+          }
+        } else {
+          const updatedDevices = await blacklistAPI.getAll();
+          if (updatedDevices.success) {
+            setBlacklistedDevices(updatedDevices.data?.devices || []);
+          }
+        }
+        
+        // Reset form
+        setFormData({ mac_address: '', device_name: '', description: '', reason: '' });
+        setShowAddForm(false);
+        setEditingDevice(null);
+      } else {
+        alert(`Failed to update device: ${result.error?.message || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error("Error updating device:", error);
+      alert("Failed to update device");
+    } finally {
+      setFormLoading(false);
+    }
+  };
+
+  const handleDeleteDevice = async (deviceToRemove) => {
+    if (!window.confirm(`Are you sure you want to remove this device from the ${isWhitelistMode ? 'whitelist' : 'blacklist'}?`)) {
+      return;
+    }
+
+    if (isWhitelistMode) {
+      try {
+        const result = await whitelistAPI.remove(deviceToRemove.id);
+        if (result.success) {
+          // Remove from local state
+          setDevices(devices.filter((d) => d.id !== deviceToRemove.id));
+        } else {
+          alert(`Failed to remove device: ${result.error?.message || 'Unknown error'}`);
         }
       } catch (error) {
         console.error("Error removing device from whitelist:", error);
@@ -469,22 +573,12 @@ export default function ControlPage() {
       }
     } else {
       try {
-        const response = await fetch(`http://localhost:5000/blacklist`, {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ip: deviceToRemove.ip })
-        });
-        
-        if (response.ok) {
-          const result = await response.json();
-          if (result.success) {
-            // Remove from local state
-            setBlacklistedDevices(blacklistedDevices.filter((d) => d.ip !== deviceToRemove.ip));
-          } else {
-            alert(`Failed to remove device: ${result.message}`);
-          }
+        const result = await blacklistAPI.remove(deviceToRemove.id);
+        if (result.success) {
+          // Remove from local state
+          setBlacklistedDevices(blacklistedDevices.filter((d) => d.id !== deviceToRemove.id));
         } else {
-          alert("Failed to remove device from blacklist");
+          alert(`Failed to remove device: ${result.error?.message || 'Unknown error'}`);
         }
       } catch (error) {
         console.error("Error removing device from blacklist:", error);
@@ -495,6 +589,12 @@ export default function ControlPage() {
 
   const toggleMode = () => {
     setIsWhitelistMode(!isWhitelistMode);
+  };
+
+  const handleCancelForm = () => {
+    setFormData({ mac_address: '', device_name: '', description: '', reason: '' });
+    setShowAddForm(false);
+    setEditingDevice(null);
   };
 
   return (
@@ -633,40 +733,163 @@ export default function ControlPage() {
 
       {/* Device List */}
       <div className="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-xl shadow p-6 sm:p-8">
-        <h2 className="text-xl font-semibold mb-6 dark:text-white">
-          {isWhitelistMode ? "Whitelisted Devices" : "Blacklisted Devices"}
-        </h2>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-xl font-semibold dark:text-white">
+            {isWhitelistMode ? "Whitelisted Devices" : "Blacklisted Devices"}
+          </h2>
+          <button
+            onClick={() => setShowAddForm(true)}
+            className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition"
+          >
+            <Plus className="w-4 h-4" />
+            Add Device
+          </button>
+        </div>
+
+        {/* Add/Edit Form */}
+        {showAddForm && (
+          <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6 mb-6">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-medium dark:text-white">
+                {editingDevice ? 'Edit Device' : `Add Device to ${isWhitelistMode ? 'Whitelist' : 'Blacklist'}`}
+              </h3>
+              <button
+                onClick={handleCancelForm}
+                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            <form onSubmit={editingDevice ? handleUpdateDevice : handleAddDevice} className="space-y-4">
+              {!editingDevice && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    MAC Address *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.mac_address}
+                    onChange={(e) => setFormData({ ...formData, mac_address: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 dark:text-white"
+                    placeholder="AA:BB:CC:DD:EE:FF"
+                  />
+                </div>
+              )}
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Device Name
+                </label>
+                <input
+                  type="text"
+                  value={formData.device_name}
+                  onChange={(e) => setFormData({ ...formData, device_name: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 dark:text-white"
+                  placeholder="Enter device name"
+                />
+              </div>
+              
+              {isWhitelistMode ? (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Description
+                  </label>
+                  <textarea
+                    value={formData.description}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 dark:text-white"
+                    placeholder="Enter device description"
+                    rows="3"
+                  />
+                </div>
+              ) : (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Reason
+                  </label>
+                  <textarea
+                    value={formData.reason}
+                    onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 dark:text-white"
+                    placeholder="Enter reason for blacklisting"
+                    rows="3"
+                  />
+                </div>
+              )}
+              
+              <div className="flex gap-3">
+                <button
+                  type="submit"
+                  disabled={formLoading}
+                  className="flex-1 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white py-2 px-4 rounded-lg transition"
+                >
+                  {formLoading ? 'Saving...' : (editingDevice ? 'Update Device' : `Add to ${isWhitelistMode ? 'Whitelist' : 'Blacklist'}`)}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCancelForm}
+                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+
+        {/* Devices List */}
         <div className="flex flex-col gap-4 max-h-96 overflow-y-auto">
           {(isWhitelistMode ? devices : blacklistedDevices).map((device) => (
             <div
-              key={device.ip || device.mac}
+              key={device.id || device.mac_address}
               className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-gray-50 dark:bg-gray-900 rounded-lg p-4 gap-3 sm:gap-0"
             >
-              <div>
+              <div className="flex-1">
                 <div className="font-medium text-gray-900 dark:text-white">
-                  {device.hostname || device.name || "Unknown Device"}
+                  {device.device_name || device.hostname || device.name || "Unknown Device"}
                 </div>
                 <div className="text-xs text-gray-500 dark:text-gray-400">
-                  IP: {device.ip}
+                  MAC: {device.mac_address || device.mac}
                 </div>
-                {device.description && (
+                {(device.reason || device.description) && (
                   <div className="text-xs text-gray-500 dark:text-gray-400">
-                    {device.description}
+                    {isWhitelistMode ? 'Description' : 'Reason'}: {device.reason || device.description}
+                  </div>
+                )}
+                {device.created_at && (
+                  <div className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                    Added: {new Date(device.created_at).toLocaleDateString()}
                   </div>
                 )}
               </div>
-              <button
-                className="p-3 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 self-end sm:self-auto"
-                onClick={() => handleDeleteDevice(device)}
-                title={`Remove from ${isWhitelistMode ? 'whitelist' : 'blacklist'}`}
-              >
-                <Trash2 className="w-5 h-5 text-red-500" />
-              </button>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => handleEditDevice(device)}
+                  className="p-2 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition"
+                  title="Edit device"
+                >
+                  <Edit className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => handleDeleteDevice(device)}
+                  className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition"
+                  title={`Remove from ${isWhitelistMode ? 'whitelist' : 'blacklist'}`}
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
             </div>
           ))}
-          {isWhitelistMode && devices.length === 0 && (
+          {isWhitelistMode && devices.length === 0 && !showAddForm && (
             <div className="text-center py-6 text-gray-500 dark:text-gray-400">
-              No devices in whitelist. Go to Scan page to add devices.
+              No devices in whitelist. Add devices to grant them full network access.
+            </div>
+          )}
+          {!isWhitelistMode && blacklistedDevices.length === 0 && !showAddForm && (
+            <div className="text-center py-6 text-gray-500 dark:text-gray-400">
+              No devices in blacklist. Add devices to restrict their network access.
             </div>
           )}
         </div>

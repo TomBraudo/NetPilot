@@ -53,6 +53,7 @@ class NetPilotAgentUI {
     this.handleEnableWifi = this.handleEnableWifi.bind(this);
     this.handleReconnect = this.handleReconnect.bind(this);
     this.handleDisconnect = this.handleDisconnect.bind(this);
+    this.handleDisconnectTunnel = this.handleDisconnectTunnel.bind(this);
     this.handleUninstall = this.handleUninstall.bind(this);
     this.showNotification = this.showNotification.bind(this);
     this.updateProgress = this.updateProgress.bind(this);
@@ -91,6 +92,9 @@ class NetPilotAgentUI {
       enableWifiStatus: document.getElementById('enable-wifi-status'),
       configStatus: document.getElementById('config-status'),
       configDetails: document.getElementById('config-details'),
+      routerIdDisplay: document.getElementById('router-id-display'),
+      routerIdValue: document.getElementById('router-id-value'),
+      routerIdCopyBtn: document.getElementById('router-id-copy-btn'),
       progressSection: document.getElementById('progress-section'),
       progressFill: document.getElementById('progress-fill'),
       progressText: document.getElementById('progress-text'),
@@ -99,6 +103,7 @@ class NetPilotAgentUI {
       statusActions: document.getElementById('status-actions'),
       reconnectBtn: document.getElementById('reconnect-btn'),
       disconnectBtn: document.getElementById('disconnect-btn'),
+      disconnectTunnelBtn: document.getElementById('disconnect-tunnel-btn'),
       uninstallBtn: document.getElementById('uninstall-btn'),
       settingsBtn: document.getElementById('settings-btn'),
       logsBtn: document.getElementById('logs-btn'),
@@ -137,6 +142,9 @@ class NetPilotAgentUI {
     // Initialize UI state
     this.updateConnectionStatus('unconfigured', 'Router not configured');
     await this.checkRouterConfiguration();
+    
+    // Check and display router ID if available
+    await this.updateRouterIdDisplay();
     
     // Set version info
     if (this.elements.versionText && window.electronAPI) {
@@ -220,6 +228,7 @@ class NetPilotAgentUI {
     // Status actions
     this.elements.reconnectBtn?.addEventListener('click', this.handleReconnect);
     this.elements.disconnectBtn?.addEventListener('click', this.handleDisconnect);
+    this.elements.disconnectTunnelBtn?.addEventListener('click', this.handleDisconnectTunnel);
     this.elements.uninstallBtn?.addEventListener('click', this.handleUninstall);
     
     // Utility buttons
@@ -227,6 +236,9 @@ class NetPilotAgentUI {
     this.elements.logsBtn?.addEventListener('click', this.openLogViewer);
     this.elements.helpBtn?.addEventListener('click', this.openHelp);
     this.elements.aboutBtn?.addEventListener('click', () => this.showAbout());
+    
+    // Router ID copy button
+    this.elements.routerIdCopyBtn?.addEventListener('click', this.handleCopyRouterId.bind(this));
     
     // Enter key in form fields
     const formFields = [
@@ -497,10 +509,16 @@ class NetPilotAgentUI {
           logger.warn('Could not verify tunnel status:', statusError);
         }
         
+        // Update router ID display after tunnel restoration
+        await this.updateRouterIdDisplay();
+        
       } else if (restoration.portRestored) {
         const portData = restoration.details.port;
         this.allocatedPort = portData.port;
         this.showNotification(`📦 Port allocation restored: ${portData.port}`, 'info');
+        
+        // Update router ID display when port allocation is restored
+        await this.updateRouterIdDisplay();
       } else {
         logger.info('No previous state found to restore - starting fresh');
         this.showNotification('No previous connection to restore', 'info');
@@ -1230,56 +1248,53 @@ Built with Electron ${window.electronAPI?.version || 'Unknown'}${configInfo}${ro
 
   async handleDisconnect(event) {
     event.preventDefault();
-    
-    if (this.isProcessing) return;
-    
-    const confirmed = await window.electronAPI.showConfirm({
-      title: 'Disconnect Router',
-      message: 'Are you sure you want to disconnect the tunnel? This will stop remote access to your router.',
-      buttons: ['Disconnect', 'Cancel']
-    });
-    
-    if (!confirmed) return;
-    
-    this.isProcessing = true;
-    this.showNotification('Disconnecting...', 'info');
-    
+    this.setButtonLoading(this.elements.disconnectBtn, true);
+    this.showNotification('Disconnecting from router and releasing port...', 'info');
+
+    try {
+      const result = await window.electronAPI.disconnect();
+      if (result.success) {
+        this.updateConnectionStatus('disconnected', 'Disconnected from router.');
+        this.showNotification('Disconnected successfully.', 'success');
+        this.allocatedPort = null;
+        this.routerConfigured = false;
+        this.saveRouterConfigurationState();
+        this.updateRouterConfigButtonsVisibility();
+      } else {
+        throw new Error(result.error || 'An unknown error occurred.');
+      }
+    } catch (error) {
+      logger.error('Disconnection failed:', error);
+      this.showNotification(`Disconnection failed: ${error.message}`, 'error');
+    } finally {
+      this.setButtonLoading(this.elements.disconnectBtn, false);
+    }
+  }
+
+  async handleDisconnectTunnel(event) {
+    event.preventDefault();
+    this.setButtonLoading(this.elements.disconnectTunnelBtn, true);
+    this.showNotification('Disconnecting tunnel (port will be kept)...', 'info');
+
     try {
       const result = await window.electronAPI.disconnectTunnel();
-      
       if (result.success) {
-        // Return to configured-disconnected state if router is still configured
-        if (this.currentRouterProfile && this.currentRouterProfile.isConfigured) {
-          this.updateConnectionStatus('configured-disconnected', 'Tunnel disconnected - router ready for reconnection');
-        } else {
-          this.updateConnectionStatus('unconfigured', 'Tunnel disconnected');
-        }
-        this.showNotification('✅ Tunnel disconnected successfully', 'success');
-        this.addLog('INFO', 'Tunnel disconnected by user');
+        this.updateConnectionStatus('port_allocated', `Tunnel disconnected. Port ${this.allocatedPort} is still reserved.`);
+        this.showNotification('Tunnel disconnected successfully.', 'success');
       } else {
-        throw new Error(result.error);
+        throw new Error(result.error || 'An unknown error occurred.');
       }
-      
     } catch (error) {
-      console.error('Disconnect error:', error);
-      this.showNotification(`❌ Disconnect failed: ${error.message}`, 'error');
-      this.addLog('ERROR', `Disconnect failed: ${error.message}`);
+      logger.error('Tunnel disconnection failed:', error);
+      this.showNotification(`Tunnel disconnection failed: ${error.message}`, 'error');
     } finally {
-      this.isProcessing = false;
-      // Button states are managed by updateConnectionStatus() -> updateButtonVisibility()
+      this.setButtonLoading(this.elements.disconnectTunnelBtn, false);
     }
   }
 
   async handleUninstall(event) {
     event.preventDefault();
-
-    if (this.isProcessing) return;
-
-    const confirmed = await window.electronAPI.showConfirm({
-      title: 'Uninstall NetPilot',
-      message: 'This will remove NetPilot configurations and cleanup packages from your router. Continue?',
-      buttons: ['Uninstall', 'Cancel']
-    });
+    const confirmed = confirm('Are you sure you want to uninstall NetPilot from this router? This will remove all related files and services.');
 
     if (!confirmed) return;
 
@@ -1508,6 +1523,9 @@ Built with Electron ${window.electronAPI?.version || 'Unknown'}${configInfo}${ro
       this.updateConnectionStatus('configured-disconnected', 'Router ready for tunnel connection');
       this.updateProgress(100, 'Configuration completed successfully!');
       
+      // Update router ID display after configuration
+      await this.updateRouterIdDisplay();
+      
       this.showNotification('Router configured successfully!', 'success');
       this.addLog('INFO', 'Router configuration completed successfully');
       
@@ -1633,6 +1651,9 @@ Built with Electron ${window.electronAPI?.version || 'Unknown'}${configInfo}${ro
       this.updateProgress(100, 'Tunnel established successfully!');
       this.showNotification('Tunnel connected successfully!', 'success');
       this.addLog('INFO', `Tunnel established on port ${this.allocatedPort}`);
+      
+      // Update router ID display after tunnel establishment
+      await this.updateRouterIdDisplay();
       
       // Load router credentials for management
       await this.loadRouterCredentials();
@@ -2023,6 +2044,50 @@ Built with Electron ${window.electronAPI?.version || 'Unknown'}${configInfo}${ro
     }
     
     return true;
+  }
+
+  // Router ID Display Methods
+  async updateRouterIdDisplay() {
+    try {
+      const portInfo = await window.electronAPI.getPortInfo();
+      if (portInfo && portInfo.routerId) {
+        this.elements.routerIdValue.textContent = portInfo.routerId;
+        this.elements.routerIdDisplay.style.display = 'block';
+        logger.info('Router ID displayed:', portInfo.routerId);
+      } else {
+        this.elements.routerIdDisplay.style.display = 'none';
+        logger.info('No router ID available to display');
+      }
+    } catch (error) {
+      logger.error('Failed to get router ID:', error);
+      this.elements.routerIdDisplay.style.display = 'none';
+    }
+  }
+
+  async handleCopyRouterId() {
+    try {
+      const routerId = this.elements.routerIdValue.textContent;
+      await navigator.clipboard.writeText(routerId);
+      
+      // Show copy success feedback
+      const copyText = this.elements.routerIdCopyBtn.querySelector('.copy-text');
+      const copySuccess = this.elements.routerIdCopyBtn.querySelector('.copy-success');
+      
+      copyText.style.display = 'none';
+      copySuccess.style.display = 'inline';
+      
+      // Reset after 2 seconds
+      setTimeout(() => {
+        copyText.style.display = 'inline';
+        copySuccess.style.display = 'none';
+      }, 2000);
+      
+      this.showNotification('Router ID copied to clipboard!', 'success');
+      logger.info('Router ID copied to clipboard');
+    } catch (error) {
+      logger.error('Failed to copy router ID:', error);
+      this.showNotification('Failed to copy Router ID', 'error');
+    }
   }
 }
 

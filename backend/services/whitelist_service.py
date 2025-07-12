@@ -1,216 +1,190 @@
 from utils.logging_config import get_logger
-from utils.response_helpers import success
-from utils.config_manager import config_manager
-from services.mode_state_service import get_current_mode_value, set_current_mode_value
-from db.tinydb_client import db_client
-from db.whitelist_management import add_to_whitelist, remove_from_whitelist, get_whitelist
-from services.reset_rules import reset_all_tc_rules
-from tinydb import Query
-# Import the new helper
-from utils.traffic_control_helpers import setup_traffic_rules
-# Import to get hostname from devices table
-from db.device_repository import get_device_by_mac
+from managers.router_connection_manager import RouterConnectionManager
+from services.router_state_manager import get_router_state, write_router_state
+from services.device_rule_service import (
+    add_device_to_whitelist_rules, 
+    remove_device_from_whitelist_rules,
+    rebuild_whitelist_chain,
+    _validate_ip_address
+)
+from services.mode_activation_service import (
+    activate_whitelist_mode_rules,
+    deactivate_whitelist_mode_rules
+)
 
 logger = get_logger('services.whitelist')
+router_connection_manager = RouterConnectionManager()
 
-# Get the whitelist table directly
-whitelist_table = db_client.bandwidth_whitelist
-Device = Query()
-
-def get_whitelist_devices():
-    """Get all devices in the whitelist"""
-    try:
-        # Get devices from the whitelist table
-        devices = get_whitelist()
-        
-        # Format the response
-        formatted_devices = []
-        for device in devices:
-            # Get the actual hostname from the devices table using MAC address
-            device_info = get_device_by_mac(device.get("mac"))
-            actual_hostname = device_info.get("hostname", "Unknown") if device_info else "Unknown"
-            
-            formatted_devices.append({
-                "ip": device.get("ip"),
-                "mac": device.get("mac"),
-                "hostname": actual_hostname,  # Use hostname from devices table
-                "last_seen": device.get("added_at")
-            })
-            
-        return success(data=formatted_devices)
-    except Exception as e:
-        logger.error(f"Error getting whitelist: {str(e)}", exc_info=True)
-        raise
-
-def _apply_whitelist_rules():
-    """Helper to apply current whitelist rules."""
-    logger.info("Applying whitelist TC rules.")
-    db_client.flush() 
-    raw_whitelist_devices = get_whitelist()
-    whitelist_ips = [device['ip'] for device in raw_whitelist_devices]
-    
-    limit_rate_config = get_whitelist_limit_rate()['data']['rate']
-    full_rate_config = get_whitelist_full_rate()['data']['rate']
-
-    setup_traffic_rules(
-        mode='whitelist',
-        ips_to_target=whitelist_ips,
-        limit_rate=limit_rate_config,
-        full_rate=full_rate_config
-    )
-    logger.info("Whitelist TC rules applied successfully.")
-
+def get_whitelist():
+    """Gets the list of whitelisted devices."""
+    state = get_router_state()
+    return state['devices']['whitelist'], None
 
 def add_device_to_whitelist(ip):
-    """Add a device to the whitelist"""
-    try:
-        device = add_to_whitelist(ip) # This already handles DB interaction and potential ValueError
+    """Adds a device to the whitelist and updates iptables rules."""
+    if not ip: 
+        return None, "IP address is required."
+
+    # Validate IP format
+    if not _validate_ip_address(ip):
+        return None, "Invalid IP address format."
+
+    state = get_router_state()
+    if ip in state['devices']['whitelist']:
+        return f"Device {ip} already in whitelist.", None
         
-        if get_current_mode_value() == 'whitelist':
-            _apply_whitelist_rules()
+    # First update the state file
+    state['devices']['whitelist'].append(ip)
+    if write_router_state(state):
+        # Check if whitelist mode is currently active
+        is_whitelist_active = state.get('active_mode') == 'whitelist'
         
-        return success(message=f"Device {ip} added to whitelist")
-    except Exception as e:
-        logger.error(f"Error adding device to whitelist: {str(e)}", exc_info=True)
-        raise
+        if is_whitelist_active:
+            # Use live update function for immediate effect when mode is active
+            logger.info(f"Whitelist mode is active - using live update to add {ip}")
+            from services.mode_activation_service import add_device_to_active_whitelist
+            add_device_to_active_whitelist(ip)
+        else:
+            # Mode is not active, use standard rule addition
+            rule_success, rule_error = add_device_to_whitelist_rules(ip)
+            if not rule_success:
+                logger.error(f"Failed to add iptables rule for {ip}: {rule_error}")
+                # Note: State is already updated, but rule failed. This is logged but not rolled back.
+                # The rule will be applied when the chain is rebuilt or mode is activated.
+        
+        logger.info(f"Device {ip} added to whitelist with iptables rule")
+        return f"Device {ip} added to whitelist.", None
+    return None, "Failed to update state file on router."
 
 def remove_device_from_whitelist(ip):
-    """Remove a device from the whitelist"""
-    try:
-        # Ensure device exists before attempting DB removal to align with add_to_whitelist logic
-        device_info = whitelist_table.get(Device.ip == ip)
-        if not device_info:
-            raise ValueError(f"Device with IP {ip} not found in whitelist")
+    """Removes a device from the whitelist and updates iptables rules."""
+    if not ip: 
+        return None, "IP address is required."
 
-        remove_from_whitelist(ip) # DB operation
-        
-        if get_current_mode_value() == 'whitelist':
-            _apply_whitelist_rules()
-        
-        return success(message=f"Device {ip} removed from whitelist")
-    except Exception as e:
-        logger.error(f"Error removing device from whitelist: {str(e)}", exc_info=True)
-        raise
+    # Validate IP format
+    if not _validate_ip_address(ip):
+        return None, "Invalid IP address format."
 
-def clear_whitelist():
-    """Clear all devices from the whitelist"""
-    try:
-        # It's more efficient to clear TC rules once after all DB ops if mode is active
-        devices_cleared = False
-        current_devices = get_whitelist() # Get IPs before clearing
-        
-        if not current_devices:
-             return success(message="Whitelist is already empty.")
+    state = get_router_state()
+    if ip not in state['devices']['whitelist']:
+        return f"Device {ip} not in whitelist.", None
 
-        for device in current_devices:
-            remove_from_whitelist(device["ip"]) # Just DB op
-            devices_cleared = True
-        
-        if devices_cleared and get_current_mode_value() == 'whitelist':
-            _apply_whitelist_rules() # Apply rules based on the now empty whitelist
-        
-        return success(message="Whitelist cleared")
-    except Exception as e:
-        logger.error(f"Error clearing whitelist: {str(e)}", exc_info=True)
-        raise
+    # Check if whitelist mode is currently active
+    is_whitelist_active = state.get('active_mode') == 'whitelist'
+    
+    if is_whitelist_active:
+        # Use live update function for immediate effect when mode is active
+        logger.info(f"Whitelist mode is active - using live update to remove {ip}")
+        from services.mode_activation_service import remove_device_from_active_whitelist
+        remove_device_from_active_whitelist(ip)
+    else:
+        # Mode is not active, use standard rule removal
+        rule_success, rule_error = remove_device_from_whitelist_rules(ip)
+        if not rule_success:
+            logger.error(f"Failed to remove iptables rule for {ip}: {rule_error}")
+            # Note: State is already updated. Rule removal failure is logged but not considered fatal.
 
-def get_whitelist_limit_rate():
-    """Get the current whitelist bandwidth limit rate"""
-    try:
-        config = config_manager.load_config('whitelist')
-        return success(data={"rate": config.get('Limit_Rate', "50mbit")}) # Default if not set
-    except Exception as e:
-        logger.error(f"Error getting whitelist limit rate: {str(e)}", exc_info=True)
-        raise
-
-def format_rate(rate): # Keep format_rate here as it's used by set_whitelist_limit_rate etc.
-    """Format rate value to include units if not present"""
-    if isinstance(rate, (int, float)) and not isinstance(rate, bool): # Ensure not bool
-        return f"{rate}mbit"
-    if isinstance(rate, str) and rate.isnumeric(): # "100" -> "100mbit"
-        return f"{rate}mbit"
-    return str(rate) # "100mbit" -> "100mbit"
-
-
-def set_whitelist_limit_rate(rate):
-    """Set the whitelist bandwidth limit rate"""
-    try:
-        formatted_r = format_rate(rate)
-        config = config_manager.load_config('whitelist')
-        config['Limit_Rate'] = formatted_r
-        config_manager.save_config('whitelist', config)
-        logger.info(f"Updated whitelist limit rate to {formatted_r}")
-        
-        if get_current_mode_value() == 'whitelist':
-            _apply_whitelist_rules()
-        
-        return success(data={"rate": formatted_r})
-    except Exception as e:
-        logger.error(f"Error setting whitelist limit rate: {str(e)}", exc_info=True)
-        raise
-
-def get_whitelist_full_rate():
-    """Get the current whitelist full bandwidth rate"""
-    try:
-        config = config_manager.load_config('whitelist')
-        return success(data={"rate": config.get('Full_Rate', "1000mbit")}) # Default if not set
-    except Exception as e:
-        logger.error(f"Error getting whitelist full rate: {str(e)}", exc_info=True)
-        raise
-
-def set_whitelist_full_rate(rate):
-    """Set the whitelist full bandwidth rate"""
-    try:
-        formatted_r = format_rate(rate)
-        config = config_manager.load_config('whitelist')
-        config['Full_Rate'] = formatted_r
-        config_manager.save_config('whitelist', config)
-        logger.info(f"Updated whitelist full rate to {formatted_r}")
-        
-        if get_current_mode_value() == 'whitelist':
-            _apply_whitelist_rules()
-            
-        return success(data={"rate": formatted_r})
-    except Exception as e:
-        logger.error(f"Error setting whitelist full rate: {str(e)}", exc_info=True)
-        raise
+    # Update state file (same for both cases)
+    state['devices']['whitelist'].remove(ip)
+    if write_router_state(state):
+        logger.info(f"Device {ip} removed from whitelist with iptables rule cleanup")
+        return f"Device {ip} removed from whitelist.", None
+    return None, "Failed to update state file on router."
 
 def activate_whitelist_mode():
-    """Activate whitelist mode"""
-    try:
-        set_current_mode_value('whitelist')
-        _apply_whitelist_rules()
-        return success(message="Whitelist mode activated")
-    except Exception as e:
-        logger.error(f"Error activating whitelist mode: {str(e)}", exc_info=True)
-        # Attempt to revert mode if TC setup fails
-        set_current_mode_value('none') 
-        reset_all_tc_rules() # Clean up any partial rules
-        logger.info("Reverted mode to 'none' due to activation error.")
-        raise
+    """Activates whitelist mode using naive approach - complete teardown and rebuild."""
+    state = get_router_state()
+    if state['active_mode'] == 'whitelist':
+        return "Whitelist mode is already active.", None
+
+    state['active_mode'] = 'whitelist'
+    if write_router_state(state):
+        # Use naive approach: complete teardown and rebuild
+        rule_success, rule_error = activate_whitelist_mode_rules()
+        if not rule_success:
+            logger.error(f"Failed to activate whitelist mode rules: {rule_error}")
+            # Rollback state change
+            state['active_mode'] = 'none'
+            write_router_state(state)
+            return None, f"Failed to activate whitelist mode: {rule_error}"
+        
+        logger.info("Whitelist mode activated successfully using naive approach")
+        return "Whitelist mode activated.", None
+    return None, "Failed to update state file on router."
 
 def deactivate_whitelist_mode():
-    """Deactivate whitelist mode"""
+    """Deactivates whitelist mode using naive approach - complete teardown and rebuild."""
+    state = get_router_state()
+    if state['active_mode'] == 'none':
+        return "Modes are already inactive.", None
+        
+    state['active_mode'] = 'none'
+    if write_router_state(state):
+        # Use naive approach: complete teardown and rebuild
+        rule_success, rule_error = deactivate_whitelist_mode_rules()
+        if not rule_success:
+            logger.error(f"Failed to deactivate whitelist mode rules: {rule_error}")
+            # Note: State is already updated to 'none', which is the desired end state
+            # We log the error but don't consider it fatal since the intent is to disable
+        
+        logger.info("Whitelist mode deactivated successfully using naive approach")
+        return "Whitelist mode deactivated.", None
+    return None, "Failed to update state file on router."
+
+def set_whitelist_limit_rate(rate):
+    """Sets the whitelist limited rate in Mbps."""
+    state = get_router_state()
     try:
-        reset_all_tc_rules() 
-        set_current_mode_value('none')
-        return success(message="Whitelist mode deactivated")
-    except Exception as e:
-        logger.error(f"Error deactivating whitelist mode: {str(e)}", exc_info=True)
-        raise
+        mbps = float(rate)
+        if mbps <= 0:
+            raise ValueError("Rate must be positive")
+        formatted_rate = f"{int(mbps) if mbps.is_integer() else mbps}mbit"
+    except (ValueError, TypeError):
+        return None, "Rate must be a positive number (Mbps)"
 
-def is_whitelist_mode_internal(): # Not used externally, can be removed if not needed
-    """Check if whitelist mode is active (internal use)"""
-    return get_current_mode_value() == 'whitelist'
+    state['rates']['whitelist_limited'] = formatted_rate
 
-def is_whitelist_mode():
-    """Check if whitelist mode is active (API response)"""
+    if write_router_state(state):
+        # Check if whitelist mode is currently active
+        is_whitelist_active = state.get('active_mode') == 'whitelist'
+        
+        if is_whitelist_active:
+            # Use live update function for immediate effect when mode is active
+            logger.info(f"Whitelist mode is active - applying rate change immediately: {formatted_rate}")
+            from services.mode_activation_service import update_active_mode_limits
+            update_active_mode_limits()  # Will auto-detect mode and use appropriate rates
+            logger.info(f"Whitelist limited rate set to {formatted_rate} and applied immediately")
+        else:
+            logger.info(f"Whitelist limited rate set to {formatted_rate} (will apply on next mode activation)")
+        
+        return {"rate_mbps": rate}, None
+    return None, "Failed to update state file on router."
+
+def set_whitelist_full_rate(rate):
+    """Sets the whitelist full rate in Mbps."""
+    state = get_router_state()
     try:
-        is_active = get_current_mode_value() == 'whitelist'
-        return success(data={"active": is_active})
-    except Exception as e:
-        logger.error(f"Error checking whitelist mode: {str(e)}", exc_info=True)
-        raise
+        mbps = float(rate)
+        if mbps <= 0:
+            raise ValueError("Rate must be positive")
+        formatted_rate = f"{int(mbps) if mbps.is_integer() else mbps}mbit"
+    except (ValueError, TypeError):
+        return None, "Rate must be a positive number (Mbps)"
 
-# Removed get_all_network_interfaces, run_command, 
-# setup_tc_on_interface, setup_tc_with_iptables as they are now in helpers 
+    state['rates']['whitelist_full'] = formatted_rate
+
+    if write_router_state(state):
+        # Check if whitelist mode is currently active
+        is_whitelist_active = state.get('active_mode') == 'whitelist'
+        
+        if is_whitelist_active:
+            # Use live update function for immediate effect when mode is active
+            logger.info(f"Whitelist mode is active - applying rate change immediately: {formatted_rate}")
+            from services.mode_activation_service import update_active_mode_limits
+            update_active_mode_limits()  # Will auto-detect mode and use appropriate rates
+            logger.info(f"Whitelist full rate set to {formatted_rate} and applied immediately")
+        else:
+            logger.info(f"Whitelist full rate set to {formatted_rate} (will apply on next mode activation)")
+        
+        return {"rate_mbps": rate}, None
+    return None, "Failed to update state file on router." 
