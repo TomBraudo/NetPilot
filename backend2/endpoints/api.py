@@ -10,6 +10,10 @@ from services.network_service import (
 )
 import time
 from utils.middleware import router_context_required
+from utils.command_server_proxy import command_server_health_check
+import uuid
+from flask import request
+from utils.command_server_proxy import send_command_server_request
 
 network_bp = Blueprint('network', __name__)
 logger = get_logger('endpoints.network')
@@ -69,7 +73,79 @@ def reset():
 def scan_router():
     """Scan the network via router"""
     start_time = time.time()
-    result, error = scan_network_via_router()
+    from flask import g
+    result, error = scan_network_via_router(g.router_id)
     if error:
         return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
     return build_success_response(result, start_time) 
+
+@network_bp.route("/command-server/health", methods=["GET"])
+def command_server_health():
+    """Proxy health check to Command Server"""
+    import time
+    start_time = time.time()
+    response = command_server_health_check()
+    if response.get("success") is False:
+        return build_error_response(f"Command Server health check failed: {response.get('error')}", 502, "COMMAND_SERVER_UNHEALTHY", start_time)
+    # Return only the inner data
+    return build_success_response(response.get("data"), start_time) 
+
+@network_bp.route("/session/start", methods=["POST"])
+def start_session():
+    data = request.get_json()
+    router_id = data.get("routerId")
+    session_id = data.get("sessionId") or str(uuid.uuid4())
+    restart = data.get("restart", False)
+    # TODO: Validate user and router_id as needed
+    payload = {
+        "sessionId": session_id,
+        "routerId": router_id,
+        "restart": restart
+    }
+    response = send_command_server_request("/start", method="POST", payload=payload)
+    if response.get("session_id"):
+        return build_success_response({
+            "sessionId": response["session_id"],
+            "routerReachable": response.get("router_reachable"),
+            "infrastructureReady": response.get("infrastructure_ready"),
+            "message": response.get("message")
+        })
+    else:
+        return build_error_response(response.get("error", "Session start failed"), 400)
+
+@network_bp.route("/session/end", methods=["POST"])
+def end_session():
+    data = request.get_json()
+    session_id = data.get("sessionId")
+    router_id = data.get("routerId")
+    payload = {
+        "sessionId": session_id,
+        "routerId": router_id
+    }
+    response = send_command_server_request("/end", method="POST", payload=payload)
+    if response.get("message"):
+        return build_success_response({"message": response["message"]})
+    else:
+        return build_error_response(response.get("error", "Session end failed"), 400)
+
+@network_bp.route("/session/refresh", methods=["POST"])
+def refresh_session():
+    data = request.get_json()
+    session_id = data.get("sessionId")
+    payload = {"sessionId": session_id}
+    response = send_command_server_request("/refresh", method="POST", payload=payload)
+    if response.get("message"):
+        return build_success_response({"message": response["message"]})
+    else:
+        return build_error_response(response.get("error", "Session refresh failed"), 400)
+
+@network_bp.route("/session/status", methods=["GET"])
+def session_status():
+    response = send_command_server_request("/status", method="GET")
+    if response.get("sessions"):
+        return build_success_response({
+            "message": response.get("message"),
+            "sessions": response["sessions"]
+        })
+    else:
+        return build_error_response(response.get("error", "Session status fetch failed"), 400) 

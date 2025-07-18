@@ -237,7 +237,11 @@ const ScanPage = () => {
     setError(null);
 
     try {
-      const res = await fetch("http://localhost:5000/api/scan/router");
+      // Get routerId and sessionId from localStorage or context
+      const routerId = localStorage.getItem("routerId") || "<your_router_id>";
+      const sessionId = localStorage.getItem("sessionId") || "test-session";
+      const url = `http://localhost:5000/api/network/scan?routerId=${routerId}&sessionId=${sessionId}`;
+      const res = await fetch(url);
 
       if (!res.ok) {
         throw new Error(`HTTP error! Status: ${res.status}`);

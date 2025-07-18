@@ -1,6 +1,8 @@
 # Stub implementation for network service
 # This is a placeholder that returns mock data
 
+from utils.command_server_proxy import send_command_server_request
+
 def get_blocked_devices_list():
     """Get all currently blocked devices"""
     return [
@@ -24,13 +26,19 @@ def reset_network_rules():
     """Reset all network rules"""
     return "All network rules reset successfully.", None
 
-def scan_network_via_router():
-    """Scan the network via router"""
-    return {
-        "devices": [
-            {"ip": "192.168.1.1", "mac": "00:11:22:33:44:55", "hostname": "router"},
-            {"ip": "192.168.1.100", "mac": "AA:BB:CC:DD:EE:FF", "hostname": "device-1"},
-            {"ip": "192.168.1.101", "mac": "11:22:33:44:55:66", "hostname": "device-2"}
-        ],
-        "total_devices": 3
-    }, None 
+def scan_network_via_router(router_id):
+    """
+    Scan the network via router by proxying to the Command Server.
+    Args:
+        router_id (str): The router's unique ID
+    Returns:
+        tuple: (result, error) where result is the device list or None, error is error message or None
+    """
+    # The Command Server expects routerId as a query param
+    payload = {"routerId": router_id}
+    response = send_command_server_request("/network/scan", method="GET", payload=payload)
+    if response.get("success"):
+        # The Command Server should return the device list in response["data"]
+        return response["data"], None
+    else:
+        return None, response.get("error", "Unknown error from Command Server") 
