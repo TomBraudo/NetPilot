@@ -89,7 +89,7 @@ class CommandsServerClient:
         print(f"Testing router command '{command}' on router {router_id}...")
         
         try:
-            response_data, error = self.manager.execute_router_command(router_id, command, params)
+            response_data, error = self.manager.execute_router_command(router_id, session_id, command, None, params)
             
             if response_data:
                 print("✅ Router command executed successfully:")

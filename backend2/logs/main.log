@@ -78,3 +78,139 @@
 2025-07-17 14:06:36 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:3000
 2025-07-17 14:13:10 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:3000
 2025-07-17 14:17:53 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:3000
+2025-07-18 10:14:18 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-18 10:14:22 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-18 11:23:56 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-18 11:24:00 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-18 11:24:35 - managers.commands_server - DEBUG - Performing health check...
+2025-07-18 11:24:35 - services.commands_server - INFO - Commands server service initialized with base URL: http://34.38.207.87:5000
+2025-07-18 11:24:35 - services.commands_server - INFO - Checking commands server health
+2025-07-18 11:24:35 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-07-18 11:24:35 - services.commands_server - DEBUG - Request completed in 0.21s with status 200
+2025-07-18 11:24:35 - services.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 0.0001246929168701172, 'routerId': None, 'sessionId': None, 'timestamp': '2025-07-18T08:24:35.151603'}, 'success': True}
+2025-07-18 11:24:35 - managers.commands_server - DEBUG - Commands server health check successful
+2025-07-18 11:24:35 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/network/scan
+2025-07-18 11:24:35 - services.commands_server - DEBUG - Request completed in 0.17s with status 400
+2025-07-18 11:24:35 - services.commands_server - ERROR - Commands server returned 400: <!doctype html>
+<html lang=en>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)</p>
+
+2025-07-18 11:24:35 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/network/scan': Commands server returned 400: <!doctype html>
+<html lang=en>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)</p>
+
+2025-07-18 11:24:53 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/network/scan
+2025-07-18 11:24:53 - services.commands_server - DEBUG - Request completed in 0.16s with status 400
+2025-07-18 11:24:53 - services.commands_server - ERROR - Commands server returned 400: <!doctype html>
+<html lang=en>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)</p>
+
+2025-07-18 11:24:53 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/network/scan': Commands server returned 400: <!doctype html>
+<html lang=en>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)</p>
+
+2025-07-18 11:31:13 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-18 11:31:25 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-18 11:31:40 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-18 11:31:47 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-18 11:38:21 - managers.commands_server - DEBUG - Performing health check...
+2025-07-18 11:38:21 - services.commands_server - INFO - Commands server service initialized with base URL: http://34.38.207.87:5000
+2025-07-18 11:38:21 - services.commands_server - INFO - Checking commands server health
+2025-07-18 11:38:21 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-07-18 11:38:21 - services.commands_server - DEBUG - Request completed in 0.22s with status 200
+2025-07-18 11:38:21 - services.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 0.0002357959747314453, 'routerId': None, 'sessionId': None, 'timestamp': '2025-07-18T08:38:21.164960'}, 'success': True}
+2025-07-18 11:38:21 - managers.commands_server - DEBUG - Commands server health check successful
+2025-07-18 11:38:21 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/network/scan
+2025-07-18 11:38:21 - services.commands_server - DEBUG - Request completed in 0.18s with status 400
+2025-07-18 11:38:21 - services.commands_server - ERROR - Commands server returned 400: <!doctype html>
+<html lang=en>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)</p>
+
+2025-07-18 11:38:21 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/network/scan': Commands server returned 400: <!doctype html>
+<html lang=en>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)</p>
+
+2025-07-18 11:38:36 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/network/scan
+2025-07-18 11:38:36 - services.commands_server - DEBUG - Request completed in 0.17s with status 400
+2025-07-18 11:38:36 - services.commands_server - ERROR - Commands server returned 400: <!doctype html>
+<html lang=en>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)</p>
+
+2025-07-18 11:38:36 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/network/scan': Commands server returned 400: <!doctype html>
+<html lang=en>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)</p>
+
+2025-07-18 11:39:54 - managers.commands_server - DEBUG - Performing health check...
+2025-07-18 11:39:54 - services.commands_server - INFO - Checking commands server health
+2025-07-18 11:39:54 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-07-18 11:39:55 - services.commands_server - DEBUG - Request completed in 0.15s with status 200
+2025-07-18 11:39:55 - services.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 2.47955322265625e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-07-18T08:39:54.900822'}, 'success': True}
+2025-07-18 11:39:55 - managers.commands_server - DEBUG - Commands server health check successful
+2025-07-18 11:39:55 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/network/scan
+2025-07-18 11:39:55 - services.commands_server - DEBUG - Request completed in 0.16s with status 400
+2025-07-18 11:39:55 - services.commands_server - ERROR - Commands server returned 400: <!doctype html>
+<html lang=en>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)</p>
+
+2025-07-18 11:39:55 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/network/scan': Commands server returned 400: <!doctype html>
+<html lang=en>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)</p>
+
+2025-07-18 11:41:19 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-18 11:42:25 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-18 11:42:32 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-18 11:43:17 - managers.commands_server - DEBUG - Performing health check...
+2025-07-18 11:43:17 - services.commands_server - INFO - Commands server service initialized with base URL: http://34.38.207.87:5000
+2025-07-18 11:43:17 - services.commands_server - INFO - Checking commands server health
+2025-07-18 11:43:17 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-07-18 11:43:17 - services.commands_server - DEBUG - Request completed in 0.18s with status 200
+2025-07-18 11:43:17 - services.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 2.574920654296875e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-07-18T08:43:17.395915'}, 'success': True}
+2025-07-18 11:43:17 - managers.commands_server - DEBUG - Commands server health check successful
+2025-07-18 11:43:17 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/network/scan
+2025-07-18 11:43:17 - services.commands_server - DEBUG - Request completed in 0.17s with status 400
+2025-07-18 11:43:17 - services.commands_server - ERROR - Commands server returned 400: <!doctype html>
+<html lang=en>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)</p>
+
+2025-07-18 11:43:17 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/network/scan': Commands server returned 400: <!doctype html>
+<html lang=en>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)</p>
+
+2025-07-18 11:43:32 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/network/scan
+2025-07-18 11:43:32 - services.commands_server - DEBUG - Request completed in 0.16s with status 400
+2025-07-18 11:43:32 - services.commands_server - ERROR - Commands server returned 400: <!doctype html>
+<html lang=en>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)</p>
+
+2025-07-18 11:43:32 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/network/scan': Commands server returned 400: <!doctype html>
+<html lang=en>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)</p>
+

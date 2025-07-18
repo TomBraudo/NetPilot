@@ -15,16 +15,16 @@ This document outlines the step-by-step plan to connect `backend2` (with Google 
 - [ ] Validate all incoming parameters (e.g., command strings, router IDs, device IPs).
 - [ ] Ensure session or user context is included and validated.
 
-## 3. Prepare Command Server Proxy Logic
+## 3. Prepare Command Server Integration Logic
 - [ ] Set Command Server URL: `http://<GCP-VM-IP>:5000/api` (replace `<GCP-VM-IP>` with actual IP).
-- [ ] After all checks, forward the request to the Command Server using the appropriate endpoint and method.
+- [ ] After all checks, use the commands_server_manager to send requests to the Command Server using the appropriate endpoint and method.
 - [ ] Set reasonable timeouts for requests to the Command Server.
 - [ ] Handle errors gracefully and relay meaningful messages to the frontend.
 
-## 4. Implement Proxy Functions in backend2
+## 4. Implement Command Server Manager Functions in backend2
 - [ ] For each relevant endpoint:
     - [ ] After validation, construct the request payload for the Command Server.
-    - [ ] Use Python `requests` to POST/GET to the Command Server.
+    - [ ] Use the commands_server_manager to POST/GET to the Command Server.
     - [ ] Parse the Command Server’s response and return it to the frontend in backend2’s standard format.
 
 ## 5. Logging & Auditing
@@ -82,22 +82,8 @@ The Command Server should return a JSON error body with a message.
 
 ---
 
-## Next Steps
-
 ### A. **Print the Full Error Response**
-Edit `backend2/utils/command_server_proxy.py` to print the error response body:
-```python
-except requests.RequestException as e:
-    # Print as much info as possible
-    if hasattr(e, 'response') and e.response is not None:
-        print("Command Server error status:", e.response.status_code)
-        print("Command Server error response:", e.response.text)
-    else:
-        print("No response object in exception.")
-    print(f"Command Server request error: {e}")
-    return {"success": False, "error": str(e)}
-```
-This will help you see the actual error message from the Command Server.
+Update error handling in the commands_server_manager or commands_server_service to log the error response body for debugging.
 
 ### B. **Check Command Server Logs**
 If you have access to the Command Server logs, check them for more details about why the request was rejected.
@@ -116,24 +102,8 @@ Would you like help editing the proxy utility to print the error response, or do
 
 ---
 
-## What to Try Next
-
-### 1. **Print More Details in the Proxy Utility**
-Let’s make sure we print everything possible from the error, including the response text and status code if available.
-
-Update your `backend2/utils/command_server_proxy.py` error handling to:
-```python
-except requests.RequestException as e:
-    # Print as much info as possible
-    if hasattr(e, 'response') and e.response is not None:
-        print("Command Server error status:", e.response.status_code)
-        print("Command Server error response:", e.response.text)
-    else:
-        print("No response object in exception.")
-    print(f"Command Server request error: {e}")
-    return {"success": False, "error": str(e)}
-```
-This will help you see if there is any error message or diagnostic info in the response body.
+### 1. **Print More Details in the Manager/Service**
+Let’s make sure we print everything possible from the error, including the response text and status code if available, in the commands_server_manager or commands_server_service error handling.
 
 ---
 
@@ -215,18 +185,9 @@ and see if it works.
 
 ---
 
-## How to Update Your Proxy Utility
+## How to Update Your Integration
 
-In `backend2/utils/command_server_proxy.py`:
-```python
-def command_server_health_check(app=None):
-    """
-    Proxy a health check request to the Command Server.
-    Returns:
-        dict: Parsed JSON response or error dict
-    """
-    return send_command_server_request("/health", method="GET", payload=None, app=app)
-```
+Use the commands_server_manager's health_check or is_connected methods to check the Command Server health, and update error handling as needed.
 
 ---
 

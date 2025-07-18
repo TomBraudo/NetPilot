@@ -1,7 +1,7 @@
 # Stub implementation for network service
 # This is a placeholder that returns mock data
 
-from utils.command_server_proxy import send_command_server_request
+from managers.commands_server_manager import commands_server_manager
 
 def get_blocked_devices_list():
     """Get all currently blocked devices"""
@@ -35,10 +35,21 @@ def scan_network_via_router(router_id):
         tuple: (result, error) where result is the device list or None, error is error message or None
     """
     # The Command Server expects routerId as a query param
-    payload = {"routerId": router_id}
-    response = send_command_server_request("/network/scan", method="GET", payload=payload)
-    if response.get("success"):
-        # The Command Server should return the device list in response["data"]
-        return response["data"], None
+    # payload = {"routerId": router_id}
+    # response = send_command_server_request("/network/scan", method="GET", payload=payload)
+    # if response.get("success"):
+    #     # The Command Server should return the device list in response["data"]
+    #     return response["data"], None
+    # else:
+    #     return None, response.get("error", "Unknown error from Command Server")
+    # REPLACE WITH direct call to commands_server_manager
+    response, error = commands_server_manager.execute_router_command(
+        router_id=router_id,
+        session_id="dummy-session-id",  # TODO: Replace with real session management
+        endpoint="/network/scan",
+        method="GET"
+    )
+    if error is None and response:
+        return response, None
     else:
-        return None, response.get("error", "Unknown error from Command Server") 
+        return None, error or "Unknown error from Command Server" 

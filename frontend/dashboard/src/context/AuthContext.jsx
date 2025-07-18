@@ -93,6 +93,55 @@ export const AuthProvider = ({ children }) => {
     setShowRouterIdPopup(false);
   };
 
+  // Fetch routerId from backend after login
+  const fetchRouterIdFromBackend = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/settings/router-id`, {
+        credentials: 'include',
+      });
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.data && data.data.routerId) {
+          setRouterId(data.data.routerId);
+          localStorage.setItem('routerId', data.data.routerId);
+          setShowRouterIdPopup(false);
+        } else {
+          // No routerId found, show popup if user is logged in
+          if (user) setShowRouterIdPopup(true);
+        }
+      } else if (response.status === 404) {
+        // No routerId found, show popup if user is logged in
+        if (user) setShowRouterIdPopup(true);
+      } else {
+        // Other errors
+        console.error('Failed to fetch routerId from backend');
+      }
+    } catch (error) {
+      console.error('Error fetching routerId from backend:', error);
+    }
+  };
+
+  // Save routerId to backend
+  const saveRouterIdToBackend = async (id) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/settings/router-id`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ routerId: id }),
+      });
+      if (response.ok) {
+        setRouterId(id);
+        localStorage.setItem('routerId', id);
+        setShowRouterIdPopup(false);
+      } else {
+        console.error('Failed to save routerId to backend');
+      }
+    } catch (error) {
+      console.error('Error saving routerId to backend:', error);
+    }
+  };
+
   useEffect(() => {
     // Check for login success parameter
     const urlParams = new URLSearchParams(window.location.search);
@@ -112,10 +161,8 @@ export const AuthProvider = ({ children }) => {
           await checkAuthStatus();
           if (user) {
             console.log('User authenticated successfully');
-            // Show Router ID popup if not already set
-            if (!routerId) {
-              setShowRouterIdPopup(true);
-            }
+            // Try to fetch routerId from backend before showing popup
+            await fetchRouterIdFromBackend();
             break;
           }
         }
@@ -124,6 +171,8 @@ export const AuthProvider = ({ children }) => {
     } else {
       console.log('No login success, checking auth status normally...');
       checkAuthStatus();
+      // Always try to fetch routerId from backend after checking auth
+      fetchRouterIdFromBackend();
     }
   }, []);
 
@@ -145,6 +194,7 @@ export const AuthProvider = ({ children }) => {
     setRouterIdValue,
     clearRouterId,
     setShowRouterIdPopup,
+    saveRouterIdToBackend, // <-- add this to context
   };
 
   return (

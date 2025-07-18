@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { Router } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const RouterIdPopup = ({ isOpen, onClose, onConfirm }) => {
   const [routerId, setRouterId] = useState('');
+  const { saveRouterIdToBackend } = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (routerId.trim()) {
-      onConfirm(routerId.trim());
+      await saveRouterIdToBackend(routerId.trim());
+      if (onConfirm) onConfirm(routerId.trim());
     }
   };
 

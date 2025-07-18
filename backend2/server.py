@@ -17,6 +17,8 @@ from endpoints.api import network_bp
 from endpoints.devices import devices_bp
 from endpoints.whitelist_new import whitelist_new_bp
 from endpoints.blacklist_new import blacklist_bp as blacklist_new_bp
+from endpoints.session import session_bp
+from endpoints.settings import settings_bp
 
 def create_app():
     """Create and configure the Flask application"""
@@ -57,6 +59,8 @@ def create_app():
     app.register_blueprint(devices_bp, url_prefix='/api/devices')
     app.register_blueprint(whitelist_new_bp, url_prefix='/api/whitelist-new')
     app.register_blueprint(blacklist_new_bp, url_prefix='/api/blacklist-new')
+    app.register_blueprint(session_bp, url_prefix='/api/session')
+    app.register_blueprint(settings_bp, url_prefix='/api/settings')
     
     # Root route
     @app.route('/')
@@ -75,6 +79,11 @@ def create_app():
     @app.before_request
     def before_request():
         g.db_session = db.get_session()
+        # Set g.user_id from session if available
+        from flask import session as flask_session
+        user_id = flask_session.get('user_id')
+        if user_id:
+            g.user_id = user_id
 
     @app.teardown_request
     def teardown_request(exception):

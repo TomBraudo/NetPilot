@@ -10,10 +10,12 @@ from services.network_service import (
 )
 import time
 from utils.middleware import router_context_required
-from utils.command_server_proxy import command_server_health_check
+from managers.commands_server_manager import commands_server_manager
 import uuid
 from flask import request
-from utils.command_server_proxy import send_command_server_request
+from flask import g
+from models.router import UserRouter
+from models.user import User
 
 network_bp = Blueprint('network', __name__)
 logger = get_logger('endpoints.network')
@@ -81,14 +83,17 @@ def scan_router():
 
 @network_bp.route("/command-server/health", methods=["GET"])
 def command_server_health():
-    """Proxy health check to Command Server"""
+    """Health check to Command Server using new manager"""
     import time
     start_time = time.time()
-    response = command_server_health_check()
-    if response.get("success") is False:
-        return build_error_response(f"Command Server health check failed: {response.get('error')}", 502, "COMMAND_SERVER_UNHEALTHY", start_time)
-    # Return only the inner data
-    return build_success_response(response.get("data"), start_time) 
+    response, error = commands_server_manager.is_connected(), None
+    if not response:
+        return build_error_response(f"Command Server health check failed", 502, "COMMAND_SERVER_UNHEALTHY", start_time)
+    # Optionally, get more info
+    # info, info_error = commands_server_manager.get_server_info()
+    # if info_error:
+    #     return build_error_response(f"Command Server info failed: {info_error}", 502, "COMMAND_SERVER_UNHEALTHY", start_time)
+    return build_success_response({"connected": True}, start_time) 
 
 @network_bp.route("/session/start", methods=["POST"])
 def start_session():
@@ -102,7 +107,7 @@ def start_session():
         "routerId": router_id,
         "restart": restart
     }
-    response = send_command_server_request("/start", method="POST", payload=payload)
+    response = commands_server_manager.send_request("/start", method="POST", payload=payload)
     if response.get("session_id"):
         return build_success_response({
             "sessionId": response["session_id"],
@@ -122,7 +127,7 @@ def end_session():
         "sessionId": session_id,
         "routerId": router_id
     }
-    response = send_command_server_request("/end", method="POST", payload=payload)
+    response = commands_server_manager.send_request("/end", method="POST", payload=payload)
     if response.get("message"):
         return build_success_response({"message": response["message"]})
     else:
@@ -133,7 +138,7 @@ def refresh_session():
     data = request.get_json()
     session_id = data.get("sessionId")
     payload = {"sessionId": session_id}
-    response = send_command_server_request("/refresh", method="POST", payload=payload)
+    response = commands_server_manager.send_request("/refresh", method="POST", payload=payload)
     if response.get("message"):
         return build_success_response({"message": response["message"]})
     else:
@@ -141,7 +146,7 @@ def refresh_session():
 
 @network_bp.route("/session/status", methods=["GET"])
 def session_status():
-    response = send_command_server_request("/status", method="GET")
+    response = commands_server_manager.send_request("/status", method="GET")
     if response.get("sessions"):
         return build_success_response({
             "message": response.get("message"),
@@ -149,3 +154,46 @@ def session_status():
         })
     else:
         return build_error_response(response.get("error", "Session status fetch failed"), 400) 
+
+@network_bp.route("/router-id", methods=["POST"])
+def save_router_id():
+    """Save (create or update) the routerId for the current user"""
+    session = g.db_session
+    user_id = getattr(g, 'user_id', None)
+    if not user_id:
+        return build_error_response("User not authenticated", 401)
+    data = request.get_json()
+    router_id = data.get("routerId")
+    if not router_id:
+        return build_error_response("Missing 'routerId' in request body", 400)
+    try:
+        # Check if router already exists for this user
+        user_router = session.query(UserRouter).filter_by(user_id=user_id, router_id=router_id).first()
+        if not user_router:
+            # Create new router association
+            user_router = UserRouter(user_id=user_id, router_id=router_id, is_active=True)
+            session.add(user_router)
+        else:
+            # Update existing router (could update last_seen, is_active, etc.)
+            user_router.is_active = True
+        session.commit()
+        return build_success_response({"routerId": router_id, "message": "RouterId saved"})
+    except Exception as e:
+        session.rollback()
+        return build_error_response(f"Failed to save routerId: {str(e)}", 500) 
+
+@network_bp.route("/router-id", methods=["GET"])
+def get_router_id():
+    """Get the routerId for the current user (if any)"""
+    session = g.db_session
+    user_id = getattr(g, 'user_id', None)
+    if not user_id:
+        return build_error_response("User not authenticated", 401)
+    try:
+        user_router = session.query(UserRouter).filter_by(user_id=user_id, is_active=True).first()
+        if user_router:
+            return build_success_response({"routerId": user_router.router_id})
+        else:
+            return build_error_response("No routerId found for user", 404)
+    except Exception as e:
+        return build_error_response(f"Failed to fetch routerId: {str(e)}", 500) 
