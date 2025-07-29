@@ -8,9 +8,22 @@ const RouterIdPopup = ({ isOpen, onClose, onConfirm }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('=== RouterIdPopup form submitted ===');
+    console.log('Form router ID value:', routerId);
+    console.log('Form router ID trimmed:', routerId.trim());
+    
     if (routerId.trim()) {
+      console.log('Router ID is valid, calling saveRouterIdToBackend...');
       await saveRouterIdToBackend(routerId.trim());
-      if (onConfirm) onConfirm(routerId.trim());
+      console.log('saveRouterIdToBackend completed');
+      
+      if (onConfirm) {
+        console.log('Calling onConfirm callback...');
+        onConfirm(routerId.trim());
+      }
+      console.log('=== RouterIdPopup form submission completed ===');
+    } else {
+      console.log('Router ID is empty or invalid, form submission ignored');
     }
   };
 
@@ -59,9 +72,9 @@ const RouterIdPopup = ({ isOpen, onClose, onConfirm }) => {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-md transition-colors"
+              className="flex-1 px-4 py-2 text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-md transition-colors"
             >
-              Cancel
+              Log Out
             </button>
             <button
               type="submit"

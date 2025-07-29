@@ -2,6 +2,7 @@ from flask import Flask, g
 from flask_cors import CORS
 import os
 from decouple import config
+from datetime import timedelta
 
 # Import database
 from database.connection import db
@@ -38,6 +39,16 @@ def create_app():
     
     # Configuration
     app.secret_key = config('SECRET_KEY', default='my-strong-secret-key')
+    
+    # CRITICAL: Enhanced session configuration for deterministic behavior
+    app.config.update(
+        SESSION_COOKIE_SECURE=False,  # Set to True in production with HTTPS
+        SESSION_COOKIE_HTTPONLY=True,
+        SESSION_COOKIE_SAMESITE='Lax',
+        PERMANENT_SESSION_LIFETIME=timedelta(hours=24),
+        SESSION_REFRESH_EACH_REQUEST=True,
+        SESSION_COOKIE_NAME='session'
+    )
     
     # Enable CORS with credentials support
     CORS(app, 
@@ -79,11 +90,22 @@ def create_app():
     @app.before_request
     def before_request():
         g.db_session = db.get_session()
-        # Set g.user_id from session if available
+        
+        # CRITICAL: Enhanced session validation
         from flask import session as flask_session
         user_id = flask_session.get('user_id')
+        
         if user_id:
-            g.user_id = user_id
+            # Validate user_id format and set in g
+            if user_id != 'None' and len(str(user_id)) > 0:
+                g.user_id = user_id
+                print(f"Request with valid user_id: {user_id}")
+            else:
+                # Clean up invalid user_id
+                flask_session.pop('user_id', None)
+                print(f"Cleaned up invalid user_id: {user_id}")
+        else:
+            print("Request without user_id in session")
 
     @app.teardown_request
     def teardown_request(exception):
