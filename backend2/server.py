@@ -14,7 +14,7 @@ from endpoints.health import health_bp
 from endpoints.whitelist import whitelist_bp
 from endpoints.blacklist import blacklist_bp
 from endpoints.wifi import wifi_bp
-from endpoints.api import network_bp
+from endpoints.network import network_bp
 from endpoints.devices import devices_bp
 from endpoints.whitelist_new import whitelist_new_bp
 from endpoints.blacklist_new import blacklist_bp as blacklist_new_bp

@@ -3,6 +3,9 @@
 
 from flask import g
 from managers.commands_server_manager import commands_server_manager
+from utils.logging_config import get_logger
+
+logger = get_logger('services.network')
 
 def get_blocked_devices_list():
     """Get all currently blocked devices"""
@@ -27,30 +30,62 @@ def reset_network_rules():
     """Reset all network rules"""
     return "All network rules reset successfully.", None
 
-def scan_network_via_router(router_id):
+def scan_network(router_id):
     """
-    Scan the network via router by proxying to the Command Server.
+    Scan the network via router to find connected devices.
+    
     Args:
         router_id (str): The router's unique ID
+        
     Returns:
-        tuple: (result, error) where result is the device list or None, error is error message or None
+        tuple: (result, error) where result is the list of devices or None, error is error message or None
     """
-    # The Command Server expects routerId as a query param
-    # payload = {"routerId": router_id}
-    # response = send_command_server_request("/network/scan", method="GET", payload=payload)
-    # if response.get("success"):
-    #     # The Command Server should return the device list in response["data"]
-    #     return response["data"], None
-    # else:
-    #     return None, response.get("error", "Unknown error from Command Server")
-    # REPLACE WITH direct call to commands_server_manager
-    response, error = commands_server_manager.execute_router_command(
-        router_id=router_id,
-        session_id=g.session_id,  # Now contains authenticated user ID (set by middleware)
-        endpoint="/network/scan",
-        method="GET"
-    )
-    if error is None and response:
-        return response, None
-    else:
-        return None, error or "Unknown error from Command Server" 
+    # Get session_id from Flask's g object (set by authentication middleware)
+    session_id = getattr(g, 'user_id', None)
+    if not session_id:
+        return None, "User not authenticated"
+    
+    if not router_id:
+        return None, "router_id is required"
+    
+    try:
+        # Call the commands server with the scan endpoint
+        response, error = commands_server_manager.execute_router_command(
+            router_id=router_id,
+            session_id=session_id,
+            endpoint="/api/network/scan",
+            method="GET",
+            query_params={
+                "sessionId": session_id,
+                "routerId": router_id
+            }
+        )
+        
+        if error:
+            logger.error(f"Network scan failed: {error}")
+            return None, error
+        
+        # Unpack the response - expect an array of devices
+        if response and isinstance(response, dict):
+            # Check if response has the expected structure
+            if 'success' in response and response['success']:
+                # Extract data from the response
+                data = response.get('data', [])
+                if isinstance(data, list):
+                    return data, None
+                else:
+                    return None, "Invalid response format: expected array of devices"
+            else:
+                # Handle error response
+                error_msg = response.get('error', 'Unknown error from commands server')
+                return None, error_msg
+        elif isinstance(response, list):
+            # Direct array response
+            return response, None
+        else:
+            return None, "Invalid response format from commands server"
+            
+    except Exception as e:
+        error_msg = f"Unexpected error during network scan: {str(e)}"
+        logger.error(error_msg, exc_info=True)
+        return None, error_msg 
