@@ -7,7 +7,7 @@ class UserDevice(BaseModel):
     __tablename__ = 'user_devices'
     
     user_id = Column(UUID(as_uuid=True), ForeignKey('users.id'), nullable=False)
-    router_id = Column(String(255), ForeignKey('user_routers.router_id'), nullable=False)
+    router_id = Column(String(255), nullable=False)
     ip = Column(INET, nullable=False)
     mac = Column(MACADDR)
     hostname = Column(String(255))
@@ -19,7 +19,6 @@ class UserDevice(BaseModel):
     
     # Relationships
     user = relationship("User", back_populates="devices")
-    router = relationship("UserRouter", back_populates="devices")
     
     __table_args__ = (
         UniqueConstraint('user_id', 'router_id', 'ip', name='unique_user_router_ip'),

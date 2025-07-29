@@ -19,6 +19,7 @@ export const AuthProvider = ({ children }) => {
   });
   const [showRouterIdPopup, setShowRouterIdPopup] = useState(false);
   const [routerIdChecked, setRouterIdChecked] = useState(false); // Track if we've checked for router ID
+  const [sessionStarted, setSessionStarted] = useState(false); // Track if session has been started
 
   const API_BASE_URL = 'http://localhost:5000';
 
@@ -98,6 +99,7 @@ export const AuthProvider = ({ children }) => {
         setRouterId(null);
         setShowRouterIdPopup(false);
         setRouterIdChecked(false);
+        setSessionStarted(false);
         localStorage.removeItem('routerId');
         // Redirect to dashboard
         window.location.href = '/';
@@ -111,6 +113,7 @@ export const AuthProvider = ({ children }) => {
       setRouterId(null);
       setShowRouterIdPopup(false);
       setRouterIdChecked(false);
+      setSessionStarted(false);
       localStorage.removeItem('routerId');
       window.location.href = '/';
     }
@@ -146,6 +149,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('routerId');
     setShowRouterIdPopup(false);
     setRouterIdChecked(false);
+    setSessionStarted(false);
   };
 
   // Save router ID to localStorage and confirm it's saved
@@ -193,6 +197,7 @@ export const AuthProvider = ({ children }) => {
     
     if (success) {
       console.log('✅ STEP 4B COMPLETE: Commands server session started successfully');
+      setSessionStarted(true); // Mark session as started
     } else {
       console.error('❌ STEP 4B FAILED: Commands server session start failed');
     }
@@ -287,8 +292,8 @@ export const AuthProvider = ({ children }) => {
           if (data.success && data.data && data.data.routerId) {
             console.log('Router ID found in response:', data.data.routerId);
             
-            // CONTROLLED FLOW: Save router ID first, THEN start session
-            console.log('🎯 TRIGGER: Router ID loaded from backend - implementing controlled flow...');
+            // DETERMINISTIC FLOW: Save router ID first, let the deterministic flow handle session start
+            console.log('🎯 TRIGGER: Router ID loaded from backend - implementing deterministic flow...');
             console.log('📍 Context: fetchRouterIdFromBackend() success');
             
             // Step 4A: Save router ID to localStorage and confirm
@@ -302,12 +307,8 @@ export const AuthProvider = ({ children }) => {
             setShowRouterIdPopup(false);
             setRouterIdChecked(true);
             
-            // Step 4B: Start session ONLY after router ID is confirmed saved
-            const sessionSuccess = await startSessionAfterRouterIdSaved(data.data.routerId, userData);
-            if (!sessionSuccess) {
-              console.error('❌ Session start failed, but router ID is saved');
-              // Still return true because router ID was found and saved
-            }
+            // Step 4B: Let the deterministic flow handle session start
+            console.log('✅ Router ID saved successfully, deterministic flow will handle session start');
             
             console.log('=== fetchRouterIdFromBackend completed successfully ===');
             return true; // Success
@@ -385,10 +386,10 @@ export const AuthProvider = ({ children }) => {
         const responseData = await response.json();
         console.log('Response data:', responseData);
         
-        console.log('Backend save successful, implementing controlled flow...');
+        console.log('Backend save successful, implementing deterministic flow...');
         
-        // CONTROLLED FLOW: Save router ID first, THEN start session
-        console.log('🎯 TRIGGER: Router ID saved to backend - implementing controlled flow...');
+        // DETERMINISTIC FLOW: Save router ID first, let the deterministic flow handle session start
+        console.log('🎯 TRIGGER: Router ID saved to backend - implementing deterministic flow...');
         console.log('📍 Context: saveRouterIdToBackend() success');
         console.log('🔧 User state available:', !!user, '(should be true for authenticated save)');
         
@@ -403,12 +404,8 @@ export const AuthProvider = ({ children }) => {
         setShowRouterIdPopup(false);
         setRouterIdChecked(true);
         
-        // Step 4B: Start session ONLY after router ID is confirmed saved
-        const sessionSuccess = await startSessionAfterRouterIdSaved(id, null);
-        if (!sessionSuccess) {
-          console.error('❌ Session start failed in saveRouterIdToBackend, but router ID is saved');
-          // Still return true because backend save was successful
-        }
+        // Step 4B: Let the deterministic flow handle session start
+        console.log('✅ Router ID saved successfully, deterministic flow will handle session start');
         
         console.log('=== saveRouterIdToBackend completed successfully ===');
         return true;
@@ -531,6 +528,20 @@ export const AuthProvider = ({ children }) => {
       setShowRouterIdPopup(true);
     }
   }, [user, routerId, routerIdChecked]);
+
+  // Deterministic session start flow - only after authentication is fully complete
+  useEffect(() => {
+    if (user && routerId && routerIdChecked && !sessionStarted) {
+      console.log('🎯 DETERMINISTIC FLOW: User authenticated and router ID confirmed, starting session...');
+      console.log('🔧 User:', user.email);
+      console.log('🔧 Router ID:', routerId);
+      console.log('🔧 Router ID Checked:', routerIdChecked);
+      console.log('🔧 Session Started:', sessionStarted);
+      
+      // Start session only after both user and router ID are confirmed
+      startSessionAfterRouterIdSaved(routerId, user);
+    }
+  }, [user, routerId, routerIdChecked, sessionStarted]);
 
   const value = {
     user,

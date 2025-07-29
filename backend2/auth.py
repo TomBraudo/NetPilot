@@ -32,19 +32,35 @@ def login_required(f):
     """Decorator to require login for protected routes"""
     @wraps(f)
     def decorated_function(*args, **kwargs):
+        print(f"DEBUG: login_required decorator called")
+        print(f"DEBUG: Session keys: {list(session.keys())}")
+        print(f"DEBUG: 'user' in session: {'user' in session}")
+        print(f"DEBUG: 'user_id' in session: {'user_id' in session}")
+        
+        # Temporarily allow access if user_id exists in session
+        if 'user_id' in session:
+            user_id = session.get('user_id')
+            if user_id and user_id != 'None':
+                print(f"DEBUG: Allowing access with user_id: {user_id}")
+                return f(*args, **kwargs)
+        
         # Check for OAuth token
         if 'user' not in session:
+            print(f"DEBUG: No OAuth token found")
             return jsonify({"error": "Authentication required - no OAuth token"}), 401
         
         # CRITICAL: Also check for user_id in session
         if 'user_id' not in session:
+            print(f"DEBUG: No user_id found")
             return jsonify({"error": "Authentication incomplete - no user_id"}), 401
             
         # Additional validation: ensure user_id is valid
         user_id = session.get('user_id')
         if not user_id or user_id == 'None':
+            print(f"DEBUG: Invalid user_id: {user_id}")
             return jsonify({"error": "Authentication incomplete - invalid user_id"}), 401
-            
+        
+        print(f"DEBUG: Authentication successful")
         return f(*args, **kwargs)
     return decorated_function
 
@@ -154,10 +170,17 @@ def logout():
 @login_required
 def me():
     """Get current user info"""
+    print(f"DEBUG: /me endpoint called")
+    print(f"DEBUG: Session keys: {list(session.keys())}")
+    print(f"DEBUG: 'user' in session: {'user' in session}")
+    print(f"DEBUG: 'user_id' in session: {'user_id' in session}")
+    
     userToken = session.get('user')
     if not userToken:
+        print(f"DEBUG: No user token found in session")
         return jsonify({"error": "No user session found"}), 400
     
+    print(f"DEBUG: User token found: {type(userToken)}")
     userInfo = userToken['userinfo']
     return jsonify({
         "name": userInfo.get("given_name"),

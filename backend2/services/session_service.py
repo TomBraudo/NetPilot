@@ -21,7 +21,7 @@ def start_session(router_id, session_id=None, restart=False):
     response, error = commands_server_manager.execute_router_command(
         router_id=router_id,
         session_id=session_id,
-        endpoint="/session/start",
+        endpoint="/api/session/start",
         method="POST",
         body=payload
     )

@@ -16,6 +16,7 @@ from flask import g
 from models.router import UserRouter
 from models.user import User
 from auth import login_required
+from services.session_service import start_session
 
 network_bp = Blueprint('network', __name__)
 logger = get_logger('endpoints.network')
@@ -96,7 +97,8 @@ def command_server_health():
     return build_success_response({"connected": True}, start_time) 
 
 @network_bp.route("/session/start", methods=["POST", "OPTIONS"])
-def start_session():
+@router_context_required
+def start_session_endpoint():
     # Handle CORS preflight requests
     if request.method == 'OPTIONS':
         logger.info("=== Session Start OPTIONS (CORS preflight) ===")
@@ -108,62 +110,24 @@ def start_session():
         response.headers.add('Access-Control-Allow-Credentials', 'true')
         return response
     
-    # For POST requests, require authentication
-    from auth import login_required
-    
-    # Check authentication manually since we can't use decorator with OPTIONS handling
-    if not hasattr(g, 'user_id') or not g.user_id:
-        from flask import session as flask_session
-        if 'user_id' not in flask_session:
-            return build_error_response("User authentication required", 401, "UNAUTHENTICATED", 0)
-        g.user_id = flask_session.get('user_id')
-    
     start_time = time.time()
     logger.info("=== Session Start Endpoint Called ===")
     
-    # Note: g.user_id set by before_request, g.session_id set by middleware if needed
-    user_id = g.user_id  # Get from authenticated user
+    # Get parameters from request
     data = request.get_json()
-    router_id = data.get("routerId")
     restart = data.get("restart", False)
     
-    logger.info(f"Session start parameters: user_id={user_id}, router_id={router_id}, restart={restart}")
+    logger.info(f"Session start parameters: user_id={g.user_id}, router_id={g.router_id}, restart={restart}")
     
-    # Use user_id as session_id (consistent with middleware approach)
-    session_id = str(user_id)
-    
-    payload = {
-        "routerId": router_id,
-        "sessionId": session_id,
-        "restart": restart
-    }
-    
-    logger.info(f"Calling commands server with payload: {payload}")
-    
-    # FIX: Use correct method - execute_router_command instead of non-existent send_request
-    response, error = commands_server_manager.execute_router_command(
-        router_id=router_id,
-        session_id=session_id,
-        endpoint="/session/start",
-        method="POST",
-        body=payload
-    )
+    # Call the session service
+    result, error = start_session(g.router_id, None, restart)
     
     if error:
-        logger.error(f"Commands server error: {error}")
+        logger.error(f"Session start error: {error}")
         return build_error_response(error, 500, "SESSION_START_FAILED", start_time)
     
-    if response and response.get("session_id"):
-        logger.info(f"Session start successful: {response}")
-        return build_success_response({
-            "sessionId": response["session_id"],
-            "routerReachable": response.get("router_reachable"),
-            "infrastructureReady": response.get("infrastructure_ready"),
-            "message": response.get("message")
-        }, start_time)
-    else:
-        logger.error(f"Unexpected response format: {response}")
-        return build_error_response("Session start failed", 500, "SESSION_START_FAILED", start_time)
+    logger.info(f"Session start successful: {result}")
+    return build_success_response(result, start_time)
 
 @network_bp.route("/session/end", methods=["POST", "OPTIONS"])
 def end_session():

@@ -158,26 +158,26 @@ export const networkAPI = {
   }),
 };
 
-// Session API functions (for commands server session management)
-export const sessionAPI = {
-  // Start session with commands server - must be called after authentication
-  start: (routerId, restart = false) => {
-    console.log('📡 sessionAPI.start() called');
-    console.log('  📋 Parameters:', { routerId, restart });
-    console.log('  🌐 Full URL:', `${API_ENDPOINTS.NETWORK}/session/start`);
-    console.log('  📦 Request body:', { routerId, restart });
-    
-    return apiRequest(`${API_ENDPOINTS.NETWORK}/session/start`, {
-      method: 'POST',
-      body: JSON.stringify({ routerId, restart }),
-    }).then(response => {
-      console.log('📡 sessionAPI.start() response received:', response);
-      return response;
-    }).catch(error => {
-      console.error('📡 sessionAPI.start() error:', error);
-      throw error;
-    });
-  },
+  // Session API functions (for commands server session management)
+  export const sessionAPI = {
+    // Start session with commands server - must be called after authentication
+    start: (routerId, restart = false) => {
+      console.log('📡 sessionAPI.start() called');
+      console.log('  📋 Parameters:', { routerId, restart });
+      console.log('  🌐 Full URL:', `${API_BASE_URL}/api/session/start`);
+      console.log('  📦 Request body:', { routerId, restart });
+      
+      return apiRequest(`${API_BASE_URL}/api/session/start`, {
+        method: 'POST',
+        body: JSON.stringify({ routerId, restart }),
+      }).then(response => {
+        console.log('📡 sessionAPI.start() response received:', response);
+        return response;
+      }).catch(error => {
+        console.error('📡 sessionAPI.start() error:', error);
+        throw error;
+      });
+    },
   
   // End session with commands server
   end: (routerId) => {

@@ -17,18 +17,8 @@ def save_router_id_setting(session, user_id, router_id):
     logger.info(f"Router ID validation passed: {router_id}")
     
     try:
-        # Check if routerId is already associated with another user
-        logger.info("Checking if router_id is already associated with another user...")
-        existing_router = session.query(UserRouter).filter_by(router_id=router_id).first()
-        if existing_router:
-            logger.info(f"Found existing router record: user_id={existing_router.user_id}, current_user_id={user_id}")
-            if str(existing_router.user_id) != str(user_id):
-                logger.error(f"Router ID {router_id} already associated with user {existing_router.user_id}, not {user_id}")
-                return None, 'RouterId already associated with another user.'
-            else:
-                logger.info("Router ID belongs to the same user, proceeding...")
-        else:
-            logger.info("No existing router record found for this router_id")
+        # Allow multiple users to use the same router ID
+        logger.info("Allowing multiple users to use the same router ID")
 
         # Save or update UserSetting for routerId
         logger.info("Querying existing UserSetting record...")

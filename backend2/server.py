@@ -43,8 +43,10 @@ def create_app():
     # CRITICAL: Enhanced session configuration for deterministic behavior
     app.config.update(
         SESSION_COOKIE_SECURE=False,  # Set to True in production with HTTPS
-        SESSION_COOKIE_HTTPONLY=True,
+        SESSION_COOKIE_HTTPONLY=False,  # Allow JavaScript access for debugging
         SESSION_COOKIE_SAMESITE='Lax',
+        SESSION_COOKIE_DOMAIN=None,  # Allow all domains
+        SESSION_COOKIE_PATH='/',  # Set path to root
         PERMANENT_SESSION_LIFETIME=timedelta(hours=24),
         SESSION_REFRESH_EACH_REQUEST=True,
         SESSION_COOKIE_NAME='session'
@@ -94,6 +96,11 @@ def create_app():
         # CRITICAL: Enhanced session validation
         from flask import session as flask_session
         user_id = flask_session.get('user_id')
+        
+        # Debug session state
+        print(f"DEBUG: Session keys: {list(flask_session.keys())}")
+        print(f"DEBUG: user_id from session: {user_id}")
+        print(f"DEBUG: 'user' in session: {'user' in flask_session}")
         
         if user_id:
             # Validate user_id format and set in g
