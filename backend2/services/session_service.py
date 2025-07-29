@@ -1,4 +1,4 @@
-import uuid
+from flask import g
 from managers.commands_server_manager import commands_server_manager
 
 def start_session(router_id, session_id=None, restart=False):
@@ -6,13 +6,13 @@ def start_session(router_id, session_id=None, restart=False):
     Start a new session for the given router using the command server client.
     Args:
         router_id (str): The router's unique ID
-        session_id (str, optional): The session ID to use, or None to generate one
+        session_id (str, optional): The session ID to use, or None to use authenticated user ID
         restart (bool): Whether to restart the session if it exists
     Returns:
         tuple: (result, error) where result is the session info or None, error is error message or None
     """
     if not session_id:
-        session_id = str(uuid.uuid4())
+        session_id = g.session_id  # Use authenticated user ID as session identifier
     payload = {
         "routerId": router_id,
         "sessionId": session_id,

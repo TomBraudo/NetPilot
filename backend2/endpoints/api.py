@@ -11,11 +11,11 @@ from services.network_service import (
 import time
 from utils.middleware import router_context_required
 from managers.commands_server_manager import commands_server_manager
-import uuid
 from flask import request
 from flask import g
 from models.router import UserRouter
 from models.user import User
+from auth import login_required
 
 network_bp = Blueprint('network', __name__)
 logger = get_logger('endpoints.network')
@@ -95,65 +95,234 @@ def command_server_health():
     #     return build_error_response(f"Command Server info failed: {info_error}", 502, "COMMAND_SERVER_UNHEALTHY", start_time)
     return build_success_response({"connected": True}, start_time) 
 
-@network_bp.route("/session/start", methods=["POST"])
+@network_bp.route("/session/start", methods=["POST", "OPTIONS"])
 def start_session():
+    # Handle CORS preflight requests
+    if request.method == 'OPTIONS':
+        logger.info("=== Session Start OPTIONS (CORS preflight) ===")
+        from flask import make_response
+        response = make_response()
+        response.headers.add('Access-Control-Allow-Origin', 'http://localhost:5173')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'POST,OPTIONS')
+        response.headers.add('Access-Control-Allow-Credentials', 'true')
+        return response
+    
+    # For POST requests, require authentication
+    from auth import login_required
+    
+    # Check authentication manually since we can't use decorator with OPTIONS handling
+    if not hasattr(g, 'user_id') or not g.user_id:
+        from flask import session as flask_session
+        if 'user_id' not in flask_session:
+            return build_error_response("User authentication required", 401, "UNAUTHENTICATED", 0)
+        g.user_id = flask_session.get('user_id')
+    
+    start_time = time.time()
+    logger.info("=== Session Start Endpoint Called ===")
+    
+    # Note: g.user_id set by before_request, g.session_id set by middleware if needed
+    user_id = g.user_id  # Get from authenticated user
     data = request.get_json()
     router_id = data.get("routerId")
-    session_id = data.get("sessionId") or str(uuid.uuid4())
     restart = data.get("restart", False)
-    # TODO: Validate user and router_id as needed
+    
+    logger.info(f"Session start parameters: user_id={user_id}, router_id={router_id}, restart={restart}")
+    
+    # Use user_id as session_id (consistent with middleware approach)
+    session_id = str(user_id)
+    
     payload = {
-        "sessionId": session_id,
         "routerId": router_id,
+        "sessionId": session_id,
         "restart": restart
     }
-    response = commands_server_manager.send_request("/start", method="POST", payload=payload)
-    if response.get("session_id"):
+    
+    logger.info(f"Calling commands server with payload: {payload}")
+    
+    # FIX: Use correct method - execute_router_command instead of non-existent send_request
+    response, error = commands_server_manager.execute_router_command(
+        router_id=router_id,
+        session_id=session_id,
+        endpoint="/session/start",
+        method="POST",
+        body=payload
+    )
+    
+    if error:
+        logger.error(f"Commands server error: {error}")
+        return build_error_response(error, 500, "SESSION_START_FAILED", start_time)
+    
+    if response and response.get("session_id"):
+        logger.info(f"Session start successful: {response}")
         return build_success_response({
             "sessionId": response["session_id"],
             "routerReachable": response.get("router_reachable"),
             "infrastructureReady": response.get("infrastructure_ready"),
             "message": response.get("message")
-        })
+        }, start_time)
     else:
-        return build_error_response(response.get("error", "Session start failed"), 400)
+        logger.error(f"Unexpected response format: {response}")
+        return build_error_response("Session start failed", 500, "SESSION_START_FAILED", start_time)
 
-@network_bp.route("/session/end", methods=["POST"])
+@network_bp.route("/session/end", methods=["POST", "OPTIONS"])
 def end_session():
+    # Handle CORS preflight requests
+    if request.method == 'OPTIONS':
+        logger.info("=== Session End OPTIONS (CORS preflight) ===")
+        from flask import make_response
+        response = make_response()
+        response.headers.add('Access-Control-Allow-Origin', 'http://localhost:5173')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'POST,OPTIONS')
+        response.headers.add('Access-Control-Allow-Credentials', 'true')
+        return response
+    
+    # Check authentication manually
+    if not hasattr(g, 'user_id') or not g.user_id:
+        from flask import session as flask_session
+        if 'user_id' not in flask_session:
+            return build_error_response("User authentication required", 401, "UNAUTHENTICATED", 0)
+        g.user_id = flask_session.get('user_id')
+    
+    start_time = time.time()
+    logger.info("=== Session End Endpoint Called ===")
+    
+    user_id = g.user_id  # Get from authenticated user
     data = request.get_json()
-    session_id = data.get("sessionId")
     router_id = data.get("routerId")
+    
+    logger.info(f"Session end parameters: user_id={user_id}, router_id={router_id}")
+    
+    # Use user_id as session_id (consistent with middleware approach)
+    session_id = str(user_id)
+    
     payload = {
-        "sessionId": session_id,
-        "routerId": router_id
+        "routerId": router_id,
+        "sessionId": session_id
     }
-    response = commands_server_manager.send_request("/end", method="POST", payload=payload)
-    if response.get("message"):
-        return build_success_response({"message": response["message"]})
+    
+    logger.info(f"Calling commands server with payload: {payload}")
+    
+    # FIX: Use correct method - execute_router_command instead of non-existent send_request
+    response, error = commands_server_manager.execute_router_command(
+        router_id=router_id,
+        session_id=session_id,
+        endpoint="/session/end",
+        method="POST",
+        body=payload
+    )
+    
+    if error:
+        logger.error(f"Commands server error: {error}")
+        return build_error_response(error, 500, "SESSION_END_FAILED", start_time)
+    
+    if response and response.get("message"):
+        logger.info(f"Session end successful: {response}")
+        return build_success_response({"message": response["message"]}, start_time)
     else:
-        return build_error_response(response.get("error", "Session end failed"), 400)
+        logger.error(f"Unexpected response format: {response}")
+        return build_error_response("Session end failed", 500, "SESSION_END_FAILED", start_time)
 
-@network_bp.route("/session/refresh", methods=["POST"])
+@network_bp.route("/session/refresh", methods=["POST", "OPTIONS"])
 def refresh_session():
-    data = request.get_json()
-    session_id = data.get("sessionId")
+    # Handle CORS preflight requests
+    if request.method == 'OPTIONS':
+        logger.info("=== Session Refresh OPTIONS (CORS preflight) ===")
+        from flask import make_response
+        response = make_response()
+        response.headers.add('Access-Control-Allow-Origin', 'http://localhost:5173')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'POST,OPTIONS')
+        response.headers.add('Access-Control-Allow-Credentials', 'true')
+        return response
+    
+    # Check authentication manually
+    if not hasattr(g, 'user_id') or not g.user_id:
+        from flask import session as flask_session
+        if 'user_id' not in flask_session:
+            return build_error_response("User authentication required", 401, "UNAUTHENTICATED", 0)
+        g.user_id = flask_session.get('user_id')
+    
+    start_time = time.time()
+    logger.info("=== Session Refresh Endpoint Called ===")
+    
+    user_id = g.user_id  # Get from authenticated user
+    
+    logger.info(f"Session refresh parameters: user_id={user_id}")
+    
+    # Use user_id as session_id (consistent with middleware approach)
+    session_id = str(user_id)
+    
+    # For refresh, we need a router_id - get from request or use a placeholder
+    # Note: Refresh might not need router_id depending on commands server implementation
     payload = {"sessionId": session_id}
-    response = commands_server_manager.send_request("/refresh", method="POST", payload=payload)
-    if response.get("message"):
-        return build_success_response({"message": response["message"]})
+    
+    logger.info(f"Calling commands server with payload: {payload}")
+    
+    # FIX: Use correct method - send_direct_command for refresh (might not need router context)
+    response, error = commands_server_manager.send_direct_command(
+        endpoint="/session/refresh",
+        method="POST",
+        payload=payload
+    )
+    
+    if error:
+        logger.error(f"Commands server error: {error}")
+        return build_error_response(error, 500, "SESSION_REFRESH_FAILED", start_time)
+    
+    if response and response.get("message"):
+        logger.info(f"Session refresh successful: {response}")
+        return build_success_response({"message": response["message"]}, start_time)
     else:
-        return build_error_response(response.get("error", "Session refresh failed"), 400)
+        logger.error(f"Unexpected response format: {response}")
+        return build_error_response("Session refresh failed", 500, "SESSION_REFRESH_FAILED", start_time)
 
-@network_bp.route("/session/status", methods=["GET"])
+@network_bp.route("/session/status", methods=["GET", "OPTIONS"])
 def session_status():
-    response = commands_server_manager.send_request("/status", method="GET")
-    if response.get("sessions"):
+    # Handle CORS preflight requests
+    if request.method == 'OPTIONS':
+        logger.info("=== Session Status OPTIONS (CORS preflight) ===")
+        from flask import make_response
+        response = make_response()
+        response.headers.add('Access-Control-Allow-Origin', 'http://localhost:5173')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'GET,OPTIONS')
+        response.headers.add('Access-Control-Allow-Credentials', 'true')
+        return response
+    
+    # Check authentication manually
+    if not hasattr(g, 'user_id') or not g.user_id:
+        from flask import session as flask_session
+        if 'user_id' not in flask_session:
+            return build_error_response("User authentication required", 401, "UNAUTHENTICATED", 0)
+        g.user_id = flask_session.get('user_id')
+    
+    start_time = time.time()
+    logger.info("=== Session Status Endpoint Called ===")
+    
+    # Note: This endpoint gets general session status, not user-specific
+    logger.info("Calling commands server for session status")
+    
+    # FIX: Use correct method - send_direct_command for status (general endpoint)
+    response, error = commands_server_manager.send_direct_command(
+        endpoint="/session/status",
+        method="GET"
+    )
+    
+    if error:
+        logger.error(f"Commands server error: {error}")
+        return build_error_response(error, 500, "SESSION_STATUS_FAILED", start_time)
+    
+    if response and response.get("sessions"):
+        logger.info(f"Session status successful: {response}")
         return build_success_response({
             "message": response.get("message"),
             "sessions": response["sessions"]
-        })
+        }, start_time)
     else:
-        return build_error_response(response.get("error", "Session status fetch failed"), 400) 
+        logger.error(f"Unexpected response format: {response}")
+        return build_error_response("Session status fetch failed", 500, "SESSION_STATUS_FAILED", start_time) 
 
 @network_bp.route("/router-id", methods=["POST"])
 def save_router_id():

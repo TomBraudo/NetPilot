@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { sessionAPI } from '../constants/api';
 
 const AuthContext = createContext();
 
@@ -57,6 +58,34 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       console.log('Logging out...');
+      
+      // End commands server session before logout if we have a router ID
+      if (routerId) {
+        try {
+          console.log('=== ENDING COMMANDS SERVER SESSION ON LOGOUT ===');
+          console.log('🔌 Router ID:', routerId);
+          console.log('📡 API endpoint: /api/network/session/end');
+          console.log('⏰ Timestamp:', new Date().toISOString());
+          
+          const startTime = performance.now();
+          await sessionAPI.end(routerId);
+          const endTime = performance.now();
+          
+          console.log('✅ Commands server session ended successfully');
+          console.log('⏱️  Response time:', Math.round(endTime - startTime), 'ms');
+          console.log('=== SESSION END COMPLETED ===');
+        } catch (sessionError) {
+          console.error('❌ FAILED TO END COMMANDS SERVER SESSION');
+          console.error('📊 Error details:', sessionError);
+          console.error('🔍 Error message:', sessionError.message);
+          console.error('🔧 Router ID used:', routerId);
+          console.error('⚠️  Continuing with logout despite session end failure...');
+          // Don't block logout if session end fails
+        }
+      } else {
+        console.log('⚠️  No router ID available - skipping session end');
+      }
+      
       const response = await fetch(`${API_BASE_URL}/logout`, {
         credentials: 'include',
         method: 'POST',
@@ -87,11 +116,29 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const setRouterIdValue = (id) => {
-    setRouterId(id);
-    localStorage.setItem('routerId', id);
+  const setRouterIdValue = async (id) => {
+    console.log('🎯 TRIGGER: Router ID set by user - implementing controlled flow...');
+    console.log('📍 Context: setRouterIdValue() called with ID:', id);
+    console.log('🔧 User state available:', !!user, '(should be true for popup usage)');
+    
+    // CONTROLLED FLOW: Save router ID first, THEN start session
+    
+    // Step 4A: Save router ID to localStorage and confirm
+    const saveSuccess = saveRouterIdToLocalStorage(id);
+    if (!saveSuccess) {
+      console.error('❌ Failed to save router ID to localStorage in setRouterIdValue');
+      return;
+    }
+    
+    // Update other state after successful save
     setShowRouterIdPopup(false);
     setRouterIdChecked(true);
+    
+    // Step 4B: Start session ONLY after router ID is confirmed saved
+    const sessionSuccess = await startSessionAfterRouterIdSaved(id, null);
+    if (!sessionSuccess) {
+      console.error('❌ Session start failed in setRouterIdValue, but router ID is saved');
+    }
   };
 
   const clearRouterId = () => {
@@ -101,10 +148,118 @@ export const AuthProvider = ({ children }) => {
     setRouterIdChecked(false);
   };
 
+  // Save router ID to localStorage and confirm it's saved
+  const saveRouterIdToLocalStorage = (routerId) => {
+    console.log('💾 STEP 4A: Saving router ID to localStorage...');
+    console.log('🔧 Router ID to save:', routerId);
+    
+    // Save to state
+    setRouterId(routerId);
+    
+    // Save to localStorage
+    localStorage.setItem('routerId', routerId);
+    
+    // Confirm it's saved by reading it back
+    const savedRouterId = localStorage.getItem('routerId');
+    const stateMatch = routerId === savedRouterId;
+    
+    console.log('💾 LocalStorage save verification:');
+    console.log('  - Original router ID:', routerId);
+    console.log('  - Retrieved from localStorage:', savedRouterId);
+    console.log('  - Save successful:', stateMatch);
+    console.log('✅ STEP 4A COMPLETE: Router ID saved to localStorage');
+    
+    return stateMatch;
+  };
+
+  // Start commands server session ONLY after router ID is confirmed saved
+  const startSessionAfterRouterIdSaved = async (routerId, userData) => {
+    console.log('🚀 STEP 4B: Starting commands server session...');
+    console.log('🔧 Router ID confirmed in localStorage:', localStorage.getItem('routerId'));
+    console.log('🔧 Router ID parameter:', routerId);
+    console.log('🔧 User data available:', !!userData);
+    
+    // Double-check router ID is in localStorage
+    const savedRouterId = localStorage.getItem('routerId');
+    if (savedRouterId !== routerId) {
+      console.error('❌ Router ID mismatch!');
+      console.error('  - Expected:', routerId);
+      console.error('  - In localStorage:', savedRouterId);
+      return false;
+    }
+    
+    console.log('✅ Router ID verification passed, proceeding with session start...');
+    const success = await startCommandsServerSession(routerId, userData);
+    
+    if (success) {
+      console.log('✅ STEP 4B COMPLETE: Commands server session started successfully');
+    } else {
+      console.error('❌ STEP 4B FAILED: Commands server session start failed');
+    }
+    
+    return success;
+  };
+
+  // Start session with commands server (critical for router operations)
+  const startCommandsServerSession = async (routerId, userData = null) => {
+    // Use provided userData or fall back to state (for race condition fix)
+    const activeUser = userData || user;
+    
+    console.log('=== STARTING COMMANDS SERVER SESSION ===');
+    console.log('User authenticated:', !!activeUser);
+    console.log('User data:', activeUser);
+    console.log('Router ID provided:', routerId);
+    console.log('Timestamp:', new Date().toISOString());
+    console.log('🔧 Using provided userData:', !!userData, '(race condition fix)');
+
+    if (!activeUser || !routerId) {
+      console.error('❌ Cannot start commands server session - missing prerequisites:');
+      console.error('  - User authenticated:', !!activeUser);
+      console.error('  - Router ID provided:', !!routerId);
+      console.error('  - State user:', !!user);
+      console.error('  - Provided userData:', !!userData);
+      return false;
+    }
+
+    try {
+      console.log('📡 Calling sessionAPI.start() with parameters:');
+      console.log('  - routerId:', routerId);
+      console.log('  - restart:', false);
+      console.log('  - API endpoint: /api/network/session/start');
+      
+      const startTime = performance.now();
+      const result = await sessionAPI.start(routerId, false); // restart=false for normal start
+      const endTime = performance.now();
+      
+      console.log('✅ Commands server session started successfully!');
+      console.log('📊 Session start response:', result);
+      console.log('⏱️  Response time:', Math.round(endTime - startTime), 'ms');
+      console.log('🎯 Session ID from response:', result?.sessionId || 'Not provided');
+      console.log('🌐 Router reachable:', result?.routerReachable || 'Unknown');
+      console.log('🏗️  Infrastructure ready:', result?.infrastructureReady || 'Unknown');
+      console.log('💬 Message:', result?.message || 'No message');
+      console.log('=== SESSION START COMPLETED SUCCESSFULLY ===');
+      
+      return true;
+    } catch (error) {
+      console.error('❌ FAILED TO START COMMANDS SERVER SESSION');
+      console.error('📊 Error details:', error);
+      console.error('🔍 Error message:', error.message);
+      console.error('🔍 Error stack:', error.stack);
+      console.error('📡 API endpoint attempted: /api/network/session/start');
+      console.error('🔧 Router ID used:', routerId);
+      console.error('👤 User context:', user?.email || 'Unknown user');
+      console.error('=== SESSION START FAILED ===');
+      
+      return false;
+    }
+  };
+
   // Fetch routerId from backend after login
-  const fetchRouterIdFromBackend = async (retries = 3) => {
+  const fetchRouterIdFromBackend = async (retries = 3, userData = null) => {
     console.log('=== Starting fetchRouterIdFromBackend ===');
     console.log('API_BASE_URL:', API_BASE_URL);
+    console.log('🔧 Received userData parameter:', !!userData, userData ? '(race condition fix active)' : '(fallback to state)');
     
     const requestUrl = `${API_BASE_URL}/api/settings/router-id`;
     
@@ -131,10 +286,29 @@ export const AuthProvider = ({ children }) => {
           
           if (data.success && data.data && data.data.routerId) {
             console.log('Router ID found in response:', data.data.routerId);
-            setRouterId(data.data.routerId);
-            localStorage.setItem('routerId', data.data.routerId);
+            
+            // CONTROLLED FLOW: Save router ID first, THEN start session
+            console.log('🎯 TRIGGER: Router ID loaded from backend - implementing controlled flow...');
+            console.log('📍 Context: fetchRouterIdFromBackend() success');
+            
+            // Step 4A: Save router ID to localStorage and confirm
+            const saveSuccess = saveRouterIdToLocalStorage(data.data.routerId);
+            if (!saveSuccess) {
+              console.error('❌ Failed to save router ID to localStorage');
+              return false;
+            }
+            
+            // Update other state after successful save
             setShowRouterIdPopup(false);
             setRouterIdChecked(true);
+            
+            // Step 4B: Start session ONLY after router ID is confirmed saved
+            const sessionSuccess = await startSessionAfterRouterIdSaved(data.data.routerId, userData);
+            if (!sessionSuccess) {
+              console.error('❌ Session start failed, but router ID is saved');
+              // Still return true because router ID was found and saved
+            }
+            
             console.log('=== fetchRouterIdFromBackend completed successfully ===');
             return true; // Success
           } else {
@@ -211,13 +385,31 @@ export const AuthProvider = ({ children }) => {
         const responseData = await response.json();
         console.log('Response data:', responseData);
         
-        console.log('Setting router ID in state:', id);
-        setRouterId(id);
-        console.log('Saving router ID to localStorage:', id);
-        localStorage.setItem('routerId', id);
-        console.log('Hiding router ID popup');
+        console.log('Backend save successful, implementing controlled flow...');
+        
+        // CONTROLLED FLOW: Save router ID first, THEN start session
+        console.log('🎯 TRIGGER: Router ID saved to backend - implementing controlled flow...');
+        console.log('📍 Context: saveRouterIdToBackend() success');
+        console.log('🔧 User state available:', !!user, '(should be true for authenticated save)');
+        
+        // Step 4A: Save router ID to localStorage and confirm
+        const saveSuccess = saveRouterIdToLocalStorage(id);
+        if (!saveSuccess) {
+          console.error('❌ Failed to save router ID to localStorage in saveRouterIdToBackend');
+          return false;
+        }
+        
+        // Update other state after successful save
         setShowRouterIdPopup(false);
         setRouterIdChecked(true);
+        
+        // Step 4B: Start session ONLY after router ID is confirmed saved
+        const sessionSuccess = await startSessionAfterRouterIdSaved(id, null);
+        if (!sessionSuccess) {
+          console.error('❌ Session start failed in saveRouterIdToBackend, but router ID is saved');
+          // Still return true because backend save was successful
+        }
+        
         console.log('=== saveRouterIdToBackend completed successfully ===');
         return true;
       } else {
@@ -261,7 +453,9 @@ export const AuthProvider = ({ children }) => {
       
       // Enhanced retry logic with proper sequencing
       const handleLoginSuccess = async () => {
-        let authenticated = false;
+        let authenticatedUserData = null;
+        
+        console.log('🔄 STEP 1: Ensuring authentication is fully complete...');
         
         // First, ensure authentication is successful
         for (let i = 0; i < 5; i++) {
@@ -274,33 +468,37 @@ export const AuthProvider = ({ children }) => {
           const userData = await checkAuthStatus();
           
           if (userData) {
-            console.log('User authenticated successfully');
-            authenticated = true;
+            console.log('✅ User authenticated successfully');
+            console.log('🔧 Storing userData for controlled flow:', userData);
+            authenticatedUserData = userData;
             break;
           }
           
           if (i === 4) {
-            console.error('Authentication failed after all retries');
+            console.error('❌ Authentication failed after all retries');
             login(); // Redirect to login again
             return;
           }
         }
         
-        // If authenticated, check for existing router ID
-        if (authenticated) {
-          console.log('Checking for existing router ID...');
+        // Only proceed if we have authenticated user data
+        if (authenticatedUserData) {
+          console.log('🔄 STEP 2: Authentication FULLY complete, checking router ID...');
           
           // Additional wait to ensure backend session is fully synchronized
           await new Promise(resolve => setTimeout(resolve, 2000));
           
-          const hasRouterId = await fetchRouterIdFromBackend();
+          console.log('🔄 STEP 3: Fetching router ID from backend...');
+          const hasRouterId = await fetchRouterIdFromBackend(3, authenticatedUserData);
           
           if (!hasRouterId) {
-            console.log('No router ID found, will show popup');
+            console.log('⚠️  No router ID found, popup will be shown later');
             // The popup will be shown by the next useEffect
           } else {
-            console.log('Router ID found, popup will not be shown');
+            console.log('✅ Router ID found and session started successfully');
           }
+        } else {
+          console.error('❌ No authenticated user data available');
         }
       };
       
@@ -310,8 +508,9 @@ export const AuthProvider = ({ children }) => {
       const initializeAuth = async () => {
         const userData = await checkAuthStatus();
         if (userData) {
+          console.log('🔧 Normal auth: Passing userData to fetchRouterIdFromBackend:', userData);
           // Check for existing router ID for returning users
-          await fetchRouterIdFromBackend();
+          await fetchRouterIdFromBackend(3, userData);
         }
       };
       initializeAuth();
@@ -345,6 +544,9 @@ export const AuthProvider = ({ children }) => {
     clearRouterId,
     setShowRouterIdPopup,
     saveRouterIdToBackend,
+    startCommandsServerSession,
+    saveRouterIdToLocalStorage,
+    startSessionAfterRouterIdSaved,
   };
 
   return (

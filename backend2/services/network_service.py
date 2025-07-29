@@ -1,6 +1,7 @@
 # Stub implementation for network service
 # This is a placeholder that returns mock data
 
+from flask import g
 from managers.commands_server_manager import commands_server_manager
 
 def get_blocked_devices_list():
@@ -45,7 +46,7 @@ def scan_network_via_router(router_id):
     # REPLACE WITH direct call to commands_server_manager
     response, error = commands_server_manager.execute_router_command(
         router_id=router_id,
-        session_id="dummy-session-id",  # TODO: Replace with real session management
+        session_id=g.session_id,  # Now contains authenticated user ID (set by middleware)
         endpoint="/network/scan",
         method="GET"
     )

@@ -148,6 +148,7 @@ import { useLocation } from "react-router-dom";
 import DeviceCard from "../DeviceCard";
 import ScannerAnimation from "../../components/ScannerAnimation";
 import ScanButton from "../../components/ScanButton";
+import { networkAPI } from "../../constants/api";
 // import { staticDevices } from "../../constants/index";
 const iconMap = {
   router: "BsRouter",
@@ -237,17 +238,12 @@ const ScanPage = () => {
     setError(null);
 
     try {
-      // Get routerId and sessionId from localStorage or context
+      // Get routerId from localStorage or context  
+      // Note: sessionId no longer needed - automatically derived from authenticated user
       const routerId = localStorage.getItem("routerId") || "<your_router_id>";
-      const sessionId = localStorage.getItem("sessionId") || "test-session";
-      const url = `http://localhost:5000/api/network/scan?routerId=${routerId}&sessionId=${sessionId}`;
-      const res = await fetch(url);
-
-      if (!res.ok) {
-        throw new Error(`HTTP error! Status: ${res.status}`);
-      }
-
-      const data = await res.json();
+      
+      // Use the new networkAPI helper function (handles authentication automatically)
+      const data = await networkAPI.scan(routerId);
 
       if (isMounted.current) {
         const formattedDevices = formatDevices(data["data"]);

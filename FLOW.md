@@ -29,11 +29,12 @@ The scan API call follows a layered architecture through backend2, with clear se
 - **File**: `backend2/utils/middleware.py`
 - **Function**: `router_context_required`
 - **Actions**:
-  - Extracts `sessionId` and `routerId` from query params or JSON body
-  - Stores them in Flask's `g` object (`g.session_id`, `g.router_id`)
-  - Validates both parameters are present
-  - Returns error if missing
-- **Context Available**: `g.db_session`, `g.user_id`, `g.session_id`, `g.router_id`
+  - Validates user authentication (`g.user_id` must be present)
+  - Extracts `routerId` from query params or JSON body
+  - Sets `g.session_id = str(g.user_id)` (user ID becomes session ID)
+  - Stores `routerId` in `g.router_id`
+  - Returns 401 error if user not authenticated, 400 if routerId missing
+- **Context Available**: `g.db_session`, `g.user_id`, `g.session_id` (=user_id), `g.router_id`
 
 ### 3. **Service Layer - Business Logic**
 - **File**: `backend2/services/network_service.py`
@@ -42,7 +43,7 @@ The scan API call follows a layered architecture through backend2, with clear se
   - Calls `commands_server_manager.execute_router_command()`
   - Parameters:
     - `router_id`: from function parameter
-    - `session_id`: "dummy-session-id" (hardcoded - could be enhanced to use `g.user_id`)
+    - `session_id`: `str(g.user_id)` (uses authenticated user ID as session identifier)
     - `endpoint`: "/network/scan"
     - `method`: "GET"
 
@@ -113,7 +114,7 @@ The scan API call follows a layered architecture through backend2, with clear se
 - **Commands Server URL**: `http://34.38.207.87:5000`
 - **Health Check Interval**: 30 seconds
 - **Request Timeout**: 30 seconds (configurable)
-- **Session Management**: Currently using "dummy-session-id" (TODO: implement real session management)
+- **Session Management**: Uses authenticated user ID (`g.user_id`) as session identifier for commands server
 
 ## Context Flow
 
@@ -125,9 +126,9 @@ Request → Application Setup → API Endpoint → Middleware → Service → Ma
 
 1. **Database Session**: Available as `g.db_session` for all API calls (though scan API doesn't directly use it, other endpoints in the same file do)
 
-2. **User Context**: Available as `g.user_id` for authentication/authorization (could enhance scan API to use real session management instead of "dummy-session-id")
+2. **User Context**: Available as `g.user_id` for authentication/authorization (now used as session identifier for commands server)
 
-3. **Session Management**: The scan API could be enhanced to use the user context for proper session management instead of the hardcoded "dummy-session-id"
+3. **Session Management**: The scan API uses the authenticated user context (`g.user_id`) as the session identifier for proper user-based session management
 
 4. **Error Handling**: If any step fails, the teardown hook ensures database sessions are properly cleaned up
 
@@ -141,8 +142,9 @@ Request → Application Setup → API Endpoint → Middleware → Service → Ma
 
 ## Future Enhancements
 
-1. **Real Session Management**: Replace "dummy-session-id" with proper session management using `g.user_id`
-2. **Database Integration**: Use `g.db_session` for logging scan results or user preferences
-3. **Authentication**: Leverage `g.user_id` for proper user authentication and authorization
+1. **User-Router Access Control**: Validate that authenticated users can only access their authorized routers
+2. **Database Integration**: Use `g.db_session` for logging scan results, user preferences, and session audit trails
+3. **Session Audit Logging**: Track all user actions with timestamps for security and compliance
 4. **Caching**: Add caching layer for frequently scanned networks
-5. **Monitoring**: Add metrics and monitoring at each layer 
+5. **Monitoring**: Add metrics and monitoring at each layer
+6. **Multi-tenant Router Management**: Support multiple users with different router access permissions 
