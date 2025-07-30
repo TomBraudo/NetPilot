@@ -13,10 +13,11 @@ This module is part of a 3-layer service architecture:
 
 Available Services:
 - whitelist_execute: Whitelist router command operations
+- session_execute: Session router command operations
 - base: Core commands server utilities and communication management
 
 Usage:
-    from services.commands_server_operations import execute_whitelist_enable
+    from services.commands_server_operations import execute_whitelist_enable, execute_start_session
     from services.commands_server_operations.base import with_commands_server, handle_commands_errors
     
 Example Implementation:
@@ -45,6 +46,11 @@ from .whitelist_execute import (
     execute_deactivate_whitelist_mode
 )
 
+# Import network operations
+from .network_execute import (
+    execute_scan_network
+)
+
 # Define what's available when importing from this module
 __all__ = [
     # Base utilities
@@ -61,4 +67,12 @@ __all__ = [
     'execute_set_whitelist_rate_limit',
     'execute_activate_whitelist_mode',
     'execute_deactivate_whitelist_mode',
+    
+    # Session operations
+    'execute_start_session',
+    'execute_end_session',
+    'execute_refresh_session',
+    
+    # Network operations
+    'execute_scan_network',
 ]

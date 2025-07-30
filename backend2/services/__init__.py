@@ -9,6 +9,9 @@ from .whitelist_service import (
     activate_whitelist_mode,
     deactivate_whitelist_mode
 )
+from .network_service import (
+    scan_network
+)
 from .wifi_management import *
 from .commands_server_service import CommandsServerService
 from .settings_service import *
@@ -23,5 +26,11 @@ __all__ = [
     'set_whitelist_limit_rate',
     'activate_whitelist_mode',
     'deactivate_whitelist_mode',
+    # Session service functions
+    'start_session',
+    'end_session',
+    'refresh_session',
+    # Network service functions
+    'scan_network',
     # Other services are imported with * so their exports are already available
 ] 

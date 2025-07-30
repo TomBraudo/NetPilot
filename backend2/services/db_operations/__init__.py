@@ -37,6 +37,14 @@ from .whitelist_db import (
     cleanup_orphaned_whitelist_entries
 )
 
+# Import network operations (dummy for now)
+from .network_db import (
+    get_network_scan_history,
+    save_network_scan_result,
+    get_network_preferences,
+    update_network_preferences
+)
+
 # Define what's available when importing from this module
 __all__ = [
     # Base utilities
@@ -57,4 +65,10 @@ __all__ = [
     'get_whitelist_by_device_id',
     'validate_user_router_access',
     'cleanup_orphaned_whitelist_entries',
+    
+    # Network operations (dummy for now)
+    'get_network_scan_history',
+    'save_network_scan_result', 
+    'get_network_preferences',
+    'update_network_preferences',
 ]

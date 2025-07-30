@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, g
 from utils.logging_config import get_logger
 from utils.response_helpers import build_success_response, build_error_response
 from services.network_service import scan_network
@@ -11,10 +11,10 @@ logger = get_logger('endpoints.network')
 @network_bp.route("/scan", methods=["GET"])
 @router_context_required
 def scan_router():
-    """Scan the network via router"""
+    """Scan the network via router to find connected devices"""
     start_time = time.time()
-    from flask import g
-    result, error = scan_network(g.router_id)
+    
+    result, error = scan_network(g.user_id, g.router_id, g.session_id)
     if error:
-        return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
+        return build_error_response(f"Network scan failed: {error}", 500, "NETWORK_SCAN_FAILED", start_time)
     return build_success_response(result, start_time) 
