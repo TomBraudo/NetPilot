@@ -6,12 +6,16 @@ from flask import Flask, request, g, jsonify
 # -----------------------------------------------------------------------------
 # Load environment variables EARLY so that downstream imports (e.g. ssh_client)
 # can read them.  When developing locally we keep secrets in `backend/.env.local`.
-# On the VM that file will be absent, so the process simply relies on real
-# environment variables set by the service manager.
+# On the VM that file will be absent, so the process simply relies on the
+# .env file and real environment variables set by the service manager.
 # -----------------------------------------------------------------------------
 _env_local_path = Path(__file__).resolve().parent / ".env.local"
+_env_path = Path(__file__).resolve().parent / ".env"
+
 if _env_local_path.exists():
     load_dotenv(_env_local_path)
+elif _env_path.exists():
+    load_dotenv(_env_path)
 
 # Rest of the imports can safely rely on env vars
 from flask_cors import CORS
@@ -32,7 +36,15 @@ from endpoints.blacklist import blacklist_bp
 from endpoints.session import session_bp
 
 # Load environment variables
-server_port = os.getenv("SERVER_PORT", 5000)
+# Support both COMMANDS-SERVER_PORT and SERVER_PORT for backward compatibility
+# Also support SERVER_PORT_TEST for deployment testing
+server_port = os.getenv("COMMANDS-SERVER_PORT", os.getenv("SERVER_PORT", 5000))
+server_port_test = os.getenv("SERVER_PORT_TEST", 5001)
+
+# Use test port if we're in test mode (indicated by SERVER_PORT_TEST being set)
+if os.getenv("SERVER_PORT_TEST") is not None:
+    server_port = server_port_test
+
 if isinstance(server_port, str):
     server_port = int(server_port)
 

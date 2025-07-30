@@ -7,7 +7,7 @@ class UserWhitelist(BaseModel):
     __tablename__ = 'user_whitelists'
     
     user_id = Column(UUID(as_uuid=True), ForeignKey('users.id'), nullable=False)
-    router_id = Column(String(255), ForeignKey('user_routers.router_id'), nullable=False)
+    router_id = Column(String(255), nullable=False)
     device_id = Column(UUID(as_uuid=True), ForeignKey('user_devices.id'))
     device_ip = Column(INET, nullable=False)
     device_mac = Column(MACADDR)
@@ -17,5 +17,4 @@ class UserWhitelist(BaseModel):
     
     # Relationships
     user = relationship("User", back_populates="whitelists")
-    router = relationship("UserRouter", back_populates="whitelists")
     device = relationship("UserDevice") 

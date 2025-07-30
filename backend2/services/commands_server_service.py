@@ -125,26 +125,35 @@ class CommandsServerService:
     
     # Template methods for future endpoints
     def execute_command(
-        self, 
-        command: str, 
-        params: Optional[Dict[str, Any]] = None
+        self,
+        command: str,
+        path_vars: Optional[Dict[str, Any]] = None,
+        query_params: Optional[Dict[str, Any]] = None,
+        body: Optional[Dict[str, Any]] = None
     ) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
         """
         Execute a command on the commands server.
-        
+
         Args:
             command: The command to execute
-            params: Command parameters
-            
+            path_vars: Path variables for the endpoint (if any)
+            query_params: Query parameters for the request
+            body: JSON body to send in the request
+
         Returns:
             Tuple of (response_data, error_message)
         """
         logger.info(f"Executing command: {command}")
+        # Construct endpoint, e.g., '/execute' or with path_vars if needed
+        endpoint = '/execute'
+        if path_vars:
+            # Example: if endpoint should be /router/{router_id}/execute
+            # endpoint = f"/router/{path_vars['router_id']}/execute"
+            pass  # Adjust as needed for your API design
         data = {"command": command}
-        if params:
-            data["params"] = params
-        
-        return self._make_request('POST', '/execute', data=data)
+        if body:
+            data["params"] = body
+        return self._make_request('POST', endpoint, data=data, params=query_params)
     
     def get_router_status(self, router_id: str) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
         """

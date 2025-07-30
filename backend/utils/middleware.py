@@ -51,8 +51,8 @@ def router_context_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         start_time = time.time()
-        session_id = request.args.get('sessionId') or request.json.get('sessionId')
-        router_id = request.args.get('routerId') or request.json.get('routerId')
+        session_id = request.args.get('sessionId') or request.json.get('sessionId') or request.data.get('sessionId')
+        router_id = request.args.get('routerId') or request.json.get('routerId') or request.data.get('routerId')
 
         if not session_id or not router_id:
             return build_error_response("sessionId and routerId are required", 400, "BAD_REQUEST", start_time)

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { networkAPI } from "../constants/api";
 
 const Content = ({ children }) => {
   const [response, setResponse] = useState(null);
@@ -6,12 +7,10 @@ const Content = ({ children }) => {
 
   const handleApiCheck = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/network_scan");
-      if (!res.ok) {
-        throw new Error(`HTTP error! Status: ${res.status}`);
-      }
-      const data = await res.text();
-      setResponse(data);
+      // Updated to use networkAPI helper (handles authentication automatically)
+      const routerId = localStorage.getItem("routerId") || "<your_router_id>";
+      const data = await networkAPI.scan(routerId);
+      setResponse(JSON.stringify(data, null, 2)); // Pretty print the JSON response
       setError(null);
     } catch (err) {
       setError(`Error: ${err.message}`);

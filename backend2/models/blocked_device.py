@@ -7,7 +7,7 @@ class UserBlockedDevice(BaseModel):
     __tablename__ = 'user_blocked_devices'
     
     user_id = Column(UUID(as_uuid=True), ForeignKey('users.id'), nullable=False)
-    router_id = Column(String(255), ForeignKey('user_routers.router_id'), nullable=False)
+    router_id = Column(String(255), nullable=False)
     device_id = Column(UUID(as_uuid=True), ForeignKey('user_devices.id'))
     device_ip = Column(INET, nullable=False)
     device_mac = Column(MACADDR)
@@ -18,5 +18,4 @@ class UserBlockedDevice(BaseModel):
     
     # Relationships
     user = relationship("User", back_populates="blocked_devices")
-    router = relationship("UserRouter", back_populates="blocked_devices")
     device = relationship("UserDevice") 

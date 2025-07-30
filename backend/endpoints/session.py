@@ -227,7 +227,7 @@ def end_session():
     logger = current_app.logger
     logger.info(f"Ending session {g.session_id} for router {g.router_id}")
     
-    current_app.router_connection_manager.close_connection(g.session_id, g.router_id)
+    current_app.router_connection_manager.end_session(g.session_id)
     
     return build_success_response({"message": "Session ended"}, execution_start_time)
 

@@ -118,44 +118,46 @@ class CommandsServerManager:
             return None, error_msg
     
     def execute_router_command(
-        self, 
-        router_id: str, 
-        command: str, 
-        params: Optional[Dict[str, Any]] = None
+        self,
+        router_id: str,
+        session_id: str,
+        endpoint: str,
+        method: str = "POST",
+        query_params: Optional[Dict[str, Any]] = None,
+        body: Optional[Dict[str, Any]] = None
     ) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
         """
-        Execute a command on a specific router through the commands server.
-        
+        Execute a command on a specific router through the commands server by sending a direct API call to the given endpoint.
         Args:
-            router_id: The router ID
-            command: The command to execute
-            params: Command parameters
-            
+            router_id: The router ID (required, enforced but not used in path construction)
+            session_id: The session ID (required, enforced but not used in path construction)
+            endpoint: The full API endpoint path (e.g., '/router/123/session/abc/do_something')
+            method: HTTP method (default 'POST')
+            query_params: Query parameters for the request
+            body: JSON body to send in the request
         Returns:
             Tuple of (response_data, error_message)
         """
+        if not router_id:
+            return None, "router_id is required"
+        if not session_id:
+            return None, "session_id is required"
         if not self.is_connected():
             return None, "Commands server is not connected"
-        
         try:
-            service = self._get_service()
-            
-            # Add router_id to params
-            if params is None:
-                params = {}
-            params['router_id'] = router_id
-            
-            response_data, error = service.execute_command(command, params)
-            
+            response_data, error = self.send_direct_command(
+                endpoint=endpoint,
+                method=method,
+                payload=body,
+                params=query_params
+            )
             if error:
-                logger.error(f"Failed to execute command '{command}' on router {router_id}: {error}")
+                logger.error(f"Failed to execute command via direct endpoint '{endpoint}': {error}")
                 return None, error
-            
-            logger.info(f"Successfully executed command '{command}' on router {router_id}")
+            logger.info(f"Successfully executed command via direct endpoint '{endpoint}'")
             return response_data, None
-            
         except Exception as e:
-            error_msg = f"Unexpected error executing command '{command}' on router {router_id}: {e}"
+            error_msg = f"Unexpected error executing command via direct endpoint '{endpoint}': {e}"
             logger.error(error_msg)
             return None, error_msg
     
@@ -212,6 +214,22 @@ class CommandsServerManager:
             error_msg = f"Unexpected error testing connection: {e}"
             logger.error(error_msg)
             return False, error_msg
+    
+    def send_direct_command(self, endpoint: str, method: str = "POST", payload: dict = None, params: dict = None) -> tuple:
+        """
+        Send a direct API call to the command server at the given endpoint.
+        Args:
+            endpoint (str): The API endpoint path (e.g., '/session/start')
+            method (str): HTTP method (default 'POST')
+            payload (dict): JSON body to send
+            params (dict): Query parameters
+        Returns:
+            tuple: (response_data, error_message)
+        """
+        if not self.is_connected():
+            return None, "Commands server is not connected"
+        service = self._get_service()
+        return service._make_request(method, endpoint, data=payload, params=params)
     
     def close(self):
         """Close the connection to the commands server."""
