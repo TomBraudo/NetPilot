@@ -7,7 +7,7 @@ class UserRouter(BaseModel):
     __tablename__ = 'user_routers'
     
     user_id = Column(UUID(as_uuid=True), ForeignKey('users.id'), nullable=False)
-    router_id = Column(String(255), nullable=False, unique=True)
+    router_id = Column(String(255), nullable=False)
     router_name = Column(String(255))
     router_ip = Column(INET)
     tunnel_port = Column(Integer)
@@ -17,8 +17,4 @@ class UserRouter(BaseModel):
     
     # Relationships
     user = relationship("User", back_populates="routers")
-    devices = relationship("UserDevice", back_populates="router", cascade="all, delete-orphan")
-    whitelists = relationship("UserWhitelist", back_populates="router", cascade="all, delete-orphan")
-    blacklists = relationship("UserBlacklist", back_populates="router", cascade="all, delete-orphan")
-    blocked_devices = relationship("UserBlockedDevice", back_populates="router", cascade="all, delete-orphan")
-    settings = relationship("UserSetting", back_populates="router", cascade="all, delete-orphan") 
+    # Note: Removed foreign key relationships to allow multiple users per router_id 

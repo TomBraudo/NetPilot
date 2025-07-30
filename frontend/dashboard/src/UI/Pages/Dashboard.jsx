@@ -13,7 +13,8 @@ function Dashboard() {
     routerId, 
     showRouterIdPopup, 
     setRouterIdValue, 
-    setShowRouterIdPopup 
+    setShowRouterIdPopup,
+    logout
   } = useAuth();
 
   if (loading) {
@@ -59,7 +60,7 @@ function Dashboard() {
         {/* Router ID Popup */}
         <RouterIdPopup 
           isOpen={showRouterIdPopup}
-          onClose={() => setShowRouterIdPopup(false)}
+          onClose={logout}
           onConfirm={setRouterIdValue}
         />
 
