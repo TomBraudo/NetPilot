@@ -2,9 +2,7 @@
 Base Service Layer - Service Orchestration Framework
 
 This module provides the core orchestration framework for services that coordinate
-between database operations and commands server operations. It ensures that all
-required dependencies (session, commands_server_manager, session_id, router_id)
-are properly injected into service functions.
+between database operations and commands server operations.
 
 This follows the 3-layer architecture:
 1. Services (this layer) - orchestration and business logic
@@ -14,8 +12,6 @@ This follows the 3-layer architecture:
 
 from functools import wraps
 from typing import Any, Callable, TypeVar, ParamSpec, Optional, Tuple
-from managers.commands_server_manager import commands_server_manager
-from database.session import get_db_session as _get_db_session
 from utils.logging_config import get_logger
 
 logger = get_logger('services.base')
@@ -23,99 +19,6 @@ logger = get_logger('services.base')
 # Type hints for decorators
 P = ParamSpec('P')
 T = TypeVar('T')
-
-
-def with_service_dependencies(func: Callable[..., T]) -> Callable[..., T]:
-    """
-    Decorator to inject all required service dependencies.
-    
-    This decorator automatically provides access to database session, commands server manager,
-    session_id, and router_id for service functions that coordinate between database
-    and commands server operations.
-    
-    The decorated function will receive these parameters in order:
-    1. session (database session)
-    2. commands_server (commands server manager)
-    3. user_id (from function parameters)
-    4. router_id (from function parameters) 
-    5. session_id (from function parameters)
-    6. ...other function parameters
-    
-    Usage:
-        @with_service_dependencies
-        def my_service_function(session, commands_server, user_id: str, router_id: str, session_id: str, other_param: str):
-            # Database operations use session
-            db_result, db_error = db_operation(session, user_id, router_id, other_param)
-            if db_error:
-                return None, db_error
-            
-            # Commands server operations use commands_server, router_id, session_id
-            cmd_result, cmd_error = execute_operation(commands_server, router_id, session_id, other_param)
-            if cmd_error:
-                return None, cmd_error
-            
-            return {"db": db_result, "command": cmd_result}, None
-    
-    Args:
-        func: Function that expects session, commands_server as first two parameters,
-              followed by user_id, router_id, session_id as required parameters
-        
-    Returns:
-        Wrapped function with automatic dependency injection
-    """
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        # Extract required parameters from the function call
-        if len(args) < 3:
-            return None, "Missing required parameters: user_id, router_id, session_id must be provided"
-        
-        user_id = args[0]
-        router_id = args[1] 
-        session_id = args[2]
-        other_args = args[3:]
-        
-        # Validate required parameters
-        if not user_id:
-            return None, "user_id is required"
-        if not router_id:
-            return None, "router_id is required"
-        if not session_id:
-            return None, "session_id is required"
-        
-        # Get database session
-        session = _get_db_session()
-        try:
-            logger.debug(f"Service operation started for user {user_id}, router {router_id}, session {session_id}")
-            
-            # Call the function with injected dependencies
-            result = func(session, commands_server_manager, user_id, router_id, session_id, *other_args, **kwargs)
-            
-            # Commit database session if operation succeeded
-            if isinstance(result, tuple) and len(result) == 2:
-                data, error = result
-                if error is None:  # Success
-                    session.commit()
-                    logger.debug(f"Service operation completed successfully for user {user_id}")
-                else:  # Error occurred
-                    session.rollback()
-                    logger.error(f"Service operation failed for user {user_id}: {error}")
-            else:
-                # Non-tuple return, assume success
-                session.commit()
-                logger.debug(f"Service operation completed for user {user_id}")
-            
-            return result
-            
-        except Exception as e:
-            session.rollback()
-            error_msg = f"Service operation failed: {str(e)}"
-            logger.error(error_msg, exc_info=True)
-            return None, error_msg
-        finally:
-            session.close()
-            logger.debug("Database session closed")
-    
-    return wrapper
 
 
 def require_user_context(func: Callable[..., T]) -> Callable[..., T]:

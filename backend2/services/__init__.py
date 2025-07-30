@@ -13,11 +13,9 @@ from .network_service import (
     scan_network
 )
 from .wifi_management import *
-from .commands_server_service import CommandsServerService
 from .settings_service import *
 
 __all__ = [
-    'CommandsServerService',
     # Whitelist service functions
     'get_whitelist',
     'add_device_to_whitelist', 

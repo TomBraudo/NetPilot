@@ -8,21 +8,20 @@ All functions return (result, error) tuple format.
 
 from typing import Dict, List, Optional, Tuple, Any
 from datetime import datetime
+from flask import g
 from utils.logging_config import get_logger
-from .base import with_db_session, handle_db_errors
+from .base import handle_db_errors
 from models.device import UserDevice
 
 logger = get_logger('services.db_operations.network_db')
 
 
-@with_db_session
 @handle_db_errors("Save network scan result")
-def save_network_scan_result(session, user_id: str, router_id: str, scan_result: List[Dict]) -> Tuple[Optional[bool], Optional[str]]:
+def save_network_scan_result(user_id: str, router_id: str, scan_result: List[Dict]) -> Tuple[Optional[bool], Optional[str]]:
     """
     Save network scan result to database by creating/updating UserDevice entries.
     
     Args:
-        session: Database session (automatically injected)
         user_id: User's UUID
         router_id: Router's UUID
         scan_result: List of discovered devices with format:
@@ -31,6 +30,9 @@ def save_network_scan_result(session, user_id: str, router_id: str, scan_result:
     Returns:
         Tuple of (success_boolean, error_message)
     """
+    # Get database session from Flask's g object
+    session = g.db_session
+    
     if not scan_result:
         logger.debug(f"No devices to save for user {user_id}, router {router_id}")
         return True, None
@@ -103,8 +105,7 @@ def save_network_scan_result(session, user_id: str, router_id: str, scan_result:
                 devices_created += 1
                 logger.debug(f"Created new device: {device_ip} ({device_mac})")
         
-        # Commit all changes
-        session.flush()
+        # Note: No need to commit - Flask's teardown_request handles it automatically
         
         logger.info(f"Network scan save completed for user {user_id}, router {router_id}: "
                    f"created {devices_created}, updated {devices_updated} devices")

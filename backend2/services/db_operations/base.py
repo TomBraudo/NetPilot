@@ -52,32 +52,6 @@ def get_db_session():
         logger.debug("Database session closed")
 
 
-def with_db_session(func: Callable[..., T]) -> Callable[..., T]:
-    """
-    Decorator to inject database session as the first parameter into function.
-    
-    This decorator automatically handles session management for database operation functions.
-    The decorated function will receive a session as its first parameter.
-    
-    Usage:
-        @with_db_session
-        def my_db_function(session, user_id: str, other_param: str):
-            return session.query(User).filter_by(id=user_id).first()
-    
-    Args:
-        func: Function that expects session as first parameter
-        
-    Returns:
-        Wrapped function with automatic session injection
-    """
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        with get_db_session() as session:
-            # Inject session as first argument
-            return func(session, *args, **kwargs)
-    return wrapper
-
-
 def safe_dict_conversion(model_instance, exclude_fields=None):
     """
     Safely convert SQLAlchemy model instance to dictionary.

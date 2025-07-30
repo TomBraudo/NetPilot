@@ -346,3 +346,780 @@
 2025-07-29 20:14:13 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
 2025-07-29 20:14:18 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
 2025-07-30 22:47:22 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 00:33:59 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 00:34:03 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 00:34:06 - middleware - WARNING - Router context request without user authentication
+2025-07-31 00:34:12 - endpoints.health - INFO - Checking commands server health
+2025-07-31 00:34:12 - managers.commands_server - INFO - Testing commands server connection...
+2025-07-31 00:34:12 - services.commands_server - INFO - Commands server service initialized with base URL: http://34.38.207.87:5000
+2025-07-31 00:34:12 - services.commands_server - INFO - Checking commands server health
+2025-07-31 00:34:12 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-07-31 00:34:12 - services.commands_server - DEBUG - Request completed in 0.18s with status 200
+2025-07-31 00:34:12 - services.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 0.00018906593322753906, 'routerId': None, 'sessionId': None, 'timestamp': '2025-07-30T21:34:12.092174'}, 'success': True}
+2025-07-31 00:34:12 - managers.commands_server - DEBUG - Commands server health check successful
+2025-07-31 00:34:12 - managers.commands_server - INFO - Commands server connection test successful
+2025-07-31 00:34:12 - services.commands_server - INFO - Getting commands server info
+2025-07-31 00:34:12 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/info
+2025-07-31 00:34:12 - services.commands_server - DEBUG - Request completed in 0.16s with status 400
+2025-07-31 00:34:12 - services.commands_server - ERROR - Commands server returned 400: <!doctype html>
+<html lang=en>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)</p>
+
+2025-07-31 00:34:12 - managers.commands_server - ERROR - Failed to get server info: Commands server returned 400: <!doctype html>
+<html lang=en>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)</p>
+
+2025-07-31 00:34:12 - endpoints.health - INFO - Health check completed - all systems healthy
+2025-07-31 00:41:43 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 00:44:19 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 00:44:24 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 00:44:30 - middleware - DEBUG - Router context established: user_id=dev_user, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=dev_user
+2025-07-31 00:44:30 - services.base - INFO - Service operation completed: scan_network
+2025-07-31 00:44:30 - managers.commands_server - DEBUG - Performing health check...
+2025-07-31 00:44:30 - services.commands_server - INFO - Commands server service initialized with base URL: http://34.38.207.87:5000
+2025-07-31 00:44:30 - services.commands_server - INFO - Checking commands server health
+2025-07-31 00:44:30 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-07-31 00:44:30 - services.commands_server - DEBUG - Request completed in 0.14s with status 200
+2025-07-31 00:44:30 - services.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 2.6226043701171875e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-07-30T21:44:30.591601'}, 'success': True}
+2025-07-31 00:44:30 - managers.commands_server - DEBUG - Commands server health check successful
+2025-07-31 00:44:30 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/network/scan
+2025-07-31 00:44:30 - services.commands_server - DEBUG - Request completed in 0.13s with status 401
+2025-07-31 00:44:30 - services.commands_server - ERROR - Commands server returned 401: {
+  "data": null,
+  "error": {
+    "code": "SESSION_INVALID",
+    "details": null,
+    "message": "Session is not active or has expired"
+  },
+  "metadata": {
+    "executionTime": 0.0002543926239013672,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "dev_user",
+    "timestamp": "2025-07-30T21:44:30.721435"
+  },
+  "success": false
+}
+
+2025-07-31 00:44:30 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/api/network/scan': Commands server returned 401: {
+  "data": null,
+  "error": {
+    "code": "SESSION_INVALID",
+    "details": null,
+    "message": "Session is not active or has expired"
+  },
+  "metadata": {
+    "executionTime": 0.0002543926239013672,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "dev_user",
+    "timestamp": "2025-07-30T21:44:30.721435"
+  },
+  "success": false
+}
+
+2025-07-31 00:44:30 - services.base - ERROR - Service operation failed: scan_network - Commands server returned 401: {
+  "data": null,
+  "error": {
+    "code": "SESSION_INVALID",
+    "details": null,
+    "message": "Session is not active or has expired"
+  },
+  "metadata": {
+    "executionTime": 0.0002543926239013672,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "dev_user",
+    "timestamp": "2025-07-30T21:44:30.721435"
+  },
+  "success": false
+}
+
+2025-07-31 00:44:40 - endpoints.health - INFO - Checking commands server health
+2025-07-31 00:44:40 - managers.commands_server - INFO - Testing commands server connection...
+2025-07-31 00:44:40 - services.commands_server - INFO - Checking commands server health
+2025-07-31 00:44:40 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-07-31 00:44:40 - services.commands_server - DEBUG - Request completed in 0.14s with status 200
+2025-07-31 00:44:40 - services.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 2.1696090698242188e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-07-30T21:44:39.968824'}, 'success': True}
+2025-07-31 00:44:40 - managers.commands_server - DEBUG - Commands server health check successful
+2025-07-31 00:44:40 - managers.commands_server - INFO - Commands server connection test successful
+2025-07-31 00:44:40 - services.commands_server - INFO - Getting commands server info
+2025-07-31 00:44:40 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/info
+2025-07-31 00:44:40 - services.commands_server - DEBUG - Request completed in 0.13s with status 400
+2025-07-31 00:44:40 - services.commands_server - ERROR - Commands server returned 400: <!doctype html>
+<html lang=en>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)</p>
+
+2025-07-31 00:44:40 - managers.commands_server - ERROR - Failed to get server info: Commands server returned 400: <!doctype html>
+<html lang=en>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)</p>
+
+2025-07-31 00:44:40 - endpoints.health - INFO - Health check completed - all systems healthy
+2025-07-31 00:44:55 - middleware - DEBUG - Router context established: user_id=dev_user, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=dev_user
+2025-07-31 00:44:55 - services.base - INFO - Service operation completed: start_session
+2025-07-31 00:44:55 - services.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/session/start
+2025-07-31 00:44:56 - services.commands_server - DEBUG - Request completed in 1.21s with status 201
+2025-07-31 00:44:56 - services.commands_server - DEBUG - Received response: {'data': {'infrastructure_ready': True, 'message': 'Session established successfully', 'router_reachable': True, 'session_id': 'dev_user'}, 'error': None, 'metadata': {'executionTime': 1.9804065227508545, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'dev_user', 'timestamp': '2025-07-30T21:44:56.291529'}, 'success': True}
+2025-07-31 00:44:56 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/session/start'
+2025-07-31 00:44:56 - services.base - ERROR - Service operation failed: start_session - Failed to start session on router
+2025-07-31 00:49:51 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 00:49:56 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 00:50:01 - middleware - DEBUG - Router context established: user_id=dev_user, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=dev_user
+2025-07-31 00:50:01 - services.base - INFO - Service operation completed: start_session
+2025-07-31 00:50:01 - managers.commands_server - DEBUG - Performing health check...
+2025-07-31 00:50:01 - services.commands_server - INFO - Commands server service initialized with base URL: http://34.38.207.87:5000
+2025-07-31 00:50:01 - services.commands_server - INFO - Checking commands server health
+2025-07-31 00:50:01 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-07-31 00:50:01 - services.commands_server - DEBUG - Request completed in 0.16s with status 200
+2025-07-31 00:50:01 - services.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 0.00019550323486328125, 'routerId': None, 'sessionId': None, 'timestamp': '2025-07-30T21:50:00.602152'}, 'success': True}
+2025-07-31 00:50:01 - managers.commands_server - DEBUG - Commands server health check successful
+2025-07-31 00:50:01 - services.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/session/start
+2025-07-31 00:50:01 - services.commands_server - DEBUG - Request completed in 0.14s with status 400
+2025-07-31 00:50:01 - services.commands_server - ERROR - Commands server returned 400: {
+  "data": null,
+  "error": {
+    "code": "SESSION_ALREADY_ACTIVE",
+    "details": null,
+    "message": "Session is already active"
+  },
+  "metadata": {
+    "executionTime": 0.000997781753540039,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "dev_user",
+    "timestamp": "2025-07-30T21:50:00.748536"
+  },
+  "success": false
+}
+
+2025-07-31 00:50:01 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/api/session/start': Commands server returned 400: {
+  "data": null,
+  "error": {
+    "code": "SESSION_ALREADY_ACTIVE",
+    "details": null,
+    "message": "Session is already active"
+  },
+  "metadata": {
+    "executionTime": 0.000997781753540039,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "dev_user",
+    "timestamp": "2025-07-30T21:50:00.748536"
+  },
+  "success": false
+}
+
+2025-07-31 00:50:01 - services.base - ERROR - Service operation failed: start_session - Commands server returned 400: {
+  "data": null,
+  "error": {
+    "code": "SESSION_ALREADY_ACTIVE",
+    "details": null,
+    "message": "Session is already active"
+  },
+  "metadata": {
+    "executionTime": 0.000997781753540039,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "dev_user",
+    "timestamp": "2025-07-30T21:50:00.748536"
+  },
+  "success": false
+}
+
+2025-07-31 00:50:18 - middleware - DEBUG - Router context established: user_id=dev_user, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=dev_user
+2025-07-31 00:50:18 - services.base - INFO - Service operation completed: scan_network
+2025-07-31 00:50:18 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/network/scan
+2025-07-31 00:50:21 - services.commands_server - DEBUG - Request completed in 2.55s with status 200
+2025-07-31 00:50:21 - services.commands_server - DEBUG - Received response: {'data': [{'hostname': 'DESKTOP-DQ80I51', 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'vendor': 'Micro-Star INTL CO., LTD.'}, {'hostname': 'Tom-s-phone', 'ip': '192.168.1.171', 'mac': '22:46:ea:81:04:7c', 'vendor': 'Unknown Vendor'}, {'hostname': 'Unknown', 'ip': '192.168.1.176', 'mac': '0e:db:5c:f7:62:ca', 'vendor': 'Unknown Vendor'}], 'error': None, 'metadata': {'executionTime': 2.3476643562316895, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'dev_user', 'timestamp': '2025-07-30T21:50:21.060336'}, 'success': True}
+2025-07-31 00:50:21 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/network/scan'
+2025-07-31 00:50:21 - services.commands_server_operations.base - ERROR - Scan network failed: 'list' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/services/commands_server_operations/base.py", line 62, in wrapper
+    return func(*args, **kwargs)
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/services/commands_server_operations/network_execute.py", line 55, in execute_scan_network
+    if response_data.get('success'):
+AttributeError: 'list' object has no attribute 'get'
+2025-07-31 00:50:21 - services.base - ERROR - Service operation failed: scan_network - Scan network failed: 'list' object has no attribute 'get'
+2025-07-31 00:50:37 - middleware - DEBUG - Router context established: user_id=dev_user, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=dev_user
+2025-07-31 00:50:37 - services.base - INFO - Service operation completed: end_session
+2025-07-31 00:50:37 - managers.commands_server - DEBUG - Performing health check...
+2025-07-31 00:50:37 - services.commands_server - INFO - Checking commands server health
+2025-07-31 00:50:37 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-07-31 00:50:37 - services.commands_server - DEBUG - Request completed in 0.13s with status 200
+2025-07-31 00:50:37 - services.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 2.2172927856445312e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-07-30T21:50:36.784466'}, 'success': True}
+2025-07-31 00:50:37 - managers.commands_server - DEBUG - Commands server health check successful
+2025-07-31 00:50:37 - services.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/session/end
+2025-07-31 00:50:37 - services.commands_server - DEBUG - Request completed in 0.13s with status 200
+2025-07-31 00:50:37 - services.commands_server - DEBUG - Received response: {'data': {'message': 'Session ended'}, 'error': None, 'metadata': {'executionTime': 0.0005702972412109375, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'dev_user', 'timestamp': '2025-07-30T21:50:36.912493'}, 'success': True}
+2025-07-31 00:50:37 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/session/end'
+2025-07-31 00:50:37 - services.base - ERROR - Service operation failed: end_session - Failed to end session on router
+2025-07-31 01:04:28 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 01:04:33 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 01:04:42 - middleware - DEBUG - Router context established: user_id=dev_user, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=dev_user
+2025-07-31 01:04:42 - services.base - INFO - Service operation completed: start_session
+2025-07-31 01:04:42 - managers.commands_server - DEBUG - Performing health check...
+2025-07-31 01:04:42 - services.commands_server - INFO - Commands server service initialized with base URL: http://34.38.207.87:5000
+2025-07-31 01:04:42 - services.commands_server - INFO - Checking commands server health
+2025-07-31 01:04:42 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-07-31 01:04:42 - services.commands_server - DEBUG - Request completed in 0.16s with status 200
+2025-07-31 01:04:42 - services.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 0.00019049644470214844, 'routerId': None, 'sessionId': None, 'timestamp': '2025-07-30T22:04:41.509748'}, 'success': True}
+2025-07-31 01:04:42 - managers.commands_server - DEBUG - Commands server health check successful
+2025-07-31 01:04:42 - services.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/session/start
+2025-07-31 01:04:44 - services.commands_server - DEBUG - Request completed in 2.00s with status 201
+2025-07-31 01:04:44 - services.commands_server - DEBUG - Received response: {'data': {'infrastructure_ready': True, 'message': 'Session established successfully', 'router_reachable': True, 'session_id': 'dev_user'}, 'error': None, 'metadata': {'executionTime': 1.817824125289917, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'dev_user', 'timestamp': '2025-07-30T22:04:43.468188'}, 'success': True}
+2025-07-31 01:04:44 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/session/start'
+2025-07-31 01:04:44 - services.commands_server_operations.session_execute - DEBUG - Commands server response - data: {'infrastructure_ready': True, 'message': 'Session established successfully', 'router_reachable': True, 'session_id': 'dev_user'}, error: None
+2025-07-31 01:04:44 - services.commands_server_operations.session_execute - ERROR - Session start failed for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: Failed to start session on router
+2025-07-31 01:04:44 - services.base - ERROR - Service operation failed: start_session - Failed to start session on router
+2025-07-31 01:07:10 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 01:07:31 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 01:38:27 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 01:38:32 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 01:38:35 - endpoints.health - INFO - Checking commands server health
+2025-07-31 01:38:35 - managers.commands_server - INFO - Testing commands server connection...
+2025-07-31 01:38:35 - services.commands_server - INFO - Commands server service initialized with base URL: http://34.38.207.87:5000
+2025-07-31 01:38:35 - services.commands_server - INFO - Checking commands server health
+2025-07-31 01:38:35 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-07-31 01:38:35 - services.commands_server - DEBUG - Request completed in 0.19s with status 200
+2025-07-31 01:38:35 - services.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 2.5987625122070312e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-07-30T22:38:35.296125'}, 'success': True}
+2025-07-31 01:38:35 - managers.commands_server - DEBUG - Commands server health check successful
+2025-07-31 01:38:35 - managers.commands_server - INFO - Commands server connection test successful
+2025-07-31 01:38:35 - services.commands_server - INFO - Getting commands server info
+2025-07-31 01:38:35 - services.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/info
+2025-07-31 01:38:35 - services.commands_server - DEBUG - Request completed in 0.13s with status 400
+2025-07-31 01:38:35 - services.commands_server - ERROR - Commands server returned 400: <!doctype html>
+<html lang=en>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)</p>
+
+2025-07-31 01:38:35 - managers.commands_server - ERROR - Failed to get server info: Commands server returned 400: <!doctype html>
+<html lang=en>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)</p>
+
+2025-07-31 01:38:35 - endpoints.health - INFO - Health check completed - all systems healthy
+2025-07-31 01:41:03 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 01:41:19 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 01:41:31 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 01:41:54 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 01:42:05 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 01:42:15 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 01:42:24 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 01:42:37 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 02:02:09 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 02:02:14 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 02:02:24 - endpoints.health - INFO - Checking commands server health
+2025-07-31 02:02:24 - endpoints.health - ERROR - Unexpected error during health check: 'CommandsServerManager' object has no attribute 'test_connection'
+Traceback (most recent call last):
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/endpoints/health.py", line 35, in health
+    is_connected, connection_error = commands_server_manager.test_connection()
+AttributeError: 'CommandsServerManager' object has no attribute 'test_connection'
+2025-07-31 02:03:33 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 02:05:03 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 02:05:08 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 02:18:27 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 02:18:33 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 02:18:36 - endpoints.health - INFO - Performing basic health check
+2025-07-31 02:18:36 - managers.commands_server - DEBUG - Performing health check...
+2025-07-31 02:18:36 - managers.commands_server - INFO - Checking commands server health
+2025-07-31 02:18:36 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-07-31 02:18:36 - managers.commands_server - DEBUG - Request completed in 0.16s with status 200
+2025-07-31 02:18:36 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 0.0003006458282470703, 'routerId': None, 'sessionId': None, 'timestamp': '2025-07-30T23:18:35.744238'}, 'success': True}
+2025-07-31 02:18:36 - managers.commands_server - DEBUG - Commands server health check successful
+2025-07-31 02:18:36 - endpoints.health - INFO - Health check completed successfully
+2025-07-31 02:18:43 - middleware - DEBUG - Router context established: user_id=dev_user, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=dev_user
+2025-07-31 02:18:43 - services.base - INFO - Service operation completed: start_session
+2025-07-31 02:18:43 - managers.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/session/start
+2025-07-31 02:18:46 - managers.commands_server - DEBUG - Request completed in 2.55s with status 200
+2025-07-31 02:18:46 - managers.commands_server - DEBUG - Received response: {'data': {'infrastructure_ready': True, 'message': 'Session established successfully', 'router_reachable': True, 'session_id': 'dev_user'}, 'error': None, 'metadata': {'executionTime': 2.300527572631836, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'dev_user', 'timestamp': '2025-07-30T23:18:46.244074'}, 'success': True}
+2025-07-31 02:18:46 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/session/start'
+2025-07-31 02:18:46 - services.commands_server_operations.session_execute - DEBUG - Commands server response - data: {'infrastructure_ready': True, 'message': 'Session established successfully', 'router_reachable': True, 'session_id': 'dev_user'}, error: None
+2025-07-31 02:18:46 - services.commands_server_operations.session_execute - ERROR - Session start failed for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: Failed to start session on router
+2025-07-31 02:18:46 - services.base - ERROR - Service operation failed: start_session - Failed to start session on router
+2025-07-31 02:27:20 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 02:27:25 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 02:27:28 - middleware - DEBUG - Router context established: user_id=dev_user, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=dev_user
+2025-07-31 02:27:28 - services.base - INFO - Service operation completed: end_session
+2025-07-31 02:27:28 - managers.commands_server - DEBUG - Performing health check...
+2025-07-31 02:27:28 - managers.commands_server - INFO - Checking commands server health
+2025-07-31 02:27:28 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-07-31 02:27:29 - managers.commands_server - DEBUG - Request completed in 0.15s with status 200
+2025-07-31 02:27:29 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 7.176399230957031e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-07-30T23:27:28.294739'}, 'success': True}
+2025-07-31 02:27:29 - managers.commands_server - DEBUG - Commands server health check successful
+2025-07-31 02:27:29 - managers.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/session/end
+2025-07-31 02:27:29 - managers.commands_server - DEBUG - Request completed in 0.15s with status 200
+2025-07-31 02:27:29 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Session ended'}, 'error': None, 'metadata': {'executionTime': 0.00047135353088378906, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'dev_user', 'timestamp': '2025-07-30T23:27:28.438784'}, 'success': True}
+2025-07-31 02:27:29 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/session/end'
+2025-07-31 02:27:29 - services.commands_server_operations.session_execute - DEBUG - Commands server response - data: {'message': 'Session ended'}, error: None
+2025-07-31 02:27:29 - services.commands_server_operations.session_execute - INFO - Session ended successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID dev_user
+2025-07-31 02:27:29 - services.base - INFO - Service operation completed: end_session
+2025-07-31 02:27:34 - middleware - DEBUG - Router context established: user_id=dev_user, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=dev_user
+2025-07-31 02:27:34 - services.base - INFO - Service operation completed: scan_network
+2025-07-31 02:27:34 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/network/scan
+2025-07-31 02:27:34 - managers.commands_server - DEBUG - Request completed in 0.14s with status 401
+2025-07-31 02:27:34 - managers.commands_server - ERROR - Commands server returned 401: {
+  "data": null,
+  "error": {
+    "code": "SESSION_INVALID",
+    "details": null,
+    "message": "Session is not active or has expired"
+  },
+  "metadata": {
+    "executionTime": 9.226799011230469e-05,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "dev_user",
+    "timestamp": "2025-07-30T23:27:34.760966"
+  },
+  "success": false
+}
+
+2025-07-31 02:27:34 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/api/network/scan': Commands server returned 401: {
+  "data": null,
+  "error": {
+    "code": "SESSION_INVALID",
+    "details": null,
+    "message": "Session is not active or has expired"
+  },
+  "metadata": {
+    "executionTime": 9.226799011230469e-05,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "dev_user",
+    "timestamp": "2025-07-30T23:27:34.760966"
+  },
+  "success": false
+}
+
+2025-07-31 02:27:34 - services.base - ERROR - Service operation failed: scan_network - Commands server returned 401: {
+  "data": null,
+  "error": {
+    "code": "SESSION_INVALID",
+    "details": null,
+    "message": "Session is not active or has expired"
+  },
+  "metadata": {
+    "executionTime": 9.226799011230469e-05,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "dev_user",
+    "timestamp": "2025-07-30T23:27:34.760966"
+  },
+  "success": false
+}
+
+2025-07-31 02:27:40 - middleware - DEBUG - Router context established: user_id=dev_user, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=dev_user
+2025-07-31 02:27:40 - services.base - INFO - Service operation completed: start_session
+2025-07-31 02:27:40 - managers.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/session/start
+2025-07-31 02:27:42 - managers.commands_server - DEBUG - Request completed in 2.07s with status 200
+2025-07-31 02:27:42 - managers.commands_server - DEBUG - Received response: {'data': {'infrastructure_ready': True, 'message': 'Session established successfully', 'router_reachable': True, 'session_id': 'dev_user'}, 'error': None, 'metadata': {'executionTime': 1.8676621913909912, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'dev_user', 'timestamp': '2025-07-30T23:27:42.151329'}, 'success': True}
+2025-07-31 02:27:42 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/session/start'
+2025-07-31 02:27:42 - services.commands_server_operations.session_execute - DEBUG - Commands server response - data: {'infrastructure_ready': True, 'message': 'Session established successfully', 'router_reachable': True, 'session_id': 'dev_user'}, error: None
+2025-07-31 02:27:42 - services.commands_server_operations.session_execute - INFO - Session started successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID dev_user
+2025-07-31 02:27:42 - services.base - INFO - Service operation completed: start_session
+2025-07-31 02:27:45 - middleware - DEBUG - Router context established: user_id=dev_user, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=dev_user
+2025-07-31 02:27:45 - services.base - INFO - Service operation completed: scan_network
+2025-07-31 02:27:45 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/network/scan
+2025-07-31 02:27:47 - managers.commands_server - DEBUG - Request completed in 2.62s with status 200
+2025-07-31 02:27:47 - managers.commands_server - DEBUG - Received response: {'data': [{'hostname': 'DESKTOP-DQ80I51', 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'vendor': 'Micro-Star INTL CO., LTD.'}, {'hostname': 'Tom-s-phone', 'ip': '192.168.1.171', 'mac': '22:46:ea:81:04:7c', 'vendor': 'Unknown Vendor'}, {'hostname': 'Unknown', 'ip': '192.168.1.176', 'mac': '0e:db:5c:f7:62:ca', 'vendor': 'Unknown Vendor'}], 'error': None, 'metadata': {'executionTime': 2.413057804107666, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'dev_user', 'timestamp': '2025-07-30T23:27:47.358992'}, 'success': True}
+2025-07-31 02:27:47 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/network/scan'
+2025-07-31 02:27:47 - services.commands_server_operations.base - ERROR - Scan network failed: 'list' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/services/commands_server_operations/base.py", line 62, in wrapper
+    return func(*args, **kwargs)
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/services/commands_server_operations/network_execute.py", line 55, in execute_scan_network
+    if response_data.get('success'):
+AttributeError: 'list' object has no attribute 'get'
+2025-07-31 02:27:47 - services.base - ERROR - Service operation failed: scan_network - Scan network failed: 'list' object has no attribute 'get'
+2025-07-31 02:27:53 - middleware - DEBUG - Router context established: user_id=dev_user, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=dev_user
+2025-07-31 02:27:53 - services.base - INFO - Service operation completed: end_session
+2025-07-31 02:27:53 - managers.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/session/end
+2025-07-31 02:27:53 - managers.commands_server - DEBUG - Request completed in 0.14s with status 200
+2025-07-31 02:27:54 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Session ended'}, 'error': None, 'metadata': {'executionTime': 0.0005350112915039062, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'dev_user', 'timestamp': '2025-07-30T23:27:53.361173'}, 'success': True}
+2025-07-31 02:27:54 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/session/end'
+2025-07-31 02:27:54 - services.commands_server_operations.session_execute - DEBUG - Commands server response - data: {'message': 'Session ended'}, error: None
+2025-07-31 02:27:54 - services.commands_server_operations.session_execute - INFO - Session ended successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID dev_user
+2025-07-31 02:27:54 - services.base - INFO - Service operation completed: end_session
+2025-07-31 02:30:52 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 02:31:05 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 02:31:33 - middleware - DEBUG - Router context established: user_id=dev_user, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=dev_user
+2025-07-31 02:31:33 - services.base - INFO - Service operation completed: start_session
+2025-07-31 02:31:33 - managers.commands_server - DEBUG - Performing health check...
+2025-07-31 02:31:33 - managers.commands_server - INFO - Checking commands server health
+2025-07-31 02:31:33 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-07-31 02:31:33 - managers.commands_server - DEBUG - Request completed in 0.14s with status 200
+2025-07-31 02:31:33 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 2.5987625122070312e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-07-30T23:31:33.063495'}, 'success': True}
+2025-07-31 02:31:33 - managers.commands_server - DEBUG - Commands server health check successful
+2025-07-31 02:31:33 - managers.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/session/start
+2025-07-31 02:31:35 - managers.commands_server - DEBUG - Request completed in 2.07s with status 200
+2025-07-31 02:31:35 - managers.commands_server - DEBUG - Received response: {'data': {'infrastructure_ready': True, 'message': 'Session established successfully', 'router_reachable': True, 'session_id': 'dev_user'}, 'error': None, 'metadata': {'executionTime': 1.874337911605835, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'dev_user', 'timestamp': '2025-07-30T23:31:35.073319'}, 'success': True}
+2025-07-31 02:31:35 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/session/start'
+2025-07-31 02:31:35 - services.commands_server_operations.session_execute - DEBUG - Commands server response - data: {'infrastructure_ready': True, 'message': 'Session established successfully', 'router_reachable': True, 'session_id': 'dev_user'}, error: None
+2025-07-31 02:31:35 - services.commands_server_operations.session_execute - INFO - Session started successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID dev_user
+2025-07-31 02:31:35 - services.base - INFO - Service operation completed: start_session
+2025-07-31 02:31:38 - middleware - DEBUG - Router context established: user_id=dev_user, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=dev_user
+2025-07-31 02:31:38 - services.base - INFO - Service operation completed: scan_network
+2025-07-31 02:31:38 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/network/scan
+2025-07-31 02:31:40 - managers.commands_server - DEBUG - Request completed in 2.58s with status 200
+2025-07-31 02:31:40 - managers.commands_server - DEBUG - Received response: {'data': [{'hostname': 'DESKTOP-DQ80I51', 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'vendor': 'Micro-Star INTL CO., LTD.'}, {'hostname': 'Tom-s-phone', 'ip': '192.168.1.171', 'mac': '22:46:ea:81:04:7c', 'vendor': 'Unknown Vendor'}, {'hostname': 'Unknown', 'ip': '192.168.1.176', 'mac': '0e:db:5c:f7:62:ca', 'vendor': 'Unknown Vendor'}], 'error': None, 'metadata': {'executionTime': 2.367285966873169, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'dev_user', 'timestamp': '2025-07-30T23:31:40.220315'}, 'success': True}
+2025-07-31 02:31:40 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/network/scan'
+2025-07-31 02:31:40 - services.commands_server_operations.network_execute - INFO - Network scan completed successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, found 3 devices
+2025-07-31 02:31:40 - services.db_operations.base - DEBUG - Database session started
+2025-07-31 02:31:40 - services.db_operations.network_db - INFO - Saving network scan result for user dev_user, router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with 3 devices
+2025-07-31 02:31:40 - services.db_operations.network_db - ERROR - Error saving network scan result: '_GeneratorContextManager' object has no attribute 'query'
+Traceback (most recent call last):
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/services/db_operations/network_db.py", line 62, in save_network_scan_result
+    existing_device = session.query(UserDevice).filter(
+AttributeError: '_GeneratorContextManager' object has no attribute 'query'
+2025-07-31 02:31:40 - services.base - ERROR - Scan network failed: '_GeneratorContextManager' object has no attribute 'close'
+Traceback (most recent call last):
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/services/db_operations/base.py", line 44, in get_db_session
+    session.commit()
+AttributeError: '_GeneratorContextManager' object has no attribute 'commit'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/services/db_operations/base.py", line 47, in get_db_session
+    session.rollback()
+AttributeError: '_GeneratorContextManager' object has no attribute 'rollback'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/services/base.py", line 88, in wrapper
+    return func(*args, **kwargs)
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/services/network_service.py", line 56, in scan_network
+    db_save_result, db_error = db_save_network_scan_result(user_id, router_id, cmd_response)
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/services/db_operations/base.py", line 75, in wrapper
+    with get_db_session() as session:
+  File "/usr/lib/python3.10/contextlib.py", line 142, in __exit__
+    next(self.gen)
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/services/db_operations/base.py", line 51, in get_db_session
+    session.close()
+AttributeError: '_GeneratorContextManager' object has no attribute 'close'
+2025-07-31 02:42:51 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 02:42:56 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 02:42:59 - middleware - DEBUG - Router context established: user_id=dev_user, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=dev_user
+2025-07-31 02:42:59 - services.base - INFO - Service operation completed: start_session
+2025-07-31 02:42:59 - managers.commands_server - DEBUG - Performing health check...
+2025-07-31 02:42:59 - managers.commands_server - INFO - Checking commands server health
+2025-07-31 02:42:59 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-07-31 02:42:59 - managers.commands_server - DEBUG - Request completed in 0.24s with status 200
+2025-07-31 02:42:59 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 0.0003581047058105469, 'routerId': None, 'sessionId': None, 'timestamp': '2025-07-30T23:42:59.057377'}, 'success': True}
+2025-07-31 02:42:59 - managers.commands_server - DEBUG - Commands server health check successful
+2025-07-31 02:42:59 - managers.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/session/start
+2025-07-31 02:42:59 - managers.commands_server - DEBUG - Request completed in 0.14s with status 400
+2025-07-31 02:42:59 - managers.commands_server - ERROR - Commands server returned 400: {
+  "data": null,
+  "error": {
+    "code": "SESSION_ALREADY_ACTIVE",
+    "details": null,
+    "message": "Session is already active"
+  },
+  "metadata": {
+    "executionTime": 0.0027129650115966797,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "dev_user",
+    "timestamp": "2025-07-30T23:42:59.267747"
+  },
+  "success": false
+}
+
+2025-07-31 02:42:59 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/api/session/start': Commands server returned 400: {
+  "data": null,
+  "error": {
+    "code": "SESSION_ALREADY_ACTIVE",
+    "details": null,
+    "message": "Session is already active"
+  },
+  "metadata": {
+    "executionTime": 0.0027129650115966797,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "dev_user",
+    "timestamp": "2025-07-30T23:42:59.267747"
+  },
+  "success": false
+}
+
+2025-07-31 02:42:59 - services.commands_server_operations.session_execute - DEBUG - Commands server response - data: None, error: Commands server returned 400: {
+  "data": null,
+  "error": {
+    "code": "SESSION_ALREADY_ACTIVE",
+    "details": null,
+    "message": "Session is already active"
+  },
+  "metadata": {
+    "executionTime": 0.0027129650115966797,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "dev_user",
+    "timestamp": "2025-07-30T23:42:59.267747"
+  },
+  "success": false
+}
+
+2025-07-31 02:42:59 - services.commands_server_operations.session_execute - ERROR - Session start failed for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: Commands server returned 400: {
+  "data": null,
+  "error": {
+    "code": "SESSION_ALREADY_ACTIVE",
+    "details": null,
+    "message": "Session is already active"
+  },
+  "metadata": {
+    "executionTime": 0.0027129650115966797,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "dev_user",
+    "timestamp": "2025-07-30T23:42:59.267747"
+  },
+  "success": false
+}
+
+2025-07-31 02:42:59 - services.base - ERROR - Service operation failed: start_session - Commands server returned 400: {
+  "data": null,
+  "error": {
+    "code": "SESSION_ALREADY_ACTIVE",
+    "details": null,
+    "message": "Session is already active"
+  },
+  "metadata": {
+    "executionTime": 0.0027129650115966797,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "dev_user",
+    "timestamp": "2025-07-30T23:42:59.267747"
+  },
+  "success": false
+}
+
+2025-07-31 02:43:04 - middleware - DEBUG - Router context established: user_id=dev_user, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=dev_user
+2025-07-31 02:43:04 - services.base - INFO - Service operation completed: scan_network
+2025-07-31 02:43:04 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/network/scan
+2025-07-31 02:43:08 - managers.commands_server - DEBUG - Request completed in 3.16s with status 200
+2025-07-31 02:43:08 - managers.commands_server - DEBUG - Received response: {'data': [{'hostname': 'DESKTOP-DQ80I51', 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'vendor': 'Micro-Star INTL CO., LTD.'}, {'hostname': 'Tom-s-phone', 'ip': '192.168.1.171', 'mac': '22:46:ea:81:04:7c', 'vendor': 'Unknown Vendor'}, {'hostname': 'Unknown', 'ip': '192.168.1.176', 'mac': '0e:db:5c:f7:62:ca', 'vendor': 'Unknown Vendor'}], 'error': None, 'metadata': {'executionTime': 2.937492609024048, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'dev_user', 'timestamp': '2025-07-30T23:43:07.656652'}, 'success': True}
+2025-07-31 02:43:08 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/network/scan'
+2025-07-31 02:43:08 - services.commands_server_operations.network_execute - INFO - Network scan completed successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, found 3 devices
+2025-07-31 02:43:08 - services.db_operations.network_db - INFO - Saving network scan result for user dev_user, router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with 3 devices
+2025-07-31 02:43:08 - services.db_operations.network_db - ERROR - Error saving network scan result: (psycopg2.errors.InvalidTextRepresentation) invalid input syntax for type uuid: "dev_user"
+LINE 3: WHERE user_devices.user_id = 'dev_user'::UUID AND user_devic...
+                                     ^
+
+[SQL: SELECT user_devices.user_id AS user_devices_user_id, user_devices.router_id AS user_devices_router_id, user_devices.ip AS user_devices_ip, user_devices.mac AS user_devices_mac, user_devices.hostname AS user_devices_hostname, user_devices.device_name AS user_devices_device_name, user_devices.device_type AS user_devices_device_type, user_devices.manufacturer AS user_devices_manufacturer, user_devices.first_seen AS user_devices_first_seen, user_devices.last_seen AS user_devices_last_seen, user_devices.id AS user_devices_id, user_devices.created_at AS user_devices_created_at, user_devices.updated_at AS user_devices_updated_at 
+FROM user_devices 
+WHERE user_devices.user_id = %(user_id_1)s::UUID AND user_devices.router_id = %(router_id_1)s AND user_devices.ip = %(ip_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'user_id_1': 'dev_user', 'router_id_1': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'ip_1': '192.168.1.122', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)
+Traceback (most recent call last):
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.InvalidTextRepresentation: invalid input syntax for type uuid: "dev_user"
+LINE 3: WHERE user_devices.user_id = 'dev_user'::UUID AND user_devic...
+                                     ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/services/db_operations/network_db.py", line 68, in save_network_scan_result
+    ).first()
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/orm/query.py", line 2748, in first
+    return self.limit(1)._iter().first()  # type: ignore
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/orm/query.py", line 2847, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2308, in execute
+    return self._execute_internal(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2190, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/orm/context.py", line 293, in orm_execute_statement
+    result = conn.execute(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1416, in execute
+    return meth(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1639, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2343, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.DataError: (psycopg2.errors.InvalidTextRepresentation) invalid input syntax for type uuid: "dev_user"
+LINE 3: WHERE user_devices.user_id = 'dev_user'::UUID AND user_devic...
+                                     ^
+
+[SQL: SELECT user_devices.user_id AS user_devices_user_id, user_devices.router_id AS user_devices_router_id, user_devices.ip AS user_devices_ip, user_devices.mac AS user_devices_mac, user_devices.hostname AS user_devices_hostname, user_devices.device_name AS user_devices_device_name, user_devices.device_type AS user_devices_device_type, user_devices.manufacturer AS user_devices_manufacturer, user_devices.first_seen AS user_devices_first_seen, user_devices.last_seen AS user_devices_last_seen, user_devices.id AS user_devices_id, user_devices.created_at AS user_devices_created_at, user_devices.updated_at AS user_devices_updated_at 
+FROM user_devices 
+WHERE user_devices.user_id = %(user_id_1)s::UUID AND user_devices.router_id = %(router_id_1)s AND user_devices.ip = %(ip_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'user_id_1': 'dev_user', 'router_id_1': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'ip_1': '192.168.1.122', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)
+2025-07-31 02:43:08 - services.network_service - WARNING - Failed to save network scan result to database: Failed to save network scan result: (psycopg2.errors.InvalidTextRepresentation) invalid input syntax for type uuid: "dev_user"
+LINE 3: WHERE user_devices.user_id = 'dev_user'::UUID AND user_devic...
+                                     ^
+
+[SQL: SELECT user_devices.user_id AS user_devices_user_id, user_devices.router_id AS user_devices_router_id, user_devices.ip AS user_devices_ip, user_devices.mac AS user_devices_mac, user_devices.hostname AS user_devices_hostname, user_devices.device_name AS user_devices_device_name, user_devices.device_type AS user_devices_device_type, user_devices.manufacturer AS user_devices_manufacturer, user_devices.first_seen AS user_devices_first_seen, user_devices.last_seen AS user_devices_last_seen, user_devices.id AS user_devices_id, user_devices.created_at AS user_devices_created_at, user_devices.updated_at AS user_devices_updated_at 
+FROM user_devices 
+WHERE user_devices.user_id = %(user_id_1)s::UUID AND user_devices.router_id = %(router_id_1)s AND user_devices.ip = %(ip_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'user_id_1': 'dev_user', 'router_id_1': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'ip_1': '192.168.1.122', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)
+2025-07-31 02:43:08 - services.base - INFO - Service operation completed: scan_network
+2025-07-31 02:52:24 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 02:52:29 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-31 02:52:37 - middleware - DEBUG - Router context established: user_id=dev_user, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=dev_user
+2025-07-31 02:52:37 - services.base - INFO - Service operation completed: get_whitelist_limit_rate
+2025-07-31 02:52:37 - services.db_operations.base - ERROR - Get whitelist limit rate setting failed: (psycopg2.errors.InvalidTextRepresentation) invalid input syntax for type uuid: "dev_user"
+LINE 3: WHERE user_settings.user_id = 'dev_user'::UUID AND user_sett...
+                                      ^
+
+[SQL: SELECT user_settings.user_id AS user_settings_user_id, user_settings.router_id AS user_settings_router_id, user_settings.setting_key AS user_settings_setting_key, user_settings.setting_value AS user_settings_setting_value, user_settings.id AS user_settings_id, user_settings.created_at AS user_settings_created_at, user_settings.updated_at AS user_settings_updated_at 
+FROM user_settings 
+WHERE user_settings.user_id = %(user_id_1)s::UUID AND user_settings.router_id = %(router_id_1)s AND user_settings.setting_key = %(setting_key_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'user_id_1': 'dev_user', 'router_id_1': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'setting_key_1': 'whitelist_limit_rate', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)
+Traceback (most recent call last):
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.InvalidTextRepresentation: invalid input syntax for type uuid: "dev_user"
+LINE 3: WHERE user_settings.user_id = 'dev_user'::UUID AND user_sett...
+                                      ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/services/db_operations/base.py", line 125, in wrapper
+    return func(*args, **kwargs)
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/services/db_operations/whitelist_db.py", line 269, in get_whitelist_limit_rate_setting
+    ).first()
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/orm/query.py", line 2748, in first
+    return self.limit(1)._iter().first()  # type: ignore
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/orm/query.py", line 2847, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2308, in execute
+    return self._execute_internal(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2190, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/orm/context.py", line 293, in orm_execute_statement
+    result = conn.execute(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1416, in execute
+    return meth(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1639, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2343, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.DataError: (psycopg2.errors.InvalidTextRepresentation) invalid input syntax for type uuid: "dev_user"
+LINE 3: WHERE user_settings.user_id = 'dev_user'::UUID AND user_sett...
+                                      ^
+
+[SQL: SELECT user_settings.user_id AS user_settings_user_id, user_settings.router_id AS user_settings_router_id, user_settings.setting_key AS user_settings_setting_key, user_settings.setting_value AS user_settings_setting_value, user_settings.id AS user_settings_id, user_settings.created_at AS user_settings_created_at, user_settings.updated_at AS user_settings_updated_at 
+FROM user_settings 
+WHERE user_settings.user_id = %(user_id_1)s::UUID AND user_settings.router_id = %(router_id_1)s AND user_settings.setting_key = %(setting_key_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'user_id_1': 'dev_user', 'router_id_1': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'setting_key_1': 'whitelist_limit_rate', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)
+2025-07-31 02:52:37 - services.base - ERROR - Service operation failed: get_whitelist_limit_rate - Get whitelist limit rate setting failed: (psycopg2.errors.InvalidTextRepresentation) invalid input syntax for type uuid: "dev_user"
+LINE 3: WHERE user_settings.user_id = 'dev_user'::UUID AND user_sett...
+                                      ^
+
+[SQL: SELECT user_settings.user_id AS user_settings_user_id, user_settings.router_id AS user_settings_router_id, user_settings.setting_key AS user_settings_setting_key, user_settings.setting_value AS user_settings_setting_value, user_settings.id AS user_settings_id, user_settings.created_at AS user_settings_created_at, user_settings.updated_at AS user_settings_updated_at 
+FROM user_settings 
+WHERE user_settings.user_id = %(user_id_1)s::UUID AND user_settings.router_id = %(router_id_1)s AND user_settings.setting_key = %(setting_key_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'user_id_1': 'dev_user', 'router_id_1': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'setting_key_1': 'whitelist_limit_rate', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)
+2025-07-31 02:52:54 - middleware - DEBUG - Router context established: user_id=dev_user, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=dev_user
+2025-07-31 02:52:54 - services.base - INFO - Service operation completed: activate_whitelist_mode
+2025-07-31 02:52:55 - services.db_operations.base - ERROR - Get whitelist mode setting failed: (psycopg2.errors.InvalidTextRepresentation) invalid input syntax for type uuid: "dev_user"
+LINE 3: WHERE user_settings.user_id = 'dev_user'::UUID AND user_sett...
+                                      ^
+
+[SQL: SELECT user_settings.user_id AS user_settings_user_id, user_settings.router_id AS user_settings_router_id, user_settings.setting_key AS user_settings_setting_key, user_settings.setting_value AS user_settings_setting_value, user_settings.id AS user_settings_id, user_settings.created_at AS user_settings_created_at, user_settings.updated_at AS user_settings_updated_at 
+FROM user_settings 
+WHERE user_settings.user_id = %(user_id_1)s::UUID AND user_settings.router_id = %(router_id_1)s AND user_settings.setting_key = %(setting_key_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'user_id_1': 'dev_user', 'router_id_1': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'setting_key_1': 'whitelist_mode_enabled', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)
+Traceback (most recent call last):
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.InvalidTextRepresentation: invalid input syntax for type uuid: "dev_user"
+LINE 3: WHERE user_settings.user_id = 'dev_user'::UUID AND user_sett...
+                                      ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/services/db_operations/base.py", line 125, in wrapper
+    return func(*args, **kwargs)
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/services/db_operations/whitelist_db.py", line 174, in get_whitelist_mode_setting
+    ).first()
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/orm/query.py", line 2748, in first
+    return self.limit(1)._iter().first()  # type: ignore
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/orm/query.py", line 2847, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2308, in execute
+    return self._execute_internal(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2190, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/orm/context.py", line 293, in orm_execute_statement
+    result = conn.execute(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1416, in execute
+    return meth(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1639, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2343, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/mnt/c/Users/Tom/OneDrive/Desktop/NetPilot/NetPilot/backend2/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.DataError: (psycopg2.errors.InvalidTextRepresentation) invalid input syntax for type uuid: "dev_user"
+LINE 3: WHERE user_settings.user_id = 'dev_user'::UUID AND user_sett...
+                                      ^
+
+[SQL: SELECT user_settings.user_id AS user_settings_user_id, user_settings.router_id AS user_settings_router_id, user_settings.setting_key AS user_settings_setting_key, user_settings.setting_value AS user_settings_setting_value, user_settings.id AS user_settings_id, user_settings.created_at AS user_settings_created_at, user_settings.updated_at AS user_settings_updated_at 
+FROM user_settings 
+WHERE user_settings.user_id = %(user_id_1)s::UUID AND user_settings.router_id = %(router_id_1)s AND user_settings.setting_key = %(setting_key_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'user_id_1': 'dev_user', 'router_id_1': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'setting_key_1': 'whitelist_mode_enabled', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)
+2025-07-31 02:52:55 - services.base - ERROR - Service operation failed: activate_whitelist_mode - Get whitelist mode setting failed: (psycopg2.errors.InvalidTextRepresentation) invalid input syntax for type uuid: "dev_user"
+LINE 3: WHERE user_settings.user_id = 'dev_user'::UUID AND user_sett...
+                                      ^
+
+[SQL: SELECT user_settings.user_id AS user_settings_user_id, user_settings.router_id AS user_settings_router_id, user_settings.setting_key AS user_settings_setting_key, user_settings.setting_value AS user_settings_setting_value, user_settings.id AS user_settings_id, user_settings.created_at AS user_settings_created_at, user_settings.updated_at AS user_settings_updated_at 
+FROM user_settings 
+WHERE user_settings.user_id = %(user_id_1)s::UUID AND user_settings.router_id = %(router_id_1)s AND user_settings.setting_key = %(setting_key_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'user_id_1': 'dev_user', 'router_id_1': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'setting_key_1': 'whitelist_mode_enabled', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)

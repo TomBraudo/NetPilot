@@ -46,19 +46,24 @@ def execute_start_session(commands_server, router_id: str, session_id: str, rest
         router_id, session_id, endpoint, "POST", None, body
     )
     
-    if response_data and response_data.get('success'):
-        # Extract session information from response
-        data = response_data.get('data', {})
+    # Debug logging
+    logger.debug(f"Commands server response - data: {response_data}, error: {error}")
+    
+    if response_data and not error:
+        # The manager already unpacked the response, so response_data contains the data section
         result = {
-            'session_id': data.get('session_id', session_id),
-            'router_reachable': data.get('router_reachable', True),
-            'infrastructure_ready': data.get('infrastructure_ready', True),
-            'message': data.get('message', 'Session established successfully')
+            'session_id': response_data.get('session_id', session_id),
+            'router_reachable': response_data.get('router_reachable', True),
+            'infrastructure_ready': response_data.get('infrastructure_ready', True),
+            'message': response_data.get('message', 'Session established successfully')
         }
         logger.info(f"Session started successfully for router {router_id} with session ID {session_id}")
         return result, None
     
-    return None, error or "Failed to start session on router"
+    # Return the actual error from commands server instead of generic message
+    error_msg = error or "Failed to start session on router"
+    logger.error(f"Session start failed for router {router_id}: {error_msg}")
+    return None, error_msg
 
 
 @with_commands_server
@@ -89,16 +94,21 @@ def execute_end_session(commands_server, router_id: str, session_id: str) -> Tup
         router_id, session_id, endpoint, "POST", None, body
     )
     
-    if response_data and response_data.get('success'):
-        # Extract session end information from response
-        data = response_data.get('data', {})
+    # Debug logging
+    logger.debug(f"Commands server response - data: {response_data}, error: {error}")
+    
+    if response_data and not error:
+        # The manager already unpacked the response, so response_data contains the data section
         result = {
-            'message': data.get('message', 'Session ended')
+            'message': response_data.get('message', 'Session ended')
         }
         logger.info(f"Session ended successfully for router {router_id} with session ID {session_id}")
         return result, None
     
-    return None, error or "Failed to end session on router"
+    # Return the actual error from commands server instead of generic message
+    error_msg = error or "Failed to end session on router"
+    logger.error(f"Session end failed for router {router_id}: {error_msg}")
+    return None, error_msg
 
 
 @with_commands_server
@@ -128,11 +138,10 @@ def execute_refresh_session(commands_server, router_id: str, session_id: str) ->
         router_id, session_id, endpoint, "POST", None, body
     )
     
-    if response_data and response_data.get('success'):
-        # Extract session refresh information from response
-        data = response_data.get('data', {})
+    if response_data and not error:
+        # The manager already unpacked the response, so response_data contains the data section
         result = {
-            'message': data.get('message', f'Session {session_id} refreshed')
+            'message': response_data.get('message', f'Session {session_id} refreshed')
         }
         logger.info(f"Session refreshed successfully for router {router_id} with session ID {session_id}")
         return result, None

@@ -212,7 +212,7 @@ def start_session():
             "router_reachable": True,
             "infrastructure_ready": True,
             "message": "Session established successfully"
-        }, execution_start_time), 201  # 201 Created for successful session start
+        }, execution_start_time)  # Return 200 OK like all other endpoints
         
     except Exception as e:
         logger.error(f"Session setup failed: {str(e)}")

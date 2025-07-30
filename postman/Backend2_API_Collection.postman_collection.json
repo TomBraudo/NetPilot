@@ -1,0 +1,786 @@
+{
+	"info": {
+		"_postman_id": "backend2-netpilot-collection",
+		"name": "NetPilot Backend2 API Collection",
+		"description": "Complete API collection for testing NetPilot Backend2 endpoints including Network, Whitelist, and Session services. All endpoints follow the 3-layer architecture pattern.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Network Service",
+			"item": [
+				{
+					"name": "Scan Network",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has success field\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('success');",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response contains device data\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('data');",
+									"    pm.expect(jsonData.data).to.be.an('array');",
+									"});",
+									"",
+									"pm.test(\"Each device has required fields\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    if (jsonData.data && jsonData.data.length > 0) {",
+									"        const device = jsonData.data[0];",
+									"        pm.expect(device).to.have.property('ip');",
+									"        pm.expect(device).to.have.property('mac');",
+									"        pm.expect(device).to.have.property('hostname');",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "{{content_type}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/network/scan?routerId={{routerId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"network",
+								"scan"
+							],
+							"query": [
+								{
+									"key": "routerId",
+									"value": "{{routerId}}",
+									"description": "Router ID for the scan operation"
+								}
+							]
+						},
+						"description": "Scan the network via router to find connected devices. Returns array of devices with ip, mac, hostname, and vendor properties."
+					},
+					"response": []
+				}
+			],
+			"description": "Network service endpoints for scanning and device discovery"
+		},
+		{
+			"name": "Whitelist Service",
+			"item": [
+				{
+					"name": "Get Whitelist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has success field\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('success');",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response contains whitelist data\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('data');",
+									"    pm.expect(jsonData.data).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "{{content_type}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/whitelist/?routerId={{routerId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"whitelist",
+								""
+							],
+							"query": [
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						},
+						"description": "Get the current list of whitelisted device IP addresses"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Device to Whitelist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has success field\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('success');",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "{{content_type}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ip\": \"{{test_device_ip}}\",\n    \"routerId\": \"{{routerId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/whitelist/add?routerId={{routerId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"whitelist",
+								"add"
+							],
+							"query": [
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						},
+						"description": "Add a device to the whitelist by IP address and update iptables rules"
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Device from Whitelist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has success field\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('success');",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "{{content_type}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ip\": \"{{test_device_ip}}\",\n    \"routerId\": \"{{routerId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/whitelist/remove?routerId={{routerId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"whitelist",
+								"remove"
+							],
+							"query": [
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						},
+						"description": "Remove a device from the whitelist by IP address and update iptables rules"
+					},
+					"response": []
+				},
+				{
+					"name": "Set Whitelist Rate Limit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has success field\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('success');",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "{{content_type}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"rate\": {{bandwidth_rate}},\n    \"routerId\": \"{{routerId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/whitelist/limit-rate?routerId={{routerId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"whitelist",
+								"limit-rate"
+							],
+							"query": [
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						},
+						"description": "Set the bandwidth limit rate for whitelisted devices in limited mode"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Whitelist Rate Limit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has success field\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('success');",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response contains rate data\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('data');",
+									"    pm.expect(jsonData.data).to.be.a('number');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "{{content_type}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/whitelist/limit-rate?routerId={{routerId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"whitelist",
+								"limit-rate"
+							],
+							"query": [
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						},
+						"description": "Get the current bandwidth limit rate for whitelisted devices in limited mode"
+					},
+					"response": []
+				},
+				{
+					"name": "Activate Whitelist Mode",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has success field\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('success');",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "{{content_type}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"routerId\": \"{{routerId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/whitelist/mode?routerId={{routerId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"whitelist",
+								"mode"
+							],
+							"query": [
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						},
+						"description": "Activate whitelist mode where only whitelisted devices get unlimited access"
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate Whitelist Mode",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has success field\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('success');",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "{{content_type}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/whitelist/mode?routerId={{routerId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"whitelist",
+								"mode"
+							],
+							"query": [
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						},
+						"description": "Deactivate whitelist mode and return to normal network access"
+					},
+					"response": []
+				}
+			],
+			"description": "Whitelist service endpoints for device access control and rate limiting"
+		},
+		{
+			"name": "Session Service",
+			"item": [
+				{
+					"name": "Start Session",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has success field\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('success');",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response contains session data\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('data');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "{{content_type}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"restart\": false,\n    \"routerId\": \"{{routerId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/session/start?routerId={{routerId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"start"
+							],
+							"query": [
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						},
+						"description": "Start a new session for a router and set up the required infrastructure"
+					},
+					"response": []
+				},
+				{
+					"name": "Start Session (with restart)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has success field\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('success');",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "{{content_type}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"restart\": true,\n    \"routerId\": \"{{routerId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/session/start?routerId={{routerId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"start"
+							],
+							"query": [
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						},
+						"description": "Start a new session with restart flag to force restart existing session"
+					},
+					"response": []
+				},
+				{
+					"name": "End Session",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has success field\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('success');",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "{{content_type}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"routerId\": \"{{routerId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/session/end?routerId={{routerId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"end"
+							],
+							"query": [
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						},
+						"description": "End the session for a router and clean up connections"
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Session",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has success field\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('success');",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "{{content_type}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"routerId\": \"{{routerId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/session/refresh?routerId={{routerId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"refresh"
+							],
+							"query": [
+								{
+									"key": "routerId",
+									"value": "{{routerId}}"
+								}
+							]
+						},
+						"description": "Refresh a session's activity timer"
+					},
+					"response": []
+				}
+			],
+			"description": "Session service endpoints for router session management"
+		},
+		{
+			"name": "Health Check",
+			"item": [
+				{
+					"name": "Health Check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has success field\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('success');",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"health"
+							]
+						},
+						"description": "Health check endpoint to verify the API is running"
+					},
+					"response": []
+				}
+			],
+			"description": "Health check endpoint for API status verification"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Set up authentication headers if needed",
+					"// This can be expanded when OAuth is implemented",
+					"",
+					"// Ensure required environment variables are set",
+					"if (!pm.environment.get('routerId')) {",
+					"    console.log('Error: routerId not set in environment - this is REQUIRED for all requests');",
+					"    throw new Error('routerId is required but not set in environment');",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Global test for all requests",
+					"pm.test(\"Response time is less than 5000ms\", function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(5000);",
+					"});",
+					"",
+					"pm.test(\"Response has proper content type\", function () {",
+					"    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+					"});",
+					"",
+					"pm.test(\"Response has metadata field\", function () {",
+					"    if (pm.response.code === 200) {",
+					"        const jsonData = pm.response.json();",
+					"        pm.expect(jsonData).to.have.property('metadata');",
+					"        pm.expect(jsonData.metadata).to.have.property('execution_time');",
+					"    }",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "collection_version",
+			"value": "1.0.0",
+			"type": "string"
+		}
+	]
+}

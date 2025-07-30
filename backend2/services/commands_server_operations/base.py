@@ -10,7 +10,6 @@ from contextlib import contextmanager
 from functools import wraps
 from typing import Any, Callable, Dict, Optional, Tuple, TypeVar, ParamSpec
 from utils.logging_config import get_logger
-from managers.commands_server_manager import commands_server_manager
 
 logger = get_logger('services.commands_server_operations.base')
 
@@ -39,6 +38,8 @@ def with_commands_server(func: Callable[..., T]) -> Callable[..., T]:
     """
     @wraps(func)
     def wrapper(*args, **kwargs):
+        # Lazy import to avoid circular dependency
+        from managers.commands_server_manager import commands_server_manager
         # Inject commands server manager as first argument
         return func(commands_server_manager, *args, **kwargs)
     return wrapper
@@ -181,6 +182,11 @@ def execute_router_command(commands_server, router_id: str, session_id: str, com
         Tuple of (response_data, error_message)
     """
     try:
+        # If commands_server is None, use lazy import
+        if commands_server is None:
+            from managers.commands_server_manager import commands_server_manager
+            commands_server = commands_server_manager
+            
         # Validate router connection first
         is_connected, conn_error = validate_router_connection(commands_server, router_id)
         if not is_connected:
@@ -219,6 +225,11 @@ def get_router_status(commands_server, router_id: str) -> Tuple[Optional[Dict], 
         Tuple of (status_data, error_message)
     """
     try:
+        # If commands_server is None, use lazy import
+        if commands_server is None:
+            from managers.commands_server_manager import commands_server_manager
+            commands_server = commands_server_manager
+            
         status_data, error = commands_server.get_router_status(router_id)
         
         if status_data:

@@ -1,42 +1,121 @@
 """
 Commands Server Manager
 
-This manager provides high-level operations for interacting with the commands server.
-It handles connection management, caching, and provides a clean interface for other components.
+This manager provides connection management and command execution for the commands server.
+It handles connection health checking and provides a clean interface for executing commands
+with enforced router_id and session_id requirements.
 """
 
 import os
 import time
+import requests
 from typing import Dict, Any, Optional, Tuple
 from utils.logging_config import get_logger
-from services.commands_server_service import CommandsServerService
+from utils.response_unpack import unpack_commands_server_response
 
 logger = get_logger('managers.commands_server')
 
 class CommandsServerManager:
-    """Manager for commands server operations."""
+    """Manager for commands server operations with integrated HTTP communication."""
     
-    def __init__(self, base_url: Optional[str] = None):
+    def __init__(self, base_url: Optional[str] = None, timeout: int = 30):
         """
         Initialize the commands server manager.
         
         Args:
             base_url: The base URL of the commands server. If None, will use COMMANDS_SERVER_URL env var.
+            timeout: Request timeout in seconds
         """
-        self.base_url = base_url or os.getenv('COMMANDS_SERVER_URL', 'http://34.38.207.87:5000')
-        self.service = None
+        self.base_url = (base_url or os.getenv('COMMANDS_SERVER_URL', 'http://34.38.207.87:5000')).rstrip('/')
+        self.timeout = timeout
+        self.session = requests.Session()
         self._is_connected = False
         self._last_health_check = 0
         self._health_check_interval = 30  # seconds
-        self._server_info = None
+        
+        # Set common headers
+        self.session.headers.update({
+            'Content-Type': 'application/json',
+            'User-Agent': 'NetPilot-Backend2/1.0'
+        })
         
         logger.info(f"Commands server manager initialized with URL: {self.base_url}")
     
-    def _get_service(self) -> CommandsServerService:
-        """Get or create the commands server service."""
-        if self.service is None:
-            self.service = CommandsServerService(self.base_url)
-        return self.service
+    def _make_request(
+        self, 
+        method: str, 
+        endpoint: str, 
+        data: Optional[Dict[str, Any]] = None,
+        params: Optional[Dict[str, Any]] = None
+    ) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
+        """
+        Make a request to the commands server.
+        
+        Args:
+            method: HTTP method (GET, POST, PUT, DELETE)
+            endpoint: API endpoint (e.g., '/health')
+            data: JSON data to send in the request body
+            params: Query parameters
+            
+        Returns:
+            Tuple of (response_data, error_message)
+        """
+        url = f"{self.base_url}{endpoint}"
+        start_time = time.time()
+        
+        try:
+            logger.debug(f"Making {method} request to {url}")
+            
+            response = self.session.request(
+                method=method,
+                url=url,
+                json=data,
+                params=params,
+                timeout=self.timeout
+            )
+            
+            execution_time = time.time() - start_time
+            logger.debug(f"Request completed in {execution_time:.2f}s with status {response.status_code}")
+            
+            # Check if response is successful
+            if response.status_code >= 400:
+                error_msg = f"Commands server returned {response.status_code}: {response.text}"
+                logger.error(error_msg)
+                return None, error_msg
+            
+            # Try to parse JSON response
+            try:
+                response_data = response.json()
+                logger.debug(f"Received response: {response_data}")
+                
+                # Log the raw response for debugging
+                if response_data.get('success') == False:
+                    logger.warning(f"Commands server returned success=false but operation may have succeeded. Raw response: {response_data}")
+                
+                # Unpack the commands server response format
+                data, error = unpack_commands_server_response(response_data)
+                
+                # Additional debugging for failed responses
+                if error:
+                    logger.error(f"Commands server operation failed. Unpacked error: {error}")
+                
+                return data, error
+            except requests.exceptions.JSONDecodeError:
+                # If not JSON, return the text content
+                return {"message": response.text}, None
+                
+        except requests.exceptions.ConnectionError as e:
+            error_msg = f"Connection error to commands server: {str(e)}"
+            logger.error(error_msg)
+            return None, error_msg
+        except requests.exceptions.Timeout as e:
+            error_msg = f"Request timeout to commands server: {str(e)}"
+            logger.error(error_msg)
+            return None, error_msg
+        except requests.exceptions.RequestException as e:
+            error_msg = f"Request error to commands server: {str(e)}"
+            logger.error(error_msg)
+            return None, error_msg
     
     def _is_health_check_needed(self) -> bool:
         """Check if a health check is needed."""
@@ -65,8 +144,8 @@ class CommandsServerManager:
             True if healthy, False otherwise
         """
         try:
-            service = self._get_service()
-            response_data, error = service.health_check()
+            logger.info("Checking commands server health")
+            response_data, error = self._make_request('GET', '/health')
             
             if error:
                 logger.warning(f"Commands server health check failed: {error}")
@@ -82,40 +161,6 @@ class CommandsServerManager:
             logger.error(f"Unexpected error during health check: {e}")
             self._is_connected = False
             return False
-    
-    def get_server_info(self, force_refresh: bool = False) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
-        """
-        Get server information from the commands server.
-        
-        Args:
-            force_refresh: If True, force a refresh of cached server info
-            
-        Returns:
-            Tuple of (server_info, error_message)
-        """
-        # Return cached info if available and not forcing refresh
-        if self._server_info and not force_refresh:
-            return self._server_info, None
-        
-        if not self.is_connected():
-            return None, "Commands server is not connected"
-        
-        try:
-            service = self._get_service()
-            response_data, error = service.get_server_info()
-            
-            if error:
-                logger.error(f"Failed to get server info: {error}")
-                return None, error
-            
-            # Cache the server info
-            self._server_info = response_data
-            return response_data, None
-            
-        except Exception as e:
-            error_msg = f"Unexpected error getting server info: {e}"
-            logger.error(error_msg)
-            return None, error_msg
     
     def execute_router_command(
         self,
@@ -144,16 +189,14 @@ class CommandsServerManager:
             return None, "session_id is required"
         if not self.is_connected():
             return None, "Commands server is not connected"
+        
         try:
-            response_data, error = self.send_direct_command(
-                endpoint=endpoint,
-                method=method,
-                payload=body,
-                params=query_params
-            )
+            response_data, error = self._make_request(method, endpoint, data=body, params=query_params)
+            
             if error:
                 logger.error(f"Failed to execute command via direct endpoint '{endpoint}': {error}")
                 return None, error
+            
             logger.info(f"Successfully executed command via direct endpoint '{endpoint}'")
             return response_data, None
         except Exception as e:
@@ -161,84 +204,10 @@ class CommandsServerManager:
             logger.error(error_msg)
             return None, error_msg
     
-    def get_router_status(self, router_id: str) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
-        """
-        Get the status of a specific router.
-        
-        Args:
-            router_id: The router ID
-            
-        Returns:
-            Tuple of (router_status, error_message)
-        """
-        if not self.is_connected():
-            return None, "Commands server is not connected"
-        
-        try:
-            service = self._get_service()
-            response_data, error = service.get_router_status(router_id)
-            
-            if error:
-                logger.error(f"Failed to get router status for {router_id}: {error}")
-                return None, error
-            
-            return response_data, None
-            
-        except Exception as e:
-            error_msg = f"Unexpected error getting router status for {router_id}: {e}"
-            logger.error(error_msg)
-            return None, error_msg
-    
-    def test_connection(self) -> Tuple[bool, Optional[str]]:
-        """
-        Test the connection to the commands server.
-        
-        Returns:
-            Tuple of (is_connected, error_message)
-        """
-        logger.info("Testing commands server connection...")
-        
-        try:
-            # Force a health check
-            is_healthy = self._perform_health_check()
-            
-            if is_healthy:
-                logger.info("Commands server connection test successful")
-                return True, None
-            else:
-                error_msg = "Commands server connection test failed"
-                logger.error(error_msg)
-                return False, error_msg
-                
-        except Exception as e:
-            error_msg = f"Unexpected error testing connection: {e}"
-            logger.error(error_msg)
-            return False, error_msg
-    
-    def send_direct_command(self, endpoint: str, method: str = "POST", payload: dict = None, params: dict = None) -> tuple:
-        """
-        Send a direct API call to the command server at the given endpoint.
-        Args:
-            endpoint (str): The API endpoint path (e.g., '/session/start')
-            method (str): HTTP method (default 'POST')
-            payload (dict): JSON body to send
-            params (dict): Query parameters
-        Returns:
-            tuple: (response_data, error_message)
-        """
-        if not self.is_connected():
-            return None, "Commands server is not connected"
-        service = self._get_service()
-        return service._make_request(method, endpoint, data=payload, params=params)
-    
     def close(self):
-        """Close the connection to the commands server."""
-        if self.service:
-            self.service.close()
-            self.service = None
-        
+        """Close the HTTP session."""
+        self.session.close()
         self._is_connected = False
-        self._server_info = None
         logger.info("Commands server manager closed")
     
     def __enter__(self):

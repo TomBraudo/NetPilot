@@ -18,11 +18,9 @@ from .base import (
     log_service_operation
 )
 
-# Database operations imports (dummy for now)
+# Database operations imports
 from services.db_operations.network_db import (
-    get_network_scan_history as db_get_network_scan_history,
-    save_network_scan_result as db_save_network_scan_result,
-    get_network_preferences as db_get_network_preferences
+    save_network_scan_result as db_save_network_scan_result
 )
 
 # Router command execution imports
@@ -53,7 +51,7 @@ def scan_network(user_id: str, router_id: str, session_id: str) -> Tuple[Optiona
         log_service_operation("scan_network", user_id, router_id, session_id, success=False, error=cmd_error)
         return None, cmd_error
     
-    # Optionally save scan result to database (dummy implementation for now)
+    # Save scan result to database
     if cmd_response:
         db_save_result, db_error = db_save_network_scan_result(user_id, router_id, cmd_response)
         if db_error:

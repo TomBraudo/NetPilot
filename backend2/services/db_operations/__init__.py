@@ -17,7 +17,6 @@ Usage:
 # Import base utilities for external use
 from .base import (
     get_db_session,
-    with_db_session,
     safe_dict_conversion,
     validate_uuid,
     handle_db_errors
@@ -29,20 +28,16 @@ from .whitelist_db import (
     add_device_to_whitelist,
     remove_device_from_whitelist,
     is_device_whitelisted,
-    validate_whitelist_operation,
-    get_user_whitelist_stats,
-    update_whitelist_entry,
-    get_whitelist_by_device_id,
-    validate_user_router_access,
-    cleanup_orphaned_whitelist_entries
+    get_whitelist_mode_setting,
+    activate_whitelist_mode,
+    deactivate_whitelist_mode,
+    get_whitelist_limit_rate_setting,
+    set_whitelist_limit_rate
 )
 
-# Import network operations (dummy for now)
+# Import network operations
 from .network_db import (
-    get_network_scan_history,
-    save_network_scan_result,
-    get_network_preferences,
-    update_network_preferences
+    save_network_scan_result
 )
 
 # Define what's available when importing from this module
@@ -59,16 +54,12 @@ __all__ = [
     'add_device_to_whitelist',
     'remove_device_from_whitelist',
     'is_device_whitelisted',
-    'validate_whitelist_operation',
-    'get_user_whitelist_stats',
-    'update_whitelist_entry',
-    'get_whitelist_by_device_id',
-    'validate_user_router_access',
-    'cleanup_orphaned_whitelist_entries',
+    'get_whitelist_mode_setting',
+    'activate_whitelist_mode',
+    'deactivate_whitelist_mode',
+    'get_whitelist_limit_rate_setting',
+    'set_whitelist_limit_rate',
     
-    # Network operations (dummy for now)
-    'get_network_scan_history',
-    'save_network_scan_result', 
-    'get_network_preferences',
-    'update_network_preferences',
+    # Network operations
+    'save_network_scan_result',
 ]

@@ -51,13 +51,12 @@ def execute_scan_network(commands_server, router_id: str, session_id: str) -> Tu
     if not response_data:
         return None, "No response from commands server"
     
-    # Check if the operation was successful
-    if response_data.get('success'):
-        # Extract the device list from the data field
-        devices = response_data.get('data', [])
+    # The manager already unpacked the response - if we have response_data and no error, it was successful
+    if response_data and not error:
+        # The response_data is already the device list (data section from commands server)
+        devices = response_data if isinstance(response_data, list) else []
         logger.info(f"Network scan completed successfully for router {router_id}, found {len(devices)} devices")
         return devices, None
     else:
-        # Return the error from the commands server
-        error_msg = response_data.get('error', 'Unknown error from commands server')
-        return None, error_msg
+        # This should not happen as error would be set, but keeping for safety
+        return None, "Scan network failed: 'list' object has no attribute 'get'"
