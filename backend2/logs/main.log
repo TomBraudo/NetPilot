@@ -345,3 +345,4 @@
 2025-07-29 16:56:44 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/network/scan'
 2025-07-29 20:14:13 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
 2025-07-29 20:14:18 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-30 22:47:22 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
