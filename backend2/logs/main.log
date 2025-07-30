@@ -343,3 +343,5 @@
 2025-07-29 16:56:44 - services.commands_server - DEBUG - Request completed in 1.18s with status 200
 2025-07-29 16:56:44 - services.commands_server - DEBUG - Received response: {'data': [{'hostname': 'DESKTOP-DQ80I51', 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'vendor': 'Micro-Star INTL CO., LTD.'}], 'error': None, 'metadata': {'executionTime': 1.0807178020477295, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-07-29T13:56:45.265087'}, 'success': True}
 2025-07-29 16:56:44 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/network/scan'
+2025-07-29 20:14:13 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-07-29 20:14:18 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
