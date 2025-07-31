@@ -1,29 +1,27 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, g
 from utils.logging_config import get_logger
 from utils.response_helpers import build_success_response, build_error_response
 from services.whitelist_service import (
+    get_whitelist,
     add_device_to_whitelist,
     remove_device_from_whitelist,
     set_whitelist_limit_rate,
-    set_whitelist_full_rate,
+    get_whitelist_limit_rate,
     activate_whitelist_mode,
-    deactivate_whitelist_mode,
-    get_whitelist,
+    deactivate_whitelist_mode
 )
 import time
 from utils.middleware import router_context_required
-from managers.router_connection_manager import RouterConnectionManager
 
 whitelist_bp = Blueprint('whitelist', __name__)
 logger = get_logger('endpoints.whitelist')
-router_connection_manager = RouterConnectionManager()
 
 @whitelist_bp.route("/", methods=["GET"])
 @router_context_required
 def get_whitelist_route():
-    """Get the current whitelist"""
+    """Get the current list of whitelisted device IP addresses"""
     start_time = time.time()
-    result, error = get_whitelist()
+    result, error = get_whitelist(g.user_id, g.router_id, g.session_id)
     if error:
         return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
     return build_success_response(result, start_time)
@@ -31,15 +29,15 @@ def get_whitelist_route():
 @whitelist_bp.route("/add", methods=["POST"])
 @router_context_required
 def add_to_whitelist_route():
-    """Add a device to the whitelist by its MAC address."""
+    """Add a device to the whitelist by IP address and update iptables rules"""
     start_time = time.time()
+    
     data = request.get_json()
-    mac = data.get('mac')
-
-    if not mac:
-        return build_error_response("Missing 'mac' in request body", 400, "BAD_REQUEST", start_time)
-
-    result, error = add_device_to_whitelist(mac)
+    if not data or 'ip' not in data:
+        return build_error_response("Missing 'ip' in request body", 400, "BAD_REQUEST", start_time)
+    
+    ip_address = data.get('ip')
+    result, error = add_device_to_whitelist(g.user_id, g.router_id, g.session_id, ip_address)
     if error:
         return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
     return build_success_response(result, start_time)
@@ -47,93 +45,59 @@ def add_to_whitelist_route():
 @whitelist_bp.route("/remove", methods=["POST"])
 @router_context_required
 def remove_from_whitelist_route():
-    """Remove a device from the whitelist by its MAC address."""
+    """Remove a device from the whitelist by IP address and update iptables rules"""
     start_time = time.time()
     data = request.get_json()
-    mac = data.get('mac')
-
-    if not mac:
-        return build_error_response("Missing 'mac' in request body", 400, "BAD_REQUEST", start_time)
-
-    result, error = remove_device_from_whitelist(mac)
+    if not data or 'ip' not in data:
+        return build_error_response("Missing 'ip' in request body", 400, "BAD_REQUEST", start_time)
+    
+    ip_address = data.get('ip')
+    result, error = remove_device_from_whitelist(g.user_id, g.router_id, g.session_id, ip_address)
     if error:
         return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
     return build_success_response(result, start_time)
 
 @whitelist_bp.route("/limit-rate", methods=["POST"])
 @router_context_required
-def set_limit_rate():
-    """Set the whitelist bandwidth limit rate"""
+def set_limit_rate_route():
+    """Set the bandwidth limit rate for whitelisted devices in limited mode"""
     start_time = time.time()
-    try:
-        data = request.get_json()
-        rate = data.get("rate")
-        if not rate:
-            return build_error_response("Missing 'rate' in request body", 400, "BAD_REQUEST", start_time)
-            
-        result, error = set_whitelist_limit_rate(rate)
-        if error:
-            return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
-        return build_success_response(result, start_time)
-    except RuntimeError as e:
-        logger.error(f"Error setting whitelist limit rate: {str(e)}", exc_info=True)
-        return build_error_response(str(e), 503, "TUNNEL_OR_ROUTER_UNAVAILABLE", start_time)
-    except Exception as e:
-        logger.error(f"Unexpected error setting whitelist limit rate: {str(e)}", exc_info=True)
-        return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time)
+    data = request.get_json()
+    if not data or 'rate' not in data:
+        return build_error_response("Missing 'rate' in request body", 400, "BAD_REQUEST", start_time)
+    
+    bandwidth_rate = data.get('rate')
+    result, error = set_whitelist_limit_rate(g.user_id, g.router_id, g.session_id, bandwidth_rate)
+    if error:
+        return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
+    return build_success_response(result, start_time)
 
-@whitelist_bp.route("/full-rate", methods=["POST"])
+@whitelist_bp.route("/limit-rate", methods=["GET"])
 @router_context_required
-def set_full_rate():
-    """Set the whitelist bandwidth full rate"""
+def get_limit_rate_route():
+    """Get the current bandwidth limit rate for whitelisted devices in limited mode"""
     start_time = time.time()
-    try:
-        data = request.get_json()
-        rate = data.get("rate")
-        if not rate:
-            return build_error_response("Missing 'rate' in request body", 400, "BAD_REQUEST", start_time)
-            
-        result, error = set_whitelist_full_rate(rate)
-        if error:
-            return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
-        return build_success_response(result, start_time)
-    except RuntimeError as e:
-        logger.error(f"Error setting whitelist full rate: {str(e)}", exc_info=True)
-        return build_error_response(str(e), 503, "TUNNEL_OR_ROUTER_UNAVAILABLE", start_time)
-    except Exception as e:
-        logger.error(f"Unexpected error setting whitelist full rate: {str(e)}", exc_info=True)
-        return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time)
+    result, error = get_whitelist_limit_rate(g.user_id, g.router_id, g.session_id)
+    if error:
+        return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
+    return build_success_response(result, start_time)
 
-@whitelist_bp.route("/mode/activate", methods=["POST"])
+@whitelist_bp.route("/mode", methods=["POST"])
 @router_context_required
-def activate():
-    """Activate whitelist mode"""
+def activate_mode_route():
+    """Activate whitelist mode where only whitelisted devices get unlimited access"""
     start_time = time.time()
-    try:
-        result, error = activate_whitelist_mode()
-        if error:
-            return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
-        return build_success_response(result, start_time)
-    except RuntimeError as e:
-        logger.error(f"Error activating whitelist mode: {str(e)}", exc_info=True)
-        return build_error_response(str(e), 503, "TUNNEL_OR_ROUTER_UNAVAILABLE", start_time)
-    except Exception as e:
-        logger.error(f"Unexpected error activating whitelist mode: {str(e)}", exc_info=True)
-        return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time)
+    result, error = activate_whitelist_mode(g.user_id, g.router_id, g.session_id)
+    if error:
+        return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
+    return build_success_response(result, start_time)
 
-@whitelist_bp.route("/mode/deactivate", methods=["DELETE"])
+@whitelist_bp.route("/mode", methods=["DELETE"])
 @router_context_required
-def deactivate():
-    """Deactivate whitelist mode"""
+def deactivate_mode_route():
+    """Deactivate whitelist mode and return to normal network access"""
     start_time = time.time()
-    try:
-        result, error = deactivate_whitelist_mode()
-        if error:
-            return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
-        return build_success_response(result, start_time)
-    except RuntimeError as e:
-        logger.error(f"Error deactivating whitelist mode: {str(e)}", exc_info=True)
-        return build_error_response(str(e), 503, "TUNNEL_OR_ROUTER_UNAVAILABLE", start_time)
-    except Exception as e:
-        logger.error(f"Unexpected error deactivating whitelist mode: {str(e)}", exc_info=True)
-        return build_error_response(str(e), 500, "UNEXPECTED_SERVER_ERROR", start_time) 
+    result, error = deactivate_whitelist_mode(g.user_id, g.router_id, g.session_id)
+    if error:
+        return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
+    return build_success_response(result, start_time)

@@ -32,6 +32,14 @@ def login_required(f):
     """Decorator to require login for protected routes"""
     @wraps(f)
     def decorated_function(*args, **kwargs):
+        from flask import current_app, g
+        
+        # Check if we're in development mode first
+        if current_app.config.get('DEV_MODE', False):
+            dev_user_id = current_app.config.get('DEV_USER_ID')
+            print(f"DEV MODE: login_required bypassed with fake user_id: {dev_user_id}")
+            return f(*args, **kwargs)
+        
         print(f"DEBUG: login_required decorator called")
         print(f"DEBUG: Session keys: {list(session.keys())}")
         print(f"DEBUG: 'user' in session: {'user' in session}")

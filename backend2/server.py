@@ -1,6 +1,7 @@
 from flask import Flask, g
 from flask_cors import CORS
 import os
+import argparse
 from decouple import config
 from datetime import timedelta
 
@@ -21,9 +22,25 @@ from endpoints.blacklist_new import blacklist_bp as blacklist_new_bp
 from endpoints.session import session_bp
 from endpoints.settings import settings_bp
 
-def create_app():
-    """Create and configure the Flask application"""
+def create_app(dev_mode=False, dev_user_id=None):
+    """Create and configure the Flask application
+    
+    Args:
+        dev_mode (bool): Enable development mode with authentication bypass
+        dev_user_id (str): User ID to use in development mode
+    """
     app = Flask(__name__)
+    
+    # Development mode configuration
+    app.config['DEV_MODE'] = dev_mode
+    app.config['DEV_USER_ID'] = dev_user_id
+    
+    if dev_mode:
+        print("=" * 50)
+        print("🚨 WARNING: DEVELOPMENT MODE ACTIVE 🚨")
+        print(f"Authentication bypassed with fake user_id: {dev_user_id}")
+        print("DO NOT USE IN PRODUCTION!")
+        print("=" * 50)
     
     # Load environment variables
     os.environ['DB_HOST'] = config('DB_HOST', default='127.0.0.1')
@@ -93,7 +110,14 @@ def create_app():
     def before_request():
         g.db_session = db.get_session()
         
-        # CRITICAL: Enhanced session validation
+        # Check if we're in development mode first
+        if app.config.get('DEV_MODE', False):
+            dev_user_id = app.config.get('DEV_USER_ID')
+            g.user_id = dev_user_id
+            print(f"DEV MODE: Using fake user_id: {dev_user_id}")
+            return  # Skip normal authentication flow
+        
+        # Normal authentication flow for production
         from flask import session as flask_session
         user_id = flask_session.get('user_id')
         
@@ -124,5 +148,23 @@ def create_app():
     return app
 
 if __name__ == '__main__':
-    app = create_app()
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(description='NetPilot Backend Server')
+    parser.add_argument('-d', '--dev', type=str, metavar='USER_ID',
+                       help='Run in development mode with fake user_id (e.g., -d test-user-123)')
+    
+    args = parser.parse_args()
+    
+    # Determine if we're in dev mode
+    dev_mode = args.dev is not None
+    dev_user_id = args.dev if dev_mode else None
+    
+    # Create app with appropriate mode
+    app = create_app(dev_mode=dev_mode, dev_user_id=dev_user_id)
+    
+    # Show usage info
+    if not dev_mode:
+        print("🚀 Starting NetPilot server in PRODUCTION mode")
+        print("💡 For development mode: python server.py -d <fake_user_id>")
+    
     app.run(debug=True, host='0.0.0.0', port=5000)

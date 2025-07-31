@@ -11,7 +11,7 @@ def build_success_response(data, execution_start_time):
         "metadata": {
             "sessionId": g.get("session_id"),
             "routerId": g.get("router_id"),
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now().isoformat(),
             "executionTime": time.time() - execution_start_time
         }
     })
@@ -29,7 +29,7 @@ def build_error_response(message, status_code, error_code, execution_start_time)
         "metadata": {
             "sessionId": g.get("session_id"),
             "routerId": g.get("router_id"),
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now().isoformat(),
             "executionTime": time.time() - execution_start_time
         }
     }), status_code

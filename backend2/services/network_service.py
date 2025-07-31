@@ -1,91 +1,62 @@
-# Stub implementation for network service
-# This is a placeholder that returns mock data
+"""
+Network Service - Main Orchestration Layer
 
-from flask import g
-from managers.commands_server_manager import commands_server_manager
+This service acts as the conductor for network operations, coordinating between
+database operations and router command executions. It follows the 3-layer architecture:
+1. This service (orchestration) - calls db + commands
+2. services/db_operations/network_db.py - Database operations  
+3. services/commands_server_operations/network_execute.py - Router command execution
+
+This service focuses exclusively on network scanning functionality.
+Other network operations (blocking, unblocking, etc.) are handled by separate services.
+"""
+
+from typing import Dict, List, Optional, Tuple, Any
 from utils.logging_config import get_logger
+from .base import (
+    handle_service_errors,
+    log_service_operation
+)
 
-logger = get_logger('services.network')
+# Database operations imports
+from services.db_operations.network_db import (
+    save_network_scan_result as db_save_network_scan_result
+)
 
-def get_blocked_devices_list():
-    """Get all currently blocked devices"""
-    return [
-        {"ip": "192.168.1.100", "mac": "00:11:22:33:44:55", "hostname": "blocked-device-1"},
-        {"ip": "192.168.1.101", "mac": "AA:BB:CC:DD:EE:FF", "hostname": "blocked-device-2"}
-    ], None
+# Router command execution imports
+from services.commands_server_operations.network_execute import (
+    execute_scan_network
+)
 
-def block_device(ip):
-    """Block a device by IP address"""
-    if not ip:
-        return None, "IP address is required."
-    return f"Device {ip} blocked successfully.", None
+logger = get_logger('services.network_service')
 
-def unblock_device(ip):
-    """Unblock a device by IP address"""
-    if not ip:
-        return None, "IP address is required."
-    return f"Device {ip} unblocked successfully.", None
-
-def reset_network_rules():
-    """Reset all network rules"""
-    return "All network rules reset successfully.", None
-
-def scan_network(router_id):
+@handle_service_errors("Scan network")
+def scan_network(user_id: str, router_id: str, session_id: str) -> Tuple[Optional[List[Dict]], Optional[str]]:
     """
     Scan the network via router to find connected devices.
     
     Args:
-        router_id (str): The router's unique ID
+        user_id: User's UUID
+        router_id: Router's UUID  
+        session_id: Session's UUID
         
     Returns:
-        tuple: (result, error) where result is the list of devices or None, error is error message or None
+        Tuple of (list_of_devices, error_message)
     """
-    # Get session_id from Flask's g object (set by authentication middleware)
-    session_id = getattr(g, 'user_id', None)
-    if not session_id:
-        return None, "User not authenticated"
+    log_service_operation("scan_network", user_id, router_id, session_id)
     
-    if not router_id:
-        return None, "router_id is required"
+    # Execute router command to scan network
+    cmd_response, cmd_error = execute_scan_network(router_id, session_id)
+    if cmd_error:
+        log_service_operation("scan_network", user_id, router_id, session_id, success=False, error=cmd_error)
+        return None, cmd_error
     
-    try:
-        # Call the commands server with the scan endpoint
-        response, error = commands_server_manager.execute_router_command(
-            router_id=router_id,
-            session_id=session_id,
-            endpoint="/api/network/scan",
-            method="GET",
-            query_params={
-                "sessionId": session_id,
-                "routerId": router_id
-            }
-        )
-        
-        if error:
-            logger.error(f"Network scan failed: {error}")
-            return None, error
-        
-        # Unpack the response - expect an array of devices
-        if response and isinstance(response, dict):
-            # Check if response has the expected structure
-            if 'success' in response and response['success']:
-                # Extract data from the response
-                data = response.get('data', [])
-                if isinstance(data, list):
-                    return data, None
-                else:
-                    return None, "Invalid response format: expected array of devices"
-            else:
-                # Handle error response
-                error_msg = response.get('error', 'Unknown error from commands server')
-                return None, error_msg
-        elif isinstance(response, list):
-            # Direct array response
-            return response, None
-        else:
-            return None, "Invalid response format from commands server"
-            
-    except Exception as e:
-        error_msg = f"Unexpected error during network scan: {str(e)}"
-        logger.error(error_msg, exc_info=True)
-        return None, error_msg 
+    # Save scan result to database
+    if cmd_response:
+        db_save_result, db_error = db_save_network_scan_result(user_id, router_id, cmd_response)
+        if db_error:
+            # Log warning but don't fail the operation since network scan succeeded
+            logger.warning(f"Failed to save network scan result to database: {db_error}")
+    
+    log_service_operation("scan_network", user_id, router_id, session_id, success=True)
+    return cmd_response, None 

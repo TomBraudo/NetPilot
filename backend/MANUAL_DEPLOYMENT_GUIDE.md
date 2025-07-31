@@ -66,9 +66,9 @@ If testing is successful, deploy to production:
 # Stop current production service
 sudo systemctl stop netpilot-commands-server
 
-# Replace production deployment
-rm -rf /home/netpilot-agent/netpilot-commands-server-production
-mv /home/netpilot-agent/netpilot-commands-server-new /home/netpilot-agent/netpilot-commands-server-production
+# Backup current production and swap directories
+mv /home/netpilot-agent/netpilot-commands-server /home/netpilot-agent/netpilot-commands-server-old
+mv /home/netpilot-agent/netpilot-commands-server-new /home/netpilot-agent/netpilot-commands-server
 
 # Update systemd service to use new location
 sudo systemctl daemon-reload
@@ -105,9 +105,10 @@ After=network.target
 [Service]
 Type=simple
 User=netpilot-agent
-WorkingDirectory=/home/netpilot-agent/netpilot-commands-server-production
-Environment=PATH=/home/netpilot-agent/netpilot-commands-server-production/venv/bin
-ExecStart=/home/netpilot-agent/netpilot-commands-server-production/venv/bin/python server.py
+Group=netpilot-agent
+WorkingDirectory=/home/netpilot-agent/netpilot-commands-server
+Environment=PATH=/home/netpilot-agent/netpilot-commands-server/venv/bin
+ExecStart=/home/netpilot-agent/netpilot-commands-server/venv/bin/python server.py
 Restart=always
 RestartSec=10
 
@@ -151,7 +152,7 @@ sudo journalctl -u netpilot-commands-server -n 50
 sudo systemctl cat netpilot-commands-server
 
 # Test manual start
-cd /home/netpilot-agent/netpilot-commands-server-production
+cd /home/netpilot-agent/netpilot-commands-server
 source venv/bin/activate
 python server.py
 ```
@@ -175,11 +176,11 @@ sudo ufw allow 5001
 **Solution**:
 ```bash
 # Fix ownership
-sudo chown -R netpilot-agent:netpilot-agent /home/netpilot-agent/netpilot-commands-server-*
+sudo chown -R netpilot-agent:netpilot-agent /home/netpilot-agent/netpilot-commands-server*
 
 # Fix permissions
 chmod +x server.py
-chmod -R 755 /home/netpilot-agent/netpilot-commands-server-production
+chmod -R 755 /home/netpilot-agent/netpilot-commands-server
 ```
 
 ## Environment Variables
@@ -210,8 +211,8 @@ If deployment fails:
 sudo systemctl stop netpilot-commands-server
 
 # Restore previous version
-mv /home/netpilot-agent/netpilot-commands-server-production /home/netpilot-agent/netpilot-commands-server-failed
-mv /home/netpilot-agent/netpilot-commands-server-old /home/netpilot-agent/netpilot-commands-server-production
+mv /home/netpilot-agent/netpilot-commands-server /home/netpilot-agent/netpilot-commands-server-failed
+mv /home/netpilot-agent/netpilot-commands-server-old /home/netpilot-agent/netpilot-commands-server
 
 # Restart service
 sudo systemctl start netpilot-commands-server
