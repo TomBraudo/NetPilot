@@ -44,7 +44,7 @@ from services.commands_server_operations.whitelist_execute import (
 logger = get_logger('services.whitelist_service')
 
 @handle_service_errors("Get whitelist")
-def get_whitelist(user_id: str, router_id: str, session_id: str) -> Tuple[Optional[List[str]], Optional[str]]:
+def get_whitelist(user_id: str, router_id: str, session_id: str) -> Tuple[Optional[List[Dict]], Optional[str]]:
     """
     Gets the current whitelist state from the database and router.
     
@@ -54,7 +54,7 @@ def get_whitelist(user_id: str, router_id: str, session_id: str) -> Tuple[Option
         session_id: Session's UUID
         
     Returns:
-        Tuple of (list_of_ip_addresses, error_message)
+        Tuple of (list_of_device_objects, error_message)
     """
     log_service_operation("get_whitelist", user_id, router_id, session_id)
     
@@ -155,6 +155,12 @@ def remove_device_from_whitelist(user_id: str, router_id: str, session_id: str, 
     if db_error:
         log_service_operation("remove_device_from_whitelist", user_id, router_id, session_id, {"ip": ip}, success=False, error=db_error)
         return None, db_error
+    
+    # Check if the removal was successful (db_response is True if removed, False if not found)
+    if not db_response:
+        error_msg = f"Device {ip} is not whitelisted."
+        log_service_operation("remove_device_from_whitelist", user_id, router_id, session_id, {"ip": ip}, success=False, error=error_msg)
+        return None, error_msg
     
     # Execute router command
     cmd_response, cmd_error = execute_remove_device_from_whitelist(router_id, session_id, ip)

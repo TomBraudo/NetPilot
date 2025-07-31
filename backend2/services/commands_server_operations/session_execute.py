@@ -36,14 +36,9 @@ def execute_start_session(commands_server, router_id: str, session_id: str, rest
         Tuple of (session_info_dict, error_message)
     """
     endpoint = f"{base_path}/start"
-    body = {
-        "sessionId": session_id,
-        "routerId": router_id,
-        "restart": restart
-    }
     
     response_data, error = commands_server.execute_router_command(
-        router_id, session_id, endpoint, "POST", None, body
+        router_id, session_id, endpoint, "POST", None, None
     )
     
     # Debug logging
@@ -58,6 +53,17 @@ def execute_start_session(commands_server, router_id: str, session_id: str, rest
             'message': response_data.get('message', 'Session established successfully')
         }
         logger.info(f"Session started successfully for router {router_id} with session ID {session_id}")
+        return result, None
+    
+    # Handle SESSION_ALREADY_ACTIVE as a success case (from user's perspective, session is ready to use)
+    if error and "SESSION_ALREADY_ACTIVE" in error:
+        logger.info(f"Session already active for router {router_id} with session ID {session_id} - treating as success")
+        result = {
+            'session_id': session_id,
+            'router_reachable': True,
+            'infrastructure_ready': True,
+            'message': 'Session is already active and ready'
+        }
         return result, None
     
     # Return the actual error from commands server instead of generic message
@@ -85,13 +91,9 @@ def execute_end_session(commands_server, router_id: str, session_id: str) -> Tup
         Tuple of (result_dict, error_message)
     """
     endpoint = f"{base_path}/end"
-    body = {
-        "sessionId": session_id,
-        "routerId": router_id
-    }
     
     response_data, error = commands_server.execute_router_command(
-        router_id, session_id, endpoint, "POST", None, body
+        router_id, session_id, endpoint, "POST", None, None
     )
     
     # Debug logging
@@ -130,12 +132,9 @@ def execute_refresh_session(commands_server, router_id: str, session_id: str) ->
         Tuple of (result_dict, error_message)
     """
     endpoint = f"{base_path}/refresh"
-    body = {
-        "sessionId": session_id
-    }
     
     response_data, error = commands_server.execute_router_command(
-        router_id, session_id, endpoint, "POST", None, body
+        router_id, session_id, endpoint, "POST", None, None
     )
     
     if response_data and not error:
