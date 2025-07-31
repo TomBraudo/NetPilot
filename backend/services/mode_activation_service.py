@@ -141,6 +141,12 @@ def activate_whitelist_mode_rules():
             logger.error("Failed to activate whitelist in FORWARD chain")
             return False, "Failed to activate whitelist mode"
         
+        # === PHASE 5: APPLY RATE LIMITS FROM STATE FILE ===
+        logger.info("Phase 5: Applying stored rate limits to TC classes")
+        if not update_active_mode_limits():
+            logger.warning("Failed to update rate limits - mode activated but using default rates")
+            # Don't fail the entire activation for rate limit issues
+        
         logger.info("Whitelist mode activated successfully with proven working approach")
         return True, None
         
@@ -191,6 +197,12 @@ def activate_blacklist_mode_rules():
         if not _execute_command("iptables -t mangle -A FORWARD -j NETPILOT_BLACKLIST"):
             logger.error("Failed to activate blacklist in FORWARD chain")
             return False, "Failed to activate blacklist mode"
+        
+        # === PHASE 4: APPLY RATE LIMITS FROM STATE FILE ===
+        logger.info("Phase 4: Applying stored rate limits to TC classes")
+        if not update_active_mode_limits():
+            logger.warning("Failed to update rate limits - mode activated but using default rates")
+            # Don't fail the entire activation for rate limit issues
         
         logger.info("Blacklist mode activated successfully using naive approach")
         return True, None

@@ -130,8 +130,9 @@ export default function ControlPage() {
         return;
       }
       const result = await whitelistAPI.getLimitRate(routerId);
-      if (result.success && result.data) {
-        setWhitelistSpeedLimit(result.data.rate || "");
+      if (result.success && result.data !== null && result.data !== undefined) {
+        // Backend returns rate directly in data field (not data.rate)
+        setWhitelistSpeedLimit(result.data.toString() || "");
       } else {
         console.error("Failed to fetch whitelist speed limit:", result.error);
       }
@@ -144,8 +145,10 @@ export default function ControlPage() {
   const fetchBlacklistSpeedLimit = async () => {
     try {
       const result = await blacklistAPI.getLimitRate();
-      if (result.success && result.data) {
-        setBlacklistSpeedLimit(result.data.rate || "");
+      if (result.success && result.data !== null && result.data !== undefined) {
+        // Handle both data.rate (object format) and data (direct value) formats
+        const rate = typeof result.data === 'object' ? result.data.rate : result.data;
+        setBlacklistSpeedLimit(rate.toString() || "");
       } else {
         console.error("Failed to fetch blacklist speed limit:", result.error);
       }
@@ -196,15 +199,22 @@ export default function ControlPage() {
             console.log("Blacklist mode deactivated successfully");
           }
           
-          // Set speed limit before activating
-          if (whitelistSpeedLimit) {
-            console.log("Setting whitelist speed limit...");
-            const limitResult = await whitelistAPI.setLimitRate(routerId, whitelistSpeedLimit);
-            if (!limitResult.success) {
-              throw new Error(limitResult.message || "Failed to set speed limit");
-            }
-            console.log("Whitelist speed limit set successfully");
+          // Always set speed limit before activating (use current value or default)
+          const currentRate = whitelistSpeedLimit || "50"; // Default to 50 Mbps if empty
+          const rateValue = parseInt(currentRate, 10);
+          if (isNaN(rateValue) || rateValue < 1 || rateValue > 1000) {
+            throw new Error("Speed limit must be a number between 1 and 1000 Mbps");
           }
+          
+          console.log(`Setting whitelist speed limit to ${rateValue} Mbps...`);
+          const limitResult = await whitelistAPI.setLimitRate(routerId, rateValue);
+          if (!limitResult.success) {
+            throw new Error(limitResult.message || "Failed to set speed limit");
+          }
+          console.log("Whitelist speed limit set successfully");
+          
+          // Update the UI to reflect the rate that was actually set
+          setWhitelistSpeedLimit(rateValue.toString());
           
           // Activate whitelist mode
           console.log("Activating whitelist mode...");
@@ -258,14 +268,21 @@ export default function ControlPage() {
           }
           
           // Set speed limit before activating
-          if (blacklistSpeedLimit) {
-            console.log("Setting blacklist speed limit...");
-            const limitResult = await blacklistAPI.setLimitRate(blacklistSpeedLimit);
-            if (!limitResult.success) {
-              throw new Error(limitResult.message || "Failed to set speed limit");
-            }
-            console.log("Blacklist speed limit set successfully");
+          const currentRate = blacklistSpeedLimit || "50"; // Default to 50 Mbps if empty
+          const rateValue = parseInt(currentRate, 10);
+          if (isNaN(rateValue) || rateValue < 1 || rateValue > 1000) {
+            throw new Error("Speed limit must be a number between 1 and 1000 Mbps");
           }
+          
+          console.log(`Setting blacklist speed limit to ${rateValue} Mbps...`);
+          const limitResult = await blacklistAPI.setLimitRate(rateValue);
+          if (!limitResult.success) {
+            throw new Error(limitResult.message || "Failed to set speed limit");
+          }
+          console.log("Blacklist speed limit set successfully");
+          
+          // Update the UI to reflect the rate that was actually set
+          setBlacklistSpeedLimit(rateValue.toString());
           
           // Activate blacklist mode
           console.log("Activating blacklist mode...");
@@ -643,10 +660,11 @@ export default function ControlPage() {
             <input
               type="number"
               min={1}
+              max={1000}
               className="border rounded-lg px-4 py-3 mb-4 bg-white dark:bg-gray-900 dark:text-white dark:border-gray-700 w-full"
               value={isWhitelistMode ? whitelistSpeedLimit : blacklistSpeedLimit}
               onChange={e => isWhitelistMode ? setWhitelistSpeedLimit(e.target.value) : setBlacklistSpeedLimit(e.target.value)}
-              placeholder="Enter speed limit"
+              placeholder="Enter speed limit (1-1000 Mbps)"
               disabled={(isWhitelistMode ? whitelistModeActive : blacklistModeActive) || (loadingWhitelistMode || loadingBlacklistMode)}
             />
             
