@@ -12,7 +12,7 @@ import {
   FaCheck,
 } from "react-icons/fa";
 import { BsRouter } from "react-icons/bs";
-import { whitelistAPI } from "../constants/api";
+import { whitelistAPI, blacklistAPI } from "../constants/api";
 
 const iconMap = {
   FaMobileAlt: FaMobileAlt,
@@ -61,10 +61,27 @@ const DeviceCard = ({ device }) => {
           ok: result.success,
           json: async () => result
         };
+      } else if (action === 'blacklist') {
+        // Use blacklist API helper with routerId
+        const routerId = localStorage.getItem('routerId');
+        if (!routerId) {
+          throw new Error('No routerId found in localStorage');
+        }
+        
+        const result = await blacklistAPI.add(routerId, {
+          ip: device.ip,
+          name: device.hostname,
+          description: `${device.hostname} - ${device.mac}`
+        });
+        
+        // Create a mock response object to maintain compatibility
+        res = {
+          ok: result.success,
+          json: async () => result
+        };
       } else {
-        // Keep existing logic for blacklist and block
+        // Keep existing logic for block
         const endpoint = {
-          blacklist: "http://localhost:5000/blacklist",
           block: "http://localhost:5000/api/block"
         }[action];
 

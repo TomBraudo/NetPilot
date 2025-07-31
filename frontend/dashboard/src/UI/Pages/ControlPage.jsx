@@ -77,7 +77,12 @@ export default function ControlPage() {
   // Fetch blacklist data from backend
   const fetchBlacklistData = async () => {
     try {
-      const result = await blacklistAPI.getAll();
+      const routerId = localStorage.getItem('routerId');
+      if (!routerId) {
+        console.error("No routerId found in localStorage");
+        return;
+      }
+      const result = await blacklistAPI.getAll(routerId);
       if (result.success) {
         setBlacklistedDevices(result.data?.devices || []);
       } else {
@@ -110,7 +115,12 @@ export default function ControlPage() {
   // Fetch blacklist mode status
   const fetchBlacklistMode = async () => {
     try {
-      const result = await blacklistAPI.getModeStatus();
+      const routerId = localStorage.getItem('routerId');
+      if (!routerId) {
+        console.error("No routerId found in localStorage for blacklist mode");
+        return;
+      }
+      const result = await blacklistAPI.getModeStatus(routerId);
       if (result.success) {
         setBlacklistModeActive(result.data?.active || false);
       } else {
@@ -144,11 +154,15 @@ export default function ControlPage() {
   // Fetch blacklist speed limit
   const fetchBlacklistSpeedLimit = async () => {
     try {
-      const result = await blacklistAPI.getLimitRate();
+      const routerId = localStorage.getItem('routerId');
+      if (!routerId) {
+        console.error("No routerId found in localStorage for blacklist speed limit");
+        return;
+      }
+      const result = await blacklistAPI.getLimitRate(routerId);
       if (result.success && result.data !== null && result.data !== undefined) {
-        // Handle both data.rate (object format) and data (direct value) formats
-        const rate = typeof result.data === 'object' ? result.data.rate : result.data;
-        setBlacklistSpeedLimit(rate.toString() || "");
+        // Backend returns rate directly in data field (not data.rate)
+        setBlacklistSpeedLimit(result.data.toString() || "");
       } else {
         console.error("Failed to fetch blacklist speed limit:", result.error);
       }
@@ -190,13 +204,24 @@ export default function ControlPage() {
           // If blacklist is active, deactivate it first
           if (blacklistModeActive) {
             console.log("Deactivating blacklist mode before activating whitelist...");
-            const deactivateResult = await blacklistAPI.deactivateMode();
+            const deactivateResult = await blacklistAPI.deactivateMode(routerId);
             if (!deactivateResult.success) {
               throw new Error(deactivateResult.message || "Failed to deactivate blacklist mode");
             }
             
             setBlacklistModeActive(false);
             console.log("Blacklist mode deactivated successfully");
+            
+            // Wait a moment for the router to process the deactivation
+            console.log("Waiting for router to process blacklist deactivation...");
+            await new Promise(resolve => setTimeout(resolve, 2000)); // 2 second delay
+            
+            // Verify blacklist mode is actually off
+            const verifyResult = await blacklistAPI.getModeStatus(routerId);
+            if (verifyResult.success && verifyResult.data?.active) {
+              throw new Error("Blacklist mode is still active after deactivation attempt");
+            }
+            console.log("Blacklist mode deactivation confirmed");
           }
           
           // Always set speed limit before activating (use current value or default)
@@ -222,6 +247,15 @@ export default function ControlPage() {
           if (result.success) {
             setWhitelistModeActive(true);
             console.log("Whitelist mode activated successfully");
+            
+            // Final verification that the mode switch was successful
+            console.log("Verifying whitelist mode activation...");
+            const finalCheck = await whitelistAPI.getModeStatus(routerId);
+            if (!finalCheck.success || !finalCheck.data?.active) {
+              console.warn("Warning: Whitelist mode may not be fully active yet");
+            } else {
+              console.log("Whitelist mode activation confirmed");
+            }
           } else {
             throw new Error(result.message || "Failed to activate whitelist mode");
           }
@@ -265,9 +299,25 @@ export default function ControlPage() {
             
             setWhitelistModeActive(false);
             console.log("Whitelist mode deactivated successfully");
+            
+            // Wait a moment for the router to process the deactivation
+            console.log("Waiting for router to process whitelist deactivation...");
+            await new Promise(resolve => setTimeout(resolve, 2000)); // 2 second delay
+            
+            // Verify whitelist mode is actually off
+            const verifyResult = await whitelistAPI.getModeStatus(routerId);
+            if (verifyResult.success && verifyResult.data?.active) {
+              throw new Error("Whitelist mode is still active after deactivation attempt");
+            }
+            console.log("Whitelist mode deactivation confirmed");
           }
           
           // Set speed limit before activating
+          const routerId = localStorage.getItem('routerId');
+          if (!routerId) {
+            throw new Error("No routerId found in localStorage");
+          }
+          
           const currentRate = blacklistSpeedLimit || "50"; // Default to 50 Mbps if empty
           const rateValue = parseInt(currentRate, 10);
           if (isNaN(rateValue) || rateValue < 1 || rateValue > 1000) {
@@ -275,7 +325,7 @@ export default function ControlPage() {
           }
           
           console.log(`Setting blacklist speed limit to ${rateValue} Mbps...`);
-          const limitResult = await blacklistAPI.setLimitRate(rateValue);
+          const limitResult = await blacklistAPI.setLimitRate(routerId, rateValue);
           if (!limitResult.success) {
             throw new Error(limitResult.message || "Failed to set speed limit");
           }
@@ -286,17 +336,30 @@ export default function ControlPage() {
           
           // Activate blacklist mode
           console.log("Activating blacklist mode...");
-          const result = await blacklistAPI.activateMode();
+          const result = await blacklistAPI.activateMode(routerId);
           if (result.success) {
             setBlacklistModeActive(true);
             console.log("Blacklist mode activated successfully");
+            
+            // Final verification that the mode switch was successful
+            console.log("Verifying blacklist mode activation...");
+            const finalCheck = await blacklistAPI.getModeStatus(routerId);
+            if (!finalCheck.success || !finalCheck.data?.active) {
+              console.warn("Warning: Blacklist mode may not be fully active yet");
+            } else {
+              console.log("Blacklist mode activation confirmed");
+            }
           } else {
             throw new Error(result.message || "Failed to activate blacklist mode");
           }
         } else {
           // Deactivate blacklist mode
           console.log("Deactivating blacklist mode...");
-          const result = await blacklistAPI.deactivateMode();
+          const routerId = localStorage.getItem('routerId');
+          if (!routerId) {
+            throw new Error("No routerId found in localStorage");
+          }
+          const result = await blacklistAPI.deactivateMode(routerId);
           if (result.success) {
             setBlacklistModeActive(false);
             console.log("Blacklist mode deactivated successfully");
@@ -438,7 +501,12 @@ export default function ControlPage() {
           description: formData.description
         });
       } else {
-        result = await blacklistAPI.add({
+        const routerId = localStorage.getItem('routerId');
+        if (!routerId) {
+          alert('No routerId found in localStorage');
+          return;
+        }
+        result = await blacklistAPI.add(routerId, {
           mac_address: formData.mac_address,
           device_name: formData.device_name,
           reason: formData.reason
@@ -453,9 +521,12 @@ export default function ControlPage() {
             setDevices(updatedDevices.data?.devices || []);
           }
         } else {
-          const updatedDevices = await blacklistAPI.getAll();
-          if (updatedDevices.success) {
-            setBlacklistedDevices(updatedDevices.data?.devices || []);
+          const routerId = localStorage.getItem('routerId');
+          if (routerId) {
+            const updatedDevices = await blacklistAPI.getAll(routerId);
+            if (updatedDevices.success) {
+              setBlacklistedDevices(updatedDevices.data?.devices || []);
+            }
           }
         }
         
@@ -496,7 +567,12 @@ export default function ControlPage() {
           description: formData.description
         });
       } else {
-        result = await blacklistAPI.update(editingDevice.id, {
+        const routerId = localStorage.getItem('routerId');
+        if (!routerId) {
+          alert('No routerId found in localStorage');
+          return;
+        }
+        result = await blacklistAPI.update(routerId, editingDevice.id, {
           device_name: formData.device_name,
           reason: formData.reason
         });
@@ -510,9 +586,12 @@ export default function ControlPage() {
             setDevices(updatedDevices.data?.devices || []);
           }
         } else {
-          const updatedDevices = await blacklistAPI.getAll();
-          if (updatedDevices.success) {
-            setBlacklistedDevices(updatedDevices.data?.devices || []);
+          const routerId = localStorage.getItem('routerId');
+          if (routerId) {
+            const updatedDevices = await blacklistAPI.getAll(routerId);
+            if (updatedDevices.success) {
+              setBlacklistedDevices(updatedDevices.data?.devices || []);
+            }
           }
         }
         
@@ -556,7 +635,12 @@ export default function ControlPage() {
       }
     } else {
       try {
-        const result = await blacklistAPI.remove(deviceToRemove.id);
+        const routerId = localStorage.getItem('routerId');
+        if (!routerId) {
+          alert('No routerId found in localStorage');
+          return;
+        }
+        const result = await blacklistAPI.remove(routerId, { ip: deviceToRemove.ip });
         if (result.success) {
           // Remove from local state
           setBlacklistedDevices(blacklistedDevices.filter((d) => d.id !== deviceToRemove.id));
@@ -835,13 +919,8 @@ export default function ControlPage() {
                   {device.device_name || device.hostname || device.name || "Unknown Device"}
                 </div>
                 <div className="text-xs text-gray-500 dark:text-gray-400">
-                  MAC: {device.mac_address || device.mac}
+                  IP: {device.ip} • MAC: {device.mac_address || device.mac}
                 </div>
-                {(device.reason || device.description) && (
-                  <div className="text-xs text-gray-500 dark:text-gray-400">
-                    {isWhitelistMode ? 'Description' : 'Reason'}: {device.reason || device.description}
-                  </div>
-                )}
                 {device.created_at && (
                   <div className="text-xs text-gray-400 dark:text-gray-500 mt-1">
                     Added: {new Date(device.created_at).toLocaleDateString()}

@@ -69,15 +69,17 @@ def get_whitelist(user_id: str, router_id: str, session_id: str) -> Tuple[Option
 
 
 @handle_service_errors("Add device to whitelist")
-def add_device_to_whitelist(user_id: str, router_id: str, session_id: str, ip: str) -> Tuple[Optional[Dict], Optional[str]]:
+def add_device_to_whitelist(user_id: str, router_id: str, session_id: str, ip: str, device_name: str = None, description: str = None) -> Tuple[Optional[Dict], Optional[str]]:
     """
-    Adds a device to the whitelist if it's not already there.
+    Adds a device to the whitelist if it doesn't already exist.
     
     Args:
         user_id: User's UUID
         router_id: Router's UUID
         session_id: Session's UUID
         ip: IP address to add to whitelist
+        device_name: Device name/hostname (optional)
+        description: Device description (optional)
         
     Returns:
         Tuple of (success_response, error_message)
@@ -102,7 +104,7 @@ def add_device_to_whitelist(user_id: str, router_id: str, session_id: str, ip: s
         return None, error_msg
     
     # Add to database
-    db_response, db_error = db_add_device_to_whitelist(user_id, router_id, ip)
+    db_response, db_error = db_add_device_to_whitelist(user_id, router_id, ip, device_name, description)
     if db_error:
         log_service_operation("add_device_to_whitelist", user_id, router_id, session_id, {"ip": ip}, success=False, error=db_error)
         return None, db_error

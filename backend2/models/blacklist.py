@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Text, Boolean, TIMESTAMP, ForeignKey
+from sqlalchemy import Column, String, Text, TIMESTAMP, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID, INET, MACADDR
 from sqlalchemy.orm import relationship
 from models.base import BaseModel
@@ -12,9 +12,8 @@ class UserBlacklist(BaseModel):
     device_ip = Column(INET, nullable=False)
     device_mac = Column(MACADDR)
     device_name = Column(String(255))
-    reason = Column(Text)
-    blocked_at = Column(TIMESTAMP)
-    is_active = Column(Boolean, default=True)
+    description = Column(Text)
+    added_at = Column(TIMESTAMP)
     
     # Relationships
     user = relationship("User", back_populates="blacklists")

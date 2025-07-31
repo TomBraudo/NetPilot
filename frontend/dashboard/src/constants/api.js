@@ -18,7 +18,7 @@ export const API_ENDPOINTS = {
   WHITELIST: `${API_BASE_URL}/api/whitelist`,
   
   // Blacklist (new endpoints)
-  BLACKLIST: `${API_BASE_URL}/api/blacklist-new`,
+  BLACKLIST: `${API_BASE_URL}/api/blacklist`,
   
   // Legacy endpoints (for backward compatibility)
   LEGACY_WHITELIST: `${API_BASE_URL}/whitelist`,
@@ -74,71 +74,48 @@ export const apiRequest = async (endpoint, options = {}) => {
 };
 
 // Blacklist API functions
-// TODO: These are currently dummy implementations to prevent CORS/redirect issues
-// from blocking whitelist functionality. Need to fix backend blacklist endpoints.
 export const blacklistAPI = {
-  // Get all blacklisted devices - DUMMY IMPLEMENTATION
-  getAll: () => Promise.resolve({
-    success: true,
-    data: { devices: [] },
-    message: 'Dummy blacklist data - backend needs fixing'
+  // Get all blacklisted devices
+  getAll: (routerId) => apiRequest(`${API_ENDPOINTS.BLACKLIST}/devices?routerId=${routerId}`),
+  
+  // Get specific blacklisted device
+  getById: (routerId, id) => apiRequest(`${API_ENDPOINTS.BLACKLIST}/${id}?routerId=${routerId}`),
+  
+  // Add device to blacklist
+  add: (routerId, deviceData) => apiRequest(`${API_ENDPOINTS.BLACKLIST}/add?routerId=${routerId}`, {
+    method: 'POST',
+    body: JSON.stringify(deviceData),
   }),
   
-  // Get specific blacklisted device - DUMMY IMPLEMENTATION
-  getById: (id) => Promise.resolve({
-    success: true,
-    data: { id, device_name: 'Dummy Device', mac_address: '00:00:00:00:00:00' },
-    message: 'Dummy blacklist data - backend needs fixing'
+  // Update blacklisted device
+  update: (routerId, id, deviceData) => apiRequest(`${API_ENDPOINTS.BLACKLIST}/${id}?routerId=${routerId}`, {
+    method: 'PUT',
+    body: JSON.stringify(deviceData),
   }),
   
-  // Add device to blacklist - DUMMY IMPLEMENTATION
-  add: (deviceData) => Promise.resolve({
-    success: true,
-    data: { id: Date.now(), ...deviceData },
-    message: 'Dummy blacklist operation - backend needs fixing'
+  // Remove device from blacklist
+  remove: (routerId, deviceData) => apiRequest(`${API_ENDPOINTS.BLACKLIST}/remove?routerId=${routerId}`, {
+    method: 'POST',
+    body: JSON.stringify(deviceData),
   }),
   
-  // Update blacklisted device - DUMMY IMPLEMENTATION
-  update: (id, deviceData) => Promise.resolve({
-    success: true,
-    data: { id, ...deviceData },
-    message: 'Dummy blacklist operation - backend needs fixing'
+  // Mode operations
+  getModeStatus: (routerId) => apiRequest(`${API_ENDPOINTS.BLACKLIST}/mode?routerId=${routerId}`),
+  
+  activateMode: (routerId) => apiRequest(`${API_ENDPOINTS.BLACKLIST}/mode?routerId=${routerId}`, {
+    method: 'POST',
   }),
   
-  // Remove device from blacklist - DUMMY IMPLEMENTATION
-  remove: (id) => Promise.resolve({
-    success: true,
-    message: 'Dummy blacklist operation - backend needs fixing'
+  deactivateMode: (routerId) => apiRequest(`${API_ENDPOINTS.BLACKLIST}/mode?routerId=${routerId}`, {
+    method: 'DELETE',
   }),
   
-  // Mode operations - DUMMY IMPLEMENTATIONS
-  getModeStatus: () => Promise.resolve({
-    success: true,
-    data: { active: false },
-    message: 'Dummy blacklist mode status - backend needs fixing'
-  }),
+  // Limit rate operations
+  getLimitRate: (routerId) => apiRequest(`${API_ENDPOINTS.BLACKLIST}/limit-rate?routerId=${routerId}`),
   
-  activateMode: () => Promise.resolve({
-    success: true,
-    message: 'Dummy blacklist mode activation - backend needs fixing'
-  }),
-  
-  deactivateMode: () => Promise.resolve({
-    success: true,
-    message: 'Dummy blacklist mode deactivation - backend needs fixing'
-  }),
-  
-  // Limit rate operations - DUMMY IMPLEMENTATIONS
-  getLimitRate: () => Promise.resolve({
-    success: true,
-    data: { rate: '50' },
-    message: 'Dummy blacklist rate limit - backend needs fixing'
-  }),
-  
-  setLimitRate: (rate) => Promise.resolve({
-    success: true,
-    data: { rate },
-    message: 'Dummy blacklist rate limit operation - backend needs fixing'
+  setLimitRate: (routerId, rate) => apiRequest(`${API_ENDPOINTS.BLACKLIST}/limit-rate?routerId=${routerId}`, {
+    method: 'POST',
+    body: JSON.stringify({ rate }),
   }),
 };
 

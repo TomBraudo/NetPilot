@@ -1,5 +1,13 @@
 # Services package
-from .blacklist_service import *
+from .blacklist_service import (
+    get_blacklist as get_blacklist_service,
+    add_device_to_blacklist as add_device_to_blacklist_service,
+    remove_device_from_blacklist as remove_device_from_blacklist_service,
+    get_blacklist_limit_rate as get_blacklist_limit_rate_service,
+    set_blacklist_limit_rate as set_blacklist_limit_rate_service,
+    activate_blacklist_mode as activate_blacklist_mode_service,
+    deactivate_blacklist_mode as deactivate_blacklist_mode_service
+)
 from .whitelist_service import (
     get_whitelist,
     add_device_to_whitelist,
@@ -16,6 +24,14 @@ from .wifi_management import *
 from .settings_service import *
 
 __all__ = [
+    # Blacklist service functions
+    'get_blacklist_service',
+    'add_device_to_blacklist_service', 
+    'remove_device_from_blacklist_service',
+    'get_blacklist_limit_rate_service',
+    'set_blacklist_limit_rate_service',
+    'activate_blacklist_mode_service',
+    'deactivate_blacklist_mode_service',
     # Whitelist service functions
     'get_whitelist',
     'add_device_to_whitelist', 
