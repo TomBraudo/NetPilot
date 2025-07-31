@@ -32,20 +32,22 @@ def execute_get_whitelist(commands_server, router_id: str, session_id: str) -> T
         Tuple of (list_of_ip_addresses, error_message)
     """
     endpoint = f"{base_path}"
-    query_params = {"router_id": router_id, "session_id": session_id}
     
     response_data, error = commands_server.execute_router_command(
-        router_id, session_id, endpoint, "GET", query_params, None
+        router_id, session_id, endpoint, "GET", None, None
     )
     
-    if response_data and response_data.get('success'):
+    if error:
+        return None, error
+    
+    if response_data:
         # Extract IP addresses from response
-        devices = response_data.get('data', {}).get('devices', [])
+        devices = response_data.get('devices', [])
         ip_addresses = [device.get('ip') for device in devices if device.get('ip')]
         logger.info(f"Retrieved {len(ip_addresses)} whitelisted devices from router {router_id}")
         return ip_addresses, None
     
-    return None, error or "Failed to retrieve whitelist from router"
+    return None, "Failed to retrieve whitelist from router"
 
 
 @with_commands_server
@@ -66,18 +68,20 @@ def execute_add_device_to_whitelist(commands_server, router_id: str, session_id:
         Tuple of (success_response, error_message)
     """
     endpoint = f"{base_path}/add"
-    query_params = {"router_id": router_id, "session_id": session_id}
     body = {"ip": ip_address}
     
     response_data, error = commands_server.execute_router_command(
-        router_id, session_id, endpoint, "POST", query_params, body
+        router_id, session_id, endpoint, "POST", None, body
     )
     
-    if response_data and response_data.get('success'):
+    if error:
+        return None, error
+    
+    if response_data:
         logger.info(f"Added device {ip_address} to whitelist on router {router_id}")
         return response_data, None
     
-    return None, error or f"Failed to add device {ip_address} to whitelist on router"
+    return None, f"Failed to add device {ip_address} to whitelist on router"
 
 
 @with_commands_server
@@ -98,18 +102,20 @@ def execute_remove_device_from_whitelist(commands_server, router_id: str, sessio
         Tuple of (success_response, error_message)
     """
     endpoint = f"{base_path}/remove"
-    query_params = {"router_id": router_id, "session_id": session_id}
     body = {"ip": ip_address}
     
     response_data, error = commands_server.execute_router_command(
-        router_id, session_id, endpoint, "POST", query_params, body
+        router_id, session_id, endpoint, "POST", None, body
     )
     
-    if response_data and response_data.get('success'):
+    if error:
+        return None, error
+    
+    if response_data:
         logger.info(f"Removed device {ip_address} from whitelist on router {router_id}")
         return response_data, None
     
-    return None, error or f"Failed to remove device {ip_address} from whitelist on router"
+    return None, f"Failed to remove device {ip_address} from whitelist on router"
 
 
 @with_commands_server
@@ -130,18 +136,20 @@ def execute_set_whitelist_rate_limit(commands_server, router_id: str, session_id
         Tuple of (success_response, error_message)
     """
     endpoint = f"{base_path}/limit-rate"
-    query_params = {"router_id": router_id, "session_id": session_id}
     body = {"rate": rate_mbps}
     
     response_data, error = commands_server.execute_router_command(
-        router_id, session_id, endpoint, "POST", query_params, body
+        router_id, session_id, endpoint, "POST", None, body
     )
     
-    if response_data and response_data.get('success'):
+    if error:
+        return None, error
+    
+    if response_data:
         logger.info(f"Set whitelist rate limit to {rate_mbps} Mbps on router {router_id}")
         return response_data, None
     
-    return None, error or f"Failed to set whitelist rate limit to {rate_mbps} Mbps on router"
+    return None, f"Failed to set whitelist rate limit to {rate_mbps} Mbps on router"
 
 
 @with_commands_server
@@ -162,17 +170,19 @@ def execute_activate_whitelist_mode(commands_server, router_id: str, session_id:
         Tuple of (success_response, error_message)
     """
     endpoint = f"{base_path}/mode"
-    query_params = {"router_id": router_id, "session_id": session_id}
     
     response_data, error = commands_server.execute_router_command(
-        router_id, session_id, endpoint, "POST", query_params, None
+        router_id, session_id, endpoint, "POST", None, None
     )
     
-    if response_data and response_data.get('success'):
+    if error:
+        return None, error
+    
+    if response_data:
         logger.info(f"Activated whitelist mode on router {router_id}")
         return response_data, None
     
-    return None, error or f"Failed to activate whitelist mode on router {router_id}"
+    return None, f"Failed to activate whitelist mode on router {router_id}"
 
 
 @with_commands_server
@@ -193,14 +203,16 @@ def execute_deactivate_whitelist_mode(commands_server, router_id: str, session_i
         Tuple of (success_response, error_message)
     """
     endpoint = f"{base_path}/mode"
-    query_params = {"router_id": router_id, "session_id": session_id}
     
     response_data, error = commands_server.execute_router_command(
-        router_id, session_id, endpoint, "DELETE", query_params, None
+        router_id, session_id, endpoint, "DELETE", None, None
     )
     
-    if response_data and response_data.get('success'):
+    if error:
+        return None, error
+    
+    if response_data:
         logger.info(f"Deactivated whitelist mode on router {router_id}")
         return response_data, None
     
-    return None, error or f"Failed to deactivate whitelist mode on router {router_id}"
+    return None, f"Failed to deactivate whitelist mode on router {router_id}"

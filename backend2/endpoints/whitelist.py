@@ -17,15 +17,18 @@ from utils.middleware import router_context_required
 whitelist_bp = Blueprint('whitelist', __name__)
 logger = get_logger('endpoints.whitelist')
 
-@whitelist_bp.route("/", methods=["GET"])
+@whitelist_bp.route("/devices", methods=["GET"])
 @router_context_required
 def get_whitelist_route():
-    """Get the current list of whitelisted device IP addresses"""
+    """Get the current list of whitelisted devices with full device information"""
     start_time = time.time()
     result, error = get_whitelist(g.user_id, g.router_id, g.session_id)
     if error:
         return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
-    return build_success_response(result, start_time)
+    
+    # Format response to match frontend expectations
+    response_data = {"devices": result or []}
+    return build_success_response(response_data, start_time)
 
 @whitelist_bp.route("/add", methods=["POST"])
 @router_context_required

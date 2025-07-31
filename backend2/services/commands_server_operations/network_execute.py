@@ -34,13 +34,9 @@ def execute_scan_network(commands_server, router_id: str, session_id: str) -> Tu
         Tuple of (list_of_devices, error_message)
     """
     endpoint = f"{base_path}/scan"
-    query_params = {
-        "sessionId": session_id,
-        "routerId": router_id
-    }
     
     response_data, error = commands_server.execute_router_command(
-        router_id, session_id, endpoint, "GET", query_params, None
+        router_id, session_id, endpoint, "GET", None, None
     )
     
     # If there was a communication error

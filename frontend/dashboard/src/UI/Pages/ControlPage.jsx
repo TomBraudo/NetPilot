@@ -332,18 +332,31 @@ export default function ControlPage() {
   // Initial data fetch
   useEffect(() => {
     const initializeData = async () => {
-      try {
-        await Promise.all([
-          fetchWhitelistData(),
-          fetchBlacklistData(),
-          fetchWhitelistMode(),
-          fetchBlacklistMode(),
-          fetchWhitelistSpeedLimit(),
-          fetchBlacklistSpeedLimit()
-        ]);
-      } catch (error) {
-        console.error("Error initializing data:", error);
-      }
+      // Use Promise.allSettled to prevent one failure from stopping all others
+      const results = await Promise.allSettled([
+        fetchWhitelistData(),
+        fetchBlacklistData(),
+        fetchWhitelistMode(),
+        fetchBlacklistMode(),
+        fetchWhitelistSpeedLimit(),
+        fetchBlacklistSpeedLimit()
+      ]);
+      
+      // Log any failures for debugging
+      results.forEach((result, index) => {
+        const functionNames = [
+          'fetchWhitelistData',
+          'fetchBlacklistData', 
+          'fetchWhitelistMode',
+          'fetchBlacklistMode',
+          'fetchWhitelistSpeedLimit',
+          'fetchBlacklistSpeedLimit'
+        ];
+        
+        if (result.status === 'rejected') {
+          console.warn(`${functionNames[index]} failed:`, result.reason);
+        }
+      });
     };
 
     initializeData();
@@ -508,7 +521,12 @@ export default function ControlPage() {
 
     if (isWhitelistMode) {
       try {
-        const result = await whitelistAPI.remove(deviceToRemove.id);
+        const routerId = localStorage.getItem('routerId');
+        if (!routerId) {
+          alert('No routerId found in localStorage');
+          return;
+        }
+        const result = await whitelistAPI.remove(routerId, { ip: deviceToRemove.ip });
         if (result.success) {
           // Remove from local state
           setDevices(devices.filter((d) => d.id !== deviceToRemove.id));

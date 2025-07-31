@@ -98,6 +98,12 @@ def create_app(dev_mode=False, dev_user_id=None):
     # Attach db session to each request
     @app.before_request
     def before_request():
+        from flask import request as flask_request
+        
+        # Skip authentication for OPTIONS requests (CORS preflight)
+        if flask_request.method == 'OPTIONS':
+            return
+        
         g.db_session = db.get_session()
         
         # Check if we're in development mode first
@@ -136,6 +142,49 @@ def create_app(dev_mode=False, dev_user_id=None):
                 print(f"Cleaned up invalid user_id: {user_id}")
         else:
             print("Request without user_id in session")
+
+    @app.after_request
+    def after_request(response):
+        """
+        Centralized transaction management based on response success/failure.
+        Automatically commits successful operations and rollbacks failed ones.
+        """
+        if hasattr(g, 'db_session'):
+            try:
+                # Parse response JSON to check success status
+                response_data = response.get_json()
+                
+                if response_data and isinstance(response_data, dict):
+                    # Check for success field (works with both response formats)
+                    is_success = response_data.get('success', False)
+                    
+                    if is_success:
+                        # Success response - commit the transaction
+                        g.db_session.commit()
+                        print(f"✅ Transaction committed for successful request")
+                    else:
+                        # Error response - rollback the transaction
+                        g.db_session.rollback()
+                        print(f"❌ Transaction rolled back for failed request")
+                else:
+                    # No JSON response or invalid format - check HTTP status
+                    if response.status_code < 400:
+                        g.db_session.commit()
+                        print(f"✅ Transaction committed based on HTTP status {response.status_code}")
+                    else:
+                        g.db_session.rollback()
+                        print(f"❌ Transaction rolled back based on HTTP status {response.status_code}")
+                        
+            except Exception as e:
+                # If we can't determine success/failure, rollback to be safe
+                print(f"⚠️ Error in transaction management: {e}")
+                try:
+                    g.db_session.rollback()
+                    print("❌ Transaction rolled back due to error in after_request")
+                except Exception as rollback_error:
+                    print(f"💥 Failed to rollback transaction: {rollback_error}")
+        
+        return response
 
     @app.teardown_request
     def teardown_request(exception):
