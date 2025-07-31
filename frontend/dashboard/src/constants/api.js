@@ -15,7 +15,7 @@ export const API_ENDPOINTS = {
   DEVICES: `${API_BASE_URL}/api/devices`,
   
   // Whitelist (new endpoints)
-  WHITELIST: `${API_BASE_URL}/api/whitelist-new`,
+  WHITELIST: `${API_BASE_URL}/api/whitelist`,
   
   // Blacklist (new endpoints)
   BLACKLIST: `${API_BASE_URL}/api/blacklist-new`,
@@ -42,10 +42,29 @@ export const apiRequest = async (endpoint, options = {}) => {
     },
   };
 
-  const response = await fetch(endpoint, {
+  const finalOptions = {
     ...defaultOptions,
     ...options,
-  });
+  };
+
+  // Enhanced logging for whitelist add requests only
+  if (endpoint.includes('/api/whitelist/add')) {
+    console.log('🔍 WHITELIST ADD API REQUEST:');
+    console.log('  Endpoint:', endpoint);
+    console.log('  Method:', finalOptions.method || 'GET');
+    console.log('  Credentials:', finalOptions.credentials);
+    console.log('  Headers:', finalOptions.headers);
+    console.log('  Body:', finalOptions.body || 'No body');
+    console.log('  Document cookies:', document.cookie);
+  }
+
+  const response = await fetch(endpoint, finalOptions);
+
+  if (endpoint.includes('/api/whitelist/add')) {
+    console.log('🔍 WHITELIST ADD API RESPONSE:');
+    console.log('  Status:', response.status);
+    console.log('  Response Headers:', Object.fromEntries(response.headers.entries()));
+  }
 
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
@@ -78,31 +97,69 @@ export const blacklistAPI = {
   remove: (id) => apiRequest(`${API_ENDPOINTS.BLACKLIST}/${id}`, {
     method: 'DELETE',
   }),
+  
+  // Mode operations
+  getModeStatus: () => apiRequest(`${API_ENDPOINTS.LEGACY_BLACKLIST}/mode`),
+  
+  activateMode: () => apiRequest(`${API_ENDPOINTS.LEGACY_BLACKLIST}/activate`, {
+    method: 'POST',
+  }),
+  
+  deactivateMode: () => apiRequest(`${API_ENDPOINTS.LEGACY_BLACKLIST}/deactivate`, {
+    method: 'POST',
+  }),
+  
+  // Limit rate operations
+  getLimitRate: () => apiRequest(`${API_ENDPOINTS.LEGACY_BLACKLIST}/limit-rate`),
+  
+  setLimitRate: (rate) => apiRequest(`${API_ENDPOINTS.LEGACY_BLACKLIST}/limit-rate`, {
+    method: 'POST',
+    body: JSON.stringify({ rate }),
+  }),
 };
 
 // Whitelist API functions
 export const whitelistAPI = {
   // Get all whitelisted devices
-  getAll: () => apiRequest(API_ENDPOINTS.WHITELIST),
+  getAll: (routerId) => apiRequest(`${API_ENDPOINTS.WHITELIST}?routerId=${routerId}`),
   
   // Get specific whitelisted device
-  getById: (id) => apiRequest(`${API_ENDPOINTS.WHITELIST}/${id}`),
+  getById: (routerId, id) => apiRequest(`${API_ENDPOINTS.WHITELIST}/${id}?routerId=${routerId}`),
   
   // Add device to whitelist
-  add: (deviceData) => apiRequest(API_ENDPOINTS.WHITELIST, {
+  add: (routerId, deviceData) => apiRequest(`${API_ENDPOINTS.WHITELIST}/add?routerId=${routerId}`, {
     method: 'POST',
     body: JSON.stringify(deviceData),
   }),
   
   // Update whitelisted device
-  update: (id, deviceData) => apiRequest(`${API_ENDPOINTS.WHITELIST}/${id}`, {
+  update: (routerId, id, deviceData) => apiRequest(`${API_ENDPOINTS.WHITELIST}/${id}?routerId=${routerId}`, {
     method: 'PUT',
     body: JSON.stringify(deviceData),
   }),
   
   // Remove device from whitelist
-  remove: (id) => apiRequest(`${API_ENDPOINTS.WHITELIST}/${id}`, {
+  remove: (routerId, id) => apiRequest(`${API_ENDPOINTS.WHITELIST}/${id}?routerId=${routerId}`, {
     method: 'DELETE',
+  }),
+  
+  // Mode operations
+  getModeStatus: (routerId) => apiRequest(`${API_ENDPOINTS.WHITELIST}/mode?routerId=${routerId}`),
+  
+  activateMode: (routerId) => apiRequest(`${API_ENDPOINTS.WHITELIST}/mode?routerId=${routerId}`, {
+    method: 'POST',
+  }),
+  
+  deactivateMode: (routerId) => apiRequest(`${API_ENDPOINTS.WHITELIST}/mode?routerId=${routerId}`, {
+    method: 'DELETE',
+  }),
+  
+  // Limit rate operations
+  getLimitRate: (routerId) => apiRequest(`${API_ENDPOINTS.WHITELIST}/limit-rate?routerId=${routerId}`),
+  
+  setLimitRate: (routerId, rate) => apiRequest(`${API_ENDPOINTS.WHITELIST}/limit-rate?routerId=${routerId}`, {
+    method: 'POST',
+    body: JSON.stringify({ rate }),
   }),
 };
 

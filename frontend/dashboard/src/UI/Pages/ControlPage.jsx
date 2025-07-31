@@ -58,7 +58,12 @@ export default function ControlPage() {
   // Fetch whitelist data from backend
   const fetchWhitelistData = async () => {
     try {
-      const result = await whitelistAPI.getAll();
+      const routerId = localStorage.getItem('routerId');
+      if (!routerId) {
+        console.error("No routerId found in localStorage");
+        return;
+      }
+      const result = await whitelistAPI.getAll(routerId);
       if (result.success) {
         setDevices(result.data?.devices || []);
       } else {
@@ -86,14 +91,16 @@ export default function ControlPage() {
   // Fetch whitelist mode status
   const fetchWhitelistMode = async () => {
     try {
-      const response = await fetch("http://localhost:5000/whitelist/mode");
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success) {
-          setWhitelistModeActive(result.data?.active || false);
-        }
+      const routerId = localStorage.getItem('routerId');
+      if (!routerId) {
+        console.error("No routerId found in localStorage for whitelist mode");
+        return;
+      }
+      const result = await whitelistAPI.getModeStatus(routerId);
+      if (result.success) {
+        setWhitelistModeActive(result.data?.active || false);
       } else {
-        console.error("Failed to fetch whitelist mode:", response.status);
+        console.error("Failed to fetch whitelist mode:", result.error);
       }
     } catch (error) {
       console.error("Error fetching whitelist mode:", error);
@@ -103,14 +110,11 @@ export default function ControlPage() {
   // Fetch blacklist mode status
   const fetchBlacklistMode = async () => {
     try {
-      const response = await fetch("http://localhost:5000/blacklist/mode");
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success) {
-          setBlacklistModeActive(result.data?.active || false);
-        }
+      const result = await blacklistAPI.getModeStatus();
+      if (result.success) {
+        setBlacklistModeActive(result.data?.active || false);
       } else {
-        console.error("Failed to fetch blacklist mode:", response.status);
+        console.error("Failed to fetch blacklist mode:", result.error);
       }
     } catch (error) {
       console.error("Error fetching blacklist mode:", error);
@@ -120,14 +124,16 @@ export default function ControlPage() {
   // Fetch whitelist speed limit
   const fetchWhitelistSpeedLimit = async () => {
     try {
-      const response = await fetch("http://localhost:5000/whitelist/limit-rate", { method: "GET" });
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success && result.data) {
-          setWhitelistSpeedLimit(result.data.rate || "");
-        }
+      const routerId = localStorage.getItem('routerId');
+      if (!routerId) {
+        console.error("No routerId found in localStorage for whitelist speed limit");
+        return;
+      }
+      const result = await whitelistAPI.getLimitRate(routerId);
+      if (result.success && result.data) {
+        setWhitelistSpeedLimit(result.data.rate || "");
       } else {
-        console.error("Failed to fetch whitelist speed limit:", response.status);
+        console.error("Failed to fetch whitelist speed limit:", result.error);
       }
     } catch (error) {
       console.error("Error fetching whitelist speed limit:", error);
@@ -137,14 +143,11 @@ export default function ControlPage() {
   // Fetch blacklist speed limit
   const fetchBlacklistSpeedLimit = async () => {
     try {
-      const response = await fetch("http://localhost:5000/blacklist/limit-rate", { method: "GET" });
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success && result.data) {
-          setBlacklistSpeedLimit(result.data.rate || "");
-        }
+      const result = await blacklistAPI.getLimitRate();
+      if (result.success && result.data) {
+        setBlacklistSpeedLimit(result.data.rate || "");
       } else {
-        console.error("Failed to fetch blacklist speed limit:", response.status);
+        console.error("Failed to fetch blacklist speed limit:", result.error);
       }
     } catch (error) {
       console.error("Error fetching blacklist speed limit:", error);
@@ -175,19 +178,16 @@ export default function ControlPage() {
       setLoadingWhitelistMode(true);
       try {
         if (!whitelistModeActive) {
+          // Get routerId for all operations
+          const routerId = localStorage.getItem('routerId');
+          if (!routerId) {
+            throw new Error("No routerId found in localStorage");
+          }
+
           // If blacklist is active, deactivate it first
           if (blacklistModeActive) {
             console.log("Deactivating blacklist mode before activating whitelist...");
-            const deactivateResponse = await fetch("http://localhost:5000/blacklist/deactivate", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" }
-            });
-            
-            if (!deactivateResponse.ok) {
-              throw new Error(`Failed to deactivate blacklist mode: ${deactivateResponse.status}`);
-            }
-            
-            const deactivateResult = await deactivateResponse.json();
+            const deactivateResult = await blacklistAPI.deactivateMode();
             if (!deactivateResult.success) {
               throw new Error(deactivateResult.message || "Failed to deactivate blacklist mode");
             }
@@ -199,17 +199,7 @@ export default function ControlPage() {
           // Set speed limit before activating
           if (whitelistSpeedLimit) {
             console.log("Setting whitelist speed limit...");
-            const limitResponse = await fetch("http://localhost:5000/whitelist/limit-rate", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ rate: whitelistSpeedLimit })
-            });
-            
-            if (!limitResponse.ok) {
-              throw new Error(`Failed to set speed limit: ${limitResponse.status}`);
-            }
-            
-            const limitResult = await limitResponse.json();
+            const limitResult = await whitelistAPI.setLimitRate(routerId, whitelistSpeedLimit);
             if (!limitResult.success) {
               throw new Error(limitResult.message || "Failed to set speed limit");
             }
@@ -218,40 +208,26 @@ export default function ControlPage() {
           
           // Activate whitelist mode
           console.log("Activating whitelist mode...");
-          const response = await fetch("http://localhost:5000/whitelist/activate", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" }
-          });
-          
-          if (response.ok) {
-            const result = await response.json();
-            if (result.success) {
-              setWhitelistModeActive(true);
-              console.log("Whitelist mode activated successfully");
-            } else {
-              throw new Error(result.message || "Failed to activate whitelist mode");
-            }
+          const result = await whitelistAPI.activateMode(routerId);
+          if (result.success) {
+            setWhitelistModeActive(true);
+            console.log("Whitelist mode activated successfully");
           } else {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            throw new Error(result.message || "Failed to activate whitelist mode");
           }
         } else {
           // Deactivate whitelist mode
           console.log("Deactivating whitelist mode...");
-          const response = await fetch("http://localhost:5000/whitelist/deactivate", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" }
-          });
-          
-          if (response.ok) {
-            const result = await response.json();
-            if (result.success) {
-              setWhitelistModeActive(false);
-              console.log("Whitelist mode deactivated successfully");
-            } else {
-              throw new Error(result.message || "Failed to deactivate whitelist mode");
-            }
+          const routerId = localStorage.getItem('routerId');
+          if (!routerId) {
+            throw new Error("No routerId found in localStorage");
+          }
+          const result = await whitelistAPI.deactivateMode(routerId);
+          if (result.success) {
+            setWhitelistModeActive(false);
+            console.log("Whitelist mode deactivated successfully");
           } else {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            throw new Error(result.message || "Failed to deactivate whitelist mode");
           }
         }
       } catch (error) {
@@ -268,16 +244,11 @@ export default function ControlPage() {
           // If whitelist is active, deactivate it first
           if (whitelistModeActive) {
             console.log("Deactivating whitelist mode before activating blacklist...");
-            const deactivateResponse = await fetch("http://localhost:5000/whitelist/deactivate", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" }
-            });
-            
-            if (!deactivateResponse.ok) {
-              throw new Error(`Failed to deactivate whitelist mode: ${deactivateResponse.status}`);
+            const routerId = localStorage.getItem('routerId');
+            if (!routerId) {
+              throw new Error("No routerId found in localStorage");
             }
-            
-            const deactivateResult = await deactivateResponse.json();
+            const deactivateResult = await whitelistAPI.deactivateMode(routerId);
             if (!deactivateResult.success) {
               throw new Error(deactivateResult.message || "Failed to deactivate whitelist mode");
             }
@@ -289,17 +260,7 @@ export default function ControlPage() {
           // Set speed limit before activating
           if (blacklistSpeedLimit) {
             console.log("Setting blacklist speed limit...");
-            const limitResponse = await fetch("http://localhost:5000/blacklist/limit-rate", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ rate: blacklistSpeedLimit })
-            });
-            
-            if (!limitResponse.ok) {
-              throw new Error(`Failed to set speed limit: ${limitResponse.status}`);
-            }
-            
-            const limitResult = await limitResponse.json();
+            const limitResult = await blacklistAPI.setLimitRate(blacklistSpeedLimit);
             if (!limitResult.success) {
               throw new Error(limitResult.message || "Failed to set speed limit");
             }
@@ -308,40 +269,22 @@ export default function ControlPage() {
           
           // Activate blacklist mode
           console.log("Activating blacklist mode...");
-          const response = await fetch("http://localhost:5000/blacklist/activate", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" }
-          });
-          
-          if (response.ok) {
-            const result = await response.json();
-            if (result.success) {
-              setBlacklistModeActive(true);
-              console.log("Blacklist mode activated successfully");
-            } else {
-              throw new Error(result.message || "Failed to activate blacklist mode");
-            }
+          const result = await blacklistAPI.activateMode();
+          if (result.success) {
+            setBlacklistModeActive(true);
+            console.log("Blacklist mode activated successfully");
           } else {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            throw new Error(result.message || "Failed to activate blacklist mode");
           }
         } else {
           // Deactivate blacklist mode
           console.log("Deactivating blacklist mode...");
-          const response = await fetch("http://localhost:5000/blacklist/deactivate", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" }
-          });
-          
-          if (response.ok) {
-            const result = await response.json();
-            if (result.success) {
-              setBlacklistModeActive(false);
-              console.log("Blacklist mode deactivated successfully");
-            } else {
-              throw new Error(result.message || "Failed to deactivate blacklist mode");
-            }
+          const result = await blacklistAPI.deactivateMode();
+          if (result.success) {
+            setBlacklistModeActive(false);
+            console.log("Blacklist mode deactivated successfully");
           } else {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            throw new Error(result.message || "Failed to deactivate blacklist mode");
           }
         }
       } catch (error) {
@@ -452,9 +395,14 @@ export default function ControlPage() {
     setFormLoading(true);
 
     try {
+      const routerId = localStorage.getItem('routerId');
+      if (!routerId) {
+        throw new Error("No routerId found in localStorage");
+      }
+
       let result;
       if (isWhitelistMode) {
-        result = await whitelistAPI.add({
+        result = await whitelistAPI.add(routerId, {
           mac_address: formData.mac_address,
           device_name: formData.device_name,
           description: formData.description
@@ -470,7 +418,7 @@ export default function ControlPage() {
       if (result.success) {
         // Refresh the appropriate list
         if (isWhitelistMode) {
-          const updatedDevices = await whitelistAPI.getAll();
+          const updatedDevices = await whitelistAPI.getAll(routerId);
           if (updatedDevices.success) {
             setDevices(updatedDevices.data?.devices || []);
           }
@@ -527,7 +475,7 @@ export default function ControlPage() {
       if (result.success) {
         // Refresh the appropriate list
         if (isWhitelistMode) {
-          const updatedDevices = await whitelistAPI.getAll();
+          const updatedDevices = await whitelistAPI.getAll(routerId);
           if (updatedDevices.success) {
             setDevices(updatedDevices.data?.devices || []);
           }

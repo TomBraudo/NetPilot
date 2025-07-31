@@ -10,6 +10,7 @@ from services.whitelist_service import (
     activate_whitelist_mode,
     deactivate_whitelist_mode
 )
+from services.db_operations.whitelist_db import get_whitelist_mode_setting
 import time
 from utils.middleware import router_context_required
 
@@ -32,14 +33,29 @@ def add_to_whitelist_route():
     """Add a device to the whitelist by IP address and update iptables rules"""
     start_time = time.time()
     
+    # Enhanced logging for whitelist add flow
+    logger.info("🔍 WHITELIST ADD ENDPOINT - Starting request processing")
+    logger.info(f"  - Authenticated user_id: {getattr(g, 'user_id', 'NOT SET')}")
+    logger.info(f"  - Router ID: {getattr(g, 'router_id', 'NOT SET')}")
+    logger.info(f"  - Session ID: {getattr(g, 'session_id', 'NOT SET')}")
+    
     data = request.get_json()
+    logger.info(f"  - Request body: {data}")
+    
     if not data or 'ip' not in data:
+        logger.error("🔍 WHITELIST ADD - Missing 'ip' in request body")
         return build_error_response("Missing 'ip' in request body", 400, "BAD_REQUEST", start_time)
     
     ip_address = data.get('ip')
+    logger.info(f"🔍 WHITELIST ADD - Calling service with IP: {ip_address}")
+    
     result, error = add_device_to_whitelist(g.user_id, g.router_id, g.session_id, ip_address)
+    
     if error:
+        logger.error(f"🔍 WHITELIST ADD - Service returned error: {error}")
         return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
+    
+    logger.info(f"🔍 WHITELIST ADD - Success! Result: {result}")
     return build_success_response(result, start_time)
 
 @whitelist_bp.route("/remove", methods=["POST"])
@@ -81,6 +97,16 @@ def get_limit_rate_route():
     if error:
         return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
     return build_success_response(result, start_time)
+
+@whitelist_bp.route("/mode", methods=["GET"])
+@router_context_required
+def get_mode_status_route():
+    """Get whitelist mode status"""
+    start_time = time.time()
+    is_active, error = get_whitelist_mode_setting(g.user_id, g.router_id)
+    if error:
+        return build_error_response(f"Failed to get mode status: {error}", 500, "COMMAND_FAILED", start_time)
+    return build_success_response({"active": is_active}, start_time)
 
 @whitelist_bp.route("/mode", methods=["POST"])
 @router_context_required

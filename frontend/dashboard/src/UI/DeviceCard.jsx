@@ -12,6 +12,7 @@ import {
   FaCheck,
 } from "react-icons/fa";
 import { BsRouter } from "react-icons/bs";
+import { whitelistAPI } from "../constants/api";
 
 const iconMap = {
   FaMobileAlt: FaMobileAlt,
@@ -41,21 +42,40 @@ const DeviceCard = ({ device }) => {
 
     setLoading(true);
     try {
-      const endpoint = {
-        whitelist: "http://localhost:5000/whitelist",
-        blacklist: "http://localhost:5000/blacklist",
-        block: "http://localhost:5000/api/block"
-      }[action];
+      let res;
+      if (action === 'whitelist') {
+        // Use whitelist API helper with routerId
+        const routerId = localStorage.getItem('routerId');
+        if (!routerId) {
+          throw new Error('No routerId found in localStorage');
+        }
+        
+        const result = await whitelistAPI.add(routerId, {
+          ip: device.ip,
+          name: device.hostname,
+          description: `${device.hostname} - ${device.mac}`
+        });
+        
+        // Create a mock response object to maintain compatibility
+        res = {
+          ok: result.success,
+          json: async () => result
+        };
+      } else {
+        // Keep existing logic for blacklist and block
+        const endpoint = {
+          blacklist: "http://localhost:5000/blacklist",
+          block: "http://localhost:5000/api/block"
+        }[action];
 
-      const body = action === 'whitelist' 
-        ? { ip: device.ip, name: device.hostname, description: `${device.hostname} - ${device.mac}` }
-        : { ip: device.ip, mac: device.mac };
+        const body = { ip: device.ip, mac: device.mac };
 
-      const res = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
+        res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+      }
 
       if (!res.ok) throw new Error(`Failed to ${action} device`);
 
