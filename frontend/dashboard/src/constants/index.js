@@ -77,7 +77,7 @@ export const staticDevices = [
 
 export const links = [
   {
-    href: "/",
+    href: "/dashboard",
     icon: FaChartBar,
     text: "Dashboard",
   },
@@ -108,6 +108,11 @@ export const links = [
     href: "/faqs",
     icon: FaRegQuestionCircle,
     text: "FAQs",
+  },
+  {
+    href: "/settings",
+    icon: IoIosSettings,
+    text: "Settings",
   },
 ];
 

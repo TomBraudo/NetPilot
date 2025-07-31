@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Router } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
-const RouterIdPopup = ({ isOpen, onClose, onConfirm }) => {
+const RouterIdPopup = ({ isOpen, onClose, onConfirm, cancelButtonText = 'Log Out', showAsLogout = true }) => {
   const [routerId, setRouterId] = useState('');
   const { saveRouterIdToBackend } = useAuth();
 
@@ -72,9 +72,13 @@ const RouterIdPopup = ({ isOpen, onClose, onConfirm }) => {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2 text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-md transition-colors"
+              className={`flex-1 px-4 py-2 rounded-md transition-colors border ${
+                showAsLogout 
+                  ? 'text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 border-red-200 dark:border-red-800'
+                  : 'text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 border-gray-200 dark:border-gray-600'
+              }`}
             >
-              Log Out
+              {cancelButtonText}
             </button>
             <button
               type="submit"

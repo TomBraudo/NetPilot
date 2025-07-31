@@ -20,6 +20,7 @@ export const AuthProvider = ({ children }) => {
   const [showRouterIdPopup, setShowRouterIdPopup] = useState(false);
   const [routerIdChecked, setRouterIdChecked] = useState(false); // Track if we've checked for router ID
   const [sessionStarted, setSessionStarted] = useState(false); // Track if session has been started
+  const [authFlowCompleted, setAuthFlowCompleted] = useState(false); // Track if auth flow has been completed
 
   const API_BASE_URL = 'http://localhost:5000';
 
@@ -100,6 +101,7 @@ export const AuthProvider = ({ children }) => {
         setShowRouterIdPopup(false);
         setRouterIdChecked(false);
         setSessionStarted(false);
+        setAuthFlowCompleted(false); // Reset flag for re-authentication
         localStorage.removeItem('routerId');
         // Redirect to dashboard
         window.location.href = '/';
@@ -114,6 +116,7 @@ export const AuthProvider = ({ children }) => {
       setShowRouterIdPopup(false);
       setRouterIdChecked(false);
       setSessionStarted(false);
+      setAuthFlowCompleted(false); // Reset flag for re-authentication
       localStorage.removeItem('routerId');
       window.location.href = '/';
     }
@@ -437,6 +440,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    if (authFlowCompleted) {
+      console.log('🔧 Auth flow already completed, skipping initialization');
+      return;
+    }
+    
     // Check for login success parameter
     const urlParams = new URLSearchParams(window.location.search);
     const loginSuccess = urlParams.get('login');
@@ -445,6 +453,7 @@ export const AuthProvider = ({ children }) => {
     
     if (loginSuccess === 'success') {
       console.log('Login success detected, checking auth status...');
+      setAuthFlowCompleted(true); // Mark flow as started
       // Clean up URL
       window.history.replaceState({}, document.title, window.location.pathname);
       
@@ -502,6 +511,8 @@ export const AuthProvider = ({ children }) => {
       handleLoginSuccess();
     } else {
       console.log('No login success, checking auth status normally...');
+      setAuthFlowCompleted(true); // Mark flow as started
+      
       const initializeAuth = async () => {
         const userData = await checkAuthStatus();
         if (userData) {
@@ -512,7 +523,7 @@ export const AuthProvider = ({ children }) => {
       };
       initializeAuth();
     }
-  }, []);
+  }, [authFlowCompleted]);
 
   // Show Router ID popup only when user is authenticated, no Router ID exists, and we've checked the backend
   useEffect(() => {
@@ -543,6 +554,8 @@ export const AuthProvider = ({ children }) => {
     }
   }, [user, routerId, routerIdChecked, sessionStarted]);
 
+
+
   const value = {
     user,
     loading,
@@ -551,6 +564,7 @@ export const AuthProvider = ({ children }) => {
     checkAuthStatus,
     routerId,
     showRouterIdPopup,
+    sessionStarted,
     setRouterIdValue,
     clearRouterId,
     setShowRouterIdPopup,

@@ -7,7 +7,10 @@ import ScanPage from "./UI/Pages/ScanPage";
 import ScanTest from "./UI/Pages/ScanTest";
 import FaqsPage from "./UI/Pages/FaqsPage";
 import Dashboard from "./UI/Pages/Dashboard";
+import DashboardPage from "./UI/Pages/DashboardPage";
 import AboutPage from "./UI/Pages/AboutPage";
+import SettingsPage from "./UI/Pages/SettingsPage";
+import AuthRedirectHandler from "./components/AuthRedirectHandler";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 
 const AppLayout = ({
@@ -37,11 +40,13 @@ const AppLayout = ({
       <div className="flex-1 flex flex-col min-h-screen ml-64">
         <main className="pt-16 bg-gray-100 dark:bg-gray-900 min-h-screen">
           <Routes>
+            <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/scan" element={<ScanPage />} />
             <Route path="/control" element={<ControlPage />} />
             {/* <Route path="/scanTest" element={<ScanTest />} /> */}
             <Route path="/about" element={<AboutPage />} />
             <Route path="/faqs" element={<FaqsPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
           </Routes>
         </main>
       </div>
@@ -69,6 +74,9 @@ const AppContent = () => {
 
   return (
     <div className={darkMode ? "dark" : ""}>
+      {/* Auth redirect handler - active throughout the app */}
+      <AuthRedirectHandler />
+      
       <Routes>
         {/* Root dashboard page without sidebar */}
         <Route

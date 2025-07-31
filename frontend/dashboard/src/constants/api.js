@@ -218,15 +218,19 @@ export const networkAPI = {
   // Session API functions (for commands server session management)
   export const sessionAPI = {
     // Start session with commands server - must be called after authentication
-    start: (routerId, restart = false) => {
+    start: (routerId, restart = true) => { // Default to restart=true to handle existing sessions
       console.log('📡 sessionAPI.start() called');
       console.log('  📋 Parameters:', { routerId, restart });
       console.log('  🌐 Full URL:', `${API_BASE_URL}/api/session/start`);
-      console.log('  📦 Request body:', { routerId, restart });
+      
+      // Note: sessionId is not needed in request body as backend uses user_id as session_id
+      // Using restart=true by default to handle cases where session already exists
+      const requestBody = { routerId, restart };
+      console.log('  📦 Request body:', requestBody);
       
       return apiRequest(`${API_BASE_URL}/api/session/start`, {
         method: 'POST',
-        body: JSON.stringify({ routerId, restart }),
+        body: JSON.stringify(requestBody),
       }).then(response => {
         console.log('📡 sessionAPI.start() response received:', response);
         return response;

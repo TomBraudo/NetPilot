@@ -60,6 +60,17 @@ def execute_start_session(commands_server, router_id: str, session_id: str, rest
         logger.info(f"Session started successfully for router {router_id} with session ID {session_id}")
         return result, None
     
+    # Handle SESSION_ALREADY_ACTIVE as success case
+    if error and "SESSION_ALREADY_ACTIVE" in str(error):
+        logger.info(f"Session already active for router {router_id} with session ID {session_id} - treating as success")
+        result = {
+            'session_id': session_id,
+            'router_reachable': True,
+            'infrastructure_ready': True,
+            'message': 'Session already active'
+        }
+        return result, None
+    
     # Return the actual error from commands server instead of generic message
     error_msg = error or "Failed to start session on router"
     logger.error(f"Session start failed for router {router_id}: {error_msg}")

@@ -73,7 +73,7 @@ const Header = ({ darkMode, toggleDarkMode, toggleSidebar }) => {
         </button>
 
         {/* Logo */}
-        <a href="/" className="flex items-center gap-1">
+        <div className="flex items-center gap-1">
           <img
             src={
               darkMode
@@ -86,7 +86,7 @@ const Header = ({ darkMode, toggleDarkMode, toggleSidebar }) => {
           <span className="text-xl font-semibold text-gray-900 dark:text-white">
             NetPilot
           </span>
-        </a>
+        </div>
       </div>
 
       {/* Right side: Dark Mode toggle */}
