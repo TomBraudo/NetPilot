@@ -189,6 +189,12 @@ class CommandsServerManager:
             return None, "session_id is required"
         if not self.is_connected():
             return None, "Commands server is not connected"
+        if not query_params:
+            query_params = {}
+        if not body:
+            body = {}
+        query_params['routerId'] = router_id
+        query_params['sessionId'] = session_id
         
         try:
             response_data, error = self._make_request(method, endpoint, data=body, params=query_params)

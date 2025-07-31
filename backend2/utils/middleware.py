@@ -11,6 +11,10 @@ def router_context_required(f):
     def decorated_function(*args, **kwargs):
         start_time = time.time()
         
+        # Allow OPTIONS requests (CORS preflight) to pass through immediately
+        if request.method == 'OPTIONS':
+            return '', 200
+        
         # 1. Validate user authentication first
         user_id = getattr(g, 'user_id', None)
         if not user_id:
