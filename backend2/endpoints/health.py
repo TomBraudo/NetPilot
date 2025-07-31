@@ -22,7 +22,9 @@ def health():
         logger.info("Performing basic health check")
         
         # Check if commands server is connected (basic connectivity test)
-        if not commands_server_manager.is_connected():
+        is_connected = commands_server_manager.is_connected()
+        if not is_connected:
+            logger.warning("Commands server is not accessible")
             return build_error_response(
                 "Commands server is not accessible",
                 503,
