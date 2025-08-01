@@ -35,6 +35,8 @@ backend/logs/commands-server-local.log
 backend/logs/error-local.log
 backend/scripts/start-port-forwarding.sh
 FIX_DEPLOYMENT_PLAN.md
+# Cloud deployment guide (contains sensitive data)
+backend2/CLOUD_DEPLOY_GUIDE.md
 
 # Python cache
 __pycache__/
