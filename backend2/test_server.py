@@ -1,6 +1,9 @@
 from flask import Flask
 from flask_cors import CORS
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Import blueprints (without database dependencies)
 from auth import auth_bp, init_oauth
@@ -15,11 +18,12 @@ def create_test_app():
     app = Flask(__name__)
     
     # Configuration
-    app.secret_key = 'my-strong-secret-key'
+    app.secret_key = os.getenv('SECRET_KEY', 'my-strong-secret-key')
     
     # Enable CORS with credentials support
+    cors_origins = os.getenv('CORS_ORIGINS', 'http://localhost:3000,http://localhost:5173').split(',')
     CORS(app, 
-         origins=['http://localhost:3000', 'http://localhost:5173'],
+         origins=cors_origins,
          supports_credentials=True,
          allow_headers=['Content-Type', 'Authorization'],
          methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'])
@@ -45,4 +49,9 @@ def create_test_app():
 if __name__ == '__main__':
     app = create_test_app()
     print("Starting test server without database integration...")
-    app.run(debug=True, host='127.0.0.1', port=5000) 
+    
+    # Get server configuration from environment
+    server_host = os.getenv('SERVER_HOST', '127.0.0.1')
+    server_port = int(os.getenv('SERVER_PORT', '5000'))
+    
+    app.run(debug=True, host=server_host, port=server_port) 

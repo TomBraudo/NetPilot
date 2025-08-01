@@ -152,7 +152,7 @@ def authorize():
         print(f"Session updated with user_id: {session.get('user_id')}")
         
         # Redirect back to frontend with success
-        frontend_url = "http://localhost:5173"
+        frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:5173')
         return redirect(f"{frontend_url}?login=success")
         
     except Exception as e:

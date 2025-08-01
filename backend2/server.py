@@ -53,11 +53,15 @@ def create_app(dev_mode=False, dev_user_id=None):
     # Configuration
     app.secret_key = config('SECRET_KEY', default='my-strong-secret-key')
     
+    # HTTPS Configuration
+    use_https = config('USE_HTTPS', default=False, cast=bool)
+    secure_cookies = config('SECURE_COOKIES', default=False, cast=bool)
+    
     # CRITICAL: Enhanced session configuration for deterministic behavior
     app.config.update(
-        SESSION_COOKIE_SECURE=False,  # Set to True in production with HTTPS
-        SESSION_COOKIE_HTTPONLY=False,  # Allow JavaScript access for debugging
-        SESSION_COOKIE_SAMESITE='Lax',
+        SESSION_COOKIE_SECURE=secure_cookies,  # True in production with HTTPS
+        SESSION_COOKIE_HTTPONLY=True,  # Prevent JavaScript access for security
+        SESSION_COOKIE_SAMESITE='Lax' if not use_https else 'None',  # 'None' required for HTTPS cross-origin
         SESSION_COOKIE_DOMAIN=None,  # Allow all domains
         SESSION_COOKIE_PATH='/',  # Set path to root
         PERMANENT_SESSION_LIFETIME=timedelta(hours=24),
@@ -66,8 +70,9 @@ def create_app(dev_mode=False, dev_user_id=None):
     )
     
     # Enable CORS with credentials support
+    cors_origins = config('CORS_ORIGINS', default='http://localhost:3000,http://localhost:5173').split(',')
     CORS(app, 
-         origins=['http://localhost:3000', 'http://localhost:5173'],
+         origins=cors_origins,
          supports_credentials=True,
          allow_headers=['Content-Type', 'Authorization'],
          methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'])
@@ -217,4 +222,8 @@ if __name__ == '__main__':
         print("🚀 Starting NetPilot server in PRODUCTION mode")
         print("💡 For development mode: python server.py -d <fake_user_id>")
     
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # Get server configuration from environment
+    server_host = config('SERVER_HOST', default='0.0.0.0')
+    server_port = config('SERVER_PORT', default=5000, cast=int)
+    
+    app.run(debug=True, host=server_host, port=server_port)
