@@ -46,5 +46,8 @@ __all__ = [
     'refresh_session',
     # Network service functions
     'scan_network',
+    # WiFi management functions
+    'get_wifi_name',
+    'update_wifi_name',
     # Other services are imported with * so their exports are already available
 ] 
