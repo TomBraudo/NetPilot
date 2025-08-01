@@ -39,7 +39,7 @@ def create_app(dev_mode=False, dev_user_id=None):
         print("=" * 50)
     
     # Load environment variables
-    os.environ['DB_HOST'] = config('DB_HOST', default='127.0.0.1')
+    os.environ['DB_HOST'] = config('DB_HOST', default='34.38.207.87')
     os.environ['DB_PORT'] = config('DB_PORT', default='5432')
     os.environ['DB_USERNAME'] = config('DB_USERNAME', default='netpilot_user')
     os.environ['DB_PASSWORD'] = config('DB_PASSWORD', default='your_secure_password_here')
@@ -50,8 +50,12 @@ def create_app(dev_mode=False, dev_user_id=None):
     app.config['COMMAND_SERVER_URL'] = config('COMMAND_SERVER_URL', default='http://34.38.207.87:5000')
     app.config['COMMAND_SERVER_TIMEOUT'] = config('COMMAND_SERVER_TIMEOUT', default=30, cast=int)
     
-    # Configuration
-    app.secret_key = config('SECRET_KEY', default='my-strong-secret-key')
+    # Configuration - Use strong default that encourages proper setup
+    app.secret_key = config('SECRET_KEY', default='CHANGE_ME_IN_PRODUCTION_OR_APP_WILL_NOT_START')
+    
+    # CRITICAL: Fail fast if using default secret key in production
+    if not dev_mode and app.secret_key == 'CHANGE_ME_IN_PRODUCTION_OR_APP_WILL_NOT_START':
+        raise ValueError("SECRET_KEY must be set in production environment")
     
     # CRITICAL: Enhanced session configuration for deterministic behavior
     app.config.update(
@@ -65,9 +69,12 @@ def create_app(dev_mode=False, dev_user_id=None):
         SESSION_COOKIE_NAME='session'
     )
     
-    # Enable CORS with credentials support
+    # Enable CORS with configurable origins
+    cors_origins = config('CORS_ORIGINS', default='http://localhost:3000,http://localhost:5173').split(',')
+    cors_origins = [origin.strip() for origin in cors_origins]  # Remove whitespace
+    
     CORS(app, 
-         origins=['http://localhost:3000', 'http://localhost:5173'],
+         origins=cors_origins,
          supports_credentials=True,
          allow_headers=['Content-Type', 'Authorization'],
          methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'])
@@ -217,4 +224,7 @@ if __name__ == '__main__':
         print("🚀 Starting NetPilot server in PRODUCTION mode")
         print("💡 For development mode: python server.py -d <fake_user_id>")
     
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # Use port from environment variable for cloud deployment
+    port = int(os.environ.get('PORT', 5000))
+    debug_mode = os.environ.get('FLASK_ENV', 'development') == 'development'
+    app.run(debug=debug_mode, host='0.0.0.0', port=port)

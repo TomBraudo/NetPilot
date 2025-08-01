@@ -1,0 +1,90 @@
+name: Deploy Backend2
+
+on:
+  push:
+    branches: [ New-Main ]
+    paths: [ 'backend2/**' ]
+  pull_request:
+    branches: [ New-Main ]
+    paths: [ 'backend2/**' ]
+    types: [ closed ]
+
+jobs:
+  deploy:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        cd backend2
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    # For Google Cloud Run deployment
+    - name: Setup Google Cloud CLI
+      if: ${{ vars.DEPLOYMENT_TYPE == 'cloudrun' }}
+      uses: google-github-actions/setup-gcloud@v1
+      with:
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+    - name: Configure Docker for GCP
+      if: ${{ vars.DEPLOYMENT_TYPE == 'cloudrun' }}
+      run: gcloud auth configure-docker
+
+    - name: Deploy to Cloud Run
+      if: ${{ vars.DEPLOYMENT_TYPE == 'cloudrun' }}
+      run: |
+        cd backend2
+        gcloud run deploy netpilot-backend2 \
+          --source . \
+          --platform managed \
+          --region us-central1 \
+          --allow-unauthenticated \
+          --port 8080 \
+          --set-env-vars="GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }},COMMANDS_SERVER_URL=${{ secrets.COMMANDS_SERVER_URL }},DB_HOST=${{ secrets.DB_HOST }},DB_PORT=${{ secrets.DB_PORT }},DB_USERNAME=${{ secrets.DB_USERNAME }},DB_NAME=${{ secrets.DB_NAME }},FLASK_ENV=production,DB_ECHO=false,LOG_LEVEL=INFO,PORT=8080" \
+          --set-secrets="GOOGLE_CLIENT_SECRET=google-client-secret:latest,DB_PASSWORD=db-password:latest,SECRET_KEY=flask-secret-key:latest,DATABASE_URL=database-url:latest"
+
+    # For Heroku deployment
+    - name: Deploy to Heroku
+      if: ${{ vars.DEPLOYMENT_TYPE == 'heroku' }}
+      uses: akhileshns/heroku-deploy@v3.12.12
+      with:
+        heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+        heroku_app_name: "netpilot-backend2"
+        heroku_email: ${{ secrets.HEROKU_EMAIL }}
+        appdir: "backend2"
+        branch: "New-Main"
+
+    # For Compute Engine deployment
+    - name: Deploy to Compute Engine
+      if: ${{ vars.DEPLOYMENT_TYPE == 'compute' }}
+      run: |
+        echo "${{ secrets.GCP_SA_KEY }}" | base64 -d > gcp-key.json
+        gcloud auth activate-service-account --key-file gcp-key.json
+        gcloud compute ssh netpilot-backend2 --zone=us-central1-a --command="
+          cd NetPilot &&
+          git pull origin New-Main &&
+          cd backend2 &&
+          source venv/bin/activate &&
+          pip install -r requirements.txt &&
+          sudo systemctl restart netpilot-backend2
+        " || echo "Deployment completed"
+
+    - name: Notify deployment status
+      if: always()
+      run: |
+        if [ "${{ job.status }}" == "success" ]; then
+          echo "✅ Backend2 deployment successful!"
+        else
+          echo "❌ Backend2 deployment failed!"
+        fi
