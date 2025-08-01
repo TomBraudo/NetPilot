@@ -83,7 +83,10 @@ gcloud services enable secretmanager.googleapis.com
 2. **Create secrets for sensitive variables:**
 ```bash
 # Create secrets for SENSITIVE data only
-
+echo -n "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" | gcloud secrets create google-client-secret --data-file=-
+echo -n "your_secure_password_here" | gcloud secrets create db-password --data-file=-
+echo -n "da307539cae43c2e36b89a96f9a4a52076a3c754d53e1663ac58df93cf1c4521" | gcloud secrets create flask-secret-key --data-file=-
+echo -n "postgresql://netpilot_user:your_secure_password_here@34.38.207.87:5432/netpilot_db" | gcloud secrets create database-url --data-file=-
 ```
 
 **Note:** URLs like `COMMAND_SERVER_URL` are not secrets - they'll be set as regular environment variables during deployment.
