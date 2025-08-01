@@ -71,7 +71,7 @@ gcloud services enable containerregistry.googleapis.com
 gcloud auth configure-docker
 ```
 
-### Step 3: Set up Environment Variables with Secret Manager
+### ✅ Step 3: Set up Environment Variables with Secret Manager (COMPLETED)
 
 For production deployments, we'll use Google Cloud Secret Manager to securely store sensitive environment variables.
 
@@ -82,17 +82,19 @@ gcloud services enable secretmanager.googleapis.com
 
 2. **Create secrets for sensitive variables:**
 ```bash
-# Create secrets for sensitive data
+# Create secrets for SENSITIVE data only
 echo -n "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" | gcloud secrets create google-client-secret --data-file=-
 echo -n "your_secure_password_here" | gcloud secrets create db-password --data-file=-
-echo -n "your_super_secure_secret_key_here_make_it_long_and_random" | gcloud secrets create flask-secret-key --data-file=-
+echo -n "da307539cae43c2e36b89a96f9a4a52076a3c754d53e1663ac58df93cf1c4521" | gcloud secrets create flask-secret-key --data-file=-
 echo -n "postgresql://netpilot_user:your_secure_password_here@34.38.207.87:5432/netpilot_db" | gcloud secrets create database-url --data-file=-
 ```
+
+**Note:** URLs like `COMMAND_SERVER_URL` are not secrets - they'll be set as regular environment variables during deployment.
 
 3. **Grant Cloud Run access to secrets:**
 ```bash
 # Get your project number
-PROJECT_NUMBER=$(gcloud projects describe YOUR_PROJECT_ID --format="value(projectNumber)")
+PROJECT_NUMBER=$(gcloud projects describe net-pilot-463708 --format="value(projectNumber)")
 
 # Grant the Cloud Run service account access to secrets
 gcloud secrets add-iam-policy-binding google-client-secret \
@@ -116,16 +118,25 @@ gcloud secrets add-iam-policy-binding database-url \
 
 1. **Deploy with Secret Manager integration:**
 ```bash
-cd backend2
+# First, clone the repository from New-Main branch (since you need the source code)
+cd /tmp
+git clone -b New-Main https://github.com/TomBraudo/NetPilot.git
+cd NetPilot/backend2
+
+# Deploy with ALL required environment variables
 gcloud run deploy netpilot-backend2 \
     --source . \
     --platform managed \
-    --region us-central1 \
+    --region europe-west1 \
     --allow-unauthenticated \
     --port 8080 \
-    --set-env-vars="GOOGLE_CLIENT_ID=1053980213438-p4jvv47k3gmcuce206m5iv8cht0gpqhu.apps.googleusercontent.com,COMMANDS_SERVER_URL=http://34.38.207.87:5000,DB_HOST=34.38.207.87,DB_PORT=5432,DB_USERNAME=netpilot_user,DB_NAME=netpilot_db,FLASK_ENV=production,DB_ECHO=false,LOG_LEVEL=INFO,PORT=8080" \
+    --set-env-vars="GOOGLE_CLIENT_ID=1053980213438-p4jvv47k3gmcuce206m5iv8cht0gpqhu.apps.googleusercontent.com,COMMAND_SERVER_URL=http://34.38.207.87:5000,COMMAND_SERVER_TIMEOUT=30,DB_HOST=34.38.207.87,DB_PORT=5432,DB_USERNAME=netpilot_user,DB_NAME=netpilot_db,FLASK_ENV=production,DB_ECHO=false,LOG_LEVEL=INFO,PORT=8080" \
     --set-secrets="GOOGLE_CLIENT_SECRET=google-client-secret:latest,DB_PASSWORD=db-password:latest,SECRET_KEY=flask-secret-key:latest,DATABASE_URL=database-url:latest"
 ```
+
+**Note:** Since `.env` is not committed to Git, all environment variables are explicitly set in the deployment command above.
+
+**Important:** If you encounter psycopg2 build issues, first commit and push the updated requirements.txt and Dockerfile to your repository, then clone the latest version.
 
 2. **Update CORS settings:**
 After deployment, you'll get a URL like `https://netpilot-backend2-xxx-uc.a.run.app`

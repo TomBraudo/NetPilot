@@ -1,12 +1,13 @@
-# Use Python 3.11 slim image
-FROM python:3.11-slim
+# Use Python 3.10 slim image to match your local environment
+FROM python:3.10-slim
 
 # Set working directory
 WORKDIR /app
 
-# Install system dependencies
+# Install system dependencies including PostgreSQL development headers
 RUN apt-get update && apt-get install -y \
     gcc \
+    libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements first for better caching
