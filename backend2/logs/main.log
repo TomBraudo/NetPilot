@@ -5184,3 +5184,5 @@ TypeError: set_wifi_password() takes 0 positional arguments but 4 were given
 2025-08-01 15:05:06 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/whitelist/remove'
 2025-08-01 15:05:06 - services.commands_server_operations.whitelist_execute - INFO - Removed device 192.168.1.126 from whitelist on router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
 2025-08-01 15:05:06 - services.base - INFO - Service operation completed: remove_device_from_whitelist
+2025-08-01 16:02:21 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-08-01 16:02:27 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
