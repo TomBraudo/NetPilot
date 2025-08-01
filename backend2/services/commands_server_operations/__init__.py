@@ -75,4 +75,8 @@ __all__ = [
     
     # Network operations
     'execute_scan_network',
+
+    # WiFi management operations
+    'execute_get_wifi_name'
+    'execute_update_wifi_name'
 ]

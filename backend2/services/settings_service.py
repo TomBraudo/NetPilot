@@ -1,6 +1,16 @@
 from models.settings import UserSetting
 from models.router import UserRouter
 from utils.logging_config import get_logger
+from services.commands_server_operations.settings_execute import execute_get_wifi_name, execute_update_wifi_name
+from typing import Dict, List, Optional, Tuple, Any
+from utils.logging_config import get_logger
+from .base import (
+    require_user_context,
+    handle_service_errors,
+    validate_ip_address,
+    validate_rate_limit,
+    log_service_operation
+)
 
 # Set up logging
 logger = get_logger(__name__)
@@ -118,3 +128,49 @@ def get_router_id_setting(session, user_id):
         logger.error(f"Exception type: {type(e)}")
         logger.error(f"=== get_router_id_setting failed ===")
         return None, f'Failed to fetch routerId: {str(e)}' 
+
+@handle_service_errors("get_wifi_name")
+def get_wifi_name(user_id: str, router_id: str, session_id: str) -> Tuple[Optional[Dict], Optional[str]]:
+    """
+    Retrieves the router's name.
+    Args:
+        user_id: User's UUID
+        router_id: Router's UUID
+        session_id: Session's UUID
+        
+    Returns:
+        Tuple of (success_response, error_message)
+    """
+    log_service_operation("get_wifi_name", user_id, router_id, session_id)
+    # Execute wifi command
+    cmd_response, cmd_error = execute_get_wifi_name(router_id, session_id)
+    if cmd_error:
+        log_service_operation("get_wifi_name", user_id, router_id, session_id, success=False, error=cmd_error)
+        return None, cmd_error
+
+    log_service_operation("get_wifi_name", user_id, router_id, session_id, success=True)
+    return cmd_response, None
+
+@handle_service_errors("update_wifi_name")
+def update_wifi_name(user_id: str, router_id: str, session_id: str, wifi_name: str) -> Tuple[Optional[Dict], Optional[str]]:
+    """
+    Updates the router's WiFi name (SSID).
+    Args:
+        user_id: User's UUID
+        router_id: Router's UUID
+        session_id: Session's UUID
+        wifi_name: New WiFi name to set
+        
+    Returns:
+        Tuple of (success_response, error_message)
+    """
+    log_service_operation("update_wifi_name", user_id, router_id, session_id)
+    
+    # Execute wifi update command
+    cmd_response, cmd_error = execute_update_wifi_name(router_id, session_id, wifi_name)
+    if cmd_error:
+        log_service_operation("update_wifi_name", user_id, router_id, session_id, success=False, error=cmd_error)
+        return None, cmd_error
+
+    log_service_operation("update_wifi_name", user_id, router_id, session_id, success=True)
+    return cmd_response, None
