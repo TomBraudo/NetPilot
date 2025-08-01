@@ -76,3 +76,42 @@ def execute_update_wifi_name(commands_server, router_id: str, session_id: str, w
         return f"WiFi name updated to '{wifi_name}'", None
 
     return None, "Failed to update SSID on router"
+
+
+@with_commands_server
+@handle_commands_errors("Set WiFi Password")
+def execute_set_wifi_password(commands_server, router_id: str, session_id: str, wifi_password: str) -> Tuple[Optional[str], Optional[str]]:
+    """
+    Execute command to set the WiFi password.
+
+    Corresponds to: POST /api/wifi/password
+    
+    Args:
+        commands_server: Commands server manager (automatically injected)
+        router_id: Router ID to execute command on
+        session_id: Session ID for the command
+        wifi_password: New WiFi password to set
+        
+    Returns:
+        Tuple of (success_message, error_message)
+    """
+    endpoint = f"{base_path}/password"
+    
+    request_body = {
+        "password": wifi_password
+    }
+    
+    logger.info(f"Setting WiFi password for router {router_id}")
+    
+    response_data, error = commands_server.execute_router_command(
+        router_id, session_id, endpoint, "POST", None, request_body
+    )
+    
+    if error:
+        return None, error
+    
+    if response_data:
+        logger.info(f"Successfully set WiFi password for router {router_id}")
+        return "WiFi password updated successfully", None
+
+    return None, "Failed to update WiFi password on router"

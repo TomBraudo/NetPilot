@@ -49,5 +49,6 @@ __all__ = [
     # WiFi management functions
     'get_wifi_name',
     'update_wifi_name',
+    'set_wifi_password',
     # Other services are imported with * so their exports are already available
 ] 

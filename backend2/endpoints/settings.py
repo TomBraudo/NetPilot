@@ -1,6 +1,6 @@
 from flask import Blueprint, request, g, session
 from utils.response_helpers import build_success_response, build_error_response
-from services.settings_service import save_router_id_setting
+from services.settings_service import save_router_id_setting, set_wifi_password
 from utils.logging_config import get_logger
 import time
 
@@ -239,4 +239,76 @@ def update_wifi_name():
     except Exception as e:
         logger.error(f"Exception occurred in endpoint: {str(e)}", exc_info=True)
         logger.error(f"=== update_wifi_name endpoint failed ===")
+        return build_error_response(f'Internal server error: {str(e)}', 500, 'INTERNAL_ERROR', start_time)
+    
+
+@settings_bp.route('/wifi-password', methods=['POST'])
+def set_wifi_password_endpoint():
+    start_time = time.time()
+    logger.info(f"=== Starting set_wifi_password endpoint ===")
+    logger.info(f"Request method: {request.method}")
+    logger.info(f"Request URL: {request.url}")
+    
+    # Get user_id from session
+    user_id = getattr(g, 'user_id', None)
+    logger.info(f"User ID from session: {user_id}")
+    
+    if not user_id:
+        logger.error("User not authenticated - no user_id found in session")
+        return build_error_response('User not authenticated', 401, 'UNAUTHORIZED', start_time)
+
+    # Parse request body
+    logger.info("Parsing request JSON body...")
+    try:
+        data = request.get_json()
+        logger.info(f"Request body parsed: {data}")
+    except Exception as e:
+        logger.error(f"Failed to parse request JSON: {str(e)}")
+        return build_error_response('Invalid JSON in request body', 400, 'BAD_REQUEST', start_time)
+    
+    if not data:
+        logger.error("Request body is empty or None")
+        return build_error_response('Missing request body', 400, 'BAD_REQUEST', start_time)
+    
+    # Extract password from request (as per user requirement: {password: <password>})
+    wifi_password = data.get('password')
+    router_id = data.get('router_id')  # Keep router_id for backward compatibility, but make it optional
+    
+    logger.info(f"WiFi password extracted from request: {wifi_password}")
+    logger.info(f"Router ID extracted from request: {router_id}")
+    
+    if not wifi_password:
+        logger.error("Missing password in request body")
+        return build_error_response('Missing password', 400, 'BAD_REQUEST', start_time)
+    
+    # If router_id not provided in body, try to get it from user's stored settings
+    if not router_id:
+        logger.info("No router_id in request body, trying to get from user's stored settings")
+        try:
+            from services.settings_service import get_router_id_setting
+            router_result, router_error = get_router_id_setting(g.db_session, user_id)
+            if router_error or not router_result:
+                logger.error("No router_id found in request and no stored router_id for user")
+                return build_error_response('Router ID is required. Please set your router ID first.', 400, 'ROUTER_ID_REQUIRED', start_time)
+            router_id = router_result.get('router_id')
+            logger.info(f"Retrieved stored router_id for user: {router_id}")
+        except Exception as e:
+            logger.error(f"Error retrieving stored router_id: {str(e)}")
+            return build_error_response('Router ID is required', 400, 'ROUTER_ID_REQUIRED', start_time)
+    
+    # Use user_id as session_id (same as GET method)
+    session_id = user_id
+    logger.info(f"Using session_id: {session_id}")
+    
+    logger.info(f"Calling set_wifi_password service with user_id={user_id}, router_id={router_id}, session_id={session_id}, wifi_password={wifi_password}")
+    
+    try:
+        result, error = set_wifi_password(user_id, router_id, session_id, wifi_password)
+        logger.info(f"Service call completed - result: {result}, error: {error}")
+        if error:
+            logger.warning(f"Service returned error: {error}")
+            return build_error_response(error, 400, 'SET_WIFI_PASSWORD_FAILED', start_time)
+        return build_success_response(result, start_time)
+    except Exception as e:
+        logger.error(f"Exception occurred in service call: {str(e)}", exc_info=True)
         return build_error_response(f'Internal server error: {str(e)}', 500, 'INTERNAL_ERROR', start_time)

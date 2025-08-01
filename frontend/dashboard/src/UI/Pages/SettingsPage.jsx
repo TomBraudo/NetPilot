@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Router, Settings, Edit, Wifi, Save, X } from "lucide-react";
+import { Router, Settings, Edit, Wifi, Save, X, Lock, Eye, EyeOff } from "lucide-react";
 import RouterIdPopup from "../../components/RouterIdPopup";
 import { useAuth } from "../../context/AuthContext";
 import { settingsAPI } from "../../constants/api";
@@ -12,6 +12,14 @@ const SettingsPage = () => {
   const [wifiLoading, setWifiLoading] = useState(true);
   const [wifiError, setWifiError] = useState(null);
   const [isSaving, setIsSaving] = useState(false); // Add saving state
+  
+  // WiFi Password states
+  const [wifiPassword, setWifiPassword] = useState("");
+  const [isEditingPassword, setIsEditingPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [passwordSaving, setPasswordSaving] = useState(false);
+  const [passwordError, setPasswordError] = useState(null);
+  
   const { routerId, saveRouterIdToBackend } = useAuth();
 
   // Fetch WiFi name on component mount
@@ -145,6 +153,89 @@ const SettingsPage = () => {
       setWifiName(originalWifiName);
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  // WiFi Password functions
+  const handleEditPassword = () => {
+    setIsEditingPassword(true);
+    setPasswordError(null);
+    setWifiPassword("");
+  };
+
+  const handleCancelPasswordEdit = () => {
+    setWifiPassword("");
+    setIsEditingPassword(false);
+    setPasswordError(null);
+    setShowPassword(false);
+  };
+
+  const validatePassword = (password) => {
+    if (!password || password.trim().length === 0) {
+      return "Password cannot be empty";
+    }
+    if (password.length < 8) {
+      return "Password must be at least 8 characters long";
+    }
+    return null;
+  };
+
+  const getPasswordStrength = (password) => {
+    if (!password) return { strength: "", color: "" };
+    
+    if (password.length < 8) {
+      return { strength: "Weak", color: "text-red-600 dark:text-red-400" };
+    }
+    
+    let score = 0;
+    if (password.match(/[a-z]/)) score++;
+    if (password.match(/[A-Z]/)) score++;
+    if (password.match(/[0-9]/)) score++;
+    if (password.match(/[^a-zA-Z0-9]/)) score++;
+    
+    if (score >= 3 && password.length >= 12) {
+      return { strength: "Strong", color: "text-green-600 dark:text-green-400" };
+    } else if (score >= 2 && password.length >= 8) {
+      return { strength: "Medium", color: "text-yellow-600 dark:text-yellow-400" };
+    } else {
+      return { strength: "Weak", color: "text-red-600 dark:text-red-400" };
+    }
+  };
+
+  const handleSavePassword = async () => {
+    console.log("Saving WiFi password...");
+
+    const validationError = validatePassword(wifiPassword);
+    if (validationError) {
+      setPasswordError(validationError);
+      return;
+    }
+
+    try {
+      setPasswordSaving(true);
+      setPasswordError(null);
+
+      console.log("📡 Posting WiFi password update...");
+      const response = await settingsAPI.setWifiPassword(wifiPassword, routerId);
+
+      console.log("📡 WiFi password update response:", response);
+
+      if (response.success) {
+        setIsEditingPassword(false);
+        setWifiPassword("");
+        setShowPassword(false);
+        console.log("✅ WiFi password saved successfully!");
+        
+        // You could show a success message here
+        alert("WiFi password updated successfully!");
+      } else {
+        throw new Error(response.message || "Failed to save WiFi password");
+      }
+    } catch (error) {
+      console.error("❌ Error saving WiFi password:", error);
+      setPasswordError("Failed to save WiFi password. Please try again.");
+    } finally {
+      setPasswordSaving(false);
     }
   };
 
@@ -284,6 +375,106 @@ const SettingsPage = () => {
                   </div>
                 )}
               </div>
+            </div>
+
+            {/* WiFi Password Setting */}
+            <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className="p-2 bg-orange-200 dark:bg-orange-900/30 rounded-lg">
+                    <Lock className="w-5 h-5 text-orange-700 dark:text-orange-300" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-sm font-medium text-gray-900 dark:text-white">
+                      WiFi Password
+                    </h3>
+                    {passwordError ? (
+                      <div className="mt-1">
+                        <p className="text-sm text-red-600 dark:text-red-400">
+                          {passwordError}
+                        </p>
+                      </div>
+                    ) : isEditingPassword ? (
+                      <div className="mt-2 space-y-3">
+                        <div className="flex items-center space-x-2">
+                          <div className="relative flex-1 max-w-sm">
+                            <input
+                              type={showPassword ? "text" : "password"}
+                              value={wifiPassword}
+                              onChange={(e) => setWifiPassword(e.target.value)}
+                              className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-600 dark:focus:ring-orange-400 focus:border-transparent pr-10"
+                              placeholder="Enter new WiFi password"
+                              autoFocus
+                              disabled={passwordSaving}
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setShowPassword(!showPassword)}
+                              className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                              disabled={passwordSaving}
+                            >
+                              {showPassword ? (
+                                <EyeOff className="w-4 h-4" />
+                              ) : (
+                                <Eye className="w-4 h-4" />
+                              )}
+                            </button>
+                          </div>
+                          <button
+                            onClick={handleSavePassword}
+                            disabled={passwordSaving || !wifiPassword.trim()}
+                            className="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-orange-700 hover:bg-orange-800 dark:bg-orange-500 dark:hover:bg-orange-600 disabled:bg-gray-400 disabled:cursor-not-allowed rounded transition-colors"
+                          >
+                            <Save className="w-4 h-4 mr-1" />
+                            {passwordSaving ? "Saving..." : "Save"}
+                          </button>
+                          <button
+                            onClick={handleCancelPasswordEdit}
+                            disabled={passwordSaving}
+                            className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed rounded transition-colors"
+                          >
+                            <X className="w-4 h-4 mr-1" />
+                            Cancel
+                          </button>
+                        </div>
+                        {wifiPassword && (
+                          <div className="flex items-center space-x-4 text-xs">
+                            <div>
+                              <span className="text-gray-600 dark:text-gray-400">Strength: </span>
+                              <span className={getPasswordStrength(wifiPassword).color}>
+                                {getPasswordStrength(wifiPassword).strength}
+                              </span>
+                            </div>
+                            <div className="text-gray-500 dark:text-gray-400">
+                              Length: {wifiPassword.length} characters
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        Change your WiFi network password
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {!isEditingPassword && (
+                  <button
+                    onClick={handleEditPassword}
+                    className="inline-flex items-center px-3 py-2 text-sm font-medium text-orange-700 dark:text-orange-300 bg-orange-100 dark:bg-orange-900/20 border border-orange-300 dark:border-orange-700 rounded-md hover:bg-orange-200 dark:hover:bg-orange-900/30 transition-colors"
+                  >
+                    <Edit className="w-4 h-4 mr-2" />
+                    Change Password
+                  </button>
+                )}
+              </div>
+
+              {!isEditingPassword && (
+                <div className="mt-3 text-xs text-gray-500 dark:text-gray-400">
+                  💡 Choose a strong password with at least 8 characters, including uppercase, lowercase, numbers, and symbols.
+                </div>
+              )}
             </div>
 
             {/* Future Settings Sections */}

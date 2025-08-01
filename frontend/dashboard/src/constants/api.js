@@ -93,6 +93,16 @@ export const settingsAPI = {
         wifi_name: wifiName,
       }),
     }),
+
+  // WiFi password operations
+  setWifiPassword: (password, routerId = null) =>
+    apiRequest(`${API_ENDPOINTS.SETTINGS}/wifi-password`, {
+      method: "POST",
+      body: JSON.stringify({
+        password: password,
+        ...(routerId && { router_id: routerId }),
+      }),
+    }),
 };
 
 // Blacklist API functions
