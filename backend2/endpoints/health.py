@@ -50,4 +50,12 @@ def health():
             500,
             "INTERNAL_SERVER_ERROR",
             start_time
-        ) 
+        )
+
+@health_bp.route("/health_simple", methods=["GET"])
+def health_simple():
+    """
+    Simple health check endpoint - just confirms backend2 is running.
+    No external dependencies checked.
+    """
+    return {"status": "ok", "service": "backend2", "message": "Backend2 is running"}
