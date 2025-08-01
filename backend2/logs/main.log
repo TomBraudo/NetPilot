@@ -1948,3 +1948,501 @@
 2025-07-31 18:30:15 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/whitelist/mode'
 2025-07-31 18:30:15 - services.commands_server_operations.whitelist_execute - INFO - Deactivated whitelist mode on router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
 2025-07-31 18:30:15 - services.base - INFO - Service operation completed: deactivate_whitelist_mode
+2025-08-01 09:13:28 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-08-01 09:13:33 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-08-01 09:14:17 - endpoints.settings - INFO - === Starting get_router_id endpoint ===
+2025-08-01 09:14:17 - endpoints.settings - INFO - Request method: GET
+2025-08-01 09:14:17 - endpoints.settings - INFO - Request URL: http://localhost:5000/api/settings/router-id
+2025-08-01 09:14:17 - endpoints.settings - INFO - Request headers: {'Host': 'localhost:5000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Windows"', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', 'Sec-Ch-Ua': '"Not)A;Brand";v="8", "Chromium";v="138", "Google Chrome";v="138"', 'Sec-Ch-Ua-Mobile': '?0', 'Accept': '*/*', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'en-US,en;q=0.9,he;q=0.8', 'Cookie': 'session=.eJytVdmuo0gS_ZWWn8u3SDZDSSONjdlsA8Zmf0EsaUjMZrPZtOrfO7nV3VWjGWnmYSQs5MjgnBMnQhm_r8IWPquohnW_-tY_B_hlNXTwufr2-ypKEth1Yd_cYb36tnpHJP8REdsrpbD6aze266s_hma1D0fezY7-ZKay0IGBd-3UZWLA5bSuv55tub7y6msjpHoctaO8606WAxJ3bdail5_zR8-eryWy-Aq65vHe8Xp2yHZ3syPDB3VrQA7F-nUdWVWAJnmM_LpgNtpLkN1qmDNTZG0BVt7L3tuPkHqJ1frdJrv04JC9GQmZf9wG2XV7Ma-SqcgeqaHSaE5inSnJw7e8twgY0wDalgCbzerLCr5a9IRdGGEvwIaheJbnWfpnHGEfKIbnv6xQ-rcv8H3IYzlBBjpc7VkFOlI7terbQFBZtbrcdUubNEuddDkoNNckfWt314u80Ods9i0N-KTG-LM4-YUKAkuqdFlEJ-FAQG-7YB4dYKKb-YFp2oTSllCTKpcpmZvxREqFT_Igri_zqUrHmEy74MoUMUksEDmsFwj1pe3t2bCySSvEWd9r9MnbElEdkPo-fWpk2vuUUwSLxIoAkefTPpkTmpxOiZuDUyVNiaINAcmPAfkqU08vk0ofMWcZ1-aA-XsVTcj3nLtaNEiztkCb77S2x7yzORsCwKW3ZFqYVDTrdezquGT7re2DXndL0pD1Jt3v6kSRmvTK5Imy-1mL58yBd8D1METgMsRp4b1ie2uMgbC9hYit9WdjbzOaZQJjj2sofBrHaG3Jq5zed8tu0RVXDpHIZRdTlyKWeRCIO6xFamPhb7_Kz_8ST2LONqjKcmlhqhxAcF3qu9wiWZqjz7b2bCA6giNdpKAiiCvYnaHljIEi9jYeBYw1YM1FcF1yD-QF2LShBFPkNu8AlPfLnSFj6j4tvsWV1H_m3ZkylXYt1kYscay1SBXn_QMjJ1Lsi4G4MZaz_-IPn58IaR_M-egTzWw6OWVSO8fwAt0W7d70RNpyHDqyUtWb8RwRvGu4GZECXkzKsjRsaUpLR3ZtezItgOfG7_334mXappUzeCSTx669zKEReBczcl9jKiznZY7frGYlS_9JvdBIXZhQ4OUT9v-lz8sM-gz-EXicHV-Bl8fGD--ZcNxfNQ2eARXu5YmFdmK-uexBzruHNR6asyOZG-cMzzDVBYcamreY3CxXNaUTd9Cc3blbF24U9-th8J7xJD_B0BT5WAoDV3PjuuTsxKWTS-tACfhCmE0jOs_BaFpDEsoHfnNgLaOl4WEiAauoI9D68lDduJ0una3TsVTXqmUiSAq74lryCsc9DscxlXl9_VbOj1YS1JeEXqIy2kg5SH1MvJGmeqIxvPTOgcQBakRvFje2TJ2XUI85X7oBo13PzEYncjE_MR06y0hhgzmyPaej0nP_CI9E5YaqshHBOGY5s7f13GB4U5UKaq7oLevt3VEU6fPcx8de1_pLnjLvFmT4DuuSpoX4Wsr7vu2-ff06TdNH1jRZCaMWdR9JU32Nhj7_utzyqL41H7CKUPnb_5zePpsbKuFvmKVGKSb8vAfD_v3JuoPRE2-PH0tkyf9cJH2YR12Oj-9zKu4sS7xV9PFsvJkmfazPi-poSPExIPCdyxEkoGiKW7d0MY705k5lVTIkkCTYikEjl-Q9kbWPfPiI2rb7U-xClzR1j9fYonlBnNv_M-KnURizhn2LyqZPymZI_5kt0V8zwhFXfkMw_Wuf4u3xr-skQyN2rI6qxTEd9ucFDX-Ofu4dlloSUdf90km8j5uh7v8S-Cfnv8PUTZ0soXiUbY4bW1SQmZ9K-ti8CXzcoqQfnr-OSJlT_7nor9HXrZBxTXKgtt4ktDY_amdxvX1wmv1CGyWk285w-Jyewv3Th_y2HW3JF4ntPzqeXSfLNA7xZxcAS3EMD2iGw6azHMDP6vv3H2MSoqX3MKESDlDsmt3wyZpmCHodcTy55hIWpjRzY6nbbfX9D9Vf5NI.aIxbOA.MRwuYrU6O0kuVre7OX5EFAWmLqQ'}
+2025-08-01 09:14:17 - endpoints.settings - INFO - Remote address: 127.0.0.1
+2025-08-01 09:14:17 - endpoints.settings - INFO - User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-08-01 09:14:17 - endpoints.settings - INFO - Database session obtained: <sqlalchemy.orm.session.Session object at 0x7fd2c819e4d0>
+2025-08-01 09:14:17 - endpoints.settings - INFO - User ID from session: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-01 09:14:17 - endpoints.settings - INFO - Calling get_router_id_setting service with user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-01 09:14:17 - services.settings_service - INFO - === Starting get_router_id_setting ===
+2025-08-01 09:14:17 - services.settings_service - INFO - Input parameter - user_id: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-01 09:14:17 - services.settings_service - INFO - User ID type: <class 'str'>
+2025-08-01 09:14:17 - services.settings_service - INFO - Querying UserSetting for routerId...
+2025-08-01 09:14:17 - services.settings_service - INFO - Query: session.query(UserSetting).filter_by(user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, setting_key='routerId')
+2025-08-01 09:14:17 - services.settings_service - INFO - Found UserSetting record: id=33039718-fdde-458e-b250-50e52516db96, setting_value={'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}
+2025-08-01 09:14:17 - services.settings_service - INFO - Setting value type: <class 'dict'>
+2025-08-01 09:14:17 - services.settings_service - INFO - Router ID found: e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-01 09:14:17 - services.settings_service - INFO - Router ID type: <class 'str'>
+2025-08-01 09:14:17 - services.settings_service - INFO - Router ID is valid and non-empty
+2025-08-01 09:14:17 - services.settings_service - INFO - === get_router_id_setting completed successfully ===
+2025-08-01 09:14:17 - endpoints.settings - INFO - Service call completed - result: {'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}, error: None
+2025-08-01 09:14:17 - endpoints.settings - INFO - Service call successful, returning result: {'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}
+2025-08-01 09:14:17 - endpoints.settings - INFO - === get_router_id endpoint completed successfully ===
+2025-08-01 09:14:17 - endpoints.settings - INFO - === Starting get_router_id endpoint ===
+2025-08-01 09:14:17 - endpoints.settings - INFO - Request method: GET
+2025-08-01 09:14:17 - endpoints.settings - INFO - Request URL: http://localhost:5000/api/settings/router-id
+2025-08-01 09:14:17 - endpoints.settings - INFO - Request headers: {'Host': 'localhost:5000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Windows"', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', 'Sec-Ch-Ua': '"Not)A;Brand";v="8", "Chromium";v="138", "Google Chrome";v="138"', 'Sec-Ch-Ua-Mobile': '?0', 'Accept': '*/*', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'en-US,en;q=0.9,he;q=0.8', 'Cookie': 'session=.eJytVdmuo0gS_ZWWn8u3SDZDSSONjdlsA8Zmf0EsaUjMZrPZtOrfO7nV3VWjGWnmYSQs5MjgnBMnQhm_r8IWPquohnW_-tY_B_hlNXTwufr2-ypKEth1Yd_cYb36tnpHJP8REdsrpbD6aze266s_hma1D0fezY7-ZKay0IGBd-3UZWLA5bSuv55tub7y6msjpHoctaO8606WAxJ3bdail5_zR8-eryWy-Aq65vHe8Xp2yHZ3syPDB3VrQA7F-nUdWVWAJnmM_LpgNtpLkN1qmDNTZG0BVt7L3tuPkHqJ1frdJrv04JC9GQmZf9wG2XV7Ma-SqcgeqaHSaE5inSnJw7e8twgY0wDalgCbzerLCr5a9IRdGGEvwIaheJbnWfpnHGEfKIbnv6xQ-rcv8H3IYzlBBjpc7VkFOlI7terbQFBZtbrcdUubNEuddDkoNNckfWt314u80Ods9i0N-KTG-LM4-YUKAkuqdFlEJ-FAQG-7YB4dYKKb-YFp2oTSllCTKpcpmZvxREqFT_Igri_zqUrHmEy74MoUMUksEDmsFwj1pe3t2bCySSvEWd9r9MnbElEdkPo-fWpk2vuUUwSLxIoAkefTPpkTmpxOiZuDUyVNiaINAcmPAfkqU08vk0ofMWcZ1-aA-XsVTcj3nLtaNEiztkCb77S2x7yzORsCwKW3ZFqYVDTrdezquGT7re2DXndL0pD1Jt3v6kSRmvTK5Imy-1mL58yBd8D1METgMsRp4b1ie2uMgbC9hYit9WdjbzOaZQJjj2sofBrHaG3Jq5zed8tu0RVXDpHIZRdTlyKWeRCIO6xFamPhb7_Kz_8ST2LONqjKcmlhqhxAcF3qu9wiWZqjz7b2bCA6giNdpKAiiCvYnaHljIEi9jYeBYw1YM1FcF1yD-QF2LShBFPkNu8AlPfLnSFj6j4tvsWV1H_m3ZkylXYt1kYscay1SBXn_QMjJ1Lsi4G4MZaz_-IPn58IaR_M-egTzWw6OWVSO8fwAt0W7d70RNpyHDqyUtWb8RwRvGu4GZECXkzKsjRsaUpLR3ZtezItgOfG7_334mXappUzeCSTx669zKEReBczcl9jKiznZY7frGYlS_9JvdBIXZhQ4OUT9v-lz8sM-gz-EXicHV-Bl8fGD--ZcNxfNQ2eARXu5YmFdmK-uexBzruHNR6asyOZG-cMzzDVBYcamreY3CxXNaUTd9Cc3blbF24U9-th8J7xJD_B0BT5WAoDV3PjuuTsxKWTS-tACfhCmE0jOs_BaFpDEsoHfnNgLaOl4WEiAauoI9D68lDduJ0una3TsVTXqmUiSAq74lryCsc9DscxlXl9_VbOj1YS1JeEXqIy2kg5SH1MvJGmeqIxvPTOgcQBakRvFje2TJ2XUI85X7oBo13PzEYncjE_MR06y0hhgzmyPaej0nP_CI9E5YaqshHBOGY5s7f13GB4U5UKaq7oLevt3VEU6fPcx8de1_pLnjLvFmT4DuuSpoX4Wsr7vu2-ff06TdNH1jRZCaMWdR9JU32Nhj7_utzyqL41H7CKUPnb_5zePpsbKuFvmKVGKSb8vAfD_v3JuoPRE2-PH0tkyf9cJH2YR12Oj-9zKu4sS7xV9PFsvJkmfazPi-poSPExIPCdyxEkoGiKW7d0MY705k5lVTIkkCTYikEjl-Q9kbWPfPiI2rb7U-xClzR1j9fYonlBnNv_M-KnURizhn2LyqZPymZI_5kt0V8zwhFXfkMw_Wuf4u3xr-skQyN2rI6qxTEd9ucFDX-Ofu4dlloSUdf90km8j5uh7v8S-Cfnv8PUTZ0soXiUbY4bW1SQmZ9K-ti8CXzcoqQfnr-OSJlT_7nor9HXrZBxTXKgtt4ktDY_amdxvX1wmv1CGyWk285w-Jyewv3Th_y2HW3JF4ntPzqeXSfLNA7xZxcAS3EMD2iGw6azHMDP6vv3H2MSoqX3MKESDlDsmt3wyZpmCHodcTy55hIWpjRzY6nbbfX9D9Vf5NI.aIxbOQ.oL0RyHtfFS92CmsQtiRZzVtpcWY'}
+2025-08-01 09:14:17 - endpoints.settings - INFO - Remote address: 127.0.0.1
+2025-08-01 09:14:17 - endpoints.settings - INFO - User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-08-01 09:14:17 - endpoints.settings - INFO - Database session obtained: <sqlalchemy.orm.session.Session object at 0x7fd2c5b91960>
+2025-08-01 09:14:17 - endpoints.settings - INFO - User ID from session: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-01 09:14:17 - endpoints.settings - INFO - Calling get_router_id_setting service with user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-01 09:14:17 - services.settings_service - INFO - === Starting get_router_id_setting ===
+2025-08-01 09:14:17 - services.settings_service - INFO - Input parameter - user_id: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-01 09:14:17 - services.settings_service - INFO - User ID type: <class 'str'>
+2025-08-01 09:14:17 - services.settings_service - INFO - Querying UserSetting for routerId...
+2025-08-01 09:14:17 - services.settings_service - INFO - Query: session.query(UserSetting).filter_by(user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, setting_key='routerId')
+2025-08-01 09:14:17 - services.settings_service - INFO - Found UserSetting record: id=33039718-fdde-458e-b250-50e52516db96, setting_value={'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}
+2025-08-01 09:14:17 - services.settings_service - INFO - Setting value type: <class 'dict'>
+2025-08-01 09:14:17 - services.settings_service - INFO - Router ID found: e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-01 09:14:17 - services.settings_service - INFO - Router ID type: <class 'str'>
+2025-08-01 09:14:17 - services.settings_service - INFO - Router ID is valid and non-empty
+2025-08-01 09:14:17 - services.settings_service - INFO - === get_router_id_setting completed successfully ===
+2025-08-01 09:14:17 - endpoints.settings - INFO - Service call completed - result: {'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}, error: None
+2025-08-01 09:14:17 - endpoints.settings - INFO - Service call successful, returning result: {'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}
+2025-08-01 09:14:17 - endpoints.settings - INFO - === get_router_id endpoint completed successfully ===
+2025-08-01 09:14:18 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-01 09:14:18 - services.base - INFO - Service operation completed: start_session
+2025-08-01 09:14:18 - managers.commands_server - DEBUG - Performing health check...
+2025-08-01 09:14:18 - managers.commands_server - INFO - Checking commands server health
+2025-08-01 09:14:18 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-08-01 09:14:18 - managers.commands_server - DEBUG - Request completed in 0.14s with status 200
+2025-08-01 09:14:18 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 3.4809112548828125e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-08-01T06:14:17.990537'}, 'success': True}
+2025-08-01 09:14:18 - managers.commands_server - DEBUG - Commands server health check successful
+2025-08-01 09:14:18 - managers.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/session/start
+2025-08-01 09:14:18 - managers.commands_server - DEBUG - Request completed in 0.15s with status 500
+2025-08-01 09:14:18 - managers.commands_server - ERROR - Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "SESSION_SETUP_FAILED",
+    "details": null,
+    "message": "Session setup failed: [Errno None] Unable to connect to port 2205 on 127.0.0.1"
+  },
+  "metadata": {
+    "executionTime": 0.007566928863525391,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-08-01T06:14:18.132216"
+  },
+  "success": false
+}
+
+2025-08-01 09:14:18 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/api/session/start': Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "SESSION_SETUP_FAILED",
+    "details": null,
+    "message": "Session setup failed: [Errno None] Unable to connect to port 2205 on 127.0.0.1"
+  },
+  "metadata": {
+    "executionTime": 0.007566928863525391,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-08-01T06:14:18.132216"
+  },
+  "success": false
+}
+
+2025-08-01 09:14:18 - services.commands_server_operations.session_execute - DEBUG - Commands server response - data: None, error: Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "SESSION_SETUP_FAILED",
+    "details": null,
+    "message": "Session setup failed: [Errno None] Unable to connect to port 2205 on 127.0.0.1"
+  },
+  "metadata": {
+    "executionTime": 0.007566928863525391,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-08-01T06:14:18.132216"
+  },
+  "success": false
+}
+
+2025-08-01 09:14:18 - services.commands_server_operations.session_execute - ERROR - Session start failed for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "SESSION_SETUP_FAILED",
+    "details": null,
+    "message": "Session setup failed: [Errno None] Unable to connect to port 2205 on 127.0.0.1"
+  },
+  "metadata": {
+    "executionTime": 0.007566928863525391,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-08-01T06:14:18.132216"
+  },
+  "success": false
+}
+
+2025-08-01 09:14:18 - services.base - ERROR - Service operation failed: start_session - Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "SESSION_SETUP_FAILED",
+    "details": null,
+    "message": "Session setup failed: [Errno None] Unable to connect to port 2205 on 127.0.0.1"
+  },
+  "metadata": {
+    "executionTime": 0.007566928863525391,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-08-01T06:14:18.132216"
+  },
+  "success": false
+}
+
+2025-08-01 09:14:20 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-01 09:14:20 - services.base - INFO - Service operation completed: scan_network
+2025-08-01 09:14:20 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/network/scan
+2025-08-01 09:14:20 - managers.commands_server - DEBUG - Request completed in 0.15s with status 500
+2025-08-01 09:14:20 - managers.commands_server - ERROR - Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: An unexpected error occurred while scanning for devices."
+  },
+  "metadata": {
+    "executionTime": 0.007119655609130859,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-08-01T06:14:20.056749"
+  },
+  "success": false
+}
+
+2025-08-01 09:14:20 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/api/network/scan': Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: An unexpected error occurred while scanning for devices."
+  },
+  "metadata": {
+    "executionTime": 0.007119655609130859,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-08-01T06:14:20.056749"
+  },
+  "success": false
+}
+
+2025-08-01 09:14:20 - services.base - ERROR - Service operation failed: scan_network - Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: An unexpected error occurred while scanning for devices."
+  },
+  "metadata": {
+    "executionTime": 0.007119655609130859,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-08-01T06:14:20.056749"
+  },
+  "success": false
+}
+
+2025-08-01 09:14:22 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-01 09:14:22 - services.base - INFO - Service operation completed: scan_network
+2025-08-01 09:14:22 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/network/scan
+2025-08-01 09:14:22 - managers.commands_server - DEBUG - Request completed in 0.14s with status 500
+2025-08-01 09:14:22 - managers.commands_server - ERROR - Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: An unexpected error occurred while scanning for devices."
+  },
+  "metadata": {
+    "executionTime": 0.006741762161254883,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-08-01T06:14:21.703583"
+  },
+  "success": false
+}
+
+2025-08-01 09:14:22 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/api/network/scan': Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: An unexpected error occurred while scanning for devices."
+  },
+  "metadata": {
+    "executionTime": 0.006741762161254883,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-08-01T06:14:21.703583"
+  },
+  "success": false
+}
+
+2025-08-01 09:14:22 - services.base - ERROR - Service operation failed: scan_network - Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: An unexpected error occurred while scanning for devices."
+  },
+  "metadata": {
+    "executionTime": 0.006741762161254883,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-08-01T06:14:21.703583"
+  },
+  "success": false
+}
+
+2025-08-01 09:14:30 - endpoints.settings - INFO - === Starting get_router_id endpoint ===
+2025-08-01 09:14:30 - endpoints.settings - INFO - Request method: GET
+2025-08-01 09:14:30 - endpoints.settings - INFO - Request URL: http://localhost:5000/api/settings/router-id
+2025-08-01 09:14:30 - endpoints.settings - INFO - Request headers: {'Host': 'localhost:5000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Windows"', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', 'Sec-Ch-Ua': '"Not)A;Brand";v="8", "Chromium";v="138", "Google Chrome";v="138"', 'Sec-Ch-Ua-Mobile': '?0', 'Accept': '*/*', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'en-US,en;q=0.9,he;q=0.8', 'Cookie': 'session=.eJytVdmuo9YS_ZUrP7fPYTa0FOnazD5sMJj5xQI2NjPYTDZR_3s2p9OdXCVS8nAlBKKqWKtqVbHr182lSx911KTNsPk6PMb0y2bs08fm66-bKEnSvr8MbZk2m6-bV0RwbxG2P5MKoy933YqMe0Vj7bWk1Pl4s59ZqtzzwtYbAvs4UGnRltyHuPVJcID6RAlwfH5gr_s1vUw65s2urWfScYi1DyedtCPQS2dU8NujgoAaLid4fmLhYZFute2UyVEsy_5O1Lve9SnRbq_UFXhadD_1rObbRQOMhuYZaoxLTQX2GClSnu8j_hZ87L35vLfMs2Qqsk-AfJ_hHH_IuKfM6bgL_J2uDKOJ4bvd5ssmfXb5I-0vEdIC39EURhIUw_5hz5EOJM1xXzY5_KlL-jpmsZzkRn48O4uK67naq_XQhbzKqLVV6jaYga3OuhwWwDOJwD6UepEV-nJbAhvgAQHoYBHnoFDx0JZqXRZzjT9iqb9fMT9c3Myv5hui6RISrKYWKtacLO2kEVIREBweN9ai1XCKCdiHZ7qICWyFyNJmhVCfQHAWw77NoBAXXQCU5u-xqAkJXYAPQMAhIN0iXFOsMTzyAyogMgzIcE68DNdqaU4UMIYEN4XEs4K-XiW1PiHOKm7MEfEPaj7nge-WatHmwN7jYCkpICDexVwMHkeldwQsTDJa9Cb2dFSy8wJCOOheRRiy3kLh0CSK1MIznSXK4Y9afHcJ_SOqh8ZCj8a0lfeM5G0QRo7kLUQkbbAYgkMD28QNAdVQBBSyUWCNq90h8Kp-zSuuXSyRqz4mrSKWOTwUDygXqYv5n3pVn-8SRyDOLqyram0hVI54eF7rs66RLC3R97bOkRTSnnDQXadqHXmwTBJaZt0NoElWrBHlXIRnFFviaCyfpK7AwVrc0LBh6zjVbMvHfNUtrqXhexxdQenQodyw1Y5yLaDivj59dYZBpIuRs1Ms3_5BHy7TMEkIl2wKsHYx3Yw0yYNr-KHuiM5g-iJluy4V2VD1FzRHGOcZ3g2DOCcmVVUZjjTDypU9x5lNG0dzEwzBa9USdrB2R5-gs9hz1jk0Qt8yI-85QX71Vxl6MsBOcF3YvwzhRhj8nId-NiP9n_riYEAAL10IKDTOFcApsz80tFRm1Vl5UC8yNR8Dewx01ebb3Z4yhZKR-9LHZqmyXUIOVfp5ejn34aW0SbbrZZ4OduDu-XtiW_MXx7_650Eq0gqrs4hF_z2ptESPs5617VvePGmZtyS2ntSPg3RIl-d0FS0-EYtCNNQTWx4uEPiIN3zWmj3zI88e9kr47OcnJtP30xlzYlHSZd-_wvQUzIosyZwmtM41564U4zzcl0s1p-qoiQWnee5F2TGCWWSllas0wWtHa3AV8WKc5_h4fqbqLk-2pUtNqXVqoRFI4CoAEc-OVnMZ5rPJEWe7eSznC8vvlg6_1xjT1B1zZ7p7tONjcSr1V6lAh_GFgzW7wKF3Fi_t0RnWJ22XomMJ3Zsc_icbhq7_-v4-z_PbrW1vVRp1ef-WtPV7NA7Z-3rY5821fUvrKK_-fXj3aK95lSLCz3PwMrw-WQ9p9EDb4_sSWQM_F8lwyaI-Q27YZe7Lx4CjZqfS5GfzUNTEjMKjESI3jtEkx2IETlIku-2oYpqoXUne6mRMUgJjajqf2CQbsFt3z8a3qOv637Nc6ZK2GdAaW5NdEZfu_4z4qRDCbNKhy6t2SKp2hP-9rdY_R1wmVPk1T-GPfYq2x_-uk1s-IcWaqF4V09PhtKKhz_Ofe4dg2TUw73sU8aMnaB-3YzP8SPB3zr_CNG2TrCbQNNpMzbVMB9wuM9VOi2Pk7vJkGB_pn4CrjPz7ot-j9z1_Y9vkSO79me8cbgIncbu_s8B55jvlQnW94XIZNV-ER5By-25ypEDE9r_0HLNN1mkc488u4AzJ0hxO0SwSnWFxdG2-ffs-Jpd87X2akAmLk8yW2XHJlqIxahuxHLFlEyaFFH1lyOt18-03vILk7Q.aIxbRg.Yl3lgxNxydgPDbjwE1BsdiA0sXs'}
+2025-08-01 09:14:30 - endpoints.settings - INFO - Remote address: 127.0.0.1
+2025-08-01 09:14:30 - endpoints.settings - INFO - User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-08-01 09:14:30 - endpoints.settings - INFO - Database session obtained: <sqlalchemy.orm.session.Session object at 0x7fd2c520a800>
+2025-08-01 09:14:30 - endpoints.settings - INFO - User ID from session: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-01 09:14:30 - endpoints.settings - INFO - Calling get_router_id_setting service with user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-01 09:14:30 - services.settings_service - INFO - === Starting get_router_id_setting ===
+2025-08-01 09:14:30 - services.settings_service - INFO - Input parameter - user_id: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-01 09:14:30 - services.settings_service - INFO - User ID type: <class 'str'>
+2025-08-01 09:14:30 - services.settings_service - INFO - Querying UserSetting for routerId...
+2025-08-01 09:14:30 - services.settings_service - INFO - Query: session.query(UserSetting).filter_by(user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, setting_key='routerId')
+2025-08-01 09:14:30 - services.settings_service - INFO - Found UserSetting record: id=33039718-fdde-458e-b250-50e52516db96, setting_value={'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}
+2025-08-01 09:14:30 - services.settings_service - INFO - Setting value type: <class 'dict'>
+2025-08-01 09:14:30 - services.settings_service - INFO - Router ID found: e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-01 09:14:30 - services.settings_service - INFO - Router ID type: <class 'str'>
+2025-08-01 09:14:30 - services.settings_service - INFO - Router ID is valid and non-empty
+2025-08-01 09:14:30 - services.settings_service - INFO - === get_router_id_setting completed successfully ===
+2025-08-01 09:14:30 - endpoints.settings - INFO - Service call completed - result: {'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}, error: None
+2025-08-01 09:14:30 - endpoints.settings - INFO - Service call successful, returning result: {'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}
+2025-08-01 09:14:30 - endpoints.settings - INFO - === get_router_id endpoint completed successfully ===
+2025-08-01 09:14:30 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-01 09:14:30 - services.base - INFO - Service operation completed: start_session
+2025-08-01 09:14:30 - managers.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/session/start
+2025-08-01 09:14:31 - managers.commands_server - DEBUG - Request completed in 0.14s with status 400
+2025-08-01 09:14:31 - managers.commands_server - ERROR - Commands server returned 400: {
+  "data": null,
+  "error": {
+    "code": "SESSION_ALREADY_ACTIVE",
+    "details": null,
+    "message": "Session is already active"
+  },
+  "metadata": {
+    "executionTime": 0.0010335445404052734,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-08-01T06:14:30.387183"
+  },
+  "success": false
+}
+
+2025-08-01 09:14:31 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/api/session/start': Commands server returned 400: {
+  "data": null,
+  "error": {
+    "code": "SESSION_ALREADY_ACTIVE",
+    "details": null,
+    "message": "Session is already active"
+  },
+  "metadata": {
+    "executionTime": 0.0010335445404052734,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-08-01T06:14:30.387183"
+  },
+  "success": false
+}
+
+2025-08-01 09:14:31 - services.commands_server_operations.session_execute - DEBUG - Commands server response - data: None, error: Commands server returned 400: {
+  "data": null,
+  "error": {
+    "code": "SESSION_ALREADY_ACTIVE",
+    "details": null,
+    "message": "Session is already active"
+  },
+  "metadata": {
+    "executionTime": 0.0010335445404052734,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-08-01T06:14:30.387183"
+  },
+  "success": false
+}
+
+2025-08-01 09:14:31 - services.commands_server_operations.session_execute - INFO - Session already active for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff - treating as success
+2025-08-01 09:14:31 - services.base - INFO - Service operation completed: start_session
+2025-08-01 09:14:31 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-01 09:14:31 - services.base - INFO - Service operation completed: scan_network
+2025-08-01 09:14:31 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/network/scan
+2025-08-01 09:14:32 - managers.commands_server - DEBUG - Request completed in 0.20s with status 500
+2025-08-01 09:14:32 - managers.commands_server - ERROR - Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: An unexpected error occurred while scanning for devices."
+  },
+  "metadata": {
+    "executionTime": 0.007261991500854492,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-08-01T06:14:31.385560"
+  },
+  "success": false
+}
+
+2025-08-01 09:14:32 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/api/network/scan': Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: An unexpected error occurred while scanning for devices."
+  },
+  "metadata": {
+    "executionTime": 0.007261991500854492,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-08-01T06:14:31.385560"
+  },
+  "success": false
+}
+
+2025-08-01 09:14:32 - services.base - ERROR - Service operation failed: scan_network - Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: An unexpected error occurred while scanning for devices."
+  },
+  "metadata": {
+    "executionTime": 0.007261991500854492,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-08-01T06:14:31.385560"
+  },
+  "success": false
+}
+
+2025-08-01 09:14:33 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-01 09:14:33 - services.base - INFO - Service operation completed: scan_network
+2025-08-01 09:14:33 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/network/scan
+2025-08-01 09:14:33 - managers.commands_server - DEBUG - Request completed in 0.15s with status 500
+2025-08-01 09:14:33 - managers.commands_server - ERROR - Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: An unexpected error occurred while scanning for devices."
+  },
+  "metadata": {
+    "executionTime": 0.0076410770416259766,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-08-01T06:14:32.802954"
+  },
+  "success": false
+}
+
+2025-08-01 09:14:33 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/api/network/scan': Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: An unexpected error occurred while scanning for devices."
+  },
+  "metadata": {
+    "executionTime": 0.0076410770416259766,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-08-01T06:14:32.802954"
+  },
+  "success": false
+}
+
+2025-08-01 09:14:33 - services.base - ERROR - Service operation failed: scan_network - Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: An unexpected error occurred while scanning for devices."
+  },
+  "metadata": {
+    "executionTime": 0.0076410770416259766,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-08-01T06:14:32.802954"
+  },
+  "success": false
+}
+
+2025-08-01 09:14:33 - endpoints.settings - INFO - === Starting get_router_id endpoint ===
+2025-08-01 09:14:33 - endpoints.settings - INFO - Request method: GET
+2025-08-01 09:14:33 - endpoints.settings - INFO - Request URL: http://localhost:5000/api/settings/router-id
+2025-08-01 09:14:33 - endpoints.settings - INFO - Request headers: {'Host': 'localhost:5000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Windows"', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', 'Sec-Ch-Ua': '"Not)A;Brand";v="8", "Chromium";v="138", "Google Chrome";v="138"', 'Sec-Ch-Ua-Mobile': '?0', 'Accept': '*/*', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'en-US,en;q=0.9,he;q=0.8', 'Cookie': 'session=.eJytVdmuo9YS_ZUrP7fPYTa0FOnazD5sMJj5xQI2NjPYTDZR_3s2p9OdXCVS8nAlBKKqWKtqVbHr182lSx911KTNsPk6PMb0y2bs08fm66-bKEnSvr8MbZk2m6-bV0RwbxG2P5MKoy933YqMe0Vj7bWk1Pl4s59ZqtzzwtYbAvs4UGnRltyHuPVJcID6RAlwfH5gr_s1vUw65s2urWfScYi1DyedtCPQS2dU8NujgoAaLid4fmLhYZFute2UyVEsy_5O1Lve9SnRbq_UFXhadD_1rObbRQOMhuYZaoxLTQX2GClSnu8j_hZ87L35vLfMs2Qqsk-AfJ_hHH_IuKfM6bgL_J2uDKOJ4bvd5ssmfXb5I-0vEdIC39EURhIUw_5hz5EOJM1xXzY5_KlL-jpmsZzkRn48O4uK67naq_XQhbzKqLVV6jaYga3OuhwWwDOJwD6UepEV-nJbAhvgAQHoYBHnoFDx0JZqXRZzjT9iqb9fMT9c3Myv5hui6RISrKYWKtacLO2kEVIREBweN9ai1XCKCdiHZ7qICWyFyNJmhVCfQHAWw77NoBAXXQCU5u-xqAkJXYAPQMAhIN0iXFOsMTzyAyogMgzIcE68DNdqaU4UMIYEN4XEs4K-XiW1PiHOKm7MEfEPaj7nge-WatHmwN7jYCkpICDexVwMHkeldwQsTDJa9Cb2dFSy8wJCOOheRRiy3kLh0CSK1MIznSXK4Y9afHcJ_SOqh8ZCj8a0lfeM5G0QRo7kLUQkbbAYgkMD28QNAdVQBBSyUWCNq90h8Kp-zSuuXSyRqz4mrSKWOTwUDygXqYv5n3pVn-8SRyDOLqyram0hVI54eF7rs66RLC3R97bOkRTSnnDQXadqHXmwTBJaZt0NoElWrBHlXIRnFFviaCyfpK7AwVrc0LBh6zjVbMvHfNUtrqXhexxdQenQodyw1Y5yLaDivj59dYZBpIuRs1Ms3_5BHy7TMEkIl2wKsHYx3Yw0yYNr-KHuiM5g-iJluy4V2VD1FzRHGOcZ3g2DOCcmVVUZjjTDypU9x5lNG0dzEwzBa9USdrB2R5-gs9hz1jk0Qt8yI-85QX71Vxl6MsBOcF3YvwzhRhj8nId-NiP9n_riYEAAL10IKDTOFcApsz80tFRm1Vl5UC8yNR8Dewx01ebb3Z4yhZKR-9LHZqmyXUIOVfp5ejn34aW0SbbrZZ4OduDu-XtiW_MXx7_650Eq0gqrs4hF_z2ptESPs5617VvePGmZtyS2ntSPg3RIl-d0FS0-EYtCNNQTWx4uEPiIN3zWmj3zI88e9kr47OcnJtP30xlzYlHSZd-_wvQUzIosyZwmtM41564U4zzcl0s1p-qoiQWnee5F2TGCWWSllas0wWtHa3AV8WKc5_h4fqbqLk-2pUtNqXVqoRFI4CoAEc-OVnMZ5rPJEWe7eSznC8vvlg6_1xjT1B1zZ7p7tONjcSr1V6lAh_GFgzW7wKF3Fi_t0RnWJ22XomMJ3Zsc_icbhq7_-v4-z_PbrW1vVRp1ef-WtPV7NA7Z-3rY5821fUvrKK_-fXj3aK95lSLCz3PwMrw-WQ9p9EDb4_sSWQM_F8lwyaI-Q27YZe7Lx4CjZqfS5GfzUNTEjMKjESI3jtEkx2IETlIku-2oYpqoXUne6mRMUgJjajqf2CQbsFt3z8a3qOv637Nc6ZK2GdAaW5NdEZfu_4z4qRDCbNKhy6t2SKp2hP-9rdY_R1wmVPk1T-GPfYq2x_-uk1s-IcWaqF4V09PhtKKhz_Ofe4dg2TUw73sU8aMnaB-3YzP8SPB3zr_CNG2TrCbQNNpMzbVMB9wuM9VOi2Pk7vJkGB_pn4CrjPz7ot-j9z1_Y9vkSO79me8cbgIncbu_s8B55jvlQnW94XIZNV-ER5By-25ypEDE9r_0HLNN1mkc488u4AzJ0hxO0SwSnWFxdG2-ffs-Jpd87X2akAmLk8yW2XHJlqIxahuxHLFlEyaFFH1lyOt18-03vILk7Q.aIxbSA.ECFua2Mu06pxcsaALd99YQItGH4'}
+2025-08-01 09:14:33 - endpoints.settings - INFO - Remote address: 127.0.0.1
+2025-08-01 09:14:33 - endpoints.settings - INFO - User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
+2025-08-01 09:14:33 - endpoints.settings - INFO - Database session obtained: <sqlalchemy.orm.session.Session object at 0x7fd2c525dde0>
+2025-08-01 09:14:33 - endpoints.settings - INFO - User ID from session: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-01 09:14:33 - endpoints.settings - INFO - Calling get_router_id_setting service with user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-01 09:14:33 - services.settings_service - INFO - === Starting get_router_id_setting ===
+2025-08-01 09:14:33 - services.settings_service - INFO - Input parameter - user_id: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-01 09:14:33 - services.settings_service - INFO - User ID type: <class 'str'>
+2025-08-01 09:14:33 - services.settings_service - INFO - Querying UserSetting for routerId...
+2025-08-01 09:14:33 - services.settings_service - INFO - Query: session.query(UserSetting).filter_by(user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, setting_key='routerId')
+2025-08-01 09:14:33 - services.settings_service - INFO - Found UserSetting record: id=33039718-fdde-458e-b250-50e52516db96, setting_value={'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}
+2025-08-01 09:14:33 - services.settings_service - INFO - Setting value type: <class 'dict'>
+2025-08-01 09:14:33 - services.settings_service - INFO - Router ID found: e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-01 09:14:33 - services.settings_service - INFO - Router ID type: <class 'str'>
+2025-08-01 09:14:33 - services.settings_service - INFO - Router ID is valid and non-empty
+2025-08-01 09:14:33 - services.settings_service - INFO - === get_router_id_setting completed successfully ===
+2025-08-01 09:14:33 - endpoints.settings - INFO - Service call completed - result: {'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}, error: None
+2025-08-01 09:14:33 - endpoints.settings - INFO - Service call successful, returning result: {'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}
+2025-08-01 09:14:33 - endpoints.settings - INFO - === get_router_id endpoint completed successfully ===
+2025-08-01 09:14:33 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-01 09:14:33 - services.base - INFO - Service operation completed: scan_network
+2025-08-01 09:14:33 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/network/scan
+2025-08-01 09:14:34 - managers.commands_server - DEBUG - Request completed in 0.15s with status 500
+2025-08-01 09:14:34 - managers.commands_server - ERROR - Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: An unexpected error occurred while scanning for devices."
+  },
+  "metadata": {
+    "executionTime": 0.007616758346557617,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-08-01T06:14:33.412797"
+  },
+  "success": false
+}
+
+2025-08-01 09:14:34 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/api/network/scan': Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: An unexpected error occurred while scanning for devices."
+  },
+  "metadata": {
+    "executionTime": 0.007616758346557617,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-08-01T06:14:33.412797"
+  },
+  "success": false
+}
+
+2025-08-01 09:14:34 - services.base - ERROR - Service operation failed: scan_network - Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: An unexpected error occurred while scanning for devices."
+  },
+  "metadata": {
+    "executionTime": 0.007616758346557617,
+    "routerId": "e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-08-01T06:14:33.412797"
+  },
+  "success": false
+}
+

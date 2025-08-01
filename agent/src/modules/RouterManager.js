@@ -80,6 +80,10 @@ class RouterManager {
         // The default BusyBox 'arp' is not always available or sufficient.
         'ip-full',
         
+        // MANDATORY for bandwidth monitoring and statistics
+        'nlbwmon',          // Per-device bandwidth monitoring (~50KB)
+        'luci-app-nlbwmon', // LuCI web interface for nlbwmon (~25KB)
+        
         // REMOVED for extreme memory optimization:
         // 'uci',              // Usually pre-installed on OpenWrt
         // 'procps-ng-pkill',  // Will use BusyBox alternatives (ps|grep|awk|xargs|kill)
@@ -132,7 +136,7 @@ class RouterManager {
 
       // Verify critical packages are installed
       logger.router('Verifying critical packages...');
-      const criticalPackages = ['openssh-client', 'autossh', 'coreutils-nohup', 'iptables', 'tc'];
+      const criticalPackages = ['openssh-client', 'autossh', 'coreutils-nohup', 'iptables', 'tc', 'nlbwmon'];
       for (const pkg of criticalPackages) {
         const isInstalled = await this.checkPackageInstalled(pkg);
         if (!isInstalled) {
@@ -149,6 +153,14 @@ class RouterManager {
         logger.router('Restarting services (packages were installed)...');
         await this.executeCommand('/etc/init.d/network restart');
         await this.executeCommand('/etc/init.d/firewall restart');
+        
+        // Restart nlbwmon if it was installed
+        try {
+          await this.executeCommand('/etc/init.d/nlbwmon restart');
+          logger.router('nlbwmon service restarted');
+        } catch (error) {
+          logger.warn('nlbwmon restart failed (might not be installed yet):', error.message);
+        }
         
         // Check if WiFi exists before restarting
         try {
@@ -258,7 +270,42 @@ class RouterManager {
         logger.router('Process management check failed - will use BusyBox alternatives');
       }
 
-      logger.router('Router configuration for NetPilot completed successfully');
+        // Configure nlbwmon for 30-day bandwidth monitoring (router preparation only)
+        logger.router('Configuring nlbwmon for 30-day bandwidth retention...');
+        try {
+          // Set kernel buffer sizes for nlbwmon (multiple approaches)
+          await this.executeCommand('echo "net.core.rmem_max = 1048576" >> /etc/sysctl.conf');
+          await this.executeCommand('echo "net.core.rmem_default = 524288" >> /etc/sysctl.conf');
+          await this.executeCommand('echo "net.core.netdev_max_backlog = 5000" >> /etc/sysctl.conf');
+          await this.executeCommand('sysctl -p');
+          
+          // Clear any existing nlbwmon configuration to avoid conflicts
+          await this.executeCommand('uci del nlbwmon.@nlbwmon[0].local_network 2>/dev/null || true');
+          
+          // Set nlbwmon configuration for 30-day retention (ready for NetPilot app queries)
+          await this.executeCommand('uci set nlbwmon.@nlbwmon[0].database_directory="/tmp/nlbwmon"');
+          await this.executeCommand('uci set nlbwmon.@nlbwmon[0].database_generations="35"'); // 35 days for safety margin
+          await this.executeCommand('uci set nlbwmon.@nlbwmon[0].commit_interval="24h"'); // Daily commits for day-level queries
+          await this.executeCommand('uci set nlbwmon.@nlbwmon[0].refresh_interval="30s"'); // Real-time updates for "today"
+          await this.executeCommand('uci set nlbwmon.@nlbwmon[0].database_limit="50000"'); // Increased for 30-day retention
+          await this.executeCommand('uci set nlbwmon.@nlbwmon[0].netlink_buffer_size="524288"');
+          
+          // Set local networks for home OpenWrt networks (192.168.1.x range only)
+          await this.executeCommand('uci add_list nlbwmon.@nlbwmon[0].local_network="192.168.1.0/24"');
+          await this.executeCommand('uci add_list nlbwmon.@nlbwmon[0].local_network="lan"');
+          await this.executeCommand('uci commit nlbwmon');
+          
+          // Create persistent storage directory (survives reboots if possible)
+          await this.executeCommand('mkdir -p /etc/nlbwmon_backup');
+          
+          // Enable and start nlbwmon service
+          await this.executeCommand('/etc/init.d/nlbwmon enable');
+          await this.executeCommand('/etc/init.d/nlbwmon start');
+          logger.router('nlbwmon configured for 30-day retention - ready for NetPilot app queries');
+        } catch (error) {
+          logger.warn('nlbwmon configuration failed:', error.message);
+          // Don't fail the entire process for nlbwmon configuration issues
+        }      logger.router('Router configuration for NetPilot completed successfully');
       
     } catch (error) {
       logger.warn('Some router configuration steps failed:', error.message);
@@ -286,7 +333,9 @@ class RouterManager {
         'iptables',         // Firewall rules
         'tc',               // Traffic control
         'kmod-sched-core',  // Core scheduler
-        'ip-full'           // Provides 'arp' command
+        'ip-full',          // Provides 'arp' command
+        'nlbwmon',          // Per-device bandwidth monitoring
+        'luci-app-nlbwmon'  // LuCI interface for bandwidth stats
       ];
       for (const pkg of criticalPackages) {
         try {
@@ -491,7 +540,17 @@ class RouterManager {
         uninstallSteps.push({ step: 'Remove NetPilot files', success: false, error: error.message });
       }
 
-      // Step 5: Remove SSH keys if they exist
+      // Step 5: Clean up nlbwmon data and configuration
+      try {
+        await this.executeCommand('/etc/init.d/nlbwmon stop 2>/dev/null || true');
+        await this.executeCommand('rm -rf /tmp/nlbwmon 2>/dev/null || true');
+        await this.executeCommand('rm -rf /var/lib/nlbwmon 2>/dev/null || true');
+        uninstallSteps.push({ step: 'Clean nlbwmon data', success: true });
+      } catch (error) {
+        uninstallSteps.push({ step: 'Clean nlbwmon data', success: false, error: error.message });
+      }
+
+      // Step 6: Remove SSH keys if they exist
       try {
         await this.executeCommand('rm -f /root/.ssh/netpilot_rsa*');
         uninstallSteps.push({ step: 'Remove SSH keys', success: true });
@@ -499,7 +558,7 @@ class RouterManager {
         uninstallSteps.push({ step: 'Remove SSH keys', success: false, error: error.message });
       }
 
-      // Step 6: Clean up any netpilot-related cron jobs
+      // Step 7: Clean up any netpilot-related cron jobs
       try {
         await this.executeCommand('crontab -l 2>/dev/null | grep -v netpilot | crontab - 2>/dev/null || true');
         uninstallSteps.push({ step: 'Clean cron jobs', success: true });
