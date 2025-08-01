@@ -13,10 +13,8 @@ export default function AboutPage() {
           <div className="space-y-8 text-gray-600 dark:text-gray-300">
             <section>
               <p className="leading-relaxed text-lg">
-                NetPilot is an innovative web-based platform designed to give users full control over their home or office Wi-Fi networks. 
-                By leveraging the power of OpenWrt on compatible routers, NetPilot provides a simple and intuitive interface for managing connected devices. 
-                Whether you're looking to monitor who's connected, block unwanted users, limit bandwidth usage, or apply parental control settings, 
-                NetPilot puts these tools at your fingertips. Our goal is to make network management accessible, efficient, and secure for everyone—no technical expertise required.
+                NetPilot is an innovative web-based platform that gives users full control over their Wi-Fi networks through OpenWrt-compatible routers. 
+                Monitor connected devices, block unwanted users, limit bandwidth, and apply parental controls—all from an intuitive interface that requires no technical expertise.
               </p>
             </section>
 
@@ -26,7 +24,7 @@ export default function AboutPage() {
                 <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Main Features</h2>
               </div>
               
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <div className="flex flex-col gap-6">
                 <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow duration-300">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
@@ -35,10 +33,8 @@ export default function AboutPage() {
                     <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Device Scanning</h3>
                   </div>
                   <p className="leading-relaxed text-gray-600 dark:text-gray-300">
-                    NetPilot allows you to quickly scan your Wi-Fi network and view all currently connected devices. With just a few clicks, 
-                    you can see detailed information such as IP addresses, MAC addresses, and device names (when available). This feature gives 
-                    you full visibility into who's using your network at any given time—helping you spot unfamiliar devices, monitor usage, 
-                    and keep your network secure.
+                    Quickly scan your Wi-Fi network to view all connected devices with detailed information including IP addresses, MAC addresses, and device names. 
+                    Get full visibility into network usage and spot unfamiliar devices to keep your network secure.
                   </p>
                 </div>
 
@@ -50,9 +46,8 @@ export default function AboutPage() {
                     <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Advanced Device Control</h3>
                   </div>
                   <p className="leading-relaxed text-gray-600 dark:text-gray-300">
-                    NetPilot gives you powerful tools to manage how each device interacts with your Wi-Fi network. You can easily block unwanted 
-                    devices from accessing the internet or limit their browsing speed to reduce bandwidth usage. For even more flexibility, 
-                    NetPilot lets you group multiple devices—such as all your kids' phones and tablets—and apply custom rules to them.
+                    Manage device access with powerful control tools—block unwanted devices or limit their browsing speed to reduce bandwidth usage. 
+                    Group multiple devices together and apply custom rules for flexible network management.
                   </p>
                 </div>
 
@@ -64,8 +59,8 @@ export default function AboutPage() {
                     <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Wi-Fi Network Management</h3>
                   </div>
                   <p className="leading-relaxed text-gray-600 dark:text-gray-300">
-                    With NetPilot, you can easily view and manage key details of your Wi-Fi network. See information about your internet provider, 
-                    perform real-time speed tests to check your connection quality, and make quick adjustments—all from a single dashboard.
+                    View and manage key Wi-Fi network details including internet provider information and real-time speed tests. 
+                    Monitor connection quality and make quick adjustments from a single dashboard.
                   </p>
                 </div>
               </div>
@@ -74,11 +69,8 @@ export default function AboutPage() {
             <section>
               <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">About the Founders</h2>
               <p className="leading-relaxed">
-                NetPilot was created by Dan Toledano, Tom Braudo, and Chen Feraru— third-year Computer Science students at the Academic College of 
-                Tel Aviv-Yaffo. As part of our final B.Sc. project, we set out to build a solution to a problem we all face daily: managing our 
-                Wi-Fi networks. We realized that despite how central Wi-Fi is to modern life, most people don't have an easy way to see who's 
-                connected to their network or control how it's used. That's why we developed NetPilot—to make Wi-Fi management simple, accessible, 
-                and powerful for everyone.
+                NetPilot was created by Dan Toledano, Tom Braudo, and Chen Feraru—third-year Computer Science students at the Academic College of Tel Aviv-Yaffo. 
+                As our final B.Sc. project, we built a solution to make Wi-Fi management simple, accessible, and powerful for everyone.
               </p>
             </section>
           </div>

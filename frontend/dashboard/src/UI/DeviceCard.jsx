@@ -10,6 +10,9 @@ import {
   FaShieldAlt,
   FaBan,
   FaCheck,
+  FaEdit,
+  FaSave,
+  FaTimes,
 } from "react-icons/fa";
 import { BsRouter } from "react-icons/bs";
 import { whitelistAPI, blacklistAPI } from "../constants/api";
@@ -29,9 +32,58 @@ const DeviceCard = ({ device }) => {
   const [limitValue, setLimitValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [actionMessage, setActionMessage] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedHostname, setEditedHostname] = useState("");
 
   // Check if this device is a router
   const isRouter = device.icon === "BsRouter";
+
+  // Get custom hostname from localStorage or use original
+  const getDisplayHostname = () => {
+    const customHostnames = JSON.parse(localStorage.getItem("customHostnames") || "{}");
+    const deviceKey = `${device.ip}_${device.mac}`;
+    return customHostnames[deviceKey] || device.hostname;
+  };
+
+  const displayHostname = getDisplayHostname();
+
+  const handleStartEdit = () => {
+    setIsEditing(true);
+    setEditedHostname(displayHostname);
+    setActionMessage(null);
+  };
+
+  const handleSaveEdit = () => {
+    if (editedHostname.trim() === "") {
+      setActionMessage("Hostname cannot be empty");
+      return;
+    }
+
+    const customHostnames = JSON.parse(localStorage.getItem("customHostnames") || "{}");
+    const deviceKey = `${device.ip}_${device.mac}`;
+    
+    if (editedHostname.trim() === device.hostname) {
+      // If editing back to original, remove from custom hostnames
+      delete customHostnames[deviceKey];
+    } else {
+      // Save custom hostname
+      customHostnames[deviceKey] = editedHostname.trim();
+    }
+    
+    localStorage.setItem("customHostnames", JSON.stringify(customHostnames));
+    
+    setIsEditing(false);
+    setActionMessage("Hostname updated successfully");
+    
+    // Clear message after 3 seconds
+    setTimeout(() => setActionMessage(null), 3000);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setEditedHostname("");
+    setActionMessage(null);
+  };
 
   const handleAction = async (action) => {
     // Don't allow actions on router devices
@@ -52,8 +104,8 @@ const DeviceCard = ({ device }) => {
         
         const result = await whitelistAPI.add(routerId, {
           ip: device.ip,
-          name: device.hostname,
-          description: `${device.hostname} - ${device.mac}`
+          name: displayHostname, // Use display hostname (custom or original)
+          description: `${displayHostname} - ${device.mac}`
         });
         
         // Create a mock response object to maintain compatibility
@@ -70,8 +122,8 @@ const DeviceCard = ({ device }) => {
         
         const result = await blacklistAPI.add(routerId, {
           ip: device.ip,
-          name: device.hostname,
-          description: `${device.hostname} - ${device.mac}`
+          name: displayHostname, // Use display hostname (custom or original)
+          description: `${displayHostname} - ${device.mac}`
         });
         
         // Create a mock response object to maintain compatibility
@@ -124,9 +176,48 @@ const DeviceCard = ({ device }) => {
         <IconComponent />
       </div>
 
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-        {device.hostname}
-      </h3>
+      {/* Hostname with edit functionality */}
+      <div className="flex items-center gap-2 w-full justify-center">
+        {isEditing ? (
+          <div className="flex items-center gap-2 w-full">
+            <input
+              type="text"
+              value={editedHostname}
+              onChange={(e) => setEditedHostname(e.target.value)}
+              className="text-lg font-semibold text-gray-900 dark:text-white bg-transparent border-b-2 border-blue-500 focus:outline-none flex-1 text-center"
+              autoFocus
+            />
+            <button
+              onClick={handleSaveEdit}
+              className="text-green-500 hover:text-green-600 p-1"
+              title="Save"
+            >
+              <FaSave size={14} />
+            </button>
+            <button
+              onClick={handleCancelEdit}
+              className="text-red-500 hover:text-red-600 p-1"
+              title="Cancel"
+            >
+              <FaTimes size={14} />
+            </button>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white text-center">
+              {displayHostname}
+            </h3>
+            <button
+              onClick={handleStartEdit}
+              className="text-gray-500 hover:text-blue-500 p-1"
+              title="Edit hostname"
+            >
+              <FaEdit size={14} />
+            </button>
+          </div>
+        )}
+      </div>
+
       <p className="text-sm text-gray-600 dark:text-gray-300">
         IP: {device.ip}
       </p>
@@ -181,7 +272,7 @@ const DeviceCard = ({ device }) => {
       {actionMessage && (
         <p
           className={`text-sm text-center mt-2 ${
-            /error|fail|failed|cannot/i.test(actionMessage)
+            /error|fail|failed|cannot|empty/i.test(actionMessage)
               ? "text-red-500 dark:text-red-400"
               : "text-green-500 dark:text-green-400"
           }`}

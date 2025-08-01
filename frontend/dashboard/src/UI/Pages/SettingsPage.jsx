@@ -19,12 +19,42 @@ const SettingsPage = () => {
     fetchWifiName();
   }, []);
 
-  const fetchWifiName = async () => {
+  const getWifiNameFromStorage = () => {
+    try {
+      const stored = localStorage.getItem(`wifi_name_${routerId}`);
+      return stored ? JSON.parse(stored) : null;
+    } catch (error) {
+      console.warn("Failed to parse WiFi name from localStorage:", error);
+      return null;
+    }
+  };
+
+  const saveWifiNameToStorage = (name) => {
+    try {
+      localStorage.setItem(`wifi_name_${routerId}`, JSON.stringify(name));
+    } catch (error) {
+      console.warn("Failed to save WiFi name to localStorage:", error);
+    }
+  };
+
+  const fetchWifiName = async (forceRefresh = false) => {
     try {
       setWifiLoading(true);
       setWifiError(null);
 
-      console.log("📡 Fetching WiFi name...");
+      // Try to get from localStorage first (unless forcing refresh)
+      if (!forceRefresh && routerId) {
+        const cachedName = getWifiNameFromStorage();
+        if (cachedName) {
+          setWifiName(cachedName);
+          setOriginalWifiName(cachedName);
+          setWifiLoading(false);
+          console.log("✅ WiFi name loaded from cache:", cachedName);
+          return;
+        }
+      }
+
+      console.log("📡 Fetching WiFi name from API...");
       const response = await settingsAPI.getWifiName(routerId);
 
       console.log("📡 WiFi name response:", response);
@@ -33,7 +63,13 @@ const SettingsPage = () => {
         const name = response.data.wifi_name || response.data.ssid || "Unknown";
         setWifiName(name);
         setOriginalWifiName(name);
-        console.log("✅ WiFi name loaded:", name);
+        
+        // Save to localStorage for future use
+        if (routerId) {
+          saveWifiNameToStorage(name);
+        }
+        
+        console.log("✅ WiFi name loaded from API:", name);
       } else {
         throw new Error(response.message || "Failed to fetch WiFi name");
       }
@@ -92,6 +128,12 @@ const SettingsPage = () => {
       if (response.success) {
         setOriginalWifiName(wifiName);
         setIsEditingWifi(false);
+        
+        // Update localStorage with the new name
+        if (routerId) {
+          saveWifiNameToStorage(wifiName);
+        }
+        
         console.log("✅ WiFi name saved successfully!");
       } else {
         throw new Error(response.message || "Failed to save WiFi name");
@@ -182,7 +224,7 @@ const SettingsPage = () => {
                             {wifiError}
                           </p>
                           <button
-                            onClick={fetchWifiName}
+                            onClick={() => fetchWifiName(true)}
                             className="text-xs text-blue-600 dark:text-blue-400 hover:underline mt-1"
                           >
                             Try again
