@@ -1,0 +1,46 @@
+name: Deploy Backend2 to Cloud Run
+
+on:
+  push:
+    branches: [ New-Main ]
+    paths: [ 'backend2/**' ]
+  pull_request:
+    branches: [ New-Main ]
+    paths: [ 'backend2/**' ]
+    types: [ closed ]
+
+jobs:
+  deploy:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v2
+
+    - name: Deploy to Cloud Run
+      run: |
+        cd backend2
+        gcloud run deploy netpilot-backend2 \
+          --source . \
+          --platform managed \
+          --region europe-west1 \
+          --allow-unauthenticated \
+          --port 5000 \
+          --set-env-vars="GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }},COMMAND_SERVER_URL=${{ secrets.COMMANDS_SERVER_URL }},COMMAND_SERVER_TIMEOUT=30,DB_HOST=${{ secrets.DB_HOST }},DB_PORT=${{ secrets.DB_PORT }},DB_USERNAME=${{ secrets.DB_USERNAME }},DB_NAME=${{ secrets.DB_NAME }},FLASK_ENV=production,DB_ECHO=false,LOG_LEVEL=INFO,USE_HTTPS=true,SECURE_COOKIES=true,CORS_ORIGINS=https://netpilot-backend2-1053980213438.europe-west1.run.app" \
+          --set-secrets="GOOGLE_CLIENT_SECRET=google-client-secret:latest,DB_PASSWORD=db-password:latest,SECRET_KEY=flask-secret-key:latest,DATABASE_URL=database-url:latest" \
+          --project ${{ secrets.GCP_PROJECT_ID }}
+
+    - name: Get service URL
+      run: |
+        SERVICE_URL=$(gcloud run services describe netpilot-backend2 --region europe-west1 --format="value(status.url)" --project ${{ secrets.GCP_PROJECT_ID }})
+        echo "Service deployed at: $SERVICE_URL"
+        echo "Health check: $SERVICE_URL/health_simple"
