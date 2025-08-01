@@ -80,7 +80,11 @@ def homepage():
 @auth_bp.route('/login')
 def login():
     """Initiate Google OAuth login"""
-    redirect_uri = "http://localhost:5000/authorize"
+    # Use request host to determine correct redirect URI
+    from flask import request
+    host = request.host
+    scheme = 'https' if request.is_secure else 'http'
+    redirect_uri = f"{scheme}://{host}/authorize"
     return google.authorize_redirect(redirect_uri)
 
 @auth_bp.route('/authorize')
@@ -195,3 +199,25 @@ def me():
         "email": userInfo.get("email"),
         "picture": userInfo.get("picture")
     }) 
+
+@auth_bp.route('/dev/create-session/<test_user_id>')
+def dev_create_session(test_user_id):
+    """TEMPORARY: Create a test session for API testing"""
+    # Create fake session for testing
+    session['user_id'] = f"test-{test_user_id}"
+    session['user'] = {
+        'userinfo': {
+            'email': f'{test_user_id}@test.com',
+            'name': f'Test User {test_user_id}',
+            'given_name': f'Test{test_user_id}',
+            'picture': 'https://via.placeholder.com/150',
+            'sub': f'test-{test_user_id}'
+        }
+    }
+    session.permanent = True
+    
+    return jsonify({
+        "message": f"Test session created for user: test-{test_user_id}",
+        "user_id": session['user_id'],
+        "instructions": "Now use this session cookie in Postman to test API endpoints"
+    })
