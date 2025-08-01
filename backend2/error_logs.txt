@@ -1,0 +1,1024 @@
+starting build "ae5b75a6-5565-4227-8d7b-35100052fcd0"
+FETCHSOURCE
+Fetching storage object: gs://run-sources-net-pilot-463708-europe-west1/services/netpilot-backend2/1754047737.814587-456c3ebbc4aa412990201decc6c470f2.zip#1754047738114788
+Copying gs://run-sources-net-pilot-463708-europe-west1/services/netpilot-backend2/1754047737.814587-456c3ebbc4aa412990201decc6c470f2.zip#1754047738114788...
+/ [0 files][    0.0 B/141.9 KiB]                                                / [1 files][141.9 KiB/141.9 KiB]                                                
+Operation completed over 1 objects/141.9 KiB.                                    
+Archive:  /tmp/source-archive.zip
+   creating: /workspace/utils/
+   creating: /workspace/logs/
+   creating: /workspace/models/
+   creating: /workspace/managers/
+   creating: /workspace/database/
+   creating: /workspace/endpoints/
+   creating: /workspace/services/
+   creating: /workspace/migrations/
+   creating: /workspace/services/db_operations/
+   creating: /workspace/services/commands_server_operations/
+   creating: /workspace/migrations/versions/
+  inflating: /workspace/server.py    
+  inflating: /workspace/test_whitelist_db.py  
+  inflating: /workspace/test_router_id_flow.py  
+  inflating: /workspace/test_blacklist_authenticated.py  
+  inflating: /workspace/ROUTER_ID_DEBUG_GUIDE.md  
+  inflating: /workspace/test_server.py  
+  inflating: /workspace/requirements.txt  
+  inflating: /workspace/test_blacklist_endpoints.py  
+  inflating: /workspace/COMMANDS_SERVER_INTEGRATION_PLAN.md  
+  inflating: /workspace/alembic.ini  
+  inflating: /workspace/test_whitelist_endpoints.py  
+  inflating: /workspace/README_COMMANDS_SERVER_CLIENT.md  
+  inflating: /workspace/test_blacklist_db.py  
+  inflating: /workspace/test_db_connection.py  
+  inflating: /workspace/test_blacklist_table_content.py  
+  inflating: /workspace/test_whitelist_table_content.py  
+  inflating: /workspace/auth.py      
+  inflating: /workspace/AUTHENTICATION_FIX_GUIDE.md  
+  inflating: /workspace/env.example  
+  inflating: /workspace/utils/middleware.py  
+  inflating: /workspace/utils/response_unpack.py  
+  inflating: /workspace/utils/logging_config.py  
+  inflating: /workspace/utils/__init__.py  
+  inflating: /workspace/utils/response_helpers.py  
+  inflating: /workspace/logs/main.log  
+  inflating: /workspace/models/blacklist.py  
+  inflating: /workspace/models/session.py  
+  inflating: /workspace/models/blocked_device.py  
+  inflating: /workspace/models/user.py  
+  inflating: /workspace/models/router.py  
+  inflating: /workspace/models/device.py  
+  inflating: /workspace/models/whitelist.py  
+  inflating: /workspace/models/base.py  
+  inflating: /workspace/models/__init__.py  
+  inflating: /workspace/models/blacklisted_devices.py  
+  inflating: /workspace/models/settings.py  
+  inflating: /workspace/managers/router_connection_manager.py  
+  inflating: /workspace/managers/__init__.py  
+  inflating: /workspace/managers/commands_server_manager.py  
+  inflating: /workspace/database/connection.py  
+  inflating: /workspace/database/session.py  
+  inflating: /workspace/database/__init__.py  
+  inflating: /workspace/endpoints/health.py  
+  inflating: /workspace/endpoints/blacklist.py  
+  inflating: /workspace/endpoints/session.py  
+  inflating: /workspace/endpoints/whitelist.py  
+  inflating: /workspace/endpoints/network.py  
+  inflating: /workspace/endpoints/__init__.py  
+  inflating: /workspace/endpoints/settings.py  
+  inflating: /workspace/services/session_service.py  
+  inflating: /workspace/services/transaction_manager.py  
+  inflating: /workspace/services/whitelist_service.py  
+  inflating: /workspace/services/blacklist_service.py  
+  inflating: /workspace/services/settings_service.py  
+  inflating: /workspace/services/WHITELIST_SERVICE_IMPLEMENTATION_SUMMARY.md  
+  inflating: /workspace/services/whitelist_service_usage_example.py  
+  inflating: /workspace/services/network_service_usage_example.py  
+  inflating: /workspace/services/BLACKLIST_SERVICE_IMPLEMENTATION_SUMMARY.md  
+  inflating: /workspace/services/wifi_management.py  
+  inflating: /workspace/services/NETWORK_SERVICE_IMPLEMENTATION_SUMMARY.md  
+  inflating: /workspace/services/base.py  
+  inflating: /workspace/services/__init__.py  
+  inflating: /workspace/services/network_service.py  
+  inflating: /workspace/services/session_service_usage_example.py  
+  inflating: /workspace/services/SESSION_SERVICE_IMPLEMENTATION_SUMMARY.md  
+  inflating: /workspace/services/db_operations/network_db.py  
+  inflating: /workspace/services/db_operations/whitelist_db.py  
+  inflating: /workspace/services/db_operations/blacklist_db.py  
+  inflating: /workspace/services/db_operations/base.py  
+  inflating: /workspace/services/db_operations/__init__.py  
+  inflating: /workspace/services/commands_server_operations/settings_execute.py  
+  inflating: /workspace/services/commands_server_operations/session_execute.py  
+  inflating: /workspace/services/commands_server_operations/blacklist_execute.py  
+  inflating: /workspace/services/commands_server_operations/base.py  
+  inflating: /workspace/services/commands_server_operations/whitelist_execute.py  
+  inflating: /workspace/services/commands_server_operations/__init__.py  
+  inflating: /workspace/services/commands_server_operations/network_execute.py  
+  inflating: /workspace/migrations/env.py  
+  inflating: /workspace/migrations/README  
+  inflating: /workspace/migrations/script.py.mako  
+  inflating: /workspace/migrations/versions/234d826909c5_initial_schema.py  
+  inflating: /workspace/migrations/versions/remove_router_unique.py  
+  inflating: /workspace/migrations/versions/4439c564fa79_add_user_settings_table.py  
+  inflating: /workspace/migrations/versions/6a63def03834_update_blacklist_model_structure.py  
+BUILD
+Starting Step #0 - "pre-buildpack"
+Pulling image: gcr.io/k8s-skaffold/pack
+Using default tag: latest
+latest: Pulling from k8s-skaffold/pack
+396c31837116: Pulling fs layer
+9776b10d5c8c: Pulling fs layer
+52cb9ac3197f: Pulling fs layer
+9776b10d5c8c: Verifying Checksum
+9776b10d5c8c: Download complete
+396c31837116: Verifying Checksum
+396c31837116: Download complete
+396c31837116: Pull complete
+52cb9ac3197f: Verifying Checksum
+52cb9ac3197f: Download complete
+9776b10d5c8c: Pull complete
+52cb9ac3197f: Pull complete
+Digest: sha256:221c0c0d9a90f46f108bb888a1da9e99c82ff631e8b1c63b0223ea951752bd53
+Status: Downloaded newer image for gcr.io/k8s-skaffold/pack:latest
+gcr.io/k8s-skaffold/pack:latest
+Builder 'gcr.io/buildpacks/builder:latest' is now the default builder
+Builder 'gcr.io/buildpacks/builder:latest' is now trusted
+Finished Step #0 - "pre-buildpack"
+Starting Step #1 - "build"
+Already have image (with digest): gcr.io/k8s-skaffold/pack
+latest: Pulling from buildpacks/builder
+e27d8d14a9d0: Already exists
+9934f3df170e: Already exists
+05ee73c972bf: Already exists
+182afb1fe5dc: Pulling fs layer
+1a82443b3661: Pulling fs layer
+31dc58975617: Pulling fs layer
+3b6cd8093fba: Pulling fs layer
+5c25048cf2e5: Pulling fs layer
+81568ec17673: Pulling fs layer
+b3a60ce223bb: Pulling fs layer
+27a5e9ca5169: Pulling fs layer
+048869265516: Pulling fs layer
+719e02495c7c: Pulling fs layer
+00a9a57fd38f: Pulling fs layer
+dcc5e70435e3: Pulling fs layer
+825462cc3c2b: Pulling fs layer
+e50afb41cbea: Pulling fs layer
+90106bc4a489: Pulling fs layer
+91a1c2a3b660: Pulling fs layer
+d0682c4856be: Pulling fs layer
+34a938f01e11: Pulling fs layer
+4b97a7e7463e: Pulling fs layer
+212fad8e1f40: Pulling fs layer
+f11c9b47633e: Pulling fs layer
+6ba53d178420: Pulling fs layer
+d0e06b7f51d9: Pulling fs layer
+ac4c16573922: Pulling fs layer
+f43465f36cf4: Pulling fs layer
+2224d713849d: Pulling fs layer
+df28f9c0b8e9: Pulling fs layer
+447b1519dab8: Pulling fs layer
+63ff5ba48190: Pulling fs layer
+926e8b6b999a: Pulling fs layer
+6ecb90e3dc89: Pulling fs layer
+80bd31d63492: Pulling fs layer
+9919bd0d7afe: Pulling fs layer
+d9b88f4839ec: Pulling fs layer
+3a5046b73848: Pulling fs layer
+81856ff657bc: Pulling fs layer
+f12f6d391f71: Pulling fs layer
+52dbe74a1f0b: Pulling fs layer
+20c0574eec19: Pulling fs layer
+22dc4f5b2156: Pulling fs layer
+faaaf75f8653: Pulling fs layer
+6ed8b9c01ce8: Pulling fs layer
+fead1bee204a: Pulling fs layer
+6bdbdd406f73: Pulling fs layer
+49ffa78436a4: Pulling fs layer
+5781683db4dc: Pulling fs layer
+954b42d8d69e: Pulling fs layer
+4ede4917088e: Pulling fs layer
+f7878fb08ddb: Pulling fs layer
+7010f9820c77: Pulling fs layer
+f8cd74e3f454: Pulling fs layer
+327a7c843995: Pulling fs layer
+8c93a4dc9691: Pulling fs layer
+4f4fb700ef54: Pulling fs layer
+3b6cd8093fba: Waiting
+5c25048cf2e5: Waiting
+81568ec17673: Waiting
+b3a60ce223bb: Waiting
+27a5e9ca5169: Waiting
+048869265516: Waiting
+719e02495c7c: Waiting
+00a9a57fd38f: Waiting
+dcc5e70435e3: Waiting
+825462cc3c2b: Waiting
+e50afb41cbea: Waiting
+90106bc4a489: Waiting
+91a1c2a3b660: Waiting
+d0682c4856be: Waiting
+34a938f01e11: Waiting
+4b97a7e7463e: Waiting
+212fad8e1f40: Waiting
+f11c9b47633e: Waiting
+6ba53d178420: Waiting
+d0e06b7f51d9: Waiting
+ac4c16573922: Waiting
+f43465f36cf4: Waiting
+2224d713849d: Waiting
+df28f9c0b8e9: Waiting
+447b1519dab8: Waiting
+63ff5ba48190: Waiting
+926e8b6b999a: Waiting
+6ecb90e3dc89: Waiting
+80bd31d63492: Waiting
+9919bd0d7afe: Waiting
+d9b88f4839ec: Waiting
+3a5046b73848: Waiting
+81856ff657bc: Waiting
+f12f6d391f71: Waiting
+52dbe74a1f0b: Waiting
+20c0574eec19: Waiting
+22dc4f5b2156: Waiting
+faaaf75f8653: Waiting
+6ed8b9c01ce8: Waiting
+fead1bee204a: Waiting
+6bdbdd406f73: Waiting
+49ffa78436a4: Waiting
+5781683db4dc: Waiting
+954b42d8d69e: Waiting
+4ede4917088e: Waiting
+f7878fb08ddb: Waiting
+7010f9820c77: Waiting
+f8cd74e3f454: Waiting
+327a7c843995: Waiting
+8c93a4dc9691: Waiting
+4f4fb700ef54: Waiting
+182afb1fe5dc: Verifying Checksum
+182afb1fe5dc: Download complete
+182afb1fe5dc: Pull complete
+31dc58975617: Verifying Checksum
+31dc58975617: Download complete
+1a82443b3661: Verifying Checksum
+1a82443b3661: Download complete
+3b6cd8093fba: Verifying Checksum
+3b6cd8093fba: Download complete
+5c25048cf2e5: Verifying Checksum
+5c25048cf2e5: Download complete
+81568ec17673: Verifying Checksum
+81568ec17673: Download complete
+1a82443b3661: Pull complete
+31dc58975617: Pull complete
+b3a60ce223bb: Verifying Checksum
+b3a60ce223bb: Download complete
+27a5e9ca5169: Verifying Checksum
+27a5e9ca5169: Download complete
+048869265516: Download complete
+3b6cd8093fba: Pull complete
+5c25048cf2e5: Pull complete
+719e02495c7c: Verifying Checksum
+719e02495c7c: Download complete
+00a9a57fd38f: Download complete
+dcc5e70435e3: Verifying Checksum
+dcc5e70435e3: Download complete
+81568ec17673: Pull complete
+b3a60ce223bb: Pull complete
+27a5e9ca5169: Pull complete
+825462cc3c2b: Verifying Checksum
+825462cc3c2b: Download complete
+e50afb41cbea: Verifying Checksum
+e50afb41cbea: Download complete
+90106bc4a489: Verifying Checksum
+90106bc4a489: Download complete
+048869265516: Pull complete
+719e02495c7c: Pull complete
+d0682c4856be: Verifying Checksum
+d0682c4856be: Download complete
+91a1c2a3b660: Verifying Checksum
+91a1c2a3b660: Download complete
+00a9a57fd38f: Pull complete
+34a938f01e11: Verifying Checksum
+34a938f01e11: Download complete
+dcc5e70435e3: Pull complete
+825462cc3c2b: Pull complete
+4b97a7e7463e: Verifying Checksum
+4b97a7e7463e: Download complete
+212fad8e1f40: Verifying Checksum
+212fad8e1f40: Download complete
+f11c9b47633e: Verifying Checksum
+f11c9b47633e: Download complete
+e50afb41cbea: Pull complete
+90106bc4a489: Pull complete
+ac4c16573922: Verifying Checksum
+ac4c16573922: Download complete
+91a1c2a3b660: Pull complete
+6ba53d178420: Verifying Checksum
+6ba53d178420: Download complete
+d0e06b7f51d9: Verifying Checksum
+d0e06b7f51d9: Download complete
+d0682c4856be: Pull complete
+f43465f36cf4: Verifying Checksum
+f43465f36cf4: Download complete
+2224d713849d: Verifying Checksum
+2224d713849d: Download complete
+34a938f01e11: Pull complete
+4b97a7e7463e: Pull complete
+df28f9c0b8e9: Verifying Checksum
+df28f9c0b8e9: Download complete
+63ff5ba48190: Verifying Checksum
+63ff5ba48190: Download complete
+212fad8e1f40: Pull complete
+447b1519dab8: Verifying Checksum
+447b1519dab8: Download complete
+f11c9b47633e: Pull complete
+6ecb90e3dc89: Verifying Checksum
+6ecb90e3dc89: Download complete
+6ba53d178420: Pull complete
+926e8b6b999a: Download complete
+80bd31d63492: Verifying Checksum
+80bd31d63492: Download complete
+d0e06b7f51d9: Pull complete
+9919bd0d7afe: Verifying Checksum
+9919bd0d7afe: Download complete
+ac4c16573922: Pull complete
+d9b88f4839ec: Download complete
+3a5046b73848: Verifying Checksum
+3a5046b73848: Download complete
+f43465f36cf4: Pull complete
+f12f6d391f71: Verifying Checksum
+f12f6d391f71: Download complete
+2224d713849d: Pull complete
+52dbe74a1f0b: Verifying Checksum
+52dbe74a1f0b: Download complete
+81856ff657bc: Verifying Checksum
+81856ff657bc: Download complete
+df28f9c0b8e9: Pull complete
+20c0574eec19: Verifying Checksum
+20c0574eec19: Download complete
+faaaf75f8653: Download complete
+447b1519dab8: Pull complete
+22dc4f5b2156: Verifying Checksum
+22dc4f5b2156: Download complete
+63ff5ba48190: Pull complete
+926e8b6b999a: Pull complete
+6ed8b9c01ce8: Verifying Checksum
+6ed8b9c01ce8: Download complete
+fead1bee204a: Verifying Checksum
+fead1bee204a: Download complete
+6bdbdd406f73: Verifying Checksum
+6bdbdd406f73: Download complete
+6ecb90e3dc89: Pull complete
+49ffa78436a4: Verifying Checksum
+49ffa78436a4: Download complete
+80bd31d63492: Pull complete
+9919bd0d7afe: Pull complete
+954b42d8d69e: Verifying Checksum
+954b42d8d69e: Download complete
+5781683db4dc: Verifying Checksum
+5781683db4dc: Download complete
+4ede4917088e: Download complete
+d9b88f4839ec: Pull complete
+f8cd74e3f454: Download complete
+3a5046b73848: Pull complete
+7010f9820c77: Verifying Checksum
+7010f9820c77: Download complete
+327a7c843995: Download complete
+f7878fb08ddb: Verifying Checksum
+f7878fb08ddb: Download complete
+81856ff657bc: Pull complete
+8c93a4dc9691: Verifying Checksum
+8c93a4dc9691: Download complete
+4f4fb700ef54: Verifying Checksum
+4f4fb700ef54: Download complete
+f12f6d391f71: Pull complete
+52dbe74a1f0b: Pull complete
+20c0574eec19: Pull complete
+22dc4f5b2156: Pull complete
+faaaf75f8653: Pull complete
+6ed8b9c01ce8: Pull complete
+fead1bee204a: Pull complete
+6bdbdd406f73: Pull complete
+49ffa78436a4: Pull complete
+5781683db4dc: Pull complete
+954b42d8d69e: Pull complete
+4ede4917088e: Pull complete
+f7878fb08ddb: Pull complete
+7010f9820c77: Pull complete
+f8cd74e3f454: Pull complete
+327a7c843995: Pull complete
+8c93a4dc9691: Pull complete
+4f4fb700ef54: Pull complete
+Digest: sha256:5a278e0e0f1054eeffc89dd48e2eea5d89292848c6eb7faab1a61f4dfb796b4c
+Status: Downloaded newer image for gcr.io/buildpacks/builder:latest
+latest: Pulling from buildpacks/google-22/run
+Digest: sha256:130c667fd66775e93ac76b2bfff4b6eae736568330759722febc2f5a8394742b
+Status: Downloaded newer image for gcr.io/buildpacks/google-22/run:latest
+===> ANALYZING
+Image with name "europe-west1-docker.pkg.dev/net-pilot-463708/cloud-run-source-deploy/netpilot-backend2:latest" not found
+===> DETECTING
+target distro name/version labels not found, reading /etc/os-release file
+google.python.runtime            0.9.1
+google.python.webserver          0.9.1
+google.python.pip                0.9.2
+google.python.missing-entrypoint 0.9.0
+google.utils.label-image         0.0.2
+===> RESTORING
+===> BUILDING
+target distro name/version labels not found, reading /etc/os-release file
+=== Python - Runtime (google.python.runtime@0.9.1) ===
+layers path: /layers/google.python.runtime/python
+Python version not specified, using the latest available Python runtime for the stack "ubuntu2204"
+Installing Python v3.13.5.
+Runtime successfully downloaded from europe-west1-docker.pkg.dev/gae-runtimes/runtimes-ubuntu2204/python:3.13.5
+=== Python - Webserver (google.python.webserver@0.9.1) ===
+=== Python - Pip (google.python.pip@0.9.2) ===
+***** CACHE MISS: "pip"
+Installing application dependencies.
+Setting environment variable PYTHONUSERBASE=/layers/google.python.pip/pip
+--------------------------------------------------------------------------------
+Running "python3 -m pip install --requirement /cnb/buildpacks/google.python.webserver/0.9.1/requirements.txt --upgrade --upgrade-strategy only-if-needed --no-warn-script-location --no-warn-conflicts --force-reinstall --no-compile --disable-pip-version-check --no-cache-dir --user"
+Collecting gunicorn==21.2.0 (from -r /cnb/buildpacks/google.python.webserver/0.9.1/requirements.txt (line 1))
+  Downloading gunicorn-21.2.0-py3-none-any.whl.metadata (4.1 kB)
+Collecting packaging (from gunicorn==21.2.0->-r /cnb/buildpacks/google.python.webserver/0.9.1/requirements.txt (line 1))
+  Downloading packaging-25.0-py3-none-any.whl.metadata (3.3 kB)
+Downloading gunicorn-21.2.0-py3-none-any.whl (80 kB)
+Downloading packaging-25.0-py3-none-any.whl (66 kB)
+Installing collected packages: packaging, gunicorn
+Successfully installed gunicorn-21.2.0 packaging-25.0
+Done "python3 -m pip install --requirement /cnb/buildpacks/google...." (3.115385258s)
+--------------------------------------------------------------------------------
+Running "python3 -m pip install --requirement requirements.txt --upgrade --upgrade-strategy only-if-needed --no-warn-script-location --no-warn-conflicts --force-reinstall --no-compile --disable-pip-version-check --no-cache-dir --user"
+Collecting Flask==2.3.3 (from -r requirements.txt (line 1))
+  Downloading flask-2.3.3-py3-none-any.whl.metadata (3.6 kB)
+Collecting Authlib==1.2.1 (from -r requirements.txt (line 2))
+  Downloading Authlib-1.2.1-py2.py3-none-any.whl.metadata (3.8 kB)
+Collecting requests==2.31.0 (from -r requirements.txt (line 3))
+  Downloading requests-2.31.0-py3-none-any.whl.metadata (4.6 kB)
+Collecting flask-cors==4.0.0 (from -r requirements.txt (line 4))
+  Downloading Flask_Cors-4.0.0-py2.py3-none-any.whl.metadata (5.4 kB)
+Collecting sqlalchemy==2.0.23 (from -r requirements.txt (line 5))
+  Downloading SQLAlchemy-2.0.23-py3-none-any.whl.metadata (9.6 kB)
+Collecting alembic==1.13.1 (from -r requirements.txt (line 6))
+  Downloading alembic-1.13.1-py3-none-any.whl.metadata (7.4 kB)
+Collecting psycopg2-binary==2.9.9 (from -r requirements.txt (line 7))
+  Downloading psycopg2-binary-2.9.9.tar.gz (384 kB)
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'error'
+  error: subprocess-exited-with-error
+  
+  × python setup.py egg_info did not run successfully.
+  │ exit code: 1
+  ╰─> [36 lines of output]
+      /layers/google.python.runtime/python/lib/python3.13/site-packages/setuptools/dist.py:759: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+      !!
+      
+              ********************************************************************************
+              Please consider removing the following classifiers in favor of a SPDX license expression:
+      
+              License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)
+      
+              See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+              ********************************************************************************
+      
+      !!
+        self._finalize_license_expression()
+      running egg_info
+      creating /tmp/pip-pip-egg-info-iue77j30/psycopg2_binary.egg-info
+      writing /tmp/pip-pip-egg-info-iue77j30/psycopg2_binary.egg-info/PKG-INFO
+      writing dependency_links to /tmp/pip-pip-egg-info-iue77j30/psycopg2_binary.egg-info/dependency_links.txt
+      writing top-level names to /tmp/pip-pip-egg-info-iue77j30/psycopg2_binary.egg-info/top_level.txt
+      writing manifest file '/tmp/pip-pip-egg-info-iue77j30/psycopg2_binary.egg-info/SOURCES.txt'
+      
+      Error: pg_config executable not found.
+      
+      pg_config is required to build psycopg2 from source.  Please add the directory
+      containing pg_config to the $PATH or specify the full executable path with the
+      option:
+      
+          python setup.py build_ext --pg-config /path/to/pg_config build ...
+      
+      or with the pg_config option in 'setup.cfg'.
+      
+      If you prefer to avoid building psycopg2 from source, please install the PyPI
+      'psycopg2-binary' package instead.
+      
+      For further information please check the 'doc/src/install.rst' file (also at
+      <https://www.psycopg.org/docs/install.html>).
+      
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+error: metadata-generation-failed
+× Encountered error while generating package metadata.
+╰─> See above for output.
+note: This is an issue with the package mentioned above, not pip.
+hint: See above for details.
+Done "python3 -m pip install --requirement requirements.txt --upgr..." (2.569674953s)
+--------------------------------------------------------------------------------
+failed to build: installing dependencies: (error ID: 656dd225):
+Collecting Flask==2.3.3 (from -r requirements.txt (line 1))
+  Downloading flask-2.3.3-py3-none-any.whl.metadata (3.6 kB)
+Collecting Authlib==1.2.1 (from -r requirements.txt (line 2))
+  Downloading Authlib-1.2.1-py2.py3-none-any.whl.metadata (3.8 kB)
+Collecting requests==2.31.0 (from -r requirements.txt (line 3))
+  Downloading requests-2.31.0-py3-none-any.whl.metadata (4.6 kB)
+Collecting flask-cors==4.0.0 (from -r requirements.txt (line 4))
+  Downloading Flask_Cors-4.0.0-py2.py3-none-any.whl.metadata (5.4 kB)
+Collecting sqlalchemy==2.0.23 (from -r requirements.txt (line 5))
+  Downloading SQLAlchemy-2.0.23-py3-none-any.whl.metadata (9.6 kB)
+Collecting alembic==1.13.1 (from -r requirements.txt (line 6))
+  Downloading alembic-1.13.1-py3-none-any.whl.metadata (7.4 kB)
+Collecting psycopg2-binary==2.9.9 (from -r requirements.txt (line 7))
+  Downloading psycopg2-binary-2.9.9.tar.gz (384 kB)
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'error'
+  error: subprocess-exited-with-error
+  
+  × python setup.py egg_info did not run successfully.
+  │ exit code: 1
+  ╰─> [36 lines of output]
+      /layers/google.python.runtime/python/lib/python3.13/site-packages/setuptools/dist.py:759: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+      !!
+      
+              ********************************************************************************
+              Please consider removing the following classifiers in favor of a SPDX license expression:
+      
+              License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)
+      
+              See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+              ********************************************************************************
+      
+      !!
+        self._finalize_license_expression()
+      running egg_info
+      creating /tmp/pip-pip-egg-info-iue77j30/psycopg2_binary.egg-info
+      writing /tmp/pip-pip-egg-info-iue77j30/psycopg2_binary.egg-info/PKG-INFO
+      writing dependency_links to /tmp/pip-pip-egg-info-iue77j30/psycopg2_binary.egg-info/dependency_links.txt
+      writing top-level names to /tmp/pip-pip-egg-info-iue77j30/psycopg2_binary.egg-info/top_level.txt
+      writing manifest file '/tmp/pip-pip-egg-info-iue77j30/psycopg2_binary.egg-info/SOURCES.txt'
+      
+      Error: pg_config executable not found.
+      
+      pg_config is required to build psycopg2 from source.  Please add the directory
+      containing pg_config to the $PATH or specify the full executable path with the
+      option:
+      
+          python setup.py build_ext --pg-config /path/to/pg_config build ...
+      
+      or with the pg_config option in 'setup.cfg'.
+      
+      If you prefer to avoid building psycopg2 from source, please install the PyPI
+      'psycopg2-binary' package instead.
+      
+      For further information please check the 'doc/src/install.rst' file (also at
+      <https://www.psycopg.org/docs/install.html>).
+      
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+error: metadata-generation-failed
+× Encountered error while generating package metadata.
+╰─> See above for output.
+note: This is an issue with the package mentioned above, not pip.
+hint: See above for details.
+--------------------------------------------------------------------------------
+Sorry your project couldn't be built.
+Our documentation explains ways to configure Buildpacks to better recognise your project:
+ -> https://cloud.google.com/docs/buildpacks/overview
+If you think you've found an issue, please report it:
+ -> https://github.com/GoogleCloudPlatform/buildpacks/issues/new
+--------------------------------------------------------------------------------
+ERROR: failed to build: exit status 1
+ERROR: failed to build: executing lifecycle: failed with status code: 51
+Finished Step #1 - "build"
+ERROR
+ERROR: build step 1 "gcr.io/k8s-skaffold/pack" failed: step exited with non-zero status: 1
+
+
+Already have image (with digest): gcr.io/k8s-skaffold/pack
+latest: Pulling from buildpacks/builder
+e27d8d14a9d0: Already exists
+9934f3df170e: Already exists
+05ee73c972bf: Already exists
+182afb1fe5dc: Pulling fs layer
+1a82443b3661: Pulling fs layer
+31dc58975617: Pulling fs layer
+3b6cd8093fba: Pulling fs layer
+5c25048cf2e5: Pulling fs layer
+81568ec17673: Pulling fs layer
+b3a60ce223bb: Pulling fs layer
+27a5e9ca5169: Pulling fs layer
+048869265516: Pulling fs layer
+719e02495c7c: Pulling fs layer
+00a9a57fd38f: Pulling fs layer
+dcc5e70435e3: Pulling fs layer
+825462cc3c2b: Pulling fs layer
+e50afb41cbea: Pulling fs layer
+90106bc4a489: Pulling fs layer
+91a1c2a3b660: Pulling fs layer
+d0682c4856be: Pulling fs layer
+34a938f01e11: Pulling fs layer
+4b97a7e7463e: Pulling fs layer
+212fad8e1f40: Pulling fs layer
+f11c9b47633e: Pulling fs layer
+6ba53d178420: Pulling fs layer
+d0e06b7f51d9: Pulling fs layer
+ac4c16573922: Pulling fs layer
+f43465f36cf4: Pulling fs layer
+2224d713849d: Pulling fs layer
+df28f9c0b8e9: Pulling fs layer
+447b1519dab8: Pulling fs layer
+63ff5ba48190: Pulling fs layer
+926e8b6b999a: Pulling fs layer
+6ecb90e3dc89: Pulling fs layer
+80bd31d63492: Pulling fs layer
+9919bd0d7afe: Pulling fs layer
+d9b88f4839ec: Pulling fs layer
+3a5046b73848: Pulling fs layer
+81856ff657bc: Pulling fs layer
+f12f6d391f71: Pulling fs layer
+52dbe74a1f0b: Pulling fs layer
+20c0574eec19: Pulling fs layer
+22dc4f5b2156: Pulling fs layer
+faaaf75f8653: Pulling fs layer
+6ed8b9c01ce8: Pulling fs layer
+fead1bee204a: Pulling fs layer
+6bdbdd406f73: Pulling fs layer
+49ffa78436a4: Pulling fs layer
+5781683db4dc: Pulling fs layer
+954b42d8d69e: Pulling fs layer
+4ede4917088e: Pulling fs layer
+f7878fb08ddb: Pulling fs layer
+7010f9820c77: Pulling fs layer
+f8cd74e3f454: Pulling fs layer
+327a7c843995: Pulling fs layer
+8c93a4dc9691: Pulling fs layer
+4f4fb700ef54: Pulling fs layer
+3b6cd8093fba: Waiting
+5c25048cf2e5: Waiting
+81568ec17673: Waiting
+b3a60ce223bb: Waiting
+27a5e9ca5169: Waiting
+048869265516: Waiting
+719e02495c7c: Waiting
+00a9a57fd38f: Waiting
+dcc5e70435e3: Waiting
+825462cc3c2b: Waiting
+e50afb41cbea: Waiting
+90106bc4a489: Waiting
+91a1c2a3b660: Waiting
+d0682c4856be: Waiting
+34a938f01e11: Waiting
+4b97a7e7463e: Waiting
+212fad8e1f40: Waiting
+f11c9b47633e: Waiting
+6ba53d178420: Waiting
+d0e06b7f51d9: Waiting
+ac4c16573922: Waiting
+f43465f36cf4: Waiting
+2224d713849d: Waiting
+df28f9c0b8e9: Waiting
+447b1519dab8: Waiting
+63ff5ba48190: Waiting
+926e8b6b999a: Waiting
+6ecb90e3dc89: Waiting
+80bd31d63492: Waiting
+9919bd0d7afe: Waiting
+d9b88f4839ec: Waiting
+3a5046b73848: Waiting
+81856ff657bc: Waiting
+f12f6d391f71: Waiting
+52dbe74a1f0b: Waiting
+20c0574eec19: Waiting
+22dc4f5b2156: Waiting
+faaaf75f8653: Waiting
+6ed8b9c01ce8: Waiting
+fead1bee204a: Waiting
+6bdbdd406f73: Waiting
+49ffa78436a4: Waiting
+5781683db4dc: Waiting
+954b42d8d69e: Waiting
+4ede4917088e: Waiting
+f7878fb08ddb: Waiting
+7010f9820c77: Waiting
+f8cd74e3f454: Waiting
+327a7c843995: Waiting
+8c93a4dc9691: Waiting
+4f4fb700ef54: Waiting
+182afb1fe5dc: Verifying Checksum
+182afb1fe5dc: Download complete
+182afb1fe5dc: Pull complete
+31dc58975617: Verifying Checksum
+31dc58975617: Download complete
+1a82443b3661: Verifying Checksum
+1a82443b3661: Download complete
+3b6cd8093fba: Verifying Checksum
+3b6cd8093fba: Download complete
+5c25048cf2e5: Verifying Checksum
+5c25048cf2e5: Download complete
+81568ec17673: Verifying Checksum
+81568ec17673: Download complete
+1a82443b3661: Pull complete
+31dc58975617: Pull complete
+b3a60ce223bb: Verifying Checksum
+b3a60ce223bb: Download complete
+27a5e9ca5169: Verifying Checksum
+27a5e9ca5169: Download complete
+048869265516: Download complete
+3b6cd8093fba: Pull complete
+5c25048cf2e5: Pull complete
+719e02495c7c: Verifying Checksum
+719e02495c7c: Download complete
+00a9a57fd38f: Download complete
+dcc5e70435e3: Verifying Checksum
+dcc5e70435e3: Download complete
+81568ec17673: Pull complete
+b3a60ce223bb: Pull complete
+27a5e9ca5169: Pull complete
+825462cc3c2b: Verifying Checksum
+825462cc3c2b: Download complete
+e50afb41cbea: Verifying Checksum
+e50afb41cbea: Download complete
+90106bc4a489: Verifying Checksum
+90106bc4a489: Download complete
+048869265516: Pull complete
+719e02495c7c: Pull complete
+d0682c4856be: Verifying Checksum
+d0682c4856be: Download complete
+91a1c2a3b660: Verifying Checksum
+91a1c2a3b660: Download complete
+00a9a57fd38f: Pull complete
+34a938f01e11: Verifying Checksum
+34a938f01e11: Download complete
+dcc5e70435e3: Pull complete
+825462cc3c2b: Pull complete
+4b97a7e7463e: Verifying Checksum
+4b97a7e7463e: Download complete
+212fad8e1f40: Verifying Checksum
+212fad8e1f40: Download complete
+f11c9b47633e: Verifying Checksum
+f11c9b47633e: Download complete
+e50afb41cbea: Pull complete
+90106bc4a489: Pull complete
+ac4c16573922: Verifying Checksum
+ac4c16573922: Download complete
+91a1c2a3b660: Pull complete
+6ba53d178420: Verifying Checksum
+6ba53d178420: Download complete
+d0e06b7f51d9: Verifying Checksum
+d0e06b7f51d9: Download complete
+d0682c4856be: Pull complete
+f43465f36cf4: Verifying Checksum
+f43465f36cf4: Download complete
+2224d713849d: Verifying Checksum
+2224d713849d: Download complete
+34a938f01e11: Pull complete
+4b97a7e7463e: Pull complete
+df28f9c0b8e9: Verifying Checksum
+df28f9c0b8e9: Download complete
+63ff5ba48190: Verifying Checksum
+63ff5ba48190: Download complete
+212fad8e1f40: Pull complete
+447b1519dab8: Verifying Checksum
+447b1519dab8: Download complete
+f11c9b47633e: Pull complete
+6ecb90e3dc89: Verifying Checksum
+6ecb90e3dc89: Download complete
+6ba53d178420: Pull complete
+926e8b6b999a: Download complete
+80bd31d63492: Verifying Checksum
+80bd31d63492: Download complete
+d0e06b7f51d9: Pull complete
+9919bd0d7afe: Verifying Checksum
+9919bd0d7afe: Download complete
+ac4c16573922: Pull complete
+d9b88f4839ec: Download complete
+3a5046b73848: Verifying Checksum
+3a5046b73848: Download complete
+f43465f36cf4: Pull complete
+f12f6d391f71: Verifying Checksum
+f12f6d391f71: Download complete
+2224d713849d: Pull complete
+52dbe74a1f0b: Verifying Checksum
+52dbe74a1f0b: Download complete
+81856ff657bc: Verifying Checksum
+81856ff657bc: Download complete
+df28f9c0b8e9: Pull complete
+20c0574eec19: Verifying Checksum
+20c0574eec19: Download complete
+faaaf75f8653: Download complete
+447b1519dab8: Pull complete
+22dc4f5b2156: Verifying Checksum
+22dc4f5b2156: Download complete
+63ff5ba48190: Pull complete
+926e8b6b999a: Pull complete
+6ed8b9c01ce8: Verifying Checksum
+6ed8b9c01ce8: Download complete
+fead1bee204a: Verifying Checksum
+fead1bee204a: Download complete
+6bdbdd406f73: Verifying Checksum
+6bdbdd406f73: Download complete
+6ecb90e3dc89: Pull complete
+49ffa78436a4: Verifying Checksum
+49ffa78436a4: Download complete
+80bd31d63492: Pull complete
+9919bd0d7afe: Pull complete
+954b42d8d69e: Verifying Checksum
+954b42d8d69e: Download complete
+5781683db4dc: Verifying Checksum
+5781683db4dc: Download complete
+4ede4917088e: Download complete
+d9b88f4839ec: Pull complete
+f8cd74e3f454: Download complete
+3a5046b73848: Pull complete
+7010f9820c77: Verifying Checksum
+7010f9820c77: Download complete
+327a7c843995: Download complete
+f7878fb08ddb: Verifying Checksum
+f7878fb08ddb: Download complete
+81856ff657bc: Pull complete
+8c93a4dc9691: Verifying Checksum
+8c93a4dc9691: Download complete
+4f4fb700ef54: Verifying Checksum
+4f4fb700ef54: Download complete
+f12f6d391f71: Pull complete
+52dbe74a1f0b: Pull complete
+20c0574eec19: Pull complete
+22dc4f5b2156: Pull complete
+faaaf75f8653: Pull complete
+6ed8b9c01ce8: Pull complete
+fead1bee204a: Pull complete
+6bdbdd406f73: Pull complete
+49ffa78436a4: Pull complete
+5781683db4dc: Pull complete
+954b42d8d69e: Pull complete
+4ede4917088e: Pull complete
+f7878fb08ddb: Pull complete
+7010f9820c77: Pull complete
+f8cd74e3f454: Pull complete
+327a7c843995: Pull complete
+8c93a4dc9691: Pull complete
+4f4fb700ef54: Pull complete
+Digest: sha256:5a278e0e0f1054eeffc89dd48e2eea5d89292848c6eb7faab1a61f4dfb796b4c
+Status: Downloaded newer image for gcr.io/buildpacks/builder:latest
+latest: Pulling from buildpacks/google-22/run
+Digest: sha256:130c667fd66775e93ac76b2bfff4b6eae736568330759722febc2f5a8394742b
+Status: Downloaded newer image for gcr.io/buildpacks/google-22/run:latest
+===> ANALYZING
+Image with name "europe-west1-docker.pkg.dev/net-pilot-463708/cloud-run-source-deploy/netpilot-backend2:latest" not found
+===> DETECTING
+target distro name/version labels not found, reading /etc/os-release file
+google.python.runtime            0.9.1
+google.python.webserver          0.9.1
+google.python.pip                0.9.2
+google.python.missing-entrypoint 0.9.0
+google.utils.label-image         0.0.2
+===> RESTORING
+===> BUILDING
+target distro name/version labels not found, reading /etc/os-release file
+=== Python - Runtime (google.python.runtime@0.9.1) ===
+layers path: /layers/google.python.runtime/python
+Python version not specified, using the latest available Python runtime for the stack "ubuntu2204"
+Installing Python v3.13.5.
+Runtime successfully downloaded from europe-west1-docker.pkg.dev/gae-runtimes/runtimes-ubuntu2204/python:3.13.5
+=== Python - Webserver (google.python.webserver@0.9.1) ===
+=== Python - Pip (google.python.pip@0.9.2) ===
+***** CACHE MISS: "pip"
+Installing application dependencies.
+Setting environment variable PYTHONUSERBASE=/layers/google.python.pip/pip
+--------------------------------------------------------------------------------
+Running "python3 -m pip install --requirement /cnb/buildpacks/google.python.webserver/0.9.1/requirements.txt --upgrade --upgrade-strategy only-if-needed --no-warn-script-location --no-warn-conflicts --force-reinstall --no-compile --disable-pip-version-check --no-cache-dir --user"
+Collecting gunicorn==21.2.0 (from -r /cnb/buildpacks/google.python.webserver/0.9.1/requirements.txt (line 1))
+  Downloading gunicorn-21.2.0-py3-none-any.whl.metadata (4.1 kB)
+Collecting packaging (from gunicorn==21.2.0->-r /cnb/buildpacks/google.python.webserver/0.9.1/requirements.txt (line 1))
+  Downloading packaging-25.0-py3-none-any.whl.metadata (3.3 kB)
+Downloading gunicorn-21.2.0-py3-none-any.whl (80 kB)
+Downloading packaging-25.0-py3-none-any.whl (66 kB)
+Installing collected packages: packaging, gunicorn
+Successfully installed gunicorn-21.2.0 packaging-25.0
+Done "python3 -m pip install --requirement /cnb/buildpacks/google...." (3.115385258s)
+--------------------------------------------------------------------------------
+Running "python3 -m pip install --requirement requirements.txt --upgrade --upgrade-strategy only-if-needed --no-warn-script-location --no-warn-conflicts --force-reinstall --no-compile --disable-pip-version-check --no-cache-dir --user"
+Collecting Flask==2.3.3 (from -r requirements.txt (line 1))
+  Downloading flask-2.3.3-py3-none-any.whl.metadata (3.6 kB)
+Collecting Authlib==1.2.1 (from -r requirements.txt (line 2))
+  Downloading Authlib-1.2.1-py2.py3-none-any.whl.metadata (3.8 kB)
+Collecting requests==2.31.0 (from -r requirements.txt (line 3))
+  Downloading requests-2.31.0-py3-none-any.whl.metadata (4.6 kB)
+Collecting flask-cors==4.0.0 (from -r requirements.txt (line 4))
+  Downloading Flask_Cors-4.0.0-py2.py3-none-any.whl.metadata (5.4 kB)
+Collecting sqlalchemy==2.0.23 (from -r requirements.txt (line 5))
+  Downloading SQLAlchemy-2.0.23-py3-none-any.whl.metadata (9.6 kB)
+Collecting alembic==1.13.1 (from -r requirements.txt (line 6))
+  Downloading alembic-1.13.1-py3-none-any.whl.metadata (7.4 kB)
+Collecting psycopg2-binary==2.9.9 (from -r requirements.txt (line 7))
+  Downloading psycopg2-binary-2.9.9.tar.gz (384 kB)
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'error'
+  error: subprocess-exited-with-error
+  
+  × python setup.py egg_info did not run successfully.
+  │ exit code: 1
+  ╰─> [36 lines of output]
+      /layers/google.python.runtime/python/lib/python3.13/site-packages/setuptools/dist.py:759: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+      !!
+      
+              ********************************************************************************
+              Please consider removing the following classifiers in favor of a SPDX license expression:
+      
+              License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)
+      
+              See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+              ********************************************************************************
+      
+      !!
+        self._finalize_license_expression()
+      running egg_info
+      creating /tmp/pip-pip-egg-info-iue77j30/psycopg2_binary.egg-info
+      writing /tmp/pip-pip-egg-info-iue77j30/psycopg2_binary.egg-info/PKG-INFO
+      writing dependency_links to /tmp/pip-pip-egg-info-iue77j30/psycopg2_binary.egg-info/dependency_links.txt
+      writing top-level names to /tmp/pip-pip-egg-info-iue77j30/psycopg2_binary.egg-info/top_level.txt
+      writing manifest file '/tmp/pip-pip-egg-info-iue77j30/psycopg2_binary.egg-info/SOURCES.txt'
+      
+      Error: pg_config executable not found.
+      
+      pg_config is required to build psycopg2 from source.  Please add the directory
+      containing pg_config to the $PATH or specify the full executable path with the
+      option:
+      
+          python setup.py build_ext --pg-config /path/to/pg_config build ...
+      
+      or with the pg_config option in 'setup.cfg'.
+      
+      If you prefer to avoid building psycopg2 from source, please install the PyPI
+      'psycopg2-binary' package instead.
+      
+      For further information please check the 'doc/src/install.rst' file (also at
+      <https://www.psycopg.org/docs/install.html>).
+      
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+error: metadata-generation-failed
+× Encountered error while generating package metadata.
+╰─> See above for output.
+note: This is an issue with the package mentioned above, not pip.
+hint: See above for details.
+Done "python3 -m pip install --requirement requirements.txt --upgr..." (2.569674953s)
+--------------------------------------------------------------------------------
+failed to build: installing dependencies: (error ID: 656dd225):
+Collecting Flask==2.3.3 (from -r requirements.txt (line 1))
+  Downloading flask-2.3.3-py3-none-any.whl.metadata (3.6 kB)
+Collecting Authlib==1.2.1 (from -r requirements.txt (line 2))
+  Downloading Authlib-1.2.1-py2.py3-none-any.whl.metadata (3.8 kB)
+Collecting requests==2.31.0 (from -r requirements.txt (line 3))
+  Downloading requests-2.31.0-py3-none-any.whl.metadata (4.6 kB)
+Collecting flask-cors==4.0.0 (from -r requirements.txt (line 4))
+  Downloading Flask_Cors-4.0.0-py2.py3-none-any.whl.metadata (5.4 kB)
+Collecting sqlalchemy==2.0.23 (from -r requirements.txt (line 5))
+  Downloading SQLAlchemy-2.0.23-py3-none-any.whl.metadata (9.6 kB)
+Collecting alembic==1.13.1 (from -r requirements.txt (line 6))
+  Downloading alembic-1.13.1-py3-none-any.whl.metadata (7.4 kB)
+Collecting psycopg2-binary==2.9.9 (from -r requirements.txt (line 7))
+  Downloading psycopg2-binary-2.9.9.tar.gz (384 kB)
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'error'
+  error: subprocess-exited-with-error
+  
+  × python setup.py egg_info did not run successfully.
+  │ exit code: 1
+  ╰─> [36 lines of output]
+      /layers/google.python.runtime/python/lib/python3.13/site-packages/setuptools/dist.py:759: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+      !!
+      
+              ********************************************************************************
+              Please consider removing the following classifiers in favor of a SPDX license expression:
+      
+              License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)
+      
+              See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+              ********************************************************************************
+      
+      !!
+        self._finalize_license_expression()
+      running egg_info
+      creating /tmp/pip-pip-egg-info-iue77j30/psycopg2_binary.egg-info
+      writing /tmp/pip-pip-egg-info-iue77j30/psycopg2_binary.egg-info/PKG-INFO
+      writing dependency_links to /tmp/pip-pip-egg-info-iue77j30/psycopg2_binary.egg-info/dependency_links.txt
+      writing top-level names to /tmp/pip-pip-egg-info-iue77j30/psycopg2_binary.egg-info/top_level.txt
+      writing manifest file '/tmp/pip-pip-egg-info-iue77j30/psycopg2_binary.egg-info/SOURCES.txt'
+      
+      Error: pg_config executable not found.
+      
+      pg_config is required to build psycopg2 from source.  Please add the directory
+      containing pg_config to the $PATH or specify the full executable path with the
+      option:
+      
+          python setup.py build_ext --pg-config /path/to/pg_config build ...
+      
+      or with the pg_config option in 'setup.cfg'.
+      
+      If you prefer to avoid building psycopg2 from source, please install the PyPI
+      'psycopg2-binary' package instead.
+      
+      For further information please check the 'doc/src/install.rst' file (also at
+      <https://www.psycopg.org/docs/install.html>).
+      
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+error: metadata-generation-failed
+× Encountered error while generating package metadata.
+╰─> See above for output.
+note: This is an issue with the package mentioned above, not pip.
+hint: See above for details.
+--------------------------------------------------------------------------------
+Sorry your project couldn't be built.
+Our documentation explains ways to configure Buildpacks to better recognise your project:
+ -> https://cloud.google.com/docs/buildpacks/overview
+If you think you've found an issue, please report it:
+ -> https://github.com/GoogleCloudPlatform/buildpacks/issues/new
+--------------------------------------------------------------------------------
+ERROR: failed to build: exit status 1
+ERROR: failed to build: executing lifecycle: failed with status code: 51
+

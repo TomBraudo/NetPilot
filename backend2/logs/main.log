@@ -4941,3 +4941,4 @@ TypeError: set_wifi_password() takes 0 positional arguments but 4 were given
 2025-08-01 11:18:29 - services.db_operations.network_db - DEBUG - Updated existing device: 192.168.1.122 (d8:bb:c1:47:3a:43)
 2025-08-01 11:18:29 - services.db_operations.network_db - INFO - Network scan save completed for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: created 0, updated 5 devices
 2025-08-01 11:18:29 - services.base - INFO - Service operation completed: scan_network
+2025-08-01 14:37:15 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
