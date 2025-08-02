@@ -15,6 +15,7 @@ import {
   FaFacebookMessenger,
   FaUsersCog,
   FaListAlt,
+  FaNetworkWired,
 } from "react-icons/fa";
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { AiOutlineControl } from "react-icons/ai";
@@ -84,12 +85,17 @@ export const links = [
   {
     href: "/scan",
     icon: GiRadarSweep,
-    text: "Scan"
+    text: "Scan",
+  },
+  {
+    href: "/devices",
+    icon: FaNetworkWired,
+    text: "Devices",
   },
   {
     href: "/control",
     icon: AiOutlineControl,
-    text: "Control"
+    text: "Control",
   },
 
   /*

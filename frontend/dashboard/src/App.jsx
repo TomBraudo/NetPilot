@@ -10,6 +10,7 @@ import Dashboard from "./UI/Pages/Dashboard";
 import DashboardPage from "./UI/Pages/DashboardPage";
 import AboutPage from "./UI/Pages/AboutPage";
 import SettingsPage from "./UI/Pages/SettingsPage";
+import DevicesPage from "./UI/Pages/DevicesPage";
 import AuthRedirectHandler from "./components/AuthRedirectHandler";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 
@@ -42,6 +43,7 @@ const AppLayout = ({
           <Routes>
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/scan" element={<ScanPage />} />
+            <Route path="/devices" element={<DevicesPage />} />
             <Route path="/control" element={<ControlPage />} />
             {/* <Route path="/scanTest" element={<ScanTest />} /> */}
             <Route path="/about" element={<AboutPage />} />
@@ -76,7 +78,7 @@ const AppContent = () => {
     <div className={darkMode ? "dark" : ""}>
       {/* Auth redirect handler - active throughout the app */}
       <AuthRedirectHandler />
-      
+
       <Routes>
         {/* Root dashboard page without sidebar */}
         <Route
