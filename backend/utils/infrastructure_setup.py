@@ -7,6 +7,7 @@ infrastructure required for NetPilot's traffic management system.
 
 from enum import Enum
 from utils.logging_config import get_logger
+from utils.daily_management import check_daily_backup_status, setup_daily_backup_infrastructure
 
 logger = get_logger('infrastructure_setup')
 
@@ -18,6 +19,7 @@ class InfrastructureComponent(Enum):
     IPTABLES_BLACKLIST_CHAIN = "iptables_blacklist_chain"
     TC_SETUP = "tc_setup"
     NETWORK_INTERFACES = "network_interfaces"
+    MONITORING_SETUP = "monitoring_setup"
 
 
 def _execute_command_with_router_manager(router_connection_manager, command: str):
@@ -235,7 +237,16 @@ def setup_persistent_infrastructure(missing_components=None):
         else:
             logger.info("Iptables chains are already set up correctly - skipping")
         
-        # 5. Clean up any legacy infrastructure (always do this if any component was missing)
+        # 5. Set up monitoring infrastructure (if needed)
+        if InfrastructureComponent.MONITORING_SETUP in missing_components:
+            logger.info("Setting up monitoring infrastructure...")
+            success, error_msg = setup_daily_backup_infrastructure(router_connection_manager)
+            if not success:
+                return False, error_msg
+        else:
+            logger.info("Monitoring infrastructure is already set up correctly - skipping")
+        
+        # 6. Clean up any legacy infrastructure (always do this if any component was missing)
         if missing_components:
             logger.info("Cleaning up legacy infrastructure...")
             if not _cleanup_legacy_infrastructure(router_connection_manager):
@@ -317,6 +328,21 @@ def check_existing_infrastructure():
                 logger.info(f"TC classes missing on {test_interface} - infrastructure setup needed")
                 missing_components.append(InfrastructureComponent.TC_SETUP)
                 issues.append(f"TC setup incomplete on interface {test_interface}")
+        
+        # 5. Check monitoring infrastructure
+        try:
+            is_running, check_error = check_daily_backup_status(router_connection_manager)
+            if check_error or not is_running:
+                logger.info("Monitoring infrastructure missing or not running - setup needed")
+                missing_components.append(InfrastructureComponent.MONITORING_SETUP)
+                if check_error:
+                    issues.append(f"Monitoring setup issue: {check_error}")
+                else:
+                    issues.append("Daily backup daemon not running")
+        except Exception as e:
+            logger.info(f"Failed to check monitoring infrastructure: {str(e)}")
+            missing_components.append(InfrastructureComponent.MONITORING_SETUP)
+            issues.append(f"Monitoring check failed: {str(e)}")
         
         # Determine overall status and message
         if not missing_components:

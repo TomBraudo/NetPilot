@@ -84,14 +84,22 @@ cleanup_old_files() {
 # Function to calculate seconds until next 23:55
 calculate_sleep_seconds() {
     local NOW=$(date +%s)
-    local TODAY_2355=$(date -d "today 23:55" +%s 2>/dev/null || date -d "$(date +%Y-%m-%d) 23:55:00" +%s)
+    local CURRENT_HOUR=$(date +%H)
+    local CURRENT_MIN=$(date +%M)
     
-    # If 23:55 has already passed today, calculate for tomorrow
-    if [ "$NOW" -ge "$TODAY_2355" ]; then
-        local TOMORROW_2355=$(date -d "tomorrow 23:55" +%s 2>/dev/null || date -d "$(date -d "+1 day" +%Y-%m-%d) 23:55:00" +%s)
-        echo $((TOMORROW_2355 - NOW))
+    # Convert current time to minutes since midnight
+    local CURRENT_MINUTES=$((CURRENT_HOUR * 60 + CURRENT_MIN))
+    local TARGET_MINUTES=$((23 * 60 + 55))  # 23:55 in minutes
+    
+    # Calculate seconds until target time
+    if [ "$CURRENT_MINUTES" -lt "$TARGET_MINUTES" ]; then
+        # Target time is today
+        local MINUTES_TO_WAIT=$((TARGET_MINUTES - CURRENT_MINUTES))
+        echo $((MINUTES_TO_WAIT * 60))
     else
-        echo $((TODAY_2355 - NOW))
+        # Target time is tomorrow (24 hours - elapsed + target)
+        local MINUTES_TO_WAIT=$((1440 - CURRENT_MINUTES + TARGET_MINUTES))
+        echo $((MINUTES_TO_WAIT * 60))
     fi
 }
 
@@ -117,9 +125,10 @@ main_daemon() {
     while true; do
         # Calculate how long to sleep until next 23:55
         local SLEEP_SECONDS=$(calculate_sleep_seconds)
-        local NEXT_RUN=$(date -d "+$SLEEP_SECONDS seconds" '+%Y-%m-%d %H:%M:%S')
+        local HOURS=$((SLEEP_SECONDS / 3600))
+        local MINUTES=$(((SLEEP_SECONDS % 3600) / 60))
         
-        log "Next backup scheduled for: $NEXT_RUN (sleeping $SLEEP_SECONDS seconds)"
+        log "Next backup in ${HOURS}h ${MINUTES}m (sleeping $SLEEP_SECONDS seconds)"
         
         # Sleep until next backup time
         sleep "$SLEEP_SECONDS"
@@ -157,9 +166,8 @@ case "${1:-start}" in
             exit 1
         else
             echo "Starting daily backup daemon..."
-            # Run in background and detach from terminal completely
-            # setsid creates new session, nohup ignores hangup signals
-            nohup setsid "$0" daemon </dev/null >/dev/null 2>&1 &
+            # Run in background and detach from terminal
+            "$0" daemon </dev/null >/dev/null 2>&1 &
             echo "Daily backup daemon started successfully"
             log "Daemon started via '$0 start' command"
         fi

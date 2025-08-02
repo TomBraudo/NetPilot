@@ -1622,3 +1622,16 @@ add chain inet netpilot gate {{ type filter hook prerouting priority mangle; }}
 2025-07-04 07:52:15 - services.device_rule - ERROR - Command failed: iptables -t mangle -D NETPILOT_WHITELIST -d 192.168.1.122 -j MARK --set-mark 1 - Error: iptables: Bad rule (does a matching rule exist in that chain?).
 2025-07-04 07:52:16 - services.device_rule - ERROR - Command failed: iptables -t mangle -D NETPILOT_WHITELIST -d 192.168.1.122 -j RETURN - Error: iptables: Bad rule (does a matching rule exist in that chain?).
 2025-07-04 08:05:48 - server - ERROR - Session setup failed: Router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f not found in Port-Manager
+2025-08-02 17:46:29 - utils.daily_management - ERROR - Error checking daily backup status: tuple indices must be integers or slices, not str
+2025-08-02 17:46:29 - utils.daily_management - ERROR - Error deploying script daily_save_and_clean.sh: tuple indices must be integers or slices, not str
+2025-08-02 17:46:30 - utils.daily_management - ERROR - Error deploying script check_daily_backup.sh: tuple indices must be integers or slices, not str
+2025-08-02 17:46:30 - utils.daily_management - ERROR - Error deploying script stop_daily_backup.sh: tuple indices must be integers or slices, not str
+2025-08-02 17:46:30 - utils.daily_management - ERROR - Deployed 0/3 scripts. Errors: daily_save_and_clean.sh: tuple indices must be integers or slices, not str; check_daily_backup.sh: tuple indices must be integers or slices, not str; stop_daily_backup.sh: tuple indices must be integers or slices, not str
+2025-08-02 17:46:30 - infrastructure_setup - ERROR - Failed to set up monitoring infrastructure: Script deployment failed: Deployed 0/3 scripts. Errors: daily_save_and_clean.sh: tuple indices must be integers or slices, not str; check_daily_backup.sh: tuple indices must be integers or slices, not str; stop_daily_backup.sh: tuple indices must be integers or slices, not str
+2025-08-02 17:46:30 - server - ERROR - Failed to set up persistent infrastructure: Failed to set up monitoring infrastructure
+2025-08-02 17:51:25 - infrastructure_setup - ERROR - Failed to set up monitoring infrastructure: Failed to start daemon: Started but daemon is not running
+2025-08-02 17:51:25 - server - ERROR - Failed to set up persistent infrastructure: Failed to set up monitoring infrastructure
+2025-08-02 18:21:48 - utils.daily_management - ERROR - Daemon started but not detected as running
+2025-08-02 18:21:48 - server - ERROR - Failed to set up persistent infrastructure: Daemon started but not detected as running
+2025-08-02 18:26:25 - utils.daily_management - ERROR - Daemon started but not detected as running
+2025-08-02 18:26:25 - server - ERROR - Failed to set up persistent infrastructure: Daemon started but not detected as running

@@ -7,8 +7,7 @@ from datetime import datetime
 logger = get_logger('services.monitor')
 router_connection_manager = RouterConnectionManager()
 
-# Router script paths
-
+# Router script paths - kept for reference but actual management moved to utils.daily_management
 ROUTER_SCRIPTS_DIR = "/tmp/netpilot_scripts"
 DAILY_BACKUP_SCRIPT = f"{ROUTER_SCRIPTS_DIR}/daily_save_and_clean.sh"
 CHECK_BACKUP_SCRIPT = f"{ROUTER_SCRIPTS_DIR}/check_daily_backup.sh"
@@ -22,55 +21,426 @@ def _bytes_to_gb(bytes_val):
     """Convert bytes to gigabytes with 2 decimal places."""
     return round(bytes_val / (1024 * 1024 * 1024), 2)
 
-def get_current_device_usage():
-    """Get current device usage - returns simplified device list with usage stats."""
+# =============================================================================
+# PRIVATE UTILITY FUNCTIONS FOR JSON PROCESSING AND DATA AGGREGATION
+# =============================================================================
+
+def _parse_nlbw_json_response(raw_output):
+    """Parse nlbw command JSON output and return structured data.
+    
+    Args:
+        raw_output (str): Raw JSON string from nlbw command
+        
+    Returns:
+        tuple: (parsed_data, error_message)
+            parsed_data: List of nlbw entries or None if error
+            error_message: Error description or None if successful
+    """
     try:
-        logger.info("Fetching current device usage data")
+        if not raw_output or not raw_output.strip():
+            return None, "Empty response from nlbw command"
+            
+        usage_data = json.loads(raw_output)
+        entries = usage_data.get('data', [])
+        
+        if not isinstance(entries, list):
+            return None, "Invalid data format - expected list of entries"
+            
+        logger.debug(f"Parsed {len(entries)} nlbw entries from JSON response")
+        return entries, None
+        
+    except json.JSONDecodeError as e:
+        return None, f"Invalid JSON response from nlbw: {str(e)}"
+    except Exception as e:
+        return None, f"Unexpected error parsing nlbw response: {str(e)}"
+
+def _parse_nlbw_entry(entry):
+    """Parse a single nlbw entry into structured format.
+    
+    Args:
+        entry (list): Raw nlbw entry array
+        
+    Returns:
+        dict or None: Parsed entry data or None if invalid
+    """
+    try:
+        if not isinstance(entry, list) or len(entry) < 11:
+            return None
+            
+        # Extract the standard 11 fields from nlbw entry
+        family, proto, port, mac, ip, conns, rx_bytes, rx_pkts, tx_bytes, tx_pkts, layer7 = entry[:11]
+        
+        # Validate required fields
+        if not mac or not ip:
+            return None
+            
+        return {
+            'family': family,
+            'protocol': proto,
+            'port': port,
+            'mac': mac,
+            'ip': ip,
+            'connections': int(conns) if isinstance(conns, (int, float)) else 0,
+            'rx_bytes': int(rx_bytes) if isinstance(rx_bytes, (int, float)) else 0,
+            'rx_packets': int(rx_pkts) if isinstance(rx_pkts, (int, float)) else 0,
+            'tx_bytes': int(tx_bytes) if isinstance(tx_bytes, (int, float)) else 0,
+            'tx_packets': int(tx_pkts) if isinstance(tx_pkts, (int, float)) else 0,
+            'layer7_service': layer7 if layer7 else None
+        }
+        
+    except (ValueError, TypeError, IndexError) as e:
+        logger.debug(f"Failed to parse nlbw entry {entry}: {e}")
+        return None
+
+def _aggregate_entries_by_device(entries):
+    """Aggregate nlbw entries by MAC address to get per-device totals.
+    
+    Args:
+        entries (list): List of parsed nlbw entries
+        
+    Returns:
+        dict: Device aggregations keyed by MAC address
+    """
+    devices = {}
+    
+    for entry in entries:
+        parsed = _parse_nlbw_entry(entry)
+        if not parsed:
+            continue
+            
+        mac = parsed['mac']
+        
+        if mac not in devices:
+            devices[mac] = {
+                'mac': mac,
+                'ip': parsed['ip'],  # Use last seen IP
+                'rx_bytes': 0,
+                'tx_bytes': 0,
+                'rx_packets': 0,
+                'tx_packets': 0,
+                'connections': 0,
+                'services': set(),
+                'protocols': set(),
+                'ports': set()
+            }
+        
+        # Aggregate the data
+        device = devices[mac]
+        device['rx_bytes'] += parsed['rx_bytes']
+        device['tx_bytes'] += parsed['tx_bytes']
+        device['rx_packets'] += parsed['rx_packets']
+        device['tx_packets'] += parsed['tx_packets']
+        device['connections'] += parsed['connections']
+        
+        # Track unique services, protocols, and ports
+        if parsed['layer7_service']:
+            device['services'].add(parsed['layer7_service'])
+        if parsed['protocol']:
+            device['protocols'].add(parsed['protocol'])
+        if parsed['port']:
+            device['ports'].add(parsed['port'])
+    
+    logger.debug(f"Aggregated {len(entries)} entries into {len(devices)} devices")
+    return devices
+
+def _format_device_for_current_usage(device_data):
+    """Format aggregated device data for current usage API response.
+    
+    Args:
+        device_data (dict): Aggregated device data
+        
+    Returns:
+        dict: Formatted device data for API response
+    """
+    return {
+        'mac': device_data['mac'],
+        'ip': device_data['ip'],
+        'download_mb': _bytes_to_mb(device_data['rx_bytes']),
+        'upload_mb': _bytes_to_mb(device_data['tx_bytes']),
+        'connections': device_data['connections'],
+        'top_services': list(device_data['services'])[:3]  # Top 3 services
+    }
+
+def _format_device_for_historical_usage(device_data):
+    """Format aggregated device data for historical usage API response.
+    
+    Args:
+        device_data (dict): Aggregated device data
+        
+    Returns:
+        dict: Formatted device data for historical API response
+    """
+    return {
+        'mac': device_data['mac'],
+        'download_gb': _bytes_to_gb(device_data['rx_bytes']),
+        'upload_gb': _bytes_to_gb(device_data['tx_bytes'])
+    }
+
+
+
+def _get_nlbw_current_data():
+    """Get and parse current nlbw data with error handling.
+    
+    Returns:
+        tuple: (parsed_entries, error_message)
+    """
+    try:
         result = router_connection_manager.execute('nlbw -c json')
         
         if not result['success']:
             return None, f"Failed to execute nlbw command: {result.get('error', 'Unknown error')}"
         
-        try:
-            usage_data = json.loads(result['output'])
-        except json.JSONDecodeError as e:
-            return None, "Invalid JSON response from nlbw"
+        return _parse_nlbw_json_response(result['output'])
         
-        # Aggregate data by MAC address
-        devices = {}
-        for entry in usage_data.get('data', []):
-            if len(entry) >= 11:
-                family, proto, port, mac, ip, conns, rx_bytes, rx_pkts, tx_bytes, tx_pkts, layer7 = entry[:11]
-                
-                if mac not in devices:
-                    devices[mac] = {
-                        'mac': mac,
-                        'ip': ip,
-                        'rx_bytes': 0,
-                        'tx_bytes': 0,
-                        'connections': 0,
-                        'services': set()
-                    }
-                
-                devices[mac]['rx_bytes'] += rx_bytes
-                devices[mac]['tx_bytes'] += tx_bytes
-                devices[mac]['connections'] += conns
-                if layer7:
-                    devices[mac]['services'].add(layer7)
+    except Exception as e:
+        logger.error(f"Error getting current nlbw data: {e}")
+        return None, str(e)
+
+def _get_nlbw_historical_data(date):
+    """Get and parse historical nlbw data for specific date.
+    
+    Args:
+        date (str): Date identifier for historical data
         
-        # Convert to clean response format
+    Returns:
+        tuple: (parsed_entries, error_message)
+    """
+    try:
+        result = router_connection_manager.execute(f'nlbw -c json -t {date}')
+        
+        if not result['success']:
+            return None, f"Failed to get data for {date}: {result.get('error', 'Unknown error')}"
+        
+        return _parse_nlbw_json_response(result['output'])
+        
+    except Exception as e:
+        logger.error(f"Error getting historical data for {date}: {e}")
+        return None, str(e)
+
+def _get_daily_json_file_data(date):
+    """Get data from daily JSON backup file.
+    
+    Args:
+        date (str): Date in YYYY-MM-DD format
+        
+    Returns:
+        tuple: (parsed_entries, error_message)
+    """
+    try:
+        daily_file = f"/tmp/nlbwmon/daily/daily_{date}.json"
+        result = router_connection_manager.execute(f"[ -f {daily_file} ] && cat {daily_file} || echo 'File not found'")
+        
+        if not result['success']:
+            return None, f"Failed to read daily file for {date}: {result.get('error', 'Unknown error')}"
+        
+        if 'File not found' in result['output']:
+            return None, f"Daily backup file not found for {date}"
+        
+        return _parse_nlbw_json_response(result['output'])
+        
+    except Exception as e:
+        logger.error(f"Error reading daily file for {date}: {e}")
+        return None, str(e)
+
+def _filter_active_devices(devices, min_bytes=0):
+    """Filter devices to only include those with usage above threshold.
+    
+    Args:
+        devices (dict): Device data keyed by MAC
+        min_bytes (int): Minimum total bytes to include device
+        
+    Returns:
+        dict: Filtered devices
+    """
+    filtered = {}
+    for mac, device in devices.items():
+        total_bytes = device.get('rx_bytes', 0) + device.get('tx_bytes', 0)
+        if total_bytes > min_bytes:
+            filtered[mac] = device
+    
+    logger.debug(f"Filtered {len(devices)} devices down to {len(filtered)} active devices")
+    return filtered
+
+# =============================================================================
+# PRIVATE FUNCTIONS FOR DEVICE-SPECIFIC DATA RETRIEVAL BY TIME PERIOD
+# =============================================================================
+
+def _get_device_from_aggregated_data(devices, mac_address, min_bytes_threshold, period_name):
+    """Extract specific device data from aggregated device data.
+    
+    Args:
+        devices (dict): Aggregated device data keyed by MAC
+        mac_address (str): Normalized MAC address (lowercase)
+        min_bytes_threshold (int): Minimum bytes threshold for the period
+        period_name (str): Period name for error messages
+        
+    Returns:
+        tuple: (device_data, error_message)
+    """
+    # Find the specific device by MAC
+    target_device = None
+    for mac, device_data in devices.items():
+        if mac.lower() == mac_address:
+            target_device = device_data
+            break
+    
+    if not target_device:
+        return None, f"Device with MAC '{mac_address}' not found in {period_name} data"
+    
+    # Check minimum usage threshold
+    total_bytes = target_device.get('rx_bytes', 0) + target_device.get('tx_bytes', 0)
+    if total_bytes < min_bytes_threshold:
+        return None, f"Device with MAC '{mac_address}' has insufficient {period_name} usage data"
+    
+    return target_device, None
+
+def _get_device_current_data(mac_address):
+    """Get current usage data for a specific device by MAC.
+    
+    Args:
+        mac_address (str): Normalized MAC address (lowercase)
+        
+    Returns:
+        tuple: (device_data, error_message)
+    """
+    try:
+        # Reuse existing current data logic
+        entries, error = _get_nlbw_current_data()
+        if error:
+            return None, error
+        
+        if not entries:
+            return None, "No current data available"
+        
+        # Aggregate by device using existing function
+        devices = _aggregate_entries_by_device(entries)
+        
+        # Extract the specific device
+        return _get_device_from_aggregated_data(devices, mac_address, 1024, "current")
+        
+    except Exception as e:
+        logger.error(f"Error getting current data for MAC {mac_address}: {e}")
+        return None, str(e)
+
+def _get_device_week_data(mac_address):
+    """Get weekly usage data for a specific device by MAC.
+    
+    Reuses the existing weekly data collection logic and filters for specific device.
+    
+    Args:
+        mac_address (str): Normalized MAC address (lowercase)
+        
+    Returns:
+        tuple: (device_data, error_message)
+    """
+    try:
+        # Get all weekly data using existing logic (we'll extract just what we need)
+        # This avoids duplicating the complex daily file collection logic
+        all_device_data, error = get_last_week_device_usage()
+        if error:
+            return None, error
+        
+        if not all_device_data:
+            return None, "No weekly data available"
+        
+        # Find our specific device in the results
+        for device in all_device_data:
+            if device['mac'].lower() == mac_address:
+                # Convert back to internal format (reverse the formatting)
+                target_device = {
+                    'mac': device['mac'],
+                    'ip': None,  # Not available in formatted data
+                    'rx_bytes': int(device['download_gb'] * 1024 * 1024 * 1024),  # Convert GB back to bytes
+                    'tx_bytes': int(device['upload_gb'] * 1024 * 1024 * 1024),    # Convert GB back to bytes
+                    'rx_packets': 0,    # Not available in formatted data
+                    'tx_packets': 0,    # Not available in formatted data
+                    'connections': 0,   # Not available in formatted data
+                    'services': set(),  # Not available in formatted data
+                    'protocols': set(), # Not available in formatted data
+                    'ports': set()      # Not available in formatted data
+                }
+                return target_device, None
+        
+        return None, f"Device with MAC '{mac_address}' not found in weekly data"
+        
+    except Exception as e:
+        logger.error(f"Error getting weekly data for MAC {mac_address}: {e}")
+        return None, str(e)
+
+def _get_device_month_data(mac_address):
+    """Get monthly usage data for a specific device by MAC.
+    
+    Reuses the existing monthly data collection logic and filters for specific device.
+    
+    Args:
+        mac_address (str): Normalized MAC address (lowercase)
+        
+    Returns:
+        tuple: (device_data, error_message)
+    """
+    try:
+        # Get all monthly data using existing logic
+        all_device_data, error = get_last_month_device_usage()
+        if error:
+            return None, error
+        
+        if not all_device_data:
+            return None, "No monthly data available"
+        
+        # Find our specific device in the results
+        for device in all_device_data:
+            if device['mac'].lower() == mac_address:
+                # Convert back to internal format (reverse the formatting)
+                target_device = {
+                    'mac': device['mac'],
+                    'ip': None,  # Not available in formatted data
+                    'rx_bytes': int(device['download_gb'] * 1024 * 1024 * 1024),  # Convert GB back to bytes
+                    'tx_bytes': int(device['upload_gb'] * 1024 * 1024 * 1024),    # Convert GB back to bytes
+                    'rx_packets': 0,    # Not available in formatted data
+                    'tx_packets': 0,    # Not available in formatted data
+                    'connections': 0,   # Not available in formatted data
+                    'services': set(),  # Not available in formatted data
+                    'protocols': set(), # Not available in formatted data
+                    'ports': set()      # Not available in formatted data
+                }
+                return target_device, None
+        
+        return None, f"Device with MAC '{mac_address}' not found in monthly data"
+        
+    except Exception as e:
+        logger.error(f"Error getting monthly data for MAC {mac_address}: {e}")
+        return None, str(e)
+
+def get_current_device_usage():
+    """Get current device usage - returns simplified device list with usage stats.
+    
+    This function gets real-time usage data from the active nlbw process,
+    not from backup files or monthly databases.
+    """
+    try:
+        logger.info("Fetching current device usage data")
+        
+        # Get current nlbw data using helper function
+        entries, error = _get_nlbw_current_data()
+        if error:
+            return None, error
+        
+        if not entries:
+            return [], None
+        
+        # Aggregate by device using helper function
+        devices = _aggregate_entries_by_device(entries)
+        
+        # Filter active devices
+        active_devices = _filter_active_devices(devices, min_bytes=1024)  # Filter < 1KB
+        
+        # Format and sort devices
         device_list = []
-        for device in devices.values():
-            device_list.append({
-                'mac': device['mac'],
-                'ip': device['ip'],
-                'download_mb': _bytes_to_mb(device['rx_bytes']),
-                'upload_mb': _bytes_to_mb(device['tx_bytes']),
-                'connections': device['connections'],
-                'top_services': list(device['services'])[:3]  # Top 3 services
-            })
+        for device in active_devices.values():
+            formatted_device = _format_device_for_current_usage(device)
+            device_list.append(formatted_device)
         
-        # Sort by total usage (download + upload)
+        # Sort by total usage
         device_list.sort(key=lambda x: x['download_mb'] + x['upload_mb'], reverse=True)
         
         logger.info(f"Successfully retrieved usage data for {len(device_list)} devices")
@@ -80,67 +450,119 @@ def get_current_device_usage():
         logger.error(f"Error getting current device usage: {e}")
         return None, str(e)
 
-def get_historical_device_usage(days=7):
-    """Get historical device usage - returns daily summaries by device."""
+def get_last_week_device_usage():
+    """Get device usage for the last week (6 daily files + current).
+    
+    Combines the last 6 daily backup files with current usage data.
+    """
     try:
-        logger.info(f"Fetching historical device usage for {days} days")
+        logger.info("Fetching last week device usage (6 daily files + current)")
         
-        # Get list of available databases
-        list_result = router_connection_manager.execute('nlbw -c list')
+        # Step 1: Get current usage data
+        current_entries, error = _get_nlbw_current_data()
+        if error:
+            logger.warning(f"Failed to get current data: {error}")
+            current_entries = []
+        
+        # Step 2: Get the last 6 daily backup files
+        list_result = router_connection_manager.execute('ls -1 /tmp/nlbwmon/daily/daily_*.json 2>/dev/null | sort -r | head -6')
         if not list_result['success']:
-            return None, "Failed to get available databases"
+            logger.warning("Failed to list daily backup files, using only current data")
+            daily_files = []
+        else:
+            daily_files = [line.strip() for line in list_result['output'].strip().split('\n') if line.strip()]
         
-        # Parse available dates
-        available_dates = [line.strip() for line in list_result['output'].strip().split('\n') if line.strip()]
+        # Step 3: Collect all entries from daily files
+        all_entries = current_entries if current_entries else []
         
-        if not available_dates:
-            return {}, None  # Empty but successful
-        
-        # Get data for requested days
-        historical_data = {}
-        
-        for date in available_dates[:days]:
+        for file_path in daily_files:
             try:
-                result = router_connection_manager.execute(f'nlbw -c json -t {date}')
-                
-                if result['success']:
-                    date_data = json.loads(result['output'])
+                # Extract date from filename: /tmp/nlbwmon/daily/daily_2024-08-01.json -> 2024-08-01
+                filename = file_path.split('/')[-1]
+                if filename.startswith('daily_') and filename.endswith('.json'):
+                    date = filename[6:-5]  # Remove 'daily_' prefix and '.json' suffix
                     
-                    # Aggregate by device for this date
-                    daily_devices = {}
-                    for entry in date_data.get('data', []):
-                        if len(entry) >= 11:
-                            family, proto, port, mac, ip, conns, rx_bytes, rx_pkts, tx_bytes, tx_pkts, layer7 = entry[:11]
-                            
-                            if mac not in daily_devices:
-                                daily_devices[mac] = {'mac': mac, 'rx_bytes': 0, 'tx_bytes': 0}
-                            
-                            daily_devices[mac]['rx_bytes'] += rx_bytes
-                            daily_devices[mac]['tx_bytes'] += tx_bytes
+                    entries, error = _get_daily_json_file_data(date)
+                    if error:
+                        logger.warning(f"Failed to get data for {date}: {error}")
+                        continue
                     
-                    # Convert to clean format
-                    device_summaries = []
-                    for device in daily_devices.values():
-                        if device['rx_bytes'] > 0 or device['tx_bytes'] > 0:  # Only include active devices
-                            device_summaries.append({
-                                'mac': device['mac'],
-                                'download_gb': _bytes_to_gb(device['rx_bytes']),
-                                'upload_gb': _bytes_to_gb(device['tx_bytes'])
-                            })
+                    if entries:
+                        all_entries.extend(entries)
+                        logger.debug(f"Added {len(entries)} entries from {date}")
                     
-                    # Sort by total usage
-                    device_summaries.sort(key=lambda x: x['download_gb'] + x['upload_gb'], reverse=True)
-                    historical_data[date] = device_summaries[:10]  # Top 10 devices per day
-                    
-            except (json.JSONDecodeError, Exception) as e:
-                logger.warning(f"Failed to process data for {date}: {e}")
+            except Exception as e:
+                logger.warning(f"Failed to process daily file {file_path}: {e}")
                 continue
         
-        logger.info(f"Retrieved historical data for {len(historical_data)} dates")
-        return historical_data, None
+        if not all_entries:
+            return [], None
+        
+        # Step 4: Aggregate all entries by device
+        devices = _aggregate_entries_by_device(all_entries)
+        
+        # Step 5: Filter active devices
+        active_devices = _filter_active_devices(devices, min_bytes=1024*1024)  # Filter < 1MB for week
+        
+        # Step 6: Format for weekly usage (use GB for longer period)
+        device_list = []
+        for device in active_devices.values():
+            formatted_device = _format_device_for_historical_usage(device)
+            device_list.append(formatted_device)
+        
+        # Step 7: Sort by total usage
+        device_list.sort(key=lambda x: x['download_gb'] + x['upload_gb'], reverse=True)
+        
+        logger.info(f"Successfully retrieved week usage data for {len(device_list)} devices from {len(daily_files)} daily files + current")
+        return device_list, None
         
     except Exception as e:
-        logger.error(f"Error getting historical device usage: {e}")
+        logger.error(f"Error getting last week device usage: {e}")
+        return None, str(e)
+
+def get_last_month_device_usage():
+    """Get device usage for the last month using monthly database.
+    
+    Uses nlbw monthly database for the first of the current month.
+    """
+    try:
+        logger.info("Fetching last month device usage from monthly database")
+        
+        # Step 1: Get current date and calculate first of current month
+        from datetime import datetime
+        current_date = datetime.now()
+        first_of_month = current_date.strftime('%Y-%m-01')
+        
+        logger.debug(f"Looking for monthly data for: {first_of_month}")
+        
+        # Step 2: Get monthly data using nlbw historical command
+        entries, error = _get_nlbw_historical_data(first_of_month)
+        if error:
+            return None, f"Failed to get monthly data for {first_of_month}: {error}"
+        
+        if not entries:
+            return [], None
+        
+        # Step 3: Aggregate by device
+        devices = _aggregate_entries_by_device(entries)
+        
+        # Step 4: Filter active devices (higher threshold for monthly data)
+        active_devices = _filter_active_devices(devices, min_bytes=10*1024*1024)  # Filter < 10MB for month
+        
+        # Step 5: Format for monthly usage (GB units)
+        device_list = []
+        for device in active_devices.values():
+            formatted_device = _format_device_for_historical_usage(device)
+            device_list.append(formatted_device)
+        
+        # Step 6: Sort by total usage
+        device_list.sort(key=lambda x: x['download_gb'] + x['upload_gb'], reverse=True)
+        
+        logger.info(f"Successfully retrieved monthly usage data for {len(device_list)} devices for {first_of_month}")
+        return device_list, None
+        
+    except Exception as e:
+        logger.error(f"Error getting last month device usage: {e}")
         return None, str(e)
 
 def get_device_usage_summary():
@@ -175,29 +597,67 @@ def get_device_usage_summary():
         logger.error(f"Error generating device usage summary: {e}")
         return None, str(e)
 
-def reset_usage_counters():
+def get_device_usage_by_mac(mac_address, period='current'):
+    """Get usage data for a specific device by MAC address for different time periods.
     
-    """Reset nlbwmon usage counters - commits current data.
+    This is a wrapper function that validates input and delegates to period-specific functions.
+    
+    Args:
+        mac_address (str): MAC address of the device
+        period (str): Time period - 'current', 'week', or 'month'
+        
+    Returns:
+        tuple: (device_data, error_message)
+            device_data: Device usage data or None if error/not found
+            error_message: Error description or None if successful
+    """
     try:
-        logger.info("Resetting nlbwmon usage counters")
+        logger.info(f"Fetching {period} usage data for device MAC: {mac_address}")
         
-        # Commit current data to database
-        commit_result = router_connection_manager.execute('nlbw -c commit')
-        if not commit_result['success']:
-            return None, f"Failed to commit data: {commit_result.get('error', 'Unknown error')}"
+        # Validate MAC address format (basic check)
+        if not mac_address or not isinstance(mac_address, str):
+            return None, "Invalid MAC address format"
         
-        logger.info("Data committed successfully")
-        return {
-            "status": "committed",
-            "timestamp": datetime.now().isoformat(),
-            "note": "Counters reset automatically by nlbwmon daemon"
-        }, None
+        # Normalize MAC address (convert to lowercase for consistent comparison)
+        mac_address = mac_address.lower().strip()
+        
+        # Validate period parameter
+        if period not in ['current', 'week', 'month']:
+            return None, f"Invalid period '{period}'. Must be 'current', 'week', or 'month'"
+        
+        # Get device data based on period using modular functions
+        if period == 'current':
+            target_device, error = _get_device_current_data(mac_address)
+            format_function = _format_device_for_current_usage
+        elif period == 'week':
+            target_device, error = _get_device_week_data(mac_address)
+            format_function = _format_device_for_historical_usage
+        else:  # period == 'month'
+            target_device, error = _get_device_month_data(mac_address)
+            format_function = _format_device_for_historical_usage
+        
+        # Handle errors from data retrieval
+        if error:
+            return None, error
+        
+        # Format the device data based on period
+        formatted_device = format_function(target_device)
+        
+        # Add period and timestamp information
+        formatted_device['period'] = period
+        formatted_device['timestamp'] = datetime.now().isoformat()
+        
+        # Add additional metadata for current period
+        if period == 'current':
+            formatted_device['protocols'] = list(target_device.get('protocols', set()))[:5]  # Top 5 protocols
+            formatted_device['ports'] = list(target_device.get('ports', set()))[:5]  # Top 5 ports
+        
+        logger.info(f"Successfully retrieved {period} usage data for device MAC: {mac_address}")
+        return formatted_device, None
         
     except Exception as e:
-        logger.error(f"Error resetting usage counters: {e}")
+        logger.error(f"Error getting {period} usage data for MAC {mac_address}: {e}")
         return None, str(e)
-    """
-    pass
 
 def check_nlbwmon_status():
     """Check nlbwmon service status - returns basic status info."""
@@ -234,251 +694,4 @@ def check_nlbwmon_status():
             
     except Exception as e:
         logger.error(f"Error checking nlbwmon status: {e}")
-        return None, str(e)
-
-# =============================================================================
-# DAILY BACKUP SCRIPT MANAGEMENT FUNCTIONS
-# =============================================================================
-
-def _get_script_content(script_name):
-    """Read script content from local router_scripts directory."""
-    try:
-        script_path = os.path.join(os.path.dirname(__file__), 'router_scripts', script_name)
-        with open(script_path, 'r') as f:
-            return f.read()
-    except Exception as e:
-        logger.error(f"Failed to read script {script_name}: {e}")
-        return None
-
-def _deploy_script_to_router(script_name, router_path):
-    """Deploy a single script to router filesystem."""
-    try:
-        # Read script content
-        content = _get_script_content(script_name)
-        if not content:
-            return False, f"Failed to read script content for {script_name}"
-        
-        # Create directory on router
-        mkdir_result = router_connection_manager.execute(f"mkdir -p {ROUTER_SCRIPTS_DIR}")
-        if not mkdir_result['success']:
-            return False, f"Failed to create script directory: {mkdir_result.get('error', 'Unknown error')}"
-        
-        # Create script on router using heredoc to avoid quote issues
-        deploy_command = f"""cat > {router_path} << 'EOF_NETPILOT_SCRIPT'
-{content}
-EOF_NETPILOT_SCRIPT"""
-        
-        deploy_result = router_connection_manager.execute(deploy_command)
-        if not deploy_result['success']:
-            return False, f"Failed to create script file: {deploy_result.get('error', 'Unknown error')}"
-        
-        # Make script executable
-        chmod_result = router_connection_manager.execute(f"chmod +x {router_path}")
-        if not chmod_result['success']:
-            return False, f"Failed to make script executable: {chmod_result.get('error', 'Unknown error')}"
-        
-        # Verify script was created
-        verify_result = router_connection_manager.execute(f"[ -f {router_path} ] && echo 'exists' || echo 'missing'")
-        if not verify_result['success'] or 'missing' in verify_result['output']:
-            return False, f"Script verification failed - file not found"
-        
-        logger.info(f"Successfully deployed {script_name} to {router_path}")
-        return True, None
-        
-    except Exception as e:
-        logger.error(f"Error deploying script {script_name}: {e}")
-        return False, str(e)
-
-def deploy_daily_backup_scripts():
-    """Deploy all daily backup scripts to router filesystem."""
-    try:
-        logger.info("Deploying daily backup scripts to router")
-        
-        scripts_to_deploy = [
-            ('daily_save_and_clean.sh', DAILY_BACKUP_SCRIPT),
-            ('check_daily_backup.sh', CHECK_BACKUP_SCRIPT),
-            ('stop_daily_backup.sh', STOP_BACKUP_SCRIPT)
-        ]
-        
-        deployed_count = 0
-        errors = []
-        
-        for script_name, router_path in scripts_to_deploy:
-            success, error = _deploy_script_to_router(script_name, router_path)
-            if success:
-                deployed_count += 1
-            else:
-                errors.append(f"{script_name}: {error}")
-        
-        if deployed_count == len(scripts_to_deploy):
-            logger.info(f"Successfully deployed all {deployed_count} daily backup scripts")
-            return True, None
-        else:
-            error_msg = f"Deployed {deployed_count}/{len(scripts_to_deploy)} scripts. Errors: {'; '.join(errors)}"
-            logger.error(error_msg)
-            return False, error_msg
-            
-    except Exception as e:
-        logger.error(f"Error deploying daily backup scripts: {e}")
-        return False, str(e)
-
-def check_daily_backup_status():
-    """Check if daily backup daemon is running on router."""
-    try:
-        logger.info("Checking daily backup daemon status")
-        
-        # Execute check script
-        result = router_connection_manager.execute(CHECK_BACKUP_SCRIPT)
-        
-        if not result['success']:
-            # If script doesn't exist, it means scripts aren't deployed
-            if 'No such file' in result.get('error', ''):
-                return False, "Daily backup scripts not deployed"
-            return False, f"Failed to check backup status: {result.get('error', 'Unknown error')}"
-        
-        # Parse result - script outputs "RUNNING" or "STOPPED"
-        status = result['output'].strip()
-        is_running = (status == "RUNNING")
-        
-        logger.info(f"Daily backup daemon status: {status}")
-        return is_running, None
-        
-    except Exception as e:
-        logger.error(f"Error checking daily backup status: {e}")
-        return False, str(e)
-
-def start_daily_backup_daemon():
-    """Start the daily backup daemon on router."""
-    try:
-        logger.info("Starting daily backup daemon")
-        
-        # Execute start command
-        result = router_connection_manager.execute(f"{DAILY_BACKUP_SCRIPT} start")
-        
-        if not result['success']:
-            if 'No such file' in result.get('error', ''):
-                return False, "Daily backup scripts not deployed"
-            return False, f"Failed to start backup daemon: {result.get('error', 'Unknown error')}"
-        
-        # Check if start was successful
-        if 'already running' in result['output']:
-            logger.info("Daily backup daemon was already running")
-            return True, "Already running"
-        elif 'started successfully' in result['output']:
-            logger.info("Daily backup daemon started successfully")
-            
-            # Verify it's actually running
-            is_running, check_error = check_daily_backup_status()
-            if check_error:
-                return False, f"Started but verification failed: {check_error}"
-            elif not is_running:
-                return False, "Started but daemon is not running"
-            
-            return True, "Started successfully"
-        else:
-            return False, f"Unexpected start response: {result['output']}"
-            
-    except Exception as e:
-        logger.error(f"Error starting daily backup daemon: {e}")
-        return False, str(e)
-
-def stop_daily_backup_daemon():
-    """Stop the daily backup daemon on router."""
-    try:
-        logger.info("Stopping daily backup daemon")
-        
-        # Execute stop script
-        result = router_connection_manager.execute(STOP_BACKUP_SCRIPT)
-        
-        if not result['success']:
-            if 'No such file' in result.get('error', ''):
-                return False, "Daily backup scripts not deployed"
-            return False, f"Failed to stop backup daemon: {result.get('error', 'Unknown error')}"
-        
-        # Parse result
-        if 'not running' in result['output']:
-            logger.info("Daily backup daemon was not running")
-            return True, "Not running"
-        elif 'stopped successfully' in result['output']:
-            logger.info("Daily backup daemon stopped successfully")
-            return True, "Stopped successfully"
-        elif 'Failed to stop' in result['output']:
-            return False, f"Failed to stop daemon: {result['output']}"
-        else:
-            # Assume success if no error indicators
-            logger.info(f"Daily backup daemon stop command completed: {result['output']}")
-            return True, "Stop completed"
-            
-    except Exception as e:
-        logger.error(f"Error stopping daily backup daemon: {e}")
-        return False, str(e)
-
-def setup_daily_backup_infrastructure():
-    """Complete setup of daily backup infrastructure - deploy scripts and start daemon."""
-    try:
-        logger.info("Setting up daily backup infrastructure")
-        
-        # Step 1: Deploy scripts
-        deploy_success, deploy_error = deploy_daily_backup_scripts()
-        if not deploy_success:
-            return False, f"Script deployment failed: {deploy_error}"
-        
-        # Step 2: Check if daemon is already running
-        is_running, check_error = check_daily_backup_status()
-        if check_error:
-            return False, f"Status check failed: {check_error}"
-        
-        if is_running:
-            logger.info("Daily backup daemon is already running - setup complete")
-            return True, "Already running"
-        
-        # Step 3: Start daemon
-        start_success, start_error = start_daily_backup_daemon()
-        if not start_success:
-            return False, f"Failed to start daemon: {start_error}"
-        
-        logger.info("Daily backup infrastructure setup completed successfully")
-        return True, "Setup completed successfully"
-        
-    except Exception as e:
-        logger.error(f"Error setting up daily backup infrastructure: {e}")
-        return False, str(e)
-
-def get_daily_backup_logs():
-    """Get recent daily backup log entries."""
-    try:
-        logger.info("Fetching daily backup logs")
-        
-        log_file = "/tmp/nlbwmon/daily/daily_backup.log"
-        
-        # Check if log file exists and get recent entries
-        result = router_connection_manager.execute(f"[ -f {log_file} ] && tail -n 20 {log_file} || echo 'Log file not found'")
-        
-        if not result['success']:
-            return None, f"Failed to read log file: {result.get('error', 'Unknown error')}"
-        
-        if 'Log file not found' in result['output']:
-            return [], None  # Empty logs but no error
-        
-        # Parse log entries
-        log_lines = result['output'].strip().split('\n')
-        log_entries = []
-        
-        for line in log_lines:
-            if line.strip() and ' - ' in line:
-                try:
-                    timestamp_str, message = line.split(' - ', 1)
-                    log_entries.append({
-                        'timestamp': timestamp_str.strip(),
-                        'message': message.strip()
-                    })
-                except:
-                    # If parsing fails, include raw line
-                    log_entries.append({'raw': line.strip()})
-        
-        logger.info(f"Retrieved {len(log_entries)} log entries")
-        return log_entries, None
-        
-    except Exception as e:
-        logger.error(f"Error getting daily backup logs: {e}")
         return None, str(e)
