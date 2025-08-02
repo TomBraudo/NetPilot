@@ -11,6 +11,8 @@ import DashboardPage from "./UI/Pages/DashboardPage";
 import AboutPage from "./UI/Pages/AboutPage";
 import SettingsPage from "./UI/Pages/SettingsPage";
 import AuthRedirectHandler from "./components/AuthRedirectHandler";
+import TwoFASetupModal from "./components/TwoFASetupModal";
+import TwoFAVerificationModal from "./components/TwoFAVerificationModal";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 
 const AppLayout = ({
@@ -55,6 +57,13 @@ const AppLayout = ({
 };
 
 const AppContent = () => {
+  const { 
+    showTwoFAModal, 
+    setShowTwoFAModal, 
+    showTwoFASetupModal, 
+    setShowTwoFASetupModal 
+  } = useAuth();
+  
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem("darkMode") === "true";
   });
@@ -76,6 +85,16 @@ const AppContent = () => {
     <div className={darkMode ? "dark" : ""}>
       {/* Auth redirect handler - active throughout the app */}
       <AuthRedirectHandler />
+      
+      {/* 2FA Modals */}
+      <TwoFASetupModal 
+        isOpen={showTwoFASetupModal} 
+        onClose={() => setShowTwoFASetupModal(false)} 
+      />
+      <TwoFAVerificationModal 
+        isOpen={showTwoFAModal} 
+        onClose={() => setShowTwoFAModal(false)} 
+      />
       
       <Routes>
         {/* Root dashboard page without sidebar */}

@@ -33,6 +33,9 @@ export const API_ENDPOINTS = {
 
   // Settings
   SETTINGS: `${API_BASE_URL}/api/settings`,
+
+  // 2FA
+  TWO_FA: `${API_BASE_URL}/api/2fa`,
 };
 
 // API Helper functions
@@ -359,4 +362,55 @@ export const sessionAPI = {
         throw error;
       });
   },
+};
+
+// 2FA API functions
+export const twoFAAPI = {
+  // Start 2FA setup
+  startSetup: () =>
+    apiRequest(`${API_ENDPOINTS.TWO_FA}/setup/start`, {
+      method: "POST",
+    }),
+
+  // Verify 2FA setup
+  verifySetup: (code, setupToken) =>
+    apiRequest(`${API_ENDPOINTS.TWO_FA}/setup/verify`, {
+      method: "POST",
+      body: JSON.stringify({
+        code: code,
+        setup_token: setupToken,
+      }),
+    }),
+
+  // Verify 2FA code (during login)
+  verify: (code, method = "totp") =>
+    apiRequest(`${API_ENDPOINTS.TWO_FA}/verify`, {
+      method: "POST",
+      body: JSON.stringify({
+        code: code,
+        method: method,
+      }),
+    }),
+
+  // Get 2FA status
+  getStatus: () =>
+    apiRequest(`${API_ENDPOINTS.TWO_FA}/status`),
+
+  // Disable 2FA
+  disable: (confirmationCode) =>
+    apiRequest(`${API_ENDPOINTS.TWO_FA}/disable`, {
+      method: "POST",
+      body: JSON.stringify({
+        code: confirmationCode,
+      }),
+    }),
+
+  // Generate new backup codes
+  generateBackupCodes: (confirmationCode) =>
+    apiRequest(`${API_ENDPOINTS.TWO_FA}/generate-backup-codes`, {
+      method: "POST",
+      body: JSON.stringify({
+        code: confirmationCode,
+      }),
+    }),
 };
