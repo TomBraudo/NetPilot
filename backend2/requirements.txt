@@ -2,8 +2,8 @@ Flask==2.3.3
 Authlib==1.2.1
 requests==2.31.0
 flask-cors==4.0.0
-sqlalchemy==2.0.23
-alembic==1.13.1
+sqlalchemy>=2.0.36
+alembic>=1.14.0
 psycopg2-binary>=2.9.10
 python-decouple==3.8
-dotenv
+python-dotenv
