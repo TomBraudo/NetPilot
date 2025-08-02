@@ -1,156 +1,12 @@
 from flask import Blueprint, request, jsonify, current_app, g
 from utils.logging_config import get_logger
 from utils.response_helpers import build_success_response, build_error_response
+from utils.infrastructure_setup import setup_persistent_infrastructure, check_existing_infrastructure, InfrastructureComponent
 import time
 
 logger = get_logger('session.endpoints')
 
 session_bp = Blueprint('session', __name__)
-
-def _setup_persistent_infrastructure():
-    """
-    Set up one-time persistent infrastructure:
-    - TC infrastructure on all interfaces (same for both whitelist and blacklist)
-    - Empty iptables chains (NETPILOT_WHITELIST, NETPILOT_BLACKLIST)
-    - State file initialization
-    
-    This is the optimized part that only needs to be done once per session.
-    """
-    from managers.router_connection_manager import RouterConnectionManager
-    from services.router_state_manager import write_router_state, get_router_state, _get_default_state
-    
-    router_connection_manager = RouterConnectionManager()
-    
-    def _execute_command(command: str):
-        """Execute command with proper error handling."""
-        _, err = router_connection_manager.execute(command, timeout=15)
-        if err:
-            error_lower = err.lower()
-            if any(phrase in error_lower for phrase in [
-                "file exists", "already exists", "cannot find", 
-                "no such file", "chain already exists", "no chain/target/match",
-                "bad rule", "does not exist"
-            ]):
-                return True
-            logger.error(f"Command failed: {command} - Error: {err}")
-            return False
-        return True
-    
-    try:
-        # 1. Ensure state file exists
-        STATE_FILE_PATH = "/etc/config/netpilot_state.json"
-        output, _ = router_connection_manager.execute(f"[ -f {STATE_FILE_PATH} ] && echo exists || echo missing")
-        if output.strip() == "missing":
-            logger.info("Creating default state file")
-            write_router_state(_get_default_state())
-        
-        state = get_router_state()
-        unlimited_rate = state['rates'].get('whitelist_full', '1000mbit')
-        limited_rate = state['rates'].get('whitelist_limited', '50mbit')
-        
-        # 2. Get all network interfaces
-        output, error = router_connection_manager.execute("ls /sys/class/net/")
-        if error:
-            return False, f"Failed to get network interfaces: {error}"
-        
-        interfaces = [iface.strip() for iface in output.split() if iface.strip() not in ['lo', '']]
-        if not interfaces:
-            return False, "No network interfaces found"
-        
-        logger.info(f"Setting up TC infrastructure on {len(interfaces)} interfaces")
-        
-        # 3. Set up TC infrastructure on all interfaces (one-time setup)
-        for interface in interfaces:
-            # Clean any existing TC setup first
-            _execute_command(f"tc qdisc del dev {interface} root 2>/dev/null || true")
-            
-            # Set up HTB qdisc with default class (unlimited)
-            if not _execute_command(f"tc qdisc add dev {interface} root handle 1: htb default 1"):
-                return False, f"Failed to set up TC root qdisc on {interface}"
-            
-            # Class 1:1 - Unlimited traffic (default)
-            if not _execute_command(f"tc class add dev {interface} parent 1: classid 1:1 htb rate {unlimited_rate}"):
-                return False, f"Failed to set up unlimited class on {interface}"
-            
-            # Class 1:10 - Limited traffic 
-            if not _execute_command(f"tc class add dev {interface} parent 1: classid 1:10 htb rate {limited_rate}"):
-                return False, f"Failed to set up limited class on {interface}"
-            
-            # Filters for packet marking (same for both modes)
-            if not _execute_command(f"tc filter add dev {interface} parent 1: protocol ip prio 1 handle 1 fw flowid 1:1"):
-                return False, f"Failed to add unlimited filter on {interface}"
-            
-            if not _execute_command(f"tc filter add dev {interface} parent 1: protocol ip prio 2 handle 98 fw flowid 1:10"):
-                return False, f"Failed to add limited filter on {interface}"
-        
-        # 4. Create empty iptables chains (will be populated by mode activation)
-        _execute_command("iptables -t mangle -N NETPILOT_WHITELIST 2>/dev/null || true")
-        _execute_command("iptables -t mangle -N NETPILOT_BLACKLIST 2>/dev/null || true")
-        
-        # 5. Clean up any legacy infrastructure
-        _execute_command("nft delete table inet netpilot 2>/dev/null || true")
-        
-        logger.info(f"Persistent infrastructure set up successfully on {len(interfaces)} interfaces")
-        return True, None
-        
-    except Exception as e:
-        logger.error(f"Failed to set up persistent infrastructure: {str(e)}")
-        return False, f"Infrastructure setup failed: {str(e)}"
-
-def _check_existing_infrastructure():
-    """
-    Check if the required NetPilot infrastructure is already set up:
-    - TC classes on interfaces 
-    - Iptables chains (NETPILOT_WHITELIST, NETPILOT_BLACKLIST)
-    - State file existence
-    
-    Returns:
-        tuple: (bool, str) - (True if all infrastructure exists, error message if not)
-    """
-    from managers.router_connection_manager import RouterConnectionManager
-    from services.router_state_manager import get_router_state
-    
-    router_connection_manager = RouterConnectionManager()
-    
-    try:
-        # 1. Check state file
-        STATE_FILE_PATH = "/etc/config/netpilot_state.json"
-        output, _ = router_connection_manager.execute(f"[ -f {STATE_FILE_PATH} ] && echo exists || echo missing")
-        if output.strip() == "missing":
-            logger.info("State file missing - infrastructure setup needed")
-            return False, "State file not found"
-        
-        # 2. Check if iptables chains exist
-        output, _ = router_connection_manager.execute("iptables -t mangle -L NETPILOT_WHITELIST -n 2>/dev/null && echo exists || echo missing")
-        if output.strip() == "missing":
-            logger.info("NETPILOT_WHITELIST chain missing - infrastructure setup needed")
-            return False, "Iptables chains not found"
-
-        output, _ = router_connection_manager.execute("iptables -t mangle -L NETPILOT_BLACKLIST -n 2>/dev/null && echo exists || echo missing")
-        if output.strip() == "missing":
-            logger.info("NETPILOT_BLACKLIST chain missing - infrastructure setup needed")
-            return False, "Iptables chains not found"
-        
-        # 3. Check at least one interface has TC setup (we assume if one has it, all do)
-        output, _ = router_connection_manager.execute("ls /sys/class/net/")
-        interfaces = [iface.strip() for iface in output.split() if iface.strip() not in ['lo', '']]
-        
-        if interfaces:
-            # Check the first interface that's not loopback
-            test_interface = interfaces[0]
-            output, _ = router_connection_manager.execute(f"tc class show dev {test_interface} | grep '1:1\|1:10' | wc -l")
-            if not output.strip() or int(output.strip()) < 2:  # We expect at least 2 classes (1:1 and 1:10)
-                logger.info(f"TC classes missing on {test_interface} - infrastructure setup needed")
-                return False, "TC setup incomplete"
-        else:
-            return False, "No network interfaces found"
-        
-        logger.info("All required infrastructure found - skipping setup")
-        return True, None
-        
-    except Exception as e:
-        logger.error(f"Error checking existing infrastructure: {str(e)}")
-        return False, f"Infrastructure check failed: {str(e)}"
 
 @session_bp.route("/start", methods=["POST"])
 def start_session():
@@ -189,7 +45,7 @@ def start_session():
             return build_error_response(f"Router not reachable: {err}", 500, "ROUTER_UNREACHABLE", execution_start_time)
         
         # Check existing infrastructure first
-        infrastructure_exists, infra_error = _check_existing_infrastructure()
+        infrastructure_exists, missing_components, infra_message = check_existing_infrastructure()
         
         # Only set up infrastructure if it doesn't exist OR if restart flag is True
         if infrastructure_exists and not restart:
@@ -197,11 +53,13 @@ def start_session():
         else:
             if restart:
                 logger.info("Restart flag set - rebuilding infrastructure")
+                # If restart is True, set up all components regardless of check results
+                success_status, error_msg = setup_persistent_infrastructure()
             else:
-                logger.info(f"Required infrastructure not found - setting up (error: {infra_error})")
-                
-            # Set up persistent infrastructure
-            success_status, error_msg = _setup_persistent_infrastructure()
+                component_names = [comp.value for comp in missing_components] if missing_components else []
+                logger.info(f"Required infrastructure not found - setting up. Missing components: {component_names}. Details: {infra_message}")
+                # Only set up the components that are actually missing
+                success_status, error_msg = setup_persistent_infrastructure(missing_components)
             if not success_status:
                 logger.error(f"Failed to set up persistent infrastructure: {error_msg}")
                 return build_error_response(f"Infrastructure setup failed: {error_msg}", 500, "INFRASTRUCTURE_SETUP_FAILED", execution_start_time)
