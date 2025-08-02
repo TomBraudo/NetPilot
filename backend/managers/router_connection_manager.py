@@ -84,7 +84,7 @@ class RouterConnectionManager:
         self._active_sessions: Dict[str, datetime] = {}
 
         # Config
-        base_url = os.getenv("PORT_MANAGER_URL", "http://localhost:3001")
+        base_url = os.getenv("PORT_MANAGER_URL", "http://localhost:8080")
         self._pm_client = PortManagerClient(base_url)
         self._connection_idle = int(os.getenv("CONNECTION_TIMEOUT_MINUTES", 5)) * 60
         self._session_idle = int(os.getenv("SESSION_TIMEOUT_MINUTES", 30)) * 60

@@ -45,3 +45,6 @@ __pycache__/
 *.pyd
 backend/__pycache__/
 *.pyc
+
+# Backend tests, router login credentials sensitive data
+backend/tests/
