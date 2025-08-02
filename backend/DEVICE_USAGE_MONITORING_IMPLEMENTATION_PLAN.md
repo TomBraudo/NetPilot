@@ -30,15 +30,15 @@ Endpoints (blueprints) → Services → RouterConnectionManager.execute() → SS
 ## Phase 1: Core Command Execution Service
 
 ### 1.1 Create Device Usage Service
-[ ] Create `services/device_usage_service.py` following existing service patterns:
-  - [ ] `get_current_device_usage()` - Execute `nlbw -c json` for current data
-  - [ ] `get_historical_device_usage(days=7)` - Get historical usage data
-  - [ ] `get_device_usage_summary()` - Get aggregated usage per device
-  - [ ] `reset_usage_counters()` - Execute `nlbw -z` to reset counters
-  - [ ] `check_nlbwmon_status()` - Verify nlbwmon is running
+[x] Create `services/device_usage_service.py` following existing service patterns:
+  - [x] `get_current_device_usage()` - Execute `nlbw -c json` for current data
+  - [x] `get_historical_device_usage(days=7)` - Get historical usage data
+  - [x] `get_device_usage_summary()` - Get aggregated usage per device
+  - [x] `reset_usage_counters()` - Execute `nlbw -z` to reset counters
+  - [x] `check_nlbwmon_status()` - Verify nlbwmon is running
 
 ### 1.2 Router Command Implementations
-[ ] Implement nlbwmon command wrappers:
+[x] Implement nlbwmon command wrappers:
 
 ```python
 def get_current_device_usage():
@@ -59,10 +59,10 @@ def get_current_device_usage():
 
 ### 1.3 Data Processing Utilities
 [ ] Create `utils/nlbwmon_parser.py` for data processing:
-  - [ ] `parse_nlbw_json()` - Parse nlbwmon JSON output
-  - [ ] `format_device_usage()` - Format device usage data
-  - [ ] `calculate_totals()` - Calculate bandwidth totals
-  - [ ] `filter_by_timeframe()` - Filter data by time periods
+  - [x] `parse_nlbw_json()` - Parse nlbwmon JSON output
+  - [x] `format_device_usage()` - Format device usage data
+  - [x] `calculate_totals()` - Calculate bandwidth totals
+  - [x] `filter_by_timeframe()` - Filter data by time periods
 
 ---
 

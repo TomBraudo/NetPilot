@@ -34,6 +34,7 @@ from endpoints.wifi import wifi_bp
 from endpoints.whitelist import whitelist_bp
 from endpoints.blacklist import blacklist_bp
 from endpoints.session import session_bp
+from endpoints.monitor import monitor_bp
 
 # Load environment variables
 # Support both COMMANDS-SERVER_PORT and SERVER_PORT for backward compatibility
@@ -74,6 +75,8 @@ app.register_blueprint(wifi_bp, url_prefix='/api/wifi')
 app.register_blueprint(whitelist_bp, url_prefix='/api/whitelist')
 app.register_blueprint(blacklist_bp, url_prefix='/api/blacklist')
 app.register_blueprint(session_bp, url_prefix='/api/session')
+app.register_blueprint(monitor_bp, url_prefix='/api/monitor')
+
 logger.info("API blueprints registered")
 
 # Function to clean up resources on exit

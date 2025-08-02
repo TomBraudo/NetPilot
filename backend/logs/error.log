@@ -1635,3 +1635,4 @@ add chain inet netpilot gate {{ type filter hook prerouting priority mangle; }}
 2025-08-02 18:21:48 - server - ERROR - Failed to set up persistent infrastructure: Daemon started but not detected as running
 2025-08-02 18:26:25 - utils.daily_management - ERROR - Daemon started but not detected as running
 2025-08-02 18:26:25 - server - ERROR - Failed to set up persistent infrastructure: Daemon started but not detected as running
+2025-08-02 19:37:45 - services.monitor - ERROR - Error getting current nlbw data: tuple indices must be integers or slices, not str
