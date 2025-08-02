@@ -33,6 +33,14 @@ export const API_ENDPOINTS = {
 
   // Settings
   SETTINGS: `${API_BASE_URL}/api/settings`,
+
+  // Monitor (dashboard endpoints)
+  MONITOR: {
+    CURRENT: `${API_BASE_URL}/api/monitor/current`,
+    LAST_WEEK: `${API_BASE_URL}/api/monitor/last-week`,
+    LAST_MONTH: `${API_BASE_URL}/api/monitor/last-month`,
+    DEVICE: `${API_BASE_URL}/api/monitor/device`,
+  },
 };
 
 // API Helper functions
