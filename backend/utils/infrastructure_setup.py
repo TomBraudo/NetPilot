@@ -40,7 +40,7 @@ def _execute_command_with_router_manager(router_connection_manager, command: str
 
 def _setup_state_file(router_connection_manager):
     """
-    Ensure the NetPilot state file exists with default configuration.
+    Ensure the NetPilot state file exists with new group-based format.
     
     Args:
         router_connection_manager: Router connection manager instance
@@ -48,15 +48,17 @@ def _setup_state_file(router_connection_manager):
     Returns:
         bool: True if successful, False otherwise
     """
-    from services.router_state_manager import write_router_state, _get_default_state
+    from managers.state_file_manager import StateFileManager
     
-    STATE_FILE_PATH = "/etc/config/netpilot_state.json"
-    output, _ = router_connection_manager.execute(f"[ -f {STATE_FILE_PATH} ] && echo exists || echo missing")
-    if output.strip() == "missing":
-        logger.info("Creating default state file")
-        write_router_state(_get_default_state())
+    state_manager = StateFileManager()
     
-    return True
+    # Check if state file is in new format
+    if not state_manager.check_state_format():
+        logger.info("State file missing or in old format - creating new group-based state file")
+        return state_manager.create_default_state()
+    else:
+        logger.info("State file already exists in new group-based format")
+        return True
 
 
 def _setup_iptables_chains(router_connection_manager, setup_whitelist=True, setup_blacklist=True):
@@ -175,7 +177,7 @@ def setup_persistent_infrastructure(missing_components=None):
         tuple: (bool, str) - (True if successful, error message if failed)
     """
     from managers.router_connection_manager import RouterConnectionManager
-    from services.router_state_manager import get_router_state
+    from managers.state_file_manager import StateFileManager
     
     # If no missing components specified, set up all components (backward compatibility)
     if missing_components is None:
@@ -201,9 +203,10 @@ def setup_persistent_infrastructure(missing_components=None):
         if (InfrastructureComponent.NETWORK_INTERFACES in missing_components or 
             InfrastructureComponent.TC_SETUP in missing_components):
             
-            state = get_router_state()
-            unlimited_rate = state['rates'].get('whitelist_full', '1000mbit')
-            limited_rate = state['rates'].get('whitelist_limited', '50mbit')
+            # Use default rates for new group-based system
+            unlimited_rate = '1000mbit'
+            limited_rate = '50mbit'
+            logger.info("Using default rates for group-based traffic control")
             
             # 2. Get network interfaces (if needed)
             if InfrastructureComponent.NETWORK_INTERFACES in missing_components:
@@ -271,9 +274,9 @@ def setup_persistent_infrastructure(missing_components=None):
 def check_existing_infrastructure():
     """
     Check if the required NetPilot infrastructure is already set up:
+    - State file in new group-based format
     - TC classes on interfaces 
     - Iptables chains (NETPILOT_WHITELIST, NETPILOT_BLACKLIST)
-    - State file existence
     
     Returns:
         tuple: (bool, list[InfrastructureComponent], str) - (
@@ -283,20 +286,19 @@ def check_existing_infrastructure():
         )
     """
     from managers.router_connection_manager import RouterConnectionManager
-    from services.router_state_manager import get_router_state
+    from managers.state_file_manager import StateFileManager
     
     router_connection_manager = RouterConnectionManager()
+    state_manager = StateFileManager()
     missing_components = []
     issues = []
     
     try:
-        # 1. Check state file
-        STATE_FILE_PATH = "/etc/config/netpilot_state.json"
-        output, _ = router_connection_manager.execute(f"[ -f {STATE_FILE_PATH} ] && echo exists || echo missing")
-        if output.strip() == "missing":
-            logger.info("State file missing - infrastructure setup needed")
+        # 1. Check state file format using StateFileManager
+        if not state_manager.check_state_format():
+            logger.info("State file missing, corrupt, or in old format - infrastructure setup needed")
             missing_components.append(InfrastructureComponent.STATE_FILE)
-            issues.append("State file not found")
+            issues.append("State file not in new group-based format")
         
         # 2. Check if iptables whitelist chain exists
         output, _ = router_connection_manager.execute("iptables -t mangle -L NETPILOT_WHITELIST -n 2>/dev/null && echo exists || echo missing")

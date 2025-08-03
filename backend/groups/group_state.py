@@ -13,7 +13,14 @@ from .group_policy_summary import GroupPolicySummary
 
 @dataclass
 class GroupState:
-    """Minimal group state stored in commands-server state file"""
+    """
+    Minimal group state stored in commands-server state file
+    
+    TC Class and Bandwidth Policy:
+    - Each group gets a unique tc_class (e.g., "1:101") and mark_value (e.g., 101)
+    - If policies.bandwidth_limit_mbps = None: No TC rule is set, unrestricted traffic
+    - If policies.bandwidth_limit_mbps = <number>: TC rule limits all group members to that Mbps
+    """
     group_id: int
     name: str
     active: bool

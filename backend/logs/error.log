@@ -1636,3 +1636,13 @@ add chain inet netpilot gate {{ type filter hook prerouting priority mangle; }}
 2025-08-02 18:26:25 - utils.daily_management - ERROR - Daemon started but not detected as running
 2025-08-02 18:26:25 - server - ERROR - Failed to set up persistent infrastructure: Daemon started but not detected as running
 2025-08-02 19:37:45 - services.monitor - ERROR - Error getting current nlbw data: tuple indices must be integers or slices, not str
+2025-08-03 13:48:58 - managers.state_file - ERROR - Error checking state format: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2025-08-03 13:48:58 - infrastructure_setup - ERROR - Error checking existing infrastructure: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
