@@ -521,10 +521,10 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const verify2FA = async (code, method = 'totp') => {
+  const verify2FA = async (code) => {
     try {
-      console.log('🔐 Verifying 2FA code with method:', method);
-      const response = await twoFAAPI.verify(code, method);
+      console.log('🔐 Verifying 2FA code...');
+      const response = await twoFAAPI.verify(code);
       console.log('2FA verification successful:', response);
       
       // Clear verification state and refresh user data
@@ -550,6 +550,37 @@ export const AuthProvider = ({ children }) => {
       return response.data;
     } catch (error) {
       console.error('Failed to get 2FA status:', error);
+      throw error;
+    }
+  };
+
+  const reset2FA = async () => {
+    try {
+      console.log('🔐 Resetting 2FA...');
+      const response = await fetch(`${API_BASE_URL}/api/2fa/reset`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        console.log('2FA reset successful:', data);
+        
+        // Clear 2FA state and show setup modal
+        setTwoFARequired(false);
+        setShowTwoFAModal(false);
+        setTwoFAStatus(null);
+        setTwoFASetupData(null);
+        
+        // Show setup modal for fresh start
+        setShowTwoFASetupModal(true);
+        
+        return data.data;
+      } else {
+        throw new Error('Failed to reset 2FA');
+      }
+    } catch (error) {
+      console.error('2FA reset failed:', error);
       throw error;
     }
   };
@@ -739,6 +770,7 @@ export const AuthProvider = ({ children }) => {
     verify2FASetup,
     verify2FA,
     get2FAStatus,
+    reset2FA,
     disable2FA,
   };
 

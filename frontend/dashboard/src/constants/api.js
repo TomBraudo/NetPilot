@@ -76,6 +76,20 @@ export const apiRequest = async (endpoint, options = {}) => {
   }
 
   if (!response.ok) {
+    // Try to extract user-friendly error message from response
+    try {
+      const errorData = await response.json();
+      if (errorData && errorData.message) {
+        throw new Error(errorData.message);
+      } else if (errorData && errorData.error && errorData.error.message) {
+        throw new Error(errorData.error.message);
+      }
+    } catch (parseError) {
+      // If we can't parse the error response, use generic message
+      console.warn('Could not parse error response:', parseError);
+    }
+    
+    // Fallback to generic error message
     throw new Error(`HTTP error! status: ${response.status}`);
   }
 
@@ -383,12 +397,11 @@ export const twoFAAPI = {
     }),
 
   // Verify 2FA code (during login)
-  verify: (code, method = "totp") =>
+  verify: (code) =>
     apiRequest(`${API_ENDPOINTS.TWO_FA}/verify`, {
       method: "POST",
       body: JSON.stringify({
         code: code,
-        method: method,
       }),
     }),
 

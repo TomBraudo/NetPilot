@@ -234,28 +234,25 @@ class TwoFAService:
         - Prevents token reuse in concurrent requests
         """
         try:
-            # Update and return in single operation
-            result = db_session.execute(
-                text("""
-                UPDATE user_2fa_settings 
-                SET setup_token = NULL,
-                    setup_expires_at = NULL,
-                    updated_at = NOW()
-                WHERE user_id = :user_id 
-                AND setup_token = :setup_token 
-                AND setup_expires_at > NOW()
-                RETURNING *
-                """),
-                {"user_id": user_id, "setup_token": setup_token}
-            )
+            # First, get the current settings to validate
+            user_2fa = db_session.query(User2FASettings).filter_by(
+                user_id=user_id,
+                setup_token=setup_token
+            ).first()
             
-            row = result.fetchone()
-            if row:
-                # Convert row to User2FASettings object
-                user_2fa = db_session.query(User2FASettings).filter_by(user_id=user_id).first()
-                return user_2fa
-            else:
+            if not user_2fa:
                 return None
+                
+            # Check if token is expired
+            if user_2fa.setup_expires_at and user_2fa.setup_expires_at < datetime.utcnow():
+                return None
+            
+            # Clear the setup token
+            user_2fa.setup_token = None
+            user_2fa.setup_expires_at = None
+            user_2fa.updated_at = datetime.utcnow()
+            
+            return user_2fa
                 
         except Exception as e:
             logger.error(f"Error in atomic_validate_and_expire_setup_token for user {user_id}: {e}")

@@ -7,8 +7,6 @@ import os
 from models.user import User, User2FASettings
 from datetime import datetime
 from utils.logging_config import get_logger
-import jwt
-import json
 
 logger = get_logger('auth')
 
@@ -30,12 +28,7 @@ def init_oauth(app):
         client_id=os.getenv('GOOGLE_CLIENT_ID'),
         client_secret=os.getenv('GOOGLE_CLIENT_SECRET'),
         server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
-        client_kwargs={
-            'scope': 'openid email profile',
-            'prompt': 'login consent',  # Force fresh login AND consent
-            'max_age': 0,  # Force re-authentication to get fresh auth_time  
-            'acr_values': 'http://schemas.openid.net/pape/policies/2007/06/multi-factor',  # Request 2FA
-        },
+        client_kwargs={'scope': 'openid email profile'},
     )
 
 def login_required(f):
@@ -152,122 +145,7 @@ def login():
     redirect_uri = f"{scheme}://{host}/authorize"
     return google.authorize_redirect(redirect_uri)
 
-def decode_google_id_token(token):
-    """
-    Decode Google ID token to extract 2FA claims
-    """
-    id_token = token.get('id_token')
-    if not id_token:
-        return {}
-    
-    try:
-        # Decode without verification (Google's signature verification is complex)
-        # In production, you should verify the signature properly
-        decoded = jwt.decode(id_token, options={"verify_signature": False})
-        
-        logger.info(f"ID Token Claims Found: {json.dumps(decoded, indent=2, default=str)}")
-        
-        return decoded
-    except Exception as e:
-        logger.error(f"Failed to decode ID token: {e}")
-        return {}
 
-def detect_google_2fa(token, id_token_claims=None):
-    """
-    Enhanced 2FA detection using both token and ID token claims
-    Returns: (used_2fa: bool, method: str, confidence: str)
-    """
-    
-    # Check various 2FA indicators
-    used_2fa = False
-    method = "none"
-    confidence = "low"
-    
-    # Method 1: Check Authentication Methods Reference (AMR) in main token
-    amr = token.get('amr', [])
-    
-    # Known 2FA AMR values:
-    # 'mfa' = Multi-factor authentication
-    # 'sms' = SMS-based authentication  
-    # 'otp' = One-time password
-    # 'totp' = Time-based one-time password
-    # 'hwk' = Hardware key
-    strong_methods = ['mfa', 'sms', 'otp', 'totp', 'hwk', 'oath']
-    
-    for amr_method in amr:
-        if amr_method.lower() in strong_methods:
-            used_2fa = True
-            method = amr_method
-            confidence = "high"
-            break
-    
-    # Method 2: Check ACR in main token
-    if not used_2fa:
-        acr = token.get('acr')
-        if acr in ['2', 'mfa', 'https://schemas.openid.net/pape/policies/2007/06/multi-factor']:
-            used_2fa = True
-            method = f"acr:{acr}"
-            confidence = "high"
-    
-    # Method 3: Check auth_time in main token
-    if not used_2fa:
-        auth_time = token.get('auth_time')
-        if auth_time:
-            from datetime import timedelta
-            auth_datetime = datetime.fromtimestamp(auth_time)
-            time_diff = datetime.utcnow() - auth_datetime
-            
-            if time_diff < timedelta(minutes=2):
-                used_2fa = True
-                method = "recent_auth"
-                confidence = "medium"
-    
-    # Method 4: CHECK ID TOKEN CLAIMS (NEW!)
-    if not used_2fa and id_token_claims:
-        logger.info("Checking ID token claims for 2FA indicators...")
-        
-        # Check AMR in ID token
-        id_amr = id_token_claims.get('amr', [])
-        logger.info(f"ID Token AMR: {id_amr}")
-        
-        for amr_method in id_amr:
-            if amr_method.lower() in strong_methods:
-                used_2fa = True
-                method = f"id_token_{amr_method}"
-                confidence = "high"
-                logger.info(f"Found 2FA in ID token AMR: {amr_method}")
-                break
-        
-        # Check ACR in ID token
-        if not used_2fa:
-            id_acr = id_token_claims.get('acr')
-            logger.info(f"ID Token ACR: {id_acr}")
-            
-            if id_acr in ['2', 'mfa', 'https://schemas.openid.net/pape/policies/2007/06/multi-factor']:
-                used_2fa = True
-                method = f"id_token_acr:{id_acr}"
-                confidence = "high"
-                logger.info(f"Found 2FA in ID token ACR: {id_acr}")
-        
-        # Check iat (issued at) time for freshness - Google uses this instead of auth_time
-        if not used_2fa:
-            # Try auth_time first, then fall back to iat (issued at time)
-            id_auth_time = id_token_claims.get('auth_time') or id_token_claims.get('iat')
-            if id_auth_time:
-                from datetime import timedelta
-                auth_datetime = datetime.fromtimestamp(id_auth_time)
-                time_diff = datetime.utcnow() - auth_datetime
-                logger.info(f"ID Token issued at: {auth_datetime}, age: {time_diff}")
-                
-                # With our forced authentication, fresh login = high confidence 2FA
-                if time_diff < timedelta(minutes=5):
-                    used_2fa = True
-                    method = "forced_fresh_auth"
-                    confidence = "high"  # High confidence since we forced fresh auth
-                    logger.info(f"Fresh authentication detected with forced login (high confidence 2FA)")
-                    logger.info(f"User likely went through Google 2FA during forced re-authentication")
-    
-    return used_2fa, method, confidence
 
 @auth_bp.route('/authorize')
 def authorize():
@@ -275,37 +153,7 @@ def authorize():
     token = google.authorize_access_token()
     session['user'] = token
 
-    # === GOOGLE 2FA DETECTION DEBUG ===
-    logger.info("=== GOOGLE OAUTH TOKEN ANALYSIS ===")
-    logger.info(f"Token keys: {list(token.keys())}")
-    
-    # Log authentication details (avoid sensitive tokens)
-    for key, value in token.items():
-        if key not in ['access_token', 'refresh_token']:
-            logger.info(f"Token[{key}]: {value}")
-    
-    # Check for 2FA indicators
-    userinfo = token.get('userinfo', {})
-    id_token_claims = token.get('id_token_claims', {})
-    
-    if 'amr' in token:
-        logger.info(f"AMR (Auth Methods): {token['amr']}")
-    if 'acr' in token:
-        logger.info(f"ACR (Auth Context): {token['acr']}")
-    if 'auth_time' in token:
-        auth_time = datetime.fromtimestamp(token['auth_time'])
-        logger.info(f"Auth time: {auth_time}")
-        
-    if id_token_claims:
-        logger.info(f"ID token claims keys: {list(id_token_claims.keys())}")
-        if 'amr' in id_token_claims:
-            logger.info(f"ID Token AMR: {id_token_claims['amr']}")
-    
-    logger.info("=== END OAUTH ANALYSIS ===")
 
-    # === DECODE ID TOKEN FOR HIDDEN 2FA INFO ===
-    logger.info("Decoding ID token for additional 2FA claims...")
-    id_token_claims = decode_google_id_token(token)
     
     userToken = session.get('user')
     if not userToken:
@@ -362,37 +210,35 @@ def authorize():
         
         db_session.commit()
         
-        # GOOGLE 2FA DETECTION (with ID token claims)
-        google_2fa_used, google_method, confidence = detect_google_2fa(token, id_token_claims)
-        
-        logger.info(f"Google 2FA detection for {user.email}:")
-        logger.info(f"  Used 2FA: {google_2fa_used}")
-        logger.info(f"  Method: {google_method}")
-        logger.info(f"  Confidence: {confidence}")
+        # Check if user requires 2FA
+        user_2fa = db_session.query(User2FASettings).filter_by(user_id=str(user.id)).first()
+        requires_2fa = user.requires_2fa or (user_2fa and user_2fa.is_enabled)
         
         # CRITICAL: Store user_id in session IMMEDIATELY after successful commit
         session['user_id'] = str(user.id)
         session.permanent = True  # Ensure session persistence
         
-        # Handle 2FA based on Google authentication
+        # Clear any previous 2FA verification for new login
+        session.pop('2fa_verified', None)
+        session.pop('2fa_verified_at', None)
+        
+        print(f"User authenticated successfully: {user.email} (ID: {user.id})")
+        print(f"Session updated with user_id: {session.get('user_id')}")
+        print(f"2FA required: {requires_2fa}")
+        
+        # Redirect back to frontend with 2FA indicator
         frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:5173')
         
-        if google_2fa_used:
-            # Mark as 2FA verified since Google handled it
-            session['2fa_verified'] = True
-            session['2fa_verified_at'] = datetime.utcnow().isoformat()
-            session['2fa_method'] = f"google_{google_method}"
-            
-            logger.info(f"User {user.email} authenticated with Google 2FA ({google_method})")
-            print(f"Google 2FA detected: {google_method} (confidence: {confidence})")
-            return redirect(f"{frontend_url}?login=success&google_2fa=verified&method={google_method}")
+        if requires_2fa:
+            if user_2fa and user_2fa.is_enabled:
+                # User has 2FA enabled - redirect to verification
+                return redirect(f"{frontend_url}?login=success&requires_2fa=true&action=verify")
+            else:
+                # User needs to set up 2FA
+                return redirect(f"{frontend_url}?login=success&requires_2fa=true&action=setup")
         else:
-            # No Google 2FA detected
-            logger.warning(f"No Google 2FA detected for {user.email}")
-            print(f"No Google 2FA detected - user should enable 2FA in Google account")
-            session.pop('2fa_verified', None)
-            session.pop('2fa_verified_at', None)
-            return redirect(f"{frontend_url}?login=success&google_2fa=not_detected")
+            # No 2FA required
+            return redirect(f"{frontend_url}?login=success")
         
     except Exception as e:
         print(f"Error creating/updating user: {e}")
@@ -448,15 +294,11 @@ def me():
             "picture": userInfo.get("picture"),
             "avatar_url": user.avatar_url,
             
-            # Google 2FA Status Information
+            # 2FA Status Information
+            "requires_2fa": user.requires_2fa or (user_2fa and user_2fa.is_enabled),
+            "has_2fa_enabled": user_2fa.is_enabled if user_2fa else False,
             "is_2fa_verified": session.get('2fa_verified', False),
-            "twofa_method": session.get('2fa_method', None),
-            "google_2fa_detected": session.get('2fa_method', '').startswith('google_'),
-            
-            # Legacy 2FA fields (for compatibility)
-            "requires_2fa": False,  # Not using custom 2FA anymore
-            "has_2fa_enabled": False,  # Using Google 2FA instead
-            "twofa_enforced_at": None,
+            "twofa_enforced_at": user.twofa_enforced_at.isoformat() if user.twofa_enforced_at else None,
             
             # Additional metadata
             "last_login": user.last_login.isoformat() if user.last_login else None,

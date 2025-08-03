@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 
 const TwoFASetupModal = ({ isOpen, onClose }) => {
-    const { start2FASetup, verify2FASetup, twoFASetupData } = useAuth();
-    const [step, setStep] = useState(1); // 1: intro, 2: QR code, 3: verify, 4: backup codes
+    const { start2FASetup, verify2FASetup, twoFASetupData, logout, reset2FA } = useAuth();
+    const [step, setStep] = useState(1); // 1: intro, 2: QR code, 3: verify
     const [code, setCode] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const [backupCodes, setBackupCodes] = useState([]);
     const [setupData, setSetupData] = useState(null);
 
     useEffect(() => {
@@ -24,7 +23,16 @@ const TwoFASetupModal = ({ isOpen, onClose }) => {
             const data = await start2FASetup();
             setSetupData(data);
         } catch (err) {
-            setError('Failed to start 2FA setup. Please try again.');
+            // Extract user-friendly error message
+            let errorMessage = 'Failed to start setup. Please try again.';
+            
+            if (err.response && err.response.data && err.response.data.message) {
+                errorMessage = err.response.data.message;
+            } else if (err.message) {
+                errorMessage = err.message;
+            }
+            
+            setError(errorMessage);
             console.error('2FA setup initiation error:', err);
         } finally {
             setLoading(false);
@@ -33,7 +41,7 @@ const TwoFASetupModal = ({ isOpen, onClose }) => {
 
     const handleVerifySetup = async () => {
         if (!code || code.length !== 6) {
-            setError('Please enter a valid 6-digit code');
+            setError('Please enter the complete 6-digit code from your authenticator app');
             return;
         }
 
@@ -42,10 +50,21 @@ const TwoFASetupModal = ({ isOpen, onClose }) => {
 
         try {
             const result = await verify2FASetup(code);
-            setBackupCodes(result.backup_codes);
-            setStep(4);
+            setCode('');
+            setError(''); // Clear any previous errors
+            // Setup completed successfully, close modal
+            handleComplete();
         } catch (err) {
-            setError(err.message || 'Invalid code. Please try again.');
+            // Extract user-friendly error message
+            let errorMessage = 'Invalid code. Please try again.';
+            
+            if (err.response && err.response.data && err.response.data.message) {
+                errorMessage = err.response.data.message;
+            } else if (err.message) {
+                errorMessage = err.message;
+            }
+            
+            setError(errorMessage);
             console.error('2FA setup verification error:', err);
         } finally {
             setLoading(false);
@@ -57,28 +76,33 @@ const TwoFASetupModal = ({ isOpen, onClose }) => {
         setCode('');
         setError('');
         setSetupData(null);
-        setBackupCodes([]);
         onClose();
     };
 
-    const downloadBackupCodes = () => {
-        const content = `NetPilot 2FA Backup Codes
-Generated: ${new Date().toLocaleDateString()}
-
-These codes can be used if you lose access to your authenticator app.
-Each code can only be used once.
-
-${backupCodes.join('\n')}
-
-Important: Store these codes in a safe place!`;
-        
-        const blob = new Blob([content], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'netpilot-backup-codes.txt';
-        a.click();
-        URL.revokeObjectURL(url);
+    const handleStartOver = async () => {
+        try {
+            setLoading(true);
+            await reset2FA();
+            // Modal will be closed and reopened automatically
+            setStep(1);
+            setCode('');
+            setError('');
+            setSetupData(null);
+        } catch (err) {
+            // Extract user-friendly error message
+            let errorMessage = 'Failed to restart setup. Please try again.';
+            
+            if (err.response && err.response.data && err.response.data.message) {
+                errorMessage = err.response.data.message;
+            } else if (err.message) {
+                errorMessage = err.message;
+            }
+            
+            setError(errorMessage);
+            console.error('Reset 2FA error:', err);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleKeyPress = (e) => {
@@ -110,10 +134,13 @@ Important: Store these codes in a safe place!`;
                                 Get Started
                             </button>
                             <button
-                                onClick={onClose}
-                                className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded transition-colors"
+                                onClick={() => {
+                                    logout();
+                                    onClose();
+                                }}
+                                className="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition-colors"
                             >
-                                Skip for Now
+                                Cancel & Logout
                             </button>
                         </div>
                     </div>
@@ -150,22 +177,44 @@ Important: Store these codes in a safe place!`;
                                         {setupData.secret}
                                     </code>
                                 </p>
-                                <button
-                                    onClick={() => setStep(3)}
-                                    className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded transition-colors"
-                                >
-                                    Continue
-                                </button>
+                                <div className="flex space-x-3">
+                                    <button
+                                        onClick={() => setStep(3)}
+                                        className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded transition-colors"
+                                    >
+                                        Continue
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            logout();
+                                            onClose();
+                                        }}
+                                        className="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition-colors"
+                                    >
+                                        Cancel & Logout
+                                    </button>
+                                </div>
                             </div>
                         ) : (
                             <div className="text-center py-8">
                                 <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
-                                <button
-                                    onClick={initiate2FASetup}
-                                    className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded transition-colors"
-                                >
-                                    Try Again
-                                </button>
+                                <div className="flex justify-center space-x-3">
+                                    <button
+                                        onClick={initiate2FASetup}
+                                        className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded transition-colors"
+                                    >
+                                        Try Again
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            logout();
+                                            onClose();
+                                        }}
+                                        className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition-colors"
+                                    >
+                                        Cancel & Logout
+                                    </button>
+                                </div>
                             </div>
                         )}
                     </div>
@@ -206,42 +255,24 @@ Important: Store these codes in a safe place!`;
                                 {loading ? 'Verifying...' : 'Verify'}
                             </button>
                         </div>
+
+                        {/* Start Over Option */}
+                        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
+                            <p className="text-xs text-gray-500 dark:text-gray-400 text-center mb-3">
+                                QR code not working? Start over with a fresh setup.
+                            </p>
+                            <button
+                                onClick={handleStartOver}
+                                disabled={loading}
+                                className="w-full bg-gray-500 hover:bg-gray-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white py-2 px-4 rounded transition-colors text-sm"
+                            >
+                                {loading ? 'Restarting...' : 'Start Over with New QR Code'}
+                            </button>
+                        </div>
                     </div>
                 )}
 
-                {/* Step 4: Backup Codes */}
-                {step === 4 && (
-                    <div>
-                        <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
-                            Save Backup Codes
-                        </h2>
-                        <p className="text-gray-600 dark:text-gray-300 mb-4">
-                            Save these backup codes in a safe place. You can use them to access your account 
-                            if you lose your authenticator device. Each code can only be used once.
-                        </p>
-                        <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded mb-4 max-h-32 overflow-y-auto">
-                            {backupCodes.map((code, index) => (
-                                <div key={index} className="font-mono text-sm mb-1 text-gray-900 dark:text-gray-100">
-                                    {code}
-                                </div>
-                            ))}
-                        </div>
-                        <div className="flex space-x-3">
-                            <button
-                                onClick={downloadBackupCodes}
-                                className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded transition-colors"
-                            >
-                                Download
-                            </button>
-                            <button
-                                onClick={handleComplete}
-                                className="flex-1 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded transition-colors"
-                            >
-                                Complete Setup
-                            </button>
-                        </div>
-                    </div>
-                )}
+
             </div>
         </div>
     );

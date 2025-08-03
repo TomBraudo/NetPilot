@@ -65,7 +65,7 @@ def start_2fa_setup():
     except Exception as e:
         db_session.rollback()
         logger.error(f"2FA setup start failed for user {user_id}: {e}")
-        return build_error_response("Failed to start 2FA setup", 500, "SETUP_FAILED", start_time)
+        return build_error_response("Failed to start 2FA setup. Please try again.", 500, "SETUP_FAILED", start_time)
     finally:
         db_session.close()
 
@@ -81,7 +81,7 @@ def verify_2fa_setup():
     setup_token = data.get('setup_token')
     
     if not code or not setup_token:
-        return build_error_response("Code and setup token required", 400, "MISSING_DATA", start_time)
+        return build_error_response("Please enter the 6-digit code from your authenticator app", 400, "MISSING_DATA", start_time)
     
     db_session = db.get_session()
     try:
@@ -91,22 +91,15 @@ def verify_2fa_setup():
         )
         
         if not user_2fa:
-            return build_error_response("Invalid or expired setup token", 400, "INVALID_TOKEN", start_time)
+            return build_error_response("Setup session expired. Please start the setup process again.", 400, "SETUP_EXPIRED", start_time)
         
         # Verify the code
         secret = twofa_service.decrypt_secret(user_2fa.totp_secret)
         if not twofa_service.verify_totp_code(secret, code):
-            return build_error_response("Invalid verification code", 400, "INVALID_CODE", start_time)
-        
-        # Generate backup codes
-        backup_codes = twofa_service.generate_backup_codes()
-        hashed_backup_codes = [twofa_service.hash_backup_code(code) for code in backup_codes]
+            return build_error_response("Wrong PIN, try again", 400, "WRONG_PIN", start_time)
         
         # Complete setup atomically
         user_2fa.is_enabled = True
-        user_2fa.backup_codes = hashed_backup_codes
-        user_2fa.failed_attempts = 0
-        user_2fa.locked_until = None
         user_2fa.updated_at = datetime.utcnow()
         
         # Log successful setup attempt
@@ -123,7 +116,6 @@ def verify_2fa_setup():
         
         response_data = {
             "success": True,
-            "backup_codes": backup_codes,  # Show these only once
             "message": "2FA setup completed successfully"
         }
         
@@ -133,7 +125,7 @@ def verify_2fa_setup():
     except Exception as e:
         db_session.rollback()
         logger.error(f"2FA setup verification failed for user {user_id}: {e}")
-        return build_error_response("Failed to verify 2FA setup", 500, "VERIFICATION_FAILED", start_time)
+        return build_error_response("Failed to verify 2FA setup. Please try again.", 500, "VERIFICATION_FAILED", start_time)
     finally:
         db_session.close()
 
@@ -146,42 +138,25 @@ def verify_2fa():
     
     data = request.get_json()
     code = data.get('code')
-    method = data.get('method', 'totp')  # 'totp', 'backup'
     
     if not code:
-        return build_error_response("Verification code required", 400, "MISSING_CODE", start_time)
+        return build_error_response("Please enter your 6-digit authenticator code", 400, "MISSING_CODE", start_time)
     
     db_session = db.get_session()
     try:
         user_2fa = db_session.query(User2FASettings).filter_by(user_id=user_id).first()
         
         if not user_2fa or not user_2fa.is_enabled:
-            return build_error_response("2FA not enabled", 400, "2FA_NOT_ENABLED", start_time)
+            return build_error_response("Two-factor authentication is not set up for your account", 400, "2FA_NOT_ENABLED", start_time)
         
-        # Check if user is locked
-        if twofa_service.is_user_locked(user_2fa):
-            return build_error_response("Account locked due to failed attempts", 403, "ACCOUNT_LOCKED", start_time)
-        
-        verification_success = False
-        backup_hash_used = None
-        
-        if method == 'totp':
-            secret = twofa_service.decrypt_secret(user_2fa.totp_secret)
-            verification_success = twofa_service.verify_totp_code(secret, code)
-        
-        elif method == 'backup':
-            # Check backup codes - find matching hash first
-            if user_2fa.backup_codes:
-                for stored_hash in user_2fa.backup_codes:
-                    if twofa_service.verify_backup_code(stored_hash, code):
-                        backup_hash_used = stored_hash
-                        verification_success = True
-                        break
+        # Verify TOTP code
+        secret = twofa_service.decrypt_secret(user_2fa.totp_secret)
+        verification_success = twofa_service.verify_totp_code(secret, code)
         
         # Log attempt BEFORE modifying state
         attempt = User2FAAttempt(
             user_id=user_id,
-            attempt_type=method,
+            attempt_type='totp',
             success=verification_success,
             ip_address=request.remote_addr,
             user_agent=request.headers.get('User-Agent')
@@ -189,54 +164,26 @@ def verify_2fa():
         db_session.add(attempt)
         
         if verification_success:
-            # RACE CONDITION PROTECTION: Atomic success handling
-            if method == 'backup' and backup_hash_used:
-                # Atomically remove used backup code
-                backup_removed = twofa_service.atomic_use_backup_code(
-                    db_session, user_id, backup_hash_used
-                )
-                if not backup_removed:
-                    # Code was already used by concurrent request
-                    return build_error_response("Backup code already used", 400, "CODE_ALREADY_USED", start_time)
-            
-            # Atomically reset failed attempts and unlock
-            twofa_service.atomic_reset_failed_attempts(db_session, user_id)
-            
             # Mark 2FA as verified in session
             session['2fa_verified'] = True
             session['2fa_verified_at'] = datetime.utcnow().isoformat()
             
             db_session.commit()
             
-            logger.info(f"2FA verification successful for user {user_id} using {method}")
+            logger.info(f"2FA verification successful for user {user_id} using TOTP")
             return build_success_response({
                 "success": True,
                 "message": "2FA verification successful"
             }, start_time)
         
         else:
-            # RACE CONDITION PROTECTION: Atomic failed attempt handling
-            failed_count, should_lock = twofa_service.atomic_increment_failed_attempts(
-                db_session, user_id
-            )
-            
+            # Log failed attempt but don't track count
             db_session.commit()
             
-            attempts_remaining = max(0, 3 - failed_count)
-            
-            if should_lock:
-                logger.warning(f"User {user_id} locked after {failed_count} failed 2FA attempts")
-                return build_error_response(
-                    "Account locked due to too many failed attempts",
-                    403,
-                    "ACCOUNT_LOCKED",
-                    start_time
-                )
-            
             return build_error_response(
-                f"Invalid code. {attempts_remaining} attempts remaining",
+                "Wrong PIN, try again",
                 400,
-                "INVALID_CODE",
+                "WRONG_PIN",
                 start_time
             )
     
@@ -263,15 +210,8 @@ def get_2fa_status():
             "is_enabled": user_2fa.is_enabled if user_2fa else False,
             "is_required": user.requires_2fa if user else False,
             "is_verified": session.get('2fa_verified', False),
-            "methods_available": [],
-            "backup_codes_remaining": len(user_2fa.backup_codes) if user_2fa and user_2fa.backup_codes else 0,
-            "is_locked": twofa_service.is_user_locked(user_2fa) if user_2fa else False
+            "methods_available": ["totp"] if user_2fa and user_2fa.is_enabled else []
         }
-        
-        if user_2fa and user_2fa.is_enabled:
-            status["methods_available"].append("totp")
-            if user_2fa.backup_codes:
-                status["methods_available"].append("backup")
         
         return build_success_response(status, start_time)
         
@@ -301,17 +241,10 @@ def disable_2fa():
         if not user_2fa or not user_2fa.is_enabled:
             return build_error_response("2FA not enabled", 400, "2FA_NOT_ENABLED", start_time)
         
-        # Check if user is locked
-        if twofa_service.is_user_locked(user_2fa):
-            return build_error_response("Account locked - cannot disable 2FA", 403, "ACCOUNT_LOCKED", start_time)
-        
         # Verify current 2FA code before disabling
         secret = twofa_service.decrypt_secret(user_2fa.totp_secret)
         if not twofa_service.verify_totp_code(secret, confirmation_code):
-            # Increment failed attempts even for disable attempts
-            twofa_service.atomic_increment_failed_attempts(db_session, user_id)
-            db_session.commit()
-            return build_error_response("Invalid 2FA code", 400, "INVALID_CODE", start_time)
+            return build_error_response("Wrong PIN, try again", 400, "WRONG_PIN", start_time)
         
         # Disable 2FA
         db_session.delete(user_2fa)
@@ -337,6 +270,39 @@ def disable_2fa():
         db_session.rollback()
         logger.error(f"Failed to disable 2FA for user {user_id}: {e}")
         return build_error_response("Failed to disable 2FA", 500, "DISABLE_ERROR", start_time)
+    finally:
+        db_session.close()
+
+@twofa_bp.route('/reset', methods=['POST'])
+@login_required
+def reset_2fa():
+    """Reset 2FA settings and start fresh setup"""
+    start_time = time.time()
+    user_id = g.user_id
+    
+    db_session = db.get_session()
+    try:
+        # Delete existing 2FA settings
+        user_2fa = db_session.query(User2FASettings).filter_by(user_id=user_id).first()
+        if user_2fa:
+            db_session.delete(user_2fa)
+        
+        # Clear session verification
+        session.pop('2fa_verified', None)
+        session.pop('2fa_verified_at', None)
+        
+        db_session.commit()
+        
+        logger.info(f"2FA reset for user {user_id}")
+        return build_success_response({
+            "success": True,
+            "message": "2FA reset successfully. You can now set up 2FA again."
+        }, start_time)
+        
+    except Exception as e:
+        db_session.rollback()
+        logger.error(f"Failed to reset 2FA for user {user_id}: {e}")
+        return build_error_response("Failed to reset 2FA", 500, "RESET_ERROR", start_time)
     finally:
         db_session.close()
 
