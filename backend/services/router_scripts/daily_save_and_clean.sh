@@ -8,6 +8,7 @@ BACKUP_DIR="/tmp/nlbwmon/daily"
 MAX_FILES=35  # Keep 35 days of daily backups
 LOG_FILE="$BACKUP_DIR/daily_backup.log"
 PID_FILE="$BACKUP_DIR/daily_backup.pid"
+RESET_FLAG_FILE="$BACKUP_DIR/initial_reset_done"  # Flag to track if initial reset was performed
 
 # Create directories if they don't exist
 mkdir -p "$BACKUP_DIR"
@@ -17,7 +18,7 @@ log() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" >> "$LOG_FILE"
 }
 
-# Function to perform daily backup
+# Function to perform daily backup (23:55)
 perform_daily_backup() {
     local DATE=$(date +%Y-%m-%d)
     local DAILY_FILE="$BACKUP_DIR/daily_$DATE.json"
@@ -52,6 +53,42 @@ perform_daily_backup() {
     cleanup_old_files
     
     log "Daily backup completed successfully"
+    return 0
+}
+
+# Function to perform midnight reset (00:00)
+perform_midnight_reset() {
+    log "Starting midnight reset process"
+    
+    # Check if this is the first reset or if we should let database_interval handle it
+    if [ ! -f "$RESET_FLAG_FILE" ]; then
+        # First time - perform service restart to align with our schedule
+        log "First midnight reset - performing service restart to align with database_interval"
+        if /etc/init.d/nlbwmon restart >/dev/null 2>&1; then
+            log "Successfully restarted nlbwmon service - database_interval cycle now aligned"
+        else
+            log "WARNING: Failed to restart nlbwmon service"
+        fi
+        
+        # Create flag file to indicate initial reset is done
+        touch "$RESET_FLAG_FILE"
+        log "Initial reset completed - future resets will be handled by database_interval automatically"
+    else
+        # Not the first time - let database_interval handle the reset automatically
+        log "Midnight reached - nlbwmon database_interval should automatically reset tracking"
+        log "No manual service restart needed - relying on configured database_interval"
+    fi
+    
+    # Always update database_interval for tomorrow (regardless of restart)
+    local TOMORROW=$(date -d '+1 day' +%Y-%m-%d)
+    log "Configuring database_interval for tomorrow ($TOMORROW) midnight reset"
+    if uci set nlbwmon.@nlbwmon[0].database_interval="$TOMORROW/1" && uci commit nlbwmon >/dev/null 2>&1; then
+        log "Successfully configured database_interval to $TOMORROW/1 for next day's automatic reset"
+    else
+        log "WARNING: Failed to configure database_interval for tomorrow - automatic resets may not work properly"
+    fi
+    
+    log "Midnight reset process completed successfully"
     return 0
 }
 
@@ -103,10 +140,31 @@ calculate_sleep_seconds() {
     fi
 }
 
+# Function to calculate seconds until next 00:00 (midnight)
+calculate_sleep_until_midnight() {
+    local NOW=$(date +%s)
+    local CURRENT_HOUR=$(date +%H)
+    local CURRENT_MIN=$(date +%M)
+    local CURRENT_SEC=$(date +%S)
+    
+    # Convert current time to seconds since midnight
+    local CURRENT_SECONDS=$((CURRENT_HOUR * 3600 + CURRENT_MIN * 60 + CURRENT_SEC))
+    
+    # Calculate seconds until next midnight
+    if [ "$CURRENT_SECONDS" -eq 0 ]; then
+        # Already at midnight
+        echo 0
+    else
+        # Seconds until next midnight (24 hours - elapsed)
+        echo $((86400 - CURRENT_SECONDS))
+    fi
+}
+
 # Function to handle script termination
 cleanup_and_exit() {
     log "Received termination signal, shutting down gracefully"
     rm -f "$PID_FILE"
+    # Note: We intentionally keep RESET_FLAG_FILE to remember that initial reset was done
     exit 0
 }
 
@@ -121,22 +179,49 @@ main_daemon() {
     log "Daily backup daemon started (PID: $$)"
     log "Configuration: BACKUP_DIR=$BACKUP_DIR, MAX_FILES=$MAX_FILES"
     
-    # Main loop - runs forever
+    # Configure nlbwmon database_interval for daily midnight resets on startup
+    log "Configuring nlbwmon for daily midnight resets..."
+    local TODAY=$(date +%Y-%m-%d)
+    if uci set nlbwmon.@nlbwmon[0].database_interval="$TODAY/1" && uci commit nlbwmon >/dev/null 2>&1; then
+        log "Successfully configured database_interval to $TODAY/1 for daily midnight resets"
+        # Restart nlbwmon to apply the new database_interval configuration
+        if /etc/init.d/nlbwmon restart >/dev/null 2>&1; then
+            log "nlbwmon service restarted with new database_interval configuration"
+        else
+            log "WARNING: Failed to restart nlbwmon service after database_interval configuration"
+        fi
+    else
+        log "WARNING: Failed to configure database_interval - continuing with default behavior"
+    fi
+    
+    # Main loop - runs forever with two-step process: backup at 23:55, reset at 00:00
     while true; do
-        # Calculate how long to sleep until next 23:55
+        # Step 1: Sleep until next 23:55 for backup
         local SLEEP_SECONDS=$(calculate_sleep_seconds)
         local HOURS=$((SLEEP_SECONDS / 3600))
         local MINUTES=$(((SLEEP_SECONDS % 3600) / 60))
         
         log "Next backup in ${HOURS}h ${MINUTES}m (sleeping $SLEEP_SECONDS seconds)"
         
-        # Sleep until next backup time
+        # Sleep until backup time
         sleep "$SLEEP_SECONDS"
         
         # Perform the daily backup
         perform_daily_backup
         
-        # After backup, sleep for 70 seconds to avoid running twice in the same minute
+        # Step 2: Sleep until midnight (00:00) for reset
+        local SLEEP_UNTIL_MIDNIGHT=$(calculate_sleep_until_midnight)
+        local MINUTES_UNTIL_MIDNIGHT=$((SLEEP_UNTIL_MIDNIGHT / 60))
+        
+        log "Backup completed. Sleeping ${MINUTES_UNTIL_MIDNIGHT} minutes until midnight reset..."
+        
+        # Sleep until midnight
+        sleep "$SLEEP_UNTIL_MIDNIGHT"
+        
+        # Perform midnight reset
+        perform_midnight_reset
+        
+        # Sleep for 70 seconds to avoid running twice in the same minute
         # This handles edge cases with daylight saving time or leap seconds
         sleep 70
     done
@@ -179,26 +264,26 @@ case "${1:-start}" in
         ;;
     
     stop)
+    if is_daemon_running; then
+        PID=$(cat "$PID_FILE")  # Remove 'local' keyword
+        echo "Stopping daily backup daemon (PID: $PID)..."
+        kill "$PID" 2>/dev/null
+        sleep 2
         if is_daemon_running; then
-            local PID=$(cat "$PID_FILE")
-            echo "Stopping daily backup daemon (PID: $PID)..."
-            kill "$PID" 2>/dev/null
-            sleep 2
-            if is_daemon_running; then
-                echo "Daemon didn't stop gracefully, force killing..."
-                kill -9 "$PID" 2>/dev/null
-                rm -f "$PID_FILE"
-            fi
-            echo "Daily backup daemon stopped"
-            log "Daemon stopped via '$0 stop' command"
-        else
-            echo "Daily backup daemon is not running"
+            echo "Daemon didn't stop gracefully, force killing..."
+            kill -9 "$PID" 2>/dev/null
+            rm -f "$PID_FILE"
         fi
+        echo "Daily backup daemon stopped"
+        log "Daemon stopped via '$0 stop' command"
+    else
+        echo "Daily backup daemon is not running"
+    fi
         ;;
     
     status)
         if is_daemon_running; then
-            local PID=$(cat "$PID_FILE")
+            PID=$(cat "$PID_FILE")  # Remove 'local' keyword
             echo "Daily backup daemon is running (PID: $PID)"
             echo "Log file: $LOG_FILE"
             echo "Backup directory: $BACKUP_DIR"
@@ -225,17 +310,36 @@ case "${1:-start}" in
         fi
         ;;
     
+    reset)
+        echo "Resetting daemon state..."
+        if is_daemon_running; then
+            echo "ERROR: Cannot reset while daemon is running. Stop the daemon first."
+            exit 1
+        fi
+        
+        # Remove reset flag to force service restart on next midnight
+        if [ -f "$RESET_FLAG_FILE" ]; then
+            rm -f "$RESET_FLAG_FILE"
+            echo "Reset flag cleared - next midnight will perform service restart"
+            log "Reset flag manually cleared via '$0 reset' command"
+        else
+            echo "Reset flag was not set - next midnight will perform service restart anyway"
+        fi
+        ;;
+    
     *)
-        echo "Usage: $0 {start|stop|status|test}"
+        echo "Usage: $0 {start|stop|status|test|reset}"
         echo ""
         echo "Commands:"
         echo "  start  - Start the daily backup daemon"
-        echo "  stop   - Stop the daily backup daemon"
+        echo "  stop   - Stop the daily backup daemon" 
         echo "  status - Show daemon status and recent logs"
         echo "  test   - Run a test backup immediately"
+        echo "  reset  - Clear reset flag (force service restart on next midnight)"
         echo ""
         echo "The daemon will run forever and perform daily backups at 23:55"
         echo "It will keep the last $MAX_FILES daily backup files"
+        echo "Midnight resets: First reset uses service restart, then automatic via database_interval"
         exit 1
         ;;
 esac

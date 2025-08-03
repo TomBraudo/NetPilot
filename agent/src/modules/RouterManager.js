@@ -290,6 +290,10 @@ class RouterManager {
           await this.executeCommand('uci set nlbwmon.@nlbwmon[0].database_limit="50000"'); // Increased for 30-day retention
           await this.executeCommand('uci set nlbwmon.@nlbwmon[0].netlink_buffer_size="524288"');
           
+          // Configure database_interval for daily midnight resets (accounting periods)
+          const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+          await this.executeCommand(`uci set nlbwmon.@nlbwmon[0].database_interval="${today}/1"`); // Reset daily at midnight
+          
           // Set local networks for home OpenWrt networks (192.168.1.x range only)
           await this.executeCommand('uci add_list nlbwmon.@nlbwmon[0].local_network="192.168.1.0/24"');
           await this.executeCommand('uci add_list nlbwmon.@nlbwmon[0].local_network="lan"');
