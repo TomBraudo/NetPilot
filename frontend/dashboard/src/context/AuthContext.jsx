@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { sessionAPI } from '../constants/api';
+import { sessionAPI, twoFAAPI } from '../constants/api';
 
 const AuthContext = createContext();
 
@@ -21,6 +21,13 @@ export const AuthProvider = ({ children }) => {
   const [routerIdChecked, setRouterIdChecked] = useState(false); // Track if we've checked for router ID
   const [sessionStarted, setSessionStarted] = useState(false); // Track if session has been started
   const [authFlowCompleted, setAuthFlowCompleted] = useState(false); // Track if auth flow has been completed
+  
+  // 2FA State
+  const [twoFARequired, setTwoFARequired] = useState(false);
+  const [twoFAStatus, setTwoFAStatus] = useState(null);
+  const [showTwoFAModal, setShowTwoFAModal] = useState(false);
+  const [showTwoFASetupModal, setShowTwoFASetupModal] = useState(false);
+  const [twoFASetupData, setTwoFASetupData] = useState(null);
 
   const API_BASE_URL = 'http://localhost:5000';
 
@@ -37,10 +44,34 @@ export const AuthProvider = ({ children }) => {
         const userData = await response.json();
         console.log('User data received:', userData);
         setUser(userData);
+        
+        // Handle 2FA requirements based on user data
+        if (userData.requires_2fa && !userData.is_2fa_verified) {
+          console.log('2FA required for user:', userData.email);
+          setTwoFARequired(true);
+          if (userData.has_2fa_enabled) {
+            console.log('User has 2FA enabled - showing verification modal');
+            setShowTwoFAModal(true);
+            setShowTwoFASetupModal(false);
+          } else {
+            console.log('User needs to set up 2FA - showing setup modal');
+            setShowTwoFASetupModal(true);
+            setShowTwoFAModal(false);
+          }
+        } else {
+          console.log('No 2FA required or already verified');
+          setTwoFARequired(false);
+          setShowTwoFAModal(false);
+          setShowTwoFASetupModal(false);
+        }
+        
         return userData; // Return user data for chaining
       } else {
         console.log('Auth failed, setting user to null');
         setUser(null);
+        setTwoFARequired(false);
+        setShowTwoFAModal(false);
+        setShowTwoFASetupModal(false);
         return null;
       }
     } catch (error) {
@@ -102,6 +133,14 @@ export const AuthProvider = ({ children }) => {
         setRouterIdChecked(false);
         setSessionStarted(false);
         setAuthFlowCompleted(false); // Reset flag for re-authentication
+        
+        // Clear 2FA state
+        setTwoFARequired(false);
+        setTwoFAStatus(null);
+        setShowTwoFAModal(false);
+        setShowTwoFASetupModal(false);
+        setTwoFASetupData(null);
+        
         localStorage.removeItem('routerId');
         // Redirect to dashboard
         window.location.href = '/';
@@ -117,6 +156,14 @@ export const AuthProvider = ({ children }) => {
       setRouterIdChecked(false);
       setSessionStarted(false);
       setAuthFlowCompleted(false); // Reset flag for re-authentication
+      
+      // Clear 2FA state
+      setTwoFARequired(false);
+      setTwoFAStatus(null);
+      setShowTwoFAModal(false);
+      setShowTwoFASetupModal(false);
+      setTwoFASetupData(null);
+      
       localStorage.removeItem('routerId');
       window.location.href = '/';
     }
@@ -439,6 +486,121 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // 2FA Functions
+  const start2FASetup = async () => {
+    try {
+      console.log('🔐 Starting 2FA setup...');
+      const response = await twoFAAPI.startSetup();
+      console.log('2FA setup data received:', response);
+      setTwoFASetupData(response.data);
+      return response.data;
+    } catch (error) {
+      console.error('2FA setup start failed:', error);
+      throw error;
+    }
+  };
+
+  const verify2FASetup = async (code) => {
+    try {
+      console.log('🔐 Verifying 2FA setup with code:', code);
+      const response = await twoFAAPI.verifySetup(code, twoFASetupData?.setup_token);
+      console.log('2FA setup verification successful:', response);
+      
+      // Clear setup state and refresh user data
+      setTwoFARequired(false);
+      setShowTwoFASetupModal(false);
+      setTwoFASetupData(null);
+      
+      // Refresh user data to get updated 2FA status
+      await checkAuthStatus();
+      
+      return response.data;
+    } catch (error) {
+      console.error('2FA setup verification failed:', error);
+      throw error;
+    }
+  };
+
+  const verify2FA = async (code) => {
+    try {
+      console.log('🔐 Verifying 2FA code...');
+      const response = await twoFAAPI.verify(code);
+      console.log('2FA verification successful:', response);
+      
+      // Clear verification state and refresh user data
+      setTwoFARequired(false);
+      setShowTwoFAModal(false);
+      
+      // Refresh user data to update verification status
+      await checkAuthStatus();
+      
+      return response.data;
+    } catch (error) {
+      console.error('2FA verification failed:', error);
+      throw error;
+    }
+  };
+
+  const get2FAStatus = async () => {
+    try {
+      console.log('🔐 Getting 2FA status...');
+      const response = await twoFAAPI.getStatus();
+      console.log('2FA status received:', response);
+      setTwoFAStatus(response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Failed to get 2FA status:', error);
+      throw error;
+    }
+  };
+
+  const reset2FA = async () => {
+    try {
+      console.log('🔐 Resetting 2FA...');
+      const response = await fetch(`${API_BASE_URL}/api/2fa/reset`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        console.log('2FA reset successful:', data);
+        
+        // Clear 2FA state and show setup modal
+        setTwoFARequired(false);
+        setShowTwoFAModal(false);
+        setTwoFAStatus(null);
+        setTwoFASetupData(null);
+        
+        // Show setup modal for fresh start
+        setShowTwoFASetupModal(true);
+        
+        return data.data;
+      } else {
+        throw new Error('Failed to reset 2FA');
+      }
+    } catch (error) {
+      console.error('2FA reset failed:', error);
+      throw error;
+    }
+  };
+
+  const disable2FA = async (confirmationCode) => {
+    try {
+      console.log('🔐 Disabling 2FA...');
+      const response = await twoFAAPI.disable(confirmationCode);
+      console.log('2FA disabled successfully:', response);
+      
+      // Refresh user data to update 2FA status
+      await checkAuthStatus();
+      
+      return response.data;
+    } catch (error) {
+      console.error('Failed to disable 2FA:', error);
+      throw error;
+    }
+  };
+
   useEffect(() => {
     if (authFlowCompleted) {
       console.log('🔧 Auth flow already completed, skipping initialization');
@@ -448,6 +610,8 @@ export const AuthProvider = ({ children }) => {
     // Check for login success parameter
     const urlParams = new URLSearchParams(window.location.search);
     const loginSuccess = urlParams.get('login');
+    const requires2FA = urlParams.get('requires_2fa') === 'true';
+    const action = urlParams.get('action'); // 'setup' or 'verify'
     
     console.log('URL params:', Object.fromEntries(urlParams.entries()));
     
@@ -489,19 +653,25 @@ export const AuthProvider = ({ children }) => {
         
         // Only proceed if we have authenticated user data
         if (authenticatedUserData) {
-          console.log('🔄 STEP 2: Authentication FULLY complete, checking router ID...');
+          console.log('🔄 STEP 2: Authentication complete, checking 2FA and router ID...');
           
           // Additional wait to ensure backend session is fully synchronized
           await new Promise(resolve => setTimeout(resolve, 2000));
           
-          console.log('🔄 STEP 3: Fetching router ID from backend...');
-          const hasRouterId = await fetchRouterIdFromBackend(3, authenticatedUserData);
-          
-          if (!hasRouterId) {
-            console.log('⚠️  No router ID found, popup will be shown later');
-            // The popup will be shown by the next useEffect
+          // Check if 2FA is required and not verified
+          if (!requires2FA || authenticatedUserData.is_2fa_verified) {
+            console.log('🔄 STEP 3: No 2FA required or already verified, fetching router ID...');
+            const hasRouterId = await fetchRouterIdFromBackend(3, authenticatedUserData);
+            
+            if (!hasRouterId) {
+              console.log('⚠️  No router ID found, popup will be shown later');
+            } else {
+              console.log('✅ Router ID found and session started successfully');
+            }
           } else {
-            console.log('✅ Router ID found and session started successfully');
+            console.log('⚠️  2FA verification required, waiting for user input...');
+            console.log('   2FA status - required:', authenticatedUserData.requires_2fa, 'verified:', authenticatedUserData.is_2fa_verified);
+            // The 2FA modal will be shown by checkAuthStatus, and router ID flow will continue after verification
           }
         } else {
           console.error('❌ No authenticated user data available');
@@ -554,6 +724,21 @@ export const AuthProvider = ({ children }) => {
     }
   }, [user, routerId, routerIdChecked, sessionStarted]);
 
+  // Handle router ID flow after 2FA verification
+  useEffect(() => {
+    if (user && user.requires_2fa && user.is_2fa_verified && !routerIdChecked && !twoFARequired) {
+      console.log('🔐 2FA verification complete, proceeding with router ID flow...');
+      console.log('🔧 User:', user.email);
+      console.log('🔧 2FA verified:', user.is_2fa_verified);
+      
+      // Proceed with router ID fetching
+      const continueAfter2FA = async () => {
+        await fetchRouterIdFromBackend(3, user);
+      };
+      
+      continueAfter2FA();
+    }
+  }, [user?.is_2fa_verified, twoFARequired, routerIdChecked]);
 
 
   const value = {
@@ -572,6 +757,21 @@ export const AuthProvider = ({ children }) => {
     startCommandsServerSession,
     saveRouterIdToLocalStorage,
     startSessionAfterRouterIdSaved,
+    
+    // 2FA state and functions
+    twoFARequired,
+    twoFAStatus,
+    showTwoFAModal,
+    setShowTwoFAModal,
+    showTwoFASetupModal,
+    setShowTwoFASetupModal,
+    twoFASetupData,
+    start2FASetup,
+    verify2FASetup,
+    verify2FA,
+    get2FAStatus,
+    reset2FA,
+    disable2FA,
   };
 
   return (
