@@ -18,6 +18,7 @@ from endpoints.network import network_bp
 from endpoints.session import session_bp
 from endpoints.settings import settings_bp
 from endpoints.twofa import twofa_bp
+from endpoints.monitor import monitor_bp
 
 def create_app(dev_mode=False, dev_user_id=None):
     """Create and configure the Flask application
@@ -89,7 +90,10 @@ def create_app(dev_mode=False, dev_user_id=None):
     app.register_blueprint(network_bp, url_prefix='/api/network')
     app.register_blueprint(session_bp, url_prefix='/api/session')
     app.register_blueprint(settings_bp, url_prefix='/api/settings')
+
     app.register_blueprint(twofa_bp, url_prefix='/api/2fa')
+
+    app.register_blueprint(monitor_bp)  # monitor_bp already has url_prefix='/api/monitor'
     
     # Root route
     @app.route('/')

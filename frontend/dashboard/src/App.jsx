@@ -10,6 +10,7 @@ import Dashboard from "./UI/Pages/Dashboard";
 import DashboardPage from "./UI/Pages/DashboardPage";
 import AboutPage from "./UI/Pages/AboutPage";
 import SettingsPage from "./UI/Pages/SettingsPage";
+import DevicesPage from "./UI/Pages/DevicesPage";
 import AuthRedirectHandler from "./components/AuthRedirectHandler";
 import TwoFASetupModal from "./components/TwoFASetupModal";
 import TwoFAVerificationModal from "./components/TwoFAVerificationModal";
@@ -44,6 +45,7 @@ const AppLayout = ({
           <Routes>
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/scan" element={<ScanPage />} />
+            <Route path="/devices" element={<DevicesPage />} />
             <Route path="/control" element={<ControlPage />} />
             {/* <Route path="/scanTest" element={<ScanTest />} /> */}
             <Route path="/about" element={<AboutPage />} />

@@ -11,11 +11,9 @@ from services.blacklist_service import (
     deactivate_blacklist_mode,
 )
 import time
-from managers.router_connection_manager import RouterConnectionManager
 
 blacklist_bp = Blueprint('blacklist', __name__)
 logger = get_logger('endpoints.blacklist')
-router_connection_manager = RouterConnectionManager()
 
 @blacklist_bp.route("/", methods=["GET"])
 def get_blacklist_route():
