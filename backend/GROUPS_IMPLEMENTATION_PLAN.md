@@ -99,29 +99,30 @@ This plan outlines the implementation of group-based policy management in the co
 ---
 
 ## 📋 **Phase 2: State File Infrastructure**
-*Duration: Days 2-3*
+*Duration: Days 2-3* ✅ **COMPLETE**
 
 ### **2.1 State File Schema Migration**
-- [ ] **CRITICAL: Fix StateFileManager race condition** - Convert from singleton to request-scoped instances
-- [ ] Create `get_state_manager()` helper function using Flask's `g` object
-- [ ] Update all StateFileManager usage to use `get_state_manager()` instead of direct instantiation
-- [ ] Update unit tests to mock Flask's `g` object properly
-- [ ] Design new state file JSON schema with groups structure
-- [ ] Create migration script from current state file format
-- [ ] Implement backup mechanism for state file changes
-- [ ] Add state file versioning for future migrations
+- [x] **CRITICAL: Fix StateFileManager race condition** - Converted from singleton to request-scoped instances
+- [x] Create `get_state_manager()` helper function using Flask's `g` object
+- [x] Update all StateFileManager usage to use `get_state_manager()` instead of direct instantiation
+- [x] Update unit tests to mock Flask's `g` object properly
+- [x] Design new state file JSON schema with groups structure
+- [x] **NEW FORMAT IMPLEMENTATION: Implement improved state file format with policy encapsulation**
+- [x] **STATIC TC ALLOCATION: Replace dynamic TC allocation with static groupId+100 formula**
+- [x] **OBSOLETE METHODS REMOVAL: Remove allocate_tc_class(), release_tc_class(), and _release_tc_class_internal()**
+- [x] **VALIDATION UPDATES: Update check_state_format() and _validate_state_structure() for new format**
 
 ### **2.2 Group 0 (Guest Group) Setup**
-- [ ] Ensure Group 0 always exists in state file
-- [ ] Implement Group 0 default configuration
-- [ ] Add Group 0 protection (cannot be deleted)
-- [ ] Set up TC class `1:100` and mark value `100` for Group 0
+- [x] Ensure Group 0 always exists in state file
+- [x] Implement Group 0 default configuration
+- [x] Add Group 0 protection (cannot be deleted)
+- [x] Set up TC class `1:100` and mark value `100` for Group 0 (static allocation)
 
 ### **2.3 Infrastructure Tracking** 
-- [ ] Add infrastructure status tracking in state file
-- [ ] Implement available TC classes pool management
-- [ ] Add base setup completion tracking
-- [ ] Implement next mark value allocation logic
+- [x] Add infrastructure status tracking in state file (updated to new format)
+- [x] **SIMPLIFIED INFRASTRUCTURE: Replace dynamic TC pool with bandwidth/DNS infrastructure flags**
+- [x] Add base setup completion tracking
+- [x] **STATIC ALLOCATION: Remove next mark value tracking (replaced with groupId+100 formula)**
 
 ---
 

@@ -54,6 +54,11 @@
         "from": "src/",
         "to": "src/",
         "filter": ["**/*"]
+      },
+      {
+        "from": "scripts/",
+        "to": "scripts/",
+        "filter": ["install.sh"]
       }
     ],
     "nodeGypRebuild": false,

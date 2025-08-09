@@ -61,6 +61,12 @@ def before_request_hook():
     response = verify_session_and_router()
     if response is not None:
         return response
+    
+    # Create request-scoped StateFileManager to prevent race conditions
+    # This ensures each request gets its own instance with isolated cache
+    if hasattr(g, 'router_id') and g.router_id:
+        from managers.state_file_manager import StateFileManager
+        g.state_manager = StateFileManager.create_request_scoped_instance()
 
 # --------------------------------------------------------------------------
 # Create and attach the RouterConnectionManager to the app context

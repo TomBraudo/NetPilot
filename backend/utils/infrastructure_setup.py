@@ -50,7 +50,7 @@ def _setup_state_file(router_connection_manager):
     """
     from managers.state_file_manager import StateFileManager
     
-    state_manager = StateFileManager()
+    state_manager = StateFileManager.get_state_manager()
     
     # Check if state file is in new format
     if not state_manager.check_state_format():
@@ -289,7 +289,7 @@ def check_existing_infrastructure():
     from managers.state_file_manager import StateFileManager
     
     router_connection_manager = RouterConnectionManager()
-    state_manager = StateFileManager()
+    state_manager = StateFileManager.get_state_manager()
     missing_components = []
     issues = []
     

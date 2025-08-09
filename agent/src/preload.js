@@ -25,6 +25,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   testRouterConnection: (credentials) => ipcRenderer.invoke('test-router-connection', credentials),
   installRouterPackages: (credentials) => ipcRenderer.invoke('install-router-packages', credentials),
   enableWifi: (credentials) => ipcRenderer.invoke('enable-wifi', credentials),
+  ensureAdGuardHome: (credentials) => ipcRenderer.invoke('ensure-adguard-home', credentials),
   
   // Package verification
   verifyNetPilotCompatibility: (credentials) => ipcRenderer.invoke('verify-netpilot-compatibility', credentials),

@@ -1,4 +1,6 @@
 const { NodeSSH } = require('node-ssh');
+const path = require('path');
+const fs = require('fs');
 const logger = require('../utils/Logger');
 
 class RouterManager {
@@ -63,42 +65,23 @@ class RouterManager {
       this.isConnected = true;
       this.currentConnection = credentials;
 
-      // Define MINIMAL required packages (optimized for low-storage routers)
+      // Define MINIMAL required packages (updated for nft-qos and AGH installer support)
       const packages = [
         // CRITICAL for tunnel establishment
         'openssh-client',    // SSH client for reverse tunnels
-        'autossh',          // Persistent SSH tunnels
-        'sshpass',          // Password authentication for SSH tunnels
-        'coreutils-nohup',  // Proper process detachment for autossh
-        
-        // ESSENTIAL for NetPilot core functionality  
-        'iptables',         // Firewall rules (device blocking) - may install as iptables-nft
-        'tc',               // Traffic control (bandwidth limiting) - may install as tc-bpf
-        'kmod-sched-core',  // Core traffic scheduling (minimal scheduler)
-        
-        // ADDED BACK: ip-full is required for the 'arp' command used in network scanning.
-        // The default BusyBox 'arp' is not always available or sufficient.
-        'ip-full',
-        
-        // MANDATORY for bandwidth monitoring and statistics
-        'nlbwmon',          // Per-device bandwidth monitoring (~50KB)
-        'luci-app-nlbwmon', // LuCI web interface for nlbwmon (~25KB)
-        
-        // REMOVED for extreme memory optimization:
-        // 'uci',              // Usually pre-installed on OpenWrt
-        // 'procps-ng-pkill',  // Will use BusyBox alternatives (ps|grep|awk|xargs|kill)
-        // 'dropbear'          // Usually pre-installed on OpenWrt
-        
-        // PREVIOUSLY REMOVED:
-        // 'firewall4',         // Not directly used in NetPilot commands
-        // 'iptables-mod-ipopt', // Not used in current NetPilot services
-        // 'kmod-sched',        // kmod-sched-core is sufficient
-        // 'dnsmasq',           // Usually pre-installed on OpenWrt
-        // 'odhcpd-ipv6only',   // Usually pre-installed on OpenWrt
-        // 'curl',              // Not used in current backend services
-        // 'wget',              // Not used in current backend services
-        // 'ca-certificates',   // 141KB - causing the storage failure
-        // 'cron'               // Not used in current NetPilot services
+        'autossh',           // Persistent SSH tunnels
+        'sshpass',           // Password authentication for SSH tunnels
+        'coreutils-nohup',   // Proper process detachment for autossh
+
+        // Networking/tools used by agent and scripts
+        'ip-full',           // Provides full ip/arp tooling
+        'curl',              // Needed by AGH installer/verification scripts
+
+        // Bandwidth monitoring (CLI only)
+        'nlbwmon',           // Per-device bandwidth monitoring
+
+        // New QoS method (CLI only)
+        'nft-qos'            // nftables-based QoS (no LuCI app)
       ];
 
       // Update package lists
@@ -136,7 +119,7 @@ class RouterManager {
 
       // Verify critical packages are installed
       logger.router('Verifying critical packages...');
-      const criticalPackages = ['openssh-client', 'autossh', 'coreutils-nohup', 'iptables', 'tc', 'nlbwmon'];
+      const criticalPackages = ['openssh-client', 'autossh', 'coreutils-nohup', 'nlbwmon', 'nft-qos', 'curl'];
       for (const pkg of criticalPackages) {
         const isInstalled = await this.checkPackageInstalled(pkg);
         if (!isInstalled) {
@@ -239,8 +222,8 @@ class RouterManager {
       await this.executeCommand('uci commit dropbear');
       logger.router('Dropbear SSH service enabled and started.');
 
-      // Configure firewall for NetPilot operations
-      logger.router('Configuring firewall...');
+      // Configure firewall defaults (retain permissive defaults as before)
+      logger.router('Configuring firewall defaults...');
       await this.executeCommand('uci set firewall.@defaults[0].input="ACCEPT"');
       await this.executeCommand('uci set firewall.@defaults[0].output="ACCEPT"');
       await this.executeCommand('uci set firewall.@defaults[0].forward="ACCEPT"');
@@ -328,18 +311,16 @@ class RouterManager {
     };
 
     try {
-      // Check critical packages (exactly matching the optimized package list)
+      // Check critical packages (updated to nft-qos and no LuCI GUI)
       const criticalPackages = [
-        'openssh-client',    // SSH client for reverse tunnels
+        'openssh-client',   // SSH client for reverse tunnels
         'autossh',          // Persistent SSH tunnels  
         'sshpass',          // Password authentication
         'coreutils-nohup',  // Process detachment
-        'iptables',         // Firewall rules
-        'tc',               // Traffic control
-        'kmod-sched-core',  // Core scheduler
         'ip-full',          // Provides 'arp' command
         'nlbwmon',          // Per-device bandwidth monitoring
-        'luci-app-nlbwmon'  // LuCI interface for bandwidth stats
+        'nft-qos',          // nftables-based QoS
+        'curl'              // For AGH installer validation/API checks
       ];
       for (const pkg of criticalPackages) {
         try {
@@ -395,6 +376,125 @@ class RouterManager {
         error: error.message
       };
     }
+  }
+
+  /**
+   * Copy the AdGuard Home installer script to the router and ensure AGH is installed and configured.
+   * If verification fails, run the script with FORCE=1 and re-verify.
+   */
+  async ensureAdGuardHome(credentials) {
+    logger.router('Ensuring AdGuard Home is installed and configured...');
+    try {
+      // Ensure connection
+      if (!this.isConnected) {
+        await this.ssh.connect({
+          host: credentials.host,
+          username: credentials.username,
+          password: credentials.password,
+          port: credentials.port || 22,
+          readyTimeout: 30000
+        });
+        this.isConnected = true;
+      }
+
+      // Copy installer script
+      await this.copyInstallScriptToRouter();
+
+      // Verify current AGH setup
+      let status = await this.verifyAdGuardHomeStatus();
+      const allOk = status.processRunning && status.logsAndStatsDisabled && status.guiBoundLocal && status.port53Listening && status.dnsWorking;
+
+      if (!allOk) {
+        logger.router('AdGuard Home not in desired state, running installer with FORCE=1...');
+        await this.executeCommand('FORCE=1 sh /root/netpilot_install_agh.sh');
+
+        // Give service a moment to settle
+        await new Promise(r => setTimeout(r, 3000));
+
+        // Re-verify
+        status = await this.verifyAdGuardHomeStatus();
+      }
+
+      return {
+        success: status.processRunning && status.logsAndStatsDisabled && status.guiBoundLocal && status.port53Listening && status.dnsWorking,
+        status
+      };
+
+    } catch (error) {
+      logger.error('Failed to ensure AdGuard Home:', error);
+      throw new Error(`AdGuard Home ensure failed: ${error.message}`);
+    }
+  }
+
+  async copyInstallScriptToRouter() {
+    // Resolve installer path both in dev and packaged modes
+    // 1) Packaged portable exe: script is copied to resources under portable EXE dir
+    //    Use process.resourcesPath if available; otherwise, fall back to relative paths.
+    const candidatePaths = [];
+    if (process.resourcesPath) {
+      candidatePaths.push(path.join(process.resourcesPath, 'scripts', 'install.sh'));
+    }
+    candidatePaths.push(path.join(__dirname, '../../scripts/install.sh'));
+    candidatePaths.push(path.join(process.cwd(), 'scripts', 'install.sh'));
+
+    let localPath = null;
+    for (const p of candidatePaths) {
+      try { if (fs.existsSync(p)) { localPath = p; break; } } catch (_) {}
+    }
+    if (!localPath) {
+      throw new Error('Could not locate install.sh in packaged resources or project scripts directory');
+    }
+    const remotePath = '/root/netpilot_install_agh.sh';
+
+    logger.router(`Copying installer to router: ${remotePath}`);
+    await this.ssh.putFile(localPath, remotePath);
+    await this.executeCommand(`chmod +x ${remotePath}`);
+  }
+
+  async verifyAdGuardHomeStatus() {
+    logger.router('Verifying AdGuard Home status on router...');
+    const checks = {
+      processRunning: false,
+      logsAndStatsDisabled: false,
+      guiBoundLocal: false,
+      port53Listening: false,
+      dnsWorking: false
+    };
+
+    // Detect service name
+    const svc = await this.ssh.execCommand('[ -x /etc/init.d/AdGuardHome ] && echo "/etc/init.d/AdGuardHome" || ([ -x /etc/init.d/adguardhome ] && echo "/etc/init.d/adguardhome" || echo "")');
+    const servicePath = (svc.stdout || '').trim();
+
+    // 1) Process running
+    const proc = await this.ssh.execCommand('pgrep -fa AdGuardHome 2>/dev/null || true');
+    let running = !!proc.stdout.trim();
+    if (!running && servicePath) {
+      const st = await this.ssh.execCommand(`${servicePath} status 2>/dev/null || true`);
+      running = /running/i.test(st.stdout || '');
+    }
+    checks.processRunning = running;
+
+    // 2) querylogs/statistics off, GUI off (bind 127.0.0.1:3000)
+    const cfgPath = '/opt/AdGuardHome/AdGuardHome.yaml';
+    const cfg = await this.ssh.execCommand(`[ -f ${cfgPath} ] && cat ${cfgPath} || echo ''`);
+    const yaml = cfg.stdout || '';
+    checks.logsAndStatsDisabled = /\bquerylog:\b[\s\S]*?\benabled:\s*false/i.test(yaml) && /\bstatistics:\b[\s\S]*?\benabled:\s*false/i.test(yaml);
+    checks.guiBoundLocal = /\bhttp:\b[\s\S]*?\baddress:\s*127\.0\.0\.1:3000/i.test(yaml);
+
+    // 3) port 53 listening
+    const port53 = await this.ssh.execCommand('command -v ss >/dev/null 2>&1 && ss -lntu | grep -E ":53[[:space:]]" || netstat -lntu 2>/dev/null | grep -E ":53[[:space:]]" || true');
+    checks.port53Listening = !!port53.stdout.trim();
+
+    // 4) DNS working
+    let dns = await this.ssh.execCommand('command -v nslookup >/dev/null 2>&1 && nslookup openwrt.org 127.0.0.1 >/dev/null 2>&1 && echo ok || echo no');
+    if (!/ok/.test(dns.stdout || '')) {
+      // Fallback: ping which relies on resolver if nslookup missing
+      dns = await this.ssh.execCommand('ping -c 1 -W 3 openwrt.org >/dev/null 2>&1 && echo ok || echo fail');
+    }
+    checks.dnsWorking = /ok/.test(dns.stdout || '');
+
+    logger.router(`AGH status: ${JSON.stringify(checks)}`);
+    return checks;
   }
 
   async getRouterInfo(sshConnection = null) {
