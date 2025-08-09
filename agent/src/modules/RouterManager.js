@@ -81,7 +81,10 @@ class RouterManager {
         'nlbwmon',           // Per-device bandwidth monitoring
 
         // New QoS method (CLI only)
-        'nft-qos'            // nftables-based QoS (no LuCI app)
+        'nft-qos',           // nftables-based QoS (no LuCI app)
+
+        // Local web server for category lists
+        'uhttpd'
       ];
 
       // Update package lists
@@ -119,12 +122,20 @@ class RouterManager {
 
       // Verify critical packages are installed
       logger.router('Verifying critical packages...');
-      const criticalPackages = ['openssh-client', 'autossh', 'coreutils-nohup', 'nlbwmon', 'nft-qos', 'curl'];
+      const criticalPackages = ['openssh-client', 'autossh', 'coreutils-nohup', 'nlbwmon', 'nft-qos', 'curl', 'uhttpd'];
       for (const pkg of criticalPackages) {
         const isInstalled = await this.checkPackageInstalled(pkg);
         if (!isInstalled) {
           throw new Error(`Critical package ${pkg} failed to install`);
         }
+      }
+
+      // Ensure local web server is running for AGH category lists
+      try {
+        logger.router('Starting uhttpd web server...');
+        await this.executeCommand('/etc/init.d/uhttpd start 2>/dev/null || true');
+      } catch (e) {
+        logger.warn('Failed to start uhttpd:', e.message);
       }
 
       // Configure router for NetPilot functionality
@@ -385,6 +396,14 @@ class RouterManager {
   async ensureAdGuardHome(credentials) {
     logger.router('Ensuring AdGuard Home is installed and configured...');
     try {
+      // Optional: allow skipping ensure for demos via env/config flag
+      const skip = (this.configManager && this.configManager.get('skipAghEnsure')) ||
+                   process.env.SKIP_AGH_ENSURE === '1' ||
+                   /^(true|yes)$/i.test(process.env.SKIP_AGH_ENSURE || '');
+      if (skip) {
+        logger.router('SKIP_AGH_ENSURE is set – skipping AdGuard Home ensure step');
+        return { success: true, skipped: true };
+      }
       // Ensure connection
       if (!this.isConnected) {
         await this.ssh.connect({
@@ -397,14 +416,17 @@ class RouterManager {
         this.isConnected = true;
       }
 
-      // Copy installer script
-      await this.copyInstallScriptToRouter();
-
-      // Verify current AGH setup
+      // Verify first – if already healthy, skip installer altogether
       let status = await this.verifyAdGuardHomeStatus();
       const allOk = status.processRunning && status.logsAndStatsDisabled && status.guiBoundLocal && status.port53Listening && status.dnsWorking;
 
       if (!allOk) {
+        // Copy installer script (may throw if not bundled)
+        await this.copyInstallScriptToRouter();
+
+        // Perform one-time AGH categorized filtering bootstrap (creates dirs, uploads lists, subscribes)
+        await this.bootstrapAghCategories();
+
         logger.router('AdGuard Home not in desired state, running installer with FORCE=1...');
         await this.executeCommand('FORCE=1 sh /root/netpilot_install_agh.sh');
 
@@ -495,6 +517,71 @@ class RouterManager {
 
     logger.router(`AGH status: ${JSON.stringify(checks)}`);
     return checks;
+  }
+
+  // One-time AGH categorized filtering bootstrap
+  async bootstrapAghCategories() {
+    logger.router('Bootstrapping AGH categorized filtering (one-time)...');
+    // Ensure /www exists and uhttpd running
+    await this.executeCommand('mkdir -p /www/agh-cats/raw /www/agh-cats/derived');
+    await this.executeCommand('/etc/init.d/uhttpd start 2>/dev/null || true');
+
+    // Upload base category raw lists from packaged resources
+    const localDirCandidates = [];
+    if (process.resourcesPath) {
+      localDirCandidates.push(path.join(process.resourcesPath, 'agh_categories'));
+    }
+    localDirCandidates.push(path.join(__dirname, '../../agh_categories'));
+    localDirCandidates.push(path.join(process.cwd(), 'agh_categories'));
+
+    let localDir = null;
+    for (const p of localDirCandidates) {
+      try { if (fs.existsSync(p)) { localDir = p; break; } } catch (_) {}
+    }
+    if (!localDir) {
+      logger.warn('AGH categories source directory not found; skipping bootstrap');
+      return;
+    }
+
+    const categories = [
+      { name: 'social_media', file: 'social_media.txt' },
+      { name: 'entertainment', file: 'entertainment.txt' },
+      { name: 'adult_gambling', file: 'adult_gambling.txt' },
+      { name: 'gaming', file: 'gaming.txt' }
+    ];
+
+    for (const c of categories) {
+      const localFile = path.join(localDir, c.file);
+      const remoteRaw = `/www/agh-cats/raw/${c.name}.txt`;
+      const remoteDerived = `/www/agh-cats/derived/${c.name}.txt`;
+
+      try {
+        if (fs.existsSync(localFile)) {
+          await this.ssh.putFile(localFile, remoteRaw);
+        } else {
+          // If local missing, create an empty placeholder to keep pipeline consistent
+          await this.executeCommand(`: > ${remoteRaw}`);
+        }
+
+        // Build derived list with $ctag
+        const buildCmd = `awk -v C='${c.name}' '\
+          /^[[:space:]]*#/ {next} \
+          /^[[:space:]]*$/ {next} \
+          {g=$0; sub(/^[[:space:]]+/,"",g); sub(/[[:space:]]+$/,"",g); if (g ~ /^\|\|/) print g "$ctag=" C; else print "||" g "^$ctag=" C;}' \
+          ${remoteRaw} > ${remoteDerived}`;
+        await this.executeCommand(buildCmd);
+
+        // Subscribe derived list (idempotent-ish: add_url then refresh)
+        await this.executeCommand(`curl -s -X POST http://127.0.0.1:3000/control/filtering/add_url -H 'Content-Type: application/json' -d '{"name":"cat_${c.name}","url":"http://127.0.0.1/agh-cats/derived/${c.name}.txt"}' >/dev/null 2>&1 || true`);
+      } catch (e) {
+        logger.warn(`Category bootstrap failed for ${c.name}: ${e.message}`);
+      }
+    }
+
+    // Refresh filtering lists
+    await this.executeCommand("curl -s -X POST http://127.0.0.1:3000/control/filtering/refresh -H 'Content-Type: application/json' -d '{}' >/dev/null 2>&1 || true");
+
+    logger.router('AGH categorized filtering bootstrap completed');
   }
 
   async getRouterInfo(sshConnection = null) {
