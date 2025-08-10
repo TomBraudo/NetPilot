@@ -31,40 +31,32 @@ def _get_script_content(script_name):
         return None
 
 def _deploy_script_to_router(script_name, router_path, router_connection_manager):
-    """Deploy a single script to router filesystem."""
+    """Deploy a single script to router using RouterConnectionManager.copy_file (scp-like)."""
     try:
-        # Read script content
-        content = _get_script_content(script_name)
-        if not content:
-            return False, f"Failed to read script content for {script_name}"
-        
-        # Create directory on router
-        mkdir_output, mkdir_error = router_connection_manager.execute(f"mkdir -p {ROUTER_SCRIPTS_DIR}")
+        # Ensure scripts dir exists on router
+        _, mkdir_error = router_connection_manager.execute(f"mkdir -p {ROUTER_SCRIPTS_DIR}")
         if mkdir_error:
             return False, f"Failed to create script directory: {mkdir_error}"
-        
-        # Create script on router using heredoc to avoid quote issues
-        deploy_command = f"""cat > {router_path} << 'EOF_NETPILOT_SCRIPT'
-{content}
-EOF_NETPILOT_SCRIPT"""
-        
-        deploy_output, deploy_error = router_connection_manager.execute(deploy_command)
-        if deploy_error:
-            return False, f"Failed to create script file: {deploy_error}"
-        
-        # Make script executable
-        chmod_output, chmod_error = router_connection_manager.execute(f"chmod +x {router_path}")
-        if chmod_error:
-            return False, f"Failed to make script executable: {chmod_error}"
-        
-        # Verify script was created
-        verify_output, verify_error = router_connection_manager.execute(f"[ -f {router_path} ] && echo 'exists' || echo 'missing'")
-        if verify_error or 'missing' in verify_output:
-            return False, f"Script verification failed - file not found"
-        
+
+        # Local path under backend/services/router_scripts/
+        services_dir = os.path.dirname(os.path.dirname(__file__))
+        local_path = os.path.join(services_dir, 'services', 'router_scripts', script_name)
+        if not os.path.isfile(local_path):
+            return False, f"Local script not found: {local_path}"
+
+        # Copy via SFTP using RouterConnectionManager
+        ok, err = router_connection_manager.copy_file(local_path, router_path, make_executable=True, normalize_crlf=True)
+        if not ok:
+            return False, err
+
+        # Final verify on router
+        verify_output, verify_error = router_connection_manager.execute(f"[ -s {router_path} ] && echo 'exists' || echo 'missing'")
+        if verify_error or 'missing' in (verify_output or ''):
+            return False, "Script verification failed - file not found or empty"
+
         logger.info(f"Successfully deployed {script_name} to {router_path}")
         return True, None
-        
+
     except Exception as e:
         logger.error(f"Error deploying script {script_name}: {e}")
         return False, str(e)
@@ -131,9 +123,9 @@ def start_daily_backup_daemon(router_connection_manager):
     """Start the daily backup daemon on router."""
     try:
         logger.info("Starting daily backup daemon")
-        
-        # Execute start command
-        output, error = router_connection_manager.execute(f"{DAILY_BACKUP_SCRIPT} start")
+        # Execute start command with explicit working directory and ./ to avoid PATH/shebang issues
+        output, error = router_connection_manager.execute(
+            f"cd {ROUTER_SCRIPTS_DIR} && ./$(basename {DAILY_BACKUP_SCRIPT}) start")
         
         if error:
             if 'No such file' in error:
@@ -188,17 +180,23 @@ def stop_daily_backup_daemon(router_connection_manager):
         return False, str(e)
 
 def setup_daily_backup_infrastructure(router_connection_manager):
-    """Set up monitoring infrastructure with exact flow: deploy scripts, create folder, start daemon, verify."""
+    """Set up monitoring infrastructure: ensure nlbwmon, deploy scripts, create folders, start daemon, verify."""
     try:
         logger.info("Setting up daily backup infrastructure")
+        # Ensure nlbwmon and core tools are present and running
+        router_connection_manager.execute("opkg update >/dev/null 2>&1 || true")
+        router_connection_manager.execute("opkg status nlbwmon >/dev/null 2>&1 || opkg install -y nlbwmon >/dev/null 2>&1")
+        router_connection_manager.execute("/etc/init.d/nlbwmon enable >/dev/null 2>&1 || true")
+        router_connection_manager.execute("/etc/init.d/nlbwmon start >/dev/null 2>&1 || /etc/init.d/nlbwmon restart >/dev/null 2>&1 || true")
         
         # 4.1: Create scripts folder + copy the scripts
         deploy_success, deploy_error = deploy_daily_backup_scripts(router_connection_manager)
         if not deploy_success:
             return False, f"Script deployment failed: {deploy_error}"
         
-        # 4.2: Create the daily folder (or nothing if exists)
+        # 4.2: Create the script and backup folders (or nothing if exist)
         backup_dir = "/tmp/nlbwmon/daily"
+        router_connection_manager.execute(f"mkdir -p {ROUTER_SCRIPTS_DIR} >/dev/null 2>&1 || true")
         mkdir_output, mkdir_error = router_connection_manager.execute(f"mkdir -p {backup_dir}")
         if mkdir_error:
             logger.warning(f"Failed to create backup directory: {mkdir_error}")

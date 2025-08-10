@@ -1646,3 +1646,20 @@ with app.app_context(). See the documentation for more information.
 This typically means that you attempted to use functionality that needed
 the current application. To solve this, set up an application context
 with app.app_context(). See the documentation for more information.
+2025-08-10 12:23:08 - managers.router_connection_manager - ERROR - Unexpected error when executing command for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: 
+2025-08-10 12:23:12 - utils.daily_management - ERROR - Deployed 2/3 scripts. Errors: daily_save_and_clean.sh: Failed to make script executable: chmod: /tmp/netpilot_scripts/daily_save_and_clean.sh: No such file or directory
+2025-08-10 12:25:47 - managers.router_connection_manager - ERROR - Unexpected error when executing command for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: 
+2025-08-10 12:25:50 - utils.daily_management - ERROR - Deployed 0/3 scripts. Errors: daily_save_and_clean.sh: Failed to make script executable: chmod: /tmp/netpilot_scripts/daily_save_and_clean.sh: No such file or directory; check_daily_backup.sh: Failed to write script file: ash: base64: not found; stop_daily_backup.sh: Failed to write script file: ash: base64: not found
+2025-08-10 12:28:25 - managers.router_connection_manager - ERROR - Unexpected error when executing command for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: 
+2025-08-10 12:28:30 - utils.daily_management - ERROR - Deployed 2/3 scripts. Errors: daily_save_and_clean.sh: Failed to make script executable: chmod: /tmp/netpilot_scripts/daily_save_and_clean.sh: No such file or directory
+2025-08-10 12:38:02 - managers.router_connection_manager - ERROR - Unexpected error when executing command for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: 
+2025-08-10 12:38:10 - utils.daily_management - ERROR - Deployed 2/3 scripts. Errors: daily_save_and_clean.sh: Script verification failed - file not found or empty after write
+2025-08-10 12:44:13 - utils.daily_management - ERROR - Deployed 0/3 scripts. Errors: daily_save_and_clean.sh: Failed to open SFTP: EOF during negotiation; check_daily_backup.sh: Failed to open SFTP: EOF during negotiation; stop_daily_backup.sh: Failed to open SFTP: EOF during negotiation
+2025-08-10 12:45:52 - utils.daily_management - ERROR - Error deploying script daily_save_and_clean.sh: free variable 'parent' referenced before assignment in enclosing scope
+2025-08-10 12:45:53 - utils.daily_management - ERROR - Error deploying script check_daily_backup.sh: free variable 'parent' referenced before assignment in enclosing scope
+2025-08-10 12:45:53 - utils.daily_management - ERROR - Error deploying script stop_daily_backup.sh: free variable 'parent' referenced before assignment in enclosing scope
+2025-08-10 12:45:53 - utils.daily_management - ERROR - Deployed 0/3 scripts. Errors: daily_save_and_clean.sh: free variable 'parent' referenced before assignment in enclosing scope; check_daily_backup.sh: free variable 'parent' referenced before assignment in enclosing scope; stop_daily_backup.sh: free variable 'parent' referenced before assignment in enclosing scope
+2025-08-10 12:47:10 - managers.router_connection_manager - ERROR - Unexpected error when executing command for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: 
+2025-08-10 12:47:19 - utils.daily_management - ERROR - Deployed 2/3 scripts. Errors: daily_save_and_clean.sh: Remote file missing or empty after inline copy
+2025-08-10 13:05:31 - services.nft_qos_service - ERROR - Command failed: uci delete nft-qos.@download[1] | err=uci: Entry not found
+2025-08-10 13:05:32 - services.nft_qos_service - ERROR - Command failed: uci delete nft-qos.@upload[1] | err=uci: Entry not found

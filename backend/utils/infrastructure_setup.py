@@ -7,18 +7,12 @@ infrastructure required for NetPilot's traffic management system.
 
 from enum import Enum
 from utils.logging_config import get_logger
-from utils.daily_management import check_daily_backup_status, setup_daily_backup_infrastructure
 
 logger = get_logger('infrastructure_setup')
 
 
 class InfrastructureComponent(Enum):
-    """Enum representing different infrastructure components that need to be set up."""
-    STATE_FILE = "state_file"
-    IPTABLES_WHITELIST_CHAIN = "iptables_whitelist_chain"
-    IPTABLES_BLACKLIST_CHAIN = "iptables_blacklist_chain"
-    TC_SETUP = "tc_setup"
-    NETWORK_INTERFACES = "network_interfaces"
+    """Minimal infra: monitoring only (nlbwmon daily tracking)."""
     MONITORING_SETUP = "monitoring_setup"
 
 
@@ -39,124 +33,28 @@ def _execute_command_with_router_manager(router_connection_manager, command: str
 
 
 def _setup_state_file(router_connection_manager):
-    """
-    Ensure the NetPilot state file exists with new group-based format.
-    
-    Args:
-        router_connection_manager: Router connection manager instance
-        
-    Returns:
-        bool: True if successful, False otherwise
-    """
-    from managers.state_file_manager import StateFileManager
-    
-    state_manager = StateFileManager.get_state_manager()
-    
-    # Check if state file is in new format
-    if not state_manager.check_state_format():
-        logger.info("State file missing or in old format - creating new group-based state file")
-        return state_manager.create_default_state()
-    else:
-        logger.info("State file already exists in new group-based format")
-        return True
+    """Deprecated: state file not used in headless mode."""
+    return True
 
 
 def _setup_iptables_chains(router_connection_manager, setup_whitelist=True, setup_blacklist=True):
-    """
-    Create empty iptables chains for NetPilot (NETPILOT_WHITELIST, NETPILOT_BLACKLIST).
-    
-    Args:
-        router_connection_manager: Router connection manager instance
-        setup_whitelist: Whether to set up the NETPILOT_WHITELIST chain
-        setup_blacklist: Whether to set up the NETPILOT_BLACKLIST chain
-        
-    Returns:
-        bool: True if successful, False otherwise
-    """
-    success = True
-    
-    if setup_whitelist:
-        success &= _execute_command_with_router_manager(router_connection_manager, "iptables -t mangle -N NETPILOT_WHITELIST 2>/dev/null || true")
-    
-    if setup_blacklist:
-        success &= _execute_command_with_router_manager(router_connection_manager, "iptables -t mangle -N NETPILOT_BLACKLIST 2>/dev/null || true")
-    
-    return success
+    """Deprecated: iptables chains not used (nft-qos only)."""
+    return True
 
 
 def _setup_tc_infrastructure(router_connection_manager, interfaces, unlimited_rate, limited_rate):
-    """
-    Set up Traffic Control (TC) infrastructure on all network interfaces.
-    
-    Args:
-        router_connection_manager: Router connection manager instance
-        interfaces: List of network interface names
-        unlimited_rate: Rate limit for unlimited traffic class
-        limited_rate: Rate limit for limited traffic class
-        
-    Returns:
-        bool: True if successful, False otherwise
-    """
-    logger.info(f"Setting up TC infrastructure on {len(interfaces)} interfaces")
-    
-    for interface in interfaces:
-        # Clean any existing TC setup first
-        _execute_command_with_router_manager(router_connection_manager, f"tc qdisc del dev {interface} root 2>/dev/null || true")
-        
-        # Set up HTB qdisc with default class (unlimited)
-        if not _execute_command_with_router_manager(router_connection_manager, f"tc qdisc add dev {interface} root handle 1: htb default 1"):
-            return False
-        
-        # Class 1:1 - Unlimited traffic (default)
-        if not _execute_command_with_router_manager(router_connection_manager, f"tc class add dev {interface} parent 1: classid 1:1 htb rate {unlimited_rate}"):
-            return False
-        
-        # Class 1:10 - Limited traffic 
-        if not _execute_command_with_router_manager(router_connection_manager, f"tc class add dev {interface} parent 1: classid 1:10 htb rate {limited_rate}"):
-            return False
-        
-        # Filters for packet marking (same for both modes)
-        if not _execute_command_with_router_manager(router_connection_manager, f"tc filter add dev {interface} parent 1: protocol ip prio 1 handle 1 fw flowid 1:1"):
-            return False
-        
-        if not _execute_command_with_router_manager(router_connection_manager, f"tc filter add dev {interface} parent 1: protocol ip prio 2 handle 98 fw flowid 1:10"):
-            return False
-    
+    """Deprecated: tc infrastructure not used (nft-qos only)."""
     return True
 
 
 def _cleanup_legacy_infrastructure(router_connection_manager):
-    """
-    Clean up any legacy NetPilot infrastructure.
-    
-    Args:
-        router_connection_manager: Router connection manager instance
-        
-    Returns:
-        bool: True if successful, False otherwise
-    """
-    return _execute_command_with_router_manager(router_connection_manager, "nft delete table inet netpilot 2>/dev/null || true")
+    """Deprecated: clean router assumed. No legacy cleanup."""
+    return True
 
 
 def _get_network_interfaces(router_connection_manager):
-    """
-    Get all available network interfaces (excluding loopback).
-    
-    Args:
-        router_connection_manager: Router connection manager instance
-        
-    Returns:
-        tuple: (interfaces_list, error_message) - (list of interfaces, None if successful or error message)
-    """
-    output, error = router_connection_manager.execute("ls /sys/class/net/")
-    if error:
-        return None, f"Failed to get network interfaces: {error}"
-    
-    interfaces = [iface.strip() for iface in output.split() if iface.strip() not in ['lo', '']]
-    if not interfaces:
-        return None, "No network interfaces found"
-    
-    return interfaces, None
+    """Deprecated: not needed for nft-qos-only path."""
+    return [], None
 
 
 def setup_persistent_infrastructure(missing_components=None):
@@ -177,90 +75,45 @@ def setup_persistent_infrastructure(missing_components=None):
         tuple: (bool, str) - (True if successful, error message if failed)
     """
     from managers.router_connection_manager import RouterConnectionManager
-    from managers.state_file_manager import StateFileManager
-    
-    # If no missing components specified, set up all components (backward compatibility)
+    # Only monitoring is supported now
     if missing_components is None:
-        missing_components = list(InfrastructureComponent)
+        missing_components = [InfrastructureComponent.MONITORING_SETUP]
     
     router_connection_manager = RouterConnectionManager()
     
     try:
-        # 1. Setup state file (if needed)
-        if InfrastructureComponent.STATE_FILE in missing_components:
-            logger.info("Setting up state file...")
-            if not _setup_state_file(router_connection_manager):
-                return False, "Failed to set up state file"
-        else:
-            logger.info("State file is already set up correctly - skipping")
-        
-        # Get configuration from state (needed for TC setup rates)
-        interfaces = None
-        unlimited_rate = None
-        limited_rate = None
-        
-        # Only get network interfaces and rates if we need them for TC setup
-        if (InfrastructureComponent.NETWORK_INTERFACES in missing_components or 
-            InfrastructureComponent.TC_SETUP in missing_components):
-            
-            # Use default rates for new group-based system
-            unlimited_rate = '1000mbit'
-            limited_rate = '50mbit'
-            logger.info("Using default rates for group-based traffic control")
-            
-            # 2. Get network interfaces (if needed)
-            if InfrastructureComponent.NETWORK_INTERFACES in missing_components:
-                logger.info("Checking network interfaces...")
-                interfaces, error_msg = _get_network_interfaces(router_connection_manager)
-                if interfaces is None:
-                    return False, error_msg
-            else:
-                # Still need to get interfaces if TC setup is needed
-                if InfrastructureComponent.TC_SETUP in missing_components:
-                    interfaces, error_msg = _get_network_interfaces(router_connection_manager)
-                    if interfaces is None:
-                        return False, error_msg
-        
-        # 3. Set up TC infrastructure on all interfaces (if needed)
-        if InfrastructureComponent.TC_SETUP in missing_components:
-            logger.info("Setting up TC infrastructure...")
-            if not _setup_tc_infrastructure(router_connection_manager, interfaces, unlimited_rate, limited_rate):
-                return False, "Failed to set up TC infrastructure"
-        else:
-            logger.info("TC infrastructure is already set up correctly - skipping")
-        
-        # 4. Create empty iptables chains (if needed)
-        setup_whitelist = InfrastructureComponent.IPTABLES_WHITELIST_CHAIN in missing_components
-        setup_blacklist = InfrastructureComponent.IPTABLES_BLACKLIST_CHAIN in missing_components
-        
-        if setup_whitelist or setup_blacklist:
-            logger.info("Setting up iptables chains...")
-            if not _setup_iptables_chains(router_connection_manager, setup_whitelist, setup_blacklist):
-                return False, "Failed to set up iptables chains"
-        else:
-            logger.info("Iptables chains are already set up correctly - skipping")
-        
-        # 5. Set up monitoring infrastructure (if needed)
+        # Only monitoring infrastructure (ensure nlbwmon running, daily interval, retention<=35)
         if InfrastructureComponent.MONITORING_SETUP in missing_components:
-            logger.info("Setting up monitoring infrastructure...")
-            success, error_msg = setup_daily_backup_infrastructure(router_connection_manager)
-            if not success:
-                return False, error_msg
+            logger.info("Ensuring nlbwmon is installed, enabled, and running")
+            router_connection_manager.execute("opkg update >/dev/null 2>&1 || true")
+            router_connection_manager.execute("opkg status nlbwmon >/dev/null 2>&1 || opkg install -y nlbwmon >/dev/null 2>&1")
+            router_connection_manager.execute("/etc/init.d/nlbwmon enable >/dev/null 2>&1 || true")
+            router_connection_manager.execute("/etc/init.d/nlbwmon start >/dev/null 2>&1 || /etc/init.d/nlbwmon restart >/dev/null 2>&1 || true")
+
+            logger.info("Configuring nlbwmon database_interval for daily tracking (YYYY-MM-DD/1)")
+            router_connection_manager.execute("TODAY=$(date +%F); uci set nlbwmon.@nlbwmon[0].database_interval=\"$TODAY/1\" 2>/dev/null || true")
+            router_connection_manager.execute("uci commit nlbwmon >/dev/null 2>&1 || true")
+            router_connection_manager.execute("/etc/init.d/nlbwmon restart >/dev/null 2>&1 || true")
+
+            # Enforce retention: keep at most 35 database files
+            logger.info("Enforcing nlbwmon database retention (<=35 files)")
+            out, _ = router_connection_manager.execute("uci -q get nlbwmon.@nlbwmon[0].database_directory | cat")
+            db_dir = out.strip() if out else "/var/lib/nlbwmon"
+            router_connection_manager.execute(f"mkdir -p {db_dir} >/dev/null 2>&1 || true")
+            prune_cmd = (
+                f"sh -c 'set -e; d={db_dir}; "
+                "[ -d \"$d\" ] || exit 0; "
+                "cnt=$(ls -1 \"$d\" 2>/dev/null | wc -l); "
+                "if [ \"$cnt\" -gt 35 ]; then ls -1t \"$d\" 2>/dev/null | tail -n +36 | xargs -r -I{} sh -c \"rm -f \"$d\"/\"{}\"\"; fi'"
+            )
+            router_connection_manager.execute(prune_cmd)
         else:
             logger.info("Monitoring infrastructure is already set up correctly - skipping")
-        
-        # 6. Clean up any legacy infrastructure (always do this if any component was missing)
-        if missing_components:
-            logger.info("Cleaning up legacy infrastructure...")
-            if not _cleanup_legacy_infrastructure(router_connection_manager):
-                return False, "Failed to clean up legacy infrastructure"
         
         # Log success message
         setup_components = [comp.value for comp in missing_components]
         if setup_components:
             logger.info(f"Infrastructure setup completed for components: {', '.join(setup_components)}")
-            if interfaces:
-                logger.info(f"Setup applied to {len(interfaces)} interfaces")
         else:
             logger.info("No infrastructure setup needed - all components are already correct")
         
@@ -286,75 +139,47 @@ def check_existing_infrastructure():
         )
     """
     from managers.router_connection_manager import RouterConnectionManager
-    from managers.state_file_manager import StateFileManager
-    
     router_connection_manager = RouterConnectionManager()
-    state_manager = StateFileManager.get_state_manager()
     missing_components = []
     issues = []
-    
-    try:
-        # 1. Check state file format using StateFileManager
-        if not state_manager.check_state_format():
-            logger.info("State file missing, corrupt, or in old format - infrastructure setup needed")
-            missing_components.append(InfrastructureComponent.STATE_FILE)
-            issues.append("State file not in new group-based format")
-        
-        # 2. Check if iptables whitelist chain exists
-        output, _ = router_connection_manager.execute("iptables -t mangle -L NETPILOT_WHITELIST -n 2>/dev/null && echo exists || echo missing")
-        if output.strip() == "missing":
-            logger.info("NETPILOT_WHITELIST chain missing - infrastructure setup needed")
-            missing_components.append(InfrastructureComponent.IPTABLES_WHITELIST_CHAIN)
-            issues.append("NETPILOT_WHITELIST chain not found")
 
-        # 3. Check if iptables blacklist chain exists
-        output, _ = router_connection_manager.execute("iptables -t mangle -L NETPILOT_BLACKLIST -n 2>/dev/null && echo exists || echo missing")
-        if output.strip() == "missing":
-            logger.info("NETPILOT_BLACKLIST chain missing - infrastructure setup needed")
-            missing_components.append(InfrastructureComponent.IPTABLES_BLACKLIST_CHAIN)
-            issues.append("NETPILOT_BLACKLIST chain not found")
-        
-        # 4. Check network interfaces and TC setup
-        output, _ = router_connection_manager.execute("ls /sys/class/net/")
-        interfaces = [iface.strip() for iface in output.split() if iface.strip() not in ['lo', '']]
-        
-        if not interfaces:
-            logger.info("No network interfaces found")
-            missing_components.append(InfrastructureComponent.NETWORK_INTERFACES)
-            issues.append("No network interfaces found")
-        else:
-            # Check the first interface that's not loopback for TC setup
-            test_interface = interfaces[0]
-            output, _ = router_connection_manager.execute(f"tc class show dev {test_interface} | grep '1:1\|1:10' | wc -l")
-            if not output.strip() or int(output.strip()) < 2:  # We expect at least 2 classes (1:1 and 1:10)
-                logger.info(f"TC classes missing on {test_interface} - infrastructure setup needed")
-                missing_components.append(InfrastructureComponent.TC_SETUP)
-                issues.append(f"TC setup incomplete on interface {test_interface}")
-        
-        # 5. Check monitoring infrastructure
-        try:
-            is_running, check_error = check_daily_backup_status(router_connection_manager)
-            if check_error or not is_running:
-                logger.info("Monitoring infrastructure missing or not running - setup needed")
-                missing_components.append(InfrastructureComponent.MONITORING_SETUP)
-                if check_error:
-                    issues.append(f"Monitoring setup issue: {check_error}")
-                else:
-                    issues.append("Daily backup daemon not running")
-        except Exception as e:
-            logger.info(f"Failed to check monitoring infrastructure: {str(e)}")
+    try:
+        # 1) Verify nlbwmon running
+        out, _ = router_connection_manager.execute("/etc/init.d/nlbwmon status 2>/dev/null | grep -qi running && echo running || echo stopped")
+        if (out or '').strip() != 'running':
             missing_components.append(InfrastructureComponent.MONITORING_SETUP)
-            issues.append(f"Monitoring check failed: {str(e)}")
-        
-        # Determine overall status and message
+            issues.append("nlbwmon not running")
+
+        # 2) Verify daily database_interval (YYYY-MM-DD/1)
+        di_out, _ = router_connection_manager.execute("uci -q get nlbwmon.@nlbwmon[0].database_interval | cat")
+        di_val = (di_out or '').strip()
+        import re as _re
+        if not di_val or not _re.match(r"^\d{4}-\d{2}-\d{2}/1$", di_val):
+            if InfrastructureComponent.MONITORING_SETUP not in missing_components:
+                missing_components.append(InfrastructureComponent.MONITORING_SETUP)
+            issues.append("database_interval not set to daily (YYYY-MM-DD/1)")
+
+        # 3) Verify retention <= 35
+        dir_out, _ = router_connection_manager.execute("uci -q get nlbwmon.@nlbwmon[0].database_directory | cat")
+        db_dir = dir_out.strip() if dir_out else "/var/lib/nlbwmon"
+        cnt_out, _ = router_connection_manager.execute(f"ls -1 \"{db_dir}\" 2>/dev/null | wc -l")
+        try:
+            cnt = int((cnt_out or '0').strip())
+        except Exception:
+            cnt = 0
+        if cnt > 35:
+            if InfrastructureComponent.MONITORING_SETUP not in missing_components:
+                missing_components.append(InfrastructureComponent.MONITORING_SETUP)
+            issues.append(f"database files count {cnt} exceeds 35")
+
         if not missing_components:
-            logger.info("All required infrastructure found - skipping setup")
-            return True, [], "All infrastructure components are properly set up"
+            logger.info("Monitoring OK")
+            return True, [], "Monitoring OK"
         else:
             component_names = [comp.value for comp in missing_components]
             message = f"Missing or incorrect components: {', '.join(component_names)}. Issues: {'; '.join(issues)}"
             return False, missing_components, message
-        
+
     except Exception as e:
         logger.error(f"Error checking existing infrastructure: {str(e)}")
-        return False, [comp for comp in InfrastructureComponent], f"Infrastructure check failed: {str(e)}"
+        return False, [InfrastructureComponent.MONITORING_SETUP], f"Infrastructure check failed: {str(e)}"

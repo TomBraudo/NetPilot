@@ -31,10 +31,9 @@ logger = get_logger(__name__)
 from endpoints.health import health_bp
 from endpoints.api import network_bp
 from endpoints.wifi import wifi_bp
-from endpoints.whitelist import whitelist_bp
-from endpoints.blacklist import blacklist_bp
 from endpoints.session import session_bp
 from endpoints.monitor import monitor_bp
+from endpoints.bandwidth import bandwidth_bp
 
 # Load environment variables
 # Support both COMMANDS-SERVER_PORT and SERVER_PORT for backward compatibility
@@ -62,11 +61,7 @@ def before_request_hook():
     if response is not None:
         return response
     
-    # Create request-scoped StateFileManager to prevent race conditions
-    # This ensures each request gets its own instance with isolated cache
-    if hasattr(g, 'router_id') and g.router_id:
-        from managers.state_file_manager import StateFileManager
-        g.state_manager = StateFileManager.create_request_scoped_instance()
+    # State file is no longer used by the commands server; run headless
 
 # --------------------------------------------------------------------------
 # Create and attach the RouterConnectionManager to the app context
@@ -78,10 +73,9 @@ logger.info("Registering API blueprints")
 app.register_blueprint(health_bp)
 app.register_blueprint(network_bp, url_prefix='/api/network')
 app.register_blueprint(wifi_bp, url_prefix='/api/wifi')
-app.register_blueprint(whitelist_bp, url_prefix='/api/whitelist')
-app.register_blueprint(blacklist_bp, url_prefix='/api/blacklist')
 app.register_blueprint(session_bp, url_prefix='/api/session')
 app.register_blueprint(monitor_bp, url_prefix='/api/monitor')
+app.register_blueprint(bandwidth_bp, url_prefix='/api/bandwidth')
 
 logger.info("API blueprints registered")
 
