@@ -2,16 +2,10 @@ from utils.logging_config import get_logger
 from managers.router_connection_manager import RouterConnectionManager
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 
 logger = get_logger('services.monitor')
 router_connection_manager = RouterConnectionManager()
-
-# Router script paths - kept for reference but actual management moved to utils.daily_management
-ROUTER_SCRIPTS_DIR = "/tmp/netpilot_scripts"
-DAILY_BACKUP_SCRIPT = f"{ROUTER_SCRIPTS_DIR}/daily_save_and_clean.sh"
-CHECK_BACKUP_SCRIPT = f"{ROUTER_SCRIPTS_DIR}/check_daily_backup.sh"
-STOP_BACKUP_SCRIPT = f"{ROUTER_SCRIPTS_DIR}/stop_daily_backup.sh"
 
 class DeviceUsage():
     def __init__(self, mac, ip, download, upload, connections):
@@ -239,7 +233,7 @@ def _get_nlbw_historical_data(date):
         tuple: (parsed_entries, error_message)
     """
     try:
-        output, error = router_connection_manager.execute(f'nlbw -c json -t {date}')
+        output, error = router_connection_manager.execute(f'nlbw -t {date} -c json')
         
         if error:
             return None, f"Failed to get data for {date}: {error}"
@@ -250,30 +244,61 @@ def _get_nlbw_historical_data(date):
         logger.error(f"Error getting historical data for {date}: {e}")
         return None, str(e)
 
-def _get_daily_json_file_data(date):
-    """Get data from daily JSON backup file.
-    
-    Args:
-        date (str): Date in YYYY-MM-DD format
-        
-    Returns:
-        tuple: (parsed_entries, error_message)
+def _get_dates_back_list(days_back):
+    """Return list of date strings (YYYY-MM-DD) for the past N days excluding today.
+    Most-recent-first order.
     """
     try:
-        daily_file = f"/tmp/nlbwmon/daily/daily_{date}.json"
-        output, error = router_connection_manager.execute(f"[ -f {daily_file} ] && cat {daily_file} || echo 'File not found'")
-        
-        if error:
-            return None, f"Failed to read daily file for {date}: {error}"
-        
-        if 'File not found' in output:
-            return None, f"Daily backup file not found for {date}"
-        
-        return _parse_nlbw_json_response(output)
-        
+        dates = []
+        now = datetime.now()
+        for i in range(1, days_back + 1):
+            dates.append((now - timedelta(days=i)).strftime('%Y-%m-%d'))
+        return dates
     except Exception as e:
-        logger.error(f"Error reading daily file for {date}: {e}")
-        return None, str(e)
+        logger.error(f"Error computing dates list: {e}")
+        return []
+
+def _collect_entries_for_dates(dates):
+    """Collect and combine nlbw entries for a list of YYYY-MM-DD dates."""
+    combined = []
+    for date_str in dates:
+        try:
+            entries, error = _get_nlbw_historical_data(date_str)
+            if error:
+                logger.warning(f"Failed to get data for {date_str}: {error}")
+                continue
+            if entries:
+                combined.extend(entries)
+        except Exception as e:
+            logger.warning(f"Error collecting data for {date_str}: {e}")
+            continue
+    return combined
+
+def _aggregate_devices_for_period(days_back, include_current=True):
+    """Aggregate devices across a date range and optionally include current data.
+    Returns tuple (devices_dict, error_or_None)
+    """
+    try:
+        # Historical dates first (most recent first)
+        dates = _get_dates_back_list(days_back)
+        all_entries = _collect_entries_for_dates(dates)
+
+        # Optionally include current entries
+        if include_current:
+            current_entries, error = _get_nlbw_current_data()
+            if error:
+                logger.warning(f"Failed to get current data: {error}")
+            elif current_entries:
+                all_entries.extend(current_entries)
+
+        if not all_entries:
+            return {}, None
+
+        devices = _aggregate_entries_by_device(all_entries)
+        return devices, None
+    except Exception as e:
+        logger.error(f"Error aggregating devices for period: {e}")
+        return {}, str(e)
 
 def _filter_active_devices(devices, min_bytes=0):
     """Filter devices to only include those with usage above threshold.
@@ -356,100 +381,27 @@ def _get_device_current_data(mac_address):
         return None, str(e)
 
 def _get_device_week_data(mac_address):
-    """Get weekly usage data for a specific device by MAC.
-    
-    Reuses the existing weekly data collection logic but works with raw data to preserve IP.
-    
-    Args:
-        mac_address (str): Normalized MAC address (lowercase)
-        
-    Returns:
-        tuple: (device_data, error_message)
-    """
+    """Get weekly usage data for a specific device by MAC using last 6 days + current."""
     try:
-        # Step 1: Get current usage data
-        current_entries, error = _get_nlbw_current_data()
+        devices, error = _aggregate_devices_for_period(days_back=6, include_current=True)
         if error:
-            logger.warning(f"Failed to get current data: {error}")
-            current_entries = []
-        
-        # Step 2: Get the last 6 daily backup files
-        output, error = router_connection_manager.execute('ls -1 /tmp/nlbwmon/daily/daily_*.json 2>/dev/null | sort -r | head -6')
-        if error:
-            logger.warning("Failed to list daily backup files, using only current data")
-            daily_files = []
-        else:
-            daily_files = [line.strip() for line in output.strip().split('\n') if line.strip()]
-        
-        # Step 3: Collect all entries from daily files
-        all_entries = current_entries if current_entries else []
-        
-        for file_path in daily_files:
-            try:
-                # Extract date from filename: /tmp/nlbwmon/daily/daily_2024-08-01.json -> 2024-08-01
-                filename = file_path.split('/')[-1]
-                if filename.startswith('daily_') and filename.endswith('.json'):
-                    date = filename[6:-5]  # Remove 'daily_' prefix and '.json' suffix
-                    
-                    entries, error = _get_daily_json_file_data(date)
-                    if error:
-                        logger.warning(f"Failed to get data for {date}: {error}")
-                        continue
-                    
-                    if entries:
-                        all_entries.extend(entries)
-                        logger.debug(f"Added {len(entries)} entries from {date}")
-                    
-            except Exception as e:
-                logger.warning(f"Failed to process daily file {file_path}: {e}")
-                continue
-        
-        if not all_entries:
+            return None, error
+        if not devices:
             return None, "No weekly data available"
-        
-        # Step 4: Aggregate all entries by device
-        devices = _aggregate_entries_by_device(all_entries)
-        
-        # Step 5: Extract the specific device using existing helper
         return _get_device_from_aggregated_data(devices, mac_address, 1024*1024, "weekly")
-        
     except Exception as e:
         logger.error(f"Error getting weekly data for MAC {mac_address}: {e}")
         return None, str(e)
 
 def _get_device_month_data(mac_address):
-    """Get monthly usage data for a specific device by MAC.
-    
-    Uses nlbw monthly database directly to preserve IP information.
-    
-    Args:
-        mac_address (str): Normalized MAC address (lowercase)
-        
-    Returns:
-        tuple: (device_data, error_message)
-    """
+    """Get monthly usage data for a specific device by MAC using last 29 days + current."""
     try:
-        # Step 1: Get current date and calculate first of current month
-        from datetime import datetime
-        current_date = datetime.now()
-        first_of_month = current_date.strftime('%Y-%m-01')
-        
-        logger.debug(f"Looking for monthly data for: {first_of_month}")
-        
-        # Step 2: Get monthly data using nlbw historical command
-        entries, error = _get_nlbw_historical_data(first_of_month)
+        devices, error = _aggregate_devices_for_period(days_back=29, include_current=True)
         if error:
-            return None, f"Failed to get monthly data for {first_of_month}: {error}"
-        
-        if not entries:
+            return None, error
+        if not devices:
             return None, "No monthly data available"
-        
-        # Step 3: Aggregate by device
-        devices = _aggregate_entries_by_device(entries)
-        
-        # Step 4: Extract the specific device using existing helper
         return _get_device_from_aggregated_data(devices, mac_address, 10*1024*1024, "monthly")
-        
     except Exception as e:
         logger.error(f"Error getting monthly data for MAC {mac_address}: {e}")
         return None, str(e)
@@ -497,122 +449,54 @@ def get_current_device_usage():
         return None, str(e)
 
 def get_last_week_device_usage():
-    """Get device usage for the last week (6 daily files + current).
-    
-    Combines the last 6 daily backup files with current usage data.
-    """
+    """Get device usage for the last week by merging last 6 days + current."""
     try:
-        logger.info("Fetching last week device usage (6 daily files + current)")
-        
-        # Step 1: Get current usage data
-        current_entries, error = _get_nlbw_current_data()
+        logger.info("Fetching last week device usage (last 6 days + current)")
+        devices, error = _aggregate_devices_for_period(days_back=6, include_current=True)
         if error:
-            logger.warning(f"Failed to get current data: {error}")
-            current_entries = []
-        
-        # Step 2: Get the last 6 daily backup files
-        output, error = router_connection_manager.execute('ls -1 /tmp/nlbwmon/daily/daily_*.json 2>/dev/null | sort -r | head -6')
-        if error:
-            logger.warning("Failed to list daily backup files, using only current data")
-            daily_files = []
-        else:
-            daily_files = [line.strip() for line in output.strip().split('\n') if line.strip()]
-        
-        # Step 3: Collect all entries from daily files
-        all_entries = current_entries if current_entries else []
-        
-        for file_path in daily_files:
-            try:
-                # Extract date from filename: /tmp/nlbwmon/daily/daily_2024-08-01.json -> 2024-08-01
-                filename = file_path.split('/')[-1]
-                if filename.startswith('daily_') and filename.endswith('.json'):
-                    date = filename[6:-5]  # Remove 'daily_' prefix and '.json' suffix
-                    
-                    entries, error = _get_daily_json_file_data(date)
-                    if error:
-                        logger.warning(f"Failed to get data for {date}: {error}")
-                        continue
-                    
-                    if entries:
-                        all_entries.extend(entries)
-                        logger.debug(f"Added {len(entries)} entries from {date}")
-                    
-            except Exception as e:
-                logger.warning(f"Failed to process daily file {file_path}: {e}")
-                continue
-        
-        if not all_entries:
+            return None, error
+        if not devices:
             return [], None
-        
-        # Step 4: Aggregate all entries by device
-        devices = _aggregate_entries_by_device(all_entries)
-        
-        # Step 5: Filter active devices
+
         active_devices = _filter_active_devices(devices, min_bytes=1024*1024)  # Filter < 1MB for week
-        
-        # Step 6: Format for weekly usage (use GB for longer period)
+
         device_objects = []
         for device in active_devices.values():
             device_obj = _format_device_for_historical_usage(device)
             device_objects.append(device_obj)
-        
-        # Step 7: Sort by total usage
+
         device_objects.sort(key=lambda x: x.download + x.upload, reverse=True)
-        
-        # Convert to dictionaries for API response
+
         device_list = [device_obj.to_dict() for device_obj in device_objects]
-        
-        logger.info(f"Successfully retrieved week usage data for {len(device_list)} devices from {len(daily_files)} daily files + current")
+        logger.info(f"Successfully retrieved week usage data for {len(device_list)} devices")
         return device_list, None
-        
     except Exception as e:
         logger.error(f"Error getting last week device usage: {e}")
         return None, str(e)
 
 def get_last_month_device_usage():
-    """Get device usage for the last month using monthly database.
-    
-    Uses nlbw monthly database for the first of the current month.
-    """
+    """Get device usage for the last month by merging last 29 days + current."""
     try:
-        logger.info("Fetching last month device usage from monthly database")
-        
-        # Step 1: Get current date and calculate first of current month
-        from datetime import datetime
-        current_date = datetime.now()
-        first_of_month = current_date.strftime('%Y-%m-01')
-        
-        logger.debug(f"Looking for monthly data for: {first_of_month}")
-        
-        # Step 2: Get monthly data using nlbw historical command
-        entries, error = _get_nlbw_historical_data(first_of_month)
+        logger.info("Fetching last month device usage (last 29 days + current)")
+        devices, error = _aggregate_devices_for_period(days_back=29, include_current=True)
         if error:
-            return None, f"Failed to get monthly data for {first_of_month}: {error}"
-        
-        if not entries:
+            return None, error
+        if not devices:
             return [], None
-        
-        # Step 3: Aggregate by device
-        devices = _aggregate_entries_by_device(entries)
-        
-        # Step 4: Filter active devices (higher threshold for monthly data)
+
+        # Higher threshold for monthly data
         active_devices = _filter_active_devices(devices, min_bytes=10*1024*1024)  # Filter < 10MB for month
-        
-        # Step 5: Format for monthly usage (GB units)
+
         device_objects = []
         for device in active_devices.values():
             device_obj = _format_device_for_historical_usage(device)
             device_objects.append(device_obj)
-        
-        # Step 6: Sort by total usage
+
         device_objects.sort(key=lambda x: x.download + x.upload, reverse=True)
-        
-        # Convert to dictionaries for API response
+
         device_list = [device_obj.to_dict() for device_obj in device_objects]
-        
-        logger.info(f"Successfully retrieved monthly usage data for {len(device_list)} devices for {first_of_month}")
+        logger.info(f"Successfully retrieved monthly usage data for {len(device_list)} devices")
         return device_list, None
-        
     except Exception as e:
         logger.error(f"Error getting last month device usage: {e}")
         return None, str(e)
