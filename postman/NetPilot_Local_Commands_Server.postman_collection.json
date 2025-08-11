@@ -1094,8 +1094,192 @@
 					"response": []
 				}
 			]
-		}
-	],
+    },
+    {
+      "name": "AdGuard Home (AGH)",
+      "item": [
+        {
+          "name": "List Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/agh/categories?sessionId={{sessionId}}&routerId={{routerId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","agh","categories"],
+              "query": [
+                {"key":"sessionId","value":"{{sessionId}}"},
+                {"key":"routerId","value":"{{routerId}}"}
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Category Domains",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/agh/categories/social-media/domains?sessionId={{sessionId}}&routerId={{routerId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","agh","categories","social-media","domains"],
+              "query": [
+                {"key":"sessionId","value":"{{sessionId}}"},
+                {"key":"routerId","value":"{{routerId}}"}
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Category",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"category\": \"social-media\",\n  \"domains\": [\"tiktok.com\", \"instagram.com\"],\n  \"sessionId\": \"{{sessionId}}\",\n  \"routerId\": \"{{routerId}}\"\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/agh/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","agh","categories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Patch Category Domains (Replace)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"domains\": [\"tiktok.com\", \"instagram.com\", \"snapchat.com\"],\n  \"sessionId\": \"{{sessionId}}\",\n  \"routerId\": \"{{routerId}}\"\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/agh/categories/social-media/domains",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","agh","categories","social-media","domains"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Device Rules (Categories)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/agh/device/rules?mac=06:f6:bc:dd:ef:a2&ip=192.168.1.50&sessionId={{sessionId}}&routerId={{routerId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","agh","device","rules"],
+              "query": [
+                {"key":"mac","value":"06:f6:bc:dd:ef:a2"},
+                {"key":"ip","value":"192.168.1.50"},
+                {"key":"sessionId","value":"{{sessionId}}"},
+                {"key":"routerId","value":"{{routerId}}"}
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Devices Rules (Categories)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"devices\": [\n    {\"mac\": \"06:f6:bc:dd:ef:a2\", \"ip\": \"192.168.1.50\"},\n    {\"mac\": \"de:ad:be:ef:00:01\"}\n  ],\n  \"sessionId\": \"{{sessionId}}\",\n  \"routerId\": \"{{routerId}}\"\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/agh/devices/rules",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","agh","devices","rules"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Set Device Rules (Categories, Preserve Others)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"device\": {\"mac\": \"06:f6:bc:dd:ef:a2\", \"ip\": \"192.168.1.50\"},\n  \"categories\": [\"social-media\", \"adult\"],\n  \"sessionId\": \"{{sessionId}}\",\n  \"routerId\": \"{{routerId}}\"\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/agh/device/rules",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","agh","device","rules"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Set Devices Rules (Categories, Preserve Others)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"devices\": [\n    {\"mac\": \"06:f6:bc:dd:ef:a2\", \"ip\": \"192.168.1.50\"},\n    {\"mac\": \"de:ad:be:ef:00:01\"}\n  ],\n  \"categories\": [\"social-media\", \"adult\"],\n  \"sessionId\": \"{{sessionId}}\",\n  \"routerId\": \"{{routerId}}\"\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/agh/devices/rules/set",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","agh","devices","rules","set"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Clear Device Rules (All Domains)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"device\": {\"mac\": \"06:f6:bc:dd:ef:a2\", \"ip\": \"192.168.1.50\"},\n  \"sessionId\": \"{{sessionId}}\",\n  \"routerId\": \"{{routerId}}\"\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/agh/device/rules",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","agh","device","rules"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Clear Devices Rules (All Domains)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"devices\": [\n    {\"mac\": \"06:f6:bc:dd:ef:a2\", \"ip\": \"192.168.1.50\"},\n    {\"mac\": \"de:ad:be:ef:00:01\"}\n  ],\n  \"sessionId\": \"{{sessionId}}\",\n  \"routerId\": \"{{routerId}}\"\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/agh/devices/rules",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","agh","devices","rules"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
 	"variable": [
 		{
 			"key": "baseUrl",
