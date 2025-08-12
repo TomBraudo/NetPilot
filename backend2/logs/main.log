@@ -2541,3 +2541,29 @@
 2025-08-12 21:57:22 - endpoints.settings - INFO - Service call completed - result: {'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}, error: None
 2025-08-12 21:57:22 - endpoints.settings - INFO - Service call successful, returning result: {'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}
 2025-08-12 21:57:22 - endpoints.settings - INFO - === get_router_id endpoint completed successfully ===
+2025-08-12 21:57:54 - middleware - DEBUG - Router context established: user_id=e43abbe3-a588-4ca0-83d1-a8e267ef88f4, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=e43abbe3-a588-4ca0-83d1-a8e267ef88f4
+2025-08-12 21:57:54 - endpoints.monitor - INFO - Getting current monitor for user e43abbe3-a588-4ca0-83d1-a8e267ef88f4
+2025-08-12 21:57:54 - services.monitor_service - INFO - Getting current devices monitor for user e43abbe3-a588-4ca0-83d1-a8e267ef88f4, router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-12 21:57:54 - managers.commands_server - DEBUG - Performing health check...
+2025-08-12 21:57:54 - managers.commands_server - INFO - Checking commands server health
+2025-08-12 21:57:54 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-08-12 21:57:55 - managers.commands_server - DEBUG - Request completed in 0.20s with status 200
+2025-08-12 21:57:55 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 2.6226043701171875e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-08-12T18:58:01.191537'}, 'success': True}
+2025-08-12 21:57:55 - managers.commands_server - DEBUG - Commands server health check successful
+2025-08-12 21:57:55 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-08-12 21:57:56 - managers.commands_server - DEBUG - Request completed in 0.93s with status 200
+2025-08-12 21:57:56 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 80606, 'download': 3237.75, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 114.87}, {'connections': 1937, 'download': 428.61, 'ip': '192.168.1.192', 'mac': 'ae:d5:76:78:d6:01', 'unit': 'MB', 'upload': 27.24}, {'connections': 4833, 'download': 182.83, 'ip': '192.168.1.101', 'mac': '3a:6c:58:c2:ad:84', 'unit': 'MB', 'upload': 10.94}, {'connections': 8, 'download': 0.0, 'ip': '192.168.1.1', 'mac': '60:cf:84:ee:4e:c8', 'unit': 'MB', 'upload': 0.0}], 'error': None, 'metadata': {'executionTime': 0.6611156463623047, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'e43abbe3-a588-4ca0-83d1-a8e267ef88f4', 'timestamp': '2025-08-12T18:58:02.036680'}, 'success': True}
+2025-08-12 21:57:56 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-08-12 21:57:56 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 4 devices
+2025-08-12 21:57:56 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-08-12 21:57:56 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 4 devices
+2025-08-12 21:57:56 - middleware - DEBUG - Router context established: user_id=e43abbe3-a588-4ca0-83d1-a8e267ef88f4, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=e43abbe3-a588-4ca0-83d1-a8e267ef88f4
+2025-08-12 21:57:56 - endpoints.monitor - INFO - Getting current monitor for user e43abbe3-a588-4ca0-83d1-a8e267ef88f4
+2025-08-12 21:57:56 - services.monitor_service - INFO - Getting current devices monitor for user e43abbe3-a588-4ca0-83d1-a8e267ef88f4, router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-12 21:57:56 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-08-12 21:57:56 - managers.commands_server - DEBUG - Request completed in 0.50s with status 200
+2025-08-12 21:57:56 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 80606, 'download': 3237.75, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 114.87}, {'connections': 1937, 'download': 428.61, 'ip': '192.168.1.192', 'mac': 'ae:d5:76:78:d6:01', 'unit': 'MB', 'upload': 27.24}, {'connections': 4833, 'download': 182.83, 'ip': '192.168.1.101', 'mac': '3a:6c:58:c2:ad:84', 'unit': 'MB', 'upload': 10.94}, {'connections': 8, 'download': 0.0, 'ip': '192.168.1.1', 'mac': '60:cf:84:ee:4e:c8', 'unit': 'MB', 'upload': 0.0}], 'error': None, 'metadata': {'executionTime': 0.14323854446411133, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'e43abbe3-a588-4ca0-83d1-a8e267ef88f4', 'timestamp': '2025-08-12T18:58:02.450058'}, 'success': True}
+2025-08-12 21:57:56 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-08-12 21:57:56 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 4 devices
+2025-08-12 21:57:56 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-08-12 21:57:56 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 4 devices
