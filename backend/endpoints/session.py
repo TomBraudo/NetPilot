@@ -10,10 +10,7 @@ session_bp = Blueprint('session', __name__)
 
 @session_bp.route("/start", methods=["POST"])
 def start_session():
-    """
-    Starts a new session for a router and sets up the required infrastructure.
-    This endpoint now requires the session context from the middleware.
-    """
+    """Starts a new session for a router; infrastructure setup deprecated (headless mode)."""
     execution_start_time = time.time()
     
     # The session context (g.session_id, g.router_id) is now expected to be set
@@ -34,44 +31,31 @@ def start_session():
     # 1. Mark the session as active in the RouterConnectionManager first.
     current_app.router_connection_manager.start_session(g.session_id)
 
-    # 2. Set up one-time persistent infrastructure (TC and empty chains)
-    logger.info("Setting up one-time persistent infrastructure...")
-    
+    # Headless mode: verify reachability and ensure monitoring (nlbw) is set up
     try:
-        # Test basic connectivity with short timeout
         output, err = current_app.router_connection_manager.execute("echo 'NetPilot ping'", timeout=5)
         if err:
             logger.error(f"Router reachability check failed: {err}")
             return build_error_response(f"Router not reachable: {err}", 500, "ROUTER_UNREACHABLE", execution_start_time)
-        
-        # Check existing infrastructure first
-        infrastructure_exists, missing_components, infra_message = check_existing_infrastructure()
-        
-        # Only set up infrastructure if it doesn't exist OR if restart flag is True
-        if infrastructure_exists and not restart:
-            logger.info("Existing infrastructure found - skipping setup (restart=False)")
-        else:
-            if restart:
-                logger.info("Restart flag set - rebuilding infrastructure")
-                # If restart is True, set up all components regardless of check results
-                success_status, error_msg = setup_persistent_infrastructure()
-            else:
-                component_names = [comp.value for comp in missing_components] if missing_components else []
-                logger.info(f"Required infrastructure not found - setting up. Missing components: {component_names}. Details: {infra_message}")
-                # Only set up the components that are actually missing
-                success_status, error_msg = setup_persistent_infrastructure(missing_components)
-            if not success_status:
-                logger.error(f"Failed to set up persistent infrastructure: {error_msg}")
-                return build_error_response(f"Infrastructure setup failed: {error_msg}", 500, "INFRASTRUCTURE_SETUP_FAILED", execution_start_time)
-        
-        logger.info(f"Session established successfully for router {g.router_id} with persistent infrastructure")
+
+        # Ensure monitoring infra (scripts + daemon) is present and running
+        from utils.infrastructure_setup import check_existing_infrastructure, setup_persistent_infrastructure, InfrastructureComponent
+        infra_ok, missing_components, message = check_existing_infrastructure()
+        if not infra_ok:
+            # Only monitoring is supported; set it up if missing
+            if InfrastructureComponent.MONITORING_SETUP in missing_components:
+                success_status, error_msg = setup_persistent_infrastructure([InfrastructureComponent.MONITORING_SETUP])
+                if not success_status:
+                    return build_error_response(f"Monitoring setup failed: {error_msg}", 500, "INFRASTRUCTURE_SETUP_FAILED", execution_start_time)
+
+        logger.info(f"Session established successfully for router {g.router_id} (headless mode, monitoring ready)")
         return build_success_response({
             "session_id": g.session_id,
             "router_reachable": True,
-            "infrastructure_ready": True,
+            "monitoring_ready": True,
             "message": "Session established successfully"
-        }, execution_start_time)  # Return 200 OK like all other endpoints
-        
+        }, execution_start_time)
+
     except Exception as e:
         logger.error(f"Session setup failed: {str(e)}")
         return build_error_response(f"Session setup failed: {str(e)}", 500, "SESSION_SETUP_FAILED", execution_start_time)

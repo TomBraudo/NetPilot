@@ -54,6 +54,16 @@
         "from": "src/",
         "to": "src/",
         "filter": ["**/*"]
+      },
+      {
+        "from": "agh_categories/",
+        "to": "agh_categories/",
+        "filter": ["**/*.txt"]
+      },
+      {
+        "from": "scripts/",
+        "to": "scripts/",
+        "filter": ["install.sh"]
       }
     ],
     "nodeGypRebuild": false,

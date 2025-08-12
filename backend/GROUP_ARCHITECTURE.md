@@ -1,23 +1,27 @@
-# NetPilot Group-Based Policy Engine Architecture
+# NetPilot Commands-Server Group Architecture
 
 ## 🎯 **Core Philosophy**
 
-Groups are the **fundamental abstraction** for all network policies in NetPilot. Instead of managing individual device rules, the system organizes devices into groups and applies comprehensive policy sets that can include bandwidth limiting, access control, time-based restrictions, and future policy types.
+The commands-server acts as the **execution layer** for group-based network policies in NetPilot. It receives API requests from the upper application layer and translates them into router operations. The server maintains minimal state information about groups in its state file for efficient management while the upper layer remains the source of truth for group membership and detailed policies.
 
 ### **Key Principles**
 
-1. **Policy Compilation**: High-level policies are compiled into router command bundles
-2. **Batch Application**: Multiple policy changes are applied in single operations
-3. **Lazy Infrastructure**: Router infrastructure is created only when needed
-4. **State Synchronization**: System maintains minimal difference between desired and actual router state
-5. **Time-Based Automation**: Scheduled policies execute without manual intervention
+1. **Execution-Only Layer**: Commands-server executes policies, doesn't manage group CRUD operations
+2. **Minimal State Storage**: Only essential group information stored locally for efficiency
+3. **API-Driven Operations**: Upper layer controls groups through simple API calls
+4. **Policy Compilation**: High-level policies compiled into router command bundles
+5. **Batch Application**: Multiple policy changes applied in single operations
+6. **Lazy Infrastructure**: Router infrastructure created only when needed
+7. **State Synchronization**: Maintains minimal difference between desired and actual router state
 
-## 🏗️ **Architecture Overview**
+## 🏗️ **Commands-Server Architecture**
 
-The architecture transforms network management from individual device commands to comprehensive group policy management:
+The commands-server transforms API requests into efficient router operations:
 
 ```
-Database Layer (CRUD Operations)
+Upper Layer API Requests
+         ↓
+API Service Layer (Group Management Endpoints)
          ↓
 Policy Compilation Layer (GroupPolicy → RouterCommandBundle)
          ↓
@@ -25,38 +29,185 @@ Batch Application Layer (Efficient Router Updates)
          ↓
 Router Infrastructure (TC Classes + iptables Chains)
          ↓
-Time-Based Scheduler (Automated Policy Changes)
+State File Management (Minimal Group State Storage)
 ```
 
-### **Default Group Structure**
+### **Commands-Server Responsibilities**
 
-The system always maintains at least one group:
+The commands-server is responsible for:
 
-- **Group 0 ("Guest Group")**: The default group for unassigned devices
-  - Group ID: `0`
-  - TC Class: `1:100` 
-  - Mark Value: `100`
-  - Purpose: Handles devices not explicitly assigned to other groups
-  - Always exists and cannot be deleted
+- **API Service**: Provides REST endpoints for group management operations
+- **State Management**: Maintains minimal group state in local state file
+- **Policy Execution**: Compiles and applies policies to router infrastructure  
+- **Router Operations**: Manages TC classes, iptables chains, and DNS configurations
+- **Synchronization**: Ensures router state matches requested group policies
+- **Performance**: Optimizes router operations through batching and caching
+
+### **State File Structure**
+
+The commands-server maintains a minimal state file containing only essential group information:
+
+```json
+{
+  "groups": {
+    "0": {
+      "name": "Guest Group",
+      "active": true,
+      "device_count": 5,
+      "devices": [
+        {
+          "ip": "192.168.1.50",
+          "mac": "aa:bb:cc:dd:ee:11"
+        },
+        {
+          "ip": "192.168.1.51", 
+          "mac": "aa:bb:cc:dd:ee:22"
+        },
+        {
+          "ip": "192.168.1.52",
+          "mac": "aa:bb:cc:dd:ee:33"
+        },
+        {
+          "ip": "192.168.1.53",
+          "mac": "aa:bb:cc:dd:ee:44"
+        },
+        {
+          "ip": "192.168.1.54",
+          "mac": "aa:bb:cc:dd:ee:55"
+        }
+      ],
+      "tc_class": "1:100",
+      "mark_value": 100,
+      "policies": {
+        "bandwidth_limit_mbps": null,
+        "blocked_categories": [],
+        "blocked_sites": [],
+        "allowed_sites_only": [],
+        "block_all_internet": false
+      },
+      "infrastructure_created": true,
+      "last_sync": "2025-08-03T10:30:00Z"
+    },
+    "1": {
+      "name": "Children Devices",
+      "active": true, 
+      "device_count": 3,
+      "devices": [
+        {
+          "ip": "192.168.1.100",
+          "mac": "d8:bb:c1:47:3a:43"
+        },
+        {
+          "ip": "192.168.1.101",
+          "mac": "aa:bb:cc:11:22:33"
+        },
+        {
+          "ip": "192.168.1.102", 
+          "mac": "bb:cc:dd:22:33:44"
+        }
+      ],
+      "tc_class": "1:101",
+      "mark_value": 101,
+      "policies": {
+        "bandwidth_limit_mbps": 50,
+        "blocked_categories": ["adult", "gaming"],
+        "blocked_sites": ["social-media.com"],
+        "allowed_sites_only": [],
+        "block_all_internet": false
+      },
+      "infrastructure_created": true,
+      "last_sync": "2025-08-03T10:25:00Z"
+    }
+  },
+  "infrastructure": {
+    "base_setup_complete": true,
+    "available_classes": ["1:102", "1:103", "1:104"],
+    "next_mark_value": 102
+  }
+}
+```
+
+### **API Service Layer**
+
+The commands-server exposes simple REST endpoints for the upper layer:
+
+```
+POST /api/groups/{group_id}/sync
+- Synchronizes group policy with router
+- Payload: GroupPolicy object from upper layer
+- Returns: Success status and any error messages
+
+PUT /api/groups/{group_id}/policy  
+- Updates specific policy for a group
+- Payload: Policy updates (bandwidth, access_control, etc.)
+- Returns: Updated group state
+
+DELETE /api/groups/{group_id}
+- Removes group infrastructure and cleans up router
+- Returns: Cleanup status
+
+GET /api/groups/{group_id}/status
+- Returns current group status and router state
+- Includes infrastructure status and last sync time
+
+POST /api/groups/sync-all
+- Batch synchronization of multiple groups
+- Payload: Array of GroupPolicy objects
+- Returns: Batch operation results
+
+GET /api/infrastructure/status
+- Returns overall router infrastructure status
+- Includes available classes, active groups, performance metrics
+```
 
 ## 📋 **Core Data Structures**
 
-### **Group Policy Definition**
+### **Minimal Group State (Commands-Server)**
 ```python
 @dataclass
-class GroupPolicy:
-    """Complete policy definition for a group"""
+class DeviceInfo:
+    """Device information stored in state file"""
+    ip: str
+    mac: str
+
+@dataclass
+class GroupState:
+    """Minimal group state stored in commands-server state file"""
     group_id: int
     name: str
-    devices: List[Device]
+    active: bool
+    device_count: int  # Number of devices (for optimization)
+    devices: List[DeviceInfo]  # Current devices with IP/MAC for verification
+    tc_class: str  # e.g., "1:101"
+    mark_value: int  # e.g., 101
+    policies: GroupPolicySummary
+    infrastructure_created: bool
+    last_sync: datetime
+
+@dataclass
+class GroupPolicySummary:
+    """Essential policy information for router operations"""
+    bandwidth_limit_mbps: Optional[int] = None
+    blocked_categories: List[str] = field(default_factory=list)
+    blocked_sites: List[str] = field(default_factory=list)
+    allowed_sites_only: List[str] = field(default_factory=list)
+    block_all_internet: bool = False
+
+@dataclass
+class GroupSyncRequest:
+    """API request format from upper layer to commands-server"""
+    group_id: int
+    name: str
+    device_ips: List[str]  # Current device IPs for this group
+    device_macs: List[str]  # Current device MACs for this group
     
-    # Policy Components
+    # Policy Components (sent from upper layer)
     bandwidth_policy: Optional[BandwidthPolicy]
     access_control_policy: Optional[AccessControlPolicy]
-    time_based_policies: List[TimeBasedPolicy]
+    time_based_policies: List[TimeBasedPolicy] = field(default_factory=list)
     
     active: bool = True
-    priority: int = 0
+    force_sync: bool = False  # Force full sync even if no changes detected
 
 @dataclass  
 class BandwidthPolicy:
@@ -69,57 +220,14 @@ class BandwidthPolicy:
 class AccessControlPolicy:
     """Website and content filtering"""
     blocked_sites: List[str] = field(default_factory=list)
-    blocked_categories: List[str] = field(default_factory=list)  # e.g., ["social_media", "adult", "streaming"]
+    blocked_categories: List[str] = field(default_factory=list)  
     allowed_sites_only: List[str] = field(default_factory=list)
     block_all_internet: bool = False
     active: bool = True
 
 @dataclass
-class BlockingCategory:
-    """Defines a category of blocked websites"""
-    name: str  # e.g., "social_media", "adult", "streaming", "gaming"
-    display_name: str  # e.g., "Social Media", "Adult Content", "Streaming Services"
-    description: str  # User-friendly description
-    sites: List[str] = field(default_factory=list)  # List of domains
-    enabled: bool = True
-    
-# Predefined blocking categories
-DEFAULT_BLOCKING_CATEGORIES = [
-    BlockingCategory(
-        name="social_media",
-        display_name="Social Media",
-        description="Facebook, Instagram, TikTok, Twitter, etc.",
-        sites=["facebook.com", "instagram.com", "tiktok.com", "twitter.com", "snapchat.com"]
-    ),
-    BlockingCategory(
-        name="streaming",
-        display_name="Streaming Services", 
-        description="Netflix, YouTube, Twitch, etc.",
-        sites=["netflix.com", "youtube.com", "twitch.tv", "hulu.com", "disney.com"]
-    ),
-    BlockingCategory(
-        name="adult",
-        display_name="Adult Content",
-        description="Adult and inappropriate content",
-        sites=["pornhub.com", "xvideos.com", "xhamster.com", "redtube.com"]
-    ),
-    BlockingCategory(
-        name="gaming",
-        display_name="Gaming",
-        description="Gaming platforms and related sites",
-        sites=["steam.com", "epicgames.com", "battle.net", "roblox.com", "minecraft.net"]
-    ),
-    BlockingCategory(
-        name="news_distracting",
-        display_name="News & Distracting",
-        description="News sites and distracting content",
-        sites=["reddit.com", "cnn.com", "bbc.com", "buzzfeed.com", "9gag.com"]
-    )
-]
-
-@dataclass
 class TimeBasedPolicy:
-    """Time-sensitive policy overrides"""
+    """Time-sensitive policy overrides (handled by commands-server cron)"""
     name: str
     start_time: str  # "22:00"
     end_time: str    # "08:00" 
@@ -130,11 +238,11 @@ class TimeBasedPolicy:
 
 class PolicyAction(Enum):
     """Available actions for time-based policies"""
-    BANDWIDTH_LIMIT = "bandwidth_limit"        # Change bandwidth limit temporarily
-    BLOCK_INTERNET = "block_internet"          # Block all internet access
-    ACTIVATE_BLACKLIST = "activate_blacklist"  # Enable blacklist mode for group
-    BLOCK_SITES = "block_sites"               # Block specific sites temporarily
-    ALLOW_SITES_ONLY = "allow_sites_only"     # Whitelist mode for sites
+    BANDWIDTH_LIMIT = "bandwidth_limit"
+    BLOCK_INTERNET = "block_internet"
+    ACTIVATE_BLACKLIST = "activate_blacklist"
+    BLOCK_SITES = "block_sites"
+    ALLOW_SITES_ONLY = "allow_sites_only"
 ```
 
 ### **Router Command Bundle**
@@ -157,105 +265,129 @@ class RouterCommandBundle:
     dependencies: List[int] = field(default_factory=list)
 ```
 
-## 🔧 **Architecture Components**
+## 🔧 **Commands-Server Components**
 
-### **1. Policy Compilation Layer**
-Converts high-level group policies into executable router commands.
+### **1. API Service Layer**
+Handles incoming requests from the upper application layer.
+
+```python
+class GroupAPIService:
+    """REST API endpoints for group management"""
+    
+    def sync_group(self, group_id: int, sync_request: GroupSyncRequest) -> SyncResponse:
+        """Main endpoint: sync group policy with router"""
+        
+    def update_group_policy(self, group_id: int, policy_updates: Dict) -> UpdateResponse:
+        """Update specific policy components"""
+        
+    def delete_group(self, group_id: int) -> DeleteResponse:
+        """Remove group infrastructure and cleanup"""
+        
+    def get_group_status(self, group_id: int) -> GroupStatus:
+        """Get current group status and router state"""
+        
+    def sync_all_groups(self, sync_requests: List[GroupSyncRequest]) -> BatchSyncResponse:
+        """Batch synchronization endpoint"""
+        
+    def get_infrastructure_status(self) -> InfrastructureStatus:
+        """Get overall router infrastructure status"""
+```
+
+### **2. Policy Compilation Layer**
+Converts API requests into executable router commands.
 
 ```python
 class GroupPolicyCompiler:
-    """Converts high-level policies into router command bundles"""
+    """Converts sync requests into router command bundles"""
     
-    def compile_group_policy(self, policy: GroupPolicy) -> RouterCommandBundle:
+    def compile_sync_request(self, sync_request: GroupSyncRequest, current_state: GroupState) -> RouterCommandBundle:
         """Main compilation entry point"""
         
-    def _compile_bandwidth_policy(self, group_id: int, policy: BandwidthPolicy, devices: List[Device]) -> List[str]:
+    def _compile_bandwidth_policy(self, group_id: int, policy: BandwidthPolicy, device_ips: List[str]) -> List[str]:
         """Generate TC commands for bandwidth limiting"""
         
-    def _compile_access_control_policy(self, group_id: int, policy: AccessControlPolicy, devices: List[Device]) -> List[str]:
-        """Generate iptables commands for access control"""
+    def _compile_access_control_policy(self, group_id: int, policy: AccessControlPolicy, device_macs: List[str]) -> List[str]:
+        """Generate iptables and DNS commands for access control"""
         
-    def _compile_time_based_policy(self, group_id: int, policy: TimeBasedPolicy, devices: List[Device]) -> List[str]:
+    def _compile_time_based_policy(self, group_id: int, policy: TimeBasedPolicy) -> List[str]:
         """Generate cron jobs for time-based policy activation"""
-```
-
-**Key Features:**
-- **Multi-Policy Support**: Handles bandwidth, access control, and time-based policies
-- **Device Association**: Links policies to specific device IPs
-- **Infrastructure Optimization**: Creates minimal required router infrastructure
-- **Dependency Management**: Handles policy interdependencies
-
-### **2. Batch Application Engine**
-Efficiently applies policy changes to the router with minimal operations.
-
-```python
-class GroupPolicyService:
-    """Main service for group policy management"""
-    
-    def sync_group_policy(self, group_id: int, policy: GroupPolicy) -> Tuple[bool, Optional[str]]:
-        """Synchronizes a single group's policy with the router"""
         
-    def sync_all_groups(self, groups: List[GroupPolicy]) -> Tuple[bool, List[str]]:
-        """Efficiently sync multiple groups at once"""
-        
-    def handle_time_based_event(self, event: TimeBasedEvent) -> Tuple[bool, Optional[str]]:
-        """Called by cron jobs to activate/deactivate time-based policies"""
-```
-
-**Key Features:**
-- **State Diffing**: Only applies changes that differ from current router state
-- **Batch Optimization**: Groups related commands for efficient execution
-- **Error Recovery**: Handles partial failures and rollback scenarios
-- **Performance Monitoring**: Tracks operation duration and success rates
-
-### **3. Router State Management**
-Maintains synchronization between desired policies and actual router configuration.
-
-```python
-class RouterStateManager:
-    """Manages router state synchronization"""
-    
-    def get_current_state(self) -> RouterState:
-        """Query current router configuration"""
-        
-    def calculate_diff(self, current: RouterState, desired: RouterState) -> CommandDiff:
+    def _calculate_state_diff(self, current: GroupState, desired: GroupSyncRequest) -> CommandDiff:
         """Calculate minimal changes needed"""
-        
-    def apply_commands(self, bundle: RouterCommandBundle) -> Result:
+```
+
+### **3. Router Operations Engine**
+Efficiently applies policy changes to the router.
+
+```python
+class RouterOperationsEngine:
+    """Executes router commands and manages infrastructure"""
+    
+    def apply_command_bundle(self, bundle: RouterCommandBundle) -> OperationResult:
         """Execute router commands with error handling"""
         
-    def get_group_state(self, group_id: int) -> GroupState:
-        """Get current state for specific group"""
+    def create_group_infrastructure(self, group_id: int) -> InfrastructureResult:
+        """Create TC classes and iptables chains for new group"""
+        
+    def cleanup_group_infrastructure(self, group_id: int) -> CleanupResult:
+        """Remove unused infrastructure when group is deleted"""
+        
+    def verify_router_state(self, group_id: int, expected_state: GroupState) -> VerificationResult:
+        """Verify router state matches expected configuration"""
 ```
 
-**Key Features:**
-- **State Caching**: Minimizes router queries through intelligent caching
-- **Incremental Updates**: Calculates minimal change sets for efficiency
-- **Validation**: Verifies router state matches expected configuration
-- **Conflict Resolution**: Handles overlapping policy requirements
-
-### **4. Time-Based Scheduler**
-Handles automated policy changes based on time and schedule constraints.
+### **4. State File Manager**
+Manages the local state file for efficient operations.
 
 ```python
-class TimeBasedScheduler:
-    """Manages time-based policy automation"""
+class StateFileManager:
+    """Manages commands-server state file"""
     
-    def schedule_policy(self, policy: TimeBasedPolicy) -> Result:
-        """Set up cron jobs for policy activation/deactivation"""
+    def load_state(self) -> Dict[str, Any]:
+        """Load current state from file"""
         
-    def trigger_time_event(self, event: TimeEvent) -> Result:
-        """Handle scheduled policy changes"""
+    def save_group_state(self, group_id: int, state: GroupState) -> bool:
+        """Update group state in file"""
         
-    def get_active_time_policies(self) -> List[TimeBasedPolicy]:
-        """Get currently active time-based policies"""
-```
+    def delete_group_state(self, group_id: int) -> bool:
+        """Remove group from state file"""
+        
+    def get_group_state(self, group_id: int) -> Optional[GroupState]:
+        """Get specific group state"""
+        
+    def verify_devices(self, group_id: int, device_ips: List[str], device_macs: List[str]) -> DeviceVerificationResult:
+        """Verify incoming device list against stored state"""
+        
+    def update_group_devices(self, group_id: int, devices: List[DeviceInfo]) -> bool:
+        """Update device list for a group"""
+        
+    def get_device_changes(self, group_id: int, new_devices: List[DeviceInfo]) -> DeviceChanges:
+        """Calculate which devices were added/removed/changed"""
+        
+    def allocate_tc_class(self) -> Tuple[str, int]:
+        """Allocate next available TC class and mark value"""
+        
+    def release_tc_class(self, tc_class: str, mark_value: int) -> bool:
+        """Release TC class back to available pool"""
 
-**Key Features:**
-- **Cron Integration**: Uses system cron for reliable scheduling
-- **Policy Stacking**: Handles overlapping time-based policies
-- **Timezone Awareness**: Respects router timezone settings
-- **Persistence**: Survives router reboots and system restarts
+@dataclass
+class DeviceVerificationResult:
+    """Result of device verification"""
+    is_valid: bool
+    added_devices: List[DeviceInfo]
+    removed_devices: List[DeviceInfo]
+    changed_devices: List[DeviceInfo]  # Devices with IP/MAC changes
+    error_message: Optional[str] = None
+
+@dataclass
+class DeviceChanges:
+    """Device changes between current and new state"""
+    added: List[DeviceInfo]
+    removed: List[DeviceInfo] 
+    ip_changed: List[Tuple[DeviceInfo, DeviceInfo]]  # (old, new)
+    mac_changed: List[Tuple[DeviceInfo, DeviceInfo]]  # (old, new)
+    unchanged: List[DeviceInfo]
+```
 
 ## 🚀 **Router Infrastructure Organization**
 
@@ -300,47 +432,96 @@ Router infrastructure is created **just-in-time** when groups are first used:
 4. **Policy Setup** (policy activation): Adds specific rules and filters
 5. **Cleanup** (group empty): Removes unused infrastructure (except Group 0)
 
-## 🔄 **Policy Application Flow**
+## 🔄 **API Operation Flows**
 
-### **Standard Workflow**
+### **Group Sync Operation (Primary Flow)**
 ```
-1. Database Operations (Upper Layer)
-   - Create/modify groups
-   - Add/remove devices
-   - Update policy settings
+1. Upper Layer Request
+   - POST /api/groups/{group_id}/sync
+   - Payload: GroupSyncRequest with current devices and policies
    
-2. Policy Compilation
-   - Convert GroupPolicy → RouterCommandBundle
+2. Device Verification
+   - Load current group state from state file
+   - Compare incoming device list (IPs/MACs) with stored state
+   - Identify added, removed, or changed devices
+   - Validate device changes are reasonable (security check)
+   
+3. State Comparison & Policy Compilation
+   - Calculate difference between current and desired policies
+   - Generate RouterCommandBundle for policy changes
+   - Include device-specific commands for added/removed devices
    - Optimize for minimal router operations
-   - Handle policy dependencies
    
-3. State Synchronization
-   - Query current router state
-   - Calculate required changes
-   - Apply minimal command set
+4. Router Execution
+   - Apply command bundle to router infrastructure
+   - Update TC classes and iptables chains for device changes
+   - Update DNS configurations for new/removed devices
+   - Apply policy changes to affected devices
    
-4. Verification
-   - Confirm router state matches desired state
-   - Update cached state information
-   - Log results for monitoring
+5. State Update
+   - Update group state with new device list and policies
+   - Record sync timestamp and updated device count
+   - Return success/failure status with device change summary
 ```
 
-### **Time-Based Workflow**
+### **Device Change Handling Flow**
 ```
-1. Policy Schedule Setup
-   - Create cron jobs for policy activation
-   - Set up deactivation schedules
-   - Handle timezone considerations
+1. Device Addition
+   - Add new device IP/MAC to state file
+   - Create iptables rules for new device
+   - Apply group policies to new device
+   - Update device count in state
    
-2. Automated Execution
-   - Cron triggers policy changes
-   - System applies temporary overrides
-   - Original policies restored automatically
+2. Device Removal
+   - Remove device-specific iptables rules
+   - Clean up DNS configurations for device
+   - Remove device from state file
+   - Update device count in state
    
-3. Conflict Resolution
-   - Handle overlapping time policies
-   - Maintain policy priority order
-   - Ensure consistent state
+3. Device IP/MAC Changes
+   - Remove old iptables rules
+   - Add new iptables rules with updated IP/MAC
+   - Update DNS configurations
+   - Update device info in state file
+   
+4. Validation & Security
+   - Detect suspicious mass device changes
+   - Validate IP/MAC format and ranges
+   - Check for duplicate devices across groups
+   - Log significant device changes for audit
+```
+
+### **Time-Based Policy Activation (Cron-Triggered)**
+```
+1. Cron Job Execution
+   - Time-based policy triggers (e.g., 22:00 bedtime restrictions)
+   - Commands-server receives internal time event
+   
+2. Policy Override Application
+   - Apply temporary policy changes (e.g., reduce bandwidth)
+   - Maintain original policy in state for restoration
+   
+3. Automatic Restoration
+   - End-time cron job restores original policies
+   - Update router infrastructure back to base state
+```
+
+### **Infrastructure Management Flow**
+```
+1. Lazy Creation
+   - New group triggers infrastructure creation
+   - Allocate TC class (1:100+group_id) and mark value
+   - Create group-specific iptables chains
+   
+2. Cleanup on Deletion
+   - Remove all group-specific router rules
+   - Release TC class back to available pool
+   - Clean up DNS configurations and cron jobs
+   
+3. Optimization
+   - Batch multiple group changes into single router interaction
+   - Cache router state to minimize queries
+   - Use state diffing to apply only necessary changes
 ```
 
 ## 📊 **Performance Characteristics**
@@ -368,19 +549,21 @@ Router infrastructure is created **just-in-time** when groups are first used:
 - **State Query**: ~50-200ms (cached results faster)
 - **Time-Based Activation**: ~10-100ms (cron-triggered)
 
-## 🎯 **Use Case Examples**
+## 🎯 **Example API Usage**
 
-### **Children's Parental Controls**
+### **Sync Children's Group with Restrictions**
 ```python
-children_policy = GroupPolicy(
+# Upper layer sends sync request to commands-server
+sync_request = GroupSyncRequest(
     group_id=1,
     name="Children's Devices",
-    devices=[Device(ip="192.168.1.100"), Device(ip="192.168.1.101")],
+    device_ips=["192.168.1.100", "192.168.1.101", "192.168.1.102"],
+    device_macs=["d8:bb:c1:47:3a:43", "aa:bb:cc:11:22:33", "bb:cc:dd:22:33:44"],
     
     bandwidth_policy=BandwidthPolicy(limit_mbps=50),
     
     access_control_policy=AccessControlPolicy(
-        blocked_categories=["adult", "gambling"],
+        blocked_categories=["adult", "gaming"],
         blocked_sites=["social-media.com"]
     ),
     
@@ -394,53 +577,100 @@ children_policy = GroupPolicy(
         )
     ]
 )
+
+# API call to commands-server
+response = requests.post(
+    "http://commands-server:8080/api/groups/1/sync",
+    json=sync_request.to_dict()
+)
+
+# Response includes device change summary
+# {
+#   "success": true,
+#   "device_changes": {
+#     "added": [{"ip": "192.168.1.102", "mac": "bb:cc:dd:22:33:44"}],
+#     "removed": [],
+#     "ip_changed": [],
+#     "mac_changed": []
+#   },
+#   "policies_updated": ["bandwidth", "access_control"],
+#   "sync_duration_ms": 245
+# }
 ```
 
-### **Guest Network Management**
+### **Update Group Policy (Bandwidth Only)**
 ```python
-guest_policy = GroupPolicy(
-    group_id=2,
-    name="Guest Devices",
-    
-    bandwidth_policy=BandwidthPolicy(limit_mbps=25),
-    
-    access_control_policy=AccessControlPolicy(
-        blocked_categories=["business", "finance"],
-        allowed_sites_only=["google.com", "youtube.com", "netflix.com"]
-    )
+# Quick policy update without full sync
+policy_update = {
+    "bandwidth_policy": {
+        "limit_mbps": 75,  # Increase bandwidth limit
+        "active": True
+    }
+}
+
+response = requests.put(
+    "http://commands-server:8080/api/groups/1/policy",
+    json=policy_update
 )
 ```
 
-### **Work-From-Home Priority**
+### **Remove Group Infrastructure**
 ```python
-work_policy = GroupPolicy(
-    group_id=3,
-    name="Work Devices",
-    
-    bandwidth_policy=BandwidthPolicy(limit_mbps=500),  # High priority
-    
-    time_based_policies=[
-        TimeBasedPolicy(
-            name="business_hours_priority",
-            start_time="09:00", end_time="17:00",
-            days=["monday", "tuesday", "wednesday", "thursday", "friday"],
-            action=PolicyAction.BANDWIDTH_LIMIT,
-            parameters={"limit_mbps": 800}  # Even higher during work hours
-        )
-    ]
+# Clean up group when no longer needed
+response = requests.delete(
+    "http://commands-server:8080/api/groups/1"
 )
+
+# Commands-server will:
+# 1. Remove all TC classes and iptables rules for group devices
+# 2. Clean up DNS configurations for all group devices
+# 3. Remove cron jobs for time-based policies
+# 4. Delete group from state file (including all device records)
+# 5. Release TC class back to pool
+# 6. Return summary of cleanup operations performed
+
+# Response includes cleanup summary
+# {
+#   "success": true,
+#   "cleanup_summary": {
+#     "devices_cleaned": 3,
+#     "tc_rules_removed": 5,
+#     "iptables_rules_removed": 12,
+#     "dns_configs_removed": 3,
+#     "cron_jobs_removed": 2
+#   },
+#   "tc_class_released": "1:101"
+# }
 ```
 
-## 🔮 **Future Extensions**
+## 🔮 **Commands-Server Extensions**
 
-The architecture is designed to easily accommodate additional policy types:
+The commands-server architecture is designed to easily accommodate additional policy types through API extensions:
 
-- **Application-Level Control**: Block/allow specific applications
+- **Application-Level Control**: Block/allow specific applications via DPI
 - **Quality of Service**: Priority-based traffic handling
-- **Geographic Restrictions**: Location-based access control
-- **Usage Quotas**: Daily/weekly data limits
-- **Advanced Scheduling**: Complex time patterns and exceptions
-- **Dynamic Policies**: ML-based adaptive policy adjustments
+- **Usage Quotas**: Daily/weekly data limits with automatic enforcement
+- **Advanced Time Patterns**: Complex scheduling with exceptions
+- **Dynamic Policy Adjustment**: Performance-based automatic policy tuning
+
+New policy types only require:
+1. Extension of `GroupSyncRequest` data structure
+2. New compilation methods in `GroupPolicyCompiler` 
+3. Additional router command generation
+4. State file schema updates for new policy storage
+
+## 💡 **Commands-Server Benefits**
+
+1. **Clear Separation of Concerns**: Execution layer separate from business logic
+2. **Minimal State Storage**: Only essential information stored locally
+3. **Simple API Interface**: Easy integration with upper application layers
+4. **Efficient Router Operations**: Batching and optimization built-in
+5. **Stateless Operation**: Can be restarted without losing group functionality
+6. **Performance Optimized**: State diffing and caching minimize router load
+7. **Extensible Design**: Easy addition of new policy types
+8. **Error Resilience**: Comprehensive error handling and recovery
+
+This architecture positions the commands-server as a dedicated, efficient execution engine for network policy management, providing a clean API interface to upper layers while maintaining optimal router performance.
 
 ## ⚗️ **Implementation Status & Experimental Areas**
 
@@ -741,15 +971,15 @@ iptables -I FORWARD -m mac --mac-source {device_mac} -p tcp --dport 443 -d 8.8.8
 
 **Note**: The architecture is designed to be implementation-agnostic for experimental features. The UCI firewall method appears promising for both time-based controls and comprehensive access management (including complete blocking with whitelist exceptions). The final choice of methods will depend on router capabilities, performance testing, and reliability requirements discovered during manual experimentation.
 
-## 💡 **Implementation Benefits**
+## 💡 **Commands-Server Benefits**
 
-1. **Unified Management**: Single interface for all network policies
-2. **Scalable Design**: Handles growth from home to enterprise use
-3. **Efficient Operations**: Minimal router overhead through batching
-4. **Time Automation**: Set-and-forget scheduled policies
-5. **Policy Composition**: Mix different policy types seamlessly
-6. **Future-Proof**: Easy extension for new policy types
-7. **Performance Optimized**: Intelligent caching and state management
-8. **Reliable**: Comprehensive error handling and recovery
+1. **Clear Separation of Concerns**: Execution layer separate from business logic
+2. **Minimal State Storage**: Only essential information stored locally
+3. **Simple API Interface**: Easy integration with upper application layers
+4. **Efficient Router Operations**: Batching and optimization built-in
+5. **Stateless Operation**: Can be restarted without losing group functionality
+6. **Performance Optimized**: State diffing and caching minimize router load
+7. **Extensible Design**: Easy addition of new policy types
+8. **Error Resilience**: Comprehensive error handling and recovery
 
-This architecture positions NetPilot as a comprehensive network policy management system that can handle complex, multi-faceted requirements while maintaining high performance and reliability.
+This architecture positions the commands-server as a dedicated, efficient execution engine for network policy management, providing a clean API interface to upper layers while maintaining optimal router performance.

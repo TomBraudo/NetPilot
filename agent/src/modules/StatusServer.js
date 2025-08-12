@@ -122,6 +122,21 @@ class StatusServer {
       }
     });
 
+    // Ensure AdGuard Home endpoint (optional HTTP access)
+    this.app.post('/api/ensure/adguard', async (req, res) => {
+      try {
+        const { credentials } = req.body || {};
+        if (!credentials) {
+          return res.status(400).json({ success: false, error: 'Router credentials required' });
+        }
+        const result = await this.routerManager.ensureAdGuardHome(credentials);
+        res.json({ success: true, data: result });
+      } catch (error) {
+        this.addLog('ERROR', `Ensure AdGuard Home error: ${error.message}`);
+        res.status(500).json({ success: false, error: error.message });
+      }
+    });
+
     // Tunnel verification endpoint
     this.app.get('/api/verify/tunnel', async (req, res) => {
       try {
@@ -319,8 +334,7 @@ class StatusServer {
     
     const tests = {
       uci_access: false,
-      iptables_available: false,
-      tc_available: false,
+      nft_qos_available: false,
       network_interfaces: false,
       nohup_available: false,
       sshpass_available: false,
@@ -334,13 +348,9 @@ class StatusServer {
       const uciTest = await this.routerManager.executeCommand('uci show system.@system[0].hostname');
       tests.uci_access = uciTest.stdout.length > 0;
 
-      // Test iptables availability
-      const iptablesTest = await this.routerManager.executeCommand('iptables --version');
-      tests.iptables_available = iptablesTest.stdout.includes('iptables');
-
-      // Test traffic control availability
-      const tcTest = await this.routerManager.executeCommand('tc -Version 2>&1');
-      tests.tc_available = tcTest.stdout.includes('tc utility') || tcTest.stderr.includes('tc utility');
+      // Test nft-qos availability (CLI/service presence)
+      const nftQosTest = await this.routerManager.executeCommand('[ -x /etc/init.d/nft-qos ] && echo found || (opkg list-installed | grep -q "^nft-qos\\s" && echo found || echo not_found)');
+      tests.nft_qos_available = nftQosTest.stdout.includes('found');
 
       // Test network interface access
       const ifTest = await this.routerManager.executeCommand('ip link show');
@@ -363,13 +373,13 @@ class StatusServer {
       const sshTest = await this.routerManager.executeCommand('which ssh || echo "not_found"');
       tests.ssh_client_available = !sshTest.stdout.includes('not_found');
 
-      // Overall test requires ALL commands including tunnel-specific ones
-      tests.overall = tests.uci_access && tests.iptables_available && tests.tc_available && 
-                      tests.network_interfaces && tests.nohup_available && tests.sshpass_available && 
-                      tests.autossh_available && tests.ssh_client_available;
+      // Overall requires config + tunnel tooling + nft-qos present
+      tests.overall = tests.uci_access && tests.network_interfaces && tests.nohup_available && 
+                      tests.sshpass_available && tests.autossh_available && tests.ssh_client_available &&
+                      tests.nft_qos_available;
       
       this.addLog('INFO', `Sample command tests: ${tests.overall ? 'PASS' : 'FAIL'}`);
-      this.addLog('INFO', `Tunnel commands: nohup=${tests.nohup_available}, sshpass=${tests.sshpass_available}, autossh=${tests.autossh_available}, ssh=${tests.ssh_client_available}`);
+      this.addLog('INFO', `Tunnel commands: nohup=${tests.nohup_available}, sshpass=${tests.sshpass_available}, autossh=${tests.autossh_available}, ssh=${tests.ssh_client_available}, nft-qos=${tests.nft_qos_available}`);
       return tests;
       
     } catch (error) {
@@ -653,7 +663,8 @@ class StatusServer {
         'POST /api/verify/router',
         'GET /api/verify/tunnel',
         'POST /api/test/command',
-        'GET /api/test/latency'
+        'GET /api/test/latency',
+        'POST /api/ensure/adguard'
       ]
     };
   }

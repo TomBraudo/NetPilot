@@ -1483,20 +1483,23 @@ Built with Electron ${window.electronAPI?.version || 'Unknown'}${configInfo}${ro
         return result.data;
       });
 
-      // Step 4: Configure Router
-      await this.executeConfigStep(4, 'Configuring router for NetPilot...', async () => {
-        await window.electronAPI.installRouterPackages(credentials);
-        return { configured: true };
-      });
-
-      // Step 5: Verify Configuration
-      await this.executeConfigStep(5, 'Verifying router configuration...', async () => {
+      // Step 4: Verify Configuration
+      await this.executeConfigStep(4, 'Verifying router configuration...', async () => {
         // Verify all packages and configuration are correct
         const verifyResult = await window.electronAPI.verifyRouterSetup(credentials);
         if (!verifyResult.success) {
           throw new Error(`Verification failed: ${verifyResult.error}`);
         }
         return verifyResult.data;
+      });
+
+      // Step 5: AdGuard Home Setup
+      await this.executeConfigStep(5, 'Ensuring AdGuard Home is installed and configured...', async () => {
+        const aghResult = await window.electronAPI.ensureAdGuardHome(credentials);
+        if (!aghResult.success) {
+          throw new Error('AdGuard Home setup failed');
+        }
+        return aghResult.data || aghResult.status || { agh: 'ok' };
       });
 
       // Success - save router profile and update status
