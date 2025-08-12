@@ -4,8 +4,11 @@ from authlib.integrations.flask_client import OAuth
 from functools import wraps
 from dotenv import load_dotenv
 import os
-from models.user import User
+from models.user import User, User2FASettings
 from datetime import datetime
+from utils.logging_config import get_logger
+
+logger = get_logger('auth')
 
 load_dotenv()
 
@@ -38,19 +41,13 @@ def login_required(f):
         if current_app.config.get('DEV_MODE', False):
             dev_user_id = current_app.config.get('DEV_USER_ID')
             print(f"DEV MODE: login_required bypassed with fake user_id: {dev_user_id}")
+            g.user_id = dev_user_id  # Set user_id in g for compatibility
             return f(*args, **kwargs)
         
         print(f"DEBUG: login_required decorator called")
         print(f"DEBUG: Session keys: {list(session.keys())}")
         print(f"DEBUG: 'user' in session: {'user' in session}")
         print(f"DEBUG: 'user_id' in session: {'user_id' in session}")
-        
-        # Temporarily allow access if user_id exists in session
-        if 'user_id' in session:
-            user_id = session.get('user_id')
-            if user_id and user_id != 'None':
-                print(f"DEBUG: Allowing access with user_id: {user_id}")
-                return f(*args, **kwargs)
         
         # Check for OAuth token
         if 'user' not in session:
@@ -68,8 +65,69 @@ def login_required(f):
             print(f"DEBUG: Invalid user_id: {user_id}")
             return jsonify({"error": "Authentication incomplete - invalid user_id"}), 401
         
-        print(f"DEBUG: Authentication successful")
+        # Set user_id in g for easy access in endpoints
+        g.user_id = user_id
+        
+        print(f"DEBUG: Authentication successful for user_id: {user_id}")
         return f(*args, **kwargs)
+    return decorated_function
+
+def twofa_required(f):
+    """Decorator to require 2FA verification for sensitive routes"""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        from flask import current_app
+        
+        # Skip 2FA in dev mode
+        if current_app.config.get('DEV_MODE', False):
+            return f(*args, **kwargs)
+        
+        # First ensure user is logged in
+        user_id = g.get('user_id') or session.get('user_id')
+        if not user_id:
+            return jsonify({"error": "Authentication required"}), 401
+        
+        # Check if user has 2FA enabled
+        from database.connection import db
+        db_session = db.get_session()
+        try:
+            user = db_session.query(User).filter_by(id=user_id).first()
+            user_2fa = db_session.query(User2FASettings).filter_by(user_id=user_id).first()
+            
+            requires_2fa = user.requires_2fa if user else False
+            has_2fa_enabled = user_2fa.is_enabled if user_2fa else False
+            
+            if requires_2fa or has_2fa_enabled:
+                # Check if 2FA is verified in current session
+                is_2fa_verified = session.get('2fa_verified', False)
+                
+                if not is_2fa_verified:
+                    return jsonify({
+                        "error": "2FA verification required", 
+                        "requires_2fa": True
+                    }), 403
+                
+                # Check if 2FA verification is still valid (e.g., within last hour)
+                verified_at = session.get('2fa_verified_at')
+                if verified_at:
+                    from datetime import datetime, timedelta
+                    verified_time = datetime.fromisoformat(verified_at)
+                    if datetime.utcnow() - verified_time > timedelta(hours=1):
+                        session.pop('2fa_verified', None)
+                        session.pop('2fa_verified_at', None)
+                        return jsonify({
+                            "error": "2FA verification expired", 
+                            "requires_2fa": True
+                        }), 403
+            
+            return f(*args, **kwargs)
+            
+        except Exception as e:
+            logger.error(f"Error checking 2FA requirements: {e}")
+            return jsonify({"error": "Authentication check failed"}), 500
+        finally:
+            db_session.close()
+    
     return decorated_function
 
 @auth_bp.route('/')
@@ -87,12 +145,16 @@ def login():
     redirect_uri = f"{scheme}://{host}/authorize"
     return google.authorize_redirect(redirect_uri)
 
+
+
 @auth_bp.route('/authorize')
 def authorize():
     """Handle OAuth callback"""
     token = google.authorize_access_token()
     session['user'] = token
 
+
+    
     userToken = session.get('user')
     if not userToken:
         return 'No user session found', 400
@@ -148,16 +210,35 @@ def authorize():
         
         db_session.commit()
         
+        # Check if user requires 2FA
+        user_2fa = db_session.query(User2FASettings).filter_by(user_id=str(user.id)).first()
+        requires_2fa = user.requires_2fa or (user_2fa and user_2fa.is_enabled)
+        
         # CRITICAL: Store user_id in session IMMEDIATELY after successful commit
         session['user_id'] = str(user.id)
         session.permanent = True  # Ensure session persistence
         
+        # Clear any previous 2FA verification for new login
+        session.pop('2fa_verified', None)
+        session.pop('2fa_verified_at', None)
+        
         print(f"User authenticated successfully: {user.email} (ID: {user.id})")
         print(f"Session updated with user_id: {session.get('user_id')}")
+        print(f"2FA required: {requires_2fa}")
         
-        # Redirect back to frontend with success
+        # Redirect back to frontend with 2FA indicator
         frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:5173')
-        return redirect(f"{frontend_url}?login=success")
+        
+        if requires_2fa:
+            if user_2fa and user_2fa.is_enabled:
+                # User has 2FA enabled - redirect to verification
+                return redirect(f"{frontend_url}?login=success&requires_2fa=true&action=verify")
+            else:
+                # User needs to set up 2FA
+                return redirect(f"{frontend_url}?login=success&requires_2fa=true&action=setup")
+        else:
+            # No 2FA required
+            return redirect(f"{frontend_url}?login=success")
         
     except Exception as e:
         print(f"Error creating/updating user: {e}")
@@ -181,24 +262,57 @@ def logout():
 @auth_bp.route('/me')
 @login_required
 def me():
-    """Get current user info"""
+    """Get current user info including 2FA status"""
     print(f"DEBUG: /me endpoint called")
     print(f"DEBUG: Session keys: {list(session.keys())}")
     print(f"DEBUG: 'user' in session: {'user' in session}")
     print(f"DEBUG: 'user_id' in session: {'user_id' in session}")
     
+    user_id = session.get('user_id')
     userToken = session.get('user')
-    if not userToken:
-        print(f"DEBUG: No user token found in session")
+    
+    if not userToken or not user_id:
+        print(f"DEBUG: No user token or user_id found in session")
         return jsonify({"error": "No user session found"}), 400
     
-    print(f"DEBUG: User token found: {type(userToken)}")
-    userInfo = userToken['userinfo']
-    return jsonify({
-        "name": userInfo.get("given_name"),
-        "email": userInfo.get("email"),
-        "picture": userInfo.get("picture")
-    }) 
+    # Get user info from database for 2FA status
+    from database.connection import db
+    db_session = db.get_session()
+    try:
+        user = db_session.query(User).filter_by(id=user_id).first()
+        user_2fa = db_session.query(User2FASettings).filter_by(user_id=user_id).first()
+        
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+        
+        userInfo = userToken['userinfo']
+        user_info = {
+            "id": user.id,
+            "name": userInfo.get("given_name"),
+            "email": user.email,
+            "full_name": user.full_name,
+            "picture": userInfo.get("picture"),
+            "avatar_url": user.avatar_url,
+            
+            # 2FA Status Information
+            "requires_2fa": user.requires_2fa or (user_2fa and user_2fa.is_enabled),
+            "has_2fa_enabled": user_2fa.is_enabled if user_2fa else False,
+            "is_2fa_verified": session.get('2fa_verified', False),
+            "twofa_enforced_at": user.twofa_enforced_at.isoformat() if user.twofa_enforced_at else None,
+            
+            # Additional metadata
+            "last_login": user.last_login.isoformat() if user.last_login else None,
+            "is_active": user.is_active
+        }
+        
+        print(f"DEBUG: User info compiled with 2FA status")
+        return jsonify(user_info)
+        
+    except Exception as e:
+        logger.error(f"Failed to get user info: {e}")
+        return jsonify({"error": "Failed to get user information"}), 500
+    finally:
+        db_session.close() 
 
 @auth_bp.route('/dev/create-session/<test_user_id>')
 def dev_create_session(test_user_id):

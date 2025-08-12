@@ -34,6 +34,9 @@ export const API_ENDPOINTS = {
   // Settings
   SETTINGS: `${API_BASE_URL}/api/settings`,
 
+
+  // 2FA
+  TWO_FA: `${API_BASE_URL}/api/2fa`,
   // Monitor (dashboard endpoints)
   MONITOR: {
     CURRENT: `${API_BASE_URL}/api/monitor/current`,
@@ -81,6 +84,20 @@ export const apiRequest = async (endpoint, options = {}) => {
   }
 
   if (!response.ok) {
+    // Try to extract user-friendly error message from response
+    try {
+      const errorData = await response.json();
+      if (errorData && errorData.message) {
+        throw new Error(errorData.message);
+      } else if (errorData && errorData.error && errorData.error.message) {
+        throw new Error(errorData.error.message);
+      }
+    } catch (parseError) {
+      // If we can't parse the error response, use generic message
+      console.warn('Could not parse error response:', parseError);
+    }
+    
+    // Fallback to generic error message
     throw new Error(`HTTP error! status: ${response.status}`);
   }
 
@@ -367,4 +384,54 @@ export const sessionAPI = {
         throw error;
       });
   },
+};
+
+// 2FA API functions
+export const twoFAAPI = {
+  // Start 2FA setup
+  startSetup: () =>
+    apiRequest(`${API_ENDPOINTS.TWO_FA}/setup/start`, {
+      method: "POST",
+    }),
+
+  // Verify 2FA setup
+  verifySetup: (code, setupToken) =>
+    apiRequest(`${API_ENDPOINTS.TWO_FA}/setup/verify`, {
+      method: "POST",
+      body: JSON.stringify({
+        code: code,
+        setup_token: setupToken,
+      }),
+    }),
+
+  // Verify 2FA code (during login)
+  verify: (code) =>
+    apiRequest(`${API_ENDPOINTS.TWO_FA}/verify`, {
+      method: "POST",
+      body: JSON.stringify({
+        code: code,
+      }),
+    }),
+
+  // Get 2FA status
+  getStatus: () =>
+    apiRequest(`${API_ENDPOINTS.TWO_FA}/status`),
+
+  // Disable 2FA
+  disable: (confirmationCode) =>
+    apiRequest(`${API_ENDPOINTS.TWO_FA}/disable`, {
+      method: "POST",
+      body: JSON.stringify({
+        code: confirmationCode,
+      }),
+    }),
+
+  // Generate new backup codes
+  generateBackupCodes: (confirmationCode) =>
+    apiRequest(`${API_ENDPOINTS.TWO_FA}/generate-backup-codes`, {
+      method: "POST",
+      body: JSON.stringify({
+        code: confirmationCode,
+      }),
+    }),
 };
