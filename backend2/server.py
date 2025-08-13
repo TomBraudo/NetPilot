@@ -19,6 +19,8 @@ from endpoints.session import session_bp
 from endpoints.settings import settings_bp
 from endpoints.twofa import twofa_bp
 from endpoints.monitor import monitor_bp
+from endpoints.agh import agh_bp
+from endpoints.bandwidth import bandwidth_bp
 
 def create_app(dev_mode=False, dev_user_id=None):
     """Create and configure the Flask application
@@ -94,6 +96,8 @@ def create_app(dev_mode=False, dev_user_id=None):
     app.register_blueprint(twofa_bp, url_prefix='/api/2fa')
 
     app.register_blueprint(monitor_bp)  # monitor_bp already has url_prefix='/api/monitor'
+    app.register_blueprint(agh_bp, url_prefix='/api/agh')
+    app.register_blueprint(bandwidth_bp, url_prefix='/api/bandwidth')
     
     # Root route
     @app.route('/')

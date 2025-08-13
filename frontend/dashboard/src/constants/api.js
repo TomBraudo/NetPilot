@@ -26,6 +26,7 @@ export const API_ENDPOINTS = {
 
   // Network
   NETWORK: `${API_BASE_URL}/api/network`,
+  BANDWIDTH: `${API_BASE_URL}/api/bandwidth`,
   WIFI: `${API_BASE_URL}/api/wifi`,
 
   // Speed test
@@ -37,6 +38,8 @@ export const API_ENDPOINTS = {
 
   // 2FA
   TWO_FA: `${API_BASE_URL}/api/2fa`,
+  // AGH
+  AGH: `${API_BASE_URL}/api/agh`,
   // Monitor (dashboard endpoints)
   MONITOR: {
     CURRENT: `${API_BASE_URL}/api/monitor/current`,
@@ -433,5 +436,121 @@ export const twoFAAPI = {
       body: JSON.stringify({
         code: confirmationCode,
       }),
+    }),
+};
+
+// Bandwidth API functions
+export const bandwidthAPI = {
+  // Group limits
+  applyGroupLimits: (routerId, ips, { download_kbytes, upload_kbytes, download_mbps, upload_mbps } = {}) =>
+    apiRequest(`${API_ENDPOINTS.BANDWIDTH}/limits/group?routerId=${routerId}`, {
+      method: "POST",
+      body: JSON.stringify({ ips, download_kbytes, upload_kbytes, download_mbps, upload_mbps }),
+    }),
+
+  deleteGroupLimits: (routerId, ips) =>
+    apiRequest(`${API_ENDPOINTS.BANDWIDTH}/limits/group?routerId=${routerId}`, {
+      method: "DELETE",
+      body: JSON.stringify({ ips }),
+    }),
+
+  // Device limits
+  applyDeviceLimit: (routerId, ip, { download_kbytes, upload_kbytes, download_mbps, upload_mbps } = {}) =>
+    apiRequest(`${API_ENDPOINTS.BANDWIDTH}/limits/device?routerId=${routerId}`, {
+      method: "POST",
+      body: JSON.stringify({ ip, download_kbytes, upload_kbytes, download_mbps, upload_mbps }),
+    }),
+
+  deleteDeviceLimit: (routerId, ip) =>
+    apiRequest(`${API_ENDPOINTS.BANDWIDTH}/limits/device?routerId=${routerId}`, {
+      method: "DELETE",
+      body: JSON.stringify({ ip }),
+    }),
+
+  // Global limits
+  activateGlobal: (routerId, { download_kbytes, upload_kbytes, lan_cidr } = {}) =>
+    apiRequest(`${API_ENDPOINTS.BANDWIDTH}/global/activate?routerId=${routerId}`, {
+      method: "POST",
+      body: JSON.stringify({ download_kbytes, upload_kbytes, lan_cidr }),
+    }),
+
+  deactivateGlobal: (routerId) =>
+    apiRequest(`${API_ENDPOINTS.BANDWIDTH}/global/deactivate?routerId=${routerId}`, {
+      method: "DELETE",
+    }),
+
+  // Global whitelist
+  addGlobalWhitelist: (routerId, ips) =>
+    apiRequest(`${API_ENDPOINTS.BANDWIDTH}/global/whitelist?routerId=${routerId}`, {
+      method: "POST",
+      body: JSON.stringify({ ips }),
+    }),
+
+  removeGlobalWhitelist: (routerId, ips) =>
+    apiRequest(`${API_ENDPOINTS.BANDWIDTH}/global/whitelist?routerId=${routerId}`, {
+      method: "DELETE",
+      body: JSON.stringify({ ips }),
+    }),
+};
+
+// AGH (AdGuard Home) API functions
+export const aghAPI = {
+  // Categories
+  getCategories: (routerId) =>
+    apiRequest(`${API_ENDPOINTS.AGH}/categories?routerId=${routerId}`),
+
+  createCategory: (routerId, category, domains = []) =>
+    apiRequest(`${API_ENDPOINTS.AGH}/categories?routerId=${routerId}`, {
+      method: "POST",
+      body: JSON.stringify({ category, domains }),
+    }),
+
+  getCategoryDomains: (routerId, category) =>
+    apiRequest(`${API_ENDPOINTS.AGH}/categories/${encodeURIComponent(category)}/domains?routerId=${routerId}`),
+
+  replaceCategoryDomains: (routerId, category, domains = []) =>
+    apiRequest(`${API_ENDPOINTS.AGH}/categories/${encodeURIComponent(category)}/domains?routerId=${routerId}`, {
+      method: "PUT",
+      body: JSON.stringify({ domains }),
+    }),
+
+  // Device rules - effective
+  getDeviceRules: (routerId, { mac, ip } = {}) => {
+    const params = new URLSearchParams({ routerId });
+    if (mac) params.append("mac", mac);
+    if (ip) params.append("ip", ip);
+    return apiRequest(`${API_ENDPOINTS.AGH}/device/rules?${params.toString()}`);
+  },
+
+  bulkGetDevicesRules: (routerId, devices = []) =>
+    apiRequest(`${API_ENDPOINTS.AGH}/devices/rules?routerId=${routerId}`, {
+      method: "POST",
+      body: JSON.stringify({ devices }),
+    }),
+
+  // Device rules - set
+  setDeviceRules: (routerId, device, categories = []) =>
+    apiRequest(`${API_ENDPOINTS.AGH}/device/rules?routerId=${routerId}`, {
+      method: "POST",
+      body: JSON.stringify({ device, categories }),
+    }),
+
+  setDevicesRules: (routerId, devices = [], categories = []) =>
+    apiRequest(`${API_ENDPOINTS.AGH}/devices/rules/set?routerId=${routerId}`, {
+      method: "POST",
+      body: JSON.stringify({ devices, categories }),
+    }),
+
+  // Device rules - clear
+  clearDeviceRules: (routerId, device) =>
+    apiRequest(`${API_ENDPOINTS.AGH}/device/rules?routerId=${routerId}`, {
+      method: "DELETE",
+      body: JSON.stringify({ device }),
+    }),
+
+  clearDevicesRules: (routerId, devices = []) =>
+    apiRequest(`${API_ENDPOINTS.AGH}/devices/rules?routerId=${routerId}`, {
+      method: "DELETE",
+      body: JSON.stringify({ devices }),
     }),
 };

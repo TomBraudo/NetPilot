@@ -21,6 +21,8 @@ import {
   FaTv,
   FaRegQuestionCircle,
 } from "react-icons/fa";
+import { aghAPI, bandwidthAPI } from "../../constants/api";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 // Icon mapping
 const getDeviceIcon = (iconName) => {
@@ -43,6 +45,7 @@ const EighteenPlusIcon = ({ className }) => (
 );
 
 const DevicesPage = () => {
+  const { routerId } = useAuth();
   const [devices, setDevices] = useState([]);
   const [groups, setGroups] = useState([]);
   const [showCreateGroup, setShowCreateGroup] = useState(false);
@@ -104,16 +107,21 @@ const DevicesPage = () => {
   ]);
   const [hasContentChanges, setHasContentChanges] = useState(false);
   const [contentLoading, setContentLoading] = useState(false);
+  const [categoriesLoading, setCategoriesLoading] = useState(false);
+  const [categoriesError, setCategoriesError] = useState(null);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showAddUrlModal, setShowAddUrlModal] = useState(null);
   const [newUrl, setNewUrl] = useState("");
   const [customUrls, setCustomUrls] = useState({});
+  const [domainsModal, setDomainsModal] = useState(null); // { categoryId, name, domains: [] }
 
   // Bandwidth Limits State (download only)
   const [bandwidthGroups, setBandwidthGroups] = useState([]);
   const [bandwidthChanges, setBandwidthChanges] = useState({});
   const [bulkValues, setBulkValues] = useState({ downLimit: "" });
   const [errors, setErrors] = useState({});
+  const [globalLimits, setGlobalLimits] = useState({ dlMbps: "", ulMbps: "", lanCidr: "" });
+  const [globalLoading, setGlobalLoading] = useState(false);
 
   // Helper functions for localStorage operations
   const saveGroupsToStorage = (groupsToSave) => {
@@ -160,6 +168,8 @@ const DevicesPage = () => {
       loadedGroups.length
     );
   }, []);
+
+  // (Optional) Could load AGH categories dynamically, but keep default UI categories as requested
 
   // Save groups to localStorage whenever groups change
   useEffect(() => {
@@ -312,8 +322,33 @@ const DevicesPage = () => {
 
     setContentLoading(true);
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // Build devices list for API from selected groups
+      const devicesToApply = [];
+      const seenIps = new Set();
+      selectedGroups.forEach((groupId) => {
+        const group = groups.find((g) => g.id === groupId);
+        if (group && Array.isArray(group.devices)) {
+          group.devices.forEach((d) => {
+            const ip = d?.ip;
+            if (ip && !seenIps.has(ip)) {
+              seenIps.add(ip);
+              devicesToApply.push({ ip });
+            }
+          });
+        }
+      });
+
+      if (!routerId) {
+        throw new Error("Router ID is missing. Set routerId first in the app.");
+      }
+
+      // Determine categories to apply (blocked categories)
+      const categoriesToApply = contentCategories
+        .filter((cat) => cat.blocked)
+        .map((cat) => cat.id);
+
+      // Call backend to set rules for multiple devices
+      await aghAPI.setDevicesRules(routerId, devicesToApply, categoriesToApply);
 
       setHasContentChanges(false);
       setShowSuccessToast(true);
@@ -326,9 +361,64 @@ const DevicesPage = () => {
       );
     } catch (error) {
       console.error("Failed to apply content changes:", error);
-      alert("Failed to apply changes. Please try again.");
+      alert(error?.message || "Failed to apply changes. Please try again.");
     } finally {
       setContentLoading(false);
+    }
+  };
+
+  const handleClearContentRules = async () => {
+    if (selectedGroups.length === 0) {
+      alert("Please select at least one group to clear.");
+      return;
+    }
+    setContentLoading(true);
+    try {
+      const devicesToClear = [];
+      const seenIps = new Set();
+      selectedGroups.forEach((groupId) => {
+        const group = groups.find((g) => g.id === groupId);
+        if (group && Array.isArray(group.devices)) {
+          group.devices.forEach((d) => {
+            const ip = d?.ip;
+            if (ip && !seenIps.has(ip)) {
+              seenIps.add(ip);
+              devicesToClear.push({ ip });
+            }
+          });
+        }
+      });
+
+      await aghAPI.clearDevicesRules(routerId, devicesToClear);
+      setHasContentChanges(false);
+      setShowSuccessToast(true);
+      setTimeout(() => setShowSuccessToast(false), 2000);
+    } catch (e) {
+      console.error('Failed to clear rules:', e);
+      alert(e?.message || 'Failed to clear rules');
+    } finally {
+      setContentLoading(false);
+    }
+  };
+
+  const openDomainsModal = async (categoryId, name) => {
+    if (!routerId) return;
+    try {
+      const res = await aghAPI.getCategoryDomains(routerId, categoryId);
+      const domains = Array.isArray(res?.domains) ? res.domains : [];
+      setDomainsModal({ categoryId, name, domains: [...domains], newDomain: '' });
+    } catch (e) {
+      alert(e?.message || 'Failed to load domains');
+    }
+  };
+
+  const saveDomains = async () => {
+    if (!domainsModal || !routerId) return;
+    try {
+      await aghAPI.replaceCategoryDomains(routerId, domainsModal.categoryId, domainsModal.domains);
+      setDomainsModal(null);
+    } catch (e) {
+      alert(e?.message || 'Failed to save domains');
     }
   };
 
@@ -407,8 +497,11 @@ const DevicesPage = () => {
     }
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Build IP list from group devices
+      const group = groups.find((g) => g.id === groupId);
+      const ips = (group?.devices || []).map((d) => d.ip).filter(Boolean);
+      // Apply group limits using download_mbps only (server auto-converts)
+      await bandwidthAPI.applyGroupLimits(routerId, ips, { download_mbps: parseFloat(changes.downLimit) });
 
       // Update bandwidth groups with new values
       setBandwidthGroups((prev) =>
@@ -459,10 +552,15 @@ const DevicesPage = () => {
     }
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // Aggregate all IPs across groups
+      const ips = [];
+      const seen = new Set();
+      groups.forEach((g) => (g.devices || []).forEach((d) => {
+        if (d?.ip && !seen.has(d.ip)) { seen.add(d.ip); ips.push(d.ip); }
+      }));
+      await bandwidthAPI.applyGroupLimits(routerId, ips, { download_mbps: parseFloat(bulkValues.downLimit) });
 
-      // Apply to all groups
+      // Apply to UI state
       setBandwidthGroups((prev) =>
         prev.map((group) => ({
           ...group,
@@ -479,6 +577,56 @@ const DevicesPage = () => {
     } catch (error) {
       console.error("Failed to apply bulk changes:", error);
       alert("Failed to apply changes. Please try again.");
+    }
+  };
+
+  const handleClearGroupLimits = async (groupId) => {
+    try {
+      const group = groups.find((g) => g.id === groupId);
+      const ips = (group?.devices || []).map((d) => d.ip).filter(Boolean);
+      await bandwidthAPI.deleteGroupLimits(routerId, ips);
+      // Clear UI value
+      setBandwidthGroups((prev) => prev.map((g) => g.id === groupId ? { ...g, downLimit: "" } : g));
+      setBandwidthChanges((prev) => {
+        const next = { ...prev };
+        delete next[groupId];
+        return next;
+      });
+    } catch (e) {
+      console.error('Failed to clear group limits:', e);
+      alert(e?.message || 'Failed to clear group limits');
+    }
+  };
+
+  const activateGlobalLimits = async () => {
+    if (!globalLimits.dlMbps || !globalLimits.ulMbps) {
+      alert('Enter both download and upload Mbps');
+      return;
+    }
+    setGlobalLoading(true);
+    try {
+      const download_kbytes = Math.round(parseFloat(globalLimits.dlMbps) * 125);
+      const upload_kbytes = Math.round(parseFloat(globalLimits.ulMbps) * 125);
+      await bandwidthAPI.activateGlobal(routerId, { download_kbytes, upload_kbytes, lan_cidr: globalLimits.lanCidr || undefined });
+      alert('Global limits activated');
+    } catch (e) {
+      console.error('Failed to activate global limits', e);
+      alert(e?.message || 'Failed to activate global limits');
+    } finally {
+      setGlobalLoading(false);
+    }
+  };
+
+  const deactivateGlobalLimits = async () => {
+    setGlobalLoading(true);
+    try {
+      await bandwidthAPI.deactivateGlobal(routerId);
+      alert('Global limits deactivated');
+    } catch (e) {
+      console.error('Failed to deactivate global limits', e);
+      alert(e?.message || 'Failed to deactivate global limits');
+    } finally {
+      setGlobalLoading(false);
     }
   };
 
@@ -614,7 +762,10 @@ const DevicesPage = () => {
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
                       Actions
                     </th>
-                  </tr>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
+                          Clear
+                        </th>
+                      </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                   {bandwidthGroups.map((group) => {
@@ -696,6 +847,14 @@ const DevicesPage = () => {
                             }`}
                           >
                             Apply
+                          </button>
+                        </td>
+                        <td className="px-4 py-3">
+                          <button
+                            onClick={() => handleClearGroupLimits(group.id)}
+                            className="px-3 py-1 rounded text-sm bg-gray-200 hover:bg-gray-300"
+                          >
+                            Clear
                           </button>
                         </td>
                       </tr>
@@ -1043,6 +1202,14 @@ const DevicesPage = () => {
                   <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
                     {category.description}
                   </p>
+                  <div className="mb-2">
+                    <button
+                      onClick={() => openDomainsModal(category.id, category.name)}
+                      className="text-xs text-blue-600 hover:underline"
+                    >
+                      Manage domains
+                    </button>
+                  </div>
 
                   {/* Custom URLs */}
                   {categoryUrls.length > 0 && (
@@ -1111,11 +1278,102 @@ const DevicesPage = () => {
         </div>
       </div>
 
+      {/* Global Limits Section */}
+      <div className="mb-12">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+          <div className="flex justify-between items-center mb-6">
+            <div>
+              <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">Global Bandwidth Limits</h2>
+              <p className="text-gray-600 dark:text-gray-300 mt-1">Apply limits to all LAN hosts</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Download (Mbps)</label>
+              <input className="w-full p-3 border rounded-lg bg-white dark:bg-gray-800" type="number" min="0.1" step="0.1" value={globalLimits.dlMbps}
+                onChange={(e)=>setGlobalLimits((p)=>({...p, dlMbps:e.target.value}))}/>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Upload (Mbps)</label>
+              <input className="w-full p-3 border rounded-lg bg-white dark:bg-gray-800" type="number" min="0.1" step="0.1" value={globalLimits.ulMbps}
+                onChange={(e)=>setGlobalLimits((p)=>({...p, ulMbps:e.target.value}))}/>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">LAN CIDR (optional)</label>
+              <input className="w-full p-3 border rounded-lg bg-white dark:bg-gray-800" placeholder="e.g., 192.168.1.0/24" value={globalLimits.lanCidr}
+                onChange={(e)=>setGlobalLimits((p)=>({...p, lanCidr:e.target.value}))}/>
+            </div>
+            <div className="flex gap-2">
+              <button onClick={activateGlobalLimits} disabled={globalLoading}
+                className="px-4 py-3 rounded bg-green-600 text-white disabled:opacity-60">Activate</button>
+              <button onClick={deactivateGlobalLimits} disabled={globalLoading}
+                className="px-4 py-3 rounded bg-gray-300">Deactivate</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Success Toast */}
       {showSuccessToast && (
         <div className="fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 z-50">
           <FaCheck />
           Content controls applied successfully!
+        </div>
+      )}
+
+      {/* Domains modal */}
+      {domainsModal && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 w-full max-w-lg">
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="text-lg font-semibold">Manage domains - {domainsModal.name}</h3>
+              <button onClick={() => setDomainsModal(null)} className="text-gray-500 hover:text-gray-700">
+                <FaTimes />
+              </button>
+            </div>
+            <div className="space-y-2 max-h-60 overflow-y-auto border rounded p-2">
+              {(domainsModal.domains || []).map((d, i) => (
+                <div key={i} className="flex items-center justify-between bg-gray-100 dark:bg-gray-700 rounded px-2 py-1">
+                  <span className="text-sm truncate">{d}</span>
+                  <button
+                    className="text-red-500 hover:text-red-700"
+                    onClick={() => setDomainsModal((prev) => ({
+                      ...prev,
+                      domains: prev.domains.filter((_, idx) => idx !== i),
+                    }))}
+                  >
+                    <FaTimes />
+                  </button>
+                </div>
+              ))}
+            </div>
+            <div className="flex items-center gap-2 mt-3">
+              <input
+                className="flex-1 border rounded px-2 py-1"
+                placeholder="Add domain"
+                value={domainsModal.newDomain || ''}
+                onChange={(e) => setDomainsModal((prev) => ({ ...prev, newDomain: e.target.value }))}
+              />
+              <button
+                className="px-3 py-1 bg-gray-200 rounded"
+                onClick={() => {
+                  if (domainsModal.newDomain?.trim()) {
+                    setDomainsModal((prev) => ({
+                      ...prev,
+                      domains: [...prev.domains, prev.newDomain.trim()],
+                      newDomain: '',
+                    }));
+                  }
+                }}
+              >
+                Add
+              </button>
+            </div>
+            <div className="flex justify-end gap-2 mt-4">
+              <button className="px-4 py-2 bg-gray-300 rounded" onClick={() => setDomainsModal(null)}>Cancel</button>
+              <button className="px-4 py-2 bg-blue-600 text-white rounded" onClick={saveDomains}>Save</button>
+            </div>
+          </div>
         </div>
       )}
     </div>
