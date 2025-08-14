@@ -12,19 +12,18 @@ This module is part of a 3-layer service architecture:
 3. services/commands-server_operations/<service>_execute.py - Router command execution
 
 Available Services:
-- whitelist_execute: Whitelist router command operations
 - session_execute: Session router command operations
 - base: Core commands server utilities and communication management
 
 Usage:
-    from services.commands_server_operations import execute_whitelist_enable, execute_start_session
+    from services.commands_server_operations import execute_start_session
     from services.commands_server_operations.base import with_commands_server, handle_commands_errors
     
 Example Implementation:
     @with_commands_server
-    @handle_commands_errors("Enable whitelist mode")
-    def execute_whitelist_enable(commands_server, router_id: str, session_id: str) -> Tuple[Optional[Dict], Optional[str]]:
-        return commands_server.execute_router_command(router_id, session_id, "whitelist", "enable")
+    @handle_commands_errors("Start session")
+    def execute_start_session(commands_server, router_id: str, session_id: str) -> Tuple[Optional[Dict], Optional[str]]:
+        return commands_server.execute_router_command(router_id, session_id, "session/start", "POST")
 """
 
 # Import base utilities for external use
@@ -36,15 +35,7 @@ from .base import (
     log_command_execution
 )
 
-# Import whitelist operations
-from .whitelist_execute import (
-    execute_get_whitelist,
-    execute_add_device_to_whitelist,
-    execute_remove_device_from_whitelist,
-    execute_set_whitelist_rate_limit,
-    execute_activate_whitelist_mode,
-    execute_deactivate_whitelist_mode
-)
+# Removed whitelist operations
 
 # Import network operations
 from .network_execute import (
@@ -60,13 +51,7 @@ __all__ = [
     'format_command_response',
     'log_command_execution',
     
-    # Whitelist operations
-    'execute_get_whitelist',
-    'execute_add_device_to_whitelist',
-    'execute_remove_device_from_whitelist',
-    'execute_set_whitelist_rate_limit',
-    'execute_activate_whitelist_mode',
-    'execute_deactivate_whitelist_mode',
+    # Removed whitelist operations
     
     # Session operations
     'execute_start_session',

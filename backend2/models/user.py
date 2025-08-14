@@ -20,9 +20,7 @@ class User(BaseModel):
     sessions = relationship("UserSession", back_populates="user", cascade="all, delete-orphan")
     routers = relationship("UserRouter", back_populates="user", cascade="all, delete-orphan")
     devices = relationship("UserDevice", back_populates="user", cascade="all, delete-orphan")
-    whitelists = relationship("UserWhitelist", back_populates="user", cascade="all, delete-orphan")
-    blacklists = relationship("UserBlacklist", back_populates="user", cascade="all, delete-orphan")
-    blacklisted_devices = relationship("BlacklistedDevice", back_populates="user", cascade="all, delete-orphan")
+    # Removed legacy whitelist/blacklist relationships
     blocked_devices = relationship("UserBlockedDevice", back_populates="user", cascade="all, delete-orphan")
     settings = relationship("UserSetting", back_populates="user", cascade="all, delete-orphan")
     twofa_settings = relationship("User2FASettings", back_populates="user", uselist=False, cascade="all, delete-orphan")

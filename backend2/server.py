@@ -12,8 +12,6 @@ from database.session import get_db_session
 # Import blueprints
 from auth import auth_bp, init_oauth
 from endpoints.health import health_bp
-from endpoints.whitelist import whitelist_bp
-from endpoints.blacklist import blacklist_bp
 from endpoints.network import network_bp
 from endpoints.session import session_bp
 from endpoints.settings import settings_bp
@@ -87,8 +85,7 @@ def create_app(dev_mode=False, dev_user_id=None):
     # Register blueprints
     app.register_blueprint(auth_bp)  # No prefix - routes will be /login, /authorize, etc.
     app.register_blueprint(health_bp)
-    app.register_blueprint(whitelist_bp, url_prefix='/api/whitelist')
-    app.register_blueprint(blacklist_bp, url_prefix='/api/blacklist')
+    # Removed whitelist/blacklist blueprints
     app.register_blueprint(network_bp, url_prefix='/api/network')
     app.register_blueprint(session_bp, url_prefix='/api/session')
     app.register_blueprint(settings_bp, url_prefix='/api/settings')
@@ -139,14 +136,7 @@ def create_app(dev_mode=False, dev_user_id=None):
         print(f"DEBUG: user_id from session: {user_id}")
         print(f"DEBUG: 'user' in session: {'user' in flask_session}")
         
-        # Enhanced logging for whitelist add endpoint
-        if '/api/whitelist/add' in flask_request.url:
-            print(f"🔍 WHITELIST ADD REQUEST DEBUG:")
-            print(f"  URL: {flask_request.url}")
-            print(f"  Method: {flask_request.method}")
-            print(f"  Cookies: {dict(flask_request.cookies)}")
-            print(f"  Session data: {dict(flask_session)}")
-            print(f"  user_id: {user_id}")
+        # Removed whitelist debug logging
         
         if user_id:
             # Validate user_id format and set in g

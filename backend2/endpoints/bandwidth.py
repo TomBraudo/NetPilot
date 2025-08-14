@@ -9,8 +9,6 @@ from services.bandwidth_service import (
     delete_device_limit,
     activate_global_limits,
     deactivate_global_limits,
-    add_global_whitelist,
-    remove_global_whitelist,
 )
 import time
 
@@ -106,27 +104,6 @@ def global_deactivate():
     return build_success_response(result, start_time)
 
 
-@bandwidth_bp.route('/global/whitelist', methods=['POST'])
-@router_context_required
-def global_whitelist_add():
-    start_time = time.time()
-    data = request.get_json() or {}
-    ips = data.get('ips') or []
-    result, error = add_global_whitelist(g.user_id, g.router_id, g.session_id, ips)
-    if error:
-        return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
-    return build_success_response(result, start_time)
-
-
-@bandwidth_bp.route('/global/whitelist', methods=['DELETE'])
-@router_context_required
-def global_whitelist_remove():
-    start_time = time.time()
-    data = request.get_json() or {}
-    ips = data.get('ips') or []
-    result, error = remove_global_whitelist(g.user_id, g.router_id, g.session_id, ips)
-    if error:
-        return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
-    return build_success_response(result, start_time)
+# Removed global whitelist endpoints
 
 

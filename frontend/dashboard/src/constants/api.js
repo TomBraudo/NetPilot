@@ -14,15 +14,7 @@ export const API_ENDPOINTS = {
   // Devices
   DEVICES: `${API_BASE_URL}/api/devices`,
 
-  // Whitelist (new endpoints)
-  WHITELIST: `${API_BASE_URL}/api/whitelist`,
-
-  // Blacklist (new endpoints)
-  BLACKLIST: `${API_BASE_URL}/api/blacklist`,
-
-  // Legacy endpoints (for backward compatibility)
-  LEGACY_WHITELIST: `${API_BASE_URL}/whitelist`,
-  LEGACY_BLACKLIST: `${API_BASE_URL}/blacklist`,
+  
 
   // Network
   NETWORK: `${API_BASE_URL}/api/network`,
@@ -64,27 +56,7 @@ export const apiRequest = async (endpoint, options = {}) => {
     ...options,
   };
 
-  // Enhanced logging for whitelist add requests only
-  if (endpoint.includes("/api/whitelist/add")) {
-    console.log("🔍 WHITELIST ADD API REQUEST:");
-    console.log("  Endpoint:", endpoint);
-    console.log("  Method:", finalOptions.method || "GET");
-    console.log("  Credentials:", finalOptions.credentials);
-    console.log("  Headers:", finalOptions.headers);
-    console.log("  Body:", finalOptions.body || "No body");
-    console.log("  Document cookies:", document.cookie);
-  }
-
   const response = await fetch(endpoint, finalOptions);
-
-  if (endpoint.includes("/api/whitelist/add")) {
-    console.log("🔍 WHITELIST ADD API RESPONSE:");
-    console.log("  Status:", response.status);
-    console.log(
-      "  Response Headers:",
-      Object.fromEntries(response.headers.entries())
-    );
-  }
 
   if (!response.ok) {
     // Try to extract user-friendly error message from response
@@ -133,117 +105,7 @@ export const settingsAPI = {
     }),
 };
 
-// Blacklist API functions
-export const blacklistAPI = {
-  // Get all blacklisted devices
-  getAll: (routerId) =>
-    apiRequest(`${API_ENDPOINTS.BLACKLIST}/devices?routerId=${routerId}`),
-
-  // Get specific blacklisted device
-  getById: (routerId, id) =>
-    apiRequest(`${API_ENDPOINTS.BLACKLIST}/${id}?routerId=${routerId}`),
-
-  // Add device to blacklist
-  add: (routerId, deviceData) =>
-    apiRequest(`${API_ENDPOINTS.BLACKLIST}/add?routerId=${routerId}`, {
-      method: "POST",
-      body: JSON.stringify(deviceData),
-    }),
-
-  // Update blacklisted device
-  update: (routerId, id, deviceData) =>
-    apiRequest(`${API_ENDPOINTS.BLACKLIST}/${id}?routerId=${routerId}`, {
-      method: "PUT",
-      body: JSON.stringify(deviceData),
-    }),
-
-  // Remove device from blacklist
-  remove: (routerId, deviceData) =>
-    apiRequest(`${API_ENDPOINTS.BLACKLIST}/remove?routerId=${routerId}`, {
-      method: "POST",
-      body: JSON.stringify(deviceData),
-    }),
-
-  // Mode operations
-  getModeStatus: (routerId) =>
-    apiRequest(`${API_ENDPOINTS.BLACKLIST}/mode?routerId=${routerId}`),
-
-  activateMode: (routerId) =>
-    apiRequest(`${API_ENDPOINTS.BLACKLIST}/mode?routerId=${routerId}`, {
-      method: "POST",
-    }),
-
-  deactivateMode: (routerId) =>
-    apiRequest(`${API_ENDPOINTS.BLACKLIST}/mode?routerId=${routerId}`, {
-      method: "DELETE",
-    }),
-
-  // Limit rate operations
-  getLimitRate: (routerId) =>
-    apiRequest(`${API_ENDPOINTS.BLACKLIST}/limit-rate?routerId=${routerId}`),
-
-  setLimitRate: (routerId, rate) =>
-    apiRequest(`${API_ENDPOINTS.BLACKLIST}/limit-rate?routerId=${routerId}`, {
-      method: "POST",
-      body: JSON.stringify({ rate }),
-    }),
-};
-
-// Whitelist API functions
-export const whitelistAPI = {
-  // Get all whitelisted devices
-  getAll: (routerId) =>
-    apiRequest(`${API_ENDPOINTS.WHITELIST}/devices?routerId=${routerId}`),
-
-  // Get specific whitelisted device
-  getById: (routerId, id) =>
-    apiRequest(`${API_ENDPOINTS.WHITELIST}/${id}?routerId=${routerId}`),
-
-  // Add device to whitelist
-  add: (routerId, deviceData) =>
-    apiRequest(`${API_ENDPOINTS.WHITELIST}/add?routerId=${routerId}`, {
-      method: "POST",
-      body: JSON.stringify(deviceData),
-    }),
-
-  // Update whitelisted device
-  update: (routerId, id, deviceData) =>
-    apiRequest(`${API_ENDPOINTS.WHITELIST}/${id}?routerId=${routerId}`, {
-      method: "PUT",
-      body: JSON.stringify(deviceData),
-    }),
-
-  // Remove device from whitelist
-  remove: (routerId, deviceData) =>
-    apiRequest(`${API_ENDPOINTS.WHITELIST}/remove?routerId=${routerId}`, {
-      method: "POST",
-      body: JSON.stringify(deviceData),
-    }),
-
-  // Mode operations
-  getModeStatus: (routerId) =>
-    apiRequest(`${API_ENDPOINTS.WHITELIST}/mode?routerId=${routerId}`),
-
-  activateMode: (routerId) =>
-    apiRequest(`${API_ENDPOINTS.WHITELIST}/mode?routerId=${routerId}`, {
-      method: "POST",
-    }),
-
-  deactivateMode: (routerId) =>
-    apiRequest(`${API_ENDPOINTS.WHITELIST}/mode?routerId=${routerId}`, {
-      method: "DELETE",
-    }),
-
-  // Limit rate operations
-  getLimitRate: (routerId) =>
-    apiRequest(`${API_ENDPOINTS.WHITELIST}/limit-rate?routerId=${routerId}`),
-
-  setLimitRate: (routerId, rate) =>
-    apiRequest(`${API_ENDPOINTS.WHITELIST}/limit-rate?routerId=${routerId}`, {
-      method: "POST",
-      body: JSON.stringify({ rate }),
-    }),
-};
+ 
 
 // Devices API functions
 export const devicesAPI = {
@@ -479,18 +341,7 @@ export const bandwidthAPI = {
       method: "DELETE",
     }),
 
-  // Global whitelist
-  addGlobalWhitelist: (routerId, ips) =>
-    apiRequest(`${API_ENDPOINTS.BANDWIDTH}/global/whitelist?routerId=${routerId}`, {
-      method: "POST",
-      body: JSON.stringify({ ips }),
-    }),
-
-  removeGlobalWhitelist: (routerId, ips) =>
-    apiRequest(`${API_ENDPOINTS.BANDWIDTH}/global/whitelist?routerId=${routerId}`, {
-      method: "DELETE",
-      body: JSON.stringify({ ips }),
-    }),
+  
 };
 
 // AGH (AdGuard Home) API functions

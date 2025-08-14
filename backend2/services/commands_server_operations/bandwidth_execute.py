@@ -121,29 +121,6 @@ def execute_deactivate_global_limits(
     return commands_server.execute_router_command(router_id, session_id, endpoint, "DELETE", None, None)
 
 
-@with_commands_server
-@handle_commands_errors("Bandwidth: Add to global whitelist")
-def execute_add_global_whitelist(
-    commands_server,
-    router_id: str,
-    session_id: str,
-    ips: List[str],
-) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
-    endpoint = f"{base_path}/global/whitelist"
-    body = {"ips": ips or []}
-    return commands_server.execute_router_command(router_id, session_id, endpoint, "POST", None, body)
-
-
-@with_commands_server
-@handle_commands_errors("Bandwidth: Remove from global whitelist")
-def execute_remove_global_whitelist(
-    commands_server,
-    router_id: str,
-    session_id: str,
-    ips: List[str],
-) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
-    endpoint = f"{base_path}/global/whitelist"
-    body = {"ips": ips or []}
-    return commands_server.execute_router_command(router_id, session_id, endpoint, "DELETE", None, body)
+# Removed global whitelist execute operations
 
 

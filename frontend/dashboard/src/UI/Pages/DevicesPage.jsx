@@ -57,7 +57,7 @@ const DevicesPage = () => {
   const [selectedGroups, setSelectedGroups] = useState([]);
   const [contentCategories, setContentCategories] = useState([
     {
-      id: "social",
+      id: "social_media",
       name: "Social Media",
       icon: FaUsers,
       blocked: false,
@@ -65,7 +65,7 @@ const DevicesPage = () => {
       description: "Facebook, Instagram, Twitter, TikTok",
     },
     {
-      id: "video",
+      id: "entertainment",
       name: "Video Streaming",
       icon: FaTv,
       blocked: false,
@@ -81,7 +81,7 @@ const DevicesPage = () => {
       description: "Steam, Epic Games, gaming platforms",
     },
     {
-      id: "adult",
+      id: "adult_gambling",
       name: "Adult Content",
       icon: EighteenPlusIcon,
       blocked: true,
@@ -330,9 +330,10 @@ const DevicesPage = () => {
         if (group && Array.isArray(group.devices)) {
           group.devices.forEach((d) => {
             const ip = d?.ip;
+            const mac = d?.mac;
             if (ip && !seenIps.has(ip)) {
               seenIps.add(ip);
-              devicesToApply.push({ ip });
+              devicesToApply.push({ ip, mac });
             }
           });
         }
@@ -381,9 +382,10 @@ const DevicesPage = () => {
         if (group && Array.isArray(group.devices)) {
           group.devices.forEach((d) => {
             const ip = d?.ip;
+            const mac = d?.mac;
             if (ip && !seenIps.has(ip)) {
               seenIps.add(ip);
-              devicesToClear.push({ ip });
+              devicesToClear.push({ ip, mac });
             }
           });
         }
@@ -472,13 +474,7 @@ const DevicesPage = () => {
     return null;
   };
 
-  const handleBandwidthToggle = (groupId) => {
-    setBandwidthGroups((prev) =>
-      prev.map((group) =>
-        group.id === groupId ? { ...group, enabled: !group.enabled } : group
-      )
-    );
-  };
+  
 
   const handleApplyBandwidth = async (groupId) => {
     const changes = bandwidthChanges[groupId];
@@ -500,8 +496,8 @@ const DevicesPage = () => {
       // Build IP list from group devices
       const group = groups.find((g) => g.id === groupId);
       const ips = (group?.devices || []).map((d) => d.ip).filter(Boolean);
-      // Apply group limits using download_mbps only (server auto-converts)
-      await bandwidthAPI.applyGroupLimits(routerId, ips, { download_mbps: parseFloat(changes.downLimit) });
+      // Apply group limits sending both download and upload (mirror) to satisfy backend validation
+      await bandwidthAPI.applyGroupLimits(routerId, ips, { download_mbps: parseFloat(changes.downLimit), upload_mbps: parseFloat(changes.downLimit) });
 
       // Update bandwidth groups with new values
       setBandwidthGroups((prev) =>
@@ -558,7 +554,7 @@ const DevicesPage = () => {
       groups.forEach((g) => (g.devices || []).forEach((d) => {
         if (d?.ip && !seen.has(d.ip)) { seen.add(d.ip); ips.push(d.ip); }
       }));
-      await bandwidthAPI.applyGroupLimits(routerId, ips, { download_mbps: parseFloat(bulkValues.downLimit) });
+      await bandwidthAPI.applyGroupLimits(routerId, ips, { download_mbps: parseFloat(bulkValues.downLimit), upload_mbps: parseFloat(bulkValues.downLimit) });
 
       // Apply to UI state
       setBandwidthGroups((prev) =>
@@ -757,9 +753,6 @@ const DevicesPage = () => {
                       Download Limit
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Enabled
-                    </th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
                       Actions
                     </th>
                         <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -825,17 +818,7 @@ const DevicesPage = () => {
                             </p>
                           )}
                         </td>
-                        <td className="px-4 py-3">
-                          <label className="relative inline-flex items-center cursor-pointer">
-                            <input
-                              type="checkbox"
-                              checked={group.enabled}
-                              onChange={() => handleBandwidthToggle(group.id)}
-                              className="sr-only peer"
-                            />
-                            <div className="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 dark:after:border-gray-500 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600 dark:peer-checked:bg-blue-500"></div>
-                          </label>
-                        </td>
+                        
                         <td className="px-4 py-3">
                           <button
                             onClick={() => handleApplyBandwidth(group.id)}

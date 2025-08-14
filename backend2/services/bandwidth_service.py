@@ -15,8 +15,6 @@ from services.commands_server_operations.bandwidth_execute import (
     execute_delete_device_limit,
     execute_activate_global_limits,
     execute_deactivate_global_limits,
-    execute_add_global_whitelist,
-    execute_remove_global_whitelist,
 )
 
 logger = get_logger('services.bandwidth_service')
@@ -97,21 +95,6 @@ def deactivate_global_limits(user_id: str, router_id: str, session_id: str) -> T
     return execute_deactivate_global_limits(router_id, session_id)
 
 
-@handle_service_errors("Bandwidth: Add to global whitelist")
-def add_global_whitelist(user_id: str, router_id: str, session_id: str, ips: List[str]) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
-    err = _validate_ips(ips)
-    if err:
-        return None, err
-    log_service_operation("bandwidth_add_whitelist", user_id, router_id, session_id, {"ips": ips})
-    return execute_add_global_whitelist(router_id, session_id, ips)
-
-
-@handle_service_errors("Bandwidth: Remove from global whitelist")
-def remove_global_whitelist(user_id: str, router_id: str, session_id: str, ips: List[str]) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
-    err = _validate_ips(ips)
-    if err:
-        return None, err
-    log_service_operation("bandwidth_remove_whitelist", user_id, router_id, session_id, {"ips": ips})
-    return execute_remove_global_whitelist(router_id, session_id, ips)
+# Removed global whitelist operations
 
 
