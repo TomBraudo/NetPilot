@@ -13,6 +13,8 @@ import {
   FaEyeSlash,
   FaCheck,
   FaDownload,
+  FaEdit,
+  FaTrash,
 } from "react-icons/fa";
 import { BsRouter } from "react-icons/bs";
 import {
@@ -21,7 +23,7 @@ import {
   FaTv,
   FaRegQuestionCircle,
 } from "react-icons/fa";
-import { aghAPI, bandwidthAPI } from "../../constants/api";
+import { aghAPI, bandwidthAPI, deviceGroupsAPI } from "../../constants/api";
 import { useAuth } from "../../context/AuthContext.jsx";
 
 // Icon mapping
@@ -52,6 +54,11 @@ const DevicesPage = () => {
   const [newGroupName, setNewGroupName] = useState("");
   const [selectedDevices, setSelectedDevices] = useState([]);
   const [showAddToGroup, setShowAddToGroup] = useState(null);
+  const [editingGroupId, setEditingGroupId] = useState(null);
+  const [editingGroupName, setEditingGroupName] = useState("");
+  const [confirmDeleteGroup, setConfirmDeleteGroup] = useState(null); // { id, name }
+  const [groupsLoading, setGroupsLoading] = useState(false);
+  const [groupActionLoading, setGroupActionLoading] = useState({}); // { groupId: 'action' }
 
   // Content Controls State
   const [selectedGroups, setSelectedGroups] = useState([]);
@@ -123,13 +130,60 @@ const DevicesPage = () => {
   const [globalLimits, setGlobalLimits] = useState({ dlMbps: "", ulMbps: "", lanCidr: "" });
   const [globalLoading, setGlobalLoading] = useState(false);
 
-  // Helper functions for localStorage operations
-  const saveGroupsToStorage = (groupsToSave) => {
+  // Helper function to map backend device format to frontend format
+  const mapBackendDeviceToFrontend = (backendDevice) => {
+    return {
+      id: backendDevice.id,
+      ip: backendDevice.ip,
+      mac: backendDevice.mac,
+      hostname: backendDevice.hostname || backendDevice.device_name || 'Unknown Device',
+      icon: getDeviceTypeIcon(backendDevice.device_type),
+      type: backendDevice.device_type || 'Unknown'
+    };
+  };
+
+  const getDeviceTypeIcon = (deviceType) => {
+    const typeMap = {
+      'router': 'BsRouter',
+      'laptop': 'FaLaptop',
+      'phone': 'FaMobileAlt',
+      'mobile': 'FaMobileAlt',
+      'tv': 'FaTv',
+      'television': 'FaTv'
+    };
+    return typeMap[deviceType?.toLowerCase()] || 'FaRegQuestionCircle';
+  };
+
+  // Helper function to check if an ID is a UUID
+  const isUUID = (id) => {
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[4][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    return uuidRegex.test(id);
+  };
+
+  // API helper functions
+  const loadGroupsFromBackend = async () => {
+    if (!routerId) return [];
     try {
-      localStorage.setItem("deviceGroups", JSON.stringify(groupsToSave));
-      console.log("Groups successfully saved to localStorage");
+      const backendGroups = await deviceGroupsAPI.getGroups(routerId);
+      
+      // If we successfully got groups from backend, clear localStorage to avoid conflicts
+      if (backendGroups.length >= 0) {
+        localStorage.removeItem("deviceGroups");
+        console.log("Cleared localStorage groups to avoid conflicts with backend");
+      }
+      
+      // Map backend format to frontend format
+      return backendGroups.map(group => ({
+        id: group.id,
+        name: group.name,
+        description: group.description,
+        devices: (group.devices || []).map(mapBackendDeviceToFrontend),
+        createdAt: group.created_at
+      }));
     } catch (error) {
-      console.error("Failed to save groups to localStorage:", error);
+      console.error("Failed to load groups from backend:", error);
+      // Only fallback to localStorage if backend is completely unavailable
+      return loadGroupsFromStorage();
     }
   };
 
@@ -153,30 +207,46 @@ const DevicesPage = () => {
     }
   };
 
-  // Load data from localStorage on component mount
+  // Load data from backend and localStorage on component mount
   useEffect(() => {
-    const loadedDevices = loadDevicesFromStorage();
-    const loadedGroups = loadGroupsFromStorage();
+    const loadData = async () => {
+      setGroupsLoading(true);
+      
+      // Try to load devices from backend first
+      let loadedDevices = [];
+      try {
+        const backendDevices = await devicesAPI.getAll(routerId);
+        loadedDevices = backendDevices.map(mapBackendDeviceToFrontend);
+        console.log("Loaded devices from backend:", loadedDevices.length);
+      } catch (error) {
+        console.warn("Failed to load devices from backend, falling back to localStorage:", error);
+        loadedDevices = loadDevicesFromStorage();
+        console.log("Loaded devices from localStorage:", loadedDevices.length);
+      }
+      setDevices(loadedDevices);
 
-    setDevices(loadedDevices);
-    setGroups(loadedGroups);
+      try {
+        const loadedGroups = await loadGroupsFromBackend();
+        setGroups(loadedGroups);
+        console.log("Loaded from backend - Groups:", loadedGroups.length);
+      } catch (error) {
+        console.error("Failed to load groups:", error);
+        const fallbackGroups = loadGroupsFromStorage();
+        setGroups(fallbackGroups);
+        console.log("Fallback to localStorage - Groups:", fallbackGroups.length);
+      } finally {
+        setGroupsLoading(false);
+      }
+    };
 
-    console.log(
-      "Loaded from localStorage - Devices:",
-      loadedDevices.length,
-      "Groups:",
-      loadedGroups.length
-    );
-  }, []);
+    if (routerId) {
+      loadData();
+    }
+  }, [routerId]);
 
   // (Optional) Could load AGH categories dynamically, but keep default UI categories as requested
 
-  // Save groups to localStorage whenever groups change
-  useEffect(() => {
-    if (groups.length > 0) {
-      saveGroupsToStorage(groups);
-    }
-  }, [groups]);
+  // No longer saving to localStorage since we're using backend
 
   // Listen for device updates from localStorage (when new scan is done)
   useEffect(() => {
@@ -195,33 +265,51 @@ const DevicesPage = () => {
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
-  const handleCreateGroup = () => {
-    if (newGroupName.trim() && selectedDevices.length > 0) {
-      const newGroup = {
-        id: Date.now(),
+  const handleCreateGroup = async () => {
+    if (!newGroupName.trim() || selectedDevices.length === 0) return;
+
+    setGroupActionLoading(prev => ({ ...prev, create: true }));
+    try {
+      // Check if we have devices with proper backend UUIDs
+      const devicesWithIds = selectedDevices.filter(device => device.id && isUUID(device.id));
+      const devicesWithoutIds = selectedDevices.filter(device => !device.id || !isUUID(device.id));
+      
+      if (devicesWithoutIds.length > 0) {
+        alert(`Cannot create group: ${devicesWithoutIds.length} device(s) don't have proper backend IDs. Please scan for devices first or use only devices that were previously saved to the backend.`);
+        return;
+      }
+
+      const deviceIds = devicesWithIds.map(device => device.id);
+
+      const createdGroup = await deviceGroupsAPI.createGroup(routerId, {
         name: newGroupName.trim(),
-        devices: selectedDevices,
-        createdAt: new Date().toISOString(),
+        description: "",
+        device_ids: deviceIds
+      });
+
+      // Map backend response to frontend format
+      const frontendGroup = {
+        id: createdGroup.id,
+        name: createdGroup.name,
+        description: createdGroup.description,
+        devices: (createdGroup.devices || []).map(mapBackendDeviceToFrontend),
+        createdAt: createdGroup.created_at
       };
 
-      const updatedGroups = [...groups, newGroup];
+      const updatedGroups = [...groups, frontendGroup];
       setGroups(updatedGroups);
-
-      // Immediately save to localStorage
-      saveGroupsToStorage(updatedGroups);
 
       // Reset form
       setNewGroupName("");
       setSelectedDevices([]);
       setShowCreateGroup(false);
 
-      console.log(
-        "New group created:",
-        newGroup.name,
-        "with",
-        newGroup.devices.length,
-        "devices"
-      );
+      console.log("Group created via backend:", frontendGroup.name);
+    } catch (error) {
+      console.error("Failed to create group:", error);
+      alert("Failed to create group: " + error.message);
+    } finally {
+      setGroupActionLoading(prev => ({ ...prev, create: false }));
     }
   };
 
@@ -236,35 +324,113 @@ const DevicesPage = () => {
     });
   };
 
-  const removeDeviceFromGroup = (groupId, deviceIp) => {
-    setGroups((prev) =>
-      prev.map((group) => {
-        if (group.id === groupId) {
-          return {
-            ...group,
-            devices: group.devices.filter((device) => device.ip !== deviceIp),
-          };
-        }
-        return group;
-      })
-    );
-  };
+  const removeDeviceFromGroup = async (groupId, deviceIp) => {
+    const group = groups.find(g => g.id === groupId);
+    const deviceToRemove = group?.devices.find(d => d.ip === deviceIp);
+    
+    if (!deviceToRemove) return;
 
-  const addDeviceToGroup = (groupId, device) => {
-    setGroups((prev) =>
-      prev.map((group) => {
-        if (group.id === groupId) {
-          const deviceExists = group.devices.some((d) => d.ip === device.ip);
-          if (!deviceExists) {
+    // Check if this is a localStorage group
+    if (!isUUID(groupId)) {
+      console.warn("Removing device from localStorage group");
+      setGroups((prev) =>
+        prev.map((group) => {
+          if (group.id === groupId) {
             return {
               ...group,
-              devices: [...group.devices, device],
+              devices: group.devices.filter((device) => device.ip !== deviceIp),
             };
           }
+          return group;
+        })
+      );
+      
+      // Update localStorage
+      const storageGroups = loadGroupsFromStorage().map(g => 
+        g.id === groupId ? { ...g, devices: g.devices.filter(d => d.ip !== deviceIp) } : g
+      );
+      localStorage.setItem("deviceGroups", JSON.stringify(storageGroups));
+      return;
+    }
+
+    try {
+      await deviceGroupsAPI.removeDeviceFromGroup(routerId, groupId, deviceToRemove.id || deviceIp);
+      
+      setGroups((prev) =>
+        prev.map((group) => {
+          if (group.id === groupId) {
+            return {
+              ...group,
+              devices: group.devices.filter((device) => device.ip !== deviceIp),
+            };
+          }
+          return group;
+        })
+      );
+
+      console.log("Device removed from group via backend");
+    } catch (error) {
+      console.error("Failed to remove device from group:", error);
+      alert("Failed to remove device from group: " + error.message);
+    }
+  };
+
+  const addDeviceToGroup = async (groupId, device) => {
+    // Check if this is a localStorage group
+    if (!isUUID(groupId)) {
+      console.warn("Adding device to localStorage group");
+      setGroups((prev) =>
+        prev.map((group) => {
+          if (group.id === groupId) {
+            const deviceExists = group.devices.some((d) => d.ip === device.ip);
+            if (!deviceExists) {
+              return {
+                ...group,
+                devices: [...group.devices, device],
+              };
+            }
+          }
+          return group;
+        })
+      );
+      
+      // Update localStorage
+      const storageGroups = loadGroupsFromStorage().map(g => {
+        if (g.id === groupId) {
+          const deviceExists = g.devices.some(d => d.ip === device.ip);
+          if (!deviceExists) {
+            return { ...g, devices: [...g.devices, device] };
+          }
         }
-        return group;
-      })
-    );
+        return g;
+      });
+      localStorage.setItem("deviceGroups", JSON.stringify(storageGroups));
+      return;
+    }
+
+    try {
+      await deviceGroupsAPI.addDeviceToGroup(routerId, groupId, device.id || device.ip);
+      
+      setGroups((prev) =>
+        prev.map((group) => {
+          if (group.id === groupId) {
+            const deviceExists = group.devices.some((d) => d.ip === device.ip);
+            if (!deviceExists) {
+              return {
+                ...group,
+                devices: [...group.devices, device],
+              };
+            }
+          }
+          return group;
+        })
+      );
+
+      console.log("Device added to group via backend");
+    } catch (error) {
+      console.error("Failed to add device to group:", error);
+      alert("Failed to add device to group: " + error.message);
+    }
   };
 
   const getAvailableDevicesForGroup = (groupId) => {
@@ -277,22 +443,88 @@ const DevicesPage = () => {
     );
   };
 
-  const deleteGroup = (groupId) => {
+  const deleteGroup = async (groupId) => {
     const groupToDelete = groups.find((g) => g.id === groupId);
-    const updatedGroups = groups.filter((group) => group.id !== groupId);
+    
+    // Check if this is a localStorage group (non-UUID ID)
+    if (!isUUID(groupId)) {
+      console.warn("Attempting to delete localStorage group via backend - clearing from localStorage instead");
+      const updatedGroups = groups.filter((group) => group.id !== groupId);
+      setGroups(updatedGroups);
+      
+      // Update localStorage
+      const storageGroups = loadGroupsFromStorage().filter(g => g.id !== groupId);
+      localStorage.setItem("deviceGroups", JSON.stringify(storageGroups));
+      
+      alert("This group was created locally. It has been removed from localStorage. Please refresh to see backend groups only.");
+      return;
+    }
+    
+    try {
+      await deviceGroupsAPI.deleteGroup(routerId, groupId);
+      
+      const updatedGroups = groups.filter((group) => group.id !== groupId);
+      setGroups(updatedGroups);
 
-    setGroups(updatedGroups);
-    saveGroupsToStorage(updatedGroups);
-
-    console.log("Group deleted:", groupToDelete?.name);
+      console.log("Group deleted via backend:", groupToDelete?.name);
+    } catch (error) {
+      console.error("Failed to delete group:", error);
+      alert("Failed to delete group: " + error.message);
+    }
   };
 
-  // Debug function to clear all groups
-  const clearAllGroups = () => {
-    setGroups([]);
-    localStorage.removeItem("deviceGroups");
-    console.log("All groups cleared");
+  const startRenameGroup = (group) => {
+    setEditingGroupId(group.id);
+    setEditingGroupName(group.name);
   };
+
+  const saveRenameGroup = async () => {
+    if (!editingGroupName.trim()) return;
+    
+    // Check if this is a localStorage group
+    if (!isUUID(editingGroupId)) {
+      console.warn("Attempting to rename localStorage group - updating localStorage instead");
+      const updatedGroups = groups.map((g) =>
+        g.id === editingGroupId ? { ...g, name: editingGroupName.trim() } : g
+      );
+      setGroups(updatedGroups);
+      
+      // Update localStorage
+      const storageGroups = loadGroupsFromStorage().map(g => 
+        g.id === editingGroupId ? { ...g, name: editingGroupName.trim() } : g
+      );
+      localStorage.setItem("deviceGroups", JSON.stringify(storageGroups));
+      
+      setEditingGroupId(null);
+      setEditingGroupName("");
+      return;
+    }
+    
+    try {
+      await deviceGroupsAPI.updateGroup(routerId, editingGroupId, {
+        name: editingGroupName.trim()
+      });
+
+      const updatedGroups = groups.map((g) =>
+        g.id === editingGroupId ? { ...g, name: editingGroupName.trim() } : g
+      );
+      setGroups(updatedGroups);
+      setEditingGroupId(null);
+      setEditingGroupName("");
+
+      console.log("Group renamed via backend");
+    } catch (error) {
+      console.error("Failed to rename group:", error);
+      alert("Failed to rename group: " + error.message);
+    }
+  };
+
+  const cancelRenameGroup = () => {
+    setEditingGroupId(null);
+    setEditingGroupName("");
+  };
+
+  // Debug function removed - groups now managed via backend
 
   // Content Controls Handlers
   const handleContentToggle = (categoryId) => {
@@ -638,6 +870,43 @@ const DevicesPage = () => {
     setBandwidthGroups(bandwidthData);
   }, [groups]);
 
+  const handleClearAllGroups = async () => {
+    try {
+      // Aggregate all IPs across groups
+      const ips = [];
+      const seen = new Set();
+      groups.forEach((g) => (g.devices || []).forEach((d) => {
+        if (d?.ip && !seen.has(d.ip)) { seen.add(d.ip); ips.push(d.ip); }
+      }));
+
+      if (ips.length === 0) {
+        alert("No devices found in any groups to clear limits for.");
+        return;
+      }
+
+      // Clear all group limits
+      await bandwidthAPI.deleteGroupLimits(routerId, ips);
+
+      // Clear UI state for all groups
+      setBandwidthGroups((prev) =>
+        prev.map((group) => ({
+          ...group,
+          downLimit: "",
+        }))
+      );
+
+      // Clear any pending changes
+      setBandwidthChanges({});
+      setErrors({});
+
+      console.log("Cleared bandwidth limits for all groups:", ips.length, "devices");
+      alert(`Successfully cleared bandwidth limits for ${ips.length} devices across all groups.`);
+    } catch (error) {
+      console.error("Failed to clear all group limits:", error);
+      alert("Failed to clear all group limits. Please try again.");
+    }
+  };
+
   return (
     <div className="p-6 max-w-7xl mx-auto bg-gray-100 dark:bg-gray-900 min-h-screen">
       {/* Header */}
@@ -679,6 +948,157 @@ const DevicesPage = () => {
         </div>
       </div>
 
+      {/* Info Banner for localStorage vs Backend */}
+      {groups.some(g => !isUUID(g.id)) && (
+        <div className="mb-8">
+          <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-xl p-4">
+            <div className="flex items-start gap-3">
+              <div className="text-yellow-600 dark:text-yellow-400 mt-0.5">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
+                  Local Groups Detected
+                </h3>
+                <p className="text-sm text-yellow-700 dark:text-yellow-300 mt-1">
+                  Some groups were created locally and are not synced with the backend. To delete these groups, click the delete button (they will be removed from local storage). To create new groups with backend sync, use the "Create Group" button above.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Group Management Section */}
+      <div className="mb-12">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+          <div className="flex justify-between items-center mb-6">
+            <div>
+              <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
+                Groups
+              </h2>
+              <p className="text-gray-600 dark:text-gray-300 mt-1">
+                Rename, add or remove devices, and delete groups
+              </p>
+            </div>
+          </div>
+
+          {groupsLoading ? (
+            <div className="text-center py-12 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-4"></div>
+              <p className="text-gray-500 dark:text-gray-400 text-lg">
+                Loading groups...
+              </p>
+            </div>
+          ) : groups.length === 0 ? (
+            <div className="text-center py-12 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <p className="text-gray-500 dark:text-gray-400 text-lg">
+                No groups yet. Create one to get started.
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {groups.map((group) => (
+                <div
+                  key={group.id}
+                  className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-white dark:bg-gray-800"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex-1">
+                      {editingGroupId === group.id ? (
+                        <div className="flex items-center gap-2 mb-2">
+                          <input
+                            value={editingGroupName}
+                            onChange={(e) => setEditingGroupName(e.target.value)}
+                            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-800 dark:text-white w-64"
+                            placeholder="Group name"
+                            autoFocus
+                          />
+                          <button
+                            onClick={saveRenameGroup}
+                            className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                          >
+                            Save
+                          </button>
+                          <button
+                            onClick={cancelRenameGroup}
+                            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-2 mb-2">
+                          <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
+                            {group.name}
+                          </h3>
+                          <button
+                            onClick={() => startRenameGroup(group)}
+                            className="text-gray-500 hover:text-blue-600"
+                            title="Rename group"
+                          >
+                            <FaEdit />
+                          </button>
+                        </div>
+                      )}
+
+                      <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                        {group.devices.length} device{group.devices.length !== 1 ? "s" : ""}
+                      </p>
+
+                      <div className="flex flex-wrap gap-2">
+                        {(group.devices || []).map((device, idx) => (
+                          <div
+                            key={idx}
+                            className="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 rounded-full px-3 py-1"
+                          >
+                            <span className="text-blue-500">
+                              {getDeviceIcon(device.icon)}
+                            </span>
+                            <span className="text-sm text-gray-700 dark:text-gray-200">
+                              {device.hostname} ({device.ip})
+                            </span>
+                            <button
+                              onClick={() => removeDeviceFromGroup(group.id, device.ip)}
+                              className="text-red-500 hover:text-red-600"
+                              title="Remove from group"
+                            >
+                              <FaTimes />
+                            </button>
+                          </div>
+                        ))}
+                        {group.devices.length === 0 && (
+                          <span className="text-sm text-gray-500 dark:text-gray-400 italic">
+                            No devices
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <button
+                        onClick={() => setShowAddToGroup(group.id)}
+                        className="px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center gap-2"
+                      >
+                        <FaPlus /> Add device
+                      </button>
+                      <button
+                        onClick={() => setConfirmDeleteGroup({ id: group.id, name: group.name })}
+                        className="px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 flex items-center gap-2"
+                      >
+                        <FaTrash /> Delete group
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
       {/* Bandwidth Limits Section */}
       <div className="mb-12">
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
@@ -698,7 +1118,7 @@ const DevicesPage = () => {
             <h3 className="text-lg font-medium text-gray-800 dark:text-white mb-4">
               Bulk Apply Limits
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Download Limit (Mbps)
@@ -733,6 +1153,12 @@ const DevicesPage = () => {
                 className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition-colors"
               >
                 Apply to All Groups
+              </button>
+              <button
+                onClick={handleClearAllGroups}
+                className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg transition-colors"
+              >
+                Clear All Groups
               </button>
             </div>
           </div>
@@ -928,14 +1354,21 @@ const DevicesPage = () => {
             <div className="flex gap-3">
               <button
                 onClick={handleCreateGroup}
-                disabled={!newGroupName.trim() || selectedDevices.length === 0}
+                disabled={!newGroupName.trim() || selectedDevices.length === 0 || groupActionLoading.create}
                 className={`flex-1 py-3 px-4 rounded-lg font-medium transition-colors ${
-                  !newGroupName.trim() || selectedDevices.length === 0
+                  !newGroupName.trim() || selectedDevices.length === 0 || groupActionLoading.create
                     ? "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"
                     : "bg-blue-500 hover:bg-blue-600 text-white"
                 }`}
               >
-                Create Group
+                {groupActionLoading.create ? (
+                  <div className="flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    Creating...
+                  </div>
+                ) : (
+                  "Create Group"
+                )}
               </button>
               <button
                 onClick={() => {
@@ -1001,6 +1434,46 @@ const DevicesPage = () => {
                   No available devices to add
                 </p>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Group Confirmation Modal */}
+      {confirmDeleteGroup && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg w-full max-w-md mx-4">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Delete Group</h3>
+              <button
+                onClick={() => setConfirmDeleteGroup(null)}
+                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              >
+                <FaTimes />
+              </button>
+            </div>
+            <p className="text-gray-700 dark:text-gray-300 mb-4">
+              Are you sure you want to delete the group
+              {" "}
+              <span className="font-semibold">{confirmDeleteGroup.name}</span>?
+              This cannot be undone.
+            </p>
+            <div className="flex justify-end gap-2">
+              <button
+                className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
+                onClick={() => setConfirmDeleteGroup(null)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700"
+                onClick={() => {
+                  deleteGroup(confirmDeleteGroup.id);
+                  setConfirmDeleteGroup(null);
+                }}
+              >
+                Delete
+              </button>
             </div>
           </div>
         </div>

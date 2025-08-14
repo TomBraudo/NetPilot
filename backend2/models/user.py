@@ -20,6 +20,7 @@ class User(BaseModel):
     sessions = relationship("UserSession", back_populates="user", cascade="all, delete-orphan")
     routers = relationship("UserRouter", back_populates="user", cascade="all, delete-orphan")
     devices = relationship("UserDevice", back_populates="user", cascade="all, delete-orphan")
+    device_groups = relationship("DeviceGroup", back_populates="user", cascade="all, delete-orphan")
     # Removed legacy whitelist/blacklist relationships
     blocked_devices = relationship("UserBlockedDevice", back_populates="user", cascade="all, delete-orphan")
     settings = relationship("UserSetting", back_populates="user", cascade="all, delete-orphan")

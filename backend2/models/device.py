@@ -19,8 +19,18 @@ class UserDevice(BaseModel):
     
     # Relationships
     user = relationship("User", back_populates="devices")
+    device_groups = relationship("DeviceGroup", secondary="device_group_devices", back_populates="devices")
     
     __table_args__ = (
         UniqueConstraint('user_id', 'router_id', 'ip', name='unique_user_router_ip'),
         UniqueConstraint('user_id', 'router_id', 'mac', name='unique_user_router_mac'),
-    ) 
+    )
+
+    def to_dict(self):
+        """Convert to dictionary"""
+        base_dict = super().to_dict()
+        base_dict.update({
+            'ip': str(self.ip) if self.ip else None,
+            'mac': str(self.mac) if self.mac else None,
+        })
+        return base_dict 

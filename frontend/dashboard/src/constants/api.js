@@ -32,6 +32,8 @@ export const API_ENDPOINTS = {
   TWO_FA: `${API_BASE_URL}/api/2fa`,
   // AGH
   AGH: `${API_BASE_URL}/api/agh`,
+  // Device Groups
+  DEVICE_GROUPS: `${API_BASE_URL}/api/device-groups`,
   // Monitor (dashboard endpoints)
   MONITOR: {
     CURRENT: `${API_BASE_URL}/api/monitor/current`,
@@ -110,7 +112,8 @@ export const settingsAPI = {
 // Devices API functions
 export const devicesAPI = {
   // Get all devices
-  getAll: () => apiRequest(API_ENDPOINTS.DEVICES),
+  getAll: (routerId) => 
+    apiRequest(`${API_ENDPOINTS.DEVICES}?routerId=${routerId}`),
 
   // Get specific device
   getById: (id) => apiRequest(`${API_ENDPOINTS.DEVICES}/${id}`),
@@ -133,6 +136,13 @@ export const devicesAPI = {
   remove: (id) =>
     apiRequest(`${API_ENDPOINTS.DEVICES}/${id}`, {
       method: "DELETE",
+    }),
+
+  // Bulk create devices (for scan)
+  bulkCreate: (routerId, devices) =>
+    apiRequest(`${API_ENDPOINTS.DEVICES}/bulk?routerId=${routerId}`, {
+      method: "POST",
+      body: JSON.stringify({ devices }),
     }),
 };
 
@@ -403,5 +413,45 @@ export const aghAPI = {
     apiRequest(`${API_ENDPOINTS.AGH}/devices/rules?routerId=${routerId}`, {
       method: "DELETE",
       body: JSON.stringify({ devices }),
+    }),
+};
+
+// Device Groups API functions
+export const deviceGroupsAPI = {
+  // Get all device groups
+  getGroups: (routerId) =>
+    apiRequest(`${API_ENDPOINTS.DEVICE_GROUPS}/groups?routerId=${routerId}`),
+
+  // Create a new device group
+  createGroup: (routerId, { name, description, device_ids }) =>
+    apiRequest(`${API_ENDPOINTS.DEVICE_GROUPS}/groups?routerId=${routerId}`, {
+      method: "POST",
+      body: JSON.stringify({ name, description, device_ids }),
+    }),
+
+  // Update a device group
+  updateGroup: (routerId, groupId, { name, description }) =>
+    apiRequest(`${API_ENDPOINTS.DEVICE_GROUPS}/groups/${groupId}?routerId=${routerId}`, {
+      method: "PUT",
+      body: JSON.stringify({ name, description }),
+    }),
+
+  // Delete a device group
+  deleteGroup: (routerId, groupId) =>
+    apiRequest(`${API_ENDPOINTS.DEVICE_GROUPS}/groups/${groupId}?routerId=${routerId}`, {
+      method: "DELETE",
+    }),
+
+  // Add device to group
+  addDeviceToGroup: (routerId, groupId, deviceId) =>
+    apiRequest(`${API_ENDPOINTS.DEVICE_GROUPS}/groups/${groupId}/devices?routerId=${routerId}`, {
+      method: "POST",
+      body: JSON.stringify({ device_id: deviceId }),
+    }),
+
+  // Remove device from group
+  removeDeviceFromGroup: (routerId, groupId, deviceId) =>
+    apiRequest(`${API_ENDPOINTS.DEVICE_GROUPS}/groups/${groupId}/devices/${deviceId}?routerId=${routerId}`, {
+      method: "DELETE",
     }),
 };

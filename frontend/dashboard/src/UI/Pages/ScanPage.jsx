@@ -148,7 +148,7 @@ import { useLocation } from "react-router-dom";
 import DeviceCard from "../DeviceCard";
 import ScannerAnimation from "../../components/ScannerAnimation";
 import ScanButton from "../../components/ScanButton";
-import { networkAPI } from "../../constants/api";
+import { networkAPI, devicesAPI } from "../../constants/api";
 // import { staticDevices } from "../../constants/index";
 const iconMap = {
   router: "BsRouter",
@@ -248,11 +248,32 @@ const ScanPage = () => {
       if (isMounted.current) {
         const formattedDevices = formatDevices(data["data"]);
 
+        // Save devices to localStorage first (for backward compatibility)
         setDevices(formattedDevices);
-
         const scanTime = getFormattedDate();
         setLastScanTime(scanTime);
         localStorage.setItem("lastScanTime", scanTime);
+
+        // Also save devices to backend to get proper UUIDs
+        try {
+          console.log("Saving scanned devices to backend...");
+          console.log("Router ID:", routerId);
+          console.log("Devices to save:", formattedDevices);
+          
+          const savedDevices = await devicesAPI.bulkCreate(routerId, formattedDevices);
+          console.log("Successfully saved devices to backend:", savedDevices);
+          
+          // Update localStorage with the backend devices that have UUIDs
+          if (savedDevices && savedDevices.length > 0) {
+            localStorage.setItem("scannedDevices", JSON.stringify(savedDevices));
+            setDevices(savedDevices);
+            console.log("Updated localStorage with backend devices");
+          }
+        } catch (backendError) {
+          console.error("Failed to save devices to backend:", backendError);
+          console.error("Error details:", backendError.message);
+          // Don't fail the whole scan if backend save fails
+        }
       }
     } catch (err) {
       if (isMounted.current) {
