@@ -12,8 +12,9 @@ logger = get_logger('infrastructure_setup')
 
 
 class InfrastructureComponent(Enum):
-    """Minimal infra: monitoring only (nlbwmon daily tracking)."""
+    """Infrastructure components for NetPilot."""
     MONITORING_SETUP = "monitoring_setup"
+    AGH_CATEGORIES_SETUP = "agh_categories_setup"
 
 
 def _execute_command_with_router_manager(router_connection_manager, command: str):
@@ -57,6 +58,116 @@ def _get_network_interfaces(router_connection_manager):
     return [], None
 
 
+def _setup_agh_default_categories(router_connection_manager):
+    """
+    Set up default AGH categories if they don't exist on the router.
+    
+    This function:
+    1. Ensures the AGH categories directory exists on the router
+    2. Checks which default categories are missing
+    3. Copies default category files for missing categories only
+    4. Never overwrites existing category files (preserves user customizations)
+    
+    Args:
+        router_connection_manager: RouterConnectionManager instance
+    
+    Returns:
+        bool: True if successful, False if failed
+    """
+    import os
+    import tempfile
+    
+    # Category directory on router (from agh_service/common.py)
+    CATEGORY_DIR = "/opt/AdGuardHome/categories"
+    
+    # Default categories to set up
+    default_categories = [
+        "social_media",
+        "entertainment", 
+        "gaming",
+        "adult_gambling"
+    ]
+    
+    try:
+        # Ensure category directory exists on router
+        logger.info(f"Ensuring AGH category directory exists: {CATEGORY_DIR}")
+        _, err = router_connection_manager.execute(f"mkdir -p {CATEGORY_DIR} 2>/dev/null || true")
+        if err:
+            logger.error(f"Failed to create AGH category directory: {err}")
+            return False
+        
+        # Check which categories already exist on router
+        existing_categories = []
+        out, _ = router_connection_manager.execute(f"ls -1 {CATEGORY_DIR}/*.txt 2>/dev/null | xargs -r basename -s .txt | cat")
+        if out:
+            existing_categories = [cat.strip() for cat in out.splitlines() if cat.strip()]
+        
+        logger.info(f"Found existing categories on router: {existing_categories}")
+        
+        # Determine which categories need to be created
+        categories_to_create = [cat for cat in default_categories if cat not in existing_categories]
+        
+        if not categories_to_create:
+            logger.info("All default AGH categories already exist - no setup needed")
+            return True
+            
+        logger.info(f"Creating missing default categories: {categories_to_create}")
+        
+        # Get path to default category files
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        default_categories_dir = os.path.join(os.path.dirname(current_dir), 'services', 'agh_service', 'default_categories')
+        logger.info(f"Looking for default category files in: {default_categories_dir}")
+        
+        if not os.path.exists(default_categories_dir):
+            logger.error(f"Default categories directory does not exist: {default_categories_dir}")
+            return False
+        
+        # Copy each missing category file
+        for category in categories_to_create:
+            local_file_path = os.path.join(default_categories_dir, f"{category}.txt")
+            remote_file_path = f"{CATEGORY_DIR}/{category}.txt"
+            
+            if not os.path.exists(local_file_path):
+                logger.warning(f"Default category file not found: {local_file_path}")
+                continue
+                
+            logger.info(f"Copying default category file: {category}.txt (size: {os.path.getsize(local_file_path)} bytes)")
+            try:
+                # Use simple content-based copy approach - read file and write via SSH command
+                with open(local_file_path, 'r', encoding='utf-8') as f:
+                    file_content = f.read().strip()
+                
+                # Create the file using heredoc - this handles all special characters safely
+                # This is much more reliable than complex SFTP operations
+                copy_command = f"""cat > {remote_file_path} << 'EOF_NETPILOT'
+{file_content}
+EOF_NETPILOT"""
+                
+                copy_out, copy_err = router_connection_manager.execute(copy_command, timeout=10)
+                if copy_err:
+                    logger.error(f"Failed to copy category file {category}.txt: {copy_err}")
+                    return False
+                
+                # Verify the file was created and has content
+                verify_out, verify_err = router_connection_manager.execute(f"[ -s {remote_file_path} ] && echo 'ok' || echo 'fail'", timeout=5)
+                if verify_err or (verify_out or '').strip() != 'ok':
+                    logger.error(f"Category file {category}.txt was not successfully created or is empty")
+                    return False
+                    
+                logger.info(f"Successfully created default category: {category}")
+                
+            except Exception as copy_exception:
+                logger.error(f"Exception during copy of {category}.txt: {str(copy_exception)}")
+                return False
+            
+        logger.info("AGH default categories setup completed successfully")
+        return True
+        
+    except Exception as e:
+        logger.error(f"Failed to set up AGH default categories: {str(e)}")
+        return False
+
+
 def setup_persistent_infrastructure(missing_components=None):
     """
     Set up one-time persistent infrastructure:
@@ -75,9 +186,9 @@ def setup_persistent_infrastructure(missing_components=None):
         tuple: (bool, str) - (True if successful, error message if failed)
     """
     from managers.router_connection_manager import RouterConnectionManager
-    # Only monitoring is supported now
+    # Default to both monitoring and AGH categories setup
     if missing_components is None:
-        missing_components = [InfrastructureComponent.MONITORING_SETUP]
+        missing_components = [InfrastructureComponent.MONITORING_SETUP, InfrastructureComponent.AGH_CATEGORIES_SETUP]
     
     router_connection_manager = RouterConnectionManager()
     
@@ -109,6 +220,15 @@ def setup_persistent_infrastructure(missing_components=None):
             router_connection_manager.execute(prune_cmd)
         else:
             logger.info("Monitoring infrastructure is already set up correctly - skipping")
+
+        # AGH categories setup (ensure default categories exist)
+        if InfrastructureComponent.AGH_CATEGORIES_SETUP in missing_components:
+            logger.info("Setting up AGH default categories")
+            success = _setup_agh_default_categories(router_connection_manager)
+            if not success:
+                return False, "AGH categories setup failed"
+        else:
+            logger.info("AGH categories infrastructure is already set up correctly - skipping")
         
         # Log success message
         setup_components = [comp.value for comp in missing_components]
@@ -172,9 +292,29 @@ def check_existing_infrastructure():
                 missing_components.append(InfrastructureComponent.MONITORING_SETUP)
             issues.append(f"database files count {cnt} exceeds 35")
 
+        # 4) Verify AGH default categories exist
+        CATEGORY_DIR = "/opt/AdGuardHome/categories"
+        default_categories = ["social_media", "entertainment", "gaming", "adult_gambling"]
+        
+        # Check if category directory exists
+        cat_dir_out, _ = router_connection_manager.execute(f"[ -d {CATEGORY_DIR} ] && echo yes || echo no")
+        if (cat_dir_out or '').strip() != 'yes':
+            missing_components.append(InfrastructureComponent.AGH_CATEGORIES_SETUP)
+            issues.append("AGH categories directory does not exist")
+        else:
+            # Check if default categories exist
+            existing_cats_out, _ = router_connection_manager.execute(f"ls -1 {CATEGORY_DIR}/*.txt 2>/dev/null | xargs -r basename -s .txt | cat")
+            existing_categories = [cat.strip() for cat in (existing_cats_out or '').splitlines() if cat.strip()]
+            missing_default_categories = [cat for cat in default_categories if cat not in existing_categories]
+            
+            if missing_default_categories:
+                if InfrastructureComponent.AGH_CATEGORIES_SETUP not in missing_components:
+                    missing_components.append(InfrastructureComponent.AGH_CATEGORIES_SETUP)
+                issues.append(f"missing default categories: {', '.join(missing_default_categories)}")
+
         if not missing_components:
-            logger.info("Monitoring OK")
-            return True, [], "Monitoring OK"
+            logger.info("All infrastructure components OK")
+            return True, [], "All infrastructure components OK"
         else:
             component_names = [comp.value for comp in missing_components]
             message = f"Missing or incorrect components: {', '.join(component_names)}. Issues: {'; '.join(issues)}"
@@ -182,4 +322,4 @@ def check_existing_infrastructure():
 
     except Exception as e:
         logger.error(f"Error checking existing infrastructure: {str(e)}")
-        return False, [InfrastructureComponent.MONITORING_SETUP], f"Infrastructure check failed: {str(e)}"
+        return False, [InfrastructureComponent.MONITORING_SETUP, InfrastructureComponent.AGH_CATEGORIES_SETUP], f"Infrastructure check failed: {str(e)}"
