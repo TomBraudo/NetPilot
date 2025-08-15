@@ -72,6 +72,17 @@ const DevicesPage = () => {
   const [newUrl, setNewUrl] = useState("");
   const [customUrls, setCustomUrls] = useState({});
   const [domainsModal, setDomainsModal] = useState(null); // { categoryId, name, domains: [] }
+  
+  // Create Category State
+  const [showCreateCategoryModal, setShowCreateCategoryModal] = useState(false);
+  const [createCategoryForm, setCreateCategoryForm] = useState({
+    name: "",
+    domains: [],
+    inputMethod: "manual", // "manual" or "file"
+    manualDomain: "",
+    uploadedFile: null,
+    isSubmitting: false
+  });
 
   // Bandwidth Limits State (download only)
   const [bandwidthGroups, setBandwidthGroups] = useState([]);
@@ -208,22 +219,22 @@ const DevicesPage = () => {
         
         categoriesWithCounts.push({
           id: categoryId,
-          name: nameMap[categoryId] || categoryId.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+          name: nameMap[categoryId] || categoryId.replace(/__/g, ' ').replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
           icon: iconMap[categoryId] || FaCog,
           blocked: false, // Default all categories to allowed
           sites: domainCount,
-          description: descriptionMap[categoryId] || `${categoryId.replace(/_/g, ' ')} category`,
+          description: descriptionMap[categoryId] || `${categoryId.replace(/__/g, ' ').replace(/_/g, ' ')} category`,
         });
       } catch (error) {
         console.warn(`Failed to get domain count for category ${categoryId}:`, error);
         // Add category with default count if domain fetch fails
         categoriesWithCounts.push({
           id: categoryId,
-          name: nameMap[categoryId] || categoryId.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+          name: nameMap[categoryId] || categoryId.replace(/__/g, ' ').replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
           icon: iconMap[categoryId] || FaCog,
           blocked: false, // Default all categories to allowed
           sites: 0,
-          description: descriptionMap[categoryId] || `${categoryId.replace(/_/g, ' ')} category`,
+          description: descriptionMap[categoryId] || `${categoryId.replace(/__/g, ' ').replace(/_/g, ' ')} category`,
         });
       }
     }
@@ -274,6 +285,140 @@ const DevicesPage = () => {
 
     loadCategories();
   }, [routerId]);
+
+  // Create Category Helper Functions
+  const resetCreateCategoryForm = () => {
+    setCreateCategoryForm({
+      name: "",
+      domains: [],
+      inputMethod: "manual",
+      manualDomain: "",
+      uploadedFile: null,
+      isSubmitting: false
+    });
+  };
+
+  const handleAddManualDomain = () => {
+    const domain = createCategoryForm.manualDomain.trim();
+    if (domain && !createCategoryForm.domains.includes(domain)) {
+      setCreateCategoryForm(prev => ({
+        ...prev,
+        domains: [...prev.domains, domain],
+        manualDomain: ""
+      }));
+    }
+  };
+
+  const handleRemoveDomain = (index) => {
+    setCreateCategoryForm(prev => ({
+      ...prev,
+      domains: prev.domains.filter((_, i) => i !== index)
+    }));
+  };
+
+  const handleFileUpload = (file) => {
+    if (file && file.type === "text/plain") {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target.result;
+        const domains = content
+          .split('\n')
+          .map(line => line.trim())
+          .filter(line => line && !line.startsWith('#')) // Filter out empty lines and comments
+          .filter((domain, index, arr) => arr.indexOf(domain) === index); // Remove duplicates
+        
+        setCreateCategoryForm(prev => ({
+          ...prev,
+          domains: domains,
+          uploadedFile: file
+        }));
+      };
+      reader.readAsText(file);
+    } else {
+      alert("Please upload a .txt file");
+    }
+  };
+
+  const handleCreateCategory = async () => {
+    if (!createCategoryForm.name.trim()) {
+      alert("Please enter a category name");
+      return;
+    }
+
+    if (createCategoryForm.domains.length === 0) {
+      alert("Please add at least one domain");
+      return;
+    }
+
+    // Convert user input to valid category format
+    const sanitizedCategoryName = createCategoryForm.name.trim()
+      .toLowerCase()
+      .replace(/\s+/g, '__') // Replace spaces with double underscores
+      .replace(/[^a-z0-9._-]/g, ''); // Remove any invalid characters
+
+    setCreateCategoryForm(prev => ({ ...prev, isSubmitting: true }));
+
+    try {
+      console.log("🔄 [DevicesPage] Creating new category:", createCategoryForm.name);
+      console.log("🔧 [DevicesPage] Sanitized name:", sanitizedCategoryName);
+      console.log("📋 [DevicesPage] Domains:", createCategoryForm.domains);
+
+      // Call the API to create the category (use sanitized name)
+      const response = await aghAPI.createCategory(routerId, sanitizedCategoryName, createCategoryForm.domains);
+      
+      console.log("✅ [DevicesPage] Category created successfully:", response);
+
+      // Close modal and reset form
+      setShowCreateCategoryModal(false);
+      resetCreateCategoryForm();
+
+      // Add the new category to existing list instead of reloading all
+      console.log("🔄 [DevicesPage] Adding new category to list...");
+      
+      try {
+        // Get domain count for the new category
+        const domainResponse = await aghAPI.getCategoryDomains(routerId, sanitizedCategoryName);
+        const domainCount = domainResponse.data?.count || createCategoryForm.domains.length;
+        
+        // Create the new category UI object
+        const newCategory = {
+          id: sanitizedCategoryName,
+          name: createCategoryForm.name.trim(), // Use original user input for display
+          icon: FaCog, // Default icon for custom categories
+          blocked: false,
+          sites: domainCount,
+          description: `${createCategoryForm.name.trim()} category`,
+        };
+
+        // Add to existing categories
+        setContentCategories(prev => [...prev, newCategory]);
+        console.log("✅ [DevicesPage] New category added to list:", newCategory.name);
+        
+      } catch (error) {
+        console.warn("⚠️ [DevicesPage] Failed to get domain count for new category, using fallback");
+        // Fallback: add with domain count from form
+        const newCategory = {
+          id: sanitizedCategoryName,
+          name: createCategoryForm.name.trim(),
+          icon: FaCog,
+          blocked: false,
+          sites: createCategoryForm.domains.length,
+          description: `${createCategoryForm.name.trim()} category`,
+        };
+        setContentCategories(prev => [...prev, newCategory]);
+      }
+
+      // Show success message
+      setShowSuccessToast(true);
+      setTimeout(() => setShowSuccessToast(false), 3000);
+
+    } catch (error) {
+      console.error("❌ [DevicesPage] Failed to create category:", error);
+      alert(`Failed to create category: ${error.message}`);
+    } finally {
+      setCreateCategoryForm(prev => ({ ...prev, isSubmitting: false }));
+    }
+  };
 
 
 
@@ -588,6 +733,17 @@ const DevicesPage = () => {
     if (!domainsModal || !routerId) return;
     try {
       await aghAPI.replaceCategoryDomains(routerId, domainsModal.categoryId, domainsModal.domains);
+      
+      // Update the category count in the UI
+      const newDomainCount = domainsModal.domains.length;
+      setContentCategories(prev => prev.map(category => 
+        category.id === domainsModal.categoryId 
+          ? { ...category, sites: newDomainCount }
+          : category
+      ));
+      
+      console.log(`✅ [DevicesPage] Updated domain count for ${domainsModal.categoryId}: ${newDomainCount} domains`);
+      
       setDomainsModal(null);
     } catch (e) {
       alert(e?.message || 'Failed to save domains');
@@ -1472,25 +1628,34 @@ const DevicesPage = () => {
                 Block website categories for selected device groups
               </p>
             </div>
-            {hasContentChanges && (
+            <div className="flex items-center gap-3">
               <button
-                onClick={handleApplyContentChanges}
-                disabled={contentLoading || selectedGroups.length === 0}
-                className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors"
+                onClick={() => setShowCreateCategoryModal(true)}
+                className="bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
               >
-                {contentLoading ? (
-                  <>
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    Applying...
-                  </>
-                ) : (
-                  <>
-                    <FaCheck className="text-sm" />
-                    Apply Changes
-                  </>
-                )}
+                <FaPlus className="text-sm" />
+                Create Category
               </button>
-            )}
+              {hasContentChanges && (
+                <button
+                  onClick={handleApplyContentChanges}
+                  disabled={contentLoading || selectedGroups.length === 0}
+                  className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors"
+                >
+                  {contentLoading ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Applying...
+                    </>
+                  ) : (
+                    <>
+                      <FaCheck className="text-sm" />
+                      Apply Changes
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Group Selection */}
@@ -1792,6 +1957,205 @@ const DevicesPage = () => {
             <div className="flex justify-end gap-2 mt-4">
               <button className="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-500 rounded transition-colors" onClick={() => setDomainsModal(null)}>Cancel</button>
               <button className="px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white hover:bg-blue-700 dark:hover:bg-blue-400 rounded transition-colors" onClick={saveDomains}>Save</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Create Category Modal */}
+      {showCreateCategoryModal && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Create New Category</h3>
+              <button 
+                onClick={() => {
+                  setShowCreateCategoryModal(false);
+                  resetCreateCategoryForm();
+                }}
+                className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+              >
+                <FaTimes />
+              </button>
+            </div>
+
+            {/* Category Name */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Category Name *
+              </label>
+              <input
+                type="text"
+                value={createCategoryForm.name}
+                onChange={(e) => setCreateCategoryForm(prev => ({ ...prev, name: e.target.value }))}
+                placeholder="e.g., Custom News, My Category, Test Sites"
+                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400"
+              />
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                {createCategoryForm.name ? (
+                  <>
+                    Will be saved as: <span className="font-mono text-blue-600 dark:text-blue-400">
+                      {createCategoryForm.name.trim().toLowerCase().replace(/\s+/g, '__').replace(/[^a-z0-9._-]/g, '')}
+                    </span>
+                  </>
+                ) : (
+                  'Enter any name - spaces and special characters will be automatically converted'
+                )}
+              </p>
+            </div>
+
+            {/* Input Method Selection */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                How would you like to add domains?
+              </label>
+              <div className="flex gap-4">
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="inputMethod"
+                    value="manual"
+                    checked={createCategoryForm.inputMethod === "manual"}
+                    onChange={(e) => setCreateCategoryForm(prev => ({ ...prev, inputMethod: e.target.value }))}
+                    className="mr-2"
+                  />
+                  <span className="text-gray-700 dark:text-gray-300">Manual Entry</span>
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="inputMethod"
+                    value="file"
+                    checked={createCategoryForm.inputMethod === "file"}
+                    onChange={(e) => setCreateCategoryForm(prev => ({ ...prev, inputMethod: e.target.value }))}
+                    className="mr-2"
+                  />
+                  <span className="text-gray-700 dark:text-gray-300">Upload File</span>
+                </label>
+              </div>
+            </div>
+
+            {/* Manual Domain Entry */}
+            {createCategoryForm.inputMethod === "manual" && (
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Add Domains
+                </label>
+                <div className="flex gap-2 mb-3">
+                  <input
+                    type="text"
+                    value={createCategoryForm.manualDomain}
+                    onChange={(e) => setCreateCategoryForm(prev => ({ ...prev, manualDomain: e.target.value }))}
+                    placeholder="example.com"
+                    onKeyPress={(e) => e.key === 'Enter' && handleAddManualDomain()}
+                    className="flex-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400"
+                  />
+                  <button
+                    onClick={handleAddManualDomain}
+                    className="px-4 py-2 bg-blue-500 dark:bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-500 rounded-lg transition-colors"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* File Upload */}
+            {createCategoryForm.inputMethod === "file" && (
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Upload Domains File
+                </label>
+                <div 
+                  className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center hover:border-blue-500 dark:hover:border-blue-400 transition-colors cursor-pointer"
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                      handleFileUpload(files[0]);
+                    }
+                  }}
+                  onClick={() => {
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = '.txt';
+                    input.onchange = (e) => {
+                      const file = e.target.files[0];
+                      if (file) handleFileUpload(file);
+                    };
+                    input.click();
+                  }}
+                >
+                  {createCategoryForm.uploadedFile ? (
+                    <div className="text-green-600 dark:text-green-400">
+                      <FaCheck className="mx-auto mb-2 text-2xl" />
+                      <p>File uploaded: {createCategoryForm.uploadedFile.name}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {createCategoryForm.domains.length} domains found
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="text-gray-500 dark:text-gray-400">
+                      <FaDownload className="mx-auto mb-2 text-2xl" />
+                      <p>Drag & drop a .txt file here, or click to browse</p>
+                      <p className="text-sm">One domain per line</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Domain List */}
+            {createCategoryForm.domains.length > 0 && (
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Domains ({createCategoryForm.domains.length})
+                </label>
+                <div className="max-h-40 overflow-y-auto border border-gray-300 dark:border-gray-600 rounded-lg p-2 space-y-1">
+                  {createCategoryForm.domains.map((domain, index) => (
+                    <div key={index} className="flex items-center justify-between bg-gray-100 dark:bg-gray-700 rounded px-2 py-1">
+                      <span className="text-sm text-gray-800 dark:text-gray-200 truncate">{domain}</span>
+                      <button
+                        onClick={() => handleRemoveDomain(index)}
+                        className="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 ml-2"
+                      >
+                        <FaTimes className="text-xs" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Action Buttons */}
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => {
+                  setShowCreateCategoryModal(false);
+                  resetCreateCategoryForm();
+                }}
+                className="px-6 py-2 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-500 rounded-lg transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleCreateCategory}
+                disabled={createCategoryForm.isSubmitting || !createCategoryForm.name.trim() || createCategoryForm.domains.length === 0}
+                className="px-6 py-2 bg-green-600 dark:bg-green-500 text-white hover:bg-green-700 dark:hover:bg-green-400 disabled:bg-gray-400 disabled:cursor-not-allowed rounded-lg transition-colors flex items-center gap-2"
+              >
+                {createCategoryForm.isSubmitting ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    Creating...
+                  </>
+                ) : (
+                  <>
+                    <FaCheck className="text-sm" />
+                    Create Category
+                  </>
+                )}
+              </button>
             </div>
           </div>
         </div>
