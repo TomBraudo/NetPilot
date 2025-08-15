@@ -4,9 +4,7 @@ from .user import User
 from .session import UserSession
 from .router import UserRouter
 from .device import UserDevice
-from .whitelist import UserWhitelist
-from .blacklist import UserBlacklist
-from .blacklisted_devices import BlacklistedDevice
+from .device_group import DeviceGroup
 from .blocked_device import UserBlockedDevice
 from .settings import UserSetting
 
@@ -17,9 +15,7 @@ __all__ = [
     'UserSession',
     'UserRouter',
     'UserDevice',
-    'UserWhitelist',
-    'UserBlacklist',
-    'BlacklistedDevice',
+    'DeviceGroup',
     'UserBlockedDevice',
     'UserSetting'
 ] 

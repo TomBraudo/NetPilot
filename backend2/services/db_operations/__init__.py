@@ -6,7 +6,6 @@ This module centralizes database access patterns and ensures consistent session 
 across all database operation services.
 
 Available Services:
-- whitelist_db: Whitelist database operations
 - base: Core database utilities and session management
 
 Usage:
@@ -22,18 +21,7 @@ from .base import (
     handle_db_errors
 )
 
-# Import whitelist operations
-from .whitelist_db import (
-    get_whitelist,
-    add_device_to_whitelist,
-    remove_device_from_whitelist,
-    is_device_whitelisted,
-    get_whitelist_mode_setting,
-    activate_whitelist_mode,
-    deactivate_whitelist_mode,
-    get_whitelist_limit_rate_setting,
-    set_whitelist_limit_rate
-)
+# Removed whitelist DB operations
 
 # Import network operations
 from .network_db import (
@@ -49,16 +37,7 @@ __all__ = [
     'validate_uuid',
     'handle_db_errors',
     
-    # Whitelist operations
-    'get_whitelist',
-    'add_device_to_whitelist',
-    'remove_device_from_whitelist',
-    'is_device_whitelisted',
-    'get_whitelist_mode_setting',
-    'activate_whitelist_mode',
-    'deactivate_whitelist_mode',
-    'get_whitelist_limit_rate_setting',
-    'set_whitelist_limit_rate',
+    # Removed whitelist operations
     
     # Network operations
     'save_network_scan_result',

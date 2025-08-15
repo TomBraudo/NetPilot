@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
-import ControlPage from "./UI/Pages/ControlPage";
 import ScanPage from "./UI/Pages/ScanPage";
 import ScanTest from "./UI/Pages/ScanTest";
 import FaqsPage from "./UI/Pages/FaqsPage";
@@ -46,7 +45,6 @@ const AppLayout = ({
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/scan" element={<ScanPage />} />
             <Route path="/devices" element={<DevicesPage />} />
-            <Route path="/control" element={<ControlPage />} />
             {/* <Route path="/scanTest" element={<ScanTest />} /> */}
             <Route path="/about" element={<AboutPage />} />
             <Route path="/faqs" element={<FaqsPage />} />
