@@ -1,3 +1,16 @@
+"""
+Router Scanner Service for NetPilot
+
+This service provides device discovery by scanning the router's ARP table.
+It only returns devices that are:
+1. On the br-lan interface (local network)
+2. Have 0x2 flags (reachable/active)
+3. Are currently communicating with the router
+
+This approach provides reliable device detection without the need for ARP table flushing
+or pinging entire IP ranges.
+"""
+
 import requests
 import time
 import re
@@ -23,8 +36,9 @@ def get_mac_vendor(mac):
 
 def get_connected_devices():
     """
-    Scans the router's ARP table to find active devices, then uses DHCP
-    leases to enrich the data with hostnames.
+    Scans the router's ARP table to find active devices on br-lan with 0x2 flags,
+    then uses DHCP leases to enrich the data with hostnames.
+    Only returns devices that are currently reachable and active.
     """
     try:
         # Read directly from the kernel's ARP table file for maximum compatibility.
@@ -100,6 +114,7 @@ def _parse_scan_results(arp_data, dhcp_data):
     """
     Parses the raw output from ARP and DHCP lease files to create a structured
     list of connected devices, enriching with vendor information.
+    Only includes devices with 0x2 flags (reachable/active) on br-lan interface.
     """
     dhcp_map = {}
     for line in dhcp_data.strip().split('\n'):
@@ -111,29 +126,30 @@ def _parse_scan_results(arp_data, dhcp_data):
             dhcp_map[mac] = hostname
 
     devices = []
-    # Regex to capture the IP address, HW address (MAC), and device from /proc/net/arp
+    # Regex to capture the IP address, HW address (MAC), flags, and device from /proc/net/arp
     # Example line: 192.168.1.194    0x1         0x2         d2:f0:7b:2b:69:15     *        br-lan
-    arp_pattern = re.compile(r'^\s*([^\s]+)\s+0x\d\s+0x\d\s+([0-9a-fA-F:]+)\s+\*\s+([^\s]+)')
+    # We only want entries with 0x2 flags (reachable/active) and on br-lan interface
+    arp_pattern = re.compile(r'^\s*([^\s]+)\s+0x\d\s+(0x2)\s+([0-9a-fA-F:]+)\s+\*\s+(br-lan)')
 
     # Skip the header line
     for line in arp_data.strip().split('\n')[1:]:
         if not line: continue
         match = arp_pattern.search(line)
         if match:
-            ip, mac, device = match.groups()
-            # Only include devices on the LAN bridge
-            if device != "br-lan":
-                continue
-            
-            mac = mac.lower()
-            hostname = dhcp_map.get(mac, 'Unknown')
-            vendor = get_mac_vendor(mac)
-            
-            devices.append({
-                "ip": ip,
-                "mac": mac,
-                "hostname": hostname,
-                "vendor": vendor
-            })
+            ip, flags, mac, device = match.groups()
+            # Only include devices on the LAN bridge with 0x2 flags (reachable/active)
+            if device == "br-lan" and flags == "0x2":
+                mac = mac.lower()
+                hostname = dhcp_map.get(mac, 'Unknown')
+                vendor = get_mac_vendor(mac)
+                
+                devices.append({
+                    "ip": ip,
+                    "mac": mac,
+                    "hostname": hostname,
+                    "vendor": vendor,
+                    "status": "active",
+                    "interface": device
+                })
 
     return devices
