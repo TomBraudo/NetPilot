@@ -20,8 +20,11 @@ def get_user_devices(user_id, router_id):
                 )
             ).all()
             
+            # Convert to dict while still in session to avoid detachment issues
+            devices_dicts = [device.to_dict() for device in devices]
+            
             logger.info(f"Retrieved {len(devices)} devices for user {user_id}, router {router_id}")
-            return devices
+            return devices_dicts
             
         except Exception as e:
             logger.error(f"Failed to get devices: {str(e)}")
@@ -60,10 +63,13 @@ def create_or_update_device(user_id, router_id, ip, mac=None, hostname=None, dev
                 
                 session.commit()
                 session.refresh(existing_device)
+                
+                # Convert to dict while still in session
+                device_dict = existing_device.to_dict()
                 session.expunge(existing_device)
                 
                 logger.info(f"Updated existing device {ip} for user {user_id}")
-                return existing_device
+                return device_dict
             else:
                 # Create new device
                 new_device = UserDevice(
@@ -82,10 +88,13 @@ def create_or_update_device(user_id, router_id, ip, mac=None, hostname=None, dev
                 session.add(new_device)
                 session.commit()
                 session.refresh(new_device)
+                
+                # Convert to dict while still in session
+                device_dict = new_device.to_dict()
                 session.expunge(new_device)
                 
                 logger.info(f"Created new device {ip} for user {user_id}")
-                return new_device
+                return device_dict
             
         except Exception as e:
             logger.error(f"Failed to create/update device: {str(e)}")
@@ -151,12 +160,11 @@ def bulk_create_or_update_devices(user_id, router_id, devices_data):
             for device in created_devices:
                 session.refresh(device)
             
-            # Expunge objects from session to avoid session binding issues
-            for device in created_devices:
-                session.expunge(device)
+            # Convert to dicts while still in session to avoid detachment issues
+            devices_dicts = [device.to_dict() for device in created_devices]
             
             logger.info(f"Bulk created/updated {len(created_devices)} devices for user {user_id}")
-            return created_devices
+            return devices_dicts
             
         except Exception as e:
             logger.error(f"Failed to bulk create/update devices: {str(e)}")
@@ -176,7 +184,10 @@ def get_device_by_id(user_id, router_id, device_id):
                 )
             ).first()
             
-            return device
+            # Convert to dict while still in session to avoid detachment issues
+            if device:
+                return device.to_dict()
+            return None
             
         except Exception as e:
             logger.error(f"Failed to get device by ID: {str(e)}")
@@ -227,5 +238,84 @@ def get_devices_by_ips(user_id, router_id, ips):
             
         except Exception as e:
             logger.error(f"Failed to get devices by IPs: {str(e)}")
+            session.rollback()
+            raise
+
+
+def validate_devices(user_id, router_id, device_identifiers):
+    """Validate that devices exist in database by IP or UUID"""
+    with get_db_session() as session:
+        try:
+            from utils.response_helpers import is_uuid
+            
+            logger.info(f"Starting device validation for {len(device_identifiers)} identifiers")
+            
+            valid_devices = []
+            invalid_devices = []
+            
+            # Process all identifiers first, collecting device objects
+            device_objects = []
+            
+            for identifier in device_identifiers:
+                logger.info(f"Processing identifier: {identifier}")
+                
+                if is_uuid(identifier):
+                    # Check by UUID
+                    device = session.query(UserDevice).filter(
+                        and_(
+                            UserDevice.id == identifier,
+                            UserDevice.user_id == user_id,
+                            UserDevice.router_id == router_id
+                        )
+                    ).first()
+                    
+                    if device:
+                        logger.info(f"Found device by UUID: {device.id}")
+                        device_objects.append(device)
+                    else:
+                        logger.info(f"No device found for UUID: {identifier}")
+                        invalid_devices.append(identifier)
+                else:
+                    # Check by IP
+                    devices = session.query(UserDevice).filter(
+                        and_(
+                            UserDevice.user_id == user_id,
+                            UserDevice.router_id == router_id,
+                            UserDevice.ip == identifier
+                        )
+                    ).all()
+                    
+                    if devices:
+                        logger.info(f"Found {len(devices)} devices by IP: {identifier}")
+                        device_objects.extend(devices)
+                    else:
+                        logger.info(f"No devices found for IP: {identifier}")
+                        invalid_devices.append(identifier)
+            
+            # Convert all device objects to dictionaries while still in session
+            for device in device_objects:
+                try:
+                    device_dict = device.to_dict()
+                    valid_devices.append(device_dict)
+                    logger.info(f"Successfully converted device {device.id} to dict")
+                except Exception as e:
+                    logger.error(f"Failed to convert device {device.id} to dict: {e}")
+                    # If conversion fails, mark as invalid
+                    if hasattr(device, 'id'):
+                        invalid_devices.append(device.id)
+                    elif hasattr(device, 'ip'):
+                        invalid_devices.append(device.ip)
+            
+            logger.info(f"Device validation complete: {len(valid_devices)} valid, {len(invalid_devices)} invalid")
+            
+            return {
+                'valid_devices': valid_devices,
+                'invalid_devices': invalid_devices,
+                'total_valid': len(valid_devices),
+                'total_invalid': len(invalid_devices)
+            }
+            
+        except Exception as e:
+            logger.error(f"Failed to validate devices: {str(e)}")
             session.rollback()
             raise

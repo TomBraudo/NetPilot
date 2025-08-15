@@ -22,8 +22,11 @@ def get_user_device_groups(user_id, router_id):
                 )
             ).all()
             
+            # Convert to dict while still in session to avoid detachment issues
+            groups_dicts = [group.to_dict() for group in groups]
+            
             logger.info(f"Retrieved {len(groups)} device groups for user {user_id}, router {router_id}")
-            return groups
+            return groups_dicts
             
         except Exception as e:
             logger.error(f"Failed to get device groups: {str(e)}")
@@ -35,6 +38,8 @@ def create_device_group(user_id, router_id, name, description=None, device_ids=N
     """Create a new device group"""
     with get_db_session() as session:
         try:
+            logger.info(f"Creating device group '{name}' for user {user_id}, router {router_id}")
+            
             # Check if group with same name exists for this user/router
             existing = session.query(DeviceGroup).filter(
                 and_(
@@ -55,11 +60,11 @@ def create_device_group(user_id, router_id, name, description=None, device_ids=N
                 description=description
             )
             
-            session.add(group)
-            session.flush()  # Get the ID
-            
-            # Add devices if provided
+            # Add devices to group if provided
             if device_ids:
+                logger.info(f"Adding {len(device_ids)} devices to group")
+                
+                # Verify devices exist and belong to user/router
                 devices = session.query(UserDevice).filter(
                     and_(
                         UserDevice.user_id == user_id,
@@ -71,15 +76,23 @@ def create_device_group(user_id, router_id, name, description=None, device_ids=N
                 if len(devices) != len(device_ids):
                     raise ValueError("One or more devices not found")
                 
+                # Use SQLAlchemy relationship - now that foreign keys are correct
                 group.devices.extend(devices)
+                logger.info(f"Added {len(devices)} devices to group using SQLAlchemy relationships")
             
+            session.add(group)
             session.commit()
             
-            # Refresh to get the latest data with relationships
-            session.refresh(group)
-            logger.info(f"Created device group '{name}' with {len(device_ids or [])} devices")
+            # Reload the group with devices to ensure it's properly attached
+            group = session.query(DeviceGroup).options(
+                joinedload(DeviceGroup.devices)
+            ).filter(DeviceGroup.id == group.id).first()
             
-            return group
+            # Convert to dict while still in session to avoid detachment issues
+            group_dict = group.to_dict()
+            
+            logger.info(f"✅ Successfully created device group '{name}' with {len(group.devices)} devices")
+            return group_dict
             
         except Exception as e:
             logger.error(f"Failed to create device group: {str(e)}")
@@ -127,10 +140,16 @@ def update_device_group(user_id, router_id, group_id, data):
                 group.description = data['description'].strip() if data['description'] else None
             
             session.commit()
-            session.refresh(group)
+            
+            # Reload the group with devices and convert to dict while in session
+            group = session.query(DeviceGroup).options(
+                joinedload(DeviceGroup.devices)
+            ).filter(DeviceGroup.id == group_id).first()
+            
+            group_dict = group.to_dict()
             
             logger.info(f"Updated device group {group_id}")
-            return group
+            return group_dict
             
         except Exception as e:
             logger.error(f"Failed to update device group: {str(e)}")

@@ -23,7 +23,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 from models.base import Base
-from models import user, session, router, device, whitelist, blacklist, blocked_device, settings
+from models import user, session, router, device, blocked_device, settings
 
 # Set target metadata for autogenerate
 target_metadata = Base.metadata

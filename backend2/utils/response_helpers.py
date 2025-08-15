@@ -48,4 +48,11 @@ def build_error_response(message, status_code, error_code, execution_start_time)
             "timestamp": datetime.utcnow().isoformat(),
             "executionTime": time.time() - execution_start_time
         }
-    }), status_code 
+    }), status_code
+
+
+def is_uuid(value):
+    """Check if a string is a valid UUID format"""
+    import re
+    uuid_pattern = re.compile(r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$', re.IGNORECASE)
+    return bool(uuid_pattern.match(str(value))) 

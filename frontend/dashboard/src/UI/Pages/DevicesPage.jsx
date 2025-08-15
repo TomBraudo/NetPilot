@@ -23,7 +23,7 @@ import {
   FaTv,
   FaRegQuestionCircle,
 } from "react-icons/fa";
-import { aghAPI, bandwidthAPI, deviceGroupsAPI } from "../../constants/api";
+import { aghAPI, bandwidthAPI, deviceGroupsAPI, devicesAPI } from "../../constants/api";
 import { useAuth } from "../../context/AuthContext.jsx";
 
 // Icon mapping
@@ -155,85 +155,58 @@ const DevicesPage = () => {
   };
 
   // Helper function to check if an ID is a UUID
-  const isUUID = (id) => {
-    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[4][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-    return uuidRegex.test(id);
-  };
+
 
   // API helper functions
   const loadGroupsFromBackend = async () => {
     if (!routerId) return [];
-    try {
-      const backendGroups = await deviceGroupsAPI.getGroups(routerId);
-      
-      // If we successfully got groups from backend, clear localStorage to avoid conflicts
-      if (backendGroups.length >= 0) {
-        localStorage.removeItem("deviceGroups");
-        console.log("Cleared localStorage groups to avoid conflicts with backend");
-      }
-      
-      // Map backend format to frontend format
-      return backendGroups.map(group => ({
-        id: group.id,
-        name: group.name,
-        description: group.description,
-        devices: (group.devices || []).map(mapBackendDeviceToFrontend),
-        createdAt: group.created_at
-      }));
-    } catch (error) {
-      console.error("Failed to load groups from backend:", error);
-      // Only fallback to localStorage if backend is completely unavailable
-      return loadGroupsFromStorage();
-    }
+    
+    const response = await deviceGroupsAPI.getGroups(routerId);
+    const backendGroups = response.data || [];
+    
+    // Map backend format to frontend format
+    return backendGroups.map(group => ({
+      id: group.id,
+      name: group.name,
+      description: group.description,
+      devices: (group.devices || []).map(mapBackendDeviceToFrontend),
+      createdAt: group.created_at
+    }));
   };
 
-  const loadGroupsFromStorage = () => {
-    try {
-      const savedGroups = localStorage.getItem("deviceGroups");
-      return savedGroups ? JSON.parse(savedGroups) : [];
-    } catch (error) {
-      console.error("Failed to load groups from localStorage:", error);
-      return [];
-    }
-  };
 
-  const loadDevicesFromStorage = () => {
-    try {
-      const savedDevices = localStorage.getItem("scannedDevices");
-      return savedDevices ? JSON.parse(savedDevices) : [];
-    } catch (error) {
-      console.error("Failed to load devices from localStorage:", error);
-      return [];
-    }
-  };
 
-  // Load data from backend and localStorage on component mount
+  // Load data from backend
   useEffect(() => {
     const loadData = async () => {
       setGroupsLoading(true);
       
-      // Try to load devices from backend first
-      let loadedDevices = [];
       try {
-        const backendDevices = await devicesAPI.getAll(routerId);
-        loadedDevices = backendDevices.map(mapBackendDeviceToFrontend);
-        console.log("Loaded devices from backend:", loadedDevices.length);
-      } catch (error) {
-        console.warn("Failed to load devices from backend, falling back to localStorage:", error);
-        loadedDevices = loadDevicesFromStorage();
-        console.log("Loaded devices from localStorage:", loadedDevices.length);
-      }
-      setDevices(loadedDevices);
+        // Load devices from backend first
+        let loadedDevices = [];
+        try {
+          const devicesResponse = await devicesAPI.getAll(routerId);
+          const backendDevices = devicesResponse.data || [];
+          loadedDevices = backendDevices.map(mapBackendDeviceToFrontend);
+          console.log("Loaded devices from backend:", loadedDevices.length);
+        } catch (deviceError) {
+          console.warn("Failed to load devices from backend, checking localStorage:", deviceError);
+          // FOR NOW: Fallback to localStorage for devices (as requested by user)
+          const savedDevices = localStorage.getItem("scannedDevices");
+          if (savedDevices) {
+            loadedDevices = JSON.parse(savedDevices);
+            console.log("Loaded devices from localStorage:", loadedDevices.length);
+          }
+        }
+        setDevices(loadedDevices);
 
-      try {
+        // Load groups from backend (no fallback for groups)
         const loadedGroups = await loadGroupsFromBackend();
         setGroups(loadedGroups);
-        console.log("Loaded from backend - Groups:", loadedGroups.length);
+        console.log("Loaded groups from backend:", loadedGroups.length);
       } catch (error) {
-        console.error("Failed to load groups:", error);
-        const fallbackGroups = loadGroupsFromStorage();
-        setGroups(fallbackGroups);
-        console.log("Fallback to localStorage - Groups:", fallbackGroups.length);
+        console.error("Failed to load data from backend:", error);
+        alert("Failed to load data from server. Please check your connection and try again.");
       } finally {
         setGroupsLoading(false);
       }
@@ -246,46 +219,43 @@ const DevicesPage = () => {
 
   // (Optional) Could load AGH categories dynamically, but keep default UI categories as requested
 
-  // No longer saving to localStorage since we're using backend
 
-  // Listen for device updates from localStorage (when new scan is done)
-  useEffect(() => {
-    const handleStorageChange = (e) => {
-      if (e.key === "scannedDevices") {
-        try {
-          const newDevices = e.newValue ? JSON.parse(e.newValue) : [];
-          setDevices(newDevices);
-        } catch (error) {
-          console.error("Error parsing updated devices:", error);
-        }
-      }
-    };
 
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
+
 
   const handleCreateGroup = async () => {
     if (!newGroupName.trim() || selectedDevices.length === 0) return;
 
     setGroupActionLoading(prev => ({ ...prev, create: true }));
     try {
-      // Check if we have devices with proper backend UUIDs
-      const devicesWithIds = selectedDevices.filter(device => device.id && isUUID(device.id));
-      const devicesWithoutIds = selectedDevices.filter(device => !device.id || !isUUID(device.id));
+      // Validate devices against database instead of local objects
+      console.log("🔍 Validating devices against database:", selectedDevices.length, "devices selected");
       
-      if (devicesWithoutIds.length > 0) {
-        alert(`Cannot create group: ${devicesWithoutIds.length} device(s) don't have proper backend IDs. Please scan for devices first or use only devices that were previously saved to the backend.`);
+      const deviceIdentifiers = selectedDevices.map(device => device.id || device.ip);
+      console.log("📋 Device identifiers to validate:", deviceIdentifiers);
+      
+      const validationResult = await devicesAPI.validateDevices(routerId, deviceIdentifiers);
+      console.log("✅ Database validation result:", validationResult);
+      
+      if (validationResult.data.total_invalid > 0) {
+        const invalidCount = validationResult.data.total_invalid;
+        const validCount = validationResult.data.total_valid;
+        console.warn(`⚠️ ${invalidCount} device(s) not found in database, ${validCount} valid`);
+        alert(`Cannot create group: ${invalidCount} device(s) don't exist in the database. Please scan for devices first or use only devices that were previously saved to the backend.`);
         return;
       }
 
-      const deviceIds = devicesWithIds.map(device => device.id);
+      const validDevices = validationResult.data.valid_devices;
+      const deviceIds = validDevices.map(device => device.id);
+      console.log("🎯 Using validated device IDs:", deviceIds);
 
-      const createdGroup = await deviceGroupsAPI.createGroup(routerId, {
+      const createGroupResponse = await deviceGroupsAPI.createGroup(routerId, {
         name: newGroupName.trim(),
         description: "",
         device_ids: deviceIds
       });
+
+      const createdGroup = createGroupResponse.data;
 
       // Map backend response to frontend format
       const frontendGroup = {
@@ -330,29 +300,6 @@ const DevicesPage = () => {
     
     if (!deviceToRemove) return;
 
-    // Check if this is a localStorage group
-    if (!isUUID(groupId)) {
-      console.warn("Removing device from localStorage group");
-      setGroups((prev) =>
-        prev.map((group) => {
-          if (group.id === groupId) {
-            return {
-              ...group,
-              devices: group.devices.filter((device) => device.ip !== deviceIp),
-            };
-          }
-          return group;
-        })
-      );
-      
-      // Update localStorage
-      const storageGroups = loadGroupsFromStorage().map(g => 
-        g.id === groupId ? { ...g, devices: g.devices.filter(d => d.ip !== deviceIp) } : g
-      );
-      localStorage.setItem("deviceGroups", JSON.stringify(storageGroups));
-      return;
-    }
-
     try {
       await deviceGroupsAPI.removeDeviceFromGroup(routerId, groupId, deviceToRemove.id || deviceIp);
       
@@ -376,38 +323,6 @@ const DevicesPage = () => {
   };
 
   const addDeviceToGroup = async (groupId, device) => {
-    // Check if this is a localStorage group
-    if (!isUUID(groupId)) {
-      console.warn("Adding device to localStorage group");
-      setGroups((prev) =>
-        prev.map((group) => {
-          if (group.id === groupId) {
-            const deviceExists = group.devices.some((d) => d.ip === device.ip);
-            if (!deviceExists) {
-              return {
-                ...group,
-                devices: [...group.devices, device],
-              };
-            }
-          }
-          return group;
-        })
-      );
-      
-      // Update localStorage
-      const storageGroups = loadGroupsFromStorage().map(g => {
-        if (g.id === groupId) {
-          const deviceExists = g.devices.some(d => d.ip === device.ip);
-          if (!deviceExists) {
-            return { ...g, devices: [...g.devices, device] };
-          }
-        }
-        return g;
-      });
-      localStorage.setItem("deviceGroups", JSON.stringify(storageGroups));
-      return;
-    }
-
     try {
       await deviceGroupsAPI.addDeviceToGroup(routerId, groupId, device.id || device.ip);
       
@@ -446,20 +361,6 @@ const DevicesPage = () => {
   const deleteGroup = async (groupId) => {
     const groupToDelete = groups.find((g) => g.id === groupId);
     
-    // Check if this is a localStorage group (non-UUID ID)
-    if (!isUUID(groupId)) {
-      console.warn("Attempting to delete localStorage group via backend - clearing from localStorage instead");
-      const updatedGroups = groups.filter((group) => group.id !== groupId);
-      setGroups(updatedGroups);
-      
-      // Update localStorage
-      const storageGroups = loadGroupsFromStorage().filter(g => g.id !== groupId);
-      localStorage.setItem("deviceGroups", JSON.stringify(storageGroups));
-      
-      alert("This group was created locally. It has been removed from localStorage. Please refresh to see backend groups only.");
-      return;
-    }
-    
     try {
       await deviceGroupsAPI.deleteGroup(routerId, groupId);
       
@@ -480,25 +381,6 @@ const DevicesPage = () => {
 
   const saveRenameGroup = async () => {
     if (!editingGroupName.trim()) return;
-    
-    // Check if this is a localStorage group
-    if (!isUUID(editingGroupId)) {
-      console.warn("Attempting to rename localStorage group - updating localStorage instead");
-      const updatedGroups = groups.map((g) =>
-        g.id === editingGroupId ? { ...g, name: editingGroupName.trim() } : g
-      );
-      setGroups(updatedGroups);
-      
-      // Update localStorage
-      const storageGroups = loadGroupsFromStorage().map(g => 
-        g.id === editingGroupId ? { ...g, name: editingGroupName.trim() } : g
-      );
-      localStorage.setItem("deviceGroups", JSON.stringify(storageGroups));
-      
-      setEditingGroupId(null);
-      setEditingGroupName("");
-      return;
-    }
     
     try {
       await deviceGroupsAPI.updateGroup(routerId, editingGroupId, {
@@ -639,7 +521,7 @@ const DevicesPage = () => {
     if (!routerId) return;
     try {
       const res = await aghAPI.getCategoryDomains(routerId, categoryId);
-      const domains = Array.isArray(res?.domains) ? res.domains : [];
+      const domains = Array.isArray(res?.data?.domains) ? res.data.domains : Array.isArray(res?.domains) ? res.domains : [];
       setDomainsModal({ categoryId, name, domains: [...domains], newDomain: '' });
     } catch (e) {
       alert(e?.message || 'Failed to load domains');
@@ -948,28 +830,7 @@ const DevicesPage = () => {
         </div>
       </div>
 
-      {/* Info Banner for localStorage vs Backend */}
-      {groups.some(g => !isUUID(g.id)) && (
-        <div className="mb-8">
-          <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-xl p-4">
-            <div className="flex items-start gap-3">
-              <div className="text-yellow-600 dark:text-yellow-400 mt-0.5">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
-                  Local Groups Detected
-                </h3>
-                <p className="text-sm text-yellow-700 dark:text-yellow-300 mt-1">
-                  Some groups were created locally and are not synced with the backend. To delete these groups, click the delete button (they will be removed from local storage). To create new groups with backend sync, use the "Create Group" button above.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+
 
       {/* Group Management Section */}
       <div className="mb-12">

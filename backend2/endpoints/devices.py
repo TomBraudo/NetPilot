@@ -7,7 +7,8 @@ from services.device_service import (
     create_or_update_device,
     bulk_create_or_update_devices,
     get_device_by_id,
-    delete_device
+    delete_device,
+    validate_devices
 )
 import time
 
@@ -23,7 +24,7 @@ def get_devices():
     
     try:
         devices = get_user_devices(g.user_id, g.router_id)
-        return build_success_response([device.to_dict() for device in devices], start_time)
+        return build_success_response(devices, start_time)
     except Exception as e:
         logger.error(f"Failed to get devices: {str(e)}")
         return build_error_response(f"Failed to get devices: {str(e)}", 500, "GET_DEVICES_FAILED", start_time)
@@ -51,7 +52,7 @@ def create_device():
             device_type=data.get('device_type') or data.get('type'),
             manufacturer=data.get('manufacturer')
         )
-        return build_success_response(device.to_dict(), start_time)
+        return build_success_response(device, start_time)
     except ValueError as e:
         return build_error_response(str(e), 400, "INVALID_INPUT", start_time)
     except Exception as e:
@@ -72,12 +73,43 @@ def bulk_create_devices():
     
     try:
         devices = bulk_create_or_update_devices(g.user_id, g.router_id, devices_data)
-        return build_success_response([device.to_dict() for device in devices], start_time)
+        return build_success_response(devices, start_time)
     except ValueError as e:
         return build_error_response(str(e), 400, "INVALID_INPUT", start_time)
     except Exception as e:
         logger.error(f"Failed to bulk create devices: {str(e)}")
         return build_error_response(f"Failed to bulk create devices: {str(e)}", 500, "BULK_CREATE_DEVICES_FAILED", start_time)
+
+
+@devices_bp.route('/validate', methods=['POST'])
+@router_context_required
+def validate_devices_endpoint():
+    """Validate that devices exist in database by IP or UUID"""
+    start_time = time.time()
+    data = request.get_json() or {}
+    
+    device_identifiers = data.get('devices', [])
+    if not device_identifiers:
+        return build_error_response("Devices array is required", 400, "INVALID_INPUT", start_time)
+    
+    try:
+        validation_result = validate_devices(g.user_id, g.router_id, device_identifiers)
+        
+        # valid_devices are already dictionaries from the service
+        valid_devices_dicts = validation_result['valid_devices']
+        
+        logger.info(f"Device validation: {validation_result['total_valid']} valid, {validation_result['total_invalid']} invalid")
+        
+        return build_success_response({
+            'valid_devices': valid_devices_dicts,
+            'invalid_devices': validation_result['invalid_devices'],
+            'total_valid': validation_result['total_valid'],
+            'total_invalid': validation_result['total_invalid']
+        }, start_time)
+        
+    except Exception as e:
+        logger.error(f"Failed to validate devices: {str(e)}")
+        return build_error_response(f"Failed to validate devices: {str(e)}", 500, "VALIDATE_DEVICES_FAILED", start_time)
 
 
 @devices_bp.route('/<device_id>', methods=['GET'])
@@ -90,7 +122,7 @@ def get_device(device_id):
         device = get_device_by_id(g.user_id, g.router_id, device_id)
         if not device:
             return build_error_response("Device not found", 404, "DEVICE_NOT_FOUND", start_time)
-        return build_success_response(device.to_dict(), start_time)
+        return build_success_response(device, start_time)
     except Exception as e:
         logger.error(f"Failed to get device: {str(e)}")
         return build_error_response(f"Failed to get device: {str(e)}", 500, "GET_DEVICE_FAILED", start_time)
@@ -124,8 +156,10 @@ def update_device(device_id):
             session.merge(device)
             session.commit()
             session.refresh(device)
+            # Convert to dict while still in session
+            device_dict = device.to_dict()
         
-        return build_success_response(device.to_dict(), start_time)
+        return build_success_response(device_dict, start_time)
     except Exception as e:
         logger.error(f"Failed to update device: {str(e)}")
         return build_error_response(f"Failed to update device: {str(e)}", 500, "UPDATE_DEVICE_FAILED", start_time)

@@ -260,7 +260,8 @@ const ScanPage = () => {
           console.log("Router ID:", routerId);
           console.log("Devices to save:", formattedDevices);
           
-          const savedDevices = await devicesAPI.bulkCreate(routerId, formattedDevices);
+          const bulkCreateResponse = await devicesAPI.bulkCreate(routerId, formattedDevices);
+          const savedDevices = bulkCreateResponse.data || [];
           console.log("Successfully saved devices to backend:", savedDevices);
           
           // Update localStorage with the backend devices that have UUIDs

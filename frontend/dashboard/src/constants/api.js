@@ -113,7 +113,7 @@ export const settingsAPI = {
 export const devicesAPI = {
   // Get all devices
   getAll: (routerId) => 
-    apiRequest(`${API_ENDPOINTS.DEVICES}?routerId=${routerId}`),
+    apiRequest(`${API_ENDPOINTS.DEVICES}/?routerId=${routerId}`),
 
   // Get specific device
   getById: (id) => apiRequest(`${API_ENDPOINTS.DEVICES}/${id}`),
@@ -141,6 +141,13 @@ export const devicesAPI = {
   // Bulk create devices (for scan)
   bulkCreate: (routerId, devices) =>
     apiRequest(`${API_ENDPOINTS.DEVICES}/bulk?routerId=${routerId}`, {
+      method: "POST",
+      body: JSON.stringify({ devices }),
+    }),
+
+  // Validate devices exist in database
+  validateDevices: (routerId, devices) =>
+    apiRequest(`${API_ENDPOINTS.DEVICES}/validate?routerId=${routerId}`, {
       method: "POST",
       body: JSON.stringify({ devices }),
     }),

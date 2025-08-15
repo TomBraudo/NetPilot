@@ -61,5 +61,34 @@ def test_devices_endpoint():
     except Exception as e:
         print(f"❌ Error testing POST bulk devices: {e}")
 
+    print("\n" + "="*50 + "\n")
+    
+    # Test POST /api/devices/validate
+    print("📡 Testing POST /api/devices/validate")
+    test_device_identifiers = [
+        "192.168.1.100",  # IP address
+        "550e8400-e29b-41d4-a716-446655440000"  # Example UUID
+    ]
+    
+    try:
+        response = requests.post(
+            f"{BASE_URL}/api/devices/validate?routerId={ROUTER_ID}",
+            json={"devices": test_device_identifiers},
+            headers={"Content-Type": "application/json"}
+        )
+        print(f"Status: {response.status_code}")
+        print(f"Response: {response.text}")
+        
+        if response.status_code == 200:
+            print("✅ POST validate devices endpoint working")
+            data = response.json()
+            print(f"Valid devices: {data.get('data', {}).get('total_valid', 0)}")
+            print(f"Invalid devices: {data.get('data', {}).get('total_invalid', 0)}")
+        else:
+            print("❌ POST validate devices endpoint failed")
+            
+    except Exception as e:
+        print(f"❌ Error testing POST validate devices: {e}")
+
 if __name__ == "__main__":
     test_devices_endpoint()

@@ -24,7 +24,7 @@ def get_groups():
     
     try:
         groups = get_user_device_groups(g.user_id, g.router_id)
-        return build_success_response([group.to_dict() for group in groups], start_time)
+        return build_success_response(groups, start_time)
     except Exception as e:
         logger.error(f"Failed to get device groups: {str(e)}")
         return build_error_response(f"Failed to get device groups: {str(e)}", 500, "GET_GROUPS_FAILED", start_time)
@@ -46,7 +46,7 @@ def create_group():
     
     try:
         group = create_device_group(g.user_id, g.router_id, name, description, device_ids)
-        return build_success_response(group.to_dict(), start_time)
+        return build_success_response(group, start_time)
     except ValueError as e:
         return build_error_response(str(e), 400, "INVALID_INPUT", start_time)
     except Exception as e:
@@ -65,7 +65,7 @@ def update_group(group_id):
         group = update_device_group(g.user_id, g.router_id, group_id, data)
         if not group:
             return build_error_response("Group not found", 404, "GROUP_NOT_FOUND", start_time)
-        return build_success_response(group.to_dict(), start_time)
+        return build_success_response(group, start_time)
     except ValueError as e:
         return build_error_response(str(e), 400, "INVALID_INPUT", start_time)
     except Exception as e:

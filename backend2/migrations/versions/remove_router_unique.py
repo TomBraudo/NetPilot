@@ -20,8 +20,6 @@ def upgrade():
     # Drop foreign key constraints that depend on the unique constraint
     op.drop_constraint('user_devices_router_id_fkey', 'user_devices', type_='foreignkey')
     op.drop_constraint('user_settings_router_id_fkey', 'user_settings', type_='foreignkey')
-    op.drop_constraint('user_whitelists_router_id_fkey', 'user_whitelists', type_='foreignkey')
-    op.drop_constraint('user_blacklists_router_id_fkey', 'user_blacklists', type_='foreignkey')
     op.drop_constraint('user_blocked_devices_router_id_fkey', 'user_blocked_devices', type_='foreignkey')
     
     # Remove the unique constraint from router_id column
@@ -39,6 +37,4 @@ def downgrade():
     # Recreate foreign key constraints with unique requirement
     op.create_foreign_key('user_devices_router_id_fkey', 'user_devices', 'user_routers', ['router_id'], ['router_id'])
     op.create_foreign_key('user_settings_router_id_fkey', 'user_settings', 'user_routers', ['router_id'], ['router_id'])
-    op.create_foreign_key('user_whitelists_router_id_fkey', 'user_whitelists', 'user_routers', ['router_id'], ['router_id'])
-    op.create_foreign_key('user_blacklists_router_id_fkey', 'user_blacklists', 'user_routers', ['router_id'], ['router_id'])
     op.create_foreign_key('user_blocked_devices_router_id_fkey', 'user_blocked_devices', 'user_routers', ['router_id'], ['router_id']) 

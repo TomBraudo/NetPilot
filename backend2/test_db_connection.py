@@ -28,11 +28,8 @@ try:
     from models.device import UserDevice
     print("✅ Device model imported successfully")
     
-    from models.whitelist import UserWhitelist
-    print("✅ Whitelist model imported successfully")
-    
-    from models.blacklist import UserBlacklist
-    print("✅ Blacklist model imported successfully")
+    from models.device_group import DeviceGroup
+    print("✅ DeviceGroup model imported successfully")
     
     from models.blocked_device import UserBlockedDevice
     print("✅ BlockedDevice model imported successfully")
