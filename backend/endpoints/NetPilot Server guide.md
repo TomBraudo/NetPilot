@@ -26,7 +26,7 @@ Table: /api/network
 | /block | POST | {"ip": "<ip_address>"} | message: string | Block a device by IP address (MAC-based firewall rule) |
 | /unblock | POST | {"ip": "<ip_address>"} | message: string | Unblock a device by IP address |
 | /reset | POST | None | message: string | Reset all network rules and clear blocking configuration |
-| /scan | GET | None | [ { ip: string, mac: string, hostname: string, vendor: string } ] | Scan the network via router to find connected devices |
+| /scan | GET | None | [ { ip: string, mac: string, hostname: string, vendor: string, status: string, interface: string } ] | Scan the network via router to find currently active and reachable devices (0x2 flags on br-lan only) |
 
 Table: /api/wifi
 

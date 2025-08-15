@@ -11,7 +11,7 @@ class UserBlockedDevice(BaseModel):
     device_id = Column(UUID(as_uuid=True), ForeignKey('user_devices.id'))
     device_ip = Column(INET, nullable=False)
     device_mac = Column(MACADDR)
-    block_type = Column(String(50), default='manual')  # manual, whitelist, blacklist
+    block_type = Column(String(50), default='manual')  # manual
     blocked_at = Column(TIMESTAMP)
     unblocked_at = Column(TIMESTAMP)
     is_active = Column(Boolean, default=True)

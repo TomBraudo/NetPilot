@@ -211,12 +211,9 @@ Cookie: session={{session_cookie}}
 }
 ```
 
-### 3. Whitelist Operations
+### 3. Network Operations
 
-#### Get Whitelist Devices
-```
-GET {{base_url}}/api/whitelist/devices?routerId={{router_id}}
-```
+Use the Network and Bandwidth endpoints; whitelist/blacklist endpoints have been removed.
 
 **Headers:**
 ```
@@ -321,12 +318,8 @@ GET {{base_url}}/api/whitelist/mode?routerId={{router_id}}
 Cookie: session={{session_cookie}}
 ```
 
-### 4. Blacklist Operations
-
-#### Get Blacklist Devices
-```
-GET {{base_url}}/api/blacklist/devices?routerId={{router_id}}
-```
+### 4. Bandwidth Operations
+Refer to `/api/bandwidth` endpoints for applying group/device limits and global limits.
 
 **Headers:**
 ```
@@ -493,24 +486,7 @@ Content-Type: application/json
 
 ### Test Authentication Edge Cases
 
-1. **No Session Cookie:**
-   ```
-   GET {{base_url}}/api/whitelist/devices?routerId={{router_id}}
-   ```
-   Expected: 401 Unauthenticated
-
-2. **Missing Router ID:**
-   ```
-   GET {{base_url}}/api/whitelist/devices
-   ```
-   Expected: 400 Bad Request
-
-3. **Invalid Session:**
-   ```
-   GET {{base_url}}/api/whitelist/devices?routerId={{router_id}}
-   Cookie: session=invalid-session-value
-   ```
-   Expected: 401 Unauthenticated
+1. Ensure requests include a valid session cookie; endpoints now focus on network and bandwidth features.
 
 ### Test API Data Validation
 

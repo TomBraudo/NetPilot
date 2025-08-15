@@ -8,8 +8,6 @@ load_dotenv()
 # Import blueprints (without database dependencies)
 from auth import auth_bp, init_oauth
 from endpoints.health import health_bp
-from endpoints.whitelist import whitelist_bp
-from endpoints.blacklist import blacklist_bp
 from endpoints.wifi import wifi_bp
 from endpoints.api import network_bp
 
@@ -34,8 +32,7 @@ def create_test_app():
     # Register blueprints
     app.register_blueprint(auth_bp)  # No prefix - routes will be /login, /authorize, etc.
     app.register_blueprint(health_bp, url_prefix='/api')
-    app.register_blueprint(whitelist_bp, url_prefix='/api/whitelist')
-    app.register_blueprint(blacklist_bp, url_prefix='/api/blacklist')
+    # Removed whitelist/blacklist blueprints
     app.register_blueprint(wifi_bp, url_prefix='/api/wifi')
     app.register_blueprint(network_bp, url_prefix='/api/network')
     

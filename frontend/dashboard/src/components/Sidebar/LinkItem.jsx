@@ -1,12 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const LinkItem = ({ href, icon: Icon, text, badge }) => {
   return (
     <li>
-      <Link
+      <NavLink
         to={href}
-        className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+        className={({ isActive }) =>
+          `flex items-center p-2 rounded-lg transition-colors ${
+            isActive
+              ? "bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white"
+              : "text-gray-900 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+          }`
+        }
       >
         <Icon className="mr-3" />
         <span className="flex-1 me-3">{text}</span>
@@ -17,7 +23,7 @@ const LinkItem = ({ href, icon: Icon, text, badge }) => {
             {badge.text}
           </span>
         )}
-      </Link>
+      </NavLink>
     </li>
   );
 };
