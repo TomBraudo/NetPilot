@@ -10,7 +10,7 @@ session_bp = Blueprint('session', __name__)
 
 @session_bp.route("/start", methods=["POST"])
 def start_session():
-    """Starts a new session for a router; infrastructure setup deprecated (headless mode)."""
+    """Starts a new session for a router and ensures required infrastructure is set up."""
     execution_start_time = time.time()
     
     # The session context (g.session_id, g.router_id) is now expected to be set
@@ -28,7 +28,6 @@ def start_session():
         logger.warning(f"Session {g.session_id} is already active – rejecting start request")
         return build_error_response("Session is already active", 400, "SESSION_ALREADY_ACTIVE", execution_start_time)
 
-    # 1. Mark the session as active in the RouterConnectionManager first.
     current_app.router_connection_manager.start_session(g.session_id)
 
     # Headless mode: verify reachability and ensure monitoring (nlbw) is set up
@@ -38,21 +37,23 @@ def start_session():
             logger.error(f"Router reachability check failed: {err}")
             return build_error_response(f"Router not reachable: {err}", 500, "ROUTER_UNREACHABLE", execution_start_time)
 
-        # Ensure monitoring infra (scripts + daemon) is present and running
+        # Ensure infrastructure (monitoring + AGH categories) is present and running
         from utils.infrastructure_setup import check_existing_infrastructure, setup_persistent_infrastructure, InfrastructureComponent
         infra_ok, missing_components, message = check_existing_infrastructure()
         if not infra_ok:
-            # Only monitoring is supported; set it up if missing
-            if InfrastructureComponent.MONITORING_SETUP in missing_components:
-                success_status, error_msg = setup_persistent_infrastructure([InfrastructureComponent.MONITORING_SETUP])
-                if not success_status:
-                    return build_error_response(f"Monitoring setup failed: {error_msg}", 500, "INFRASTRUCTURE_SETUP_FAILED", execution_start_time)
+            # Set up any missing infrastructure components
+            logger.info(f"Infrastructure check found missing components: {[comp.value for comp in missing_components]}")
+            success_status, error_msg = setup_persistent_infrastructure(missing_components)
+            if not success_status:
+                return build_error_response(f"Infrastructure setup failed: {error_msg}", 500, "INFRASTRUCTURE_SETUP_FAILED", execution_start_time)
+        else:
+            logger.info("All infrastructure components are already set up correctly")
 
-        logger.info(f"Session established successfully for router {g.router_id} (headless mode, monitoring ready)")
+        logger.info(f"Session established successfully for router {g.router_id} (headless mode, infrastructure ready)")
         return build_success_response({
             "session_id": g.session_id,
             "router_reachable": True,
-            "monitoring_ready": True,
+            "infrastructure_ready": True,
             "message": "Session established successfully"
         }, execution_start_time)
 

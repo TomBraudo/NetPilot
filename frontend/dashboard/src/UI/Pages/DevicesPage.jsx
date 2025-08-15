@@ -62,56 +62,7 @@ const DevicesPage = () => {
 
   // Content Controls State
   const [selectedGroups, setSelectedGroups] = useState([]);
-  const [contentCategories, setContentCategories] = useState([
-    {
-      id: "social_media",
-      name: "Social Media",
-      icon: FaUsers,
-      blocked: false,
-      sites: 12,
-      description: "Facebook, Instagram, Twitter, TikTok",
-    },
-    {
-      id: "entertainment",
-      name: "Video Streaming",
-      icon: FaTv,
-      blocked: false,
-      sites: 8,
-      description: "YouTube, Netflix, Twitch, Disney+",
-    },
-    {
-      id: "gaming",
-      name: "Gaming",
-      icon: FaGamepad,
-      blocked: false,
-      sites: 15,
-      description: "Steam, Epic Games, gaming platforms",
-    },
-    {
-      id: "adult_gambling",
-      name: "Adult Content",
-      icon: EighteenPlusIcon,
-      blocked: true,
-      sites: 1000,
-      description: "Adult and explicit content sites",
-    },
-    {
-      id: "shopping",
-      name: "Shopping",
-      icon: FaShoppingCart,
-      blocked: false,
-      sites: 25,
-      description: "Amazon, eBay, retail websites",
-    },
-    {
-      id: "custom",
-      name: "Custom Sites",
-      icon: FaCog,
-      blocked: false,
-      sites: 5,
-      description: "User-defined blocked sites",
-    },
-  ]);
+  const [contentCategories, setContentCategories] = useState([]);
   const [hasContentChanges, setHasContentChanges] = useState(false);
   const [contentLoading, setContentLoading] = useState(false);
   const [categoriesLoading, setCategoriesLoading] = useState(false);
@@ -121,6 +72,17 @@ const DevicesPage = () => {
   const [newUrl, setNewUrl] = useState("");
   const [customUrls, setCustomUrls] = useState({});
   const [domainsModal, setDomainsModal] = useState(null); // { categoryId, name, domains: [] }
+  
+  // Create Category State
+  const [showCreateCategoryModal, setShowCreateCategoryModal] = useState(false);
+  const [createCategoryForm, setCreateCategoryForm] = useState({
+    name: "",
+    domains: [],
+    inputMethod: "manual", // "manual" or "file"
+    manualDomain: "",
+    uploadedFile: null,
+    isSubmitting: false
+  });
 
   // Bandwidth Limits State (download only)
   const [bandwidthGroups, setBandwidthGroups] = useState([]);
@@ -217,7 +179,246 @@ const DevicesPage = () => {
     }
   }, [routerId]);
 
-  // (Optional) Could load AGH categories dynamically, but keep default UI categories as requested
+  // Helper function to map API category names to UI format with icons and default values
+  const mapApiCategoriesToUI = async (categoryNames) => {
+    const iconMap = {
+      social_media: FaUsers,
+      entertainment: FaTv,
+      gaming: FaGamepad,
+      adult_gambling: EighteenPlusIcon,
+      shopping: FaShoppingCart,
+      custom: FaCog,
+    };
+
+    const nameMap = {
+      social_media: "Social Media",
+      entertainment: "Video Streaming", 
+      gaming: "Gaming",
+      adult_gambling: "Adult Content",
+      shopping: "Shopping",
+      custom: "Custom Sites",
+    };
+
+    const descriptionMap = {
+      social_media: "Facebook, Instagram, Twitter, TikTok",
+      entertainment: "YouTube, Netflix, Twitch, Disney+",
+      gaming: "Steam, Epic Games, gaming platforms", 
+      adult_gambling: "Adult and explicit content sites",
+      shopping: "Amazon, eBay, retail websites",
+      custom: "User-defined blocked sites",
+    };
+
+    // Get domain counts for each category
+    const categoriesWithCounts = [];
+    
+    for (const categoryId of categoryNames) {
+      try {
+        // Get domain count for this category
+        const domainResponse = await aghAPI.getCategoryDomains(routerId, categoryId);
+        const domainCount = domainResponse.data?.count || 0;
+        
+        categoriesWithCounts.push({
+          id: categoryId,
+          name: nameMap[categoryId] || categoryId.replace(/__/g, ' ').replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+          icon: iconMap[categoryId] || FaCog,
+          blocked: false, // Default all categories to allowed
+          sites: domainCount,
+          description: descriptionMap[categoryId] || `${categoryId.replace(/__/g, ' ').replace(/_/g, ' ')} category`,
+        });
+      } catch (error) {
+        console.warn(`Failed to get domain count for category ${categoryId}:`, error);
+        // Add category with default count if domain fetch fails
+        categoriesWithCounts.push({
+          id: categoryId,
+          name: nameMap[categoryId] || categoryId.replace(/__/g, ' ').replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+          icon: iconMap[categoryId] || FaCog,
+          blocked: false, // Default all categories to allowed
+          sites: 0,
+          description: descriptionMap[categoryId] || `${categoryId.replace(/__/g, ' ').replace(/_/g, ' ')} category`,
+        });
+      }
+    }
+
+    return categoriesWithCounts;
+  };
+
+  // Load AGH categories dynamically from backend
+  useEffect(() => {
+    const loadCategories = async () => {
+      if (!routerId) return;
+
+      setCategoriesLoading(true);
+      setCategoriesError(null);
+      
+      try {
+        console.log("🔄 [DevicesPage] Loading AGH categories from backend...");
+        
+        // Get category names from backend2 → commands server
+        const categoriesResponse = await aghAPI.getCategories(routerId);
+        const categoryNames = categoriesResponse.data?.categories || [];
+        
+        console.log("✅ [DevicesPage] Received categories from API:", categoryNames);
+        
+        if (categoryNames.length === 0) {
+          console.warn("⚠️ [DevicesPage] No categories found, using empty array");
+          setContentCategories([]);
+          return;
+        }
+
+        // Map category names to UI format with domain counts
+        console.log("🔄 [DevicesPage] Fetching domain counts for categories...");
+        const uiCategories = await mapApiCategoriesToUI(categoryNames);
+        
+        console.log("✅ [DevicesPage] Categories mapped to UI format:", uiCategories.length, "categories");
+        setContentCategories(uiCategories);
+        
+      } catch (error) {
+        console.error("❌ [DevicesPage] Failed to load AGH categories:", error);
+        setCategoriesError(`Failed to load categories: ${error.message}`);
+        
+        // Fallback to empty array on error
+        setContentCategories([]);
+      } finally {
+        setCategoriesLoading(false);
+      }
+    };
+
+    loadCategories();
+  }, [routerId]);
+
+  // Create Category Helper Functions
+  const resetCreateCategoryForm = () => {
+    setCreateCategoryForm({
+      name: "",
+      domains: [],
+      inputMethod: "manual",
+      manualDomain: "",
+      uploadedFile: null,
+      isSubmitting: false
+    });
+  };
+
+  const handleAddManualDomain = () => {
+    const domain = createCategoryForm.manualDomain.trim();
+    if (domain && !createCategoryForm.domains.includes(domain)) {
+      setCreateCategoryForm(prev => ({
+        ...prev,
+        domains: [...prev.domains, domain],
+        manualDomain: ""
+      }));
+    }
+  };
+
+  const handleRemoveDomain = (index) => {
+    setCreateCategoryForm(prev => ({
+      ...prev,
+      domains: prev.domains.filter((_, i) => i !== index)
+    }));
+  };
+
+  const handleFileUpload = (file) => {
+    if (file && file.type === "text/plain") {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target.result;
+        const domains = content
+          .split('\n')
+          .map(line => line.trim())
+          .filter(line => line && !line.startsWith('#')) // Filter out empty lines and comments
+          .filter((domain, index, arr) => arr.indexOf(domain) === index); // Remove duplicates
+        
+        setCreateCategoryForm(prev => ({
+          ...prev,
+          domains: domains,
+          uploadedFile: file
+        }));
+      };
+      reader.readAsText(file);
+    } else {
+      alert("Please upload a .txt file");
+    }
+  };
+
+  const handleCreateCategory = async () => {
+    if (!createCategoryForm.name.trim()) {
+      alert("Please enter a category name");
+      return;
+    }
+
+    if (createCategoryForm.domains.length === 0) {
+      alert("Please add at least one domain");
+      return;
+    }
+
+    // Convert user input to valid category format
+    const sanitizedCategoryName = createCategoryForm.name.trim()
+      .toLowerCase()
+      .replace(/\s+/g, '__') // Replace spaces with double underscores
+      .replace(/[^a-z0-9._-]/g, ''); // Remove any invalid characters
+
+    setCreateCategoryForm(prev => ({ ...prev, isSubmitting: true }));
+
+    try {
+      console.log("🔄 [DevicesPage] Creating new category:", createCategoryForm.name);
+      console.log("🔧 [DevicesPage] Sanitized name:", sanitizedCategoryName);
+      console.log("📋 [DevicesPage] Domains:", createCategoryForm.domains);
+
+      // Call the API to create the category (use sanitized name)
+      const response = await aghAPI.createCategory(routerId, sanitizedCategoryName, createCategoryForm.domains);
+      
+      console.log("✅ [DevicesPage] Category created successfully:", response);
+
+      // Close modal and reset form
+      setShowCreateCategoryModal(false);
+      resetCreateCategoryForm();
+
+      // Add the new category to existing list instead of reloading all
+      console.log("🔄 [DevicesPage] Adding new category to list...");
+      
+      try {
+        // Get domain count for the new category
+        const domainResponse = await aghAPI.getCategoryDomains(routerId, sanitizedCategoryName);
+        const domainCount = domainResponse.data?.count || createCategoryForm.domains.length;
+        
+        // Create the new category UI object
+        const newCategory = {
+          id: sanitizedCategoryName,
+          name: createCategoryForm.name.trim(), // Use original user input for display
+          icon: FaCog, // Default icon for custom categories
+          blocked: false,
+          sites: domainCount,
+          description: `${createCategoryForm.name.trim()} category`,
+        };
+
+        // Add to existing categories
+        setContentCategories(prev => [...prev, newCategory]);
+        console.log("✅ [DevicesPage] New category added to list:", newCategory.name);
+        
+      } catch (error) {
+        console.warn("⚠️ [DevicesPage] Failed to get domain count for new category, using fallback");
+        // Fallback: add with domain count from form
+        const newCategory = {
+          id: sanitizedCategoryName,
+          name: createCategoryForm.name.trim(),
+          icon: FaCog,
+          blocked: false,
+          sites: createCategoryForm.domains.length,
+          description: `${createCategoryForm.name.trim()} category`,
+        };
+        setContentCategories(prev => [...prev, newCategory]);
+      }
+
+      // Show success message
+      setShowSuccessToast(true);
+      setTimeout(() => setShowSuccessToast(false), 3000);
+
+    } catch (error) {
+      console.error("❌ [DevicesPage] Failed to create category:", error);
+      alert(`Failed to create category: ${error.message}`);
+    } finally {
+      setCreateCategoryForm(prev => ({ ...prev, isSubmitting: false }));
+    }
+  };
 
 
 
@@ -532,6 +733,17 @@ const DevicesPage = () => {
     if (!domainsModal || !routerId) return;
     try {
       await aghAPI.replaceCategoryDomains(routerId, domainsModal.categoryId, domainsModal.domains);
+      
+      // Update the category count in the UI
+      const newDomainCount = domainsModal.domains.length;
+      setContentCategories(prev => prev.map(category => 
+        category.id === domainsModal.categoryId 
+          ? { ...category, sites: newDomainCount }
+          : category
+      ));
+      
+      console.log(`✅ [DevicesPage] Updated domain count for ${domainsModal.categoryId}: ${newDomainCount} domains`);
+      
       setDomainsModal(null);
     } catch (e) {
       alert(e?.message || 'Failed to save domains');
@@ -1416,25 +1628,34 @@ const DevicesPage = () => {
                 Block website categories for selected device groups
               </p>
             </div>
-            {hasContentChanges && (
+            <div className="flex items-center gap-3">
               <button
-                onClick={handleApplyContentChanges}
-                disabled={contentLoading || selectedGroups.length === 0}
-                className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors"
+                onClick={() => setShowCreateCategoryModal(true)}
+                className="bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
               >
-                {contentLoading ? (
-                  <>
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    Applying...
-                  </>
-                ) : (
-                  <>
-                    <FaCheck className="text-sm" />
-                    Apply Changes
-                  </>
-                )}
+                <FaPlus className="text-sm" />
+                Create Category
               </button>
-            )}
+              {hasContentChanges && (
+                <button
+                  onClick={handleApplyContentChanges}
+                  disabled={contentLoading || selectedGroups.length === 0}
+                  className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors"
+                >
+                  {contentLoading ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Applying...
+                    </>
+                  ) : (
+                    <>
+                      <FaCheck className="text-sm" />
+                      Apply Changes
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Group Selection */}
@@ -1467,8 +1688,53 @@ const DevicesPage = () => {
           </div>
 
           {/* Category Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {contentCategories.map((category) => {
+          {categoriesError && (
+            <div className="mb-4 p-4 bg-red-100 dark:bg-red-900 border border-red-300 dark:border-red-700 rounded-lg">
+              <p className="text-red-700 dark:text-red-300 text-sm">
+                {categoriesError}
+              </p>
+              <button
+                onClick={() => window.location.reload()}
+                className="mt-2 text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-200 text-sm underline"
+              >
+                Retry
+              </button>
+            </div>
+          )}
+          
+          {categoriesLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {/* Loading skeleton cards */}
+              {[...Array(6)].map((_, index) => (
+                <div
+                  key={index}
+                  className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border animate-pulse"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-gray-300 dark:bg-gray-600 rounded"></div>
+                      <div>
+                        <div className="w-24 h-4 bg-gray-300 dark:bg-gray-600 rounded mb-2"></div>
+                        <div className="w-16 h-3 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                      </div>
+                    </div>
+                    <div className="w-11 h-6 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+                  </div>
+                  <div className="w-full h-3 bg-gray-200 dark:bg-gray-700 rounded mb-2"></div>
+                  <div className="w-20 h-3 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {contentCategories.length === 0 ? (
+                <div className="col-span-full text-center py-8">
+                  <p className="text-gray-500 dark:text-gray-400">
+                    No content categories available. Categories will be created automatically when you start a session.
+                  </p>
+                </div>
+              ) : (
+                contentCategories.map((category) => {
               const IconComponent = category.icon;
               const categoryUrls = customUrls[category.id] || [];
               return (
@@ -1522,7 +1788,7 @@ const DevicesPage = () => {
                   <div className="mb-2">
                     <button
                       onClick={() => openDomainsModal(category.id, category.name)}
-                      className="text-xs text-blue-600 hover:underline"
+                      className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
                     >
                       Manage domains
                     </button>
@@ -1582,8 +1848,10 @@ const DevicesPage = () => {
                   </div>
                 </div>
               );
-            })}
-          </div>
+                })
+              )}
+            </div>
+          )}
 
           {selectedGroups.length === 0 && hasContentChanges && (
             <div className="mt-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg">
@@ -1607,24 +1875,24 @@ const DevicesPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Download (Mbps)</label>
-              <input className="w-full p-3 border rounded-lg bg-white dark:bg-gray-800" type="number" min="0.1" step="0.1" value={globalLimits.dlMbps}
+              <input className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400" type="number" min="0.1" step="0.1" value={globalLimits.dlMbps}
                 onChange={(e)=>setGlobalLimits((p)=>({...p, dlMbps:e.target.value}))}/>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Upload (Mbps)</label>
-              <input className="w-full p-3 border rounded-lg bg-white dark:bg-gray-800" type="number" min="0.1" step="0.1" value={globalLimits.ulMbps}
+              <input className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400" type="number" min="0.1" step="0.1" value={globalLimits.ulMbps}
                 onChange={(e)=>setGlobalLimits((p)=>({...p, ulMbps:e.target.value}))}/>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">LAN CIDR (optional)</label>
-              <input className="w-full p-3 border rounded-lg bg-white dark:bg-gray-800" placeholder="e.g., 192.168.1.0/24" value={globalLimits.lanCidr}
+              <input className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400" placeholder="e.g., 192.168.1.0/24" value={globalLimits.lanCidr}
                 onChange={(e)=>setGlobalLimits((p)=>({...p, lanCidr:e.target.value}))}/>
             </div>
             <div className="flex gap-2">
               <button onClick={activateGlobalLimits} disabled={globalLoading}
-                className="px-4 py-3 rounded bg-green-600 text-white disabled:opacity-60">Activate</button>
+                className="px-4 py-3 rounded bg-green-600 dark:bg-green-500 text-white hover:bg-green-700 dark:hover:bg-green-400 disabled:opacity-60 transition-colors">Activate</button>
               <button onClick={deactivateGlobalLimits} disabled={globalLoading}
-                className="px-4 py-3 rounded bg-gray-300">Deactivate</button>
+                className="px-4 py-3 rounded bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-500 disabled:opacity-60 transition-colors">Deactivate</button>
             </div>
           </div>
         </div>
@@ -1643,17 +1911,17 @@ const DevicesPage = () => {
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-gray-800 rounded-lg p-4 w-full max-w-lg">
             <div className="flex justify-between items-center mb-3">
-              <h3 className="text-lg font-semibold">Manage domains - {domainsModal.name}</h3>
-              <button onClick={() => setDomainsModal(null)} className="text-gray-500 hover:text-gray-700">
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Manage domains - {domainsModal.name}</h3>
+              <button onClick={() => setDomainsModal(null)} className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
                 <FaTimes />
               </button>
             </div>
-            <div className="space-y-2 max-h-60 overflow-y-auto border rounded p-2">
+            <div className="space-y-2 max-h-60 overflow-y-auto border border-gray-300 dark:border-gray-600 rounded p-2">
               {(domainsModal.domains || []).map((d, i) => (
                 <div key={i} className="flex items-center justify-between bg-gray-100 dark:bg-gray-700 rounded px-2 py-1">
-                  <span className="text-sm truncate">{d}</span>
+                  <span className="text-sm text-gray-800 dark:text-gray-200 truncate">{d}</span>
                   <button
-                    className="text-red-500 hover:text-red-700"
+                    className="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300"
                     onClick={() => setDomainsModal((prev) => ({
                       ...prev,
                       domains: prev.domains.filter((_, idx) => idx !== i),
@@ -1666,13 +1934,13 @@ const DevicesPage = () => {
             </div>
             <div className="flex items-center gap-2 mt-3">
               <input
-                className="flex-1 border rounded px-2 py-1"
+                className="flex-1 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400"
                 placeholder="Add domain"
                 value={domainsModal.newDomain || ''}
                 onChange={(e) => setDomainsModal((prev) => ({ ...prev, newDomain: e.target.value }))}
               />
               <button
-                className="px-3 py-1 bg-gray-200 rounded"
+                className="px-3 py-1 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-500 rounded transition-colors"
                 onClick={() => {
                   if (domainsModal.newDomain?.trim()) {
                     setDomainsModal((prev) => ({
@@ -1687,8 +1955,207 @@ const DevicesPage = () => {
               </button>
             </div>
             <div className="flex justify-end gap-2 mt-4">
-              <button className="px-4 py-2 bg-gray-300 rounded" onClick={() => setDomainsModal(null)}>Cancel</button>
-              <button className="px-4 py-2 bg-blue-600 text-white rounded" onClick={saveDomains}>Save</button>
+              <button className="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-500 rounded transition-colors" onClick={() => setDomainsModal(null)}>Cancel</button>
+              <button className="px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white hover:bg-blue-700 dark:hover:bg-blue-400 rounded transition-colors" onClick={saveDomains}>Save</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Create Category Modal */}
+      {showCreateCategoryModal && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Create New Category</h3>
+              <button 
+                onClick={() => {
+                  setShowCreateCategoryModal(false);
+                  resetCreateCategoryForm();
+                }}
+                className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+              >
+                <FaTimes />
+              </button>
+            </div>
+
+            {/* Category Name */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Category Name *
+              </label>
+              <input
+                type="text"
+                value={createCategoryForm.name}
+                onChange={(e) => setCreateCategoryForm(prev => ({ ...prev, name: e.target.value }))}
+                placeholder="e.g., Custom News, My Category, Test Sites"
+                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400"
+              />
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                {createCategoryForm.name ? (
+                  <>
+                    Will be saved as: <span className="font-mono text-blue-600 dark:text-blue-400">
+                      {createCategoryForm.name.trim().toLowerCase().replace(/\s+/g, '__').replace(/[^a-z0-9._-]/g, '')}
+                    </span>
+                  </>
+                ) : (
+                  'Enter any name - spaces and special characters will be automatically converted'
+                )}
+              </p>
+            </div>
+
+            {/* Input Method Selection */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                How would you like to add domains?
+              </label>
+              <div className="flex gap-4">
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="inputMethod"
+                    value="manual"
+                    checked={createCategoryForm.inputMethod === "manual"}
+                    onChange={(e) => setCreateCategoryForm(prev => ({ ...prev, inputMethod: e.target.value }))}
+                    className="mr-2"
+                  />
+                  <span className="text-gray-700 dark:text-gray-300">Manual Entry</span>
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="inputMethod"
+                    value="file"
+                    checked={createCategoryForm.inputMethod === "file"}
+                    onChange={(e) => setCreateCategoryForm(prev => ({ ...prev, inputMethod: e.target.value }))}
+                    className="mr-2"
+                  />
+                  <span className="text-gray-700 dark:text-gray-300">Upload File</span>
+                </label>
+              </div>
+            </div>
+
+            {/* Manual Domain Entry */}
+            {createCategoryForm.inputMethod === "manual" && (
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Add Domains
+                </label>
+                <div className="flex gap-2 mb-3">
+                  <input
+                    type="text"
+                    value={createCategoryForm.manualDomain}
+                    onChange={(e) => setCreateCategoryForm(prev => ({ ...prev, manualDomain: e.target.value }))}
+                    placeholder="example.com"
+                    onKeyPress={(e) => e.key === 'Enter' && handleAddManualDomain()}
+                    className="flex-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400"
+                  />
+                  <button
+                    onClick={handleAddManualDomain}
+                    className="px-4 py-2 bg-blue-500 dark:bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-500 rounded-lg transition-colors"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* File Upload */}
+            {createCategoryForm.inputMethod === "file" && (
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Upload Domains File
+                </label>
+                <div 
+                  className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center hover:border-blue-500 dark:hover:border-blue-400 transition-colors cursor-pointer"
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                      handleFileUpload(files[0]);
+                    }
+                  }}
+                  onClick={() => {
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = '.txt';
+                    input.onchange = (e) => {
+                      const file = e.target.files[0];
+                      if (file) handleFileUpload(file);
+                    };
+                    input.click();
+                  }}
+                >
+                  {createCategoryForm.uploadedFile ? (
+                    <div className="text-green-600 dark:text-green-400">
+                      <FaCheck className="mx-auto mb-2 text-2xl" />
+                      <p>File uploaded: {createCategoryForm.uploadedFile.name}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {createCategoryForm.domains.length} domains found
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="text-gray-500 dark:text-gray-400">
+                      <FaDownload className="mx-auto mb-2 text-2xl" />
+                      <p>Drag & drop a .txt file here, or click to browse</p>
+                      <p className="text-sm">One domain per line</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Domain List */}
+            {createCategoryForm.domains.length > 0 && (
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Domains ({createCategoryForm.domains.length})
+                </label>
+                <div className="max-h-40 overflow-y-auto border border-gray-300 dark:border-gray-600 rounded-lg p-2 space-y-1">
+                  {createCategoryForm.domains.map((domain, index) => (
+                    <div key={index} className="flex items-center justify-between bg-gray-100 dark:bg-gray-700 rounded px-2 py-1">
+                      <span className="text-sm text-gray-800 dark:text-gray-200 truncate">{domain}</span>
+                      <button
+                        onClick={() => handleRemoveDomain(index)}
+                        className="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 ml-2"
+                      >
+                        <FaTimes className="text-xs" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Action Buttons */}
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => {
+                  setShowCreateCategoryModal(false);
+                  resetCreateCategoryForm();
+                }}
+                className="px-6 py-2 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-500 rounded-lg transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleCreateCategory}
+                disabled={createCategoryForm.isSubmitting || !createCategoryForm.name.trim() || createCategoryForm.domains.length === 0}
+                className="px-6 py-2 bg-green-600 dark:bg-green-500 text-white hover:bg-green-700 dark:hover:bg-green-400 disabled:bg-gray-400 disabled:cursor-not-allowed rounded-lg transition-colors flex items-center gap-2"
+              >
+                {createCategoryForm.isSubmitting ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    Creating...
+                  </>
+                ) : (
+                  <>
+                    <FaCheck className="text-sm" />
+                    Create Category
+                  </>
+                )}
+              </button>
             </div>
           </div>
         </div>
