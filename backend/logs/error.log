@@ -1666,3 +1666,5 @@ with app.app_context(). See the documentation for more information.
 2025-08-15 17:09:10 - server - ERROR - Session setup failed: Router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f not found in Port-Manager
 2025-08-15 17:09:25 - server - ERROR - Session setup failed: Router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f not found in Port-Manager
 2025-08-15 17:12:39 - server - ERROR - Session setup failed: Router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f not found in Port-Manager
+2025-08-16 15:47:31 - server - ERROR - Session setup failed: Router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f not found in Port-Manager
+2025-08-16 15:47:45 - server - ERROR - Session setup failed: Router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f not found in Port-Manager

@@ -64,7 +64,7 @@ If testing is successful, deploy to production:
 # Stop the test server (Ctrl+C)
 
 # Stop current production service
-sudo systemctl stop netpilot-commands-server
+sudo systemctl stop cd
 
 # Backup current production and swap directories
 mv /home/netpilot-agent/netpilot-commands-server /home/netpilot-agent/netpilot-commands-server-old
