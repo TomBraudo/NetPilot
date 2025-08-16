@@ -13,6 +13,7 @@ from services.agh_service import (
     set_devices_rules,
     clear_device_rules,
     clear_devices_rules,
+    delete_category,
 )
 import time
 
@@ -52,6 +53,19 @@ def get_category_domains_route(category):
     result, error = get_category_domains(g.user_id, g.router_id, g.session_id, category)
     if error:
         return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
+    return build_success_response(result, start_time)
+
+@agh_bp.route('/categories', methods=['DELETE'])
+@router_context_required
+def delete_category_route():
+    start_time = time.time()
+    data = request.get_json() or {}
+    category = data.get('category')
+    if not category:
+        return build_error_response("Missing 'category'", 400, "BAD_REQUEST", start_time)
+    result, error = delete_category(g.user_id, g.router_id, g.session_id, category)
+    if error:
+        return build_error_response(f"Failed to delete category: {error}", 500, "COMMAND_FAILED", start_time)
     return build_success_response(result, start_time)
 
 

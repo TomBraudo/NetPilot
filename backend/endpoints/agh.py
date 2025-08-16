@@ -15,6 +15,7 @@ from services.agh_service import (
     mark_devices_for_categories,
     clear_device_rules,
     clear_devices_rules,
+    delete_category,
 )
 
 
@@ -59,6 +60,18 @@ def create_category_route():
     result, error = create_category(category, domains)
     if error:
         return build_error_response(f"Failed to create category: {error}", 500, "COMMAND_FAILED", start_time)
+    return build_success_response(result, start_time)
+
+@agh_bp.route('/categories', methods=['DELETE'])
+def delete_category_route():
+    start_time = time.time()
+    data = request.get_json() or {}
+    category = (data.get('category') or '').strip()
+    if not category:
+        return build_error_response("Missing 'category'", 400, "BAD_REQUEST", start_time)
+    result, error = delete_category(category)
+    if error:
+        return build_error_response(f"Failed to delete category: {error}", 500, "COMMAND_FAILED", start_time)
     return build_success_response(result, start_time)
 
 

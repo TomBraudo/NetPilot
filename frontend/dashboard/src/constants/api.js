@@ -373,6 +373,12 @@ export const aghAPI = {
       body: JSON.stringify({ category, domains }),
     }),
 
+  deleteCategory: (routerId, category) =>
+    apiRequest(`${API_ENDPOINTS.AGH}/categories?routerId=${routerId}`, {
+      method: "DELETE",
+      body: JSON.stringify({ category }),
+    }),
+
   getCategoryDomains: (routerId, category) =>
     apiRequest(`${API_ENDPOINTS.AGH}/categories/${encodeURIComponent(category)}/domains?routerId=${routerId}`),
 

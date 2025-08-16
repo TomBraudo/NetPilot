@@ -12,6 +12,7 @@ from services.commands_server_operations.agh_execute import (
     execute_get_categories,
     execute_create_category,
     execute_get_category_domains,
+    execute_delete_category,
     execute_replace_category_domains,
     execute_get_device_effective_rules,
     execute_bulk_get_devices_rules,
@@ -50,6 +51,17 @@ def get_category_domains(user_id: str, router_id: str, session_id: str, category
         return None, "category is required"
     log_service_operation("agh_get_category_domains", user_id, router_id, session_id, {"category": category})
     data, error = execute_get_category_domains(router_id, session_id, category)
+    if error:
+        return None, error
+    return data, None
+
+
+@handle_service_errors("AGH: Delete category")
+def delete_category(user_id: str, router_id: str, session_id: str, category: str) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
+    if not category:
+        return None, "category is required"
+    log_service_operation("agh_delete_category", user_id, router_id, session_id, {"category": category})
+    data, error = execute_delete_category(router_id, session_id, category)
     if error:
         return None, error
     return data, None

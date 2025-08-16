@@ -14986,3 +14986,347 @@ DETAIL:  Key (user_id)=(dae7bdeb-0ddc-4a2c-b5c5-c1d283ab63f8) is not present in 
 2025-08-15 19:57:17 - managers.commands_server - DEBUG - Request completed in 0.29s with status 200
 2025-08-15 19:57:17 - managers.commands_server - DEBUG - Received response: {'data': {'category': 'social_media', 'count': 12, 'domains': ['facebook.com', 'instagram.com', 'twitter.com', 'x.com', 'tiktok.com', 'snapchat.com', 'linkedin.com', 'pinterest.com', 'reddit.com', 'discord.com', 'telegram.org', 'whatsapp.com']}, 'error': None, 'metadata': {'executionTime': 0.15137195587158203, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2', 'timestamp': '2025-08-15T16:57:18.020172'}, 'success': True}
 2025-08-15 19:57:17 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/agh/categories/social_media/domains'
+2025-08-16 12:16:30 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-08-16 12:16:31 - 2fa_service - WARNING - Generated new TOTP encryption key: e-XARBiJxLoZ0M39yxN-YsQ_UjQeIZYg7ga7xwhmU-Y=
+2025-08-16 12:16:31 - 2fa_service - WARNING - Store this key securely in your environment variables!
+2025-08-16 12:16:36 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-08-16 12:16:36 - 2fa_service - WARNING - Generated new TOTP encryption key: m79eFT3ysXt2c5jcPF8HS95fKcQN17XSiFGktVlBjQA=
+2025-08-16 12:16:36 - 2fa_service - WARNING - Store this key securely in your environment variables!
+2025-08-16 12:16:40 - endpoints.settings - INFO - === Starting get_router_id endpoint ===
+2025-08-16 12:16:40 - endpoints.settings - INFO - Request method: GET
+2025-08-16 12:16:40 - endpoints.settings - INFO - Request URL: http://localhost:5000/api/settings/router-id
+2025-08-16 12:16:40 - endpoints.settings - INFO - Request headers: {'Host': 'localhost:5000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Windows"', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', 'Sec-Ch-Ua': '"Not;A=Brand";v="99", "Google Chrome";v="139", "Chromium";v="139"', 'Sec-Ch-Ua-Mobile': '?0', 'Accept': '*/*', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'en-US,en;q=0.9,he;q=0.8', 'Cookie': 'session=.eJytVcmOq0oS_ZUnr6-rIBkMJbXUGLCxDbjMYIaNxZCGZC4zGZ7uv7-k6k6LVqsXvbAlIiNPnDiRivP36tbARxlUsOpWb92jh99WfQsfq7e_V0EUwba9dXUOq9XbagoA_yIQgkkprD5GIMXZwgGSXKOiG9Bq-rkJB3L9odXxKZfymJ6iMK4f4zBbCanAW4ASWmmBNIitNZRoe5ZlGzylbSeyXPisGSo_ZFOwOZYFpQnvUfzBkO8H74YydT26Knn3Jk6X6KZO_EyIGBHmTmk-TuG-Bzltrbd5Mg80K_sUTZJyUTxqw2Oz-Qbja1wWksOwH3BYJ0ZThld1VLRATLyT4NSmYAjm7qLsXaAhMwuP1gU6keahmTWt9cFI9YQABLv6toLPBj1gewuwUOSGYQBD8TT_O46wSBTD4wiKf4kGp2Ma7iN0RkfTng-kjg7toewaXzywhyyn_b1G6o5Ge9lhPFsa0IA86ZL91OeI8Eq9wGeElkXP8_7y1ICOdHBBqngkoCssmKcreUH3ywsu00SUtoTqWDHGaK4HFewyD_BkWBmzWsZDCOLWN5ksBMQCkcJqgTg8Ncmez1Yyapk865JGq65ABJUPdCl-aCDuPOqa-dZh1EuCDFyP9kBKaPt4jJyUVMvdGCla7wN-8MGziF29iEp9wDWLsLr0uH53QCPy3Cuebo00SyC1Oac1CdedL_NZJEd934A4u1DBrFeho5MesCdN8jvdKcB5r9extK0iZVfHJpNGyvZ3L-519t0j7ochfIch1KWuieWtMAZa5JWfuiXjvhJwlgQG15217EKerQP1NYZr5zlFu_CK93znVcc0dowB549neYu57JpQ_KVX8fm94wGu2fhlUSwjjJUj6ZtLf8Y92O_mYBlr6ZEB1SCLaFjHTmhz31yMvOgDmRyNnbxg9Zhz5psLx6PvXPXUkHcyVPzmbHedD4q9Lslg0S0sd91nXmHg3rZiVO5If88tGGPg6ETsHouFf6AYBJ4Dq058G0j_fR4qkIeLrVfnPZ-ZlEd4uV9cCgOFtj37SiqGsk7ppb_T57SxZLKNlCYwLWGE-yI3bA8Etu9f7ZSGWWHrBM1Hcw5UR1s4VYHrF2HB955DfvK67r_m7-M-AufJuIBJQ8de3umfvTSee0HnTKZ0y550S5jxb5kPHWE9NSsideuwvBtSU4gXZz9M9aaP2ym251bI2SYHG1MWSUe-lYydcL62Jvu10V7BDJDuQ3jVGDk6ull5MOwsjxuNHzk0pt0YqfF0imanzefHwTxShXhV1JM_Xrbx-abrVFQEDEzcniWZfGxtaSwMLMiENpsgoSVdr6e7ZqW20txol11Tx0wauy2M8yLxVbFp86d4GwfzHupHjt5-WN65KQso-qqcAXdrlHl4N-0L08Sm-nxvNne-C64fNkPvj_wp5TMR2tSdhwlCef8xcqN7Uh2hvazD6egYJMU40_E5QNVr_b3wzlr3S6_oDA3DdddPeZyKD2NTgMBF3el-0jqN8Dr-YxITlS1Hd9oqkKwduQHzLN1dXsALro3qBuKdhf8rFP-Vdl3Tvr2-juP4ktR1UsCgQe1LVJevQd-lr4tNoOpevzSP-o4K-L9fgGWAClzwc0neuumz6hYGD-w7X_azpH1aUHdLgzbFx3cmn8PzcfYUTsned4cq1RrpgtODPsbHJIG3MUcAkqIpbt3Q2TDQm5xKyqiPIN7fJYMGLko7Imk-0v4laJr2B8elXFRXHTbAheqCODf_Z8Svht9ww2X4wIRrwBHcv5Ml-mfGbcCd3xGMfzoxtpbfXsMQ31b3oETFdKuC8lOyTyx8O0EDFvJH1PoERL9tiqCWq6ht8eHPGWFvr_uq-0n5B4vfCH_9wq7qKlqCwPPMQBKk54D4U5mgHU0urtigqOsf8A_oIqX-sxCvwasgJlwdnQY63MGtFZYyFT-3hTiyd3mDN4FWNLN_IIgniuUdi3aerTxn3tro_2p5dh0tb7QPl9mQDEkAjuUInuIpQDM82LCr79-_Hs8NLS8igAzL3aPNOo45fk2zgFlzEH9Cjo1jwFHsHYLV938AJEoAlQ.aKBMeA.PbuuN6eQAhj3LCEnR-NzX_Jxw3A'}
+2025-08-16 12:16:40 - endpoints.settings - INFO - Remote address: 127.0.0.1
+2025-08-16 12:16:40 - endpoints.settings - INFO - User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36
+2025-08-16 12:16:40 - endpoints.settings - INFO - Database session obtained: <sqlalchemy.orm.session.Session object at 0x7aaabc39e7b0>
+2025-08-16 12:16:40 - endpoints.settings - INFO - User ID from session: ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:16:40 - endpoints.settings - INFO - Calling get_router_id_setting service with user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:16:40 - services.settings_service - INFO - === Starting get_router_id_setting ===
+2025-08-16 12:16:40 - services.settings_service - INFO - Input parameter - user_id: ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:16:40 - services.settings_service - INFO - User ID type: <class 'str'>
+2025-08-16 12:16:40 - services.settings_service - INFO - Querying UserSetting for routerId...
+2025-08-16 12:16:40 - services.settings_service - INFO - Query: session.query(UserSetting).filter_by(user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, setting_key='routerId')
+2025-08-16 12:16:40 - services.settings_service - INFO - Found UserSetting record: id=62eeb537-b377-493a-8be8-d90c3cd5b6ac, setting_value={'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}
+2025-08-16 12:16:40 - services.settings_service - INFO - Setting value type: <class 'dict'>
+2025-08-16 12:16:40 - services.settings_service - INFO - Router ID found: e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-16 12:16:40 - services.settings_service - INFO - Router ID type: <class 'str'>
+2025-08-16 12:16:40 - services.settings_service - INFO - Router ID is valid and non-empty
+2025-08-16 12:16:40 - services.settings_service - INFO - === get_router_id_setting completed successfully ===
+2025-08-16 12:16:40 - endpoints.settings - INFO - Service call completed - result: {'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}, error: None
+2025-08-16 12:16:40 - endpoints.settings - INFO - Service call successful, returning result: {'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}
+2025-08-16 12:16:40 - endpoints.settings - INFO - === get_router_id endpoint completed successfully ===
+2025-08-16 12:16:41 - endpoints.settings - INFO - === Starting get_router_id endpoint ===
+2025-08-16 12:16:41 - endpoints.settings - INFO - Request method: GET
+2025-08-16 12:16:41 - endpoints.settings - INFO - Request URL: http://localhost:5000/api/settings/router-id
+2025-08-16 12:16:41 - endpoints.settings - INFO - Request headers: {'Host': 'localhost:5000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Windows"', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', 'Sec-Ch-Ua': '"Not;A=Brand";v="99", "Google Chrome";v="139", "Chromium";v="139"', 'Sec-Ch-Ua-Mobile': '?0', 'Accept': '*/*', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'en-US,en;q=0.9,he;q=0.8', 'Cookie': 'session=.eJytVcmOq0oS_ZUnr6-rIBkMJbXUGLCxDbjMYIaNxZCGZC4zGZ7uv7-k6k6LVqsXvbAlIiNPnDiRivP36tbARxlUsOpWb92jh99WfQsfq7e_V0EUwba9dXUOq9XbagoA_yIQgkkprD5GIMXZwgGSXKOiG9Bq-rkJB3L9odXxKZfymJ6iMK4f4zBbCanAW4ASWmmBNIitNZRoe5ZlGzylbSeyXPisGSo_ZFOwOZYFpQnvUfzBkO8H74YydT26Knn3Jk6X6KZO_EyIGBHmTmk-TuG-Bzltrbd5Mg80K_sUTZJyUTxqw2Oz-Qbja1wWksOwH3BYJ0ZThld1VLRATLyT4NSmYAjm7qLsXaAhMwuP1gU6keahmTWt9cFI9YQABLv6toLPBj1gewuwUOSGYQBD8TT_O46wSBTD4wiKf4kGp2Ma7iN0RkfTng-kjg7toewaXzywhyyn_b1G6o5Ge9lhPFsa0IA86ZL91OeI8Eq9wGeElkXP8_7y1ICOdHBBqngkoCssmKcreUH3ywsu00SUtoTqWDHGaK4HFewyD_BkWBmzWsZDCOLWN5ksBMQCkcJqgTg8Ncmez1Yyapk865JGq65ABJUPdCl-aCDuPOqa-dZh1EuCDFyP9kBKaPt4jJyUVMvdGCla7wN-8MGziF29iEp9wDWLsLr0uH53QCPy3Cuebo00SyC1Oac1CdedL_NZJEd934A4u1DBrFeho5MesCdN8jvdKcB5r9extK0iZVfHJpNGyvZ3L-519t0j7ochfIch1KWuieWtMAZa5JWfuiXjvhJwlgQG15217EKerQP1NYZr5zlFu_CK93znVcc0dowB549neYu57JpQ_KVX8fm94wGu2fhlUSwjjJUj6ZtLf8Y92O_mYBlr6ZEB1SCLaFjHTmhz31yMvOgDmRyNnbxg9Zhz5psLx6PvXPXUkHcyVPzmbHedD4q9Lslg0S0sd91nXmHg3rZiVO5If88tGGPg6ETsHouFf6AYBJ4Dq058G0j_fR4qkIeLrVfnPZ-ZlEd4uV9cCgOFtj37SiqGsk7ppb_T57SxZLKNlCYwLWGE-yI3bA8Etu9f7ZSGWWHrBM1Hcw5UR1s4VYHrF2HB955DfvK67r_m7-M-AufJuIBJQ8de3umfvTSee0HnTKZ0y550S5jxb5kPHWE9NSsideuwvBtSU4gXZz9M9aaP2ym251bI2SYHG1MWSUe-lYydcL62Jvu10V7BDJDuQ3jVGDk6ull5MOwsjxuNHzk0pt0YqfF0imanzefHwTxShXhV1JM_Xrbx-abrVFQEDEzcniWZfGxtaSwMLMiENpsgoSVdr6e7ZqW20txol11Tx0wauy2M8yLxVbFp86d4GwfzHupHjt5-WN65KQso-qqcAXdrlHl4N-0L08Sm-nxvNne-C64fNkPvj_wp5TMR2tSdhwlCef8xcqN7Uh2hvazD6egYJMU40_E5QNVr_b3wzlr3S6_oDA3DdddPeZyKD2NTgMBF3el-0jqN8Dr-YxITlS1Hd9oqkKwduQHzLN1dXsALro3qBuKdhf8rFP-Vdl3Tvr2-juP4ktR1UsCgQe1LVJevQd-lr4tNoOpevzSP-o4K-L9fgGWAClzwc0neuumz6hYGD-w7X_azpH1aUHdLgzbFx3cmn8PzcfYUTsned4cq1RrpgtODPsbHJIG3MUcAkqIpbt3Q2TDQm5xKyqiPIN7fJYMGLko7Imk-0v4laJr2B8elXFRXHTbAheqCODf_Z8Svht9ww2X4wIRrwBHcv5Ml-mfGbcCd3xGMfzoxtpbfXsMQ31b3oETFdKuC8lOyTyx8O0EDFvJH1PoERL9tiqCWq6ht8eHPGWFvr_uq-0n5B4vfCH_9wq7qKlqCwPPMQBKk54D4U5mgHU0urtigqOsf8A_oIqX-sxCvwasgJlwdnQY63MGtFZYyFT-3hTiyd3mDN4FWNLN_IIgniuUdi3aerTxn3tro_2p5dh0tb7QPl9mQDEkAjuUInuIpQDM82LCr79-_Hs8NLS8igAzL3aPNOo45fk2zgFlzEH9Cjo1jwFHsHYLV938AJEoAlQ.aKBMeA.PbuuN6eQAhj3LCEnR-NzX_Jxw3A'}
+2025-08-16 12:16:41 - endpoints.settings - INFO - Remote address: 127.0.0.1
+2025-08-16 12:16:41 - endpoints.settings - INFO - User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36
+2025-08-16 12:16:41 - endpoints.settings - INFO - Database session obtained: <sqlalchemy.orm.session.Session object at 0x7aaabc3cd3d0>
+2025-08-16 12:16:41 - endpoints.settings - INFO - User ID from session: ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:16:41 - endpoints.settings - INFO - Calling get_router_id_setting service with user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:16:41 - services.settings_service - INFO - === Starting get_router_id_setting ===
+2025-08-16 12:16:41 - services.settings_service - INFO - Input parameter - user_id: ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:16:41 - services.settings_service - INFO - User ID type: <class 'str'>
+2025-08-16 12:16:41 - services.settings_service - INFO - Querying UserSetting for routerId...
+2025-08-16 12:16:41 - services.settings_service - INFO - Query: session.query(UserSetting).filter_by(user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, setting_key='routerId')
+2025-08-16 12:16:41 - services.settings_service - INFO - Found UserSetting record: id=62eeb537-b377-493a-8be8-d90c3cd5b6ac, setting_value={'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}
+2025-08-16 12:16:41 - services.settings_service - INFO - Setting value type: <class 'dict'>
+2025-08-16 12:16:41 - services.settings_service - INFO - Router ID found: e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-16 12:16:41 - services.settings_service - INFO - Router ID type: <class 'str'>
+2025-08-16 12:16:41 - services.settings_service - INFO - Router ID is valid and non-empty
+2025-08-16 12:16:41 - services.settings_service - INFO - === get_router_id_setting completed successfully ===
+2025-08-16 12:16:41 - endpoints.settings - INFO - Service call completed - result: {'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}, error: None
+2025-08-16 12:16:41 - endpoints.settings - INFO - Service call successful, returning result: {'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}
+2025-08-16 12:16:41 - endpoints.settings - INFO - === get_router_id endpoint completed successfully ===
+2025-08-16 12:16:41 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:16:41 - services.base - INFO - Service operation completed: start_session
+2025-08-16 12:16:41 - managers.commands_server - DEBUG - Performing health check...
+2025-08-16 12:16:41 - managers.commands_server - INFO - Checking commands server health
+2025-08-16 12:16:41 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-08-16 12:16:41 - managers.commands_server - DEBUG - Request completed in 0.17s with status 200
+2025-08-16 12:16:41 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 0.0001742839813232422, 'routerId': None, 'sessionId': None, 'timestamp': '2025-08-16T09:16:41.575630'}, 'success': True}
+2025-08-16 12:16:41 - managers.commands_server - DEBUG - Commands server health check successful
+2025-08-16 12:16:41 - managers.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/session/start
+2025-08-16 12:16:43 - managers.commands_server - DEBUG - Request completed in 2.31s with status 200
+2025-08-16 12:16:43 - managers.commands_server - DEBUG - Received response: {'data': {'infrastructure_ready': True, 'message': 'Session established successfully', 'router_reachable': True, 'session_id': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2'}, 'error': None, 'metadata': {'executionTime': 2.1740505695343018, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2', 'timestamp': '2025-08-16T09:16:43.901505'}, 'success': True}
+2025-08-16 12:16:43 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/session/start'
+2025-08-16 12:16:43 - services.commands_server_operations.session_execute - DEBUG - Commands server response - data: {'infrastructure_ready': True, 'message': 'Session established successfully', 'router_reachable': True, 'session_id': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2'}, error: None
+2025-08-16 12:16:43 - services.commands_server_operations.session_execute - INFO - Session started successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:16:43 - services.base - INFO - Service operation completed: start_session
+2025-08-16 12:16:44 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:16:44 - services.base - INFO - Service operation completed: scan_network
+2025-08-16 12:16:44 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/network/scan
+2025-08-16 12:16:46 - managers.commands_server - DEBUG - Request completed in 1.22s with status 200
+2025-08-16 12:16:46 - managers.commands_server - DEBUG - Received response: {'data': [{'hostname': 'DESKTOP-2N49K42', 'interface': 'br-lan', 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'status': 'active', 'vendor': 'Micro-Star INTL CO., LTD.'}], 'error': None, 'metadata': {'executionTime': 1.0913498401641846, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2', 'timestamp': '2025-08-16T09:16:45.972698'}, 'success': True}
+2025-08-16 12:16:46 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/network/scan'
+2025-08-16 12:16:46 - services.commands_server_operations.network_execute - INFO - Network scan completed successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, found 1 devices
+2025-08-16 12:16:46 - services.db_operations.network_db - INFO - Saving network scan result for user ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with 1 devices
+2025-08-16 12:16:46 - services.db_operations.network_db - DEBUG - Updated existing device: 192.168.1.122 (d8:bb:c1:47:3a:43)
+2025-08-16 12:16:46 - services.db_operations.network_db - INFO - Network scan save completed for user ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: created 0, updated 1 devices
+2025-08-16 12:16:46 - services.base - INFO - Service operation completed: scan_network
+2025-08-16 12:16:46 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:16:47 - services.device_service - INFO - Bulk created/updated 1 devices for user ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:16:50 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:16:50 - services.device_service - INFO - Retrieved 2 devices for user ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-16 12:16:50 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:16:50 - services.base - INFO - Service operation completed: agh_get_categories
+2025-08-16 12:16:50 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/agh/categories
+2025-08-16 12:16:50 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:16:50 - services.device_service - INFO - Retrieved 2 devices for user ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-16 12:16:51 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:16:51 - services.device_group_service - INFO - Retrieved 0 device groups for user ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-16 12:16:51 - managers.commands_server - DEBUG - Request completed in 0.52s with status 200
+2025-08-16 12:16:51 - managers.commands_server - DEBUG - Received response: {'data': {'categories': ['adult_gambling', 'entertainment', 'gaming', 'social_media']}, 'error': None, 'metadata': {'executionTime': 0.37518978118896484, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2', 'timestamp': '2025-08-16T09:16:51.212728'}, 'success': True}
+2025-08-16 12:16:51 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/agh/categories'
+2025-08-16 12:16:51 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:16:51 - services.base - INFO - Service operation completed: agh_get_categories
+2025-08-16 12:16:51 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/agh/categories
+2025-08-16 12:16:51 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:16:51 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:16:51 - services.base - INFO - Service operation completed: agh_get_category_domains
+2025-08-16 12:16:51 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/agh/categories/adult_gambling/domains
+2025-08-16 12:16:51 - services.device_group_service - INFO - Retrieved 0 device groups for user ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-16 12:16:52 - managers.commands_server - DEBUG - Request completed in 0.34s with status 200
+2025-08-16 12:16:52 - managers.commands_server - DEBUG - Received response: {'data': {'category': 'adult_gambling', 'count': 12, 'domains': ['xvideos.com', 'xnxx.com', 'youporn.com', 'redtube.com', 'xhamster.com', 'bet365.com', 'pokerstars.com', '888casino.com', 'williamhill.com', 'betfair.com', 'draftkings.com', 'fanduel.com']}, 'error': None, 'metadata': {'executionTime': 0.20328736305236816, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2', 'timestamp': '2025-08-16T09:16:51.971908'}, 'success': True}
+2025-08-16 12:16:52 - managers.commands_server - DEBUG - Request completed in 0.44s with status 200
+2025-08-16 12:16:52 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/agh/categories/adult_gambling/domains'
+2025-08-16 12:16:52 - managers.commands_server - DEBUG - Received response: {'data': {'categories': []}, 'error': None, 'metadata': {'executionTime': 0.3134305477142334, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2', 'timestamp': '2025-08-16T09:16:51.974921'}, 'success': True}
+2025-08-16 12:16:52 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/agh/categories'
+2025-08-16 12:16:52 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:16:52 - services.base - INFO - Service operation completed: agh_get_category_domains
+2025-08-16 12:16:52 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/agh/categories/entertainment/domains
+2025-08-16 12:16:52 - managers.commands_server - DEBUG - Request completed in 0.27s with status 200
+2025-08-16 12:16:52 - managers.commands_server - DEBUG - Received response: {'data': {'category': 'entertainment', 'count': 12, 'domains': ['youtube.com', 'netflix.com', 'hulu.com', 'disneyplus.com', 'primevideo.com', 'hbomax.com', 'twitch.tv', 'spotify.com', 'pandora.com', 'soundcloud.com', 'vimeo.com', 'dailymotion.com']}, 'error': None, 'metadata': {'executionTime': 0.134627103805542, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2', 'timestamp': '2025-08-16T09:16:52.556380'}, 'success': True}
+2025-08-16 12:16:52 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/agh/categories/entertainment/domains'
+2025-08-16 12:16:52 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:16:52 - services.base - INFO - Service operation completed: agh_get_category_domains
+2025-08-16 12:16:52 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/agh/categories/gaming/domains
+2025-08-16 12:16:53 - managers.commands_server - DEBUG - Request completed in 0.27s with status 200
+2025-08-16 12:16:53 - managers.commands_server - DEBUG - Received response: {'data': {'category': 'gaming', 'count': 12, 'domains': ['origin.com', 'uplay.com', 'gog.com', 'roblox.com', 'minecraft.net', 'gamepass.com', 'playstation.com', 'xbox.com', 'nintendo.com', 'ea.com', 'activision.com', 'steam.com']}, 'error': None, 'metadata': {'executionTime': 0.1329362392425537, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2', 'timestamp': '2025-08-16T09:16:53.146720'}, 'success': True}
+2025-08-16 12:16:53 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/agh/categories/gaming/domains'
+2025-08-16 12:16:53 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:16:53 - services.base - INFO - Service operation completed: agh_get_category_domains
+2025-08-16 12:16:53 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/agh/categories/social_media/domains
+2025-08-16 12:16:53 - managers.commands_server - DEBUG - Request completed in 0.27s with status 200
+2025-08-16 12:16:53 - managers.commands_server - DEBUG - Received response: {'data': {'category': 'social_media', 'count': 12, 'domains': ['facebook.com', 'instagram.com', 'twitter.com', 'x.com', 'tiktok.com', 'snapchat.com', 'linkedin.com', 'pinterest.com', 'reddit.com', 'discord.com', 'telegram.org', 'whatsapp.com']}, 'error': None, 'metadata': {'executionTime': 0.13395047187805176, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2', 'timestamp': '2025-08-16T09:16:53.745090'}, 'success': True}
+2025-08-16 12:16:53 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/agh/categories/social_media/domains'
+2025-08-16 12:17:10 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:17:10 - services.device_service - INFO - Starting device validation for 2 identifiers
+2025-08-16 12:17:10 - services.device_service - INFO - Processing identifier: b540cb4d-9426-42fb-bf49-08c2e68aec92
+2025-08-16 12:17:10 - services.device_service - INFO - Found device by UUID: b540cb4d-9426-42fb-bf49-08c2e68aec92
+2025-08-16 12:17:10 - services.device_service - INFO - Processing identifier: 33ef7de6-f67c-4264-8231-0a770f27fd2c
+2025-08-16 12:17:10 - services.device_service - INFO - Found device by UUID: 33ef7de6-f67c-4264-8231-0a770f27fd2c
+2025-08-16 12:17:10 - services.device_service - INFO - Successfully converted device b540cb4d-9426-42fb-bf49-08c2e68aec92 to dict
+2025-08-16 12:17:10 - services.device_service - INFO - Successfully converted device 33ef7de6-f67c-4264-8231-0a770f27fd2c to dict
+2025-08-16 12:17:10 - services.device_service - INFO - Device validation complete: 2 valid, 0 invalid
+2025-08-16 12:17:11 - endpoints.devices - INFO - Device validation: 2 valid, 0 invalid
+2025-08-16 12:17:11 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:17:11 - services.device_group_service - INFO - Creating device group 'Test group' for user ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-16 12:17:11 - services.device_group_service - INFO - Adding 2 devices to group
+2025-08-16 12:17:11 - services.device_group_service - INFO - Added 2 devices to group using SQLAlchemy relationships
+2025-08-16 12:17:12 - services.device_group_service - INFO - ✅ Successfully created device group 'Test group' with 2 devices
+2025-08-16 12:17:24 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:17:24 - services.base - INFO - Service operation completed: bandwidth_apply_group_limits
+2025-08-16 12:17:24 - managers.commands_server - DEBUG - Performing health check...
+2025-08-16 12:17:24 - managers.commands_server - INFO - Checking commands server health
+2025-08-16 12:17:24 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-08-16 12:17:24 - managers.commands_server - DEBUG - Request completed in 0.14s with status 200
+2025-08-16 12:17:24 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 2.193450927734375e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-08-16T09:17:24.577474'}, 'success': True}
+2025-08-16 12:17:24 - managers.commands_server - DEBUG - Commands server health check successful
+2025-08-16 12:17:24 - managers.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/bandwidth/limits/group
+2025-08-16 12:17:32 - managers.commands_server - DEBUG - Request completed in 7.91s with status 200
+2025-08-16 12:17:32 - managers.commands_server - DEBUG - Received response: {'data': {'applied': 2, 'deleted': 0}, 'error': None, 'metadata': {'executionTime': 7.773339033126831, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2', 'timestamp': '2025-08-16T09:17:32.488870'}, 'success': True}
+2025-08-16 12:17:32 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/bandwidth/limits/group'
+2025-08-16 12:17:47 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:17:48 - services.device_group_service - INFO - Removed device b540cb4d-9426-42fb-bf49-08c2e68aec92 from group e4f1f87a-f466-4e9f-9777-3004360947b9
+2025-08-16 12:18:18 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:18:18 - services.device_group_service - INFO - Added device b540cb4d-9426-42fb-bf49-08c2e68aec92 to group e4f1f87a-f466-4e9f-9777-3004360947b9
+2025-08-16 12:18:21 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:18:21 - services.base - INFO - Service operation completed: bandwidth_delete_group_limits
+2025-08-16 12:18:21 - managers.commands_server - DEBUG - Performing health check...
+2025-08-16 12:18:21 - managers.commands_server - INFO - Checking commands server health
+2025-08-16 12:18:21 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-08-16 12:18:21 - managers.commands_server - DEBUG - Request completed in 0.14s with status 200
+2025-08-16 12:18:21 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 2.384185791015625e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-08-16T09:18:21.703595'}, 'success': True}
+2025-08-16 12:18:21 - managers.commands_server - DEBUG - Commands server health check successful
+2025-08-16 12:18:21 - managers.commands_server - DEBUG - Making DELETE request to http://34.38.207.87:5000/api/bandwidth/limits/group
+2025-08-16 12:18:24 - managers.commands_server - DEBUG - Request completed in 2.96s with status 200
+2025-08-16 12:18:24 - managers.commands_server - DEBUG - Received response: {'data': {'deleted': 4}, 'error': None, 'metadata': {'executionTime': 2.824209451675415, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2', 'timestamp': '2025-08-16T09:18:24.662970'}, 'success': True}
+2025-08-16 12:18:24 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/bandwidth/limits/group'
+2025-08-16 12:18:56 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:18:57 - services.device_group_service - INFO - Deleted device group e4f1f87a-f466-4e9f-9777-3004360947b9
+2025-08-16 12:42:21 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-08-16 12:42:21 - 2fa_service - WARNING - Generated new TOTP encryption key: P71jgVc7W3LM4uuQ7gW6dQZC1FgxHOqtt6X_JKN-f78=
+2025-08-16 12:42:21 - 2fa_service - WARNING - Store this key securely in your environment variables!
+2025-08-16 12:42:27 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-08-16 12:42:27 - 2fa_service - WARNING - Generated new TOTP encryption key: vApjvHSyIDDliNtUIF9FJSyWXSVcThXa5J8u8MnVpWk=
+2025-08-16 12:42:27 - 2fa_service - WARNING - Store this key securely in your environment variables!
+2025-08-16 12:42:30 - endpoints.settings - INFO - === Starting get_router_id endpoint ===
+2025-08-16 12:42:30 - endpoints.settings - INFO - Request method: GET
+2025-08-16 12:42:30 - endpoints.settings - INFO - Request URL: http://localhost:5000/api/settings/router-id
+2025-08-16 12:42:30 - endpoints.settings - INFO - Request headers: {'Host': 'localhost:5000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Windows"', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', 'Sec-Ch-Ua': '"Not;A=Brand";v="99", "Google Chrome";v="139", "Chromium";v="139"', 'Sec-Ch-Ua-Mobile': '?0', 'Accept': '*/*', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'en-US,en;q=0.9,he;q=0.8', 'Cookie': 'session=.eJytVcmOq0oS_ZUnr6-rIBkMJbXUGLCxDbjMYIaNxZCGZC4zGZ7uv7-k6k6LVqsXvbAlIiNPnDiRivP36tbARxlUsOpWb92jh99WfQsfq7e_V0EUwba9dXUOq9XbagoA_yIQgkkprD5GIMXZwgGSXKOiG9Bq-rkJB3L9odXxKZfymJ6iMK4f4zBbCanAW4ASWmmBNIitNZRoe5ZlGzylbSeyXPisGSo_ZFOwOZYFpQnvUfzBkO8H74YydT26Knn3Jk6X6KZO_EyIGBHmTmk-TuG-Bzltrbd5Mg80K_sUTZJyUTxqw2Oz-Qbja1wWksOwH3BYJ0ZThld1VLRATLyT4NSmYAjm7qLsXaAhMwuP1gU6keahmTWt9cFI9YQABLv6toLPBj1gewuwUOSGYQBD8TT_O46wSBTD4wiKf4kGp2Ma7iN0RkfTng-kjg7toewaXzywhyyn_b1G6o5Ge9lhPFsa0IA86ZL91OeI8Eq9wGeElkXP8_7y1ICOdHBBqngkoCssmKcreUH3ywsu00SUtoTqWDHGaK4HFewyD_BkWBmzWsZDCOLWN5ksBMQCkcJqgTg8Ncmez1Yyapk865JGq65ABJUPdCl-aCDuPOqa-dZh1EuCDFyP9kBKaPt4jJyUVMvdGCla7wN-8MGziF29iEp9wDWLsLr0uH53QCPy3Cuebo00SyC1Oac1CdedL_NZJEd934A4u1DBrFeho5MesCdN8jvdKcB5r9extK0iZVfHJpNGyvZ3L-519t0j7ochfIch1KWuieWtMAZa5JWfuiXjvhJwlgQG15217EKerQP1NYZr5zlFu_CK93znVcc0dowB549neYu57JpQ_KVX8fm94wGu2fhlUSwjjJUj6ZtLf8Y92O_mYBlr6ZEB1SCLaFjHTmhz31yMvOgDmRyNnbxg9Zhz5psLx6PvXPXUkHcyVPzmbHedD4q9Lslg0S0sd91nXmHg3rZiVO5If88tGGPg6ETsHouFf6AYBJ4Dq058G0j_fR4qkIeLrVfnPZ-ZlEd4uV9cCgOFtj37SiqGsk7ppb_T57SxZLKNlCYwLWGE-yI3bA8Etu9f7ZSGWWHrBM1Hcw5UR1s4VYHrF2HB955DfvK67r_m7-M-AufJuIBJQ8de3umfvTSee0HnTKZ0y550S5jxb5kPHWE9NSsideuwvBtSU4gXZz9M9aaP2ym251bI2SYHG1MWSUe-lYydcL62Jvu10V7BDJDuQ3jVGDk6ull5MOwsjxuNHzk0pt0YqfF0imanzefHwTxShXhV1JM_Xrbx-abrVFQEDEzcniWZfGxtaSwMLMiENpsgoSVdr6e7ZqW20txol11Tx0wauy2M8yLxVbFp86d4GwfzHupHjt5-WN65KQso-qqcAXdrlHl4N-0L08Sm-nxvNne-C64fNkPvj_wp5TMR2tSdhwlCef8xcqN7Uh2hvazD6egYJMU40_E5QNVr_b3wzlr3S6_oDA3DdddPeZyKD2NTgMBF3el-0jqN8Dr-YxITlS1Hd9oqkKwduQHzLN1dXsALro3qBuKdhf8rFP-Vdl3Tvr2-juP4ktR1UsCgQe1LVJevQd-lr4tNoOpevzSP-o4K-L9fgGWAClzwc0neuumz6hYGD-w7X_azpH1aUHdLgzbFx3cmn8PzcfYUTsned4cq1RrpgtODPsbHJIG3MUcAkqIpbt3Q2TDQm5xKyqiPIN7fJYMGLko7Imk-0v4laJr2B8elXFRXHTbAheqCODf_Z8Svht9ww2X4wIRrwBHcv5Ml-mfGbcCd3xGMfzoxtpbfXsMQ31b3oETFdKuC8lOyTyx8O0EDFvJH1PoERL9tiqCWq6ht8eHPGWFvr_uq-0n5B4vfCH_9wq7qKlqCwPPMQBKk54D4U5mgHU0urtigqOsf8A_oIqX-sxCvwasgJlwdnQY63MGtFZYyFT-3hTiyd3mDN4FWNLN_IIgniuUdi3aerTxn3tro_2p5dh0tb7QPl9mQDEkAjuUInuIpQDM82LCr79-_Hs8NLS8igAzL3aPNOo45fk2zgFlzEH9Cjo1jwFHsHYLV938AJEoAlQ.aKBShg.DqWagVBj32WSg-97lQBiERW2d1M'}
+2025-08-16 12:42:30 - endpoints.settings - INFO - Remote address: 127.0.0.1
+2025-08-16 12:42:30 - endpoints.settings - INFO - User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36
+2025-08-16 12:42:30 - endpoints.settings - INFO - Database session obtained: <sqlalchemy.orm.session.Session object at 0x71dc6cf86690>
+2025-08-16 12:42:30 - endpoints.settings - INFO - User ID from session: ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:42:30 - endpoints.settings - INFO - Calling get_router_id_setting service with user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:42:30 - services.settings_service - INFO - === Starting get_router_id_setting ===
+2025-08-16 12:42:30 - services.settings_service - INFO - Input parameter - user_id: ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:42:30 - services.settings_service - INFO - User ID type: <class 'str'>
+2025-08-16 12:42:30 - services.settings_service - INFO - Querying UserSetting for routerId...
+2025-08-16 12:42:30 - services.settings_service - INFO - Query: session.query(UserSetting).filter_by(user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, setting_key='routerId')
+2025-08-16 12:42:31 - services.settings_service - INFO - Found UserSetting record: id=62eeb537-b377-493a-8be8-d90c3cd5b6ac, setting_value={'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}
+2025-08-16 12:42:31 - services.settings_service - INFO - Setting value type: <class 'dict'>
+2025-08-16 12:42:31 - services.settings_service - INFO - Router ID found: e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-16 12:42:31 - services.settings_service - INFO - Router ID type: <class 'str'>
+2025-08-16 12:42:31 - services.settings_service - INFO - Router ID is valid and non-empty
+2025-08-16 12:42:31 - services.settings_service - INFO - === get_router_id_setting completed successfully ===
+2025-08-16 12:42:31 - endpoints.settings - INFO - Service call completed - result: {'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}, error: None
+2025-08-16 12:42:31 - endpoints.settings - INFO - Service call successful, returning result: {'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}
+2025-08-16 12:42:31 - endpoints.settings - INFO - === get_router_id endpoint completed successfully ===
+2025-08-16 12:42:31 - endpoints.settings - INFO - === Starting get_router_id endpoint ===
+2025-08-16 12:42:31 - endpoints.settings - INFO - Request method: GET
+2025-08-16 12:42:31 - endpoints.settings - INFO - Request URL: http://localhost:5000/api/settings/router-id
+2025-08-16 12:42:31 - endpoints.settings - INFO - Request headers: {'Host': 'localhost:5000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Windows"', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', 'Sec-Ch-Ua': '"Not;A=Brand";v="99", "Google Chrome";v="139", "Chromium";v="139"', 'Sec-Ch-Ua-Mobile': '?0', 'Accept': '*/*', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'en-US,en;q=0.9,he;q=0.8', 'Cookie': 'session=.eJytVcmOq0oS_ZUnr6-rIBkMJbXUGLCxDbjMYIaNxZCGZC4zGZ7uv7-k6k6LVqsXvbAlIiNPnDiRivP36tbARxlUsOpWb92jh99WfQsfq7e_V0EUwba9dXUOq9XbagoA_yIQgkkprD5GIMXZwgGSXKOiG9Bq-rkJB3L9odXxKZfymJ6iMK4f4zBbCanAW4ASWmmBNIitNZRoe5ZlGzylbSeyXPisGSo_ZFOwOZYFpQnvUfzBkO8H74YydT26Knn3Jk6X6KZO_EyIGBHmTmk-TuG-Bzltrbd5Mg80K_sUTZJyUTxqw2Oz-Qbja1wWksOwH3BYJ0ZThld1VLRATLyT4NSmYAjm7qLsXaAhMwuP1gU6keahmTWt9cFI9YQABLv6toLPBj1gewuwUOSGYQBD8TT_O46wSBTD4wiKf4kGp2Ma7iN0RkfTng-kjg7toewaXzywhyyn_b1G6o5Ge9lhPFsa0IA86ZL91OeI8Eq9wGeElkXP8_7y1ICOdHBBqngkoCssmKcreUH3ywsu00SUtoTqWDHGaK4HFewyD_BkWBmzWsZDCOLWN5ksBMQCkcJqgTg8Ncmez1Yyapk865JGq65ABJUPdCl-aCDuPOqa-dZh1EuCDFyP9kBKaPt4jJyUVMvdGCla7wN-8MGziF29iEp9wDWLsLr0uH53QCPy3Cuebo00SyC1Oac1CdedL_NZJEd934A4u1DBrFeho5MesCdN8jvdKcB5r9extK0iZVfHJpNGyvZ3L-519t0j7ochfIch1KWuieWtMAZa5JWfuiXjvhJwlgQG15217EKerQP1NYZr5zlFu_CK93znVcc0dowB549neYu57JpQ_KVX8fm94wGu2fhlUSwjjJUj6ZtLf8Y92O_mYBlr6ZEB1SCLaFjHTmhz31yMvOgDmRyNnbxg9Zhz5psLx6PvXPXUkHcyVPzmbHedD4q9Lslg0S0sd91nXmHg3rZiVO5If88tGGPg6ETsHouFf6AYBJ4Dq058G0j_fR4qkIeLrVfnPZ-ZlEd4uV9cCgOFtj37SiqGsk7ppb_T57SxZLKNlCYwLWGE-yI3bA8Etu9f7ZSGWWHrBM1Hcw5UR1s4VYHrF2HB955DfvK67r_m7-M-AufJuIBJQ8de3umfvTSee0HnTKZ0y550S5jxb5kPHWE9NSsideuwvBtSU4gXZz9M9aaP2ym251bI2SYHG1MWSUe-lYydcL62Jvu10V7BDJDuQ3jVGDk6ull5MOwsjxuNHzk0pt0YqfF0imanzefHwTxShXhV1JM_Xrbx-abrVFQEDEzcniWZfGxtaSwMLMiENpsgoSVdr6e7ZqW20txol11Tx0wauy2M8yLxVbFp86d4GwfzHupHjt5-WN65KQso-qqcAXdrlHl4N-0L08Sm-nxvNne-C64fNkPvj_wp5TMR2tSdhwlCef8xcqN7Uh2hvazD6egYJMU40_E5QNVr_b3wzlr3S6_oDA3DdddPeZyKD2NTgMBF3el-0jqN8Dr-YxITlS1Hd9oqkKwduQHzLN1dXsALro3qBuKdhf8rFP-Vdl3Tvr2-juP4ktR1UsCgQe1LVJevQd-lr4tNoOpevzSP-o4K-L9fgGWAClzwc0neuumz6hYGD-w7X_azpH1aUHdLgzbFx3cmn8PzcfYUTsned4cq1RrpgtODPsbHJIG3MUcAkqIpbt3Q2TDQm5xKyqiPIN7fJYMGLko7Imk-0v4laJr2B8elXFRXHTbAheqCODf_Z8Svht9ww2X4wIRrwBHcv5Ml-mfGbcCd3xGMfzoxtpbfXsMQ31b3oETFdKuC8lOyTyx8O0EDFvJH1PoERL9tiqCWq6ht8eHPGWFvr_uq-0n5B4vfCH_9wq7qKlqCwPPMQBKk54D4U5mgHU0urtigqOsf8A_oIqX-sxCvwasgJlwdnQY63MGtFZYyFT-3hTiyd3mDN4FWNLN_IIgniuUdi3aerTxn3tro_2p5dh0tb7QPl9mQDEkAjuUInuIpQDM82LCr79-_Hs8NLS8igAzL3aPNOo45fk2zgFlzEH9Cjo1jwFHsHYLV938AJEoAlQ.aKBShg.DqWagVBj32WSg-97lQBiERW2d1M'}
+2025-08-16 12:42:31 - endpoints.settings - INFO - Remote address: 127.0.0.1
+2025-08-16 12:42:31 - endpoints.settings - INFO - User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36
+2025-08-16 12:42:31 - endpoints.settings - INFO - Database session obtained: <sqlalchemy.orm.session.Session object at 0x71dc6cfb1130>
+2025-08-16 12:42:31 - endpoints.settings - INFO - User ID from session: ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:42:31 - endpoints.settings - INFO - Calling get_router_id_setting service with user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:42:31 - services.settings_service - INFO - === Starting get_router_id_setting ===
+2025-08-16 12:42:31 - services.settings_service - INFO - Input parameter - user_id: ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:42:31 - services.settings_service - INFO - User ID type: <class 'str'>
+2025-08-16 12:42:31 - services.settings_service - INFO - Querying UserSetting for routerId...
+2025-08-16 12:42:31 - services.settings_service - INFO - Query: session.query(UserSetting).filter_by(user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, setting_key='routerId')
+2025-08-16 12:42:31 - services.settings_service - INFO - Found UserSetting record: id=62eeb537-b377-493a-8be8-d90c3cd5b6ac, setting_value={'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}
+2025-08-16 12:42:31 - services.settings_service - INFO - Setting value type: <class 'dict'>
+2025-08-16 12:42:31 - services.settings_service - INFO - Router ID found: e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-16 12:42:31 - services.settings_service - INFO - Router ID type: <class 'str'>
+2025-08-16 12:42:31 - services.settings_service - INFO - Router ID is valid and non-empty
+2025-08-16 12:42:31 - services.settings_service - INFO - === get_router_id_setting completed successfully ===
+2025-08-16 12:42:31 - endpoints.settings - INFO - Service call completed - result: {'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}, error: None
+2025-08-16 12:42:31 - endpoints.settings - INFO - Service call successful, returning result: {'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f'}
+2025-08-16 12:42:31 - endpoints.settings - INFO - === get_router_id endpoint completed successfully ===
+2025-08-16 12:42:31 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:42:31 - services.base - INFO - Service operation completed: start_session
+2025-08-16 12:42:31 - managers.commands_server - DEBUG - Performing health check...
+2025-08-16 12:42:31 - managers.commands_server - INFO - Checking commands server health
+2025-08-16 12:42:31 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-08-16 12:42:31 - managers.commands_server - DEBUG - Request completed in 0.14s with status 200
+2025-08-16 12:42:31 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 2.5272369384765625e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-08-16T09:42:31.926311'}, 'success': True}
+2025-08-16 12:42:31 - managers.commands_server - DEBUG - Commands server health check successful
+2025-08-16 12:42:31 - managers.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/session/start
+2025-08-16 12:42:34 - managers.commands_server - DEBUG - Request completed in 2.47s with status 200
+2025-08-16 12:42:34 - managers.commands_server - DEBUG - Received response: {'data': {'infrastructure_ready': True, 'message': 'Session established successfully', 'router_reachable': True, 'session_id': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2'}, 'error': None, 'metadata': {'executionTime': 2.3345422744750977, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2', 'timestamp': '2025-08-16T09:42:34.400081'}, 'success': True}
+2025-08-16 12:42:34 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/session/start'
+2025-08-16 12:42:34 - services.commands_server_operations.session_execute - DEBUG - Commands server response - data: {'infrastructure_ready': True, 'message': 'Session established successfully', 'router_reachable': True, 'session_id': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2'}, error: None
+2025-08-16 12:42:34 - services.commands_server_operations.session_execute - INFO - Session started successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:42:34 - services.base - INFO - Service operation completed: start_session
+2025-08-16 12:42:35 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:42:35 - services.base - INFO - Service operation completed: scan_network
+2025-08-16 12:42:35 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/network/scan
+2025-08-16 12:42:37 - managers.commands_server - DEBUG - Request completed in 1.87s with status 200
+2025-08-16 12:42:37 - managers.commands_server - DEBUG - Received response: {'data': [{'hostname': 'Tom-s-phone', 'interface': 'br-lan', 'ip': '192.168.1.134', 'mac': '7e:48:fa:c6:a6:f6', 'status': 'active', 'vendor': 'Unknown Vendor'}, {'hostname': 'DESKTOP-2N49K42', 'interface': 'br-lan', 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'status': 'active', 'vendor': 'Micro-Star INTL CO., LTD.'}], 'error': None, 'metadata': {'executionTime': 1.7309157848358154, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2', 'timestamp': '2025-08-16T09:42:37.111276'}, 'success': True}
+2025-08-16 12:42:37 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/network/scan'
+2025-08-16 12:42:37 - services.commands_server_operations.network_execute - INFO - Network scan completed successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, found 2 devices
+2025-08-16 12:42:37 - services.db_operations.network_db - INFO - Saving network scan result for user ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with 2 devices
+2025-08-16 12:42:37 - services.db_operations.network_db - DEBUG - Created new device: 192.168.1.134 (7e:48:fa:c6:a6:f6)
+2025-08-16 12:42:37 - services.db_operations.network_db - DEBUG - Updated existing device: 192.168.1.122 (d8:bb:c1:47:3a:43)
+2025-08-16 12:42:37 - services.db_operations.network_db - INFO - Network scan save completed for user ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: created 1, updated 1 devices
+2025-08-16 12:42:37 - services.base - INFO - Service operation completed: scan_network
+2025-08-16 12:42:37 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:42:38 - services.device_service - INFO - Bulk created/updated 2 devices for user ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:42:42 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:42:42 - services.device_service - INFO - Retrieved 3 devices for user ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-16 12:42:42 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:42:42 - services.base - INFO - Service operation completed: agh_get_categories
+2025-08-16 12:42:42 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/agh/categories
+2025-08-16 12:42:42 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:42:43 - services.device_service - INFO - Retrieved 3 devices for user ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-16 12:42:43 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:42:43 - services.device_group_service - INFO - Retrieved 0 device groups for user ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-16 12:42:43 - managers.commands_server - DEBUG - Request completed in 0.52s with status 200
+2025-08-16 12:42:43 - managers.commands_server - DEBUG - Received response: {'data': {'categories': ['adult_gambling', 'entertainment', 'gaming', 'social_media']}, 'error': None, 'metadata': {'executionTime': 0.38662028312683105, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2', 'timestamp': '2025-08-16T09:42:43.299140'}, 'success': True}
+2025-08-16 12:42:43 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/agh/categories'
+2025-08-16 12:42:43 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:42:43 - services.base - INFO - Service operation completed: agh_get_categories
+2025-08-16 12:42:43 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/agh/categories
+2025-08-16 12:42:43 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:42:43 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:42:43 - services.base - INFO - Service operation completed: agh_get_category_domains
+2025-08-16 12:42:43 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/agh/categories/adult_gambling/domains
+2025-08-16 12:42:43 - services.device_group_service - INFO - Retrieved 0 device groups for user ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-16 12:42:44 - managers.commands_server - DEBUG - Request completed in 0.37s with status 200
+2025-08-16 12:42:44 - managers.commands_server - DEBUG - Request completed in 0.46s with status 200
+2025-08-16 12:42:44 - managers.commands_server - DEBUG - Received response: {'data': {'category': 'adult_gambling', 'count': 12, 'domains': ['xvideos.com', 'xnxx.com', 'youporn.com', 'redtube.com', 'xhamster.com', 'bet365.com', 'pokerstars.com', '888casino.com', 'williamhill.com', 'betfair.com', 'draftkings.com', 'fanduel.com']}, 'error': None, 'metadata': {'executionTime': 0.2342526912689209, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2', 'timestamp': '2025-08-16T09:42:44.077341'}, 'success': True}
+2025-08-16 12:42:44 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/agh/categories/adult_gambling/domains'
+2025-08-16 12:42:44 - managers.commands_server - DEBUG - Received response: {'data': {'categories': []}, 'error': None, 'metadata': {'executionTime': 0.3292696475982666, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2', 'timestamp': '2025-08-16T09:42:44.079886'}, 'success': True}
+2025-08-16 12:42:44 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/agh/categories'
+2025-08-16 12:42:44 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:42:44 - services.base - INFO - Service operation completed: agh_get_category_domains
+2025-08-16 12:42:44 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/agh/categories/entertainment/domains
+2025-08-16 12:42:44 - managers.commands_server - DEBUG - Request completed in 0.28s with status 200
+2025-08-16 12:42:44 - managers.commands_server - DEBUG - Received response: {'data': {'category': 'entertainment', 'count': 12, 'domains': ['youtube.com', 'netflix.com', 'hulu.com', 'disneyplus.com', 'primevideo.com', 'hbomax.com', 'twitch.tv', 'spotify.com', 'pandora.com', 'soundcloud.com', 'vimeo.com', 'dailymotion.com']}, 'error': None, 'metadata': {'executionTime': 0.14083218574523926, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2', 'timestamp': '2025-08-16T09:42:44.681143'}, 'success': True}
+2025-08-16 12:42:44 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/agh/categories/entertainment/domains'
+2025-08-16 12:42:45 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:42:45 - services.base - INFO - Service operation completed: agh_get_category_domains
+2025-08-16 12:42:45 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/agh/categories/gaming/domains
+2025-08-16 12:42:45 - managers.commands_server - DEBUG - Request completed in 0.28s with status 200
+2025-08-16 12:42:45 - managers.commands_server - DEBUG - Received response: {'data': {'category': 'gaming', 'count': 12, 'domains': ['origin.com', 'uplay.com', 'gog.com', 'roblox.com', 'minecraft.net', 'gamepass.com', 'playstation.com', 'xbox.com', 'nintendo.com', 'ea.com', 'activision.com', 'steam.com']}, 'error': None, 'metadata': {'executionTime': 0.14032721519470215, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2', 'timestamp': '2025-08-16T09:42:45.279472'}, 'success': True}
+2025-08-16 12:42:45 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/agh/categories/gaming/domains'
+2025-08-16 12:42:45 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:42:45 - services.base - INFO - Service operation completed: agh_get_category_domains
+2025-08-16 12:42:45 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/agh/categories/social_media/domains
+2025-08-16 12:42:45 - managers.commands_server - DEBUG - Request completed in 0.28s with status 200
+2025-08-16 12:42:45 - managers.commands_server - DEBUG - Received response: {'data': {'category': 'social_media', 'count': 12, 'domains': ['facebook.com', 'instagram.com', 'twitter.com', 'x.com', 'tiktok.com', 'snapchat.com', 'linkedin.com', 'pinterest.com', 'reddit.com', 'discord.com', 'telegram.org', 'whatsapp.com']}, 'error': None, 'metadata': {'executionTime': 0.14133977890014648, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2', 'timestamp': '2025-08-16T09:42:45.880381'}, 'success': True}
+2025-08-16 12:42:45 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/agh/categories/social_media/domains'
+2025-08-16 12:42:56 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:42:56 - services.base - INFO - Service operation completed: agh_create_category
+2025-08-16 12:42:56 - managers.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/agh/categories
+2025-08-16 12:42:58 - managers.commands_server - DEBUG - Request completed in 1.87s with status 200
+2025-08-16 12:42:58 - managers.commands_server - DEBUG - Received response: {'data': {'bytes': 8, 'category': 'test123'}, 'error': None, 'metadata': {'executionTime': 1.7330701351165771, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2', 'timestamp': '2025-08-16T09:42:58.043191'}, 'success': True}
+2025-08-16 12:42:58 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/agh/categories'
+2025-08-16 12:42:58 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:42:58 - services.base - INFO - Service operation completed: agh_get_category_domains
+2025-08-16 12:42:58 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/agh/categories/test123/domains
+2025-08-16 12:42:58 - managers.commands_server - DEBUG - Request completed in 0.28s with status 200
+2025-08-16 12:42:58 - managers.commands_server - DEBUG - Received response: {'data': {'category': 'test123', 'count': 1, 'domains': ['123.com']}, 'error': None, 'metadata': {'executionTime': 0.14337873458862305, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2', 'timestamp': '2025-08-16T09:42:58.637360'}, 'success': True}
+2025-08-16 12:42:58 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/agh/categories/test123/domains'
+2025-08-16 12:43:02 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:43:02 - middleware - ERROR - Unexpected error for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f and user ae568fc7-dd89-4625-8ec7-e86dd2836fe2: name 'delete_category' is not defined
+Traceback (most recent call last):
+  File "/mnt/c/Users/Tom/Documents/NetPilot/backend2/utils/middleware.py", line 40, in decorated_function
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/Users/Tom/Documents/NetPilot/backend2/endpoints/agh.py", line 65, in delete_category_route
+    result, error = delete_category(g.user_id, g.router_id, g.session_id, category)
+                    ^^^^^^^^^^^^^^^
+NameError: name 'delete_category' is not defined. Did you mean: 'create_category'?
+2025-08-16 12:43:37 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-08-16 12:43:37 - 2fa_service - WARNING - Generated new TOTP encryption key: 31CvImTnxer1FzBsI142g49Bdt9TbUEPyOxyjViuhDE=
+2025-08-16 12:43:37 - 2fa_service - WARNING - Store this key securely in your environment variables!
+2025-08-16 12:43:51 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:43:51 - middleware - ERROR - Unexpected error for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f and user ae568fc7-dd89-4625-8ec7-e86dd2836fe2: name 'delete_category' is not defined
+Traceback (most recent call last):
+  File "/mnt/c/Users/Tom/Documents/NetPilot/backend2/utils/middleware.py", line 40, in decorated_function
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/Users/Tom/Documents/NetPilot/backend2/endpoints/agh.py", line 65, in delete_category_route
+    result, error = delete_category(g.user_id, g.router_id, g.session_id, category)
+                    ^^^^^^^^^^^^^^^
+NameError: name 'delete_category' is not defined. Did you mean: 'create_category'?
+2025-08-16 12:44:05 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-08-16 12:44:05 - 2fa_service - WARNING - Generated new TOTP encryption key: A7UaseGg7x1tdCXfcHfO6mkcRDpMngw2FmpaxZeGi3s=
+2025-08-16 12:44:05 - 2fa_service - WARNING - Store this key securely in your environment variables!
+2025-08-16 12:44:14 - middleware - DEBUG - Router context established: user_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2, router_id=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f, session_id=ae568fc7-dd89-4625-8ec7-e86dd2836fe2
+2025-08-16 12:44:14 - services.base - INFO - Service operation completed: agh_delete_category
+2025-08-16 12:44:14 - managers.commands_server - DEBUG - Performing health check...
+2025-08-16 12:44:14 - managers.commands_server - INFO - Checking commands server health
+2025-08-16 12:44:14 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-08-16 12:44:14 - managers.commands_server - DEBUG - Request completed in 0.14s with status 200
+2025-08-16 12:44:14 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 2.4318695068359375e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-08-16T09:44:14.614467'}, 'success': True}
+2025-08-16 12:44:14 - managers.commands_server - DEBUG - Commands server health check successful
+2025-08-16 12:44:14 - managers.commands_server - DEBUG - Making DELETE request to http://34.38.207.87:5000/api/agh/categories
+2025-08-16 12:44:14 - managers.commands_server - DEBUG - Request completed in 0.28s with status 200
+2025-08-16 12:44:14 - managers.commands_server - DEBUG - Received response: {'data': {'category': 'test123'}, 'error': None, 'metadata': {'executionTime': 0.14058232307434082, 'routerId': 'e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f', 'sessionId': 'ae568fc7-dd89-4625-8ec7-e86dd2836fe2', 'timestamp': '2025-08-16T09:44:14.890092'}, 'success': True}
+2025-08-16 12:44:14 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/agh/categories'

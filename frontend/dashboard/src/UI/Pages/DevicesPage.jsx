@@ -771,6 +771,40 @@ const DevicesPage = () => {
     setHasContentChanges(true);
   };
 
+  const handleDeleteCategory = async (categoryId) => {
+    // Check if it's a default category
+    const defaultCategories = ["social_media", "entertainment", "gaming", "adult_gambling"];
+    if (defaultCategories.includes(categoryId)) {
+      alert("Cannot delete default categories. Only custom categories can be deleted.");
+      return;
+    }
+
+    // Confirm deletion
+    if (!confirm(`Are you sure you want to delete the category "${categoryId}"? This action cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      console.log("🔄 [DevicesPage] Deleting category:", categoryId);
+      
+      // Call the API to delete the category
+      await aghAPI.deleteCategory(routerId, categoryId);
+      
+      console.log("✅ [DevicesPage] Category deleted successfully:", categoryId);
+      
+      // Remove the category from the local state
+      setContentCategories(prev => prev.filter(cat => cat.id !== categoryId));
+      
+      // Show success message
+      setShowSuccessToast(true);
+      setTimeout(() => setShowSuccessToast(false), 3000);
+      
+    } catch (error) {
+      console.error("❌ [DevicesPage] Failed to delete category:", error);
+      alert(`Failed to delete category: ${error.message}`);
+    }
+  };
+
   // Bandwidth Limits Handlers
   const handleBandwidthChange = (groupId, field, value) => {
     setBandwidthChanges((prev) => ({
@@ -1772,15 +1806,27 @@ const DevicesPage = () => {
                         </span>
                       </div>
                     </div>
-                    <label className="relative inline-flex items-center cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={category.blocked}
-                        onChange={() => handleContentToggle(category.id)}
-                        className="sr-only peer"
-                      />
-                      <div className="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 dark:after:border-gray-500 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600 dark:peer-checked:bg-red-500"></div>
-                    </label>
+                    <div className="flex items-center gap-2">
+                      {/* Delete button - only show for custom categories */}
+                      {!["social_media", "entertainment", "gaming", "adult_gambling"].includes(category.id) && (
+                        <button
+                          onClick={() => handleDeleteCategory(category.id)}
+                          className="p-1 text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded transition-colors"
+                          title="Delete category"
+                        >
+                          <FaTrash className="text-sm" />
+                        </button>
+                      )}
+                      <label className="relative inline-flex items-center cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={category.blocked}
+                          onChange={() => handleContentToggle(category.id)}
+                          className="sr-only peer"
+                        />
+                        <div className="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 dark:after:border-gray-500 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600 dark:peer-checked:bg-red-500"></div>
+                      </label>
+                    </div>
                   </div>
                   <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
                     {category.description}

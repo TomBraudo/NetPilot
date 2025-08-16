@@ -1,4 +1,4 @@
-from .categories import list_categories, get_category_domains, set_category_domains, create_category
+from .categories import list_categories, get_category_domains, set_category_domains, create_category, delete_category
 from .rules import build_rules_union, apply_rules, get_current_rules
 from .net import resolve_ipv6_for_mac
 from .clients import ensure_client_with_ids, find_client_by_any_id, set_client_tags
@@ -16,6 +16,7 @@ __all__ = [
     'list_categories',
     'get_category_domains',
     'set_category_domains',
+    'delete_category',
     'build_rules_union',
     'apply_rules',
     'get_current_rules',

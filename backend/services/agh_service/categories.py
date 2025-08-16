@@ -8,6 +8,13 @@ from typing import List, Optional, Tuple
 from .common import logger, router_connection_manager, _execute, CATEGORY_DIR
 
 
+default_categories = [
+        "social_media",
+        "entertainment", 
+        "gaming",
+        "adult_gambling"
+    ]
+
 def _ensure_category_dir() -> Tuple[bool, Optional[str]]:
     out, err = _execute(f"mkdir -p {CATEGORY_DIR} 2>/dev/null || true && echo ok")
     if err or (out or '').strip() != 'ok':
@@ -170,4 +177,20 @@ def create_category(category: str, domains_or_text) -> Tuple[Optional[dict], Opt
         logger.error(f"create_category failed for {category}: {e}", exc_info=True)
         return None, str(e)
 
+def delete_category(category: str) -> Tuple[Optional[dict], Optional[str]]:
+    """Delete a category file; Can't delete default categories."""
+    if category in default_categories:
+        return None, "Can't delete a default category"
+
+    try:
+        path, err = _category_file_path(category)
+        if err:
+            return None, err
+        ok, err = _execute(f"rm -f {path}")
+        if err:
+            return None, err
+        return {"category": category}, None
+    except Exception as e:
+        logger.error(f"delete_category failed for {category}: {e}", exc_info=True)
+        return None, str(e)
 
