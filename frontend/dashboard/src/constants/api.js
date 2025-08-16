@@ -468,3 +468,81 @@ export const deviceGroupsAPI = {
       method: "DELETE",
     }),
 };
+
+// Bandwidth Rules API functions (for database persistence)
+export const bandwidthRulesAPI = {
+  // Get bandwidth rules for a group
+  getGroupRules: (routerId, groupId) =>
+    apiRequest(`${API_ENDPOINTS.BANDWIDTH}/rules/group/${groupId}?routerId=${routerId}`),
+
+  // Get all bandwidth rules for a router
+  getAllRules: (routerId) =>
+    apiRequest(`${API_ENDPOINTS.BANDWIDTH}/rules?routerId=${routerId}`),
+
+  // Create or update bandwidth rules for a group
+  setGroupRules: (routerId, groupId, { download_limit_mbps, upload_limit_mbps, description, is_active = true }) =>
+    apiRequest(`${API_ENDPOINTS.BANDWIDTH}/rules/group/${groupId}?routerId=${routerId}`, {
+      method: "POST",
+      body: JSON.stringify({ 
+        download_limit_mbps, 
+        upload_limit_mbps, 
+        description, 
+        is_active 
+      }),
+    }),
+
+  // Delete bandwidth rules for a group
+  deleteGroupRules: (routerId, groupId) =>
+    apiRequest(`${API_ENDPOINTS.BANDWIDTH}/rules/group/${groupId}?routerId=${routerId}`, {
+      method: "DELETE",
+    }),
+
+  // Apply bandwidth rules to actual devices (legacy function for backward compatibility)
+  applyGroupLimits: (routerId, ips, { download_mbps, upload_mbps } = {}) =>
+    apiRequest(`${API_ENDPOINTS.BANDWIDTH}/limits/group?routerId=${routerId}`, {
+      method: "POST",
+      body: JSON.stringify({ ips, download_mbps, upload_mbps }),
+    }),
+};
+
+// Content Control Rules API functions (for database persistence)
+export const contentControlRulesAPI = {
+  // Get content control rules for a group
+  getGroupRules: (routerId, groupId) =>
+    apiRequest(`${API_ENDPOINTS.AGH}/rules/group/${groupId}?routerId=${routerId}`),
+
+  // Get all content control rules for a router
+  getAllRules: (routerId) =>
+    apiRequest(`${API_ENDPOINTS.AGH}/rules?routerId=${routerId}`),
+
+  // Create or update content control rules for a group
+  setGroupRules: (routerId, groupId, { blocked_categories, description, is_active = true }) =>
+    apiRequest(`${API_ENDPOINTS.AGH}/rules/group/${groupId}?routerId=${routerId}`, {
+      method: "POST",
+      body: JSON.stringify({ 
+        blocked_categories, 
+        description, 
+        is_active 
+      }),
+    }),
+
+  // Delete content control rules for a group
+  deleteGroupRules: (routerId, groupId) =>
+    apiRequest(`${API_ENDPOINTS.AGH}/rules/group/${groupId}?routerId=${routerId}`, {
+      method: "DELETE",
+    }),
+
+  // Apply content control rules to actual devices (legacy function for backward compatibility)
+  setDevicesRules: (routerId, devices = [], categories = []) =>
+    apiRequest(`${API_ENDPOINTS.AGH}/devices/rules/set?routerId=${routerId}`, {
+      method: "POST",
+      body: JSON.stringify({ devices, categories }),
+    }),
+
+  // Clear content control rules from actual devices (legacy function for backward compatibility)
+  clearDevicesRules: (routerId, devices = []) =>
+    apiRequest(`${API_ENDPOINTS.AGH}/devices/rules?routerId=${routerId}`, {
+      method: "DELETE",
+      body: JSON.stringify({ devices }),
+    }),
+};
