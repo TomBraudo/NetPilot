@@ -111,16 +111,20 @@ def _safe_parse_json(text: str) -> Tuple[Optional[dict], Optional[str]]:
 
 def get_current_rules() -> Tuple[Optional[List[str]], Optional[str]]:
     try:
-        out, err = _execute("curl -s http://127.0.0.1:3000/control/filtering/rules | cat", timeout=30)
+        # Read rules from AGH YAML config file instead of API
+        out, err = _execute("cat /opt/AdGuardHome/AdGuardHome.yaml 2>/dev/null | grep -A 1000 'user_rules:' | grep -E '^  - ' | sed 's/^  - //' | sed \"s/^'//\" | sed \"s/'$//\"", timeout=30)
         if err and not out:
             return None, err
-        data, perr = _safe_parse_json(out or '{}')
-        if perr:
-            return None, perr
-        rules = data.get('rules')
-        if isinstance(rules, list):
-            return rules, None
-        return None, "Unexpected response format from AGH filtering/rules"
+        
+        # Parse the rules from YAML format
+        rules = []
+        for line in (out or '').strip().split('\n'):
+            line = line.strip()
+            if line and not line.startswith('#'):
+                rules.append(line)
+        
+        logger.info(f"get_current_rules: Found {len(rules)} existing rules in YAML")
+        return rules, None
     except Exception as e:
         logger.error(f"get_current_rules failed: {e}", exc_info=True)
         return None, str(e)

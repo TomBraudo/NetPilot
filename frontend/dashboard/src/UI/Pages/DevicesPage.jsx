@@ -20,6 +20,7 @@ import {
   FaDownload,
   FaEdit,
   FaTrash,
+  FaUndo,
 } from "react-icons/fa";
 import { BsRouter } from "react-icons/bs";
 import {
@@ -68,7 +69,8 @@ const DevicesPage = () => {
   // Content Controls State
   const [contentCategories, setContentCategories] = useState([]);
   const [hasContentChanges, setHasContentChanges] = useState(false);
-  const [contentLoading, setContentLoading] = useState(false);
+  const [contentApplyLoading, setContentApplyLoading] = useState(false);
+  const [contentClearLoading, setContentClearLoading] = useState(false);
   const [categoriesLoading, setCategoriesLoading] = useState(false);
   const [categoriesError, setCategoriesError] = useState(null);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
@@ -77,9 +79,15 @@ const DevicesPage = () => {
   const [customUrls, setCustomUrls] = useState({});
   const [domainsModal, setDomainsModal] = useState(null); // { categoryId, name, domains: [] }
   const [loadingBlockedState, setLoadingBlockedState] = useState(false);
+  const [contentControlsInitialized, setContentControlsInitialized] = useState(false);
+  const [bandwidthApplyLoading, setBandwidthApplyLoading] = useState({}); // { groupId: boolean }
+  const [bandwidthClearLoading, setBandwidthClearLoading] = useState({}); // { groupId: boolean }
   
   // New state for per-category group toggles
   const [categoryGroupToggles, setCategoryGroupToggles] = useState({}); // { categoryId: { groupId: boolean } }
+  
+  // Store original toggle state for change detection
+  const [originalToggles, setOriginalToggles] = useState({});
 
   // Database Rules State
   const [bandwidthRules, setBandwidthRules] = useState({}); // { groupId: { download_limit_mbps, upload_limit_mbps, is_active, description } }
@@ -696,24 +704,51 @@ const DevicesPage = () => {
     }));
   };
 
-  // Initialize category group toggles when groups or categories change
+  // Enforced loading sequence: groups → categories → database rules → toggles
   useEffect(() => {
-    if (groups.length > 0 && contentCategories.length > 0) {
+    const initializeContentControls = async () => {
+      // Prevent multiple initializations
+      if (contentControlsInitialized) {
+        console.log("🔒 Content controls already initialized, skipping");
+        return;
+      }
+
+      // Step 1: Ensure we have groups and categories
+      if (groups.length === 0 || contentCategories.length === 0) {
+        console.log("⏳ Waiting for groups and categories to load...");
+        setContentControlsInitialized(false);
+        return;
+      }
+
+      // Step 2: Ensure we have loaded database rules (rules loading is complete)
+      if (rulesLoading) {
+        console.log("⏳ Waiting for database rules to finish loading...");
+        return;
+      }
+
+      console.log("🔄 Initializing content controls with enforced order...");
+
+      // Step 3: Initialize empty toggles structure
       const initialToggles = {};
       contentCategories.forEach(category => {
         initialToggles[category.id] = {};
         groups.forEach(group => {
-          // Initialize all toggles to false initially
-          // The actual blocked state will be loaded from backend if available
           initialToggles[category.id][group.id] = false;
         });
       });
       setCategoryGroupToggles(initialToggles);
+
+      // Step 4: Load toggles based on database rules
+      console.log("📋 Database rules ready, loading toggles...");
+      await loadCurrentBlockedState();
       
-      // Load current blocked state from backend
-      loadCurrentBlockedState();
-    }
-  }, [groups, contentCategories]);
+      // Mark as initialized
+      setContentControlsInitialized(true);
+      console.log("✅ Content controls initialization complete");
+    };
+
+    initializeContentControls();
+  }, [groups, contentCategories, contentControlRules, rulesLoading, contentControlsInitialized]);
 
   // Get summary of pending changes
   const getChangesSummary = () => {
@@ -723,16 +758,29 @@ const DevicesPage = () => {
       const category = contentCategories.find(c => c.id === categoryId);
       if (category) {
         const blockedGroups = [];
+        const unblockedGroups = [];
+        
         Object.keys(categoryGroupToggles[categoryId]).forEach(groupId => {
-          if (categoryGroupToggles[categoryId][groupId]) {
+          const currentValue = categoryGroupToggles[categoryId]?.[groupId] || false;
+          const originalValue = originalToggles[categoryId]?.[groupId] || false;
+          
+          if (currentValue !== originalValue) {
             const group = groups.find(g => g.id === groupId);
             if (group) {
-              blockedGroups.push(group.name);
+              if (currentValue) {
+                blockedGroups.push(group.name); // Newly blocked
+              } else {
+                unblockedGroups.push(group.name); // Newly unblocked
+              }
             }
           }
         });
-        if (blockedGroups.length > 0) {
-          summary[category.name] = blockedGroups;
+        
+        if (blockedGroups.length > 0 || unblockedGroups.length > 0) {
+          summary[category.name] = {
+            blocked: blockedGroups,
+            unblocked: unblockedGroups
+          };
         }
       }
     });
@@ -743,9 +791,11 @@ const DevicesPage = () => {
   // Check if there are any pending changes
   const hasPendingChanges = () => {
     return Object.keys(categoryGroupToggles).some(categoryId => 
-      Object.keys(categoryGroupToggles[categoryId]).some(groupId => 
-        categoryGroupToggles[categoryId][groupId]
-      )
+      Object.keys(categoryGroupToggles[categoryId]).some(groupId => {
+        const currentValue = categoryGroupToggles[categoryId]?.[groupId] || false;
+        const originalValue = originalToggles[categoryId]?.[groupId] || false;
+        return currentValue !== originalValue; // Compare current vs original state
+      })
     );
   };
 
@@ -754,38 +804,141 @@ const DevicesPage = () => {
     setHasContentChanges(hasPendingChanges());
   }, [categoryGroupToggles]);
 
-  // Reset all toggles to false
+  // Reset all toggles to original state
   const resetAllToggles = () => {
-    const resetToggles = {};
+    setCategoryGroupToggles(originalToggles); // Reset to original state, not all false
+  };
+
+  // Reset toggles to loaded state from database
+  const resetToLoadedState = () => {
+    const loadedToggles = {};
     contentCategories.forEach(category => {
-      resetToggles[category.id] = {};
+      loadedToggles[category.id] = {};
       groups.forEach(group => {
-        resetToggles[category.id][group.id] = false;
+        // Check if this group has rules for this category
+        const hasRules = contentControlRules[group.id]?.blocked_categories?.includes(category.id);
+        loadedToggles[category.id][group.id] = hasRules || false;
       });
     });
-    setCategoryGroupToggles(resetToggles);
+    setCategoryGroupToggles(loadedToggles);
+    setOriginalToggles(loadedToggles);
+  };
+
+  // Clear all rules and reset toggles to false
+  const clearAllRules = async () => {
+    if (!routerId) return;
+    
+    setContentClearLoading(true);
+    try {
+      // Clear all rules from database
+      for (const group of groups) {
+        try {
+          await contentControlRulesAPI.deleteGroupRules(routerId, group.id);
+          console.log(`✅ Database rules cleared for group ${group.id}`);
+        } catch (dbError) {
+          console.error(`❌ Failed to clear database rules for group ${group.id}:`, dbError);
+          // Continue with other groups even if one fails
+        }
+      }
+
+      // Clear AGH rules from actual devices
+      for (const group of groups) {
+        if (group.devices && group.devices.length > 0) {
+          const devicesToClear = group.devices.map(d => ({ ip: d.ip, mac: d.mac })).filter(d => d.ip);
+          if (devicesToClear.length > 0) {
+            try {
+              await aghAPI.clearDevicesRules(routerId, devicesToClear);
+              console.log(`✅ AGH rules cleared for group ${group.id}:`, devicesToClear.length, 'devices');
+            } catch (aghError) {
+              console.error(`❌ Failed to clear AGH rules for group ${group.id}:`, aghError);
+              // Continue with other groups even if one fails
+            }
+          }
+        }
+      }
+
+      // Reset all toggles to false
+      const resetToggles = {};
+      contentCategories.forEach(category => {
+        resetToggles[category.id] = {};
+        groups.forEach(group => {
+          resetToggles[category.id][group.id] = false;
+        });
+      });
+      setCategoryGroupToggles(resetToggles);
+      
+      // Update original state to all false
+      setOriginalToggles(resetToggles);
+      
+      // Clear local content control rules
+      setContentControlRules({});
+      
+      // Reset change state
+      setHasContentChanges(false);
+      
+      console.log("✅ All content control rules cleared from database, devices, and UI");
+    } catch (error) {
+      console.error("❌ Failed to clear all rules:", error);
+      alert("Failed to clear all rules. Please try again.");
+    } finally {
+      setContentClearLoading(false);
+    }
   };
 
   // Load current blocked state from database and backend
   const loadCurrentBlockedState = async () => {
-    if (!routerId || groups.length === 0 || contentCategories.length === 0) return;
+    if (!routerId || groups.length === 0 || contentCategories.length === 0) {
+      console.log("❌ loadCurrentBlockedState: Missing prerequisites", {
+        routerId: !!routerId,
+        groupsCount: groups.length,
+        categoriesCount: contentCategories.length
+      });
+      return;
+    }
+    
+    console.log("🔄 loadCurrentBlockedState: Starting with data:", {
+      routerId,
+      groupsCount: groups.length,
+      categoriesCount: contentCategories.length,
+      databaseRulesCount: Object.keys(contentControlRules).length,
+      contentControlRules: contentControlRules
+    });
     
     setLoadingBlockedState(true);
     try {
-      // First, try to load from database rules
-      const updatedToggles = { ...categoryGroupToggles };
+      // Initialize fresh toggles structure
+      const updatedToggles = {};
+      contentCategories.forEach(category => {
+        updatedToggles[category.id] = {};
+        groups.forEach(group => {
+          updatedToggles[category.id][group.id] = false; // Start with false
+        });
+      });
       
-      // Initialize toggles from database rules
+      console.log("🔧 Initialized empty toggles structure");
+      
+      // Load toggles from database rules
+      let rulesAppliedCount = 0;
       for (const group of groups) {
         const groupRules = contentControlRules[group.id];
         if (groupRules && groupRules.blocked_categories) {
+          console.log(`📋 Group ${group.name} (${group.id}) has rules:`, groupRules.blocked_categories);
           contentCategories.forEach(category => {
             if (updatedToggles[category.id]) {
-              updatedToggles[category.id][group.id] = groupRules.blocked_categories.includes(category.id);
+              const shouldBlock = groupRules.blocked_categories.includes(category.id);
+              updatedToggles[category.id][group.id] = shouldBlock;
+              if (shouldBlock) {
+                rulesAppliedCount++;
+                console.log(`✅ Setting toggle ON: ${category.name} → ${group.name}`);
+              }
             }
           });
+        } else {
+          console.log(`📋 Group ${group.name} (${group.id}) has no database rules`);
         }
       }
+      
+      console.log(`🎯 Applied ${rulesAppliedCount} rules from database`);
       
       // Fallback: check AGH API for any groups without database rules
       for (const group of groups) {
@@ -811,7 +964,12 @@ const DevicesPage = () => {
         }
       }
       
+      console.log("🔄 Setting final toggles state:", updatedToggles);
       setCategoryGroupToggles(updatedToggles);
+      
+      // Save original state for change detection
+      console.log("💾 Saving original state for change detection");
+      setOriginalToggles(updatedToggles);
     } catch (error) {
       console.warn('Failed to load current blocked state:', error);
     } finally {
@@ -827,143 +985,131 @@ const DevicesPage = () => {
       return;
     }
 
-    setContentLoading(true);
+    setContentApplyLoading(true);
     try {
-      // Build a map of groups to their blocked categories
-      const groupCategoryMap = {};
+      // Build a map of ONLY CHANGED groups to their blocked categories
+      const changedGroupCategoryMap = {};
+      const allGroupCategoryMap = {};
       
+      // First, build complete current state map
       Object.keys(categoryGroupToggles).forEach(categoryId => {
         Object.keys(categoryGroupToggles[categoryId]).forEach(groupId => {
           if (categoryGroupToggles[categoryId][groupId]) {
-            if (!groupCategoryMap[groupId]) {
-              groupCategoryMap[groupId] = [];
+            if (!allGroupCategoryMap[groupId]) {
+              allGroupCategoryMap[groupId] = [];
             }
-            groupCategoryMap[groupId].push(categoryId);
+            allGroupCategoryMap[groupId].push(categoryId);
           }
         });
       });
 
-      // Save rules to database first
-      for (const [groupId, categoryIds] of Object.entries(groupCategoryMap)) {
+      // Identify groups with changes by comparing current vs original state
+      const changedGroups = new Set();
+      Object.keys(categoryGroupToggles).forEach(categoryId => {
+        Object.keys(categoryGroupToggles[categoryId]).forEach(groupId => {
+          const currentValue = categoryGroupToggles[categoryId]?.[groupId] || false;
+          const originalValue = originalToggles[categoryId]?.[groupId] || false;
+          if (currentValue !== originalValue) {
+            changedGroups.add(groupId);
+          }
+        });
+      });
+
+      // Build map for only changed groups
+      changedGroups.forEach(groupId => {
+        changedGroupCategoryMap[groupId] = allGroupCategoryMap[groupId] || [];
+      });
+
+      console.log(`📊 Total groups: ${Object.keys(allGroupCategoryMap).length}, Changed groups: ${changedGroups.size}`);
+
+      // Save rules to database for ALL groups (to maintain consistency)
+      for (const [groupId, categoryIds] of Object.entries(allGroupCategoryMap)) {
         if (categoryIds.length > 0) {
           try {
+            const groupName = groups.find(g => g.id === groupId)?.name || 'Unknown Group';
             await contentControlRulesAPI.setGroupRules(routerId, groupId, {
               blocked_categories: categoryIds,
-              description: `Content control rules for ${groups.find(g => g.id === groupId)?.name || 'Unknown Group'}`,
+              description: `Content control rules for ${groupName}`,
               is_active: true
             });
             console.log(`✅ Database rules saved for group ${groupId}:`, categoryIds);
           } catch (dbError) {
             console.error(`❌ Failed to save database rules for group ${groupId}:`, dbError);
-            // Continue with other groups even if one fails
+            throw dbError;
+          }
+        } else {
+          // If group has no categories, delete the rules instead of saving empty array
+          try {
+            await contentControlRulesAPI.deleteGroupRules(routerId, groupId);
+            console.log(`✅ Database rules deleted for group ${groupId} (no categories)`);
+          } catch (dbError) {
+            console.error(`❌ Failed to delete database rules for group ${groupId}:`, dbError);
+            throw dbError;
           }
         }
       }
 
-      // Apply rules to actual devices via AGH API
-      for (const [groupId, categoryIds] of Object.entries(groupCategoryMap)) {
-        if (categoryIds.length > 0) {
-          const group = groups.find(g => g.id === groupId);
-          if (group && Array.isArray(group.devices)) {
-            const devicesToApply = group.devices.map(d => ({ ip: d.ip, mac: d.mac })).filter(d => d.ip);
-            if (devicesToApply.length > 0) {
+      // Apply rules to actual devices via AGH API - ONLY FOR CHANGED GROUPS
+      for (const [groupId, categoryIds] of Object.entries(changedGroupCategoryMap)) {
+        const group = groups.find(g => g.id === groupId);
+        if (group && Array.isArray(group.devices)) {
+          const devicesToApply = group.devices.map(d => ({ ip: d.ip, mac: d.mac })).filter(d => d.ip);
+          if (devicesToApply.length > 0) {
+            if (categoryIds.length > 0) {
+              // Apply rules when categories exist
               await aghAPI.setDevicesRules(routerId, devicesToApply, categoryIds);
-              console.log(`✅ AGH rules applied for group ${groupId}:`, devicesToApply.length, 'devices');
+              console.log(`🚀 AGH rules applied for CHANGED group ${groupId}:`, devicesToApply.length, 'devices, categories:', categoryIds);
+            } else {
+              // Clear rules when no categories
+              await aghAPI.clearDevicesRules(routerId, devicesToApply);
+              console.log(`🧹 AGH rules cleared for CHANGED group ${groupId}:`, devicesToApply.length, 'devices');
             }
           }
         }
       }
 
-      // Update local state
+      // Update local state - handle both additions and deletions
       setContentControlRules(prev => {
         const updated = { ...prev };
-        Object.entries(groupCategoryMap).forEach(([groupId, categoryIds]) => {
-          updated[groupId] = {
-            blocked_categories: categoryIds,
-            is_active: true,
-            description: `Content control rules for ${groups.find(g => g.id === groupId)?.name || 'Unknown Group'}`
-          };
+        
+        // Handle groups with rules (add/update)
+        Object.entries(allGroupCategoryMap).forEach(([groupId, categoryIds]) => {
+          if (categoryIds.length > 0) {
+            updated[groupId] = {
+              blocked_categories: categoryIds,
+              is_active: true,
+              description: `Content control rules for ${groups.find(g => g.id === groupId)?.name || 'Unknown Group'}`
+            };
+          }
         });
+        
+        // Handle groups that had rules deleted (remove from state)
+        changedGroups.forEach(groupId => {
+          if (!allGroupCategoryMap[groupId] || allGroupCategoryMap[groupId].length === 0) {
+            delete updated[groupId];
+          }
+        });
+        
         return updated;
       });
 
       setHasContentChanges(false);
       setShowSuccessToast(true);
       setTimeout(() => setShowSuccessToast(false), 3000);
+      
+      // Update original state to current state after successful apply
+      setOriginalToggles(categoryGroupToggles);
 
       console.log("Content controls applied successfully to database and devices");
     } catch (error) {
       console.error("Failed to apply content changes:", error);
       alert(error?.message || "Failed to apply changes. Please try again.");
     } finally {
-      setContentLoading(false);
+      setContentApplyLoading(false);
     }
   };
 
-  const handleClearContentRules = async () => {
-    if (!hasPendingChanges()) {
-      return;
-    }
-    
-    setContentLoading(true);
-    try {
-      // Clear rules for all groups that have any categories blocked
-      const groupsToClear = new Set();
-      
-      Object.keys(categoryGroupToggles).forEach(categoryId => {
-        Object.keys(categoryGroupToggles[categoryId]).forEach(groupId => {
-          if (categoryGroupToggles[categoryId][groupId]) {
-            groupsToClear.add(groupId);
-          }
-        });
-      });
 
-      // Clear database rules first
-      for (const groupId of groupsToClear) {
-        try {
-          await contentControlRulesAPI.deleteGroupRules(routerId, groupId);
-          console.log(`✅ Database rules cleared for group ${groupId}`);
-        } catch (dbError) {
-          console.error(`❌ Failed to clear database rules for group ${groupId}:`, dbError);
-          // Continue with other groups even if one fails
-        }
-      }
-
-      // Clear AGH rules from actual devices
-      for (const groupId of groupsToClear) {
-        const group = groups.find(g => g.id === groupId);
-        if (group && Array.isArray(group.devices)) {
-          const devicesToClear = group.devices.map(d => ({ ip: d.ip, mac: d.mac })).filter(d => d.ip);
-          if (devicesToClear.length > 0) {
-            await aghAPI.clearDevicesRules(routerId, devicesToClear);
-            console.log(`✅ AGH rules cleared for group ${groupId}:`, devicesToClear.length, 'devices');
-          }
-        }
-      }
-
-      // Update local state
-      setContentControlRules(prev => {
-        const updated = { ...prev };
-        groupsToClear.forEach(groupId => {
-          delete updated[groupId];
-        });
-        return updated;
-      });
-
-      // Reset all toggles to false
-      resetAllToggles();
-      setHasContentChanges(false);
-      setShowSuccessToast(true);
-      setTimeout(() => setShowSuccessToast(false), 2000);
-      
-      console.log("Content control rules cleared from database and devices");
-    } catch (e) {
-      console.error('Failed to clear rules:', e);
-      alert(e?.message || 'Failed to clear rules');
-    } finally {
-      setContentLoading(false);
-    }
-  };
 
   const openDomainsModal = async (categoryId, name) => {
     if (!routerId) return;
@@ -1099,6 +1245,7 @@ const DevicesPage = () => {
       return;
     }
 
+    setBandwidthApplyLoading(prev => ({ ...prev, [groupId]: true }));
     try {
       // Save to database first
       const downloadLimit = changes.downLimit !== undefined && changes.downLimit !== "" 
@@ -1156,6 +1303,8 @@ const DevicesPage = () => {
     } catch (error) {
       console.error("Failed to apply bandwidth changes:", error);
       alert("Failed to apply changes. Please try again.");
+    } finally {
+      setBandwidthApplyLoading(prev => ({ ...prev, [groupId]: false }));
     }
   };
 
@@ -1242,6 +1391,7 @@ const DevicesPage = () => {
   };
 
   const handleClearGroupLimits = async (groupId) => {
+    setBandwidthClearLoading(prev => ({ ...prev, [groupId]: true }));
     try {
       // Clear from database first
       await bandwidthRulesAPI.deleteGroupRules(routerId, groupId);
@@ -1272,6 +1422,8 @@ const DevicesPage = () => {
     } catch (e) {
       console.error('Failed to clear group limits:', e);
       alert(e?.message || 'Failed to clear group limits');
+    } finally {
+      setBandwidthClearLoading(prev => ({ ...prev, [groupId]: false }));
     }
   };
 
@@ -1712,22 +1864,41 @@ const DevicesPage = () => {
                         <td className="px-4 py-3">
                           <button
                             onClick={() => handleApplyBandwidth(group.id)}
-                            disabled={!hasChanges}
-                            className={`px-3 py-1 rounded text-sm transition-colors ${
-                              hasChanges
+                            disabled={!hasChanges || bandwidthApplyLoading[group.id]}
+                            className={`px-3 py-1 rounded text-sm transition-colors flex items-center gap-1 ${
+                              hasChanges && !bandwidthApplyLoading[group.id]
                                 ? "bg-blue-500 hover:bg-blue-600 text-white"
                                 : "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"
                             }`}
                           >
-                            Apply
+                            {bandwidthApplyLoading[group.id] ? (
+                              <>
+                                <div className="w-3 h-3 border border-gray-400 border-t-transparent rounded-full animate-spin"></div>
+                                Applying...
+                              </>
+                            ) : (
+                              "Apply"
+                            )}
                           </button>
                         </td>
                         <td className="px-4 py-3">
                           <button
                             onClick={() => handleClearGroupLimits(group.id)}
-                            className="px-3 py-1 rounded text-sm bg-gray-200 hover:bg-gray-300"
+                            disabled={bandwidthClearLoading[group.id]}
+                            className={`px-3 py-1 rounded text-sm transition-colors flex items-center gap-1 ${
+                              bandwidthClearLoading[group.id]
+                                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                : "bg-gray-200 hover:bg-gray-300"
+                            }`}
                           >
-                            Clear
+                            {bandwidthClearLoading[group.id] ? (
+                              <>
+                                <div className="w-3 h-3 border border-gray-400 border-t-transparent rounded-full animate-spin"></div>
+                                Clearing...
+                              </>
+                            ) : (
+                              "Clear"
+                            )}
                           </button>
                         </td>
                       </tr>
@@ -2029,20 +2200,37 @@ const DevicesPage = () => {
                 Create Category
               </button>
               <button
-                onClick={handleClearContentRules}
-                disabled={contentLoading}
-                className="bg-gray-500 hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
+                onClick={resetToLoadedState}
+                disabled={contentApplyLoading || contentClearLoading}
+                className="bg-yellow-500 hover:bg-yellow-600 dark:bg-yellow-600 dark:hover:bg-yellow-500 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
               >
-                <FaTimes className="text-sm" />
-                Clear All Rules
+                <FaUndo className="text-sm" />
+                Reset to Loaded
+              </button>
+              <button
+                onClick={clearAllRules}
+                disabled={contentClearLoading}
+                className="bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-500 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
+              >
+                {contentClearLoading ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    Clearing...
+                  </>
+                ) : (
+                  <>
+                    <FaTimes className="text-sm" />
+                    Clear All Rules
+                  </>
+                )}
               </button>
               {hasContentChanges && (
                 <button
                   onClick={handleApplyContentChanges}
-                  disabled={contentLoading}
+                  disabled={contentApplyLoading}
                   className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors"
                 >
-                  {contentLoading ? (
+                  {contentApplyLoading ? (
                     <>
                       <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                       Applying...
@@ -2053,7 +2241,11 @@ const DevicesPage = () => {
                       Apply Changes
                       <span className="ml-1 px-2 py-1 bg-blue-600 rounded-full text-xs">
                         {Object.keys(categoryGroupToggles).reduce((total, categoryId) => 
-                          total + Object.values(categoryGroupToggles[categoryId] || {}).filter(Boolean).length, 0
+                          total + Object.keys(categoryGroupToggles[categoryId]).reduce((catTotal, groupId) => {
+                            const currentValue = categoryGroupToggles[categoryId]?.[groupId] || false;
+                            const originalValue = originalToggles[categoryId]?.[groupId] || false;
+                            return catTotal + (currentValue !== originalValue ? 1 : 0);
+                          }, 0), 0
                         )}
                       </span>
                     </>
@@ -2087,10 +2279,14 @@ const DevicesPage = () => {
                 </span>
               </div>
               <div className="text-xs text-blue-700 dark:text-blue-300 space-y-1">
-                {Object.entries(getChangesSummary()).map(([categoryName, groupNames]) => (
+                {Object.entries(getChangesSummary()).map(([categoryName, changes]) => (
                   <div key={categoryName} className="flex items-start gap-2">
                     <span className="font-medium">• {categoryName}:</span>
-                    <span>Block for {groupNames.join(', ')}</span>
+                    <span>
+                      {changes.blocked.length > 0 && `Block for ${changes.blocked.join(', ')}`}
+                      {changes.blocked.length > 0 && changes.unblocked.length > 0 && ' | '}
+                      {changes.unblocked.length > 0 && `Unblock for ${changes.unblocked.join(', ')}`}
+                    </span>
                   </div>
                 ))}
               </div>
