@@ -6,9 +6,10 @@ It only returns devices that are:
 1. On the br-lan interface (local network)
 2. Have 0x2 flags (reachable/active)
 3. Are currently communicating with the router
+4. Within the 192.168.1.0/24 subnet
 
 This approach provides reliable device detection without the need for ARP table flushing
-or pinging entire IP ranges.
+or pinging entire IP ranges, while ensuring only devices in the specified subnet are included.
 """
 
 import requests
@@ -34,11 +35,45 @@ def get_mac_vendor(mac):
         logger.warning(f"Vendor lookup failed for {mac}: {e}")
     return "Unknown Vendor"
 
+def _is_in_subnet(ip, subnet):
+    """
+    Checks if an IP address is within the specified subnet.
+    
+    Args:
+        ip (str): IP address to check (e.g., "192.168.1.100")
+        subnet (str): Subnet in CIDR notation (e.g., "192.168.1.0/24")
+    
+    Returns:
+        bool: True if IP is in subnet, False otherwise
+    """
+    try:
+        # Parse subnet
+        network, prefix = subnet.split('/')
+        prefix = int(prefix)
+        
+        # Convert IP and network to integers for comparison
+        ip_parts = [int(x) for x in ip.split('.')]
+        network_parts = [int(x) for x in network.split('.')]
+        
+        # Calculate subnet mask
+        mask = (0xffffffff >> (32 - prefix)) << (32 - prefix)
+        
+        # Convert to 32-bit integers
+        ip_int = (ip_parts[0] << 24) + (ip_parts[1] << 16) + (ip_parts[2] << 8) + ip_parts[3]
+        network_int = (network_parts[0] << 24) + (network_parts[1] << 16) + (network_parts[2] << 8) + network_parts[3]
+        
+        # Check if IP is in subnet
+        return (ip_int & mask) == (network_int & mask)
+        
+    except (ValueError, IndexError) as e:
+        logger.warning(f"Error checking subnet membership for {ip} in {subnet}: {e}")
+        return False
+
 def get_connected_devices():
     """
     Scans the router's ARP table to find active devices on br-lan with 0x2 flags,
     then uses DHCP leases to enrich the data with hostnames.
-    Only returns devices that are currently reachable and active.
+    Only returns devices that are currently reachable, active, and within the 192.168.1.0/24 subnet.
     """
     try:
         # Read directly from the kernel's ARP table file for maximum compatibility.
@@ -114,7 +149,8 @@ def _parse_scan_results(arp_data, dhcp_data):
     """
     Parses the raw output from ARP and DHCP lease files to create a structured
     list of connected devices, enriching with vendor information.
-    Only includes devices with 0x2 flags (reachable/active) on br-lan interface.
+    Only includes devices with 0x2 flags (reachable/active) on br-lan interface
+    and within the 192.168.1.0/24 subnet.
     """
     dhcp_map = {}
     for line in dhcp_data.strip().split('\n'):
@@ -138,7 +174,8 @@ def _parse_scan_results(arp_data, dhcp_data):
         if match:
             ip, flags, mac, device = match.groups()
             # Only include devices on the LAN bridge with 0x2 flags (reachable/active)
-            if device == "br-lan" and flags == "0x2":
+            # and within the 192.168.1.0/24 subnet
+            if device == "br-lan" and flags == "0x2" and _is_in_subnet(ip, "192.168.1.0/24"):
                 mac = mac.lower()
                 hostname = dhcp_map.get(mac, 'Unknown')
                 vendor = get_mac_vendor(mac)
