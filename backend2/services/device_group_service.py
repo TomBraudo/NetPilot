@@ -302,3 +302,63 @@ def get_available_devices_for_group(user_id, router_id, group_id=None):
             logger.error(f"Failed to get available devices: {str(e)}")
             session.rollback()
             raise
+
+
+def get_groups_containing_device(user_id, router_id, device_id):
+    """Get all groups that contain a specific device"""
+    with get_db_session() as session:
+        try:
+            groups = session.query(DeviceGroup).options(
+                joinedload(DeviceGroup.devices)
+            ).filter(
+                and_(
+                    DeviceGroup.user_id == user_id,
+                    DeviceGroup.router_id == router_id
+                )
+            ).all()
+            
+            containing_groups = []
+            for group in groups:
+                if any(str(device.id) == str(device_id) for device in group.devices):
+                    containing_groups.append(group)
+            
+            logger.info(f"Found {len(containing_groups)} groups containing device {device_id}")
+            return containing_groups
+            
+        except Exception as e:
+            logger.error(f"Failed to get groups containing device: {str(e)}")
+            session.rollback()
+            raise
+
+
+def cleanup_empty_groups(user_id, router_id):
+    """Find and delete all groups with 0 devices"""
+    with get_db_session() as session:
+        try:
+            groups = session.query(DeviceGroup).options(
+                joinedload(DeviceGroup.devices)
+            ).filter(
+                and_(
+                    DeviceGroup.user_id == user_id,
+                    DeviceGroup.router_id == router_id
+                )
+            ).all()
+            
+            deleted_group_ids = []
+            for group in groups:
+                if len(group.devices) == 0:
+                    deleted_group_ids.append(str(group.id))
+                    session.delete(group)
+            
+            if deleted_group_ids:
+                session.commit()
+                logger.info(f"Deleted {len(deleted_group_ids)} empty groups: {deleted_group_ids}")
+            else:
+                logger.info("No empty groups found to cleanup")
+            
+            return deleted_group_ids
+            
+        except Exception as e:
+            logger.error(f"Failed to cleanup empty groups: {str(e)}")
+            session.rollback()
+            raise

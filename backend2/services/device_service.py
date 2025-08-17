@@ -5,6 +5,34 @@ from sqlalchemy.orm import joinedload
 from sqlalchemy import and_, func
 from utils.logging_config import get_logger
 from datetime import datetime
+from typing import Dict, List, Optional, Tuple, Any, Union
+
+# Database operations imports
+from services.db_operations.device_db import (
+    update_device_fields as db_update_device_fields,
+    get_device_by_id as db_get_device_by_id,
+    delete_device_by_id as db_delete_device_by_id
+)
+
+# Base service imports
+from .base import (
+    handle_service_errors
+)
+
+"""
+Device Service
+
+This service handles all device-related operations including:
+- Creating and updating devices from network scans
+- Preserving user-customized device names during updates
+- Managing device metadata and relationships
+
+IMPORTANT: When updating devices from network scans, this service preserves
+manually edited device names (device_name field) to prevent users from losing
+their customizations. The hostname field is only updated if:
+1. No custom device_name is set, OR
+2. The custom device_name is different from the current hostname
+"""
 
 logger = get_logger('services.device_service')
 
@@ -52,8 +80,19 @@ def create_or_update_device(user_id, router_id, ip, mac=None, hostname=None, dev
                 existing_device.last_seen = current_time
                 if mac:
                     existing_device.mac = mac
-                if hostname:
-                    existing_device.hostname = hostname
+                                    # Only update hostname if device_name is not manually set
+                    # This preserves user's custom device names
+                    if hostname and not existing_device.device_name:
+                        existing_device.hostname = hostname
+                        logger.debug(f"Updated hostname for device {ip} to {hostname}")
+                    elif hostname and existing_device.device_name:
+                        # If user has set a custom name, only update hostname if it's different
+                        # and the custom name is not the same as the current hostname
+                        if existing_device.hostname != hostname and existing_device.device_name != existing_device.hostname:
+                            existing_device.hostname = hostname
+                            logger.debug(f"Updated hostname for device {ip} to {hostname} (preserving custom name: {existing_device.device_name})")
+                        else:
+                            logger.debug(f"Preserved custom device name '{existing_device.device_name}' for device {ip} (scan hostname: {hostname})")
                 if device_name:
                     existing_device.device_name = device_name
                 if device_type:
@@ -132,8 +171,21 @@ def bulk_create_or_update_devices(user_id, router_id, devices_data):
                     existing_device.last_seen = current_time
                     if mac:
                         existing_device.mac = mac
-                    if hostname:
+                    
+                    # Only update hostname if device_name is not manually set
+                    # This preserves user's custom device names
+                    if hostname and not existing_device.device_name:
                         existing_device.hostname = hostname
+                        logger.debug(f"Updated hostname for device {ip} to {hostname}")
+                    elif hostname and existing_device.device_name:
+                        # If user has set a custom name, only update hostname if it's different
+                        # and the custom name is not the same as the current hostname
+                        if existing_device.hostname != hostname and existing_device.device_name != existing_device.hostname:
+                            existing_device.hostname = hostname
+                            logger.debug(f"Updated hostname for device {ip} to {hostname} (preserving custom name: {existing_device.device_name})")
+                        else:
+                            logger.debug(f"Preserved custom device name '{existing_device.device_name}' for device {ip} (scan hostname: {hostname})")
+                    
                     if device_type:
                         existing_device.device_type = device_type
                     
@@ -172,54 +224,79 @@ def bulk_create_or_update_devices(user_id, router_id, devices_data):
             raise
 
 
-def get_device_by_id(user_id, router_id, device_id):
-    """Get a device by ID"""
-    with get_db_session() as session:
-        try:
-            device = session.query(UserDevice).filter(
-                and_(
-                    UserDevice.id == device_id,
-                    UserDevice.user_id == user_id,
-                    UserDevice.router_id == router_id
-                )
-            ).first()
-            
-            # Convert to dict while still in session to avoid detachment issues
-            if device:
-                return device.to_dict()
-            return None
-            
-        except Exception as e:
-            logger.error(f"Failed to get device by ID: {str(e)}")
-            session.rollback()
-            raise
+@handle_service_errors("Update device")
+def update_device(user_id: str, router_id: str, device_id: str, update_data: Dict) -> Tuple[Optional[Dict], Optional[str]]:
+    """
+    Update a device's fields.
+    
+    Args:
+        user_id: User's UUID
+        router_id: Router's UUID
+        device_id: Device's UUID
+        update_data: Dictionary containing fields to update
+        
+    Returns:
+        Tuple of (updated_device_dict, error_message)
+    """
+    # Execute database operation to update device
+    result, error = db_update_device_fields(user_id, router_id, device_id, update_data)
+    if error:
+        return None, error
+    
+    return result, None
 
 
-def delete_device(user_id, router_id, device_id):
-    """Delete a device"""
-    with get_db_session() as session:
-        try:
-            device = session.query(UserDevice).filter(
-                and_(
-                    UserDevice.id == device_id,
-                    UserDevice.user_id == user_id,
-                    UserDevice.router_id == router_id
-                )
-            ).first()
-            
-            if not device:
-                return False
-            
-            session.delete(device)
-            session.commit()
-            
-            logger.info(f"Deleted device {device_id} for user {user_id}")
-            return True
-            
-        except Exception as e:
-            logger.error(f"Failed to delete device: {str(e)}")
-            session.rollback()
-            raise
+@handle_service_errors("Get device by ID")
+def get_device_by_id(user_id: str, router_id: str, device_id: str) -> Tuple[Optional[Dict], Optional[str]]:
+    """
+    Get a specific device by ID.
+    
+    Args:
+        user_id: User's UUID
+        router_id: Router's UUID
+        device_id: Device's UUID
+        
+    Returns:
+        Tuple of (device_dict, error_message)
+    """
+    # Execute database operation to get device
+    result, error = db_get_device_by_id(user_id, router_id, device_id)
+    if error:
+        return None, error
+    
+    return result, None
+
+
+@handle_service_errors("Delete device")
+def delete_device(user_id: str, router_id: str, device_id: str) -> Union[Tuple[bool, List[str]], None, str]:
+    """
+    Delete a device by ID and cleanup empty groups.
+    
+    Args:
+        user_id: User's UUID
+        router_id: Router's UUID
+        device_id: Device's UUID
+        
+    Returns:
+        Either (success_boolean, deleted_group_ids) on success, None on device not found, or error_message string
+    """
+    # Execute database operation to delete device and cleanup empty groups
+    result = db_delete_device_by_id(user_id, router_id, device_id)
+    
+    # Handle different return types from database operation
+    if result is None:
+        return "Device not found"
+    elif isinstance(result, str):
+        # Error message
+        return result
+    elif isinstance(result, tuple) and len(result) == 2:
+        # Success: (success, deleted_group_ids)
+        success, deleted_group_ids = result
+        if success:
+            return result
+    
+    # Fallback
+    return "Unknown error occurred during device deletion"
 
 
 def get_devices_by_ips(user_id, router_id, ips):

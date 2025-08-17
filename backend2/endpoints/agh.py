@@ -205,16 +205,17 @@ def get_all_content_control_rules():
     start_time = time.time()
     try:
         from models import ContentControlRules
-        from database.session import get_db_session
         
-        with get_db_session() as session:
-            rules = session.query(ContentControlRules).filter(
-                ContentControlRules.router_id == g.router_id
-            ).all()
-            
-            rules_data = [rule.to_dict() for rule in rules]
-            return build_success_response(rules_data, start_time)
-            
+        # Use global session instead of local context manager
+        session = g.db_session
+        
+        rules = session.query(ContentControlRules).filter(
+            ContentControlRules.router_id == g.router_id
+        ).all()
+        
+        rules_data = [rule.to_dict() for rule in rules]
+        return build_success_response(rules_data, start_time)
+        
     except Exception as e:
         logger.error(f"Failed to get content control rules: {e}")
         return build_error_response(f"Failed to get content control rules: {str(e)}", 500, "DATABASE_ERROR", start_time)
@@ -227,19 +228,20 @@ def get_group_content_control_rules(group_id):
     start_time = time.time()
     try:
         from models import ContentControlRules
-        from database.session import get_db_session
         
-        with get_db_session() as session:
-            rule = session.query(ContentControlRules).filter(
-                ContentControlRules.router_id == g.router_id,
-                ContentControlRules.group_id == group_id
-            ).first()
+        # Use global session instead of local context manager
+        session = g.db_session
+        
+        rule = session.query(ContentControlRules).filter(
+            ContentControlRules.router_id == g.router_id,
+            ContentControlRules.group_id == group_id
+        ).first()
+        
+        if rule:
+            return build_success_response(rule.to_dict(), start_time)
+        else:
+            return build_success_response(None, start_time)
             
-            if rule:
-                return build_success_response(rule.to_dict(), start_time)
-            else:
-                return build_success_response(None, start_time)
-                
     except Exception as e:
         logger.error(f"Failed to get group content control rules: {e}")
         return build_error_response(f"Failed to get group content control rules: {str(e)}", 500, "DATABASE_ERROR", start_time)
@@ -252,49 +254,67 @@ def set_group_content_control_rules(group_id):
     start_time = time.time()
     try:
         from models import ContentControlRules, DeviceGroup
-        from database.session import get_db_session
         
         data = request.get_json() or {}
         
-        with get_db_session() as session:
-            # Verify group exists and belongs to user
-            group = session.query(DeviceGroup).filter(
-                DeviceGroup.id == group_id,
-                DeviceGroup.router_id == g.router_id,
-                DeviceGroup.user_id == g.user_id
-            ).first()
+        # Use global session instead of local context manager
+        session = g.db_session
+        
+        print(f"🔍 [AGH] Setting content control rules for group {group_id}")
+        print(f"🔍 [AGH] Request data: {data}")
+        print(f"🔍 [AGH] blocked_categories: {data.get('blocked_categories', [])}")
+        print(f"🔍 [AGH] blocked_categories type: {type(data.get('blocked_categories', []))}")
+        print(f"🔍 [AGH] blocked_categories length: {len(data.get('blocked_categories', []))}")
+        
+        # Verify group exists and belongs to user
+        group = session.query(DeviceGroup).filter(
+            DeviceGroup.id == group_id,
+            DeviceGroup.router_id == g.router_id,
+            DeviceGroup.user_id == g.user_id
+        ).first()
+        
+        if not group:
+            print(f"❌ [AGH] Group {group_id} not found or access denied")
+            return build_error_response("Group not found or access denied", 404, "NOT_FOUND", start_time)
+        
+        print(f"✅ [AGH] Group {group_id} found: {group.name}")
+        
+        # Check if rule already exists
+        existing_rule = session.query(ContentControlRules).filter(
+            ContentControlRules.router_id == g.router_id,
+            ContentControlRules.group_id == group_id
+        ).first()
+        
+        if existing_rule:
+            # Update existing rule
+            print(f"📝 [AGH] Updating existing rule for group {group_id}")
+            print(f"📝 [AGH] Old blocked_categories: {existing_rule.blocked_categories}")
+            print(f"📝 [AGH] New blocked_categories: {data.get('blocked_categories', [])}")
+            existing_rule.blocked_categories = data.get('blocked_categories', [])
+            existing_rule.description = data.get('description')
+            existing_rule.is_active = data.get('is_active', True)
+            # Remove local commit - let global session handle it
+            print(f"📝 [AGH] Rule updated, waiting for global commit")
+            return build_success_response(existing_rule.to_dict(), start_time)
+        else:
+            # Create new rule
+            print(f"🆕 [AGH] Creating new rule for group {group_id}")
+            print(f"🆕 [AGH] blocked_categories: {data.get('blocked_categories', [])}")
+            new_rule = ContentControlRules(
+                group_id=group_id,
+                router_id=g.router_id,
+                blocked_categories=data.get('blocked_categories', []),
+                description=data.get('description'),
+                is_active=data.get('is_active', True)
+            )
+            session.add(new_rule)
+            # Remove local commit - let global session handle it
+            print(f"🆕 [AGH] Rule created, waiting for global commit")
+            return build_success_response(new_rule.to_dict(), start_time)
             
-            if not group:
-                return build_error_response("Group not found or access denied", 404, "NOT_FOUND", start_time)
-            
-            # Check if rule already exists
-            existing_rule = session.query(ContentControlRules).filter(
-                ContentControlRules.router_id == g.router_id,
-                ContentControlRules.group_id == group_id
-            ).first()
-            
-            if existing_rule:
-                # Update existing rule
-                existing_rule.blocked_categories = data.get('blocked_categories', [])
-                existing_rule.description = data.get('description')
-                existing_rule.is_active = data.get('is_active', True)
-                session.commit()
-                return build_success_response(existing_rule.to_dict(), start_time)
-            else:
-                # Create new rule
-                new_rule = ContentControlRules(
-                    group_id=group_id,
-                    router_id=g.router_id,
-                    blocked_categories=data.get('blocked_categories', []),
-                    description=data.get('description'),
-                    is_active=data.get('is_active', True)
-                )
-                session.add(new_rule)
-                session.commit()
-                return build_success_response(new_rule.to_dict(), start_time)
-                
     except Exception as e:
         logger.error(f"Failed to set group content control rules: {e}")
+        print(f"💥 [AGH] Error setting rules: {e}")
         return build_error_response(f"Failed to set group content control rules: {str(e)}", 500, "DATABASE_ERROR", start_time)
 
 
@@ -305,23 +325,37 @@ def delete_group_content_control_rules(group_id):
     start_time = time.time()
     try:
         from models import ContentControlRules
-        from database.session import get_db_session
         
-        with get_db_session() as session:
-            rule = session.query(ContentControlRules).filter(
-                ContentControlRules.router_id == g.router_id,
-                ContentControlRules.group_id == group_id
-            ).first()
+        # Use global session instead of local context manager
+        session = g.db_session
+        
+        print(f"🗑️ [AGH] DELETE request for content control rules for group {group_id}")
+        print(f"🗑️ [AGH] Router ID: {g.router_id}")
+        print(f"🗑️ [AGH] User ID: {g.user_id}")
+        
+        rule = session.query(ContentControlRules).filter(
+            ContentControlRules.router_id == g.router_id,
+            ContentControlRules.group_id == group_id
+        ).first()
+        
+        if rule:
+            print(f"✅ [AGH] Found rule to delete for group {group_id}")
+            print(f"✅ [AGH] Rule ID: {rule.id}")
+            print(f"✅ [AGH] Rule blocked_categories: {rule.blocked_categories}")
+            print(f"✅ [AGH] Rule router_id: {rule.router_id}")
+            print(f"✅ [AGH] Rule group_id: {rule.group_id}")
+            session.delete(rule)
+            print(f"🗑️ [AGH] Rule marked for deletion, waiting for global commit")
+            # Remove local commit - let global session handle it
+            return build_success_response({"message": "Content control rules deleted successfully"}, start_time)
+        else:
+            print(f"ℹ️ [AGH] No rules found to delete for group {group_id}")
+            print(f"ℹ️ [AGH] Query filter: router_id={g.router_id}, group_id={group_id}")
+            return build_success_response({"message": "No rules found to delete"}, start_time)
             
-            if rule:
-                session.delete(rule)
-                session.commit()
-                return build_success_response({"message": "Content control rules deleted successfully"}, start_time)
-            else:
-                return build_success_response({"message": "No rules found to delete"}, start_time)
-                
     except Exception as e:
         logger.error(f"Failed to delete group content control rules: {e}")
+        print(f"💥 [AGH] Error deleting rules: {e}")
         return build_error_response(f"Failed to delete group content control rules: {str(e)}", 500, "DATABASE_ERROR", start_time)
 
 

@@ -111,30 +111,31 @@ export const settingsAPI = {
 
 // Devices API functions
 export const devicesAPI = {
-  // Get all devices
-  getAll: (routerId) => 
+  // Get all devices for current user and router
+  getDevices: (routerId) => 
     apiRequest(`${API_ENDPOINTS.DEVICES}/?routerId=${routerId}`),
 
   // Get specific device
-  getById: (id) => apiRequest(`${API_ENDPOINTS.DEVICES}/${id}`),
+  getDevice: (deviceId, routerId) => 
+    apiRequest(`${API_ENDPOINTS.DEVICES}/${deviceId}?routerId=${routerId}`),
 
-  // Add device
-  add: (deviceData) =>
-    apiRequest(API_ENDPOINTS.DEVICES, {
+  // Create or update a single device
+  createDevice: (routerId, deviceData) =>
+    apiRequest(`${API_ENDPOINTS.DEVICES}/?routerId=${routerId}`, {
       method: "POST",
       body: JSON.stringify(deviceData),
     }),
 
   // Update device
-  update: (id, deviceData) =>
-    apiRequest(`${API_ENDPOINTS.DEVICES}/${id}`, {
+  updateDevice: (deviceId, routerId, deviceData) =>
+    apiRequest(`${API_ENDPOINTS.DEVICES}/${deviceId}?routerId=${routerId}`, {
       method: "PUT",
       body: JSON.stringify(deviceData),
     }),
 
-  // Remove device
-  remove: (id) =>
-    apiRequest(`${API_ENDPOINTS.DEVICES}/${id}`, {
+  // Delete device
+  deleteDevice: (deviceId, routerId) =>
+    apiRequest(`${API_ENDPOINTS.DEVICES}/${deviceId}?routerId=${routerId}`, {
       method: "DELETE",
     }),
 
