@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from "react";
+// Database Integration Complete:
+// - Bandwidth rules are now saved to and loaded from the database
+// - Content control rules are now saved to and loaded from the database
+// - Rules are applied to both database and actual devices
+// - Loading states and error handling for database operations
 import {
   FaPlus,
   FaTimes,
@@ -23,7 +28,7 @@ import {
   FaTv,
   FaRegQuestionCircle,
 } from "react-icons/fa";
-import { aghAPI, bandwidthAPI, deviceGroupsAPI, devicesAPI } from "../../constants/api";
+import { aghAPI, bandwidthAPI, deviceGroupsAPI, devicesAPI, bandwidthRulesAPI, contentControlRulesAPI } from "../../constants/api";
 import { useAuth } from "../../context/AuthContext.jsx";
 
 // Icon mapping
@@ -61,7 +66,6 @@ const DevicesPage = () => {
   const [groupActionLoading, setGroupActionLoading] = useState({}); // { groupId: 'action' }
 
   // Content Controls State
-  const [selectedGroups, setSelectedGroups] = useState([]);
   const [contentCategories, setContentCategories] = useState([]);
   const [hasContentChanges, setHasContentChanges] = useState(false);
   const [contentLoading, setContentLoading] = useState(false);
@@ -72,7 +76,17 @@ const DevicesPage = () => {
   const [newUrl, setNewUrl] = useState("");
   const [customUrls, setCustomUrls] = useState({});
   const [domainsModal, setDomainsModal] = useState(null); // { categoryId, name, domains: [] }
+  const [loadingBlockedState, setLoadingBlockedState] = useState(false);
   
+  // New state for per-category group toggles
+  const [categoryGroupToggles, setCategoryGroupToggles] = useState({}); // { categoryId: { groupId: boolean } }
+
+  // Database Rules State
+  const [bandwidthRules, setBandwidthRules] = useState({}); // { groupId: { download_limit_mbps, upload_limit_mbps, is_active, description } }
+  const [contentControlRules, setContentControlRules] = useState({}); // { groupId: { blocked_categories, is_active, description } }
+  const [rulesLoading, setRulesLoading] = useState(false);
+  const [rulesError, setRulesError] = useState(null);
+
   // Create Category State
   const [showCreateCategoryModal, setShowCreateCategoryModal] = useState(false);
   const [createCategoryForm, setCreateCategoryForm] = useState({
@@ -285,6 +299,68 @@ const DevicesPage = () => {
 
     loadCategories();
   }, [routerId]);
+
+  // Load database rules when groups change
+  useEffect(() => {
+    const loadDatabaseRules = async () => {
+      if (!routerId || groups.length === 0) return;
+
+      setRulesLoading(true);
+      setRulesError(null);
+      
+      try {
+        console.log("🔄 [DevicesPage] Loading database rules...");
+        
+        // Load bandwidth rules
+        const bandwidthResponse = await bandwidthRulesAPI.getAllRules(routerId);
+        const bandwidthData = bandwidthResponse.data || [];
+        
+        // Convert to lookup object
+        const bandwidthLookup = {};
+        bandwidthData.forEach(rule => {
+          bandwidthLookup[rule.group_id] = {
+            download_limit_mbps: rule.download_limit_mbps,
+            upload_limit_mbps: rule.upload_limit_mbps,
+            is_active: rule.is_active,
+            description: rule.description
+          };
+        });
+        setBandwidthRules(bandwidthLookup);
+        
+        // Load content control rules
+        const contentResponse = await contentControlRulesAPI.getAllRules(routerId);
+        const contentData = contentResponse.data || [];
+        
+        // Convert to lookup object
+        const contentLookup = {};
+        contentData.forEach(rule => {
+          contentLookup[rule.group_id] = {
+            blocked_categories: rule.blocked_categories || [],
+            is_active: rule.is_active,
+            description: rule.description
+          };
+        });
+        setContentControlRules(contentLookup);
+        
+        console.log("✅ [DevicesPage] Database rules loaded:", {
+          bandwidth: Object.keys(bandwidthLookup).length,
+          content: Object.keys(contentLookup).length
+        });
+        
+      } catch (error) {
+        console.error("❌ [DevicesPage] Failed to load database rules:", error);
+        setRulesError(`Failed to load rules: ${error.message}`);
+        
+        // Fallback to empty objects on error
+        setBandwidthRules({});
+        setContentControlRules({});
+      } finally {
+        setRulesLoading(false);
+      }
+    };
+
+    loadDatabaseRules();
+  }, [routerId, groups]);
 
   // Create Category Helper Functions
   const resetCreateCategoryForm = () => {
@@ -610,71 +686,212 @@ const DevicesPage = () => {
   // Debug function removed - groups now managed via backend
 
   // Content Controls Handlers
-  const handleContentToggle = (categoryId) => {
-    setContentCategories((prev) =>
-      prev.map((cat) =>
-        cat.id === categoryId ? { ...cat, blocked: !cat.blocked } : cat
+  const handleContentToggle = (categoryId, groupId) => {
+    setCategoryGroupToggles((prev) => ({
+      ...prev,
+      [categoryId]: {
+        ...(prev[categoryId] || {}),
+        [groupId]: !(prev[categoryId]?.[groupId] || false)
+      }
+    }));
+  };
+
+  // Initialize category group toggles when groups or categories change
+  useEffect(() => {
+    if (groups.length > 0 && contentCategories.length > 0) {
+      const initialToggles = {};
+      contentCategories.forEach(category => {
+        initialToggles[category.id] = {};
+        groups.forEach(group => {
+          // Initialize all toggles to false initially
+          // The actual blocked state will be loaded from backend if available
+          initialToggles[category.id][group.id] = false;
+        });
+      });
+      setCategoryGroupToggles(initialToggles);
+      
+      // Load current blocked state from backend
+      loadCurrentBlockedState();
+    }
+  }, [groups, contentCategories]);
+
+  // Get summary of pending changes
+  const getChangesSummary = () => {
+    const summary = {};
+    
+    Object.keys(categoryGroupToggles).forEach(categoryId => {
+      const category = contentCategories.find(c => c.id === categoryId);
+      if (category) {
+        const blockedGroups = [];
+        Object.keys(categoryGroupToggles[categoryId]).forEach(groupId => {
+          if (categoryGroupToggles[categoryId][groupId]) {
+            const group = groups.find(g => g.id === groupId);
+            if (group) {
+              blockedGroups.push(group.name);
+            }
+          }
+        });
+        if (blockedGroups.length > 0) {
+          summary[category.name] = blockedGroups;
+        }
+      }
+    });
+    
+    return summary;
+  };
+
+  // Check if there are any pending changes
+  const hasPendingChanges = () => {
+    return Object.keys(categoryGroupToggles).some(categoryId => 
+      Object.keys(categoryGroupToggles[categoryId]).some(groupId => 
+        categoryGroupToggles[categoryId][groupId]
       )
     );
-    setHasContentChanges(true);
   };
 
-  const handleGroupSelection = (groupId) => {
-    setSelectedGroups((prev) => {
-      const isSelected = prev.includes(groupId);
-      return isSelected
-        ? prev.filter((id) => id !== groupId)
-        : [...prev, groupId];
+  // Update hasContentChanges when categoryGroupToggles change
+  useEffect(() => {
+    setHasContentChanges(hasPendingChanges());
+  }, [categoryGroupToggles]);
+
+  // Reset all toggles to false
+  const resetAllToggles = () => {
+    const resetToggles = {};
+    contentCategories.forEach(category => {
+      resetToggles[category.id] = {};
+      groups.forEach(group => {
+        resetToggles[category.id][group.id] = false;
+      });
     });
-    setHasContentChanges(true);
+    setCategoryGroupToggles(resetToggles);
   };
+
+  // Load current blocked state from database and backend
+  const loadCurrentBlockedState = async () => {
+    if (!routerId || groups.length === 0 || contentCategories.length === 0) return;
+    
+    setLoadingBlockedState(true);
+    try {
+      // First, try to load from database rules
+      const updatedToggles = { ...categoryGroupToggles };
+      
+      // Initialize toggles from database rules
+      for (const group of groups) {
+        const groupRules = contentControlRules[group.id];
+        if (groupRules && groupRules.blocked_categories) {
+          contentCategories.forEach(category => {
+            if (updatedToggles[category.id]) {
+              updatedToggles[category.id][group.id] = groupRules.blocked_categories.includes(category.id);
+            }
+          });
+        }
+      }
+      
+      // Fallback: check AGH API for any groups without database rules
+      for (const group of groups) {
+        if (!contentControlRules[group.id] && group.devices && group.devices.length > 0) {
+          try {
+            // Get current rules for the first device in the group
+            const device = group.devices[0];
+            if (device.ip) {
+              const rulesResponse = await aghAPI.getDeviceRules(routerId, { ip: device.ip });
+              const blockedCategories = rulesResponse.data?.categories || [];
+              
+              // Update toggles based on current blocked state
+              contentCategories.forEach(category => {
+                if (updatedToggles[category.id]) {
+                  updatedToggles[category.id][group.id] = blockedCategories.includes(category.id);
+                }
+              });
+            }
+          } catch (error) {
+            console.warn(`Failed to load AGH rules for group ${group.name}:`, error);
+            // Continue with other groups even if one fails
+          }
+        }
+      }
+      
+      setCategoryGroupToggles(updatedToggles);
+    } catch (error) {
+      console.warn('Failed to load current blocked state:', error);
+    } finally {
+      setLoadingBlockedState(false);
+    }
+  };
+
+
 
   const handleApplyContentChanges = async () => {
-    if (selectedGroups.length === 0) {
-      alert("Please select at least one group to apply changes to.");
+    // Check if any changes exist
+    if (!hasPendingChanges()) {
       return;
     }
 
     setContentLoading(true);
     try {
-      // Build devices list for API from selected groups
-      const devicesToApply = [];
-      const seenIps = new Set();
-      selectedGroups.forEach((groupId) => {
-        const group = groups.find((g) => g.id === groupId);
-        if (group && Array.isArray(group.devices)) {
-          group.devices.forEach((d) => {
-            const ip = d?.ip;
-            const mac = d?.mac;
-            if (ip && !seenIps.has(ip)) {
-              seenIps.add(ip);
-              devicesToApply.push({ ip, mac });
+      // Build a map of groups to their blocked categories
+      const groupCategoryMap = {};
+      
+      Object.keys(categoryGroupToggles).forEach(categoryId => {
+        Object.keys(categoryGroupToggles[categoryId]).forEach(groupId => {
+          if (categoryGroupToggles[categoryId][groupId]) {
+            if (!groupCategoryMap[groupId]) {
+              groupCategoryMap[groupId] = [];
             }
-          });
-        }
+            groupCategoryMap[groupId].push(categoryId);
+          }
+        });
       });
 
-      if (!routerId) {
-        throw new Error("Router ID is missing. Set routerId first in the app.");
+      // Save rules to database first
+      for (const [groupId, categoryIds] of Object.entries(groupCategoryMap)) {
+        if (categoryIds.length > 0) {
+          try {
+            await contentControlRulesAPI.setGroupRules(routerId, groupId, {
+              blocked_categories: categoryIds,
+              description: `Content control rules for ${groups.find(g => g.id === groupId)?.name || 'Unknown Group'}`,
+              is_active: true
+            });
+            console.log(`✅ Database rules saved for group ${groupId}:`, categoryIds);
+          } catch (dbError) {
+            console.error(`❌ Failed to save database rules for group ${groupId}:`, dbError);
+            // Continue with other groups even if one fails
+          }
+        }
       }
 
-      // Determine categories to apply (blocked categories)
-      const categoriesToApply = contentCategories
-        .filter((cat) => cat.blocked)
-        .map((cat) => cat.id);
+      // Apply rules to actual devices via AGH API
+      for (const [groupId, categoryIds] of Object.entries(groupCategoryMap)) {
+        if (categoryIds.length > 0) {
+          const group = groups.find(g => g.id === groupId);
+          if (group && Array.isArray(group.devices)) {
+            const devicesToApply = group.devices.map(d => ({ ip: d.ip, mac: d.mac })).filter(d => d.ip);
+            if (devicesToApply.length > 0) {
+              await aghAPI.setDevicesRules(routerId, devicesToApply, categoryIds);
+              console.log(`✅ AGH rules applied for group ${groupId}:`, devicesToApply.length, 'devices');
+            }
+          }
+        }
+      }
 
-      // Call backend to set rules for multiple devices
-      await aghAPI.setDevicesRules(routerId, devicesToApply, categoriesToApply);
+      // Update local state
+      setContentControlRules(prev => {
+        const updated = { ...prev };
+        Object.entries(groupCategoryMap).forEach(([groupId, categoryIds]) => {
+          updated[groupId] = {
+            blocked_categories: categoryIds,
+            is_active: true,
+            description: `Content control rules for ${groups.find(g => g.id === groupId)?.name || 'Unknown Group'}`
+          };
+        });
+        return updated;
+      });
 
       setHasContentChanges(false);
       setShowSuccessToast(true);
       setTimeout(() => setShowSuccessToast(false), 3000);
 
-      console.log("Content controls applied to groups:", selectedGroups);
-      console.log(
-        "Active blocks:",
-        contentCategories.filter((cat) => cat.blocked)
-      );
+      console.log("Content controls applied successfully to database and devices");
     } catch (error) {
       console.error("Failed to apply content changes:", error);
       alert(error?.message || "Failed to apply changes. Please try again.");
@@ -684,32 +901,62 @@ const DevicesPage = () => {
   };
 
   const handleClearContentRules = async () => {
-    if (selectedGroups.length === 0) {
-      alert("Please select at least one group to clear.");
+    if (!hasPendingChanges()) {
       return;
     }
+    
     setContentLoading(true);
     try {
-      const devicesToClear = [];
-      const seenIps = new Set();
-      selectedGroups.forEach((groupId) => {
-        const group = groups.find((g) => g.id === groupId);
-        if (group && Array.isArray(group.devices)) {
-          group.devices.forEach((d) => {
-            const ip = d?.ip;
-            const mac = d?.mac;
-            if (ip && !seenIps.has(ip)) {
-              seenIps.add(ip);
-              devicesToClear.push({ ip, mac });
-            }
-          });
-        }
+      // Clear rules for all groups that have any categories blocked
+      const groupsToClear = new Set();
+      
+      Object.keys(categoryGroupToggles).forEach(categoryId => {
+        Object.keys(categoryGroupToggles[categoryId]).forEach(groupId => {
+          if (categoryGroupToggles[categoryId][groupId]) {
+            groupsToClear.add(groupId);
+          }
+        });
       });
 
-      await aghAPI.clearDevicesRules(routerId, devicesToClear);
+      // Clear database rules first
+      for (const groupId of groupsToClear) {
+        try {
+          await contentControlRulesAPI.deleteGroupRules(routerId, groupId);
+          console.log(`✅ Database rules cleared for group ${groupId}`);
+        } catch (dbError) {
+          console.error(`❌ Failed to clear database rules for group ${groupId}:`, dbError);
+          // Continue with other groups even if one fails
+        }
+      }
+
+      // Clear AGH rules from actual devices
+      for (const groupId of groupsToClear) {
+        const group = groups.find(g => g.id === groupId);
+        if (group && Array.isArray(group.devices)) {
+          const devicesToClear = group.devices.map(d => ({ ip: d.ip, mac: d.mac })).filter(d => d.ip);
+          if (devicesToClear.length > 0) {
+            await aghAPI.clearDevicesRules(routerId, devicesToClear);
+            console.log(`✅ AGH rules cleared for group ${groupId}:`, devicesToClear.length, 'devices');
+          }
+        }
+      }
+
+      // Update local state
+      setContentControlRules(prev => {
+        const updated = { ...prev };
+        groupsToClear.forEach(groupId => {
+          delete updated[groupId];
+        });
+        return updated;
+      });
+
+      // Reset all toggles to false
+      resetAllToggles();
       setHasContentChanges(false);
       setShowSuccessToast(true);
       setTimeout(() => setShowSuccessToast(false), 2000);
+      
+      console.log("Content control rules cleared from database and devices");
     } catch (e) {
       console.error('Failed to clear rules:', e);
       alert(e?.message || 'Failed to clear rules');
@@ -853,11 +1100,38 @@ const DevicesPage = () => {
     }
 
     try {
-      // Build IP list from group devices
+      // Save to database first
+      const downloadLimit = changes.downLimit !== undefined && changes.downLimit !== "" 
+        ? parseFloat(changes.downLimit) 
+        : null;
+      
+      await bandwidthRulesAPI.setGroupRules(routerId, groupId, {
+        download_limit_mbps: downloadLimit,
+        upload_limit_mbps: downloadLimit, // Mirror download limit for now
+        description: `Bandwidth rules for ${groups.find(g => g.id === groupId)?.name || 'Unknown Group'}`,
+        is_active: true
+      });
+
+      // Apply to actual devices via legacy API
       const group = groups.find((g) => g.id === groupId);
       const ips = (group?.devices || []).map((d) => d.ip).filter(Boolean);
-      // Apply group limits sending both download and upload (mirror) to satisfy backend validation
-      await bandwidthAPI.applyGroupLimits(routerId, ips, { download_mbps: parseFloat(changes.downLimit), upload_mbps: parseFloat(changes.downLimit) });
+      if (ips.length > 0) {
+        await bandwidthAPI.applyGroupLimits(routerId, ips, { 
+          download_mbps: downloadLimit || 0, 
+          upload_mbps: downloadLimit || 0 
+        });
+      }
+
+      // Update local state
+      setBandwidthRules(prev => ({
+        ...prev,
+        [groupId]: {
+          download_limit_mbps: downloadLimit,
+          upload_limit_mbps: downloadLimit,
+          is_active: true,
+          description: `Bandwidth rules for ${groups.find(g => g.id === groupId)?.name || 'Unknown Group'}`
+        }
+      }));
 
       // Update bandwidth groups with new values
       setBandwidthGroups((prev) =>
@@ -865,12 +1139,7 @@ const DevicesPage = () => {
           group.id === groupId
             ? {
                 ...group,
-                downLimit:
-                  changes.downLimit !== undefined
-                    ? changes.downLimit === ""
-                      ? ""
-                      : parseFloat(changes.downLimit)
-                    : group.downLimit,
+                downLimit: downloadLimit || "",
               }
             : group
         )
@@ -883,7 +1152,7 @@ const DevicesPage = () => {
         return newChanges;
       });
 
-      console.log("Bandwidth limits applied for group:", groupId, changes);
+      console.log("Bandwidth limits applied to database and devices for group:", groupId, changes);
     } catch (error) {
       console.error("Failed to apply bandwidth changes:", error);
       alert("Failed to apply changes. Please try again.");
@@ -908,28 +1177,64 @@ const DevicesPage = () => {
     }
 
     try {
-      // Aggregate all IPs across groups
+      const downloadLimit = parseFloat(bulkValues.downLimit);
+      
+      // Save to database for all groups
+      for (const group of groups) {
+        try {
+          await bandwidthRulesAPI.setGroupRules(routerId, group.id, {
+            download_limit_mbps: downloadLimit,
+            upload_limit_mbps: downloadLimit, // Mirror download limit for now
+            description: `Bulk applied bandwidth rules for ${group.name}`,
+            is_active: true
+          });
+          console.log(`✅ Database rules saved for group ${group.id}:`, downloadLimit);
+        } catch (dbError) {
+          console.error(`❌ Failed to save database rules for group ${group.id}:`, dbError);
+          // Continue with other groups even if one fails
+        }
+      }
+
+      // Aggregate all IPs across groups and apply to actual devices
       const ips = [];
       const seen = new Set();
       groups.forEach((g) => (g.devices || []).forEach((d) => {
         if (d?.ip && !seen.has(d.ip)) { seen.add(d.ip); ips.push(d.ip); }
       }));
-      await bandwidthAPI.applyGroupLimits(routerId, ips, { download_mbps: parseFloat(bulkValues.downLimit), upload_mbps: parseFloat(bulkValues.downLimit) });
+      
+      if (ips.length > 0) {
+        await bandwidthAPI.applyGroupLimits(routerId, ips, { 
+          download_mbps: downloadLimit, 
+          upload_mbps: downloadLimit 
+        });
+      }
+
+      // Update local state
+      setBandwidthRules(prev => {
+        const updated = { ...prev };
+        groups.forEach(group => {
+          updated[group.id] = {
+            download_limit_mbps: downloadLimit,
+            upload_limit_mbps: downloadLimit,
+            is_active: true,
+            description: `Bulk applied bandwidth rules for ${group.name}`
+          };
+        });
+        return updated;
+      });
 
       // Apply to UI state
       setBandwidthGroups((prev) =>
         prev.map((group) => ({
           ...group,
-          downLimit: bulkValues.downLimit
-            ? parseFloat(bulkValues.downLimit)
-            : group.downLimit,
+          downLimit: downloadLimit,
         }))
       );
 
       setBulkValues({ downLimit: "" });
       setErrors({});
 
-      console.log("Bulk bandwidth limits applied:", bulkValues);
+      console.log("Bulk bandwidth limits applied to database and devices:", downloadLimit);
     } catch (error) {
       console.error("Failed to apply bulk changes:", error);
       alert("Failed to apply changes. Please try again.");
@@ -938,9 +1243,23 @@ const DevicesPage = () => {
 
   const handleClearGroupLimits = async (groupId) => {
     try {
+      // Clear from database first
+      await bandwidthRulesAPI.deleteGroupRules(routerId, groupId);
+      
+      // Clear from actual devices
       const group = groups.find((g) => g.id === groupId);
       const ips = (group?.devices || []).map((d) => d.ip).filter(Boolean);
-      await bandwidthAPI.deleteGroupLimits(routerId, ips);
+      if (ips.length > 0) {
+        await bandwidthAPI.deleteGroupLimits(routerId, ips);
+      }
+      
+      // Update local state
+      setBandwidthRules(prev => {
+        const updated = { ...prev };
+        delete updated[groupId];
+        return updated;
+      });
+      
       // Clear UI value
       setBandwidthGroups((prev) => prev.map((g) => g.id === groupId ? { ...g, downLimit: "" } : g));
       setBandwidthChanges((prev) => {
@@ -948,6 +1267,8 @@ const DevicesPage = () => {
         delete next[groupId];
         return next;
       });
+      
+      console.log("Bandwidth limits cleared from database and devices for group:", groupId);
     } catch (e) {
       console.error('Failed to clear group limits:', e);
       alert(e?.message || 'Failed to clear group limits');
@@ -986,17 +1307,20 @@ const DevicesPage = () => {
     }
   };
 
-  // Initialize bandwidth groups from device groups
+  // Initialize bandwidth groups from device groups and database rules
   useEffect(() => {
-    const bandwidthData = groups.map((group) => ({
-      id: group.id,
-      name: group.name,
-      deviceCount: group.devices.length,
-      downLimit: "", // No default limit
-      enabled: false, // Disabled by default
-    }));
+    const bandwidthData = groups.map((group) => {
+      const dbRules = bandwidthRules[group.id];
+      return {
+        id: group.id,
+        name: group.name,
+        deviceCount: group.devices.length,
+        downLimit: dbRules?.download_limit_mbps || "", // Use database rules if available
+        enabled: dbRules?.is_active || false, // Use database rules if available
+      };
+    });
     setBandwidthGroups(bandwidthData);
-  }, [groups]);
+  }, [groups, bandwidthRules]);
 
   const handleClearAllGroups = async () => {
     try {
@@ -1012,10 +1336,22 @@ const DevicesPage = () => {
         return;
       }
 
-      // Clear all group limits
+      // Clear all group limits from database
+      for (const group of groups) {
+        try {
+          await bandwidthRulesAPI.deleteGroupRules(routerId, group.id);
+          console.log(`✅ Database rules cleared for group ${group.id}`);
+        } catch (dbError) {
+          console.error(`❌ Failed to clear database rules for group ${group.id}:`, dbError);
+          // Continue with other groups even if one fails
+        }
+      }
+
+      // Clear all group limits from actual devices
       await bandwidthAPI.deleteGroupLimits(routerId, ips);
 
-      // Clear UI state for all groups
+      // Clear local state
+      setBandwidthRules({});
       setBandwidthGroups((prev) =>
         prev.map((group) => ({
           ...group,
@@ -1027,7 +1363,7 @@ const DevicesPage = () => {
       setBandwidthChanges({});
       setErrors({});
 
-      console.log("Cleared bandwidth limits for all groups:", ips.length, "devices");
+      console.log("Cleared bandwidth limits from database and devices for all groups:", ips.length, "devices");
       alert(`Successfully cleared bandwidth limits for ${ips.length} devices across all groups.`);
     } catch (error) {
       console.error("Failed to clear all group limits:", error);
@@ -1220,6 +1556,20 @@ const DevicesPage = () => {
             </div>
           </div>
 
+          {/* Database Rules Status */}
+          {!rulesLoading && !rulesError && Object.keys(bandwidthRules).length > 0 && (
+            <div className="mb-4 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg">
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-green-800 dark:text-green-200">
+                  ✅ Database Rules Active
+                </span>
+                <span className="text-xs text-green-600 dark:text-green-400">
+                  {Object.keys(bandwidthRules).length} groups have bandwidth rules saved
+                </span>
+              </div>
+            </div>
+          )}
+
           {/* Bulk Apply Section */}
           <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-6">
             <h3 className="text-lg font-medium text-gray-800 dark:text-white mb-4">
@@ -1271,7 +1621,14 @@ const DevicesPage = () => {
           </div>
 
           {/* Groups Table */}
-          {bandwidthGroups.length > 0 ? (
+          {rulesLoading ? (
+            <div className="text-center py-12 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-4"></div>
+              <p className="text-gray-500 dark:text-gray-400 text-lg">
+                Loading bandwidth rules...
+              </p>
+            </div>
+          ) : bandwidthGroups.length > 0 ? (
             <div className="overflow-x-auto">
               <table className="w-full border border-gray-200 dark:border-gray-700 rounded-lg">
                 <thead className="bg-gray-50 dark:bg-gray-700">
@@ -1659,9 +2016,10 @@ const DevicesPage = () => {
                 Content Controls
               </h2>
               <p className="text-gray-600 dark:text-gray-300 mt-1">
-                Block website categories for selected device groups
+                Block website categories for device groups
               </p>
             </div>
+            
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setShowCreateCategoryModal(true)}
@@ -1670,10 +2028,18 @@ const DevicesPage = () => {
                 <FaPlus className="text-sm" />
                 Create Category
               </button>
+              <button
+                onClick={handleClearContentRules}
+                disabled={contentLoading}
+                className="bg-gray-500 hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
+              >
+                <FaTimes className="text-sm" />
+                Clear All Rules
+              </button>
               {hasContentChanges && (
                 <button
                   onClick={handleApplyContentChanges}
-                  disabled={contentLoading || selectedGroups.length === 0}
+                  disabled={contentLoading}
                   className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors"
                 >
                   {contentLoading ? (
@@ -1685,6 +2051,11 @@ const DevicesPage = () => {
                     <>
                       <FaCheck className="text-sm" />
                       Apply Changes
+                      <span className="ml-1 px-2 py-1 bg-blue-600 rounded-full text-xs">
+                        {Object.keys(categoryGroupToggles).reduce((total, categoryId) => 
+                          total + Object.values(categoryGroupToggles[categoryId] || {}).filter(Boolean).length, 0
+                        )}
+                      </span>
                     </>
                   )}
                 </button>
@@ -1692,34 +2063,42 @@ const DevicesPage = () => {
             </div>
           </div>
 
-          {/* Group Selection */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-              Target Groups ({selectedGroups.length} selected)
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {groups.map((group) => (
-                <button
-                  key={group.id}
-                  onClick={() => handleGroupSelection(group.id)}
-                  className={`px-4 py-2 rounded-lg border transition-colors ${
-                    selectedGroups.includes(group.id)
-                      ? "bg-blue-500 text-white border-blue-500"
-                      : "bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:border-blue-500"
-                  }`}
-                >
-                  <FaUsers className="inline mr-2" />
-                  {group.name} ({group.devices.length})
-                </button>
-              ))}
-              {groups.length === 0 && (
-                <p className="text-gray-500 dark:text-gray-400 italic">
-                  No groups available. Create groups first to use content
-                  controls.
-                </p>
-              )}
+          {/* Database Rules Status */}
+          {!rulesLoading && !rulesError && Object.keys(contentControlRules).length > 0 && (
+            <div className="mb-4 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg">
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-green-800 dark:text-green-200">
+                  ✅ Database Rules Active
+                </span>
+                <span className="text-xs text-green-600 dark:text-green-400">
+                  {Object.keys(contentControlRules).length} groups have content control rules saved
+                </span>
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* Summary of Changes */}
+          {hasContentChanges && (
+            <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <FaCog className="text-blue-600 dark:text-blue-400" />
+                <span className="text-sm font-medium text-blue-800 dark:text-blue-200">
+                  Changes Pending
+                </span>
+              </div>
+              <div className="text-xs text-blue-700 dark:text-blue-300 space-y-1">
+                {Object.entries(getChangesSummary()).map(([categoryName, groupNames]) => (
+                  <div key={categoryName} className="flex items-start gap-2">
+                    <span className="font-medium">• {categoryName}:</span>
+                    <span>Block for {groupNames.join(', ')}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="text-xs text-blue-600 dark:text-blue-400 mt-2 font-medium">
+                Click "Apply Changes" to save these rules.
+              </p>
+            </div>
+          )}
 
           {/* Category Cards Grid */}
           {categoriesError && (
@@ -1736,7 +2115,29 @@ const DevicesPage = () => {
             </div>
           )}
           
-          {categoriesLoading ? (
+          {rulesError && (
+            <div className="mb-4 p-4 bg-orange-100 dark:bg-orange-900 border border-orange-300 dark:border-orange-700 rounded-lg">
+              <p className="text-orange-700 dark:text-orange-300 text-sm">
+                Database Rules Error: {rulesError}
+              </p>
+              <p className="text-orange-600 dark:text-orange-400 text-xs mt-1">
+                Some features may not work properly. Rules will be saved locally only.
+              </p>
+            </div>
+          )}
+          
+          {!rulesLoading && !rulesError && Object.keys(bandwidthRules).length > 0 && (
+            <div className="mb-4 p-4 bg-green-100 dark:bg-green-900 border border-green-300 dark:border-green-700 rounded-lg">
+              <p className="text-green-700 dark:text-green-300 text-sm">
+                ✅ Database rules loaded successfully
+              </p>
+              <p className="text-green-600 dark:text-green-400 text-xs mt-1">
+                {Object.keys(bandwidthRules).length} bandwidth rules and {Object.keys(contentControlRules).length} content control rules loaded from database.
+              </p>
+            </div>
+          )}
+          
+          {categoriesLoading || rulesLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {/* Loading skeleton cards */}
               {[...Array(6)].map((_, index) => (
@@ -1752,7 +2153,6 @@ const DevicesPage = () => {
                         <div className="w-16 h-3 bg-gray-200 dark:bg-gray-700 rounded"></div>
                       </div>
                     </div>
-                    <div className="w-11 h-6 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
                   </div>
                   <div className="w-full h-3 bg-gray-200 dark:bg-gray-700 rounded mb-2"></div>
                   <div className="w-20 h-3 bg-gray-200 dark:bg-gray-700 rounded"></div>
@@ -1774,34 +2174,18 @@ const DevicesPage = () => {
               return (
                 <div
                   key={category.id}
-                  className={`border rounded-lg p-4 transition-all hover:shadow-md ${
-                    category.blocked
-                      ? "border-red-300 bg-red-50 dark:border-red-700 dark:bg-red-900/20"
-                      : "border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-700"
-                  }`}
+                  className="border rounded-lg p-4 transition-all hover:shadow-md border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-700"
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-3">
-                      <div
-                        className={`p-2 rounded-lg ${
-                          category.blocked
-                            ? "bg-red-100 text-red-600 dark:bg-red-800 dark:text-red-300"
-                            : "bg-blue-100 text-blue-600 dark:bg-blue-800 dark:text-blue-300"
-                        }`}
-                      >
+                      <div className="p-2 rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-800 dark:text-blue-300">
                         <IconComponent className="text-lg" />
                       </div>
                       <div>
                         <h3 className="font-medium text-gray-800 dark:text-white">
                           {category.name}
                         </h3>
-                        <span
-                          className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                            category.blocked
-                              ? "bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100"
-                              : "bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100"
-                          }`}
-                        >
+                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100">
                           {category.sites + categoryUrls.length} sites
                         </span>
                       </div>
@@ -1817,20 +2201,61 @@ const DevicesPage = () => {
                           <FaTrash className="text-sm" />
                         </button>
                       )}
-                      <label className="relative inline-flex items-center cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={category.blocked}
-                          onChange={() => handleContentToggle(category.id)}
-                          className="sr-only peer"
-                        />
-                        <div className="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 dark:after:border-gray-500 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600 dark:peer-checked:bg-red-500"></div>
-                      </label>
                     </div>
                   </div>
-                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
                     {category.description}
                   </p>
+                  
+                  {/* Group Toggles Section */}
+                  <div className="mb-3">
+                    <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Block for Groups:
+                    </h4>
+                    {loadingBlockedState ? (
+                      <div className="text-center py-2">
+                        <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Loading current rules...</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-2">
+                        {groups.map((group) => (
+                          <div key={group.id} className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <FaUsers className="text-xs text-gray-500" />
+                              <span className="text-sm text-gray-600 dark:text-gray-300">
+                                {group.name} ({group.devices.length})
+                              </span>
+                            </div>
+                            <label className="relative inline-flex items-center cursor-pointer">
+                              <input
+                                type="checkbox"
+                                checked={categoryGroupToggles[category.id]?.[group.id] || false}
+                                onChange={() => handleContentToggle(category.id, group.id)}
+                                className="sr-only peer"
+                              />
+                              <div className="w-9 h-5 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 dark:after:border-gray-500 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-red-600 dark:peer-checked:bg-red-500"></div>
+                            </label>
+                          </div>
+                        ))}
+                        {groups.length === 0 && (
+                          <div className="text-center py-4">
+                            <FaUsers className="text-gray-400 dark:text-gray-500 mx-auto mb-2 text-lg" />
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                              No groups available
+                            </p>
+                            <button
+                              onClick={() => setShowCreateGroup(true)}
+                              className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
+                            >
+                              Create your first group
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
                   <div className="mb-2">
                     <button
                       onClick={() => openDomainsModal(category.id, category.name)}
@@ -1871,17 +2296,16 @@ const DevicesPage = () => {
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span
-                        className={`text-xs font-medium ${
-                          category.blocked
-                            ? "text-red-600 dark:text-red-400"
-                            : "text-green-600 dark:text-green-400"
-                        }`}
-                      >
-                        {category.blocked ? "BLOCKED" : "ALLOWED"}
+                      <span className="text-xs font-medium text-gray-600 dark:text-gray-400">
+                        {Object.values(categoryGroupToggles[category.id] || {}).some(Boolean) ? "BLOCKED" : "ALLOWED"}
                       </span>
-                      {category.blocked && (
+                      {Object.values(categoryGroupToggles[category.id] || {}).some(Boolean) && (
                         <FaEyeSlash className="text-red-500 text-xs" />
+                      )}
+                      {Object.values(categoryGroupToggles[category.id] || {}).some(Boolean) && (
+                        <span className="text-xs text-gray-500 dark:text-gray-400">
+                          ({Object.values(categoryGroupToggles[category.id] || {}).filter(Boolean).length} group{Object.values(categoryGroupToggles[category.id] || {}).filter(Boolean).length !== 1 ? 's' : ''})
+                        </span>
                       )}
                     </div>
                     <button
@@ -1896,14 +2320,6 @@ const DevicesPage = () => {
               );
                 })
               )}
-            </div>
-          )}
-
-          {selectedGroups.length === 0 && hasContentChanges && (
-            <div className="mt-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg">
-              <p className="text-yellow-800 dark:text-yellow-300 text-sm">
-                Please select at least one group to apply content controls to.
-              </p>
             </div>
           )}
         </div>

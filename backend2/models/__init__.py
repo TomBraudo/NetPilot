@@ -7,6 +7,8 @@ from .device import UserDevice
 from .device_group import DeviceGroup
 from .blocked_device import UserBlockedDevice
 from .settings import UserSetting
+from .bandwidth_rules import BandwidthRules
+from .content_control_rules import ContentControlRules
 
 __all__ = [
     'Base',
@@ -17,5 +19,7 @@ __all__ = [
     'UserDevice',
     'DeviceGroup',
     'UserBlockedDevice',
-    'UserSetting'
+    'UserSetting',
+    'BandwidthRules',
+    'ContentControlRules'
 ] 
