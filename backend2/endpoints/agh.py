@@ -197,3 +197,131 @@ def clear_devices_rules_route():
     return build_success_response(result, start_time)
 
 
+# Database Rules Endpoints
+@agh_bp.route('/rules', methods=['GET'])
+@router_context_required
+def get_all_content_control_rules():
+    """Get all content control rules for a router"""
+    start_time = time.time()
+    try:
+        from models import ContentControlRules
+        from database.session import get_db_session
+        
+        with get_db_session() as session:
+            rules = session.query(ContentControlRules).filter(
+                ContentControlRules.router_id == g.router_id
+            ).all()
+            
+            rules_data = [rule.to_dict() for rule in rules]
+            return build_success_response(rules_data, start_time)
+            
+    except Exception as e:
+        logger.error(f"Failed to get content control rules: {e}")
+        return build_error_response(f"Failed to get content control rules: {str(e)}", 500, "DATABASE_ERROR", start_time)
+
+
+@agh_bp.route('/rules/group/<group_id>', methods=['GET'])
+@router_context_required
+def get_group_content_control_rules(group_id):
+    """Get content control rules for a specific group"""
+    start_time = time.time()
+    try:
+        from models import ContentControlRules
+        from database.session import get_db_session
+        
+        with get_db_session() as session:
+            rule = session.query(ContentControlRules).filter(
+                ContentControlRules.router_id == g.router_id,
+                ContentControlRules.group_id == group_id
+            ).first()
+            
+            if rule:
+                return build_success_response(rule.to_dict(), start_time)
+            else:
+                return build_success_response(None, start_time)
+                
+    except Exception as e:
+        logger.error(f"Failed to get group content control rules: {e}")
+        return build_error_response(f"Failed to get group content control rules: {str(e)}", 500, "DATABASE_ERROR", start_time)
+
+
+@agh_bp.route('/rules/group/<group_id>', methods=['POST'])
+@router_context_required
+def set_group_content_control_rules(group_id):
+    """Create or update content control rules for a group"""
+    start_time = time.time()
+    try:
+        from models import ContentControlRules, DeviceGroup
+        from database.session import get_db_session
+        
+        data = request.get_json() or {}
+        
+        with get_db_session() as session:
+            # Verify group exists and belongs to user
+            group = session.query(DeviceGroup).filter(
+                DeviceGroup.id == group_id,
+                DeviceGroup.router_id == g.router_id,
+                DeviceGroup.user_id == g.user_id
+            ).first()
+            
+            if not group:
+                return build_error_response("Group not found or access denied", 404, "NOT_FOUND", start_time)
+            
+            # Check if rule already exists
+            existing_rule = session.query(ContentControlRules).filter(
+                ContentControlRules.router_id == g.router_id,
+                ContentControlRules.group_id == group_id
+            ).first()
+            
+            if existing_rule:
+                # Update existing rule
+                existing_rule.blocked_categories = data.get('blocked_categories', [])
+                existing_rule.description = data.get('description')
+                existing_rule.is_active = data.get('is_active', True)
+                session.commit()
+                return build_success_response(existing_rule.to_dict(), start_time)
+            else:
+                # Create new rule
+                new_rule = ContentControlRules(
+                    group_id=group_id,
+                    router_id=g.router_id,
+                    blocked_categories=data.get('blocked_categories', []),
+                    description=data.get('description'),
+                    is_active=data.get('is_active', True)
+                )
+                session.add(new_rule)
+                session.commit()
+                return build_success_response(new_rule.to_dict(), start_time)
+                
+    except Exception as e:
+        logger.error(f"Failed to set group content control rules: {e}")
+        return build_error_response(f"Failed to set group content control rules: {str(e)}", 500, "DATABASE_ERROR", start_time)
+
+
+@agh_bp.route('/rules/group/<group_id>', methods=['DELETE'])
+@router_context_required
+def delete_group_content_control_rules(group_id):
+    """Delete content control rules for a group"""
+    start_time = time.time()
+    try:
+        from models import ContentControlRules
+        from database.session import get_db_session
+        
+        with get_db_session() as session:
+            rule = session.query(ContentControlRules).filter(
+                ContentControlRules.router_id == g.router_id,
+                ContentControlRules.group_id == group_id
+            ).first()
+            
+            if rule:
+                session.delete(rule)
+                session.commit()
+                return build_success_response({"message": "Content control rules deleted successfully"}, start_time)
+            else:
+                return build_success_response({"message": "No rules found to delete"}, start_time)
+                
+    except Exception as e:
+        logger.error(f"Failed to delete group content control rules: {e}")
+        return build_error_response(f"Failed to delete group content control rules: {str(e)}", 500, "DATABASE_ERROR", start_time)
+
+
