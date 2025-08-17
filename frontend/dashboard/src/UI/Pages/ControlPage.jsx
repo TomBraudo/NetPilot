@@ -542,6 +542,13 @@ const ControlPage = () => {
 
   // Content Controls Handlers
   const handleContentToggle = (categoryId, groupId) => {
+    // Prevent toggling before initialization is complete
+    if (!contentControlsInitialized) {
+      console.log("⚠️ Content controls not yet initialized, ignoring toggle");
+      return;
+    }
+    
+    console.log(`🔄 Toggling category ${categoryId} for group ${groupId}`);
     setCategoryGroupToggles((prev) => ({
       ...prev,
       [categoryId]: {
@@ -551,7 +558,7 @@ const ControlPage = () => {
     }));
   };
 
-  // Enforced loading sequence: categories → database rules → toggles
+  // Consolidated initialization: categories → database rules → groups → toggles
   useEffect(() => {
     const initializeContentControls = async () => {
       // Prevent multiple initializations
@@ -573,47 +580,27 @@ const ControlPage = () => {
         return;
       }
 
+      // Step 3: Ensure we have groups loaded
+      if (groups.length === 0) {
+        console.log("⏳ Waiting for groups to load...");
+        return;
+      }
+
       console.log("🔄 Initializing content controls with enforced order...");
 
-      // Step 3: Initialize empty toggles structure (will be populated when groups load)
-      const initialToggles = {};
-      contentCategories.forEach(category => {
-        initialToggles[category.id] = {};
-        // Initialize with empty groups for now, will be populated when groups load
-      });
-      setCategoryGroupToggles(initialToggles);
-
-      // Step 4: Load toggles based on database rules
-      console.log("📋 Database rules ready, loading toggles...");
+      // Step 4: Initialize toggles structure with groups and load current state
+      console.log("📋 All prerequisites ready, loading toggles...");
       await loadCurrentBlockedState();
       
       // Mark as initialized
       setContentControlsInitialized(true);
       console.log("✅ Content controls initialization complete");
+      console.log("📊 Final toggle state:", updatedToggles);
+      console.log("📊 Original toggle state saved for change detection");
     };
 
     initializeContentControls();
-  }, [contentCategories, contentControlRules, rulesLoading, contentControlsInitialized]);
-
-  // Populate toggles when groups load
-  useEffect(() => {
-    if (groups.length > 0 && contentCategories.length > 0 && categoryGroupToggles && Object.keys(categoryGroupToggles).length > 0) {
-      console.log("🔄 Populating toggles with groups...");
-      
-      const updatedToggles = { ...categoryGroupToggles };
-      contentCategories.forEach(category => {
-        if (updatedToggles[category.id]) {
-          updatedToggles[category.id] = {};
-          groups.forEach(group => {
-            updatedToggles[category.id][group.id] = false;
-          });
-        }
-      });
-      
-      setCategoryGroupToggles(updatedToggles);
-      console.log("✅ Toggles populated with groups");
-    }
-  }, [groups, contentCategories, categoryGroupToggles]);
+  }, [contentCategories, contentControlRules, rulesLoading, groups, contentControlsInitialized]);
 
   // Get summary of pending changes
   const getChangesSummary = () => {
@@ -664,10 +651,12 @@ const ControlPage = () => {
     );
   };
 
-  // Update hasContentChanges when categoryGroupToggles change
+  // Update hasContentChanges when categoryGroupToggles change (only after initialization)
   useEffect(() => {
-    setHasContentChanges(hasPendingChanges());
-  }, [categoryGroupToggles]);
+    if (contentControlsInitialized) {
+      setHasContentChanges(hasPendingChanges());
+    }
+  }, [categoryGroupToggles, contentControlsInitialized]);
 
   // Reset all toggles to original state
   const resetAllToggles = () => {
@@ -771,7 +760,7 @@ const ControlPage = () => {
     
     setLoadingBlockedState(true);
     try {
-      // Initialize fresh toggles structure
+      // Initialize fresh toggles structure with all groups
       const updatedToggles = {};
       contentCategories.forEach(category => {
         updatedToggles[category.id] = {};
@@ -780,7 +769,7 @@ const ControlPage = () => {
         });
       });
       
-      console.log("🔧 Initialized empty toggles structure");
+      console.log("🔧 Initialized toggles structure with", contentCategories.length, "categories and", groups.length, "groups");
       
       // Load toggles from database rules
       let rulesAppliedCount = 0;
@@ -1901,9 +1890,14 @@ const ControlPage = () => {
           
           {rulesError && (
             <div className="mb-4 p-4 bg-orange-100 dark:bg-orange-900 border border-orange-300 dark:border-orange-700 rounded-lg">
-              <p className="text-orange-700 dark:text-orange-400 text-sm">
-                Database Rules Error: {rulesError}
-              </p>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-orange-700 dark:text-orange-400">
+                  ⚠️ Database Rules Error
+                </span>
+                <span className="text-xs text-orange-600 dark:text-orange-400">
+                  {rulesError}
+                </span>
+              </div>
               <p className="text-orange-600 dark:text-orange-400 text-xs mt-1">
                 Some features may not work properly. Rules will be saved locally only.
               </p>
@@ -1912,12 +1906,31 @@ const ControlPage = () => {
           
           {!rulesLoading && !rulesError && Object.keys(bandwidthRules).length > 0 && (
             <div className="mb-4 p-4 bg-green-100 dark:bg-green-900 border border-green-300 dark:border-green-700 rounded-lg">
-              <p className="text-green-700 dark:text-green-300 text-sm">
-                ✅ Database rules loaded successfully
-              </p>
-              <p className="text-green-600 dark:text-green-400 text-xs mt-1">
-                {Object.keys(bandwidthRules).length} bandwidth rules and {Object.keys(contentControlRules).length} content control rules loaded from database.
-              </p>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-green-700 dark:text-green-200">
+                  ✅ Database Rules Active
+                </span>
+                <span className="text-xs text-green-600 dark:text-green-400">
+                  {Object.keys(bandwidthRules).length} bandwidth rules and {Object.keys(contentControlRules).length} content control rules loaded from database.
+                </span>
+              </div>
+            </div>
+          )}
+          
+          {/* Content Controls Initialization Status */}
+          {!categoriesLoading && !rulesLoading && !contentControlsInitialized && (
+            <div className="mb-4 p-4 bg-blue-100 dark:bg-blue-900 border border-blue-300 dark:border-blue-700 rounded-lg">
+              <div className="flex items-center gap-3">
+                <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                <div className="flex-1">
+                  <p className="text-blue-700 dark:text-blue-300 font-medium">
+                    Initializing Content Controls...
+                  </p>
+                  <p className="text-blue-600 dark:text-blue-400 text-sm mt-1">
+                    Loading current rules and preparing toggles for all groups
+                  </p>
+                </div>
+              </div>
             </div>
           )}
           
@@ -2028,14 +2041,19 @@ const ControlPage = () => {
                                 {group.name} ({group.devices.length})
                               </span>
                             </div>
-                            <label className="relative inline-flex items-center cursor-pointer">
+                            <label className={`relative inline-flex items-center ${!contentControlsInitialized ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}>
                               <input
                                 type="checkbox"
                                 checked={categoryGroupToggles[category.id]?.[group.id] || false}
                                 onChange={() => handleContentToggle(category.id, group.id)}
+                                disabled={!contentControlsInitialized}
                                 className="sr-only peer"
                               />
-                              <div className="w-9 h-5 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 dark:after:border-gray-500 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-red-600 dark:peer-checked:bg-red-500"></div>
+                              <div className={`w-9 h-5 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 dark:after:border-gray-500 after:border after:rounded-full after:h-4 after:w-4 after:transition-all ${
+                                !contentControlsInitialized 
+                                  ? 'bg-gray-300 dark:bg-gray-500' 
+                                  : 'bg-gray-200 dark:bg-gray-600 peer-checked:bg-red-600 dark:peer-checked:bg-red-500'
+                              }`}></div>
                             </label>
                           </div>
                         ))}
