@@ -1668,3 +1668,11 @@ with app.app_context(). See the documentation for more information.
 2025-08-15 17:12:39 - server - ERROR - Session setup failed: Router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f not found in Port-Manager
 2025-08-16 15:47:31 - server - ERROR - Session setup failed: Router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f not found in Port-Manager
 2025-08-16 15:47:45 - server - ERROR - Session setup failed: Router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f not found in Port-Manager
+2025-08-18 15:54:39 - managers.router_connection_manager - ERROR - Unexpected error when executing command for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: Channel closed.
+2025-08-18 15:54:41 - managers.router_connection_manager - ERROR - Unexpected error when executing command for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: Channel closed.
+2025-08-18 15:54:42 - managers.router_connection_manager - ERROR - Unexpected error when executing command for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: Unable to open channel.
+2025-08-18 17:20:24 - managers.router_connection_manager - ERROR - Unexpected error when executing command for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: 
+2025-08-18 17:21:13 - managers.router_connection_manager - ERROR - Unexpected error when executing command for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: 
+2025-08-18 18:57:18 - managers.router_connection_manager - ERROR - Unexpected error when executing command for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: Channel closed.
+2025-08-18 18:57:21 - managers.router_connection_manager - ERROR - Unexpected error when executing command for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: Channel closed.
+2025-08-18 18:57:23 - managers.router_connection_manager - ERROR - Unexpected error when executing command for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: Channel closed.

@@ -1497,7 +1497,8 @@ Built with Electron ${window.electronAPI?.version || 'Unknown'}${configInfo}${ro
       await this.executeConfigStep(5, 'Ensuring AdGuard Home is installed and configured...', async () => {
         const aghResult = await window.electronAPI.ensureAdGuardHome(credentials);
         if (!aghResult.success) {
-          throw new Error('AdGuard Home setup failed');
+          const msg = aghResult.error || (aghResult.data && aghResult.data.error) || 'AdGuard Home setup failed';
+          throw new Error(msg);
         }
         return aghResult.data || aghResult.status || { agh: 'ok' };
       });
