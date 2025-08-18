@@ -394,11 +394,14 @@ const DevicesPage = () => {
   };
 
   const getAvailableDevicesForGroup = (groupId) => {
-    const group = groups.find(g => g.id === groupId);
-    if (!group) return devices;
-    
-    const groupDeviceIds = group.devices.map(d => d.id);
-    return devices.filter(device => !groupDeviceIds.includes(device.id));
+    // Return only devices that are not in ANY group
+    const allGroupedIds = new Set(groups.flatMap(g => g.devices.map(d => d.id)));
+    return devices.filter(device => !allGroupedIds.has(device.id));
+  };
+
+  const getUngroupedDevices = () => {
+    const allGroupedIds = new Set(groups.flatMap(g => g.devices.map(d => d.id)));
+    return devices.filter(device => !allGroupedIds.has(device.id));
   };
 
   const startEditDeviceName = (device) => {
@@ -793,7 +796,7 @@ const DevicesPage = () => {
                 Select Devices ({selectedDevices.length} selected)
               </label>
               <div className="space-y-2 max-h-60 overflow-y-auto">
-                {devices.map((device, index) => (
+                {getUngroupedDevices().map((device, index) => (
                   <div
                     key={index}
                     onClick={() => handleDeviceSelection(device)}
