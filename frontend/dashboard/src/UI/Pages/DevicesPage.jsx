@@ -70,6 +70,7 @@ const DevicesPage = () => {
   const [editingDeviceId, setEditingDeviceId] = useState(null);
   const [editingDeviceName, setEditingDeviceName] = useState("");
   const [devicesLoading, setDevicesLoading] = useState(false);
+  const [confirmRemoveDevice, setConfirmRemoveDevice] = useState(null); // { groupId, groupName, deviceId, deviceName }
 
   // Rules state
   const [bandwidthRules, setBandwidthRules] = useState({}); // { groupId: { download_limit_mbps, upload_limit_mbps, is_active, description } }
@@ -337,6 +338,18 @@ const DevicesPage = () => {
     } catch (error) {
       console.error('Error removing device from group:', error);
     }
+  };
+
+  // Check if a group has any rules (mirror criteria from GroupRulesSummary)
+  const hasRules = (groupId) => {
+    const br = bandwidthRules[groupId];
+    const cr = contentControlRules[groupId];
+    const hasBandwidth = !!br && (
+      (br.download_limit_mbps !== null && br.download_limit_mbps !== undefined) ||
+      (br.upload_limit_mbps !== null && br.upload_limit_mbps !== undefined)
+    );
+    const hasContent = !!cr && Array.isArray(cr.blocked_categories) && cr.blocked_categories.length > 0;
+    return hasBandwidth || hasContent;
   };
 
   const deleteGroup = async (groupId) => {
@@ -685,7 +698,18 @@ const DevicesPage = () => {
                               {device.hostname || device.device_name} ({device.ip})
                             </span>
                             <button
-                              onClick={() => removeDeviceFromGroup(group.id, device.id)}
+                              onClick={() => {
+                                if (hasRules(group.id)) {
+                                  setConfirmRemoveDevice({
+                                    groupId: group.id,
+                                    groupName: group.name,
+                                    deviceId: device.id,
+                                    deviceName: device.hostname || device.device_name || 'Device'
+                                  });
+                                } else {
+                                  removeDeviceFromGroup(group.id, device.id);
+                                }
+                              }}
                               className="text-red-500 hover:text-red-600"
                               title="Remove from group"
                             >
@@ -717,7 +741,7 @@ const DevicesPage = () => {
                         <FaPlus /> Add device
                       </button>
                       <button
-                        onClick={() => setConfirmDeleteGroup({ id: group.id, name: group.name })}
+                        onClick={() => setConfirmDeleteGroup({ id: group.id, name: group.name, hasRules: hasRules(group.id) })}
                         className="px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 flex items-center gap-2"
                       >
                         <FaTrash /> Delete group
@@ -885,7 +909,7 @@ const DevicesPage = () => {
         </div>
       )}
 
-      {/* Delete Group Confirmation Modal */}
+      {/* Delete Group Confirmation Modal (shows rules warning when applicable) */}
       {confirmDeleteGroup && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg w-full max-w-md mx-4">
@@ -898,12 +922,21 @@ const DevicesPage = () => {
                 <FaTimes />
               </button>
             </div>
-            <p className="text-gray-700 dark:text-gray-300 mb-4">
-              Are you sure you want to delete the group
-              {" "}
-              <span className="font-semibold">{confirmDeleteGroup.name}</span>?
-              This cannot be undone.
-            </p>
+            {confirmDeleteGroup.hasRules ? (
+              <>
+                <p className="text-gray-700 dark:text-gray-300 mb-2">
+                  This group <span className="font-semibold">{confirmDeleteGroup.name}</span> has rules applied.
+                </p>
+                <p className="text-gray-700 dark:text-gray-300 mb-4">
+                  Deleting it will remove those rules from all devices in this group. Continue?
+                </p>
+              </>
+            ) : (
+              <p className="text-gray-700 dark:text-gray-300 mb-4">
+                Are you sure you want to delete the group {" "}
+                <span className="font-semibold">{confirmDeleteGroup.name}</span>? This cannot be undone.
+              </p>
+            )}
             <div className="flex justify-end gap-2">
               <button
                 className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
@@ -919,6 +952,46 @@ const DevicesPage = () => {
                 }}
               >
                 Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Confirm Remove Device when group has rules */}
+      {confirmRemoveDevice && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg w-full max-w-md mx-4">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Remove Device</h3>
+              <button
+                onClick={() => setConfirmRemoveDevice(null)}
+                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              >
+                <FaTimes />
+              </button>
+            </div>
+            <p className="text-gray-700 dark:text-gray-300 mb-2">
+              The group <span className="font-semibold">{confirmRemoveDevice.groupName}</span> has rules applied.
+            </p>
+            <p className="text-gray-700 dark:text-gray-300 mb-4">
+              Removing <span className="font-semibold">{confirmRemoveDevice.deviceName}</span> from this group will remove those rules from the device. Continue?
+            </p>
+            <div className="flex justify-end gap-2">
+              <button
+                className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
+                onClick={() => setConfirmRemoveDevice(null)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+                onClick={() => {
+                  removeDeviceFromGroup(confirmRemoveDevice.groupId, confirmRemoveDevice.deviceId);
+                  setConfirmRemoveDevice(null);
+                }}
+              >
+                Accept
               </button>
             </div>
           </div>
