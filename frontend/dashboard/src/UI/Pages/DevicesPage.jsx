@@ -695,7 +695,7 @@ const DevicesPage = () => {
                               {getDeviceIcon(device.device_type)}
                             </span>
                             <span className="text-sm text-gray-700 dark:text-gray-200">
-                              {device.hostname || device.device_name} ({device.ip})
+                              {device.device_name || device.hostname} ({device.ip})
                             </span>
                             <button
                               onClick={() => {
@@ -704,7 +704,7 @@ const DevicesPage = () => {
                                     groupId: group.id,
                                     groupName: group.name,
                                     deviceId: device.id,
-                                    deviceName: device.hostname || device.device_name || 'Device'
+                                    deviceName: device.device_name || device.hostname || 'Device'
                                   });
                                 } else {
                                   removeDeviceFromGroup(group.id, device.id);
