@@ -212,7 +212,6 @@ const ScanPage = () => {
   });
 
   const isMounted = useRef(true);
-  const hasAutoScanned = useRef(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -226,12 +225,7 @@ const ScanPage = () => {
     localStorage.setItem("scannedDevices", JSON.stringify(devices));
   }, [devices]);
 
-  useEffect(() => {
-    if (location.state?.autoScan && !hasAutoScanned.current) {
-      hasAutoScanned.current = true;
-      handleNetworkScan();
-    }
-  }, [location.state]);
+  // No auto-scan on page load
 
   const handleNetworkScan = async () => {
     setIsScanning(true);

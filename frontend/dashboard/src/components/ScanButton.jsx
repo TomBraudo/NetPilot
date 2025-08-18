@@ -11,7 +11,7 @@ function ScanButton({ onScan, isScanning }) {
     if (location.pathname === "/scan") {
       if (onScan) onScan();
     } else {
-      navigate("/scan", { state: { autoScan: true } });
+      navigate("/scan");
     }
   };
 
