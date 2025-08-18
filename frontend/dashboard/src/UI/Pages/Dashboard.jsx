@@ -1,11 +1,12 @@
 import { Wifi, ArrowRight } from "lucide-react";
 import NetworkBackground from "../../components/NetworkBackground";
-import ScanButton from "../../components/ScanButton";
+import { useNavigate } from "react-router-dom";
 import LoginButton from "../../components/LoginButton";
 import RouterIdPopup from "../../components/RouterIdPopup";
 import { useAuth } from "../../context/AuthContext";
 
 function Dashboard() {
+  const navigate = useNavigate();
   const { 
     user, 
     loading, 
@@ -14,7 +15,8 @@ function Dashboard() {
     showRouterIdPopup, 
     setRouterIdValue, 
     setShowRouterIdPopup,
-    logout
+    logout,
+    sessionStarted
   } = useAuth();
 
   if (loading) {
@@ -44,7 +46,24 @@ function Dashboard() {
 
         <div className="flex justify-center mb-12">
           {user && routerId ? (
-            <ScanButton />
+            <button
+              className={`relative group px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 ${
+                !sessionStarted
+                  ? "bg-blue-600 opacity-55 text-white cursor-not-allowed"
+                  : "bg-blue-500/10 border border-blue-400/30 backdrop-blur-sm text-blue-900 dark:text-white hover:border-blue-400/50 hover:bg-blue-500/20"
+              }`}
+              onClick={() => sessionStarted && navigate("/dashboard")}
+              disabled={!sessionStarted}
+            >
+              <div className="relative z-10 flex items-center gap-3">
+                <span>{sessionStarted ? "Enter NetPilot" : "Starting session..."}</span>
+                {sessionStarted ? (
+                  <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5" />
+                ) : (
+                  <span className="inline-block w-4 h-4 border-2 border-white/60 border-t-transparent rounded-full animate-spin" />
+                )}
+              </div>
+            </button>
           ) : user ? (
             <div className="text-center">
               <div className="inline-flex items-center px-6 py-3 text-lg font-semibold text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-full">
