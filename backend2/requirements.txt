@@ -9,3 +9,4 @@ python-decouple==3.8
 python-dotenv
 pyotp
 qrcode
+pillow
