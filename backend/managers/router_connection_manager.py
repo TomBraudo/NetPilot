@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from typing import Dict, Tuple, Optional
 import os
 import paramiko
+from scp import SCPClient
 import requests
 from flask import g
 
@@ -124,7 +125,11 @@ class RouterConnectionManager:
             return None, str(e)
 
     def copy_file(self, local_path: str, remote_path: str, make_executable: bool = True, normalize_crlf: bool = True) -> Tuple[bool, str]:
-        """Copy a local file to the router using SFTP (scp-like) with optional CRLF normalization and chmod.
+        """Copy a local file to the router using legacy SCP protocol via Paramiko transport.
+
+        - Ensures the remote parent directory exists
+        - Optionally normalizes CRLF to LF on router (BusyBox-safe)
+        - Optionally chmod +x on router
 
         Returns (True, None) on success, or (False, error_message) on failure.
         """
@@ -139,120 +144,30 @@ class RouterConnectionManager:
         except Exception as e:
             return False, f"Failed to establish SSH connection: {e}"
 
-        # Determine remote parent directory early (used by both paths)
+        # Determine remote parent directory early
         import os as _os
         parent = _os.path.dirname(remote_path) or "/"
 
-        # Helper: inline fallback using streamed stdin (preferred), then heredoc as final fallback
-        def _fallback_inline_copy() -> Tuple[bool, str]:
-            # Read local file
-            try:
-                with open(local_path, 'rb') as f:
-                    data = f.read()
-            except Exception as e:
-                return False, f"Failed to read local file: {e}"
+        # Ensure remote parent directory exists (via shell)
+        self.execute(f"mkdir -p {parent} 2>/dev/null || true")
 
-            # Normalize CRLF locally if requested
-            if normalize_crlf:
-                try:
-                    data = data.replace(b'\r\n', b'\n')
-                except Exception:
-                    pass
-
-            # Ensure remote parent directory
-            self.execute(f"mkdir -p {parent} 2>/dev/null || true")
-
-            # Stream to remote via stdin
-            try:
-                stdin, stdout, stderr = conn.client.exec_command(f"cat > {remote_path}")
-                try:
-                    stdin.write(data)
-                except TypeError:
-                    # Paramiko expects str for write in some versions; decode as ISO-8859-1 as raw passthrough
-                    stdin.write(data.decode('ISO-8859-1', errors='ignore'))
-                stdin.flush()
-                stdin.channel.shutdown_write()
-                # Wait for command to finish
-                stdout.channel.recv_exit_status()
-            except Exception as e:
-                # Fallback to heredoc if streaming fails
-                try:
-                    content = data.decode('utf-8', errors='ignore')
-                    heredoc_cmd = f"cat > {remote_path} << 'NP_EOF'\n{content}\nNP_EOF"
-                    out, err = self.execute(heredoc_cmd)
-                    if err:
-                        return False, f"Inline copy failed: {err}"
-                except Exception as e2:
-                    return False, f"Both streaming and heredoc copy failed: {e} / {e2}"
-
-            # Normalize CR remotely and chmod
-            if normalize_crlf:
-                self.execute(f"sed -i 's/\\r$//' {remote_path} 2>/dev/null || true")
-            if make_executable:
-                self.execute(f"chmod +x {remote_path} 2>/dev/null || true")
-
-            # Verify size
-            out, err = self.execute(f"[ -s {remote_path} ] && echo ok || echo missing")
-            if err or (out or '').strip() != 'ok':
-                return False, "Remote file missing or empty after inline copy"
-            return True, None
-
+        # Upload using SCP protocol over current transport
         try:
-            sftp = conn.client.open_sftp()
+            with SCPClient(conn.client.get_transport()) as scp:
+                scp.put(local_path, remote_path)
         except Exception as e:
-            # Fallback when SFTP subsystem is unavailable (e.g., Dropbear without sftp-server)
-            return _fallback_inline_copy()
+            return False, f"SCP upload failed: {e}"
 
-        # Ensure remote parent directory exists
-        try:
-            # Recursively create directories
-            parts = [p for p in parent.split('/') if p]
-            cur = '/' if parent.startswith('/') else ''
-            for p in parts:
-                cur = f"{cur}/{p}" if cur else p
-                try:
-                    sftp.stat(cur)
-                except Exception:
-                    try:
-                        sftp.mkdir(cur)
-                    except Exception:
-                        pass
-        except Exception:
-            # Fallback to remote mkdir
-            self.execute(f"mkdir -p {parent}")
-
-        # Upload the file
-        try:
-            sftp.put(local_path, remote_path)
-        except Exception as e:
-            try:
-                sftp.close()
-            except Exception:
-                pass
-            # Fallback to inline copy if SFTP put fails
-            return _fallback_inline_copy()
-
-        # Optionally normalize CRLF on router (sed -i)
+        # Post-copy normalization and permissions
         if normalize_crlf:
             self.execute(f"sed -i 's/\\r$//' {remote_path} 2>/dev/null || true")
-
-        # Optionally chmod +x
         if make_executable:
             self.execute(f"chmod +x {remote_path} 2>/dev/null || true")
 
-        # Verify size > 0
-        try:
-            st = sftp.stat(remote_path)
-            sftp.close()
-            if st.st_size <= 0:
-                return False, "Remote file is empty after upload"
-        except Exception as e:
-            try:
-                sftp.close()
-            except Exception:
-                pass
-            return False, f"SFTP stat failed: {e}"
-
+        # Verify presence and non-empty
+        out, err = self.execute(f"[ -s {remote_path} ] && echo ok || echo missing")
+        if err or (out or '').strip() != 'ok':
+            return False, "Remote file missing or empty after upload"
         return True, None
 
     def _get_current_connection(self) -> Optional['_RouterConnection']:

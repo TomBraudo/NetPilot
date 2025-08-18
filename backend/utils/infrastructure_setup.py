@@ -15,6 +15,7 @@ class InfrastructureComponent(Enum):
     """Infrastructure components for NetPilot."""
     MONITORING_SETUP = "monitoring_setup"
     AGH_CATEGORIES_SETUP = "agh_categories_setup"
+    TIME_BASED_SCRIPTS_SETUP = "time_based_scripts_setup"
 
 
 def _execute_command_with_router_manager(router_connection_manager, command: str):
@@ -168,6 +169,71 @@ EOF_NETPILOT"""
         return False
 
 
+def _setup_time_based_scripts(router_connection_manager):
+    """Ensure /root/netlimit exists and required scripts are installed on the router.
+
+    Scripts:
+        - add_devices.sh
+        - del_devices.sh
+        - update_firewall.sh
+
+    Returns:
+        bool: True on success, False on failure
+    """
+    import os
+
+    NETLIMIT_DIR = "/root/netlimit"
+    required_scripts = [
+        "add_devices.sh",
+        "del_devices.sh",
+        "update_firewall.sh",
+    ]
+
+    try:
+        # Ensure directory exists and has restrictive permissions
+        logger.info(f"Ensuring netlimit directory exists: {NETLIMIT_DIR}")
+        router_connection_manager.execute(f"mkdir -p {NETLIMIT_DIR} >/dev/null 2>&1 || true")
+        router_connection_manager.execute(f"chmod 700 {NETLIMIT_DIR} >/dev/null 2>&1 || true")
+
+        # Local scripts directory (backend/services/time_based_scripts)
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        scripts_dir = os.path.join(os.path.dirname(current_dir), 'services', 'time_based_scripts')
+        if not os.path.isdir(scripts_dir):
+            logger.error(f"Time-based scripts directory not found: {scripts_dir}")
+            return False
+
+        # Copy any missing or zero-size scripts
+        from managers.router_connection_manager import RouterConnectionManager
+        rcm = RouterConnectionManager()
+
+        for script in required_scripts:
+            local_path = os.path.join(scripts_dir, script)
+            remote_path = f"{NETLIMIT_DIR}/{script}"
+
+            if not os.path.isfile(local_path):
+                logger.error(f"Local script missing: {local_path}")
+                return False
+
+            # Check if remote script exists and is non-empty
+            out, _ = router_connection_manager.execute(f"[ -s {remote_path} ] && echo ok || echo missing")
+            needs_copy = (out or '').strip() != 'ok'
+
+            if needs_copy:
+                logger.info(f"Copying script to router: {script}")
+                success, copy_err = rcm.copy_file(local_path, remote_path, make_executable=True, normalize_crlf=True)
+                if not success:
+                    logger.error(f"Failed to copy {script}: {copy_err}")
+                    return False
+            else:
+                logger.info(f"Script already present: {remote_path}")
+
+        logger.info("Time-based scripts setup completed successfully")
+        return True
+    except Exception as e:
+        logger.error(f"Failed to set up time-based scripts: {str(e)}")
+        return False
+
+
 def setup_persistent_infrastructure(missing_components=None):
     """
     Set up one-time persistent infrastructure:
@@ -188,7 +254,11 @@ def setup_persistent_infrastructure(missing_components=None):
     from managers.router_connection_manager import RouterConnectionManager
     # Default to both monitoring and AGH categories setup
     if missing_components is None:
-        missing_components = [InfrastructureComponent.MONITORING_SETUP, InfrastructureComponent.AGH_CATEGORIES_SETUP]
+        missing_components = [
+            InfrastructureComponent.MONITORING_SETUP,
+            InfrastructureComponent.AGH_CATEGORIES_SETUP,
+            InfrastructureComponent.TIME_BASED_SCRIPTS_SETUP,
+        ]
     
     router_connection_manager = RouterConnectionManager()
     
@@ -229,6 +299,15 @@ def setup_persistent_infrastructure(missing_components=None):
                 return False, "AGH categories setup failed"
         else:
             logger.info("AGH categories infrastructure is already set up correctly - skipping")
+
+        # Ensure time-based netlimit scripts exist on router
+        if InfrastructureComponent.TIME_BASED_SCRIPTS_SETUP in missing_components:
+            logger.info("Setting up time-based netlimit scripts on router")
+            success = _setup_time_based_scripts(router_connection_manager)
+            if not success:
+                return False, "Time-based scripts setup failed"
+        else:
+            logger.info("Time-based scripts already present - skipping")
         
         # Log success message
         setup_components = [comp.value for comp in missing_components]
@@ -311,6 +390,24 @@ def check_existing_infrastructure():
                 if InfrastructureComponent.AGH_CATEGORIES_SETUP not in missing_components:
                     missing_components.append(InfrastructureComponent.AGH_CATEGORIES_SETUP)
                 issues.append(f"missing default categories: {', '.join(missing_default_categories)}")
+
+        # 5) Verify /root/netlimit dir and scripts
+        NETLIMIT_DIR = "/root/netlimit"
+        scripts_ok = True
+        dir_out, _ = router_connection_manager.execute(f"[ -d {NETLIMIT_DIR} ] && echo yes || echo no")
+        if (dir_out or '').strip() != 'yes':
+            scripts_ok = False
+            missing_components.append(InfrastructureComponent.TIME_BASED_SCRIPTS_SETUP)
+            issues.append("netlimit directory missing")
+        else:
+            required_scripts = ["add_devices.sh", "del_devices.sh", "update_firewall.sh"]
+            for s in required_scripts:
+                chk_out, _ = router_connection_manager.execute(f"[ -s {NETLIMIT_DIR}/{s} ] && echo ok || echo missing")
+                if (chk_out or '').strip() != 'ok':
+                    scripts_ok = False
+                    if InfrastructureComponent.TIME_BASED_SCRIPTS_SETUP not in missing_components:
+                        missing_components.append(InfrastructureComponent.TIME_BASED_SCRIPTS_SETUP)
+                    issues.append(f"missing script: {s}")
 
         if not missing_components:
             logger.info("All infrastructure components OK")

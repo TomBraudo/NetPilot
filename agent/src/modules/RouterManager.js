@@ -416,25 +416,58 @@ class RouterManager {
         this.isConnected = true;
       }
 
-      // Verify first – if already healthy, skip installer altogether
+      // 1) Check current status – if already healthy, ensure categories then return
       let status = await this.verifyAdGuardHomeStatus();
-      const allOk = status.processRunning && status.logsAndStatsDisabled && status.guiBoundLocal && status.port53Listening && status.dnsWorking;
-
-      if (!allOk) {
-        // Copy installer script (may throw if not bundled)
-        await this.copyInstallScriptToRouter();
-
-        // Perform one-time AGH categorized filtering bootstrap (creates dirs, uploads lists, subscribes)
+      const healthy = status.processRunning && status.logsAndStatsDisabled && status.guiBoundLocal && status.port53Listening && status.dnsWorking;
+      if (healthy) {
+        logger.router('AGH already healthy; ensuring categories and final verification');
+        await this.waitForAghReadiness(45000);
         await this.bootstrapAghCategories();
-
-        logger.router('AdGuard Home not in desired state, running installer with FORCE=1...');
-        await this.executeCommand('FORCE=1 sh /root/netpilot_install_agh.sh');
-
-        // Give service a moment to settle
-        await new Promise(r => setTimeout(r, 3000));
-
-        // Re-verify
         status = await this.verifyAdGuardHomeStatus();
+        return { success: true, status };
+      }
+
+      // 2) Not healthy → copy installer and guarantee presence/permissions before running
+      try {
+        await this.copyInstallScriptToRouter();
+      } catch (copyErr) {
+        logger.error('AGH ensure: failed to copy installer to router:', copyErr);
+        throw new Error(`Failed to upload installer: ${copyErr.message}`);
+      }
+      await this.executeCommand('[ -f /root/netpilot_install_agh.sh ] && chmod +x /root/netpilot_install_agh.sh || false');
+      await this.executeCommand('sync || true');
+
+      // 3) Run installer with FORCE=1 and capture output for diagnostics
+      logger.router('AdGuard Home not in desired state, running installer with FORCE=1...');
+      const installResult = await this.ssh.execCommand('FORCE=1 sh /root/netpilot_install_agh.sh 2>&1');
+      if (installResult.stderr && installResult.stderr.trim()) {
+        logger.warn(`AGH installer stderr: ${installResult.stderr.trim()}`);
+      }
+      if (installResult.stdout) {
+        const tail = installResult.stdout.split('\n').slice(-20).join(' | ');
+        logger.router(`AGH installer output (tail): ${tail}`);
+      }
+      if (installResult.code && installResult.code !== 0) {
+        throw new Error(`Installer exited with code ${installResult.code}`);
+      }
+
+      // 4) Wait until AGH is truly ready (process + API + port 53)
+      try {
+        await this.waitForAghReadiness(90000);
+      } catch (readyErr) {
+        logger.error('AGH ensure: readiness wait failed:', readyErr);
+        throw new Error(`AGH did not become ready: ${readyErr.message}`);
+      }
+
+      // 5) Bootstrap categories AFTER API is responsive
+      await this.bootstrapAghCategories();
+
+      // 6) Final verification
+      try {
+        status = await this.verifyAdGuardHomeStatus();
+      } catch (verifyErr) {
+        logger.error('AGH ensure: final verification failed:', verifyErr);
+        throw new Error(`Final verification failed: ${verifyErr.message}`);
       }
 
       return {
@@ -444,8 +477,31 @@ class RouterManager {
 
     } catch (error) {
       logger.error('Failed to ensure AdGuard Home:', error);
-      throw new Error(`AdGuard Home ensure failed: ${error.message}`);
+      // Preserve detailed message for the renderer
+      throw new Error(error.message || 'AdGuard Home ensure failed');
     }
+  }
+
+  // Poll until AGH process, API, and DNS port are ready to avoid race conditions
+  async waitForAghReadiness(maxWaitMs = 60000) {
+    const start = Date.now();
+    let last = '';
+    while (Date.now() - start < maxWaitMs) {
+      try {
+        const status = await this.verifyAdGuardHomeStatus();
+        const apiProbe = await this.ssh.execCommand('curl -sf http://127.0.0.1:3000/control/status >/dev/null 2>&1 && echo ok || echo fail');
+        const apiOk = (apiProbe.stdout || '').includes('ok');
+        if (status.processRunning && status.port53Listening && apiOk) {
+          logger.router('AGH readiness confirmed (process, API, port 53)');
+          return true;
+        }
+        last = `proc=${status.processRunning} api=${apiOk} :53=${status.port53Listening}`;
+      } catch (e) {
+        last = e.message;
+      }
+      await new Promise(r => setTimeout(r, 3000));
+    }
+    throw new Error(`Timed out waiting for AGH readiness: ${last}`);
   }
 
   async copyInstallScriptToRouter() {
@@ -468,9 +524,60 @@ class RouterManager {
     }
     const remotePath = '/root/netpilot_install_agh.sh';
 
-    logger.router(`Copying installer to router: ${remotePath}`);
-    await this.ssh.putFile(localPath, remotePath);
+    // Read script content and upload via here-doc (no sftp/scp required)
+    logger.router(`Copying installer to router (here-doc): ${remotePath}`);
+    const content = fs.readFileSync(localPath, 'utf8');
+    await this.uploadTextFile(remotePath, content, true);
     await this.executeCommand(`chmod +x ${remotePath}`);
+  }
+
+  // Upload plain text to the router using a here-doc to avoid scp/sftp
+  async uploadTextFile(remotePath, content, executable = false) {
+    const sanitized = (content || '').replace(/\r/g, '');
+    // Pick a delimiter that does not appear in content to avoid inner here-doc collisions
+    let delimiterBase = 'NP_EOF_';
+    let delimiter = delimiterBase + Math.random().toString(36).slice(2, 10);
+    const maxTries = 5;
+    let tries = 0;
+    while (sanitized.includes(delimiter) && tries < maxTries) {
+      delimiter = delimiterBase + Math.random().toString(36).slice(2, 10);
+      tries++;
+    }
+    if (sanitized.includes(delimiter)) {
+      // Fallback to a very unlikely delimiter
+      delimiter = 'NP_EOF_' + Date.now() + '_' + process.pid;
+    }
+    const totalLen = sanitized.length;
+    const chunkSize = 12000; // conservative to avoid SSH exec limits
+    const numChunks = Math.max(1, Math.ceil(totalLen / chunkSize));
+
+    logger.router(`Uploading ${totalLen} bytes to ${remotePath} in ${numChunks} chunk(s) via here-doc`);
+
+    for (let i = 0; i < numChunks; i++) {
+      const start = i * chunkSize;
+      const end = Math.min(totalLen, start + chunkSize);
+      const chunk = sanitized.slice(start, end);
+      const redirect = i === 0 ? '>' : '>>';
+      const cmd = `cat ${redirect} ${remotePath} << '${delimiter}'\n${chunk}\n${delimiter}`;
+      // Call SSH directly to avoid logging full content
+      const result = await this.ssh.execCommand(cmd);
+      if (result.code !== 0 && result.stderr) {
+        throw new Error(`Upload failed for chunk ${i + 1}/${numChunks}: ${result.stderr}`);
+      }
+    }
+
+    if (executable) {
+      const chmodRes = await this.ssh.execCommand(`chmod +x ${remotePath}`);
+      if (chmodRes.code !== 0 && chmodRes.stderr) {
+        throw new Error(`chmod failed: ${chmodRes.stderr}`);
+      }
+    }
+
+    // Verify file exists and is non-empty
+    const verifyRes = await this.ssh.execCommand(`[ -s ${remotePath} ] && echo ok || echo fail`);
+    if (!(verifyRes.stdout || '').includes('ok')) {
+      throw new Error(`Remote file verification failed for ${remotePath}`);
+    }
   }
 
   async verifyAdGuardHomeStatus() {
@@ -557,7 +664,8 @@ class RouterManager {
 
       try {
         if (fs.existsSync(localFile)) {
-          await this.ssh.putFile(localFile, remoteRaw);
+          const text = fs.readFileSync(localFile, 'utf8');
+          await this.uploadTextFile(remoteRaw, text, false);
         } else {
           // If local missing, create an empty placeholder to keep pipeline consistent
           await this.executeCommand(`: > ${remoteRaw}`);
