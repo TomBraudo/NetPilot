@@ -1,4 +1,4 @@
-from flask import Flask, g
+from flask import Flask, g, request
 from flask_cors import CORS
 import os
 import argparse
@@ -172,28 +172,28 @@ def create_app(dev_mode=False, dev_user_id=None):
                     if is_success:
                         # Success response - commit the transaction
                         g.db_session.commit()
-                        print(f"✅ Transaction committed for successful request")
+                        print(f"✅ Transaction committed for successful request to {request.endpoint}")
                     else:
                         # Error response - rollback the transaction
                         g.db_session.rollback()
-                        print(f"❌ Transaction rolled back for failed request")
+                        print(f"❌ Transaction rolled back for failed request to {request.endpoint}")
                 else:
                     # No JSON response or invalid format - check HTTP status
                     if response.status_code < 400:
                         g.db_session.commit()
-                        print(f"✅ Transaction committed based on HTTP status {response.status_code}")
+                        print(f"✅ Transaction committed based on HTTP status {response.status_code} for {request.endpoint}")
                     else:
                         g.db_session.rollback()
-                        print(f"❌ Transaction rolled back based on HTTP status {response.status_code}")
+                        print(f"❌ Transaction rolled back based on HTTP status {response.status_code} for {request.endpoint}")
                         
             except Exception as e:
                 # If we can't determine success/failure, rollback to be safe
-                print(f"⚠️ Error in transaction management: {e}")
+                print(f"⚠️ Error in transaction management for {request.endpoint}: {e}")
                 try:
                     g.db_session.rollback()
-                    print("❌ Transaction rolled back due to error in after_request")
+                    print(f"❌ Transaction rolled back due to error in after_request for {request.endpoint}")
                 except Exception as rollback_error:
-                    print(f"💥 Failed to rollback transaction: {rollback_error}")
+                    print(f"💥 Failed to rollback transaction for {request.endpoint}: {rollback_error}")
         
         return response
 

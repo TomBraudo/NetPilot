@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { sessionAPI, twoFAAPI } from '../constants/api';
 
 const AuthContext = createContext();
@@ -21,6 +21,10 @@ export const AuthProvider = ({ children }) => {
   const [routerIdChecked, setRouterIdChecked] = useState(false); // Track if we've checked for router ID
   const [sessionStarted, setSessionStarted] = useState(false); // Track if session has been started
   const [authFlowCompleted, setAuthFlowCompleted] = useState(false); // Track if auth flow has been completed
+  
+  // Track if a session start is currently in progress to prevent concurrent attempts
+  // This prevents the "SESSION_ALREADY_ACTIVE" errors that were overwhelming the server
+  const sessionStartInProgress = useRef(false);
   
   // 2FA State
   const [twoFARequired, setTwoFARequired] = useState(false);
@@ -187,10 +191,14 @@ export const AuthProvider = ({ children }) => {
     setShowRouterIdPopup(false);
     setRouterIdChecked(true);
     
-    // Step 4B: Start session ONLY after router ID is confirmed saved
-    const sessionSuccess = await startSessionAfterRouterIdSaved(id, null);
-    if (!sessionSuccess) {
-      console.error('❌ Session start failed in setRouterIdValue, but router ID is saved');
+    // Step 4B: Start session ONLY after router ID is confirmed saved (if not already started)
+    if (!sessionStarted) {
+      const sessionSuccess = await startSessionAfterRouterIdSaved(id, null);
+      if (!sessionSuccess) {
+        console.error('❌ Session start failed in setRouterIdValue, but router ID is saved');
+      }
+    } else {
+      console.log('🔄 Session already started, skipping session start in setRouterIdValue');
     }
   };
 
@@ -227,7 +235,14 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Start commands server session ONLY after router ID is confirmed saved
+  // FIXED: Added guard to prevent multiple concurrent session start attempts
   const startSessionAfterRouterIdSaved = async (routerId, userData) => {
+    // Prevent multiple session start attempts
+    if (sessionStarted) {
+      console.log('🔄 Session already started, skipping duplicate session start attempt');
+      return true;
+    }
+    
     console.log('🚀 STEP 4B: Starting commands server session...');
     console.log('🔧 Router ID confirmed in localStorage:', localStorage.getItem('routerId'));
     console.log('🔧 Router ID parameter:', routerId);
@@ -256,9 +271,39 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Start session with commands server (critical for router operations)
+  // FIXED: Added comprehensive guards to prevent multiple concurrent session start attempts
+  // This prevents the "SESSION_ALREADY_ACTIVE" errors that were overwhelming the server
+  // - Checks sessionStarted state
+  // - Uses sessionStartInProgress ref to prevent concurrent attempts
+  // - Adds 100ms delay to prevent rapid-fire requests
+  // - Double-checks state after delay
   const startCommandsServerSession = async (routerId, userData = null) => {
     // Use provided userData or fall back to state (for race condition fix)
     const activeUser = userData || user;
+    
+    // Prevent multiple session start attempts
+    if (sessionStarted) {
+      console.log('🔄 Session already started, skipping duplicate session start attempt');
+      return true;
+    }
+    
+    // Prevent concurrent session start attempts
+    if (sessionStartInProgress.current) {
+      console.log('🔄 Session start already in progress, skipping duplicate attempt');
+      return false;
+    }
+    
+    // Add a small delay to prevent rapid-fire requests
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    // Double-check after delay
+    if (sessionStarted || sessionStartInProgress.current) {
+      console.log('🔄 Session state changed during delay, skipping duplicate attempt');
+      return true;
+    }
+    
+    // Mark session start as in progress
+    sessionStartInProgress.current = true;
     
     console.log('=== STARTING COMMANDS SERVER SESSION ===');
     console.log('User authenticated:', !!activeUser);
@@ -307,6 +352,9 @@ export const AuthProvider = ({ children }) => {
       console.error('=== SESSION START FAILED ===');
       
       return false;
+    } finally {
+      // Always clear the in-progress flag
+      sessionStartInProgress.current = false;
     }
   };
 
@@ -721,6 +769,8 @@ export const AuthProvider = ({ children }) => {
       
       // Start session only after both user and router ID are confirmed
       startSessionAfterRouterIdSaved(routerId, user);
+    } else if (user && routerId && routerIdChecked && sessionStarted) {
+      console.log('🔄 Deterministic flow: Session already started, skipping session start');
     }
   }, [user, routerId, routerIdChecked, sessionStarted]);
 

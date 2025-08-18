@@ -8,7 +8,8 @@ from services.device_service import (
     bulk_create_or_update_devices,
     get_device_by_id,
     delete_device,
-    validate_devices
+    validate_devices,
+    update_device
 )
 import time
 
@@ -114,15 +115,17 @@ def validate_devices_endpoint():
 
 @devices_bp.route('/<device_id>', methods=['GET'])
 @router_context_required
-def get_device(device_id):
+def get_device_endpoint(device_id):
     """Get a specific device"""
     start_time = time.time()
     
     try:
-        device = get_device_by_id(g.user_id, g.router_id, device_id)
-        if not device:
-            return build_error_response("Device not found", 404, "DEVICE_NOT_FOUND", start_time)
-        return build_success_response(device, start_time)
+        result, error = get_device_by_id(g.user_id, g.router_id, device_id)
+        if error:
+            if "Device not found" in error:
+                return build_error_response("Device not found", 404, "DEVICE_NOT_FOUND", start_time)
+            return build_error_response(f"Failed to get device: {error}", 500, "GET_DEVICE_FAILED", start_time)
+        return build_success_response(result, start_time)
     except Exception as e:
         logger.error(f"Failed to get device: {str(e)}")
         return build_error_response(f"Failed to get device: {str(e)}", 500, "GET_DEVICE_FAILED", start_time)
@@ -130,36 +133,20 @@ def get_device(device_id):
 
 @devices_bp.route('/<device_id>', methods=['PUT'])
 @router_context_required
-def update_device(device_id):
+def update_device_endpoint(device_id):
     """Update a device"""
     start_time = time.time()
     data = request.get_json() or {}
     
     try:
-        device = get_device_by_id(g.user_id, g.router_id, device_id)
-        if not device:
-            return build_error_response("Device not found", 404, "DEVICE_NOT_FOUND", start_time)
+        # Use the service layer to update the device
+        result, error = update_device(g.user_id, g.router_id, device_id, data)
+        if error:
+            if "Device not found" in error:
+                return build_error_response("Device not found", 404, "DEVICE_NOT_FOUND", start_time)
+            return build_error_response(f"Failed to update device: {error}", 500, "UPDATE_DEVICE_FAILED", start_time)
         
-        # Update fields
-        if 'hostname' in data:
-            device.hostname = data['hostname'].strip() if data['hostname'] else None
-        if 'device_name' in data:
-            device.device_name = data['device_name'].strip() if data['device_name'] else None
-        if 'device_type' in data or 'type' in data:
-            device.device_type = (data.get('device_type') or data.get('type', '')).strip() if (data.get('device_type') or data.get('type')) else None
-        if 'manufacturer' in data:
-            device.manufacturer = data['manufacturer'].strip() if data['manufacturer'] else None
-        
-        # Save changes
-        from database.session import get_db_session
-        with get_db_session() as session:
-            session.merge(device)
-            session.commit()
-            session.refresh(device)
-            # Convert to dict while still in session
-            device_dict = device.to_dict()
-        
-        return build_success_response(device_dict, start_time)
+        return build_success_response(result, start_time)
     except Exception as e:
         logger.error(f"Failed to update device: {str(e)}")
         return build_error_response(f"Failed to update device: {str(e)}", 500, "UPDATE_DEVICE_FAILED", start_time)
@@ -172,10 +159,27 @@ def delete_device_endpoint(device_id):
     start_time = time.time()
     
     try:
-        success = delete_device(g.user_id, g.router_id, device_id)
-        if not success:
+        result = delete_device(g.user_id, g.router_id, device_id)
+        
+        # Handle different return types
+        if result is None:
             return build_error_response("Device not found", 404, "DEVICE_NOT_FOUND", start_time)
+        elif isinstance(result, str):
+            # Error message
+            return build_error_response(f"Failed to delete device: {result}", 500, "DELETE_DEVICE_FAILED", start_time)
+        elif isinstance(result, tuple) and len(result) == 2:
+            # Success: (success, deleted_group_ids)
+            success, deleted_group_ids = result
+            if success:
+                response_data = {
+                    "message": "Device deleted successfully",
+                    "deleted_groups": deleted_group_ids
+                }
+                return build_success_response(response_data, start_time)
+        
+        # Fallback
         return build_success_response({"message": "Device deleted successfully"}, start_time)
+        
     except Exception as e:
         logger.error(f"Failed to delete device: {str(e)}")
         return build_error_response(f"Failed to delete device: {str(e)}", 500, "DELETE_DEVICE_FAILED", start_time)

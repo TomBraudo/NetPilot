@@ -16,6 +16,7 @@ import {
   FaUsersCog,
   FaListAlt,
   FaNetworkWired,
+  FaCog,
 } from "react-icons/fa";
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { MdOutlineSecurity } from "react-icons/md";
@@ -90,6 +91,11 @@ export const links = [
     href: "/devices",
     icon: FaNetworkWired,
     text: "Devices",
+  },
+  {
+    href: "/control",
+    icon: FaCog,
+    text: "Control",
   },
 
   /*

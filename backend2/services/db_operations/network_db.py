@@ -4,6 +4,10 @@ Network Database Operations Service
 This service handles all database operations for network functionality.
 It provides data validation, state checking, and CRUD operations for network-related data.
 All functions return (result, error) tuple format.
+
+IMPORTANT: When saving network scan results, this service preserves user-customized
+device names (device_name field) to prevent users from losing their customizations
+during automatic updates from network scans.
 """
 
 from typing import Dict, List, Optional, Tuple, Any
@@ -77,7 +81,20 @@ def save_network_scan_result(user_id: str, router_id: str, scan_result: List[Dic
             
             if existing_device:
                 # Update existing device
-                existing_device.hostname = device_hostname
+                # Only update hostname if device_name is not manually set
+                # This preserves user's custom device names
+                if device_hostname and not existing_device.device_name:
+                    existing_device.hostname = device_hostname
+                    logger.debug(f"Updated hostname for device {device_ip} to {device_hostname}")
+                elif device_hostname and existing_device.device_name:
+                    # If user has set a custom name, only update hostname if it's different
+                    # and the custom name is not the same as the current hostname
+                    if existing_device.hostname != device_hostname and existing_device.device_name != existing_device.hostname:
+                        existing_device.hostname = device_hostname
+                        logger.debug(f"Updated hostname for device {device_ip} to {device_hostname} (preserving custom name: {existing_device.device_name})")
+                    else:
+                        logger.debug(f"Preserved custom device name '{existing_device.device_name}' for device {device_ip} (scan hostname: {device_hostname})")
+                
                 existing_device.manufacturer = device_vendor
                 existing_device.last_seen = current_time
                 # Update IP/MAC if they've changed
