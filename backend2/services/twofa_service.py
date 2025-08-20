@@ -6,13 +6,24 @@ import secrets
 import hashlib
 import os
 from datetime import datetime, timedelta
-from typing import Optional, Tuple, List
+from typing import Optional, Tuple, List, Dict
 from cryptography.fernet import Fernet
-from models.user import User, User2FASettings, User2FAAttempt
+from models.user import User2FASettings
 from utils.logging_config import get_logger
-from sqlalchemy.orm import Session
-from sqlalchemy.exc import IntegrityError
-from sqlalchemy import func, text
+from .base import handle_service_errors, log_service_operation
+from services.db_operations.twofa_db import (
+    start_setup as db_start_setup,
+    validate_and_expire_setup_token as db_validate_and_expire_setup_token,
+    enable_2fa_and_log_attempt as db_enable_2fa_and_log_attempt,
+    get_settings_and_user as db_get_settings_and_user,
+    log_attempt as db_log_attempt,
+    disable_2fa as db_disable_2fa,
+    reset_settings as db_reset_settings,
+    replace_backup_codes as db_replace_backup_codes,
+    increment_failed_attempts as db_increment_failed_attempts,
+    reset_failed_attempts as db_reset_failed_attempts,
+    use_backup_code as db_use_backup_code,
+)
 
 logger = get_logger('2fa_service')
 
@@ -25,11 +36,19 @@ class TwoFAService:
             encryption_key = Fernet.generate_key().decode()
             logger.warning(f"Generated new TOTP encryption key: {encryption_key}")
             logger.warning("Store this key securely in your environment variables!")
+            logger.warning("Add TOTP_ENCRYPTION_KEY to your .env file to persist this key!")
+        else:
+            logger.info("TOTP encryption key loaded from environment variables")
         
         if isinstance(encryption_key, str):
             encryption_key = encryption_key.encode()
             
-        self.cipher = Fernet(encryption_key)
+        try:
+            self.cipher = Fernet(encryption_key)
+            logger.info("TOTP encryption cipher initialized successfully")
+        except Exception as e:
+            logger.error(f"Failed to initialize TOTP encryption cipher: {e}")
+            raise
     
     def encrypt_secret(self, secret: str) -> str:
         """Encrypt TOTP secret for database storage"""
@@ -113,7 +132,7 @@ class TwoFAService:
     
     # ===== RACE CONDITION PROTECTED METHODS =====
     
-    def atomic_increment_failed_attempts(self, db_session: Session, user_id: str) -> Tuple[int, bool]:
+    def atomic_increment_failed_attempts(self, user_id: str) -> Tuple[int, bool]:
         """
         Atomically increment failed attempts and determine if user should be locked.
         
@@ -125,48 +144,16 @@ class TwoFAService:
         - Single transaction to prevent race conditions between multiple verification attempts
         """
         try:
-            # Use raw SQL for atomic increment to prevent race conditions
-            result = db_session.execute(
-                text("""
-                UPDATE user_2fa_settings 
-                SET failed_attempts = failed_attempts + 1,
-                    updated_at = NOW()
-                WHERE user_id = :user_id 
-                RETURNING failed_attempts
-                """),
-                {"user_id": user_id}
-            )
-            
-            new_attempts = result.fetchone()
-            if new_attempts:
-                failed_count = new_attempts[0]
-                should_lock = self.should_lock_user(failed_count)
-                
-                # If should lock, update lockout timestamp atomically
-                if should_lock:
-                    lockout_duration = self.calculate_lockout_duration(failed_count)
-                    lock_until = datetime.utcnow() + lockout_duration
-                    
-                    db_session.execute(
-                        text("""
-                        UPDATE user_2fa_settings 
-                        SET locked_until = :lock_until,
-                            updated_at = NOW()
-                        WHERE user_id = :user_id
-                        """),
-                        {"user_id": user_id, "lock_until": lock_until}
-                    )
-                
-                return failed_count, should_lock
-            else:
-                logger.error(f"Failed to increment attempts for user {user_id} - user not found")
+            data, err = db_increment_failed_attempts(user_id)
+            if err or not data:
+                logger.error(f"Failed to increment attempts for user {user_id}: {err}")
                 return 0, False
-                
+            return int(data.get('failed_attempts', 0)), bool(data.get('should_lock', False))
         except Exception as e:
             logger.error(f"Error in atomic_increment_failed_attempts for user {user_id}: {e}")
             raise
     
-    def atomic_reset_failed_attempts(self, db_session: Session, user_id: str) -> bool:
+    def atomic_reset_failed_attempts(self, user_id: str) -> bool:
         """
         Atomically reset failed attempts and unlock user.
         
@@ -174,23 +161,15 @@ class TwoFAService:
         - Single atomic update to prevent partial state
         """
         try:
-            result = db_session.execute(
-                text("""
-                UPDATE user_2fa_settings 
-                SET failed_attempts = 0,
-                    locked_until = NULL,
-                    last_used_at = NOW(),
-                    updated_at = NOW()
-                WHERE user_id = :user_id
-                """),
-                {"user_id": user_id}
-            )
-            return result.rowcount > 0
+            ok, err = db_reset_failed_attempts(user_id)
+            if err:
+                logger.error(f"Failed to reset attempts for user {user_id}: {err}")
+            return bool(ok)
         except Exception as e:
             logger.error(f"Error in atomic_reset_failed_attempts for user {user_id}: {e}")
             raise
     
-    def atomic_use_backup_code(self, db_session: Session, user_id: str, backup_hash: str) -> bool:
+    def atomic_use_backup_code(self, user_id: str, backup_hash: str) -> bool:
         """
         Atomically remove a backup code after successful verification.
         
@@ -199,33 +178,17 @@ class TwoFAService:
         - Prevents double-use of backup codes
         """
         try:
-            # Use PostgreSQL array_remove function for atomic removal
-            result = db_session.execute(
-                text("""
-                UPDATE user_2fa_settings 
-                SET backup_codes = array_remove(backup_codes, :backup_hash),
-                    updated_at = NOW()
-                WHERE user_id = :user_id 
-                AND :backup_hash = ANY(backup_codes)
-                RETURNING array_length(backup_codes, 1) as remaining_codes
-                """),
-                {"user_id": user_id, "backup_hash": backup_hash}
-            )
-            
-            result_row = result.fetchone()
-            if result_row:
-                remaining = result_row[0] or 0  # Handle None case
-                logger.info(f"Backup code used for user {user_id}. Remaining codes: {remaining}")
-                return True
-            else:
+            ok, err = db_use_backup_code(user_id, backup_hash)
+            if not ok:
                 logger.warning(f"Backup code not found or already used for user {user_id}")
-                return False
-                
+            if err:
+                logger.error(f"Error in atomic_use_backup_code for user {user_id}: {err}")
+            return bool(ok)
         except Exception as e:
             logger.error(f"Error in atomic_use_backup_code for user {user_id}: {e}")
             raise
     
-    def atomic_validate_and_expire_setup_token(self, db_session: Session, user_id: str, setup_token: str) -> Optional[User2FASettings]:
+    def atomic_validate_and_expire_setup_token(self, user_id: str, setup_token: str) -> Optional[User2FASettings]:
         """
         Atomically validate setup token and mark as expired.
         
@@ -234,29 +197,150 @@ class TwoFAService:
         - Prevents token reuse in concurrent requests
         """
         try:
-            # First, get the current settings to validate
-            user_2fa = db_session.query(User2FASettings).filter_by(
-                user_id=user_id,
-                setup_token=setup_token
-            ).first()
-            
-            if not user_2fa:
+            user_2fa, err = db_validate_and_expire_setup_token(user_id, setup_token)
+            if err:
+                logger.error(f"Failed to validate/expire setup token for user {user_id}: {err}")
                 return None
-                
-            # Check if token is expired
-            if user_2fa.setup_expires_at and user_2fa.setup_expires_at < datetime.utcnow():
-                return None
-            
-            # Clear the setup token
-            user_2fa.setup_token = None
-            user_2fa.setup_expires_at = None
-            user_2fa.updated_at = datetime.utcnow()
-            
             return user_2fa
-                
         except Exception as e:
             logger.error(f"Error in atomic_validate_and_expire_setup_token for user {user_id}: {e}")
             raise
 
 # Initialize service
 twofa_service = TwoFAService()
+
+
+# ===== Orchestration functions (service layer) =====
+
+@handle_service_errors("2FA: start setup")
+def start_2fa_setup(user_id: str) -> Tuple[Optional[Dict], Optional[str]]:
+    """Generate secret and setup token, persist via DB ops, and return QR + metadata."""
+    secret = twofa_service.generate_totp_secret()
+    setup_token = secrets.token_urlsafe(32)
+    db_result, db_error = db_start_setup(user_id, twofa_service.encrypt_secret(secret), setup_token)
+    if db_error:
+        return None, db_error
+    user_email = (db_result or {}).get('user_email')
+    qr_code = twofa_service.generate_qr_code(user_email, secret)
+    return {
+        "qr_code": qr_code,
+        "secret": secret,
+        "setup_token": setup_token,
+        "expires_in": 600,
+    }, None
+
+
+@handle_service_errors("2FA: verify setup")
+def verify_2fa_setup(user_id: str, code: str, setup_token: str, ip_address: Optional[str], user_agent: Optional[str]) -> Tuple[Optional[Dict], Optional[str]]:
+    user_2fa, err = db_validate_and_expire_setup_token(user_id, setup_token)
+    if err:
+        return None, err
+    if not user_2fa:
+        return None, "SETUP_EXPIRED"
+    secret_val = twofa_service.decrypt_secret(user_2fa.totp_secret)
+    if not twofa_service.verify_totp_code(secret_val, code):
+        return None, "WRONG_PIN"
+    ok, err2 = db_enable_2fa_and_log_attempt(user_id, True, ip_address, user_agent)
+    if err2 or not ok:
+        return None, err2 or "ENABLE_FAILED"
+    return {"success": True, "message": "2FA setup completed successfully"}, None
+
+
+@handle_service_errors("2FA: verify login")
+def verify_2fa_login(user_id: str, code: str, ip_address: Optional[str], user_agent: Optional[str]) -> Tuple[Optional[Dict], Optional[str]]:
+    data, err = db_get_settings_and_user(user_id)
+    if err:
+        return None, err
+    user_2fa = (data or {}).get('user_2fa')
+    if not user_2fa or not user_2fa.is_enabled:
+        return None, "2FA_NOT_ENABLED"
+    secret_val = twofa_service.decrypt_secret(user_2fa.totp_secret)
+    verification_success = twofa_service.verify_totp_code(secret_val, code)
+    ok, err2 = db_log_attempt(user_id, verification_success, ip_address, user_agent)
+    if err2 or not ok:
+        return None, err2 or "LOG_ATTEMPT_FAILED"
+    if not verification_success:
+        return None, "WRONG_PIN"
+    
+    # Return session data that the endpoint should set
+    return {
+        "success": True, 
+        "message": "2FA verification successful",
+        "session_data": {
+            "2fa_verified": True,
+            "2fa_verified_at": datetime.utcnow().isoformat()
+        }
+    }, None
+
+
+@handle_service_errors("2FA: status")
+def get_2fa_status_service(user_id: str) -> Tuple[Optional[Dict], Optional[str]]:
+    data, err = db_get_settings_and_user(user_id)
+    if err:
+        return None, err
+    user = (data or {}).get('user')
+    user_2fa = (data or {}).get('user_2fa')
+    status = {
+        "is_enabled": bool(user_2fa.is_enabled) if user_2fa else False,
+        "is_required": bool(getattr(user, 'requires_2fa', False)) if user else False,
+        "methods_available": ["totp"] if user_2fa and user_2fa.is_enabled else []
+    }
+    return status, None
+
+
+@handle_service_errors("2FA: disable")
+def disable_2fa_service(user_id: str, confirmation_code: str) -> Tuple[Optional[Dict], Optional[str]]:
+    data, err = db_get_settings_and_user(user_id)
+    if err:
+        return None, err
+    user_2fa = (data or {}).get('user_2fa')
+    if not user_2fa or not user_2fa.is_enabled:
+        return None, "2FA_NOT_ENABLED"
+    secret_val = twofa_service.decrypt_secret(user_2fa.totp_secret)
+    if not twofa_service.verify_totp_code(secret_val, confirmation_code):
+        return None, "WRONG_PIN"
+    ok, err2 = db_disable_2fa(user_id)
+    if err2 or not ok:
+        return None, err2 or "DISABLE_FAILED"
+    return {
+        "success": True, 
+        "message": "2FA disabled successfully",
+        "session_data": {
+            "2fa_verified": None,
+            "2fa_verified_at": None
+        }
+    }, None
+
+
+@handle_service_errors("2FA: reset")
+def reset_2fa_service(user_id: str) -> Tuple[Optional[Dict], Optional[str]]:
+    ok, err = db_reset_settings(user_id)
+    if err or not ok:
+        return None, err or "RESET_FAILED"
+    return {
+        "success": True, 
+        "message": "2FA reset successfully. You can now set up 2FA again.",
+        "session_data": {
+            "2fa_verified": None,
+            "2fa_verified_at": None
+        }
+    }, None
+
+
+@handle_service_errors("2FA: generate backup codes")
+def generate_backup_codes_service(user_id: str, confirmation_code: str) -> Tuple[Optional[Dict], Optional[str]]:
+    data, err = db_get_settings_and_user(user_id)
+    if err:
+        return None, err
+    user_2fa = (data or {}).get('user_2fa')
+    if not user_2fa or not user_2fa.is_enabled:
+        return None, "2FA_NOT_ENABLED"
+    secret_val = twofa_service.decrypt_secret(user_2fa.totp_secret)
+    if not twofa_service.verify_totp_code(secret_val, confirmation_code):
+        return None, "INVALID_CODE"
+    backup_codes = twofa_service.generate_backup_codes()
+    hashed_backup_codes = [twofa_service.hash_backup_code(code) for code in backup_codes]
+    ok, err2 = db_replace_backup_codes(user_id, hashed_backup_codes)
+    if err2 or not ok:
+        return None, err2 or "REPLACE_FAILED"
+    return {"backup_codes": backup_codes, "message": "New backup codes generated successfully"}, None

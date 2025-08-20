@@ -1,15 +1,13 @@
 """
-Base database operations and session management
+Base database utilities
 
-Provides shared database session management and utilities for all DB operations.
-This module ensures consistent session handling, transaction management, and error handling
-across all database operation services.
+Provides shared utilities for DB operation modules. Session and transaction
+management are centralized via `managers/transaction_manager.py` and
+`managers/db_session_context.py`. DB ops must NOT commit/rollback/close.
 """
 
-from contextlib import contextmanager
 from functools import wraps
 from typing import Any, Callable, TypeVar, ParamSpec
-from database.session import get_db_session as _get_db_session
 from utils.logging_config import get_logger
 
 logger = get_logger('services.db_operations.base')
@@ -19,37 +17,7 @@ P = ParamSpec('P')
 T = TypeVar('T')
 
 
-@contextmanager
-def get_db_session():
-    """
-    Get database session with automatic cleanup and transaction management.
-    
-    This context manager ensures proper session lifecycle:
-    - Automatic commit on success
-    - Automatic rollback on exception
-    - Proper session cleanup
-    
-    Usage:
-        with get_db_session() as session:
-            # Perform database operations
-            result = session.query(Model).all()
-    
-    Yields:
-        SQLAlchemy session object
-    """
-    session = _get_db_session()
-    try:
-        logger.debug("Database session started")
-        yield session
-        session.commit()
-        logger.debug("Database session committed successfully")
-    except Exception as e:
-        session.rollback()
-        logger.error(f"Database operation failed, rolled back: {e}")
-        raise
-    finally:
-        session.close()
-        logger.debug("Database session closed")
+# Session lifecycle has been centralized. No session helpers here by design.
 
 
 def safe_dict_conversion(model_instance, exclude_fields=None):

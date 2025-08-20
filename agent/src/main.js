@@ -190,15 +190,7 @@ class NetPilotAgent {
       }
     });
 
-    // Ensure AdGuard Home is present and configured
-    ipcMain.handle('ensure-adguard-home', async (event, credentials) => {
-      try {
-        const result = await this.routerManager.ensureAdGuardHome(credentials);
-        return { success: true, data: result };
-      } catch (error) {
-        return { success: false, error: error.message };
-      }
-    });
+    
 
     // Enable WiFi
     ipcMain.handle('enable-wifi', async (event, credentials) => {

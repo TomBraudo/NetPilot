@@ -17,9 +17,7 @@ def save_router_id():
     logger.info(f"Request URL: {request.url}")
     logger.info(f"Request headers: {dict(request.headers)}")
     
-    # Get database session
-    session = g.db_session
-    logger.info(f"Database session obtained: {session}")
+    # Database session available via manager; service no longer needs it explicitly
     
     # Get user_id from session
     user_id = getattr(g, 'user_id', None)
@@ -54,7 +52,7 @@ def save_router_id():
     
     # Call service logic
     try:
-        result, error = save_router_id_setting(session, user_id, router_id)
+        result, error = save_router_id_setting(user_id, router_id)
         logger.info(f"Service call completed - result: {result}, error: {error}")
         
         if error:
@@ -80,9 +78,7 @@ def get_router_id():
     logger.info(f"Remote address: {request.remote_addr}")
     logger.info(f"User agent: {request.headers.get('User-Agent', 'Unknown')}")
     
-    # Get database session
-    session = g.db_session
-    logger.info(f"Database session obtained: {session}")
+    # Database session available via manager; service no longer needs it explicitly
     
     # Get user_id from session
     user_id = getattr(g, 'user_id', None)
@@ -97,7 +93,7 @@ def get_router_id():
     
     try:
         from services.settings_service import get_router_id_setting
-        result, error = get_router_id_setting(session, user_id)
+        result, error = get_router_id_setting(user_id)
         logger.info(f"Service call completed - result: {result}, error: {error}")
         
         if error:
@@ -286,7 +282,7 @@ def set_wifi_password_endpoint():
         logger.info("No router_id in request body, trying to get from user's stored settings")
         try:
             from services.settings_service import get_router_id_setting
-            router_result, router_error = get_router_id_setting(g.db_session, user_id)
+            router_result, router_error = get_router_id_setting(user_id)
             if router_error or not router_result:
                 logger.error("No router_id found in request and no stored router_id for user")
                 return build_error_response('Router ID is required. Please set your router ID first.', 400, 'ROUTER_ID_REQUIRED', start_time)

@@ -122,20 +122,7 @@ class StatusServer {
       }
     });
 
-    // Ensure AdGuard Home endpoint (optional HTTP access)
-    this.app.post('/api/ensure/adguard', async (req, res) => {
-      try {
-        const { credentials } = req.body || {};
-        if (!credentials) {
-          return res.status(400).json({ success: false, error: 'Router credentials required' });
-        }
-        const result = await this.routerManager.ensureAdGuardHome(credentials);
-        res.json({ success: true, data: result });
-      } catch (error) {
-        this.addLog('ERROR', `Ensure AdGuard Home error: ${error.message}`);
-        res.status(500).json({ success: false, error: error.message });
-      }
-    });
+    
 
     // Tunnel verification endpoint
     this.app.get('/api/verify/tunnel', async (req, res) => {
@@ -663,8 +650,7 @@ class StatusServer {
         'POST /api/verify/router',
         'GET /api/verify/tunnel',
         'POST /api/test/command',
-        'GET /api/test/latency',
-        'POST /api/ensure/adguard'
+        'GET /api/test/latency'
       ]
     };
   }

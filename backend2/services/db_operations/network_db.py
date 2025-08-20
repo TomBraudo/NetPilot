@@ -12,7 +12,7 @@ during automatic updates from network scans.
 
 from typing import Dict, List, Optional, Tuple, Any
 from datetime import datetime
-from flask import g
+from managers.db_session_context import SessionContext
 from utils.logging_config import get_logger
 from .base import handle_db_errors
 from models.device import UserDevice
@@ -34,8 +34,8 @@ def save_network_scan_result(user_id: str, router_id: str, scan_result: List[Dic
     Returns:
         Tuple of (success_boolean, error_message)
     """
-    # Get database session from Flask's g object
-    session = g.db_session
+    # Get database session from centralized context
+    session = SessionContext.get()
     
     if not scan_result:
         logger.debug(f"No devices to save for user {user_id}, router {router_id}")

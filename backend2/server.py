@@ -8,6 +8,8 @@ from datetime import timedelta
 # Import database
 from database.connection import db
 from database.session import get_db_session
+from managers.transaction_manager import TransactionManager
+from managers.db_session_context import SessionContext
 
 # Import blueprints
 from auth import auth_bp, init_oauth
@@ -21,6 +23,8 @@ from endpoints.agh import agh_bp
 from endpoints.bandwidth import bandwidth_bp
 from endpoints.device_groups import device_groups_bp
 from endpoints.devices import devices_bp
+from endpoints.scheduled_tasks import scheduled_tasks_bp
+from services.scheduler_bootstrap import init_scheduler
 
 def create_app(dev_mode=False, dev_user_id=None):
     """Create and configure the Flask application
@@ -99,6 +103,7 @@ def create_app(dev_mode=False, dev_user_id=None):
     app.register_blueprint(bandwidth_bp, url_prefix='/api/bandwidth')
     app.register_blueprint(device_groups_bp, url_prefix='/api/device-groups')
     app.register_blueprint(devices_bp, url_prefix='/api/devices')
+    app.register_blueprint(scheduled_tasks_bp, url_prefix='/api')
     
     # Root route
     @app.route('/')
@@ -113,6 +118,12 @@ def create_app(dev_mode=False, dev_user_id=None):
         except Exception as e:
             print(f"Warning: Could not initialize database tables: {e}")
 
+    # Initialize scheduler (Phase 3)
+    try:
+        init_scheduler(app)
+    except Exception as e:
+        print(f"Warning: Scheduler failed to start: {e}")
+
     # Attach db session to each request
     @app.before_request
     def before_request():
@@ -122,7 +133,10 @@ def create_app(dev_mode=False, dev_user_id=None):
         if flask_request.method == 'OPTIONS':
             return
         
-        g.db_session = db.get_session()
+        # Initialize centralized transaction/session handling
+        TransactionManager.begin_request()
+        # Temporary bridge: keep g.db_session for legacy code until Phase 3 completes
+        g.db_session = SessionContext.get()
         
         # Check if we're in development mode first
         if app.config.get('DEV_MODE', False):
@@ -156,53 +170,13 @@ def create_app(dev_mode=False, dev_user_id=None):
 
     @app.after_request
     def after_request(response):
-        """
-        Centralized transaction management based on response success/failure.
-        Automatically commits successful operations and rollbacks failed ones.
-        """
-        if hasattr(g, 'db_session'):
-            try:
-                # Parse response JSON to check success status
-                response_data = response.get_json()
-                
-                if response_data and isinstance(response_data, dict):
-                    # Check for success field (works with both response formats)
-                    is_success = response_data.get('success', False)
-                    
-                    if is_success:
-                        # Success response - commit the transaction
-                        g.db_session.commit()
-                        print(f"✅ Transaction committed for successful request to {request.endpoint}")
-                    else:
-                        # Error response - rollback the transaction
-                        g.db_session.rollback()
-                        print(f"❌ Transaction rolled back for failed request to {request.endpoint}")
-                else:
-                    # No JSON response or invalid format - check HTTP status
-                    if response.status_code < 400:
-                        g.db_session.commit()
-                        print(f"✅ Transaction committed based on HTTP status {response.status_code} for {request.endpoint}")
-                    else:
-                        g.db_session.rollback()
-                        print(f"❌ Transaction rolled back based on HTTP status {response.status_code} for {request.endpoint}")
-                        
-            except Exception as e:
-                # If we can't determine success/failure, rollback to be safe
-                print(f"⚠️ Error in transaction management for {request.endpoint}: {e}")
-                try:
-                    g.db_session.rollback()
-                    print(f"❌ Transaction rolled back due to error in after_request for {request.endpoint}")
-                except Exception as rollback_error:
-                    print(f"💥 Failed to rollback transaction for {request.endpoint}: {rollback_error}")
-        
-        return response
+        # Delegate commit/rollback decision to TransactionManager
+        return TransactionManager.finalize_response(response)
 
     @app.teardown_request
     def teardown_request(exception):
-        if hasattr(g, 'db_session'):
-            if exception:
-                g.db_session.rollback()
-            g.db_session.close()
+        # Close session and clear context
+        TransactionManager.teardown()
 
     return app
 

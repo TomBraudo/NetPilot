@@ -9,6 +9,7 @@ from .blocked_device import UserBlockedDevice
 from .settings import UserSetting
 from .bandwidth_rules import BandwidthRules
 from .content_control_rules import ContentControlRules
+from .scheduled_task import ScheduledTask
 
 __all__ = [
     'Base',
@@ -22,4 +23,5 @@ __all__ = [
     'UserSetting',
     'BandwidthRules',
     'ContentControlRules'
+    ,'ScheduledTask'
 ] 

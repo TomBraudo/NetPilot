@@ -91,36 +91,6 @@ def execute_delete_device_limit(
     return commands_server.execute_router_command(router_id, session_id, endpoint, "DELETE", None, body)
 
 
-@with_commands_server
-@handle_commands_errors("Bandwidth: Activate global limits")
-def execute_activate_global_limits(
-    commands_server,
-    router_id: str,
-    session_id: str,
-    download_kbytes: int,
-    upload_kbytes: int,
-    lan_cidr: Optional[str] = None,
-) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
-    endpoint = f"{base_path}/global/activate"
-    body = _compact_body({
-        "download_kbytes": download_kbytes,
-        "upload_kbytes": upload_kbytes,
-        "lan_cidr": lan_cidr,
-    })
-    return commands_server.execute_router_command(router_id, session_id, endpoint, "POST", None, body)
-
-
-@with_commands_server
-@handle_commands_errors("Bandwidth: Deactivate global limits")
-def execute_deactivate_global_limits(
-    commands_server,
-    router_id: str,
-    session_id: str,
-) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
-    endpoint = f"{base_path}/global/deactivate"
-    return commands_server.execute_router_command(router_id, session_id, endpoint, "DELETE", None, None)
-
-
-# Removed global whitelist execute operations
+# Global limit operations removed
 
 
