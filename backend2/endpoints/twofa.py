@@ -22,7 +22,7 @@ logger = get_logger('twofa_endpoints')
 
 @twofa_bp.route('/setup/start', methods=['POST'])
 @login_required
-def start_2fa_setup():
+def start_2fa_setup_endpoint():
     """Initialize 2FA setup process"""
     start_time = time.time()
     user_id = g.user_id
@@ -84,6 +84,11 @@ def verify_2fa():
         logger.error(f"2FA verification failed for user {user_id}: {error}")
         return build_error_response("Verification failed", 500, "VERIFICATION_ERROR", start_time)
 
+    # Update session with data from service
+    if result and 'session_data' in result:
+        for key, value in result['session_data'].items():
+            session[key] = value
+    
     logger.info(f"2FA verification successful for user {user_id} using TOTP")
     return build_success_response(result, start_time)
 
@@ -124,9 +129,15 @@ def disable_2fa():
         logger.error(f"Failed to disable 2FA for user {user_id}: {error}")
         return build_error_response("Failed to disable 2FA", 500, "DISABLE_ERROR", start_time)
 
+    # Update session with data from service
+    if result and 'session_data' in result:
+        for key, value in result['session_data'].items():
+            if value is None:
+                session.pop(key, None)
+            else:
+                session[key] = value
+
     logger.info(f"2FA disabled for user {user_id}")
-    session.pop('2fa_verified', None)
-    session.pop('2fa_verified_at', None)
     return build_success_response(result, start_time)
 
 @twofa_bp.route('/reset', methods=['POST'])
@@ -141,9 +152,15 @@ def reset_2fa():
         logger.error(f"Failed to reset 2FA for user {user_id}: {error}")
         return build_error_response("Failed to reset 2FA", 500, "RESET_ERROR", start_time)
 
+    # Update session with data from service
+    if result and 'session_data' in result:
+        for key, value in result['session_data'].items():
+            if value is None:
+                session.pop(key, None)
+            else:
+                session[key] = value
+
     logger.info(f"2FA reset for user {user_id}")
-    session.pop('2fa_verified', None)
-    session.pop('2fa_verified_at', None)
     return build_success_response(result, start_time)
 
 @twofa_bp.route('/generate-backup-codes', methods=['POST'])

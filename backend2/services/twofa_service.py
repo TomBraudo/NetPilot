@@ -36,11 +36,19 @@ class TwoFAService:
             encryption_key = Fernet.generate_key().decode()
             logger.warning(f"Generated new TOTP encryption key: {encryption_key}")
             logger.warning("Store this key securely in your environment variables!")
+            logger.warning("Add TOTP_ENCRYPTION_KEY to your .env file to persist this key!")
+        else:
+            logger.info("TOTP encryption key loaded from environment variables")
         
         if isinstance(encryption_key, str):
             encryption_key = encryption_key.encode()
             
-        self.cipher = Fernet(encryption_key)
+        try:
+            self.cipher = Fernet(encryption_key)
+            logger.info("TOTP encryption cipher initialized successfully")
+        except Exception as e:
+            logger.error(f"Failed to initialize TOTP encryption cipher: {e}")
+            raise
     
     def encrypt_secret(self, secret: str) -> str:
         """Encrypt TOTP secret for database storage"""
@@ -253,7 +261,16 @@ def verify_2fa_login(user_id: str, code: str, ip_address: Optional[str], user_ag
         return None, err2 or "LOG_ATTEMPT_FAILED"
     if not verification_success:
         return None, "WRONG_PIN"
-    return {"success": True, "message": "2FA verification successful"}, None
+    
+    # Return session data that the endpoint should set
+    return {
+        "success": True, 
+        "message": "2FA verification successful",
+        "session_data": {
+            "2fa_verified": True,
+            "2fa_verified_at": datetime.utcnow().isoformat()
+        }
+    }, None
 
 
 @handle_service_errors("2FA: status")
@@ -285,7 +302,14 @@ def disable_2fa_service(user_id: str, confirmation_code: str) -> Tuple[Optional[
     ok, err2 = db_disable_2fa(user_id)
     if err2 or not ok:
         return None, err2 or "DISABLE_FAILED"
-    return {"success": True, "message": "2FA disabled successfully"}, None
+    return {
+        "success": True, 
+        "message": "2FA disabled successfully",
+        "session_data": {
+            "2fa_verified": None,
+            "2fa_verified_at": None
+        }
+    }, None
 
 
 @handle_service_errors("2FA: reset")
@@ -293,7 +317,14 @@ def reset_2fa_service(user_id: str) -> Tuple[Optional[Dict], Optional[str]]:
     ok, err = db_reset_settings(user_id)
     if err or not ok:
         return None, err or "RESET_FAILED"
-    return {"success": True, "message": "2FA reset successfully. You can now set up 2FA again."}, None
+    return {
+        "success": True, 
+        "message": "2FA reset successfully. You can now set up 2FA again.",
+        "session_data": {
+            "2fa_verified": None,
+            "2fa_verified_at": None
+        }
+    }, None
 
 
 @handle_service_errors("2FA: generate backup codes")

@@ -1,5 +1,5 @@
 from utils.logging_config import get_logger
-from typing import Dict, Tuple, Optional, Union
+from typing import Dict, Tuple, Optional, Union, List
 
 # Database operations imports
 from services.db_operations.device_db import (
