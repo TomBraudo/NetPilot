@@ -30,6 +30,7 @@ from services.db_operations.agh_db import (
     upsert_group_content_control_rule as agh_db_upsert_group_rule,
     delete_group_content_control_rule as agh_db_delete_group_rule,
 )
+from services.task_registry import register_task
 
 logger = get_logger('services.agh_service')
 
@@ -120,6 +121,7 @@ def bulk_get_devices_rules(user_id: str, router_id: str, session_id: str, device
     return data, None
 
 
+@register_task("agh", "set_device_rules")
 @handle_service_errors("AGH: Set device rules")
 def set_device_rules(user_id: str, router_id: str, session_id: str, device: Dict[str, Any], categories: List[str]) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
     if not isinstance(device, dict):
@@ -139,6 +141,7 @@ def set_device_rules(user_id: str, router_id: str, session_id: str, device: Dict
     return data, None
 
 
+@register_task("agh", "set_devices_rules", resolve_group_params)
 @handle_service_errors("AGH: Set devices rules (bulk)")
 def set_devices_rules(user_id: str, router_id: str, session_id: str, devices: List[Dict[str, Any]], categories: List[str]) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
     if not isinstance(devices, list):
@@ -162,6 +165,7 @@ def set_devices_rules(user_id: str, router_id: str, session_id: str, devices: Li
     return data, None
 
 
+@register_task("agh", "clear_device_rules")
 @handle_service_errors("AGH: Clear device rules")
 def clear_device_rules(user_id: str, router_id: str, session_id: str, device: Dict[str, Any]) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
     if not isinstance(device, dict):
@@ -178,6 +182,7 @@ def clear_device_rules(user_id: str, router_id: str, session_id: str, device: Di
     return data, None
 
 
+@register_task("agh", "clear_devices_rules", resolve_group_params)
 @handle_service_errors("AGH: Clear devices rules (bulk)")
 def clear_devices_rules(user_id: str, router_id: str, session_id: str, devices: List[Dict[str, Any]]) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
     if not isinstance(devices, list):

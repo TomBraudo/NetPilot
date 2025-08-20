@@ -80,33 +80,6 @@ def limits_device_delete():
     return build_success_response(result, start_time)
 
 
-@bandwidth_bp.route('/global/activate', methods=['POST'])
-@router_context_required
-def global_activate():
-    start_time = time.time()
-    data = request.get_json() or {}
-    result, error = activate_global_limits(
-        g.user_id, g.router_id, g.session_id,
-        data.get('download_kbytes'),
-        data.get('upload_kbytes'),
-        data.get('lan_cidr'),
-    )
-    if error:
-        return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
-    return build_success_response(result, start_time)
-
-
-@bandwidth_bp.route('/global/deactivate', methods=['DELETE'])
-@router_context_required
-def global_deactivate():
-    start_time = time.time()
-    result, error = deactivate_global_limits(g.user_id, g.router_id, g.session_id)
-    if error:
-        return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)
-    return build_success_response(result, start_time)
-
-
-# Removed global whitelist endpoints
 
 # Database Rules Endpoints
 @bandwidth_bp.route('/rules', methods=['GET'])

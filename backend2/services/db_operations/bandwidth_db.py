@@ -7,6 +7,11 @@ from managers.db_session_context import SessionContext
 logger = get_logger('services.db_operations.bandwidth_db')
 
 
+# ============================================================================
+# GROUP BANDWIDTH RULES (Database Rules)
+# These functions handle persistent bandwidth rules stored in the database
+# ============================================================================
+
 @handle_db_errors("Bandwidth DB: get all rules")
 def get_all_bandwidth_rules(user_id: str, router_id: str) -> Tuple[Optional[List[Dict[str, Any]]], Optional[str]]:
     from models import BandwidthRules
