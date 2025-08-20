@@ -33,6 +33,8 @@ def create_app(dev_mode=False, dev_user_id=None):
         dev_mode (bool): Enable development mode with authentication bypass
         dev_user_id (str): User ID to use in development mode
     """
+    print("🚀 Creating NetPilot Flask application...")
+    
     app = Flask(__name__)
     
     # Development mode configuration
@@ -116,18 +118,23 @@ def create_app(dev_mode=False, dev_user_id=None):
         return {'status': 'ok', 'service': 'backend2'}, 200
 
     # Initialize database tables (optional, for dev)
-    with app.app_context():
-        try:
+    try:
+        with app.app_context():
+            print("🔧 Initializing database tables...")
             db.create_tables()
-            print("Database tables initialized")
-        except Exception as e:
-            print(f"Warning: Could not initialize database tables: {e}")
+            print("✅ Database tables initialized successfully")
+    except Exception as e:
+        print(f"⚠️  Warning: Could not initialize database tables: {e}")
+        print("🔄 Continuing without database initialization...")
 
     # Initialize scheduler (Phase 3)
     try:
+        print("🔧 Initializing scheduler...")
         init_scheduler(app)
+        print("✅ Scheduler initialized successfully")
     except Exception as e:
-        print(f"Warning: Scheduler failed to start: {e}")
+        print(f"⚠️  Warning: Scheduler failed to start: {e}")
+        print("🔄 Continuing without scheduler...")
 
     # Attach db session to each request
     @app.before_request
@@ -200,16 +207,26 @@ if __name__ == '__main__':
     # Create app with appropriate mode
     app = create_app(dev_mode=dev_mode, dev_user_id=dev_user_id)
     
+    # Test that the app was created successfully
+    print("✅ Flask application created successfully")
+    
     # Show usage info
     if not dev_mode:
         print("🚀 Starting NetPilot server in PRODUCTION mode")
         print("💡 For development mode: python server.py -d <fake_user_id>")
+    else:
+        print("🔧 Starting NetPilot server in DEVELOPMENT mode")
     
     # Get server configuration from environment
     server_host = config('SERVER_HOST', default='0.0.0.0')
-    server_port = config('SERVER_PORT', default=5000, cast=int)
+    # Use PORT environment variable for Cloud Run, fallback to 5000 for local dev
+    server_port = int(os.environ.get('PORT', config('SERVER_PORT', default=5000)))
     
     # Only enable debug mode in development
     debug_mode = dev_mode and config('FLASK_DEBUG', default=False, cast=bool)
+    
+    print(f"🚀 Starting server on {server_host}:{server_port}")
+    print(f"🌍 Environment PORT: {os.environ.get('PORT', 'not set')}")
+    print(f"⚙️  Config SERVER_PORT: {config('SERVER_PORT', default=5000)}")
     
     app.run(debug=debug_mode, host=server_host, port=server_port)
