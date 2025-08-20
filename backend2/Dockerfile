@@ -24,13 +24,12 @@ RUN useradd --create-home --shell /bin/bash app && \
     chown -R app:app /app
 USER app
 
-# Expose port
-EXPOSE 5000
+# Expose port (Cloud Run will override this via PORT environment variable)
+EXPOSE 8080
 
 # Set environment variables
 ENV FLASK_ENV=production
 ENV PYTHONPATH=/app
-ENV PORT=5000
 
 # Run the application
 CMD ["python", "server.py"]

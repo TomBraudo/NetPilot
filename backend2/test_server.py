@@ -1,54 +1,26 @@
+#!/usr/bin/env python3
+"""
+Minimal test server to verify Cloud Run deployment works
+"""
 from flask import Flask
-from flask_cors import CORS
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
+app = Flask(__name__)
 
-# Import blueprints (without database dependencies)
-from auth import auth_bp, init_oauth
-from endpoints.health import health_bp
-from endpoints.wifi import wifi_bp
-from endpoints.api import network_bp
+@app.route('/')
+def root():
+    return {'status': 'ok', 'message': 'Test server is running'}
 
-def create_test_app():
-    """Create a minimal Flask app without database integration"""
-    app = Flask(__name__)
-    
-    # Configuration
-    app.secret_key = os.getenv('SECRET_KEY', 'my-strong-secret-key')
-    
-    # Enable CORS with credentials support
-    cors_origins = os.getenv('CORS_ORIGINS', 'http://localhost:3000,http://localhost:5173').split(',')
-    CORS(app, 
-         origins=cors_origins,
-         supports_credentials=True,
-         allow_headers=['Content-Type', 'Authorization'],
-         methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'])
-    
-    # Initialize OAuth
-    init_oauth(app)
-    
-    # Register blueprints
-    app.register_blueprint(auth_bp)  # No prefix - routes will be /login, /authorize, etc.
-    app.register_blueprint(health_bp, url_prefix='/api')
-    # Removed whitelist/blacklist blueprints
-    app.register_blueprint(wifi_bp, url_prefix='/api/wifi')
-    app.register_blueprint(network_bp, url_prefix='/api/network')
-    
-    # Root route
-    @app.route('/')
-    def root():
-         return '<a href="/login">Log in with Google</a>'
-
-    return app
+@app.route('/health')
+def health():
+    return {'status': 'healthy', 'service': 'test-server'}
 
 if __name__ == '__main__':
-    app = create_test_app()
-    print("Starting test server without database integration...")
+    # Get port from environment (Cloud Run sets this)
+    port = int(os.environ.get('PORT', 5000))
+    host = '0.0.0.0'
     
-    # Get server configuration from environment
-    server_host = os.getenv('SERVER_HOST', '127.0.0.1')
-    server_port = int(os.getenv('SERVER_PORT', '5000'))
+    print(f"🚀 Starting test server on {host}:{port}")
+    print(f"🌍 Environment PORT: {os.environ.get('PORT', 'not set')}")
     
-    app.run(debug=True, host=server_host, port=server_port) 
+    app.run(host=host, port=port, debug=False) 
