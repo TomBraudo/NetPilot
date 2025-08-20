@@ -1,24 +1,25 @@
 ### Work plan: Scheduler feature (modular, sequential)
 
 #### Phase 1 — Foundations and configuration
-- [ ] Add dependency for scheduling and timezone handling (Flask-APScheduler; Asia/Jerusalem).
-- [ ] Add env vars: SCHEDULER_TIMEZONE=Asia/Jerusalem, MAX_CONCURRENT_SCHEDULED_TASKS, MIN_ROUTER_GAP_SECONDS.
-- [ ] Decide designated process/instance to run the scheduler (single-runner flag/env).
+- [x] Add dependency for scheduling and timezone handling (Flask-APScheduler; Asia/Jerusalem).
+- [x] Add env vars: SCHEDULER_TIMEZONE=Asia/Jerusalem, MAX_CONCURRENT_SCHEDULED_TASKS, MIN_ROUTER_GAP_SECONDS.
+- [x] Decide designated process/instance to run the scheduler (single-runner flag/env).
 
 #### Phase 2 — Data model
-- [ ] Create ScheduledTask model with fields: user_id, router_id, service, task, params (JSON), hour, minute, days_of_week?, enabled, metadata? (incl. last_known_session_id?), last_run_at, last_status, last_error.
-- [ ] Add indices on (user_id, router_id) and (enabled, hour, minute).
-- [ ] Write and run migration.
+- [x] Create ScheduledTask model with fields: user_id, router_id, service, task, params (JSON), hour, minute, days_of_week?, enabled, metadata? (incl. last_known_session_id?), last_run_at, last_status, last_error.
+- [x] Add indices on (user_id, router_id) and (enabled, hour, minute).
+- [x] Generate migration (autogenerate).
+- [x] Apply migration (alembic upgrade head) after review.
 
 #### Phase 3 — Scheduler bootstrap
-- [ ] Initialize APScheduler with timezone Asia/Jerusalem and configured executors.
-- [ ] Register a single minute-based dispatcher job.
-- [ ] Add a guard so only the designated instance enables the scheduler.
+- [x] Initialize APScheduler with timezone Asia/Jerusalem and configured executors.
+- [x] Register a single minute-based dispatcher job.
+- [x] Add a guard so only the designated instance enables the scheduler.
 
 #### Phase 4 — Task registry and resolution contract
-- [ ] Create a registry keyed by service + task → { call, resolve_args }.
-- [ ] Define a minimal resolver contract: input (user_id, router_id, params), output (args/kwargs for the service call).
-- [ ] Seed registry with demo tasks (e.g., bandwidth: apply_group_limits, delete_group_limits; AGH: selected group rules operations).
+- [x] Create a registry keyed by service + task → { call, resolve_args }.
+- [x] Define a minimal resolver contract: input (user_id, router_id, params), output (args/kwargs for the service call).
+- [ ] Seed registry with demo tasks (decorators to be added manually in services).
 
 #### Phase 5 — Service-specific group resolvers
 - [ ] In bandwidth service, add resolve_group_targets(user_id, router_id, group_id) → List of IP strings.

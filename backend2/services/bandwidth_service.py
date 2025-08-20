@@ -16,6 +16,15 @@ from services.commands_server_operations.bandwidth_execute import (
     execute_activate_global_limits,
     execute_deactivate_global_limits,
 )
+from models.device_group import DeviceGroup
+from managers.db_session_context import SessionContext
+from sqlalchemy.orm import joinedload
+from services.db_operations.bandwidth_db import (
+    get_all_bandwidth_rules as bw_db_get_all_rules,
+    get_group_bandwidth_rule as bw_db_get_group_rule,
+    upsert_group_bandwidth_rule as bw_db_upsert_group_rule,
+    delete_group_bandwidth_rule as bw_db_delete_group_rule,
+)
 
 logger = get_logger('services.bandwidth_service')
 
@@ -76,25 +85,82 @@ def delete_device_limit(user_id: str, router_id: str, session_id: str, ip: str) 
     return execute_delete_device_limit(router_id, session_id, ip)
 
 
-@handle_service_errors("Bandwidth: Activate global limits")
-def activate_global_limits(user_id: str, router_id: str, session_id: str, download_kbytes: int, upload_kbytes: int,
-                          lan_cidr: Optional[str] = None) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
-    if not isinstance(download_kbytes, int) or not isinstance(upload_kbytes, int):
-        return None, "download_kbytes and upload_kbytes must be integers"
-    log_service_operation("bandwidth_activate_global", user_id, router_id, session_id, {
-        "download_kbytes": download_kbytes,
-        "upload_kbytes": upload_kbytes,
-        "lan_cidr": lan_cidr,
+
+def resolve_group_params(user_id: str, router_id: str, params: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Bandwidth resolver: if params contains group_id, resolve current group member IPs
+    and return a new params dict with 'ips' injected. Other params are unchanged.
+    """
+    group_id = params.get('group_id')
+    if not group_id:
+        return params
+
+    session = SessionContext.get()
+    group = (
+        session.query(DeviceGroup)
+        .options(joinedload(DeviceGroup.devices))
+        .filter(
+            DeviceGroup.id == group_id,
+            DeviceGroup.user_id == user_id,
+            DeviceGroup.router_id == router_id,
+        )
+        .first()
+    )
+
+    if not group:
+        raise ValueError(f"Group not found or access denied: {group_id}")
+
+    ips: List[str] = []
+    for device in group.devices:
+        ip_value = getattr(device, 'ip', None)
+        if ip_value:
+            ip_str = str(ip_value).strip()
+            if ip_str:
+                ips.append(ip_str)
+
+    # Deduplicate while preserving order
+    seen = set()
+    deduped_ips = [ip for ip in ips if not (ip in seen or seen.add(ip))]
+
+    merged = dict(params)
+    merged['ips'] = deduped_ips
+    return merged
+
+
+# Database-backed bandwidth rules (moved from endpoints)
+def get_all_rules_db(user_id: str, router_id: str, session_id: str) -> Tuple[Optional[List[Dict[str, Any]]], Optional[str]]:
+    log_service_operation("bandwidth_db_get_all_rules", user_id, router_id, session_id)
+    return bw_db_get_all_rules(user_id, router_id)
+
+
+def get_group_rule_db(user_id: str, router_id: str, session_id: str, group_id: str) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
+    log_service_operation("bandwidth_db_get_group_rule", user_id, router_id, session_id, {"group_id": group_id})
+    return bw_db_get_group_rule(user_id, router_id, group_id)
+
+
+def set_group_rule_db(
+    user_id: str,
+    router_id: str,
+    session_id: str,
+    group_id: str,
+    download_limit_mbps: Optional[float],
+    upload_limit_mbps: Optional[float],
+    description: Optional[str] = None,
+    is_active: bool = True,
+) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
+    log_service_operation("bandwidth_db_upsert_group_rule", user_id, router_id, session_id, {
+        "group_id": group_id,
+        "download_limit_mbps": download_limit_mbps,
+        "upload_limit_mbps": upload_limit_mbps,
+        "is_active": is_active,
     })
-    return execute_activate_global_limits(router_id, session_id, download_kbytes, upload_kbytes, lan_cidr)
+    return bw_db_upsert_group_rule(user_id, router_id, group_id, download_limit_mbps, upload_limit_mbps, description, is_active)
 
 
-@handle_service_errors("Bandwidth: Deactivate global limits")
-def deactivate_global_limits(user_id: str, router_id: str, session_id: str) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
-    log_service_operation("bandwidth_deactivate_global", user_id, router_id, session_id)
-    return execute_deactivate_global_limits(router_id, session_id)
+def delete_group_rule_db(user_id: str, router_id: str, session_id: str, group_id: str) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
+    log_service_operation("bandwidth_db_delete_group_rule", user_id, router_id, session_id, {"group_id": group_id})
+    return bw_db_delete_group_rule(user_id, router_id, group_id)
 
 
-# Removed global whitelist operations
 
 

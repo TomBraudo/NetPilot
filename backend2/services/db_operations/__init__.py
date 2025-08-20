@@ -6,7 +6,7 @@ This module centralizes database access patterns and ensures consistent session 
 across all database operation services.
 
 Available Services:
-- base: Core database utilities and session management
+- base: Core database utilities (no session management here)
 
 Usage:
     from services.db_operations import get_whitelist, add_device_to_whitelist
@@ -15,7 +15,6 @@ Usage:
 
 # Import base utilities for external use
 from .base import (
-    get_db_session,
     safe_dict_conversion,
     validate_uuid,
     handle_db_errors
@@ -31,14 +30,10 @@ from .network_db import (
 # Define what's available when importing from this module
 __all__ = [
     # Base utilities
-    'get_db_session',
-    'with_db_session',
     'safe_dict_conversion',
     'validate_uuid',
     'handle_db_errors',
-    
-    # Removed whitelist operations
-    
+
     # Network operations
     'save_network_scan_result',
 ]
