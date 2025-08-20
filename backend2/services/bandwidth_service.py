@@ -13,8 +13,6 @@ from services.commands_server_operations.bandwidth_execute import (
     execute_delete_group_limits,
     execute_apply_device_limit,
     execute_delete_device_limit,
-    execute_activate_global_limits,
-    execute_deactivate_global_limits,
 )
 from models.device_group import DeviceGroup
 from managers.db_session_context import SessionContext
