@@ -11,10 +11,12 @@ from flask import g
 from services.commands_server_operations.agh_execute import (
     execute_clear_device_rules,
     execute_clear_devices_rules,
+    execute_set_device_rules,
 )
 from services.commands_server_operations.bandwidth_execute import (
     execute_delete_device_limit,
     execute_delete_group_limits,
+    execute_apply_device_limit,
 )
 
 logger = get_logger('services.device_group_service')
@@ -259,7 +261,16 @@ def delete_device_group(user_id, router_id, group_id):
 
 
 def add_device_to_group(user_id, router_id, group_id, device_id):
-    """Add a device to a group"""
+    """Add a device to a group and apply group rules to the device if active."""
+    # Capture identifiers and rule details for post-commit application
+    device_ip = None
+    device_mac = None
+    should_apply_agh = False
+    should_apply_bandwidth = False
+    agh_categories = []
+    bw_download_mbps = None
+    bw_upload_mbps = None
+
     with get_db_session() as session:
         try:
             # Get the group
@@ -270,10 +281,10 @@ def add_device_to_group(user_id, router_id, group_id, device_id):
                     DeviceGroup.router_id == router_id
                 )
             ).first()
-            
+
             if not group:
                 return False
-            
+
             # Get the device
             device = session.query(UserDevice).filter(
                 and_(
@@ -282,24 +293,85 @@ def add_device_to_group(user_id, router_id, group_id, device_id):
                     UserDevice.router_id == router_id
                 )
             ).first()
-            
+
             if not device:
                 return False
-            
+
             # Check if device is already in the group
             if device in group.devices:
                 raise ValueError("Device is already in this group")
-            
+
+            # Capture identifiers for post-commit execute
+            device_ip = str(device.ip) if getattr(device, 'ip', None) else None
+            device_mac = str(device.mac) if getattr(device, 'mac', None) else None
+
+            # Determine active rules for the group and capture details
+            content_rules = session.query(ContentControlRules).filter(
+                and_(
+                    ContentControlRules.group_id == group_id,
+                    ContentControlRules.router_id == router_id,
+                    ContentControlRules.is_active.is_(True)
+                )
+            ).first()
+            if content_rules and content_rules.blocked_categories and len(content_rules.blocked_categories) > 0:
+                should_apply_agh = True
+                agh_categories = list(content_rules.blocked_categories or [])
+
+            bandwidth_rules = session.query(BandwidthRules).filter(
+                and_(
+                    BandwidthRules.group_id == group_id,
+                    BandwidthRules.router_id == router_id,
+                    BandwidthRules.is_active.is_(True)
+                )
+            ).first()
+            if bandwidth_rules and (
+                bandwidth_rules.download_limit_mbps is not None or bandwidth_rules.upload_limit_mbps is not None
+            ):
+                should_apply_bandwidth = True
+                bw_download_mbps = bandwidth_rules.download_limit_mbps
+                bw_upload_mbps = bandwidth_rules.upload_limit_mbps
+
+            # Perform the association
             group.devices.append(device)
-            session.commit()
-            
-            logger.info(f"Added device {device_id} to group {group_id}")
-            return True
-            
+            # Commit inside context manager
+            logger.info(f"Adding device {device_id} to group {group_id}")
         except Exception as e:
             logger.error(f"Failed to add device to group: {str(e)}")
             session.rollback()
             raise
+
+    # After DB commit, apply per-device rules as needed. Do not fail the add on errors.
+    try:
+        session_id = getattr(g, 'session_id', None)
+
+        if should_apply_agh and (device_mac or device_ip):
+            device_obj = {}
+            if device_mac:
+                device_obj['mac'] = device_mac
+            if device_ip:
+                device_obj['ip'] = device_ip
+            result, error = execute_set_device_rules(router_id, session_id, device_obj, agh_categories)
+            if error:
+                logger.warning(f"AGH set device rules failed for device {device_id} (mac={device_mac}, ip={device_ip}): {error}")
+            else:
+                logger.info(f"Applied AGH device rules for device {device_id}: {result}")
+
+        if should_apply_bandwidth and device_ip:
+            result, error = execute_apply_device_limit(
+                router_id,
+                session_id,
+                device_ip,
+                download_mbps=bw_download_mbps,
+                upload_mbps=bw_upload_mbps,
+            )
+            if error:
+                logger.warning(f"Bandwidth apply device limit failed for device {device_id} (ip={device_ip}): {error}")
+            else:
+                logger.info(f"Applied bandwidth device limit for device {device_id}: {result}")
+    except Exception as e:
+        logger.error(f"Post-add apply encountered an error for device {device_id}: {e}")
+
+    return True
 
 
 def remove_device_from_group(user_id, router_id, group_id, device_id):

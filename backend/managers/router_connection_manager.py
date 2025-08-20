@@ -106,6 +106,12 @@ class RouterConnectionManager:
             routers = self._sessions.pop(session_id, {})
             for conn in routers.values():
                 conn.close()
+    def refresh_session(self, session_id: str) -> bool:
+        with self._lock:
+            if session_id in self._active_sessions:
+                self._active_sessions[session_id] = datetime.utcnow()
+                return True
+            return False
 
     def get_session_status(self, session_id: str) -> bool:
         with self._lock:

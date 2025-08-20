@@ -71,6 +71,7 @@ const DevicesPage = () => {
   const [editingDeviceName, setEditingDeviceName] = useState("");
   const [devicesLoading, setDevicesLoading] = useState(false);
   const [confirmRemoveDevice, setConfirmRemoveDevice] = useState(null); // { groupId, groupName, deviceId, deviceName }
+  const [confirmAddDevice, setConfirmAddDevice] = useState(null); // { groupId, groupName, device, deviceName }
 
   // Rules state
   const [bandwidthRules, setBandwidthRules] = useState({}); // { groupId: { download_limit_mbps, upload_limit_mbps, is_active, description } }
@@ -880,8 +881,19 @@ const DevicesPage = () => {
                   <div
                     key={index}
                     onClick={() => {
-                      addDeviceToGroup(showAddToGroup, device);
-                      setShowAddToGroup(null);
+                      const groupId = showAddToGroup;
+                      if (hasRules(groupId)) {
+                        const group = groups.find(g => g.id === groupId);
+                        setConfirmAddDevice({
+                          groupId,
+                          groupName: group?.name || 'Group',
+                          device,
+                          deviceName: device.device_name || device.hostname || 'Device',
+                        });
+                      } else {
+                        addDeviceToGroup(groupId, device);
+                        setShowAddToGroup(null);
+                      }
                     }}
                     className="p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                   >
@@ -992,6 +1004,47 @@ const DevicesPage = () => {
                 onClick={() => {
                   removeDeviceFromGroup(confirmRemoveDevice.groupId, confirmRemoveDevice.deviceId);
                   setConfirmRemoveDevice(null);
+                }}
+              >
+                Accept
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Confirm Add Device when target group has rules */}
+      {confirmAddDevice && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg w-full max-w-md mx-4">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Add Device to Group</h3>
+              <button
+                onClick={() => setConfirmAddDevice(null)}
+                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              >
+                <FaTimes />
+              </button>
+            </div>
+            <p className="text-gray-700 dark:text-gray-300 mb-2">
+              The group <span className="font-semibold">{confirmAddDevice.groupName}</span> has rules applied.
+            </p>
+            <p className="text-gray-700 dark:text-gray-300 mb-4">
+              Adding <span className="font-semibold">{confirmAddDevice.deviceName}</span> to this group will apply those rules to the device. Continue?
+            </p>
+            <div className="flex justify-end gap-2">
+              <button
+                className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
+                onClick={() => setConfirmAddDevice(null)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+                onClick={() => {
+                  addDeviceToGroup(confirmAddDevice.groupId, confirmAddDevice.device);
+                  setConfirmAddDevice(null);
+                  setShowAddToGroup(null);
                 }}
               >
                 Accept

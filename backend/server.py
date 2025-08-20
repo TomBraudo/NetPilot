@@ -79,7 +79,10 @@ app.register_blueprint(session_bp, url_prefix='/api/session')
 app.register_blueprint(monitor_bp, url_prefix='/api/monitor')
 app.register_blueprint(bandwidth_bp, url_prefix='/api/bandwidth')
 app.register_blueprint(agh_bp, url_prefix='/api/agh')
-app.register_blueprint(time_based_bp, url_prefix='/api/time')
+#------------------------------------
+#EXISTS BUT DANGEROUS, DO NOT USE, MIGHT BE FIXED IN THE FUTURE
+#app.register_blueprint(time_based_bp, url_prefix='/api/time')
+#------------------------------------
 
 logger.info("API blueprints registered")
 

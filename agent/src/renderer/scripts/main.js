@@ -1493,15 +1493,7 @@ Built with Electron ${window.electronAPI?.version || 'Unknown'}${configInfo}${ro
         return verifyResult.data;
       });
 
-      // Step 5: AdGuard Home Setup
-      await this.executeConfigStep(5, 'Ensuring AdGuard Home is installed and configured...', async () => {
-        const aghResult = await window.electronAPI.ensureAdGuardHome(credentials);
-        if (!aghResult.success) {
-          const msg = aghResult.error || (aghResult.data && aghResult.data.error) || 'AdGuard Home setup failed';
-          throw new Error(msg);
-        }
-        return aghResult.data || aghResult.status || { agh: 'ok' };
-      });
+      // Skipping AdGuard Home setup per demo requirements
 
       // Success - save router profile and update status
       const routerKey = `${credentials.host}:${credentials.username}`;
