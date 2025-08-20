@@ -41851,3 +41851,29 @@ cryptography.fernet.InvalidToken
 2025-08-20 18:34:00 - scheduler.bootstrap - DEBUG - Scheduler dispatcher tick (placeholder)
 2025-08-20 18:35:00 - scheduler.bootstrap - DEBUG - Scheduler dispatcher tick (placeholder)
 2025-08-20 18:35:00 - scheduler.bootstrap - DEBUG - Scheduler dispatcher tick (placeholder)
+2025-08-20 22:21:35 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-08-20 22:21:37 - 2fa_service - INFO - TOTP encryption key loaded from environment variables
+2025-08-20 22:21:37 - 2fa_service - INFO - TOTP encryption cipher initialized successfully
+2025-08-20 22:23:50 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-08-20 22:23:52 - 2fa_service - INFO - TOTP encryption key loaded from environment variables
+2025-08-20 22:23:52 - 2fa_service - INFO - TOTP encryption cipher initialized successfully
+2025-08-20 22:23:52 - scheduler.registry - INFO - Registered task agh.set_device_rules -> services.agh_service.set_device_rules
+2025-08-20 22:24:42 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-08-20 22:24:44 - 2fa_service - INFO - TOTP encryption key loaded from environment variables
+2025-08-20 22:24:44 - 2fa_service - INFO - TOTP encryption cipher initialized successfully
+2025-08-20 22:24:44 - scheduler.registry - INFO - Registered task agh.set_device_rules -> services.agh_service.set_device_rules
+2025-08-20 22:25:34 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-08-20 22:25:36 - 2fa_service - INFO - TOTP encryption key loaded from environment variables
+2025-08-20 22:25:36 - 2fa_service - INFO - TOTP encryption cipher initialized successfully
+2025-08-20 22:25:36 - scheduler.registry - INFO - Registered task agh.set_device_rules -> services.agh_service.set_device_rules
+2025-08-20 22:25:36 - scheduler.registry - INFO - Registered task agh.set_devices_rules -> services.agh_service.set_devices_rules
+2025-08-20 22:25:36 - scheduler.registry - INFO - Registered task agh.clear_device_rules -> services.agh_service.clear_device_rules
+2025-08-20 22:25:36 - scheduler.registry - INFO - Registered task agh.clear_devices_rules -> services.agh_service.clear_devices_rules
+2025-08-20 22:25:36 - scheduler.registry - INFO - Registered task bandwidth.apply_group_limits -> services.bandwidth_service.apply_group_limits
+2025-08-20 22:25:36 - scheduler.registry - INFO - Registered task bandwidth.delete_group_limits -> services.bandwidth_service.delete_group_limits
+2025-08-20 22:25:36 - scheduler.registry - INFO - Registered task bandwidth.apply_device_limit -> services.bandwidth_service.apply_device_limit
+2025-08-20 22:25:36 - scheduler.registry - INFO - Registered task bandwidth.delete_device_limit -> services.bandwidth_service.delete_device_limit
+2025-08-20 22:25:36 - scheduler.registry - INFO - Registered task bandwidth.set_group_rule_db -> services.bandwidth_service.set_group_rule_db
+2025-08-20 22:25:39 - scheduler.registry - INFO - Loaded task module: services.bandwidth_service
+2025-08-20 22:25:39 - scheduler.registry - INFO - Loaded task module: services.agh_service
+2025-08-20 22:25:39 - scheduler.bootstrap - INFO - Scheduler started with timezone Asia/Jerusalem

@@ -35,6 +35,43 @@ from services.task_registry import register_task
 logger = get_logger('services.agh_service')
 
 
+def resolve_group_params(user_id: str, router_id: str, params: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    AGH resolver: if params contains group_id, resolve current group member IPs
+    and return a new params dict with 'devices' injected. Other params are unchanged.
+    """
+    group_id = params.get('group_id')
+    if not group_id:
+        return params
+
+    session = SessionContext.get()
+    group = (
+        session.query(DeviceGroup)
+        .options(joinedload(DeviceGroup.devices))
+        .filter(
+            DeviceGroup.id == group_id,
+            DeviceGroup.user_id == user_id,
+            DeviceGroup.router_id == router_id,
+        )
+        .first()
+    )
+
+    if not group:
+        raise ValueError(f"Group not found or access denied: {group_id}")
+
+    devices: List[Dict[str, Any]] = []
+    for device in group.devices:
+        # Enforce MAC presence for scheduler paths too
+        if not getattr(device, 'mac', None):
+            continue
+        devices.append({
+            'mac': str(device.mac),
+            'ipv4': str(device.ip) if getattr(device, 'ip', None) else None,
+        })
+
+    return {**params, 'devices': devices}
+
+
 @handle_service_errors("AGH: List categories")
 def get_categories(user_id: str, router_id: str, session_id: str) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
     log_service_operation("agh_get_categories", user_id, router_id, session_id)
@@ -121,7 +158,7 @@ def bulk_get_devices_rules(user_id: str, router_id: str, session_id: str, device
     return data, None
 
 
-@register_task("agh", "set_device_rules")
+@register_task("agh.set_device_rules")
 @handle_service_errors("AGH: Set device rules")
 def set_device_rules(user_id: str, router_id: str, session_id: str, device: Dict[str, Any], categories: List[str]) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
     if not isinstance(device, dict):
@@ -141,7 +178,7 @@ def set_device_rules(user_id: str, router_id: str, session_id: str, device: Dict
     return data, None
 
 
-@register_task("agh", "set_devices_rules", resolve_group_params)
+@register_task("agh.set_devices_rules", resolve_group_params)
 @handle_service_errors("AGH: Set devices rules (bulk)")
 def set_devices_rules(user_id: str, router_id: str, session_id: str, devices: List[Dict[str, Any]], categories: List[str]) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
     if not isinstance(devices, list):
@@ -165,7 +202,7 @@ def set_devices_rules(user_id: str, router_id: str, session_id: str, devices: Li
     return data, None
 
 
-@register_task("agh", "clear_device_rules")
+@register_task("agh.clear_device_rules")
 @handle_service_errors("AGH: Clear device rules")
 def clear_device_rules(user_id: str, router_id: str, session_id: str, device: Dict[str, Any]) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
     if not isinstance(device, dict):
@@ -182,7 +219,7 @@ def clear_device_rules(user_id: str, router_id: str, session_id: str, device: Di
     return data, None
 
 
-@register_task("agh", "clear_devices_rules", resolve_group_params)
+@register_task("agh.clear_devices_rules", resolve_group_params)
 @handle_service_errors("AGH: Clear devices rules (bulk)")
 def clear_devices_rules(user_id: str, router_id: str, session_id: str, devices: List[Dict[str, Any]]) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
     if not isinstance(devices, list):
@@ -203,43 +240,6 @@ def clear_devices_rules(user_id: str, router_id: str, session_id: str, devices: 
         return None, error
     return data, None
 
-
-def resolve_group_params(user_id: str, router_id: str, params: Dict[str, Any]) -> Dict[str, Any]:
-    """
-    AGH resolver: if params contains group_id, resolve current group member IPs
-    and return a new params dict with 'devices' injected. Other params are unchanged.
-    """
-    group_id = params.get('group_id')
-    if not group_id:
-        return params
-
-    session = SessionContext.get()
-    group = (
-        session.query(DeviceGroup)
-        .options(joinedload(DeviceGroup.devices))
-        .filter(
-            DeviceGroup.id == group_id,
-            DeviceGroup.user_id == user_id,
-            DeviceGroup.router_id == router_id,
-        )
-        .first()
-    )
-
-    if not group:
-        raise ValueError(f"Group not found or access denied: {group_id}")
-
-    devices: List[Dict[str, Any]] = []
-    for device in group.devices:
-        # Enforce MAC presence for scheduler paths too
-        if not getattr(device, 'mac', None):
-            continue
-        devices.append({
-            'mac': str(device.mac),
-            'ipv4': str(device.ip) if getattr(device, 'ip', None) else None,
-        })
-    merged = dict(params)
-    merged['devices'] = devices
-    return merged
 
 # Part 1: Ensure orchestrator service functions exist for content control rules endpoints
 @handle_service_errors("AGH: Get all content control rules")

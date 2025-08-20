@@ -80,7 +80,7 @@ def resolve_group_params(user_id: str, router_id: str, params: Dict[str, Any]) -
 # These functions orchestrate router commands for dynamic bandwidth limits
 # ============================================================================
 
-@register_task("bandwidth", "apply_group_limits", resolve_group_params)
+@register_task("bandwidth.apply_group_limits", resolve_group_params)
 @handle_service_errors("Bandwidth: Apply group limits")
 def apply_group_limits(user_id: str, router_id: str, session_id: str, ips: List[str],
                       download_kbytes: Optional[int] = None, upload_kbytes: Optional[int] = None,
@@ -104,7 +104,7 @@ def apply_group_limits(user_id: str, router_id: str, session_id: str, ips: List[
     return execute_apply_group_limits(router_id, session_id, ips, download_kbytes, upload_kbytes, download_mbps, upload_mbps)
 
 
-@register_task("bandwidth", "delete_group_limits", resolve_group_params)
+@register_task("bandwidth.delete_group_limits", resolve_group_params)
 @handle_service_errors("Bandwidth: Delete group limits")
 def delete_group_limits(user_id: str, router_id: str, session_id: str, ips: List[str]) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
     """
@@ -120,7 +120,7 @@ def delete_group_limits(user_id: str, router_id: str, session_id: str, ips: List
     return execute_delete_group_limits(router_id, session_id, ips)
 
 
-@register_task("bandwidth", "apply_device_limit")
+@register_task("bandwidth.apply_device_limit")
 @handle_service_errors("Bandwidth: Apply device limit")
 def apply_device_limit(user_id: str, router_id: str, session_id: str, ip: str,
                        download_kbytes: Optional[int] = None, upload_kbytes: Optional[int] = None,
@@ -143,7 +143,7 @@ def apply_device_limit(user_id: str, router_id: str, session_id: str, ip: str,
     return execute_apply_device_limit(router_id, session_id, ip, download_kbytes, upload_kbytes, download_mbps, upload_mbps)
 
 
-@register_task("bandwidth", "delete_device_limit")
+@register_task("bandwidth.delete_device_limit")
 @handle_service_errors("Bandwidth: Delete device limit")
 def delete_device_limit(user_id: str, router_id: str, session_id: str, ip: str) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
     """
@@ -186,7 +186,7 @@ def get_group_rule_db(user_id: str, router_id: str, session_id: str, group_id: s
 # These functions orchestrate both database operations and router commands
 # ============================================================================
 
-@register_task("bandwidth", "set_group_rule_db")
+@register_task("bandwidth.set_group_rule_db")
 @handle_service_errors("Bandwidth: Set group bandwidth rule")
 def set_group_rule_db(
     user_id: str,
