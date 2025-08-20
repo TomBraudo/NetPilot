@@ -23,6 +23,7 @@ from endpoints.agh import agh_bp
 from endpoints.bandwidth import bandwidth_bp
 from endpoints.device_groups import device_groups_bp
 from endpoints.devices import devices_bp
+from endpoints.scheduled_tasks import scheduled_tasks_bp
 from services.scheduler_bootstrap import init_scheduler
 
 def create_app(dev_mode=False, dev_user_id=None):
@@ -102,6 +103,7 @@ def create_app(dev_mode=False, dev_user_id=None):
     app.register_blueprint(bandwidth_bp, url_prefix='/api/bandwidth')
     app.register_blueprint(device_groups_bp, url_prefix='/api/device-groups')
     app.register_blueprint(devices_bp, url_prefix='/api/devices')
+    app.register_blueprint(scheduled_tasks_bp, url_prefix='/api')
     
     # Root route
     @app.route('/')

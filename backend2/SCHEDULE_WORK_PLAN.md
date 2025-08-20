@@ -22,32 +22,32 @@
 - [ ] Seed registry with demo tasks (decorators to be added manually in services).
 
 #### Phase 5 — Service-specific group resolvers
-- [ ] In bandwidth service, add resolve_group_targets(user_id, router_id, group_id) → List of IP strings.
-- [ ] In AGH service, add resolve_group_targets(user_id, router_id, group_id) → devices/identifiers in the exact format AGH expects.
-- [ ] In device_group service, add a helper to fetch current group members efficiently (IPs/MACs as needed).
+- [x] In bandwidth service, add resolve_group_targets(user_id, router_id, group_id) → List of IP strings.
+- [x] In AGH service, add resolve_group_targets(user_id, router_id, group_id) → devices/identifiers in the exact format AGH expects.
+- [x] In device_group service, add a helper to fetch current group members efficiently (IPs/MACs as needed).
 
 #### Phase 6 — Session management utility
-- [ ] Implement a scheduler-side helper to ensure/obtain an active session for (user_id, router_id).
-- [ ] Attempt refresh; if not present/expired, start session with session_id = user_id (project convention).
-- [ ] Return the valid session_id to the dispatcher for service calls.
+- [x] Implement a scheduler-side helper to ensure/obtain an active session for (user_id, router_id).
+- [x] Attempt refresh; if not present/expired, start session with session_id = user_id (project convention).
+- [x] Return the valid session_id to the dispatcher for service calls.
 
 #### Phase 7 — Dispatcher implementation
-- [ ] On each tick, compute current local time (Asia/Jerusalem) and select enabled tasks due now (respect days_of_week).
-- [ ] Apply throttling: global concurrency cap, per-router single-flight lock, optional per-router cooldown.
-- [ ] Add small randomized jitter/staggering for simultaneous tasks.
-- [ ] For each task: ensure session, resolve group targets if group_id in params (delegate to service resolver), pass other params unchanged, then call the mapped service.
-- [ ] Capture and persist last_run_at, last_status, last_error; optionally update metadata.last_known_session_id.
-- [ ] Log deferrals and retries with backoff and jitter.
+- [x] On each tick, compute current local time (Asia/Jerusalem) and select enabled tasks due now (respect days_of_week).
+- [x] Apply throttling: global concurrency cap, per-router single-flight lock, optional per-router cooldown.
+- [x] Add small randomized jitter/staggering for simultaneous tasks.
+- [x] For each task: ensure session, resolve group targets if group_id in params (delegate to service resolver), pass other params unchanged, then call the mapped service.
+- [x] Capture and persist last_run_at, last_status, last_error; optionally update metadata.last_known_session_id.
+- [x] Log deferrals and retries with backoff and jitter.
 
 #### Phase 8 — API endpoints (DB-driven scheduling)
-- [ ] Create minimal CRUD: create, update timing, enable/disable, delete, list, run-now.
-- [ ] Validate: ownership (user/router), service + task recognized, params schema per task, timing fields, immutability of functional params after creation.
-- [ ] Ensure responses use the standard JSON envelope.
+- [x] Create minimal CRUD: create, update timing, enable/disable, delete, list, run-now.
+- [x] Validate: ownership (user/router), service + task recognized, params schema per task, timing fields, immutability of functional params after creation.
+- [x] Ensure responses use the standard JSON envelope.
 
 #### Phase 9 — Services alignment (minimal changes)
-- [ ] Keep existing service functions unchanged for execution paths.
-- [ ] Ensure services are request-context free and return the standard tuple.
-- [ ] Optionally expose thin wrappers only if necessary for clean parameter acceptance (keep logic in resolvers).
+- [x] Keep existing service functions unchanged for execution paths.
+- [x] Ensure services are request-context free and return the standard tuple.
+- [x] Optionally expose thin wrappers only if necessary for clean parameter acceptance (keep logic in resolvers).
 
 #### Phase 10 — Observability and admin
 - [ ] Add logs around dispatcher lifecycle, session acquisition, resolutions, calls, errors, deferrals.
