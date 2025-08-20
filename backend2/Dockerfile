@@ -25,11 +25,12 @@ RUN useradd --create-home --shell /bin/bash app && \
 USER app
 
 # Expose port
-EXPOSE 8080
+EXPOSE 5000
 
 # Set environment variables
 ENV FLASK_ENV=production
 ENV PYTHONPATH=/app
+ENV PORT=5000
 
 # Run the application
 CMD ["python", "server.py"]

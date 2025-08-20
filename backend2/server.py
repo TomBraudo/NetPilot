@@ -109,6 +109,11 @@ def create_app(dev_mode=False, dev_user_id=None):
     @app.route('/')
     def root():
          return '<a href="/login">Log in with Google</a>'
+    
+    # Simple health check for Cloud Run
+    @app.route('/_ah/health')
+    def app_engine_health():
+        return {'status': 'ok', 'service': 'backend2'}, 200
 
     # Initialize database tables (optional, for dev)
     with app.app_context():
@@ -204,4 +209,7 @@ if __name__ == '__main__':
     server_host = config('SERVER_HOST', default='0.0.0.0')
     server_port = config('SERVER_PORT', default=5000, cast=int)
     
-    app.run(debug=True, host=server_host, port=server_port)
+    # Only enable debug mode in development
+    debug_mode = dev_mode and config('FLASK_DEBUG', default=False, cast=bool)
+    
+    app.run(debug=debug_mode, host=server_host, port=server_port)
