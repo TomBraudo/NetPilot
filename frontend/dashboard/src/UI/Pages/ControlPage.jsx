@@ -26,15 +26,124 @@ import {
   FaUndo,
   FaRegQuestionCircle,
   FaTv,
+  FaToggleOn,
+  FaToggleOff,
 } from "react-icons/fa";
 
-import { aghAPI, bandwidthAPI, deviceGroupsAPI, bandwidthRulesAPI, contentControlRulesAPI } from "../../constants/api";
+import { aghAPI, bandwidthAPI, deviceGroupsAPI, bandwidthRulesAPI, contentControlRulesAPI, scheduledTasksAPI } from "../../constants/api";
 import { useAuth } from "../../context/AuthContext.jsx";
 
 // Icon mapping
 const getDeviceIcon = (iconName) => {
   // For now, just return a default icon since we're not using device icons in control page
   return <FaRegQuestionCircle className="text-lg" />;
+};
+
+// Custom 24-hour time input component
+const CustomTimeInput = ({ value, onChange, placeholder = "00:00" }) => {
+  const [inputValue, setInputValue] = useState(value || "");
+  const [isValid, setIsValid] = useState(true);
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    setInputValue(value || "");
+  }, [value]);
+
+  const validateAndFormatTime = (timeStr) => {
+    // Remove any non-digit characters except colon
+    const cleaned = timeStr.replace(/[^\d:]/g, '');
+    
+    // Handle different input patterns
+    if (cleaned.length <= 2) {
+      // Just hours: "22" -> "22:"
+      return cleaned;
+    } else if (cleaned.length === 3) {
+      // "223" -> "22:3"
+      return cleaned.substring(0, 2) + ':' + cleaned.substring(2);
+    } else if (cleaned.length === 4 && !cleaned.includes(':')) {
+      // "2230" -> "22:30"
+      return cleaned.substring(0, 2) + ':' + cleaned.substring(2);
+    } else {
+      // Already has colon or longer
+      const parts = cleaned.split(':');
+      if (parts.length >= 2) {
+        const hours = parts[0].substring(0, 2);
+        const minutes = parts[1].substring(0, 2);
+        return hours + (minutes ? ':' + minutes : ':');
+      }
+      return cleaned;
+    }
+  };
+
+  const isValidTime = (timeStr) => {
+    const timeRegex = /^([01]?[0-9]|2[0-3]):([0-5][0-9])$/;
+    return timeRegex.test(timeStr);
+  };
+
+  const handleInputChange = (e) => {
+    const rawValue = e.target.value;
+    const formatted = validateAndFormatTime(rawValue);
+    setInputValue(formatted);
+
+    // Check if it's a complete valid time
+    if (isValidTime(formatted)) {
+      setIsValid(true);
+      onChange(formatted);
+    } else if (formatted.length < 5) {
+      // Still typing, don't mark as invalid yet
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+  };
+
+  const handleBlur = () => {
+    if (inputValue && !isValidTime(inputValue)) {
+      // Try to auto-complete incomplete times
+      const parts = inputValue.split(':');
+      if (parts.length === 2) {
+        const hours = parseInt(parts[0]) || 0;
+        const minutes = parseInt(parts[1]) || 0;
+        
+        if (hours <= 23 && minutes <= 59) {
+          const corrected = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+          setInputValue(corrected);
+          setIsValid(true);
+          onChange(corrected);
+          return;
+        }
+      }
+      setIsValid(false);
+    }
+  };
+
+  const handleFocus = (e) => {
+    e.target.select();
+  };
+
+  const handleClick = (e) => {
+    e.target.select();
+  };
+
+  return (
+    <input
+      ref={inputRef}
+      type="text"
+      value={inputValue}
+      onChange={handleInputChange}
+      onBlur={handleBlur}
+      onFocus={handleFocus}
+      onClick={handleClick}
+      placeholder={placeholder}
+      maxLength={5}
+      className={`w-full p-3 border rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-center ${
+        isValid 
+          ? 'border-gray-300 dark:border-gray-600' 
+          : 'border-red-500 dark:border-red-400'
+      }`}
+      style={{ letterSpacing: '0.1em' }}
+    />
+  );
 };
 
 // Custom 18+ Icon Component
@@ -52,7 +161,18 @@ const ControlPage = () => {
   console.log("🔍 [ControlPage] Component rendered with routerId:", routerId);
 
   // Content Controls State
-  const [contentCategories, setContentCategories] = useState([]);
+  const [contentCategories, setContentCategories] = useState(() => {
+    // Try to load categories from localStorage on initialization
+    try {
+      const stored = localStorage.getItem('netpilot_categories');
+      const parsed = stored ? JSON.parse(stored) : [];
+      console.log('🔍 [ControlPage] Loaded categories from localStorage on init:', parsed.length, 'categories', parsed);
+      return parsed;
+    } catch (error) {
+      console.warn('Failed to load categories from localStorage:', error);
+      return [];
+    }
+  });
   const [hasContentChanges, setHasContentChanges] = useState(false);
   const [contentApplyLoading, setContentApplyLoading] = useState(false);
   const [contentClearLoading, setContentClearLoading] = useState(false);
@@ -80,6 +200,22 @@ const ControlPage = () => {
 
   // Database Rules State
   const [bandwidthRules, setBandwidthRules] = useState({}); // { groupId: { download_limit_mbps, upload_limit_mbps, is_active, description } }
+  
+  // Scheduled Tasks State
+  const [scheduledTasks, setScheduledTasks] = useState([]);
+  const [scheduledTasksLoading, setScheduledTasksLoading] = useState(false);
+  const [showCreateTaskModal, setShowCreateTaskModal] = useState(false);
+  const [newTask, setNewTask] = useState({
+    type: 'content', // 'content' or 'bandwidth'
+    groupId: '',
+    categories: [], // for content blocking
+    downloadMbps: '', // for bandwidth limiting
+    uploadMbps: '', // for bandwidth limiting
+    startTime: '22:00', // when rule becomes active
+    endTime: '08:00', // when rule becomes inactive
+    days: [1, 2, 3, 4, 5], // 0=Sunday, 1=Monday, etc. Default weekdays
+    enabled: true
+  });
   const [contentControlRules, setContentControlRules] = useState({}); // { groupId: { blocked_categories, is_active, description } }
   const [rulesLoading, setRulesLoading] = useState(false);
   const [rulesError, setRulesError] = useState(null);
@@ -100,8 +236,7 @@ const ControlPage = () => {
   const [bandwidthChanges, setBandwidthChanges] = useState({});
   const [bulkValues, setBulkValues] = useState({ downLimit: "" });
   const [errors, setErrors] = useState({});
-  const [globalLimits, setGlobalLimits] = useState({ dlMbps: "", ulMbps: "", lanCidr: "" });
-  const [globalLoading, setGlobalLoading] = useState(false);
+
 
   // Simple domain request queue processor - only for domain requests
   const processDomainQueue = async () => {
@@ -198,6 +333,389 @@ const ControlPage = () => {
     }
   }, [routerId]);
 
+  // Load scheduled tasks when component mounts or routerId changes
+  useEffect(() => {
+    if (routerId) {
+      loadScheduledTasks();
+    }
+  }, [routerId]);
+
+  // Load scheduled tasks from backend
+  const loadScheduledTasks = async () => {
+    if (!routerId) {
+      console.log('⏳ [ScheduledTasks] Waiting for router ID...');
+      return;
+    }
+    
+    try {
+      setScheduledTasksLoading(true);
+      console.log('🔄 [ScheduledTasks] Loading scheduled tasks...');
+      
+      const response = await scheduledTasksAPI.listTasks(routerId);
+      const tasks = response?.data?.tasks || [];
+      
+      console.log('✅ [ScheduledTasks] Loaded tasks:', tasks);
+      setScheduledTasks(tasks);
+      
+    } catch (error) {
+      console.error('❌ [ScheduledTasks] Failed to load scheduled tasks:', error);
+      setScheduledTasks([]);
+    } finally {
+      setScheduledTasksLoading(false);
+    }
+  };
+
+  // Scheduled Tasks Functions
+  const handleCreateScheduledTask = async () => {
+    if (!routerId || !newTask.groupId) {
+      console.error('Missing required data for task creation');
+      return;
+    }
+
+    const { type, groupId, startTime, endTime, days } = newTask;
+    
+    // Parse times
+    const [startHour, startMin] = startTime.split(':').map(Number);
+    const [endHour, endMin] = endTime.split(':').map(Number);
+    
+    try {
+      setScheduledTasksLoading(true);
+      
+      if (type === 'content') {
+        if (!newTask.categories || newTask.categories.length === 0) {
+          console.error('No categories selected for content blocking');
+          return;
+        }
+        
+        console.log('🔄 Creating content blocking tasks...');
+        
+        // Create activate task (set_devices_rules)
+        const activateResponse = await scheduledTasksAPI.createTask(
+          routerId, 
+          "agh", 
+          "set_devices_rules", 
+          {
+            group_id: groupId,
+            categories: newTask.categories
+          },
+          startHour, 
+          startMin, 
+          days
+        );
+        
+        console.log('✅ Activate task created:', activateResponse);
+        const activateTaskId = activateResponse?.data?.id;
+        
+        // Create deactivate task (clear_devices_rules)
+        const deactivateResponse = await scheduledTasksAPI.createTask(
+          routerId, 
+          "agh", 
+          "clear_devices_rules", 
+          {
+            group_id: groupId
+          },
+          endHour, 
+          endMin, 
+          days
+        );
+        
+        console.log('✅ Deactivate task created:', deactivateResponse);
+        const deactivateTaskId = deactivateResponse?.data?.id;
+        
+        // Log the task pair for reference
+        console.log('📋 Task pair created:', {
+          type: 'content',
+          groupId,
+          categories: newTask.categories,
+          activateTaskId,
+          deactivateTaskId,
+          timeRange: `${startTime}-${endTime}`
+        });
+        
+      } else if (type === 'bandwidth') {
+        if (!newTask.downloadMbps || !newTask.uploadMbps) {
+          console.error('Missing bandwidth values');
+          return;
+        }
+        
+        console.log('🔄 Creating bandwidth limiting tasks...');
+        
+        // Create apply limits task
+        const applyResponse = await scheduledTasksAPI.createTask(
+          routerId, 
+          "bandwidth", 
+          "apply_group_limits", 
+          {
+            group_id: groupId,
+            download_mbps: parseFloat(newTask.downloadMbps),
+            upload_mbps: parseFloat(newTask.uploadMbps)
+          },
+          startHour, 
+          startMin, 
+          days
+        );
+        
+        console.log('✅ Apply limits task created:', applyResponse);
+        const applyTaskId = applyResponse?.data?.id;
+        
+        // Create remove limits task
+        const removeResponse = await scheduledTasksAPI.createTask(
+          routerId, 
+          "bandwidth", 
+          "delete_group_limits", 
+          {
+            group_id: groupId
+          },
+          endHour, 
+          endMin, 
+          days
+        );
+        
+        console.log('✅ Remove limits task created:', removeResponse);
+        const removeTaskId = removeResponse?.data?.id;
+        
+        // Log the task pair for reference
+        console.log('📋 Task pair created:', {
+          type: 'bandwidth',
+          groupId,
+          downloadMbps: newTask.downloadMbps,
+          uploadMbps: newTask.uploadMbps,
+          applyTaskId,
+          removeTaskId,
+          timeRange: `${startTime}-${endTime}`
+        });
+      }
+      
+      // Refresh task list and close modal
+      await loadScheduledTasks();
+      setShowCreateTaskModal(false);
+      
+      // Reset form
+      setNewTask({
+        type: 'content',
+        groupId: '',
+        categories: [],
+        downloadMbps: '',
+        uploadMbps: '',
+        startTime: '22:00',
+        endTime: '08:00',
+        days: [1, 2, 3, 4, 5],
+        enabled: true,
+        description: ''
+      });
+      
+      console.log('✅ Scheduled tasks created successfully');
+      
+    } catch (error) {
+      console.error('❌ Failed to create scheduled tasks:', error);
+      // TODO: Show user-friendly error message
+    } finally {
+      setScheduledTasksLoading(false);
+    }
+  };
+
+  // Helper function to group tasks into user-friendly "rules"
+  const groupTasksIntoRules = (tasks) => {
+    const rules = [];
+    const processedTaskIds = new Set();
+    
+    for (const task of tasks) {
+      if (processedTaskIds.has(task.id)) continue;
+      
+      const { service, params, hour, minute, days_of_week } = task;
+      const groupId = params?.group_id;
+      
+      if (!groupId) {
+        // Single task without group - show as individual task
+        rules.push({
+          id: `single_${task.id}`,
+          type: service === 'agh' ? 'content' : 'bandwidth',
+          groupId,
+          service,
+          task: task.task,
+          startTime: `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`,
+          endTime: null,
+          days: days_of_week || [0,1,2,3,4,5,6],
+          taskIds: [task.id],
+          enabled: task.enabled,
+          params: task.params
+        });
+        processedTaskIds.add(task.id);
+        continue;
+      }
+      
+      // Look for paired task (activate/deactivate or apply/remove)
+      let pairedTask = null;
+      
+      if (service === 'agh') {
+        // Content blocking: look for set_devices_rules + clear_devices_rules pair
+        if (task.task === 'set_devices_rules') {
+          pairedTask = tasks.find(t => 
+            !processedTaskIds.has(t.id) &&
+            t.service === 'agh' && 
+            t.task === 'clear_devices_rules' &&
+            t.params?.group_id === groupId &&
+            JSON.stringify(t.days_of_week) === JSON.stringify(task.days_of_week)
+          );
+        }
+      } else if (service === 'bandwidth') {
+        // Bandwidth limiting: look for apply_group_limits + delete_group_limits pair
+        if (task.task === 'apply_group_limits') {
+          pairedTask = tasks.find(t => 
+            !processedTaskIds.has(t.id) &&
+            t.service === 'bandwidth' && 
+            t.task === 'delete_group_limits' &&
+            t.params?.group_id === groupId &&
+            JSON.stringify(t.days_of_week) === JSON.stringify(task.days_of_week)
+          );
+        }
+      }
+      
+      if (pairedTask) {
+        // Found a pair - create a rule
+        // Determine start and end tasks based on task type, not time
+        let startTask, endTask;
+        
+        if (service === 'agh') {
+          // For content blocking: set_devices_rules = start, clear_devices_rules = end
+          if (task.task === 'set_devices_rules') {
+            startTask = task;
+            endTask = pairedTask;
+          } else {
+            startTask = pairedTask;
+            endTask = task;
+          }
+        } else if (service === 'bandwidth') {
+          // For bandwidth: apply_group_limits = start, delete_group_limits = end
+          if (task.task === 'apply_group_limits') {
+            startTask = task;
+            endTask = pairedTask;
+          } else {
+            startTask = pairedTask;
+            endTask = task;
+          }
+        }
+        
+        rules.push({
+          id: `rule_${task.id}_${pairedTask.id}`,
+          type: service === 'agh' ? 'content' : 'bandwidth',
+          groupId,
+          service,
+          startTime: `${startTask.hour.toString().padStart(2, '0')}:${startTask.minute.toString().padStart(2, '0')}`,
+          endTime: `${endTask.hour.toString().padStart(2, '0')}:${endTask.minute.toString().padStart(2, '0')}`,
+          days: task.days_of_week || [0,1,2,3,4,5,6],
+          taskIds: [task.id, pairedTask.id],
+          enabled: task.enabled && pairedTask.enabled,
+          params: task.params,
+          categories: task.params?.categories,
+          downloadMbps: task.params?.download_mbps,
+          uploadMbps: task.params?.upload_mbps
+        });
+        
+        processedTaskIds.add(task.id);
+        processedTaskIds.add(pairedTask.id);
+      } else {
+        // No pair found - show as individual task
+        rules.push({
+          id: `single_${task.id}`,
+          type: service === 'agh' ? 'content' : 'bandwidth',
+          groupId,
+          service,
+          task: task.task,
+          startTime: `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`,
+          endTime: null,
+          days: days_of_week || [0,1,2,3,4,5,6],
+          taskIds: [task.id],
+          enabled: task.enabled,
+          params: task.params
+        });
+        processedTaskIds.add(task.id);
+      }
+    }
+    
+    return rules;
+  };
+
+  const handleToggleScheduledTask = async (rule) => {
+    if (!rule || !rule.taskIds || rule.taskIds.length === 0) {
+      console.error('No task IDs provided for toggle');
+      return;
+    }
+    
+    const newEnabledState = !rule.enabled;
+    console.log('🔄 Toggling scheduled rule:', rule.id, 'to', newEnabledState ? 'enabled' : 'disabled');
+    
+    // Optimistic update: Update UI immediately
+    setScheduledTasks(prevTasks => 
+      prevTasks.map(task => 
+        rule.taskIds.includes(task.id) 
+          ? { ...task, enabled: newEnabledState }
+          : task
+      )
+    );
+    
+    try {
+      // Toggle all tasks in the rule (usually 2 for paired tasks, 1 for individual)
+      for (const taskId of rule.taskIds) {
+        await scheduledTasksAPI.toggleTask(taskId, newEnabledState);
+        console.log('✅ Toggled task:', taskId, 'to', newEnabledState ? 'enabled' : 'disabled');
+      }
+      
+      console.log('✅ Scheduled rule toggled successfully');
+      
+    } catch (error) {
+      console.error('❌ Failed to toggle scheduled rule:', error);
+      
+      // Revert optimistic update on error
+      setScheduledTasks(prevTasks => 
+        prevTasks.map(task => 
+          rule.taskIds.includes(task.id) 
+            ? { ...task, enabled: !newEnabledState } // Revert to original state
+            : task
+        )
+      );
+      
+      // TODO: Show user-friendly error message
+    }
+  };
+
+  const handleDeleteScheduledTask = async (rule) => {
+    if (!rule || !rule.taskIds || rule.taskIds.length === 0) {
+      console.error('No task IDs provided for deletion');
+      return;
+    }
+    
+    try {
+      console.log('🔄 Deleting scheduled rule:', rule.id, 'with tasks:', rule.taskIds);
+      
+      // Delete all tasks in the rule (usually 2 for paired tasks, 1 for individual)
+      for (const taskId of rule.taskIds) {
+        await scheduledTasksAPI.deleteTask(taskId);
+        console.log('✅ Deleted task:', taskId);
+      }
+      
+      console.log('✅ Scheduled rule deleted successfully');
+      
+      // Refresh task list
+      await loadScheduledTasks();
+      
+    } catch (error) {
+      console.error('❌ Failed to delete scheduled rule:', error);
+      // TODO: Show user-friendly error message
+    }
+  };
+
+  // Helper function to refresh categories (clears cache and reloads)
+  const refreshCategories = () => {
+    try {
+      localStorage.removeItem('netpilot_categories');
+      setContentCategories([]);
+      console.log("🔄 [ControlPage] Categories cache cleared, will reload on next render");
+    } catch (error) {
+      console.warn('Failed to clear categories cache:', error);
+    }
+  };
+
   // Helper function to map API category names to UI format with icons and default values
   const mapApiCategoriesToUI = async (categoryNames) => {
     const iconMap = {
@@ -248,7 +766,7 @@ const ControlPage = () => {
         categoriesWithCounts.push({
           id: categoryId,
           name: nameMap[categoryId] || categoryId.replace(/__/g, ' ').replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
-          icon: iconMap[categoryId] || FaCog,
+          // Don't store icon functions in localStorage - we'll handle icons based on ID
           blocked: false, // Default all categories to allowed
           sites: domainCount,
           description: descriptionMap[categoryId] || `${categoryId.replace(/__/g, ' ').replace(/_/g, ' ')} category`,
@@ -260,7 +778,7 @@ const ControlPage = () => {
         categoriesWithCounts.push({
           id: categoryId,
           name: nameMap[categoryId] || categoryId.replace(/__/g, ' ').replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
-          icon: iconMap[categoryId] || FaCog,
+          // Don't store icon functions in localStorage - we'll handle icons based on ID
           blocked: false, // Default all categories to allowed
           sites: 0,
           description: descriptionMap[categoryId] || `${categoryId.replace(/__/g, ' ').replace(/_/g, ' ')} category`,
@@ -282,7 +800,27 @@ const ControlPage = () => {
         return;
       }
 
-      console.log("🚀 [ControlPage] Starting to load categories...");
+      // Check if we have cached categories and they're not empty
+      // Also check if cached categories have the problematic icon functions - if so, refresh
+      const cachedCategories = contentCategories;
+      if (cachedCategories && cachedCategories.length > 0) {
+        // Check if any category has an icon function (which causes React errors)
+        const hasIconFunctions = cachedCategories.some(cat => typeof cat.icon === 'function');
+        if (hasIconFunctions) {
+          console.log("🔄 [ControlPage] Cached categories have function icons, clearing cache and reloading...");
+          try {
+            localStorage.removeItem('netpilot_categories');
+            setContentCategories([]);
+          } catch (error) {
+            console.warn('Failed to clear categories cache:', error);
+          }
+        } else {
+          console.log("📦 [ControlPage] Using cached categories from localStorage:", cachedCategories.length, "categories");
+          return;
+        }
+      }
+
+      console.log("🚀 [ControlPage] Starting to load categories from API...");
       setCategoriesLoading(true);
       setCategoriesError(null);
       
@@ -310,6 +848,14 @@ const ControlPage = () => {
         console.log("✅ [ControlPage] Categories mapped to UI format:", uiCategories.length, "categories");
         if (isMounted) {
           setContentCategories(uiCategories);
+          
+          // Save categories to localStorage for future use
+          try {
+            localStorage.setItem('netpilot_categories', JSON.stringify(uiCategories));
+            console.log("💾 [ControlPage] Categories saved to localStorage");
+          } catch (error) {
+            console.warn('Failed to save categories to localStorage:', error);
+          }
         }
         
       } catch (error) {
@@ -595,8 +1141,6 @@ const ControlPage = () => {
       // Mark as initialized
       setContentControlsInitialized(true);
       console.log("✅ Content controls initialization complete");
-      console.log("📊 Final toggle state:", updatedToggles);
-      console.log("📊 Original toggle state saved for change detection");
     };
 
     initializeContentControls();
@@ -1302,37 +1846,7 @@ const ControlPage = () => {
     }
   };
 
-  const activateGlobalLimits = async () => {
-    if (!globalLimits.dlMbps || !globalLimits.ulMbps) {
-      alert('Enter both download and upload Mbps');
-      return;
-    }
-    setGlobalLoading(true);
-    try {
-      const download_kbytes = Math.round(parseFloat(globalLimits.dlMbps) * 125);
-      const upload_kbytes = Math.round(parseFloat(globalLimits.ulMbps) * 125);
-             await bandwidthAPI.activateGlobal(routerId, { download_kbytes, upload_kbytes, lan_cidr: globalLimits.lanCidr || undefined });
-      alert('Global limits activated');
-    } catch (e) {
-      console.error('Failed to activate global limits', e);
-      alert(e?.message || 'Failed to activate global limits');
-    } finally {
-      setGlobalLoading(false);
-    }
-  };
 
-  const deactivateGlobalLimits = async () => {
-    setGlobalLoading(true);
-    try {
-             await bandwidthAPI.deactivateGlobal(routerId);
-      alert('Global limits deactivated');
-    } catch (e) {
-      console.error('Failed to deactivate global limits', e);
-      alert(e?.message || 'Failed to deactivate global limits');
-    } finally {
-      setGlobalLoading(false);
-    }
-  };
 
   // Initialize bandwidth groups from device groups and database rules
   useEffect(() => {
@@ -1983,8 +2497,26 @@ const ControlPage = () => {
                 </div>
               ) : (
                 contentCategories.map((category) => {
-              const IconComponent = category.icon;
               const categoryUrls = customUrls[category.id] || [];
+              
+              // Get the appropriate icon component based on category ID
+              const getIconComponent = (categoryId) => {
+                switch (categoryId) {
+                  case 'adult_gambling':
+                    return <EighteenPlusIcon className="text-lg" />;
+                  case 'social_media':
+                    return <FaUsers className="text-lg" />;
+                  case 'entertainment':
+                    return <FaTv className="text-lg" />;
+                  case 'gaming':
+                    return <FaGamepad className="text-lg" />;
+                  case 'shopping':
+                    return <FaShoppingCart className="text-lg" />;
+                  default:
+                    return <FaCog className="text-lg" />;
+                }
+              };
+              
               return (
                 <div
                   key={category.id}
@@ -1993,7 +2525,7 @@ const ControlPage = () => {
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-3">
                       <div className="p-2 rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-800 dark:text-blue-300">
-                        <IconComponent className="text-lg" />
+                        {getIconComponent(category.id)}
                       </div>
                       <div>
                         <h3 className="font-medium text-gray-800 dark:text-white">
@@ -2141,65 +2673,131 @@ const ControlPage = () => {
         </div>
       </div>
 
-      {/* Global Limits Section */}
+      {/* Scheduled Tasks Section */}
       <div className="mb-12">
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
           <div className="flex justify-between items-center mb-6">
             <div>
-              <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">Global Bandwidth Limits</h2>
-              <p className="text-gray-600 dark:text-gray-300 mt-1">Apply limits to all LAN hosts</p>
+              <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">Scheduled Tasks</h2>
+              <p className="text-gray-600 dark:text-gray-300 mt-1">Schedule automatic content blocking and bandwidth limits</p>
             </div>
+            <button 
+              onClick={() => setShowCreateTaskModal(true)}
+              className="px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-400 transition-colors flex items-center gap-2"
+            >
+              <FaPlus />
+              Create Task
+            </button>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+          {/* Tasks by Group */}
+          <div className="space-y-6">
+            {groups.length === 0 ? (
+              <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                <FaUsers className="mx-auto text-4xl mb-2 opacity-50" />
+                <p>No device groups available. Create groups first to schedule tasks.</p>
+              </div>
+            ) : (
+              groups.map((group) => {
+                // Ensure scheduledTasks is an array and group them into user-friendly rules
+                const tasksArray = Array.isArray(scheduledTasks) ? scheduledTasks : [];
+                const groupedRules = groupTasksIntoRules(tasksArray);
+                const groupRules = groupedRules.filter(rule => 
+                  rule.groupId === group.id
+                );
+                
+                return (
+                  <div key={group.id} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-3">
+                        <FaUsers className="text-blue-500 dark:text-blue-400" />
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Download (Mbps)</label>
-              <input 
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400" 
-                type="number" 
-                min="0.1" 
-                step="0.1" 
-                value={globalLimits.dlMbps}
-                onChange={(e) => setGlobalLimits((p) => ({...p, dlMbps: e.target.value}))}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Upload (Mbps)</label>
-              <input 
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400" 
-                type="number" 
-                min="0.1" 
-                step="0.1" 
-                value={globalLimits.ulMbps}
-                onChange={(e) => setGlobalLimits((p) => ({...p, ulMbps: e.target.value}))}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">LAN CIDR (optional)</label>
-              <input 
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400" 
-                placeholder="e.g., 192.168.1.0/24" 
-                value={globalLimits.lanCidr}
-                onChange={(e) => setGlobalLimits((p) => ({...p, lanCidr: e.target.value}))}
-              />
-            </div>
-            <div className="flex gap-2">
-              <button 
-                onClick={activateGlobalLimits} 
-                disabled={globalLoading}
-                className="px-4 py-3 rounded bg-green-600 dark:bg-green-500 text-white hover:bg-green-700 dark:hover:bg-green-400 disabled:opacity-60 transition-colors"
-              >
-                Activate
-              </button>
-              <button 
-                onClick={deactivateGlobalLimits} 
-                disabled={globalLoading}
-                className="px-4 py-3 rounded bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-500 disabled:opacity-60 transition-colors"
-              >
-                Deactivate
-              </button>
-            </div>
+                          <h3 className="font-semibold text-gray-800 dark:text-white">{group.name}</h3>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">{group.devices?.length || 0} devices</p>
+                        </div>
+                      </div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">
+                        {groupRules.length} scheduled {groupRules.length === 1 ? 'rule' : 'rules'}
+                      </div>
+                    </div>
+
+                    {groupRules.length === 0 ? (
+                      <div className="text-center py-4 text-gray-400 dark:text-gray-500 text-sm">
+                        No scheduled tasks for this group
+                      </div>
+                    ) : (
+                      <div className="space-y-2">
+                        {groupRules.map((rule) => (
+                          <div key={rule.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                            <div className="flex items-center gap-3">
+                              <div className="flex items-center gap-2">
+                                {rule.type === 'content' ? (
+                                  <FaGlobe className="text-red-500 dark:text-red-400" />
+                                ) : (
+                                  <FaDownload className="text-green-500 dark:text-green-400" />
+                                )}
+                                <div>
+                                  <div className="font-medium text-gray-800 dark:text-white">
+                                    {rule.type === 'content' ? 'Content Blocking' : 'Bandwidth Limit'}
+                                    {rule.endTime ? ` (${rule.startTime} - ${rule.endTime})` : ` (${rule.startTime})`}
+                                  </div>
+                                  <div className="text-sm text-gray-600 dark:text-gray-400">
+                                    {rule.days && rule.days.length > 0 ? 
+                                      rule.days.map(day => ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][day]).join(', ') :
+                                      'Daily'
+                                    }
+                                    {rule.type === 'content' && rule.categories && (
+                                      <span> • {rule.categories.join(', ')}</span>
+                                    )}
+                                    {rule.type === 'bandwidth' && rule.downloadMbps && (
+                                      <span> • {rule.downloadMbps}↓/{rule.uploadMbps}↑ Mbps</span>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <div className={`px-2 py-1 rounded text-xs font-medium ${
+                                rule.enabled 
+                                  ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' 
+                                  : 'bg-gray-100 dark:bg-gray-600 text-gray-800 dark:text-gray-200'
+                              }`}>
+                                {rule.enabled ? 'Active' : 'Disabled'}
+                              </div>
+                              <button
+                                onClick={() => handleToggleScheduledTask(rule)}
+                                className={`p-1 rounded transition-colors ${
+                                  rule.enabled 
+                                    ? 'text-green-500 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900' 
+                                    : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600'
+                                }`}
+                                title={rule.enabled ? 'Disable task' : 'Enable task'}
+                              >
+                                {rule.enabled ? <FaToggleOn /> : <FaToggleOff />}
+                              </button>
+                              <button
+                                onClick={() => handleDeleteScheduledTask(rule)}
+                                className="p-1 text-red-500 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900 rounded transition-colors"
+                                title="Delete task"
+                              >
+                                <FaTrash />
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })
+            )}
           </div>
+
+          {scheduledTasksLoading && (
+            <div className="text-center py-4 text-gray-500 dark:text-gray-400">
+              Loading scheduled tasks...
+            </div>
+          )}
         </div>
       </div>
 
@@ -2208,6 +2806,269 @@ const ControlPage = () => {
         <div className="fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 z-50">
           <FaCheck />
           Content controls applied successfully!
+        </div>
+      )}
+
+      {/* Create Task Modal */}
+      {showCreateTaskModal && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Create Scheduled Task</h3>
+              <button
+                onClick={() => setShowCreateTaskModal(false)}
+                className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+              >
+                <FaTimes />
+              </button>
+            </div>
+
+            <div className="space-y-6">
+              {/* Task Type Selection */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Task Type</label>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    onClick={() => setNewTask(prev => ({ ...prev, type: 'content' }))}
+                    className={`p-4 rounded-lg border-2 transition-colors ${
+                      newTask.type === 'content'
+                        ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300'
+                        : 'border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-500'
+                    }`}
+                  >
+                    <FaGlobe className="mx-auto mb-2 text-2xl" />
+                    <div className="font-medium">Content Control</div>
+                    <div className="text-sm opacity-75">Block/allow website categories</div>
+                  </button>
+                  <button
+                    onClick={() => setNewTask(prev => ({ ...prev, type: 'bandwidth' }))}
+                    className={`p-4 rounded-lg border-2 transition-colors ${
+                      newTask.type === 'bandwidth'
+                        ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300'
+                        : 'border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-500'
+                    }`}
+                  >
+                    <FaDownload className="mx-auto mb-2 text-2xl" />
+                    <div className="font-medium">Bandwidth Control</div>
+                    <div className="text-sm opacity-75">Apply/remove speed limits</div>
+                  </button>
+                </div>
+              </div>
+
+              {/* Group Selection */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Device Group</label>
+                <select
+                  value={newTask.groupId}
+                  onChange={(e) => setNewTask(prev => ({ ...prev, groupId: e.target.value }))}
+                  className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200"
+                >
+                  <option value="">Select a group</option>
+                  {groups.map(group => (
+                    <option key={group.id} value={group.id}>
+                      {group.name} ({group.devices?.length || 0} devices)
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Description */}
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <div className="text-blue-600 dark:text-blue-400 mt-1">
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-medium text-blue-800 dark:text-blue-200 mb-1">
+                      How it works
+                    </h4>
+                    <p className="text-sm text-blue-700 dark:text-blue-300">
+                      {newTask.type === 'content' 
+                        ? 'This will automatically block the selected categories during the specified time period, and unblock them outside of those hours.'
+                        : 'This will automatically apply bandwidth limits during the specified time period, and remove them outside of those hours.'
+                      }
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Content Categories (if content type) */}
+              {newTask.type === 'content' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Categories to Block During Scheduled Hours</label>
+                  <div className="grid grid-cols-1 gap-2 max-h-40 overflow-y-auto border border-gray-200 dark:border-gray-600 rounded-lg p-3 bg-gray-50 dark:bg-gray-700">
+                    {(() => {
+                      console.log('🔍 [ScheduledTasks] Rendering categories:', contentCategories.length, contentCategories);
+                      return contentCategories.length === 0 ? (
+                        <div className="text-center py-4 text-gray-500 dark:text-gray-400 text-sm">
+                          Loading categories...
+                        </div>
+                      ) : (
+                        contentCategories.map(category => {
+                          console.log('🔍 [ScheduledTasks] Rendering category:', category);
+                          return (
+                        <label key={category.id} className="flex items-center gap-3 p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded cursor-pointer">
+              <input 
+                            type="checkbox"
+                            checked={newTask.categories.includes(category.id)}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                setNewTask(prev => ({ ...prev, categories: [...prev.categories, category.id] }));
+                              } else {
+                                setNewTask(prev => ({ ...prev, categories: prev.categories.filter(c => c !== category.id) }));
+                              }
+                            }}
+                            className="rounded border-gray-300 dark:border-gray-500 text-blue-600 focus:ring-blue-500"
+                          />
+                          <div className="flex items-center gap-2">
+                            <span className="text-xl">
+                              {(() => {
+                                // Handle icons based on category ID since localStorage can't store functions
+                                switch (category.id) {
+                                  case 'adult_gambling':
+                                    return <EighteenPlusIcon />;
+                                  case 'social_media':
+                                    return <FaUsers />;
+                                  case 'entertainment':
+                                    return <FaTv />;
+                                  case 'gaming':
+                                    return <FaGamepad />;
+                                  case 'shopping':
+                                    return <FaShoppingCart />;
+                                  default:
+                                    return <FaCog />;
+                                }
+                              })()}
+                            </span>
+                            <span className="text-sm font-medium text-gray-700 dark:text-gray-200">{category.name || category.displayName}</span>
+                            <span className="text-xs text-gray-500 dark:text-gray-400">({category.sites || category.domainCount} domains)</span>
+                          </div>
+                        </label>
+                          );
+                        })
+                      );
+                    })()}
+                  </div>
+                </div>
+              )}
+
+              {/* Bandwidth Limits (if bandwidth type) */}
+              {newTask.type === 'bandwidth' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Bandwidth Limits During Scheduled Hours</label>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Download Speed (Mbps)</label>
+                      <input
+                type="number" 
+                min="0.1" 
+                step="0.1" 
+                        value={newTask.downloadMbps}
+                        onChange={(e) => setNewTask(prev => ({ ...prev, downloadMbps: e.target.value }))}
+                        className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="e.g., 10"
+                        required
+              />
+            </div>
+            <div>
+                      <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Upload Speed (Mbps)</label>
+              <input 
+                type="number" 
+                min="0.1" 
+                step="0.1" 
+                        value={newTask.uploadMbps}
+                        onChange={(e) => setNewTask(prev => ({ ...prev, uploadMbps: e.target.value }))}
+                        className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="e.g., 5"
+                        required
+              />
+            </div>
+                  </div>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                    These limits will be applied during the scheduled time period. Outside of these hours, normal speeds will be restored.
+                  </p>
+                </div>
+              )}
+
+                            {/* Time Range */}
+            <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Active Time Period</label>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
+                      {newTask.type === 'content' ? 'Block From' : 'Limit From'}
+                    </label>
+                    <CustomTimeInput
+                      value={newTask.startTime}
+                      onChange={(value) => setNewTask(prev => ({ ...prev, startTime: value }))}
+                      placeholder="22:00"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
+                      {newTask.type === 'content' ? 'Unblock At' : 'Restore At'}
+                    </label>
+                    <CustomTimeInput
+                      value={newTask.endTime}
+                      onChange={(value) => setNewTask(prev => ({ ...prev, endTime: value }))}
+                      placeholder="08:00"
+                    />
+                  </div>
+                </div>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                  {newTask.type === 'content' 
+                    ? 'Content will be blocked from start time to end time, then automatically unblocked.'
+                    : 'Bandwidth limits will be active from start time to end time, then automatically removed.'
+                  }
+                </p>
+              </div>
+
+              {/* Days Selection */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Days of Week</label>
+                <div className="flex flex-wrap gap-2">
+                  {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day, index) => (
+              <button 
+                      key={day}
+                      onClick={() => {
+                        if (newTask.days.includes(index)) {
+                          setNewTask(prev => ({ ...prev, days: prev.days.filter(d => d !== index) }));
+                        } else {
+                          setNewTask(prev => ({ ...prev, days: [...prev.days, index].sort() }));
+                        }
+                      }}
+                      className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                        newTask.days.includes(index)
+                          ? 'bg-blue-500 text-white'
+                          : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                      }`}
+                    >
+                      {day.slice(0, 3)}
+              </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+              <button 
+                  onClick={() => setShowCreateTaskModal(false)}
+                  className="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleCreateScheduledTask}
+                  disabled={!newTask.groupId || (newTask.type === 'content' && newTask.categories.length === 0) || (newTask.type === 'bandwidth' && (!newTask.downloadMbps || !newTask.uploadMbps))}
+                  className="px-6 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+                >
+                  Create Scheduled Task
+              </button>
+            </div>
+          </div>
+        </div>
         </div>
       )}
 

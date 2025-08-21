@@ -72,6 +72,8 @@ def resolve_group_params(user_id: str, router_id: str, params: Dict[str, Any]) -
 
     merged = dict(params)
     merged['ips'] = deduped_ips
+    # Remove group_id since it's been resolved to ips
+    merged.pop('group_id', None)
     return merged
 
 

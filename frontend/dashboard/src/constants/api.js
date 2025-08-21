@@ -347,18 +347,6 @@ export const bandwidthAPI = {
       body: JSON.stringify({ ip }),
     }),
 
-  // Global limits
-  activateGlobal: (routerId, { download_kbytes, upload_kbytes, lan_cidr } = {}) =>
-    apiRequest(`${API_ENDPOINTS.BANDWIDTH}/global/activate?routerId=${routerId}`, {
-      method: "POST",
-      body: JSON.stringify({ download_kbytes, upload_kbytes, lan_cidr }),
-    }),
-
-  deactivateGlobal: (routerId) =>
-    apiRequest(`${API_ENDPOINTS.BANDWIDTH}/global/deactivate?routerId=${routerId}`, {
-      method: "DELETE",
-    }),
-
   
 };
 
@@ -545,5 +533,54 @@ export const contentControlRulesAPI = {
     apiRequest(`${API_ENDPOINTS.AGH}/devices/rules?routerId=${routerId}`, {
       method: "DELETE",
       body: JSON.stringify({ devices }),
+    }),
+};
+
+// Scheduled Tasks API functions
+export const scheduledTasksAPI = {
+  // Get available tasks that can be scheduled
+  getAvailableTasks: () =>
+    apiRequest(`${API_BASE_URL}/api/scheduled-tasks/available-tasks`),
+  
+  // Create scheduled task
+  createTask: (routerId, service, task, params, hour, minute, days_of_week = null) =>
+    apiRequest(`${API_BASE_URL}/api/scheduled-tasks`, {
+      method: "POST",
+      body: JSON.stringify({ 
+        router_id: routerId, 
+        service, 
+        task, 
+        params, 
+        hour, 
+        minute, 
+        days_of_week 
+      }),
+    }),
+  
+  // List tasks for a router
+  listTasks: (routerId, enabled = null) => {
+    const params = new URLSearchParams({ router_id: routerId });
+    if (enabled !== null) params.append("enabled", enabled.toString());
+    return apiRequest(`${API_BASE_URL}/api/scheduled-tasks?${params.toString()}`);
+  },
+  
+  // Delete task
+  deleteTask: (taskId) =>
+    apiRequest(`${API_BASE_URL}/api/scheduled-tasks/${taskId}`, {
+      method: "DELETE",
+    }),
+  
+  // Toggle task enabled/disabled
+  toggleTask: (taskId, enabled) =>
+    apiRequest(`${API_BASE_URL}/api/scheduled-tasks/${taskId}/toggle`, {
+      method: "POST",
+      body: JSON.stringify({ enabled }),
+    }),
+  
+  // Update task timing only
+  updateTiming: (taskId, hour, minute, days_of_week) =>
+    apiRequest(`${API_BASE_URL}/api/scheduled-tasks/${taskId}`, {
+      method: "PUT",
+      body: JSON.stringify({ hour, minute, days_of_week }),
     }),
 };

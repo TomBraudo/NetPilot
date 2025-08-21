@@ -69,7 +69,11 @@ def resolve_group_params(user_id: str, router_id: str, params: Dict[str, Any]) -
             'ipv4': str(device.ip) if getattr(device, 'ip', None) else None,
         })
 
-    return {**params, 'devices': devices}
+    # Create new params dict with devices and remove group_id since it's been resolved
+    merged = dict(params)
+    merged['devices'] = devices
+    merged.pop('group_id', None)
+    return merged
 
 
 @handle_service_errors("AGH: List categories")
