@@ -543,7 +543,7 @@ export const scheduledTasksAPI = {
     apiRequest(`${API_BASE_URL}/api/scheduled-tasks/available-tasks`),
   
   // Create scheduled task
-  createTask: (routerId, service, task, params, hour, minute, days_of_week = null) =>
+  createTask: (routerId, service, task, params, hour, minute, days_of_week = null, task_type = 'fixed', interval_minutes = null) =>
     apiRequest(`${API_BASE_URL}/api/scheduled-tasks`, {
       method: "POST",
       body: JSON.stringify({ 
@@ -553,7 +553,9 @@ export const scheduledTasksAPI = {
         params, 
         hour, 
         minute, 
-        days_of_week 
+        days_of_week,
+        task_type,
+        interval_minutes
       }),
     }),
   

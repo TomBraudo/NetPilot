@@ -59,13 +59,13 @@ def get_status():
 
 '''
     API endpoint to get the current WiFi SSID
-    Optional query param: interface (defaults to 0)
+    Optional query param: interface (defaults to 1)
 '''
 @wifi_bp.route("/ssid", methods=["GET"])
 def get_wifi_ssid_route():
     """Get the current WiFi SSID"""
     start_time = time.time()
-    interface = request.args.get("interface", 0, type=int)
+    interface = request.args.get("interface", 1, type=int)
     result, error = get_wifi_ssid(interface)
     if error:
         return build_error_response(f"Command failed: {error}", 500, "COMMAND_FAILED", start_time)

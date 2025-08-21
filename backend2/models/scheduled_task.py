@@ -17,9 +17,13 @@ class ScheduledTask(BaseModel):
     params = Column(JSONB, nullable=False)
 
     # Scheduling fields (Asia/Jerusalem local time semantics)
-    hour = Column(Integer, nullable=False)
-    minute = Column(Integer, nullable=False)
+    hour = Column(Integer, nullable=True)  # Changed to nullable for interval tasks
+    minute = Column(Integer, nullable=True)  # Changed to nullable for interval tasks
     days_of_week = Column(ARRAY(Integer), nullable=True)  # 0-6 for Mon-Sun (or Sun-Sat per app policy)
+
+    # Interval-based scheduling support
+    task_type = Column(String(16), nullable=False, default='fixed')  # 'fixed' or 'interval'
+    interval_minutes = Column(Integer, nullable=True)  # e.g., 60 for "every hour"
 
     enabled = Column(Boolean, nullable=False, default=True)
 

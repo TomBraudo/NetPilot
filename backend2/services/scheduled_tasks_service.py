@@ -30,8 +30,9 @@ logger = get_logger('services.scheduled_tasks_service')
 
 @handle_service_errors("Create scheduled task")
 def create_scheduled_task(user_id: str, router_id: str, service: str, task: str, 
-                         params: Dict[str, Any], hour: int, minute: int, 
-                         days_of_week: Optional[List[int]] = None) -> Tuple[Optional[Dict], Optional[str]]:
+                         params: Dict[str, Any], hour: Optional[int] = None, minute: Optional[int] = None, 
+                         days_of_week: Optional[List[int]] = None, task_type: str = 'fixed', 
+                         interval_minutes: Optional[int] = None) -> Tuple[Optional[Dict], Optional[str]]:
     """
     Create a new scheduled task.
     
@@ -41,9 +42,11 @@ def create_scheduled_task(user_id: str, router_id: str, service: str, task: str,
         service: Service name (e.g., 'bandwidth', 'agh')
         task: Task name (e.g., 'apply_group_limits')
         params: Task parameters as dictionary
-        hour: Hour (0-23)
-        minute: Minute (0-59)
+        hour: Hour (0-23) - required for fixed tasks, ignored for interval tasks
+        minute: Minute (0-59) - required for fixed tasks, ignored for interval tasks
         days_of_week: Optional list of weekdays (0-6, Monday=0)
+        task_type: 'fixed' for time-based tasks, 'interval' for recurring tasks
+        interval_minutes: Minutes between executions for interval tasks
         
     Returns:
         Tuple of (task_data_dict, error_message)
@@ -54,11 +57,13 @@ def create_scheduled_task(user_id: str, router_id: str, service: str, task: str,
         "task": task,
         "hour": hour,
         "minute": minute,
-        "days_of_week": days_of_week
+        "days_of_week": days_of_week,
+        "task_type": task_type,
+        "interval_minutes": interval_minutes
     })
     
     # Call database operation
-    result, error = st_db_create_task(user_id, router_id, service, task, params, hour, minute, days_of_week)
+    result, error = st_db_create_task(user_id, router_id, service, task, params, hour, minute, days_of_week, task_type, interval_minutes)
     if error:
         log_service_operation("create_scheduled_task", user_id, router_id, "scheduler", 
                             {"router_id": router_id, "service": service, "task": task}, 

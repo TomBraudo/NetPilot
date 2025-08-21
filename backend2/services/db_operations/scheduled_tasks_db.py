@@ -15,8 +15,9 @@ logger = get_logger('services.db_operations.scheduled_tasks_db')
 
 
 def st_db_create_task(user_id: str, router_id: str, service: str, task: str, 
-                     params: Dict[str, Any], hour: int, minute: int, 
-                     days_of_week: Optional[List[int]] = None) -> Tuple[Optional[Dict], Optional[str]]:
+                     params: Dict[str, Any], hour: Optional[int] = None, minute: Optional[int] = None, 
+                     days_of_week: Optional[List[int]] = None, task_type: str = 'fixed', 
+                     interval_minutes: Optional[int] = None) -> Tuple[Optional[Dict], Optional[str]]:
     """
     Create a new scheduled task in the database.
     
@@ -26,9 +27,11 @@ def st_db_create_task(user_id: str, router_id: str, service: str, task: str,
         service: Service name
         task: Task name
         params: Task parameters
-        hour: Hour (0-23)
-        minute: Minute (0-59)
+        hour: Hour (0-23) - required for fixed tasks, ignored for interval tasks
+        minute: Minute (0-59) - required for fixed tasks, ignored for interval tasks
         days_of_week: Optional list of weekdays
+        task_type: 'fixed' for time-based tasks, 'interval' for recurring tasks
+        interval_minutes: Minutes between executions for interval tasks
         
     Returns:
         Tuple of (task_data_dict, error_message)
@@ -45,6 +48,18 @@ def st_db_create_task(user_id: str, router_id: str, service: str, task: str,
             available_services = {f"{s}.{t}" for (s, t) in available_tasks.keys()}
             return None, f"Invalid service.task: {service}.{task}. Available: {', '.join(sorted(available_services))}"
         
+        # Validate task type and required fields
+        if task_type == 'fixed':
+            if hour is None or minute is None:
+                return None, "Fixed tasks require both hour and minute to be specified"
+            if not (0 <= hour <= 23 and 0 <= minute <= 59):
+                return None, "Invalid time: hour must be 0-23, minute must be 0-59"
+        elif task_type == 'interval':
+            if interval_minutes is None or interval_minutes <= 0:
+                return None, "Interval tasks require a positive interval_minutes value"
+        else:
+            return None, f"Invalid task_type: {task_type}. Must be 'fixed' or 'interval'"
+        
         # Create the scheduled task
         scheduled_task = ScheduledTask(
             user_id=user_id,
@@ -55,6 +70,8 @@ def st_db_create_task(user_id: str, router_id: str, service: str, task: str,
             hour=hour,
             minute=minute,
             days_of_week=days_of_week,
+            task_type=task_type,
+            interval_minutes=interval_minutes,
             enabled=True
         )
         
@@ -70,6 +87,8 @@ def st_db_create_task(user_id: str, router_id: str, service: str, task: str,
             "hour": hour,
             "minute": minute,
             "days_of_week": days_of_week,
+            "task_type": task_type,
+            "interval_minutes": interval_minutes,
             "enabled": True,
             "created_at": scheduled_task.created_at.isoformat() if scheduled_task.created_at else None
         }, None
@@ -122,6 +141,8 @@ def st_db_list_tasks(user_id: str, router_id: Optional[str] = None,
                 "hour": task.hour,
                 "minute": task.minute,
                 "days_of_week": task.days_of_week,
+                "task_type": task.task_type,
+                "interval_minutes": task.interval_minutes,
                 "enabled": task.enabled,
                 "last_run_at": task.last_run_at.isoformat() if task.last_run_at else None,
                 "last_status": task.last_status,

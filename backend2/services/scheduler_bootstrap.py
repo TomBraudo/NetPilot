@@ -43,15 +43,50 @@ def dispatcher_tick():
         SessionContext.set(session)
         
         try:
-            due_tasks = (
+            # Get fixed-time tasks (existing behavior)
+            fixed_tasks = (
                 session.query(ScheduledTask)
                 .filter(
                     ScheduledTask.enabled == True,
+                    # Support both NULL and 'fixed' for backward compatibility
+                    (ScheduledTask.task_type == 'fixed') | (ScheduledTask.task_type.is_(None)),
                     ScheduledTask.hour == current_hour,
                     ScheduledTask.minute == current_minute
                 )
                 .all()
             )
+            
+            # Get interval-based tasks
+            interval_tasks = (
+                session.query(ScheduledTask)
+                .filter(
+                    ScheduledTask.enabled == True,
+                    ScheduledTask.task_type == 'interval',
+                    ScheduledTask.interval_minutes.isnot(None)
+                )
+                .all()
+            )
+            
+            # Filter interval tasks by time elapsed since last run
+            due_interval_tasks = []
+            for task in interval_tasks:
+                if task.last_run_at is None:
+                    # Never run before, execute now
+                    due_interval_tasks.append(task)
+                    logger.debug(f"Interval task {task.id} due: never run before")
+                else:
+                    # Check if enough time has passed since last run
+                    time_since_last = (now - task.last_run_at.replace(tzinfo=tz)).total_seconds()
+                    minutes_since_last = time_since_last / 60
+                    
+                    if minutes_since_last >= task.interval_minutes:
+                        due_interval_tasks.append(task)
+                        logger.debug(f"Interval task {task.id} due: {minutes_since_last:.1f} minutes >= {task.interval_minutes} minutes")
+                    else:
+                        logger.debug(f"Interval task {task.id} not due: {minutes_since_last:.1f} minutes < {task.interval_minutes} minutes")
+            
+            # Combine both types of tasks
+            due_tasks = fixed_tasks + due_interval_tasks
         finally:
             # Clean up session
             session.close()
@@ -69,7 +104,7 @@ def dispatcher_tick():
             logger.debug("No tasks due at current time")
             return
             
-        logger.info(f"Found {len(due_tasks)} tasks due for execution")
+        logger.info(f"Found {len(due_tasks)} tasks due for execution ({len(fixed_tasks)} fixed-time, {len(due_interval_tasks)} interval)")
         
         # Apply throttling and execute tasks
         max_concurrent = config('MAX_CONCURRENT_SCHEDULED_TASKS', default=5, cast=int)

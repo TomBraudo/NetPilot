@@ -910,10 +910,10 @@ class RouterManager {
       
       // Get comprehensive WiFi information
       const [disabledStatus, interfaceInfo, ssidInfo, channelInfo] = await Promise.allSettled([
-        testSSH.execCommand('uci get wireless.@wifi-device[0].disabled 2>/dev/null || echo "1"'),
-        testSSH.execCommand('uci get wireless.@wifi-device[0].hwmode 2>/dev/null || echo "unknown"'),
-        testSSH.execCommand('uci get wireless.@wifi-iface[0].ssid 2>/dev/null || echo "OpenWrt"'),
-        testSSH.execCommand('uci get wireless.radio0.channel 2>/dev/null || echo "auto"')
+        testSSH.execCommand('uci get wireless.radio1.disabled 2>/dev/null || echo "1"'),
+        testSSH.execCommand('uci get wireless.radio1.hwmode 2>/dev/null || echo "unknown"'),
+        testSSH.execCommand('uci get wireless.@wifi-iface[1].ssid 2>/dev/null || echo "OpenWrt"'),
+        testSSH.execCommand('uci get wireless.radio1.channel 2>/dev/null || echo "auto"')
       ]);
       
       const isDisabled = disabledStatus.status === 'fulfilled' ? disabledStatus.value.stdout.trim() === '1' : true;
@@ -938,13 +938,15 @@ class RouterManager {
         };
       }
 
-      logger.router('WiFi is disabled, enabling it now...');
-      await testSSH.execCommand("uci set wireless.@wifi-device[0].disabled='0'");
-      await testSSH.execCommand("uci set wireless.@wifi-iface[0].disabled='0'");
+      logger.router('WiFi is disabled, enabling it now with secure settings...');
+      await testSSH.execCommand("uci set wireless.radio1.disabled='0'");
+      await testSSH.execCommand("uci set wireless.@wifi-iface[1].disabled='0'");
+      await testSSH.execCommand("uci set wireless.@wifi-iface[1].encryption='psk2'");
+      await testSSH.execCommand("uci set wireless.@wifi-iface[1].ieee80211w='1'");
       await testSSH.execCommand('uci commit wireless');
       await testSSH.execCommand('wifi reload');
       
-      logger.router('WiFi enabled. Waiting for it to initialize...');
+      logger.router('WiFi enabled with secure settings. Waiting for it to initialize...');
       await new Promise(resolve => setTimeout(resolve, 3000)); // Wait for wifi to come up
 
       // Update status after enabling
@@ -952,7 +954,7 @@ class RouterManager {
       
       return { 
         success: true, 
-        message: `WiFi enabled successfully! SSID: ${ssid}`,
+        message: `WiFi enabled successfully with secure settings (WPA2 + MFP)! SSID: ${ssid}`,
         status: wifiStatus
       };
     } catch (error) {
@@ -985,11 +987,11 @@ class RouterManager {
 
       // Get comprehensive WiFi information
       const [disabledStatus, interfaceInfo, ssidInfo, channelInfo, encryptionInfo] = await Promise.allSettled([
-        testSSH.execCommand('uci get wireless.@wifi-device[0].disabled 2>/dev/null || echo "1"'),
-        testSSH.execCommand('uci get wireless.@wifi-device[0].hwmode 2>/dev/null || echo "unknown"'),
-        testSSH.execCommand('uci get wireless.@wifi-iface[0].ssid 2>/dev/null || echo "OpenWrt"'),
-        testSSH.execCommand('uci get wireless.radio0.channel 2>/dev/null || echo "auto"'),
-        testSSH.execCommand('uci get wireless.@wifi-iface[0].encryption 2>/dev/null || echo "none"')
+        testSSH.execCommand('uci get wireless.radio1.disabled 2>/dev/null || echo "1"'),
+        testSSH.execCommand('uci get wireless.radio1.hwmode 2>/dev/null || echo "unknown"'),
+        testSSH.execCommand('uci get wireless.@wifi-iface[1].ssid 2>/dev/null || echo "OpenWrt"'),
+        testSSH.execCommand('uci get wireless.radio1.channel 2>/dev/null || echo "auto"'),
+        testSSH.execCommand('uci get wireless.@wifi-iface[1].encryption 2>/dev/null || echo "none"')
       ]);
       
       const isDisabled = disabledStatus.status === 'fulfilled' ? disabledStatus.value.stdout.trim() === '1' : true;

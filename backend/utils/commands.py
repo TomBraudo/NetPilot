@@ -93,7 +93,7 @@ if __name__ == "__main__":
         print("traffic control: OK")
     
     # Verify UCI is working
-    output, error = ssh_manager.execute_command("uci show wireless")
+    output, error = ssh_manager.execute_command("uci show wireless.radio1")
     if error:
         print("WARNING: uci verification failed!")
     else:

@@ -527,18 +527,21 @@ const ControlPage = () => {
       
       if (!groupId) {
         // Single task without group - show as individual task
+        const isInterval = task.task_type === 'interval';
         rules.push({
           id: `single_${task.id}`,
           type: service === 'agh' ? 'content' : 'bandwidth',
           groupId,
           service,
           task: task.task,
-          startTime: `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`,
+          startTime: isInterval ? null : `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`,
           endTime: null,
           days: days_of_week || [0,1,2,3,4,5,6],
           taskIds: [task.id],
           enabled: task.enabled,
-          params: task.params
+          params: task.params,
+          isInterval,
+          intervalMinutes: task.interval_minutes
         });
         processedTaskIds.add(task.id);
         continue;
@@ -616,18 +619,21 @@ const ControlPage = () => {
         processedTaskIds.add(pairedTask.id);
       } else {
         // No pair found - show as individual task
+        const isInterval = task.task_type === 'interval';
         rules.push({
           id: `single_${task.id}`,
           type: service === 'agh' ? 'content' : 'bandwidth',
           groupId,
           service,
           task: task.task,
-          startTime: `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`,
+          startTime: isInterval ? null : `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`,
           endTime: null,
           days: days_of_week || [0,1,2,3,4,5,6],
           taskIds: [task.id],
           enabled: task.enabled,
-          params: task.params
+          params: task.params,
+          isInterval,
+          intervalMinutes: task.interval_minutes
         });
         processedTaskIds.add(task.id);
       }
@@ -2739,7 +2745,15 @@ const ControlPage = () => {
                                 <div>
                                   <div className="font-medium text-gray-800 dark:text-white">
                                     {rule.type === 'content' ? 'Content Blocking' : 'Bandwidth Limit'}
-                                    {rule.endTime ? ` (${rule.startTime} - ${rule.endTime})` : ` (${rule.startTime})`}
+                                    {rule.isInterval 
+                                      ? ` (Every ${rule.intervalMinutes >= 60 
+                                          ? `${Math.floor(rule.intervalMinutes / 60)} hour${Math.floor(rule.intervalMinutes / 60) > 1 ? 's' : ''}${rule.intervalMinutes % 60 ? ` ${rule.intervalMinutes % 60}min` : ''}` 
+                                          : `${rule.intervalMinutes} minute${rule.intervalMinutes > 1 ? 's' : ''}`
+                                        })` 
+                                      : rule.endTime 
+                                        ? ` (${rule.startTime} - ${rule.endTime})` 
+                                        : ` (${rule.startTime})`
+                                    }
                                   </div>
                                   <div className="text-sm text-gray-600 dark:text-gray-400">
                                     {rule.days && rule.days.length > 0 ? 

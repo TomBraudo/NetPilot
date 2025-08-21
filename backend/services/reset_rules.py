@@ -24,9 +24,9 @@ def reset_all_rules():
                     delete_commands.append(f"uci delete firewall.@rule[{index}]")
 
         clear_maclist_cmd = (
-            "uci show wireless.@wifi-iface[0].maclist > /dev/null 2>&1 && "
-            "uci set wireless.@wifi-iface[0].maclist='' && "
-            "uci set wireless.@wifi-iface[0].macfilter='none'"
+            "uci show wireless.@wifi-iface[1].maclist > /dev/null 2>&1 && "
+            "uci set wireless.@wifi-iface[1].maclist='' && "
+            "uci set wireless.@wifi-iface[1].macfilter='none'"
         )
         delete_commands.append(clear_maclist_cmd)
 
