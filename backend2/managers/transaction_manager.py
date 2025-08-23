@@ -19,6 +19,9 @@ from typing import Any, Callable, Optional, Tuple
 from decouple import config
 from database.connection import db
 from managers.db_session_context import SessionContext
+from utils.logging_config import get_logger
+
+logger = get_logger('managers.transaction_manager')
 
 
 class TransactionManager:
@@ -30,7 +33,7 @@ class TransactionManager:
 
     @staticmethod
     def finalize_response(response: Any) -> Any:
-        session = SessionContext.get()
+        session = SessionContext.get_existing()  # Use get_existing to avoid auto-creation
         if session is None:
             return response
 
@@ -62,7 +65,7 @@ class TransactionManager:
 
     @staticmethod
     def teardown() -> None:
-        session = SessionContext.get()
+        session = SessionContext.get_existing()  # Use get_existing to avoid auto-creation
         if session is not None:
             try:
                 session.close()
@@ -72,25 +75,37 @@ class TransactionManager:
     # -------- Scheduler wrapper --------
     @staticmethod
     def run(fn: Callable[[], Tuple[Optional[Any], Optional[str]]]) -> Tuple[Optional[Any], Optional[str]]:
+        # Create and set session for the entire task context - this ensures
+        # all database operations in the task use the same session
         session = db.get_session()
         SessionContext.set(session)
+        logger.debug("Created and set database session for scheduled task context")
+        
         try:
             result, error = fn()
+            
             if error is None:
                 session.commit()
+                logger.debug("Committed scheduled task transaction")
             else:
                 session.rollback()
+                logger.debug(f"Rolled back scheduled task transaction due to error: {error}")
+            
             return result, error
         except Exception as e:
             try:
                 session.rollback()
-            finally:
-                SessionContext.clear()
+                logger.debug(f"Rolled back scheduled task transaction due to exception: {e}")
+            except Exception as rollback_error:
+                logger.error(f"Failed to rollback transaction: {rollback_error}")
             return None, str(e)
         finally:
+            # Clean up the session
             try:
                 session.close()
-            finally:
-                SessionContext.clear()
+                logger.debug("Closed scheduled task database session")
+            except Exception as close_error:
+                logger.error(f"Failed to close session: {close_error}")
+            SessionContext.clear()
 
 

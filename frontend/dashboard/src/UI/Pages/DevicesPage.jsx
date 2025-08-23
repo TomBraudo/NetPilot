@@ -14,6 +14,7 @@ import {
   FaShieldAlt,
   FaShoppingCart,
   FaCog,
+  FaSync,
 } from "react-icons/fa";
 import { BsRouter } from "react-icons/bs";
 import {
@@ -72,6 +73,7 @@ const DevicesPage = () => {
   const [devicesLoading, setDevicesLoading] = useState(false);
   const [confirmRemoveDevice, setConfirmRemoveDevice] = useState(null); // { groupId, groupName, deviceId, deviceName }
   const [confirmAddDevice, setConfirmAddDevice] = useState(null); // { groupId, groupName, device, deviceName }
+  const [refreshing, setRefreshing] = useState(false);
 
   // Rules state
   const [bandwidthRules, setBandwidthRules] = useState({}); // { groupId: { download_limit_mbps, upload_limit_mbps, is_active, description } }
@@ -79,6 +81,25 @@ const DevicesPage = () => {
   const [rulesLoading, setRulesLoading] = useState(false);
   const [rulesError, setRulesError] = useState(null);
   const [contentCategories, setContentCategories] = useState([]);
+
+  // Cache management for automatic scan detection
+  const getCachedGuestsGroupInfo = () => {
+    try {
+      const cached = localStorage.getItem(`guests_group_info_${routerId}`);
+      return cached ? JSON.parse(cached) : null;
+    } catch (error) {
+      console.warn("Failed to get cached guests group info:", error);
+      return null;
+    }
+  };
+
+  const setCachedGuestsGroupInfo = (info) => {
+    try {
+      localStorage.setItem(`guests_group_info_${routerId}`, JSON.stringify(info));
+    } catch (error) {
+      console.warn("Failed to cache guests group info:", error);
+    }
+  };
 
   // Load devices and groups on component mount
   useEffect(() => {
@@ -91,6 +112,29 @@ const DevicesPage = () => {
   useEffect(() => {
     if (groups.length > 0) {
       loadRulesData();
+      
+      // Check for automatic scan changes by monitoring guests group
+      const guestsGroup = groups.find(group => group.name === 'guests');
+      if (guestsGroup) {
+        const cachedInfo = getCachedGuestsGroupInfo();
+        const currentInfo = {
+          id: guestsGroup.id,
+          deviceCount: guestsGroup.devices ? guestsGroup.devices.length : 0,
+          lastUpdate: Date.now()
+        };
+        
+        if (cachedInfo && cachedInfo.id === currentInfo.id) {
+          // Same guests group, check if device count changed (indicating automatic scan)
+          if (cachedInfo.deviceCount !== currentInfo.deviceCount) {
+            console.log(`🔄 Guests group device count changed from ${cachedInfo.deviceCount} to ${currentInfo.deviceCount} - automatic scan detected`);
+            // Refresh devices to ensure we have the latest data
+            reloadDevices();
+          }
+        }
+        
+        // Update cache with current info
+        setCachedGuestsGroupInfo(currentInfo);
+      }
     }
   }, [groups, routerId]);
 
@@ -438,6 +482,30 @@ const DevicesPage = () => {
     setEditingDeviceName("");
   };
 
+  const handleManualRefresh = async () => {
+    setRefreshing(true);
+    try {
+      console.log("🔄 Manual refresh triggered - clearing cache and reloading all data");
+      
+      // Clear guests group cache to force fresh comparison
+      if (routerId) {
+        localStorage.removeItem(`guests_group_info_${routerId}`);
+      }
+      
+      // Reload all data
+      await Promise.all([
+        loadDevices(),
+        loadGroups(),
+      ]);
+      
+      console.log("✅ Manual refresh completed");
+    } catch (error) {
+      console.error("❌ Manual refresh failed:", error);
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
   return (
     <div className="p-6 max-w-7xl mx-auto bg-gray-100 dark:bg-gray-900 min-h-screen">
       {/* Header */}
@@ -460,9 +528,27 @@ const DevicesPage = () => {
               </h2>
               <p className="text-gray-600 dark:text-gray-300 mt-1">
                 Manage your network devices. New devices are added automatically through network scanning.
+                {groups.find(g => g.name === 'guests') && (
+                  <span className="block text-sm text-green-600 dark:text-green-400 mt-1">
+                    ✓ Automatic scan detection active - page will refresh when new devices are found
+                  </span>
+                )}
               </p>
             </div>
             <div className="flex gap-3">
+              <button
+                onClick={handleManualRefresh}
+                disabled={refreshing}
+                className={`px-4 py-2 rounded-lg flex items-center gap-2 transition-colors ${
+                  refreshing
+                    ? "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"
+                    : "bg-green-500 hover:bg-green-600 text-white"
+                }`}
+                title="Refresh devices and groups"
+              >
+                <FaSync className={`text-sm ${refreshing ? "animate-spin" : ""}`} />
+                {refreshing ? "Refreshing..." : "Refresh"}
+              </button>
               <button
                 onClick={() => setShowCreateGroup(true)}
                 className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"

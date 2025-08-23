@@ -12,3 +12,4 @@ qrcode
 pillow
 Flask-APScheduler>=1.13.1
 pytz>=2024.1
+sendgrid

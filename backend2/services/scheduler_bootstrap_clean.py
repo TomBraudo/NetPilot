@@ -76,11 +76,7 @@ def dispatcher_tick():
         current_minute = now.minute
         current_weekday = now.weekday()  # 0=Monday, 6=Sunday
         
-        # Create round minute timestamp for last_run_at (ensures consistent 2-minute intervals)
-        round_minute_time = now.replace(second=0, microsecond=0)
-        
         logger.debug(f"Dispatcher tick at {now.strftime('%Y-%m-%d %H:%M:%S %Z')} (weekday {current_weekday})")
-        logger.debug(f"Round minute time for last_run_at: {round_minute_time.strftime('%Y-%m-%d %H:%M:%S %Z')}")
         
         # ============ STEP 1: TASK DISCOVERY SESSION ============
         # Open a short-lived session to find tasks that need to run
@@ -134,17 +130,14 @@ def dispatcher_tick():
                 # Convert last_run_at to scheduler timezone for proper comparison
                 last_run_at = task_data['last_run_at']
                 if last_run_at.tzinfo is None:
-                    # Database timestamp is timezone-naive UTC, convert to scheduler timezone
-                    last_run_utc = pytz.UTC.localize(last_run_at)
-                    last_run_tz_aware = last_run_utc.astimezone(tz)
+                    # Database timestamp is timezone-naive, assume it's in scheduler timezone
+                    last_run_tz_aware = tz.localize(last_run_at)
                 else:
-                    # Already timezone-aware, convert to scheduler timezone
+                    # Convert to scheduler timezone
                     last_run_tz_aware = last_run_at.astimezone(tz)
                 
                 time_since_last = (now - last_run_tz_aware).total_seconds()
                 minutes_since_last = time_since_last / 60
-                
-                logger.debug(f"Interval task {task_data['id']} timezone conversion: DB={last_run_at} → Scheduler={last_run_tz_aware.strftime('%Y-%m-%d %H:%M:%S %Z')} → {minutes_since_last:.1f}min elapsed")
                 
                 if minutes_since_last >= task_data['interval_minutes']:
                     due_interval_task_data.append(task_data)
@@ -195,11 +188,10 @@ def dispatcher_tick():
                 # Convert last_run_at to scheduler timezone for proper comparison
                 last_run_at = task_data['last_run_at']
                 if last_run_at.tzinfo is None:
-                    # Database timestamp is timezone-naive UTC, convert to scheduler timezone
-                    last_run_utc = pytz.UTC.localize(last_run_at)
-                    last_run_tz_aware = last_run_utc.astimezone(tz)
+                    # Database timestamp is timezone-naive, assume it's in scheduler timezone
+                    last_run_tz_aware = tz.localize(last_run_at)
                 else:
-                    # Already timezone-aware, convert to scheduler timezone
+                    # Convert to scheduler timezone
                     last_run_tz_aware = last_run_at.astimezone(tz)
                 
                 time_since_last = (now - last_run_tz_aware).total_seconds()
@@ -211,8 +203,8 @@ def dispatcher_tick():
             jitter_ms = random.randint(50, 2000)
             time.sleep(jitter_ms / 1000.0)
             
-            # Execute task with its own isolated session (use round minute for consistent intervals)
-            success = execute_scheduled_task_clean(task_data, round_minute_time)
+            # Execute task with its own isolated session
+            success = execute_scheduled_task_clean(task_data, now)
             
             # Track execution
             active_routers.add(task_data['router_id'])

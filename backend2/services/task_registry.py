@@ -72,6 +72,7 @@ def load_registry() -> None:
     modules = [m.strip() for m in modules_env.split(',') if m.strip()] or [
         'services.bandwidth_service',
         'services.agh_service',
+        'services.network_service',
     ]
 
     for mod in modules:

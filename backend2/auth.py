@@ -88,8 +88,10 @@ def twofa_required(f):
             return jsonify({"error": "Authentication required"}), 401
         
         # Check if user has 2FA enabled
-        from database.connection import db
-        db_session = db.get_session()
+        # Use SessionContext.get() which automatically creates a session if needed
+        from managers.db_session_context import SessionContext
+        db_session = SessionContext.get()
+        
         try:
             user = db_session.query(User).filter_by(id=user_id).first()
             user_2fa = db_session.query(User2FASettings).filter_by(user_id=user_id).first()
@@ -125,8 +127,6 @@ def twofa_required(f):
         except Exception as e:
             logger.error(f"Error checking 2FA requirements: {e}")
             return jsonify({"error": "Authentication check failed"}), 500
-        finally:
-            db_session.close()
     
     return decorated_function
 
@@ -170,13 +170,9 @@ def authorize():
         return 'Invalid user information from Google', 400
     
     # CRITICAL: Ensure database session is available
-    try:
-        db_session = g.db_session
-    except (AttributeError, RuntimeError):
-        # Fallback if g.db_session is not available
-        from database.connection import db
-        db_session = db.get_session()
-        print("Warning: Using fallback database session in OAuth callback")
+    # Use SessionContext.get() which automatically creates a session if needed
+    from managers.db_session_context import SessionContext
+    db_session = SessionContext.get()
     
     if not db_session:
         return 'Database connection error', 500
@@ -276,8 +272,10 @@ def me():
         return jsonify({"error": "No user session found"}), 400
     
     # Get user info from database for 2FA status
-    from database.connection import db
-    db_session = db.get_session()
+    # Use SessionContext.get() which automatically creates a session if needed
+    from managers.db_session_context import SessionContext
+    db_session = SessionContext.get()
+    
     try:
         user = db_session.query(User).filter_by(id=user_id).first()
         user_2fa = db_session.query(User2FASettings).filter_by(user_id=user_id).first()
@@ -311,8 +309,6 @@ def me():
     except Exception as e:
         logger.error(f"Failed to get user info: {e}")
         return jsonify({"error": "Failed to get user information"}), 500
-    finally:
-        db_session.close() 
 
 @auth_bp.route('/dev/create-session/<test_user_id>')
 def dev_create_session(test_user_id):

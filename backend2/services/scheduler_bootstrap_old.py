@@ -3,6 +3,7 @@ from flask_apscheduler import APScheduler
 from utils.logging_config import get_logger
 from .task_registry import load_registry, get_task, resolve_params
 from .scheduler_session_manager import ensure_active_session
+from managers.transaction_manager import TransactionManager
 from models.scheduled_task import ScheduledTask
 from managers.db_session_context import SessionContext
 import random
@@ -34,32 +35,6 @@ def _task_to_dict(task: ScheduledTask) -> dict:
     }
 
 
-def _update_task_status_in_session(session, task_id: str, execution_time: datetime, status: str, error: str = None, session_id: str = None):
-    """Update task status within an existing session."""
-    try:
-        # Get the task object in this session
-        task = session.query(ScheduledTask).filter(ScheduledTask.id == task_id).first()
-        if not task:
-            logger.error(f"Task {task_id} not found when updating status")
-            return
-        
-        # Update task status
-        task.last_run_at = execution_time
-        task.last_status = status
-        task.last_error = error
-        
-        # Update metadata with session info
-        if not task.run_metadata:
-            task.run_metadata = {}
-        if session_id:
-            task.run_metadata['last_known_session_id'] = str(session_id)
-            
-        logger.debug(f"Updated task {task_id} status: {status}")
-        
-    except Exception as e:
-        logger.error(f"Failed to update task {task_id} status: {e}")
-
-
 def dispatcher_tick():
     """
     Main dispatcher function that runs every minute to execute scheduled tasks.
@@ -76,11 +51,7 @@ def dispatcher_tick():
         current_minute = now.minute
         current_weekday = now.weekday()  # 0=Monday, 6=Sunday
         
-        # Create round minute timestamp for last_run_at (ensures consistent 2-minute intervals)
-        round_minute_time = now.replace(second=0, microsecond=0)
-        
         logger.debug(f"Dispatcher tick at {now.strftime('%Y-%m-%d %H:%M:%S %Z')} (weekday {current_weekday})")
-        logger.debug(f"Round minute time for last_run_at: {round_minute_time.strftime('%Y-%m-%d %H:%M:%S %Z')}")
         
         # ============ STEP 1: TASK DISCOVERY SESSION ============
         # Open a short-lived session to find tasks that need to run
@@ -134,17 +105,14 @@ def dispatcher_tick():
                 # Convert last_run_at to scheduler timezone for proper comparison
                 last_run_at = task_data['last_run_at']
                 if last_run_at.tzinfo is None:
-                    # Database timestamp is timezone-naive UTC, convert to scheduler timezone
-                    last_run_utc = pytz.UTC.localize(last_run_at)
-                    last_run_tz_aware = last_run_utc.astimezone(tz)
+                    # Database timestamp is timezone-naive, assume it's in scheduler timezone
+                    last_run_tz_aware = tz.localize(last_run_at)
                 else:
-                    # Already timezone-aware, convert to scheduler timezone
+                    # Convert to scheduler timezone
                     last_run_tz_aware = last_run_at.astimezone(tz)
                 
                 time_since_last = (now - last_run_tz_aware).total_seconds()
                 minutes_since_last = time_since_last / 60
-                
-                logger.debug(f"Interval task {task_data['id']} timezone conversion: DB={last_run_at} → Scheduler={last_run_tz_aware.strftime('%Y-%m-%d %H:%M:%S %Z')} → {minutes_since_last:.1f}min elapsed")
                 
                 if minutes_since_last >= task_data['interval_minutes']:
                     due_interval_task_data.append(task_data)
@@ -195,11 +163,10 @@ def dispatcher_tick():
                 # Convert last_run_at to scheduler timezone for proper comparison
                 last_run_at = task_data['last_run_at']
                 if last_run_at.tzinfo is None:
-                    # Database timestamp is timezone-naive UTC, convert to scheduler timezone
-                    last_run_utc = pytz.UTC.localize(last_run_at)
-                    last_run_tz_aware = last_run_utc.astimezone(tz)
+                    # Database timestamp is timezone-naive, assume it's in scheduler timezone
+                    last_run_tz_aware = tz.localize(last_run_at)
                 else:
-                    # Already timezone-aware, convert to scheduler timezone
+                    # Convert to scheduler timezone
                     last_run_tz_aware = last_run_at.astimezone(tz)
                 
                 time_since_last = (now - last_run_tz_aware).total_seconds()
@@ -211,8 +178,8 @@ def dispatcher_tick():
             jitter_ms = random.randint(50, 2000)
             time.sleep(jitter_ms / 1000.0)
             
-            # Execute task with its own isolated session (use round minute for consistent intervals)
-            success = execute_scheduled_task_clean(task_data, round_minute_time)
+            # Execute task with its own isolated session
+            success = execute_scheduled_task_clean(task_data, now)
             
             # Track execution
             active_routers.add(task_data['router_id'])
@@ -231,107 +198,171 @@ def dispatcher_tick():
 
 def execute_scheduled_task_clean(task_data: dict, execution_time: datetime) -> bool:
     """
-    Execute a single scheduled task with clean session management.
-    
-    Clean Architecture:
-    - Open dedicated session for this task
-    - Execute task from start to finish in same session
-    - Update task status in same session
-    - Commit on success / Rollback on error
-    - Close session
+    Execute a single scheduled task with proper session management and error handling.
     
     Args:
-        task_data: Dictionary containing task information (detached from any session)
+        task: The ScheduledTask to execute
         execution_time: When the task was executed
         
     Returns:
         bool: True if task executed successfully, False otherwise
     """
-    task_id = task_data['id']
-    logger.info(f"Executing scheduled task {task_id}: {task_data['service']}.{task_data['task']}")
-    
-    # ============ OPEN DEDICATED SESSION FOR THIS TASK ============
-    from database.connection import db
-    task_session = db.get_session()
+    logger.info(f"Executing scheduled task {task.id}: {task.service}.{task.task}")
     
     try:
-        # ============ STEP 1: GET TASK FROM REGISTRY ============
-        registry_entry = get_task(task_data['service'], task_data['task'])
+        # Get task from registry
+        registry_entry = get_task(task.service, task.task)
         if not registry_entry:
-            error_msg = f"Task {task_data['service']}.{task_data['task']} not found in registry"
+            error_msg = f"Task {task.service}.{task.task} not found in registry"
             logger.error(error_msg)
-            _update_task_status_in_session(task_session, task_id, execution_time, "ERROR", error_msg)
-            task_session.commit()
+            update_task_status(task, execution_time, "ERROR", error_msg)
             return False
         
-        # ============ STEP 2: ENSURE ACTIVE COMMANDS SERVER SESSION ============
+        # Ensure active session
         last_session_id = None
-        if task_data['run_metadata'] and isinstance(task_data['run_metadata'], dict):
-            last_session_id = task_data['run_metadata'].get('last_known_session_id')
+        if task.run_metadata and isinstance(task.run_metadata, dict):
+            last_session_id = task.run_metadata.get('last_known_session_id')
             
-        session_id, session_error = ensure_active_session(task_data['user_id'], task_data['router_id'], last_session_id)
+        session_id, session_error = ensure_active_session(task.user_id, task.router_id, last_session_id)
         if session_error:
             error_msg = f"Failed to ensure active session: {session_error}"
             logger.error(error_msg)
-            _update_task_status_in_session(task_session, task_id, execution_time, "ERROR", error_msg)
-            task_session.commit()
+            update_task_status(task, execution_time, "ERROR", error_msg)
             return False
         
-        # ============ STEP 3: RESOLVE PARAMETERS ============
-        # Set the task session in context so resolve_params uses it
-        SessionContext.set(task_session)
-        
+        # Resolve parameters (including group targets if needed)
+        # SessionContext.get() will automatically create a session if needed
         try:
-            resolved_params = resolve_params(task_data['service'], task_data['task'], task_data['user_id'], task_data['router_id'], task_data['params'])
+            resolved_params = resolve_params(task.service, task.task, task.user_id, task.router_id, task.params)
         except Exception as e:
             error_msg = f"Parameter resolution failed: {e}"
             logger.error(error_msg)
-            _update_task_status_in_session(task_session, task_id, execution_time, "ERROR", error_msg)
-            task_session.commit()
+            update_task_status(task, execution_time, "ERROR", error_msg)
             return False
         
-        # ============ STEP 4: EXECUTE TASK ============
-        try:
-            # Call the registered service function
-            service_func = registry_entry['call']
-            result, error = service_func(task_data['user_id'], task_data['router_id'], session_id, **resolved_params)
-            
-            if error:
-                logger.error(f"Task {task_id} failed: {error}")
-                _update_task_status_in_session(task_session, task_id, execution_time, "ERROR", error, session_id)
-                task_session.rollback()
-                return False
-            else:
-                logger.info(f"Task {task_id} completed successfully")
-                _update_task_status_in_session(task_session, task_id, execution_time, "SUCCESS", None, session_id)
-                task_session.commit()
-                return True
+        # Execute the task using transaction manager
+        def task_executor():
+            try:
+                # Call the registered service function
+                service_func = registry_entry['call']
+                result, error = service_func(task.user_id, task.router_id, session_id, **resolved_params)
                 
-        except Exception as e:
-            error_msg = f"Task execution failed: {e}"
-            logger.error(f"Task {task_id} execution failed: {e}", exc_info=True)
-            _update_task_status_in_session(task_session, task_id, execution_time, "ERROR", error_msg, session_id)
-            task_session.rollback()
+                # Update task status within the same transaction
+                if error:
+                    update_task_status_in_transaction(task, execution_time, "ERROR", error, session_id)
+                    return None, error
+                else:
+                    update_task_status_in_transaction(task, execution_time, "SUCCESS", None, session_id)
+                    return result, None
+            except Exception as e:
+                update_task_status_in_transaction(task, execution_time, "ERROR", str(e), session_id)
+                return None, str(e)
+        
+        # Execute with transaction management
+        result, error = TransactionManager.run(task_executor)
+        
+        if error:
             return False
+        
+        logger.info(f"Task {task.id} executed successfully")
+        return True
         
     except Exception as e:
-        logger.error(f"Task {task_id} session management failed: {e}", exc_info=True)
+        error_msg = f"Unexpected error during task execution: {e}"
+        logger.error(error_msg, exc_info=True)
+        update_task_status(task, execution_time, "ERROR", error_msg)
+        return False
+
+
+def update_task_status_in_transaction(task: ScheduledTask, execution_time: datetime, status: str, error: str = None, session_id: str = None):
+    """
+    Update task execution status within an existing transaction.
+    This function does NOT commit - it relies on the caller's transaction management.
+    
+    Args:
+        task: The ScheduledTask to update
+        execution_time: When the task was executed
+        status: Execution status (SUCCESS, ERROR)
+        error: Error message if status is ERROR
+        session_id: Session ID that was used (for metadata)
+    """
+    try:
+        # Get the current managed session (should exist in transaction context)
+        session = SessionContext.get()
+        
+        # Check if session is in a valid state
+        if not session.is_active:
+            logger.error(f"Session is not active when trying to update task {task.id} status")
+            raise RuntimeError("Session is not active")
+        
+        # Re-attach the task object to the current session if needed
+        if task not in session:
+            task = session.merge(task)
+        
+        # Update task status
+        task.last_run_at = execution_time
+        task.last_status = status
+        task.last_error = error
+        
+        # Update metadata with session info
+        if not task.run_metadata:
+            task.run_metadata = {}
+        if session_id:
+            task.run_metadata['last_known_session_id'] = str(session_id)
+            
+        # Flush to ensure the update is part of the transaction, but don't commit
+        session.flush()
+        logger.debug(f"Updated task {task.id} status: {status} (within transaction)")
+        
+    except Exception as e:
+        logger.error(f"Failed to update task {task.id} status within transaction: {e}")
+        # Don't re-raise - let the task complete successfully even if status update fails
+        # The TransactionManager will handle the main transaction
+
+
+def update_task_status(task: ScheduledTask, execution_time: datetime, status: str, error: str = None, session_id: str = None):
+    """
+    Update task execution status in the database (creates its own transaction).
+    This is for use outside of managed transaction contexts.
+    
+    Args:
+        task: The ScheduledTask to update
+        execution_time: When the task was executed
+        status: Execution status (SUCCESS, ERROR)
+        error: Error message if status is ERROR
+        session_id: Session ID that was used (for metadata)
+    """
+    try:
+        # SessionContext.get() will automatically create a session if needed
+        session = SessionContext.get()
+        
+        # Re-attach the task object to the current session if needed
+        if task not in session:
+            task = session.merge(task)
+        
+        # Update task status
+        task.last_run_at = execution_time
+        task.last_status = status
+        task.last_error = error
+        
+        # Update metadata with session info
+        if not task.run_metadata:
+            task.run_metadata = {}
+        if session_id:
+            task.run_metadata['last_known_session_id'] = str(session_id)
+            
+        # Commit the status update
+        session.commit()
+        logger.debug(f"Updated task {task.id} status: {status}")
+        
+    except Exception as e:
+        logger.error(f"Failed to update task {task.id} status: {e}")
         try:
-            task_session.rollback()
+            session = SessionContext.get_existing()
+            if session:
+                session.rollback()
         except Exception:
             pass
-        return False
-        
-    finally:
-        # ============ CLEANUP: CLOSE SESSION ============
-        try:
-            task_session.close()
-            logger.debug(f"Closed task {task_id} session")
-        except Exception as e:
-            logger.error(f"Failed to close task {task_id} session: {e}")
-        
-        # Clear session context
-        SessionContext.clear()
 
 
 def init_scheduler(app):
@@ -380,10 +411,10 @@ def init_scheduler(app):
         scheduler.start()
         app.extensions = getattr(app, 'extensions', {})
         app.extensions['apscheduler'] = scheduler
-
-        logger.info(f"Scheduler started successfully with timezone {tz_name}")
+        logger.info(f"Scheduler started with timezone {tz_name}")
         return scheduler
-
     except Exception as e:
-        logger.error(f"Failed to initialize scheduler: {e}", exc_info=True)
+        logger.error(f"Failed to initialize scheduler: {e}")
         return None
+
+

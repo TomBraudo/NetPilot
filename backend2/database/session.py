@@ -1,23 +1,39 @@
 from contextlib import contextmanager
-from database.connection import db
+from managers.db_session_context import SessionContext
 
 @contextmanager
 def get_db_session():
-    """Context manager for database sessions"""
-    session = db.get_session()
+    """
+    Context manager for database sessions.
+    
+    Now uses SessionContext.get() which automatically creates a session if needed.
+    The session will be automatically managed by the TransactionManager in HTTP requests.
+    """
+    session = SessionContext.get()
     try:
         yield session
-        session.commit()
+        # Note: commit/rollback is handled by TransactionManager in HTTP requests
+        # For standalone usage, you may need to manually commit
     except Exception:
-        session.rollback()
+        # Note: rollback is handled by TransactionManager in HTTP requests
+        # For standalone usage, you may need to manually rollback
         raise
     finally:
-        session.close()
+        # Note: session cleanup is handled by TransactionManager in HTTP requests
+        # For standalone usage, you may need to manually close
+        pass
 
 def get_db():
-    """Dependency for FastAPI/Flask"""
-    session = db.get_session()
+    """
+    Dependency for FastAPI/Flask.
+    
+    Now uses SessionContext.get() which automatically creates a session if needed.
+    The session will be automatically managed by the TransactionManager in HTTP requests.
+    """
+    session = SessionContext.get()
     try:
         yield session
     finally:
-        session.close() 
+        # Note: session cleanup is handled by TransactionManager in HTTP requests
+        # For standalone usage, you may need to manually close
+        pass 

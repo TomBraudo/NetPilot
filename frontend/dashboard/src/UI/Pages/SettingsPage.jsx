@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Router, Settings, Edit, Wifi, Save, X, Lock, Eye, EyeOff } from "lucide-react";
+import { Router, Settings, Edit, Wifi, Save, X, Lock, Eye, EyeOff, Scan } from "lucide-react";
 import RouterIdPopup from "../../components/RouterIdPopup";
 import { useAuth } from "../../context/AuthContext";
 import { settingsAPI } from "../../constants/api";
@@ -20,6 +20,13 @@ const SettingsPage = () => {
   const [passwordSaving, setPasswordSaving] = useState(false);
   const [passwordError, setPasswordError] = useState(null);
   
+  // Automatic Network Scan states
+  const [autoScanEnabled, setAutoScanEnabled] = useState(false);
+  const [autoScanInterval, setAutoScanInterval] = useState(60); // Default to 1 hour (60 minutes)
+  const [autoScanLoading, setAutoScanLoading] = useState(false);
+  const [autoScanError, setAutoScanError] = useState(null);
+  const [existingAutoScanTask, setExistingAutoScanTask] = useState(null);
+
   const { routerId, saveRouterIdToBackend } = useAuth();
 
   // Fetch WiFi name on component mount
@@ -238,6 +245,93 @@ const SettingsPage = () => {
       setPasswordSaving(false);
     }
   };
+
+  // Automatic Network Scan functions
+  const loadAutoScanSettings = async () => {
+    if (!routerId) return;
+    
+    try {
+      setAutoScanLoading(true);
+      setAutoScanError(null);
+      
+      // Check if there's an existing automatic scan task
+      const response = await settingsAPI.getAutoScanSettings(routerId);
+      
+      if (response.success && response.data?.tasks) {
+        const autoScanTask = response.data.tasks.find(task => 
+          task.service === 'network' && task.task === 'automatic_scan' && task.task_type === 'interval'
+        );
+        
+        if (autoScanTask) {
+          setExistingAutoScanTask(autoScanTask);
+          setAutoScanEnabled(true);
+          setAutoScanInterval(autoScanTask.interval_minutes);
+        } else {
+          setExistingAutoScanTask(null);
+          setAutoScanEnabled(false);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading auto scan settings:', error);
+      setAutoScanError('Failed to load automatic scan settings');
+    } finally {
+      setAutoScanLoading(false);
+    }
+  };
+
+  const handleAutoScanToggle = async (enabled) => {
+    if (!routerId) {
+      setAutoScanError('Router ID not configured. Please set your router ID first.');
+      return;
+    }
+
+    try {
+      setAutoScanLoading(true);
+      setAutoScanError(null);
+
+      if (enabled) {
+        // Create the automatic scan task
+        const response = await settingsAPI.createAutoScanTask(routerId, autoScanInterval);
+        
+        if (response.success) {
+          setAutoScanEnabled(true);
+          setExistingAutoScanTask(response.data);
+          console.log('✅ Automatic scan task created successfully!');
+        } else {
+          throw new Error(response.error?.message || 'Failed to create automatic scan task');
+        }
+      } else {
+        // Delete the existing task
+        if (existingAutoScanTask) {
+          const response = await settingsAPI.deleteAutoScanTask(existingAutoScanTask.id);
+          
+          if (response.success) {
+            setAutoScanEnabled(false);
+            setExistingAutoScanTask(null);
+            console.log('✅ Automatic scan task deleted successfully!');
+          } else {
+            throw new Error(response.error?.message || 'Failed to delete automatic scan task');
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error toggling automatic scan:', error);
+      setAutoScanError(`Failed to ${enabled ? 'enable' : 'disable'} automatic scan: ${error.message}`);
+    } finally {
+      setAutoScanLoading(false);
+    }
+  };
+
+  const handleIntervalChange = (newInterval) => {
+    setAutoScanInterval(newInterval);
+  };
+
+  // Load auto scan settings when router ID changes
+  useEffect(() => {
+    if (routerId) {
+      loadAutoScanSettings();
+    }
+  }, [routerId]);
 
   return (
     <div className="p-6">
@@ -475,6 +569,94 @@ const SettingsPage = () => {
                   💡 Choose a strong password with at least 8 characters, including uppercase, lowercase, numbers, and symbols.
                 </div>
               )}
+            </div>
+
+            {/* Automatic Network Scan Section */}
+            <div className="border-b border-gray-200 dark:border-gray-700 pb-6">
+              <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
+                Automatic Network Scan
+              </h2>
+
+              <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-green-100 dark:bg-green-900 rounded-lg">
+                      <Scan className="w-5 h-5 text-green-600 dark:text-green-400" />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-900 dark:text-white">
+                        Enable Automatic Scan
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        Automatically scan your network every X minutes, add new devices to the "guests" group, and send email notifications when new devices are found.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-4">
+                    {/* Interval Dropdown */}
+                    <select
+                      value={autoScanInterval}
+                      onChange={(e) => handleIntervalChange(parseInt(e.target.value))}
+                      disabled={autoScanEnabled}
+                      className={`px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                        autoScanEnabled 
+                          ? 'bg-gray-100 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed' 
+                          : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white'
+                      }`}
+                    >
+                      <option value={2}>2 minutes</option>
+                      <option value={15}>15 minutes</option>
+                      <option value={30}>30 minutes</option>
+                      <option value={60}>1 hour</option>
+                      <option value={120}>2 hours</option>
+                      <option value={360}>6 hours</option>
+                    </select>
+
+                    {/* Toggle Switch */}
+                    <button
+                      onClick={() => handleAutoScanToggle(!autoScanEnabled)}
+                      disabled={autoScanLoading}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+                        autoScanEnabled 
+                          ? 'bg-blue-600' 
+                          : 'bg-gray-200 dark:bg-gray-700'
+                      } ${autoScanLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                    >
+                      <span
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                          autoScanEnabled ? 'translate-x-6' : 'translate-x-1'
+                        }`}
+                      />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Error Display */}
+                {autoScanError && (
+                  <div className="mt-3 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
+                    <p className="text-sm text-red-600 dark:text-red-400">{autoScanError}</p>
+                  </div>
+                )}
+
+                {/* Loading State */}
+                {autoScanLoading && (
+                  <div className="mt-3 flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+                    <span>Processing...</span>
+                  </div>
+                )}
+
+                {/* Status Display */}
+                {autoScanEnabled && existingAutoScanTask && (
+                  <div className="mt-3 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md">
+                    <p className="text-sm text-blue-600 dark:text-blue-400">
+                      ✅ Automatic scan is enabled and will run every {autoScanInterval} minutes. 
+                      New devices will be automatically added to the "guests" group and you'll receive email notifications.
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Future Settings Sections */}
