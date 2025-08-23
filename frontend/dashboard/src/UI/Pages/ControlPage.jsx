@@ -32,6 +32,7 @@ import {
 
 import { aghAPI, bandwidthAPI, deviceGroupsAPI, bandwidthRulesAPI, contentControlRulesAPI, scheduledTasksAPI } from "../../constants/api";
 import { useAuth } from "../../context/AuthContext.jsx";
+import { groupTasksIntoRules } from "../../utils/taskUtils";
 
 // Icon mapping
 const getDeviceIcon = (iconName) => {
@@ -378,6 +379,12 @@ const ControlPage = () => {
     const [startHour, startMin] = startTime.split(':').map(Number);
     const [endHour, endMin] = endTime.split(':').map(Number);
     
+    // Check if rule spans midnight (start time > end time)
+    const spansMidnight = startHour > endHour || (startHour === endHour && startMin > endMin);
+    
+    // Calculate days for end task if spanning midnight
+    const endTaskDays = spansMidnight ? days.map(day => (day + 1) % 7) : days;
+    
     try {
       setScheduledTasksLoading(true);
       
@@ -388,6 +395,9 @@ const ControlPage = () => {
         }
         
         console.log('🔄 Creating content blocking tasks...');
+        console.log('📅 Days for start task:', days);
+        console.log('📅 Days for end task:', endTaskDays);
+        console.log('⏰ Rule spans midnight:', spansMidnight);
         
         // Create activate task (set_devices_rules)
         const activateResponse = await scheduledTasksAPI.createTask(
@@ -406,7 +416,7 @@ const ControlPage = () => {
         console.log('✅ Activate task created:', activateResponse);
         const activateTaskId = activateResponse?.data?.id;
         
-        // Create deactivate task (clear_devices_rules)
+        // Create deactivate task (clear_devices_rules) with adjusted days if spanning midnight
         const deactivateResponse = await scheduledTasksAPI.createTask(
           routerId, 
           "agh", 
@@ -416,7 +426,7 @@ const ControlPage = () => {
           },
           endHour, 
           endMin, 
-          days
+          endTaskDays
         );
         
         console.log('✅ Deactivate task created:', deactivateResponse);
@@ -429,7 +439,10 @@ const ControlPage = () => {
           categories: newTask.categories,
           activateTaskId,
           deactivateTaskId,
-          timeRange: `${startTime}-${endTime}`
+          timeRange: `${startTime}-${endTime}`,
+          spansMidnight,
+          startDays: days,
+          endDays: endTaskDays
         });
         
       } else if (type === 'bandwidth') {
@@ -439,6 +452,9 @@ const ControlPage = () => {
         }
         
         console.log('🔄 Creating bandwidth limiting tasks...');
+        console.log('📅 Days for start task:', days);
+        console.log('📅 Days for end task:', endTaskDays);
+        console.log('⏰ Rule spans midnight:', spansMidnight);
         
         // Create apply limits task
         const applyResponse = await scheduledTasksAPI.createTask(
@@ -458,7 +474,7 @@ const ControlPage = () => {
         console.log('✅ Apply limits task created:', applyResponse);
         const applyTaskId = applyResponse?.data?.id;
         
-        // Create remove limits task
+        // Create remove limits task with adjusted days if spanning midnight
         const removeResponse = await scheduledTasksAPI.createTask(
           routerId, 
           "bandwidth", 
@@ -468,7 +484,7 @@ const ControlPage = () => {
           },
           endHour, 
           endMin, 
-          days
+          endTaskDays
         );
         
         console.log('✅ Remove limits task created:', removeResponse);
@@ -482,7 +498,10 @@ const ControlPage = () => {
           uploadMbps: newTask.uploadMbps,
           applyTaskId,
           removeTaskId,
-          timeRange: `${startTime}-${endTime}`
+          timeRange: `${startTime}-${endTime}`,
+          spansMidnight,
+          startDays: days,
+          endDays: endTaskDays
         });
       }
       
@@ -514,133 +533,7 @@ const ControlPage = () => {
     }
   };
 
-  // Helper function to group tasks into user-friendly "rules"
-  const groupTasksIntoRules = (tasks) => {
-    const rules = [];
-    const processedTaskIds = new Set();
-    
-    for (const task of tasks) {
-      if (processedTaskIds.has(task.id)) continue;
-      
-      const { service, params, hour, minute, days_of_week } = task;
-      const groupId = params?.group_id;
-      
-      if (!groupId) {
-        // Single task without group - show as individual task
-        const isInterval = task.task_type === 'interval';
-        rules.push({
-          id: `single_${task.id}`,
-          type: service === 'agh' ? 'content' : 'bandwidth',
-          groupId,
-          service,
-          task: task.task,
-          startTime: isInterval ? null : `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`,
-          endTime: null,
-          days: days_of_week || [0,1,2,3,4,5,6],
-          taskIds: [task.id],
-          enabled: task.enabled,
-          params: task.params,
-          isInterval,
-          intervalMinutes: task.interval_minutes
-        });
-        processedTaskIds.add(task.id);
-        continue;
-      }
-      
-      // Look for paired task (activate/deactivate or apply/remove)
-      let pairedTask = null;
-      
-      if (service === 'agh') {
-        // Content blocking: look for set_devices_rules + clear_devices_rules pair
-        if (task.task === 'set_devices_rules') {
-          pairedTask = tasks.find(t => 
-            !processedTaskIds.has(t.id) &&
-            t.service === 'agh' && 
-            t.task === 'clear_devices_rules' &&
-            t.params?.group_id === groupId &&
-            JSON.stringify(t.days_of_week) === JSON.stringify(task.days_of_week)
-          );
-        }
-      } else if (service === 'bandwidth') {
-        // Bandwidth limiting: look for apply_group_limits + delete_group_limits pair
-        if (task.task === 'apply_group_limits') {
-          pairedTask = tasks.find(t => 
-            !processedTaskIds.has(t.id) &&
-            t.service === 'bandwidth' && 
-            t.task === 'delete_group_limits' &&
-            t.params?.group_id === groupId &&
-            JSON.stringify(t.days_of_week) === JSON.stringify(task.days_of_week)
-          );
-        }
-      }
-      
-      if (pairedTask) {
-        // Found a pair - create a rule
-        // Determine start and end tasks based on task type, not time
-        let startTask, endTask;
-        
-        if (service === 'agh') {
-          // For content blocking: set_devices_rules = start, clear_devices_rules = end
-          if (task.task === 'set_devices_rules') {
-            startTask = task;
-            endTask = pairedTask;
-          } else {
-            startTask = pairedTask;
-            endTask = task;
-          }
-        } else if (service === 'bandwidth') {
-          // For bandwidth: apply_group_limits = start, delete_group_limits = end
-          if (task.task === 'apply_group_limits') {
-            startTask = task;
-            endTask = pairedTask;
-          } else {
-            startTask = pairedTask;
-            endTask = task;
-          }
-        }
-        
-        rules.push({
-          id: `rule_${task.id}_${pairedTask.id}`,
-          type: service === 'agh' ? 'content' : 'bandwidth',
-          groupId,
-          service,
-          startTime: `${startTask.hour.toString().padStart(2, '0')}:${startTask.minute.toString().padStart(2, '0')}`,
-          endTime: `${endTask.hour.toString().padStart(2, '0')}:${endTask.minute.toString().padStart(2, '0')}`,
-          days: task.days_of_week || [0,1,2,3,4,5,6],
-          taskIds: [task.id, pairedTask.id],
-          enabled: task.enabled && pairedTask.enabled,
-          params: task.params,
-          categories: task.params?.categories,
-          downloadMbps: task.params?.download_mbps,
-          uploadMbps: task.params?.upload_mbps
-        });
-        
-        processedTaskIds.add(task.id);
-        processedTaskIds.add(pairedTask.id);
-      } else {
-        // No pair found - show as individual task
-        const isInterval = task.task_type === 'interval';
-        rules.push({
-          id: `single_${task.id}`,
-          type: service === 'agh' ? 'content' : 'bandwidth',
-          groupId,
-          service,
-          task: task.task,
-          startTime: isInterval ? null : `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`,
-          endTime: null,
-          days: days_of_week || [0,1,2,3,4,5,6],
-          taskIds: [task.id],
-          enabled: task.enabled,
-          params: task.params,
-          isInterval,
-          intervalMinutes: task.interval_minutes
-        });
-        processedTaskIds.add(task.id);
-      }
-    }
-    
-    return rules;
-  };
+
 
   const handleToggleScheduledTask = async (rule) => {
     if (!rule || !rule.taskIds || rule.taskIds.length === 0) {
@@ -2760,6 +2653,11 @@ const ControlPage = () => {
                                       rule.days.map(day => ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][day]).join(', ') :
                                       'Daily'
                                     }
+                                    {rule.endTime && rule.spansMidnight && (
+                                      <span className="ml-2 px-2 py-1 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 rounded text-xs font-medium">
+                                        Overnight
+                                      </span>
+                                    )}
                                     {rule.type === 'content' && rule.categories && (
                                       <span> • {rule.categories.join(', ')}</span>
                                     )}

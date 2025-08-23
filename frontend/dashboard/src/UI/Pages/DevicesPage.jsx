@@ -22,9 +22,10 @@ import {
   FaMobileAlt,
   FaRegQuestionCircle,
 } from "react-icons/fa";
-import { deviceGroupsAPI, devicesAPI, bandwidthRulesAPI, contentControlRulesAPI } from "../../constants/api";
+import { deviceGroupsAPI, devicesAPI, bandwidthRulesAPI, contentControlRulesAPI, scheduledTasksAPI, settingsAPI } from "../../constants/api";
 import { useAuth } from "../../context/AuthContext.jsx";
 import GroupRulesSummary from "../Components/GroupRulesSummary";
+import { groupTasksIntoRules } from "../../utils/taskUtils";
 
 // Icon mapping
 const getDeviceIcon = (deviceType) => {
@@ -81,6 +82,14 @@ const DevicesPage = () => {
   const [rulesLoading, setRulesLoading] = useState(false);
   const [rulesError, setRulesError] = useState(null);
   const [contentCategories, setContentCategories] = useState([]);
+  
+  // Scheduled tasks state
+  const [scheduledTasks, setScheduledTasks] = useState([]);
+  const [scheduledTasksLoading, setScheduledTasksLoading] = useState(false);
+
+  // Automatic scanning state
+  const [autoScanEnabled, setAutoScanEnabled] = useState(false);
+  const [autoScanLoading, setAutoScanLoading] = useState(false);
 
   // Cache management for automatic scan detection
   const getCachedGuestsGroupInfo = () => {
@@ -106,6 +115,8 @@ const DevicesPage = () => {
     loadDevices();
     loadGroups();
     loadContentCategories();
+    loadScheduledTasks();
+    loadAutoScanStatus();
   }, [routerId]);
 
   // Load rules data when groups change
@@ -279,6 +290,69 @@ const DevicesPage = () => {
       setRulesLoading(false);
     }
   };
+
+  const loadScheduledTasks = async () => {
+    if (!routerId) return;
+    
+    try {
+      setScheduledTasksLoading(true);
+      console.log('🔄 [DevicesPage] Loading scheduled tasks...');
+      
+      const response = await scheduledTasksAPI.listTasks(routerId);
+      const tasks = response?.data?.tasks || [];
+      
+      console.log('✅ [DevicesPage] Loaded scheduled tasks:', tasks);
+      setScheduledTasks(tasks);
+      
+    } catch (error) {
+      console.error('❌ [DevicesPage] Failed to load scheduled tasks:', error);
+      setScheduledTasks([]);
+    } finally {
+      setScheduledTasksLoading(false);
+    }
+  };
+
+  const loadAutoScanStatus = async () => {
+    if (!routerId) return;
+    
+    try {
+      // Load from localStorage instead of API call
+      const stored = localStorage.getItem(`auto_scan_enabled_${routerId}`);
+      const isEnabled = stored === 'true';
+      setAutoScanEnabled(isEnabled);
+      console.log('✅ [DevicesPage] Auto scan status loaded from localStorage:', isEnabled);
+    } catch (error) {
+      console.error('Error loading auto scan status from localStorage:', error);
+      setAutoScanEnabled(false);
+    }
+  };
+
+  // Function to update auto scan state (can be called from other components)
+  const updateAutoScanState = (enabled) => {
+    if (!routerId) return;
+    
+    try {
+      localStorage.setItem(`auto_scan_enabled_${routerId}`, enabled.toString());
+      setAutoScanEnabled(enabled);
+      console.log('✅ [DevicesPage] Auto scan state updated:', enabled);
+    } catch (error) {
+      console.error('Error updating auto scan state in localStorage:', error);
+    }
+  };
+
+  // Listen for storage changes to keep state in sync
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === `auto_scan_enabled_${routerId}` && e.newValue !== null) {
+        const isEnabled = e.newValue === 'true';
+        setAutoScanEnabled(isEnabled);
+        console.log('🔄 [DevicesPage] Auto scan state synced from storage change:', isEnabled);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, [routerId]);
 
   const loadContentCategories = async () => {
     if (!routerId) return;
@@ -528,7 +602,7 @@ const DevicesPage = () => {
               </h2>
               <p className="text-gray-600 dark:text-gray-300 mt-1">
                 Manage your network devices. New devices are added automatically through network scanning.
-                {groups.find(g => g.name === 'guests') && (
+                {autoScanEnabled && (
                   <span className="block text-sm text-green-600 dark:text-green-400 mt-1">
                     ✓ Automatic scan detection active - page will refresh when new devices are found
                   </span>
@@ -819,7 +893,9 @@ const DevicesPage = () => {
                         bandwidthRules={bandwidthRules[group.id]}
                         contentControlRules={contentControlRules[group.id]}
                         contentCategories={contentCategories}
-                        isLoading={rulesLoading}
+                        scheduledTasks={scheduledTasks}
+                        groupId={group.id}
+                        isLoading={rulesLoading || scheduledTasksLoading}
                       />
                     </div>
 

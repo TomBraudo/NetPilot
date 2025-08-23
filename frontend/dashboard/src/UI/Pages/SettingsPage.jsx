@@ -266,14 +266,20 @@ const SettingsPage = () => {
           setExistingAutoScanTask(autoScanTask);
           setAutoScanEnabled(true);
           setAutoScanInterval(autoScanTask.interval_minutes);
+          // Initialize localStorage
+          localStorage.setItem(`auto_scan_enabled_${routerId}`, 'true');
         } else {
           setExistingAutoScanTask(null);
           setAutoScanEnabled(false);
+          // Initialize localStorage
+          localStorage.setItem(`auto_scan_enabled_${routerId}`, 'false');
         }
       }
     } catch (error) {
       console.error('Error loading auto scan settings:', error);
       setAutoScanError('Failed to load automatic scan settings');
+      // Set default state in localStorage on error
+      localStorage.setItem(`auto_scan_enabled_${routerId}`, 'false');
     } finally {
       setAutoScanLoading(false);
     }
@@ -296,6 +302,8 @@ const SettingsPage = () => {
         if (response.success) {
           setAutoScanEnabled(true);
           setExistingAutoScanTask(response.data);
+          // Save to localStorage for sync with other components
+          localStorage.setItem(`auto_scan_enabled_${routerId}`, 'true');
           console.log('✅ Automatic scan task created successfully!');
         } else {
           throw new Error(response.error?.message || 'Failed to create automatic scan task');
@@ -308,6 +316,8 @@ const SettingsPage = () => {
           if (response.success) {
             setAutoScanEnabled(false);
             setExistingAutoScanTask(null);
+            // Save to localStorage for sync with other components
+            localStorage.setItem(`auto_scan_enabled_${routerId}`, 'false');
             console.log('✅ Automatic scan task deleted successfully!');
           } else {
             throw new Error(response.error?.message || 'Failed to delete automatic scan task');
