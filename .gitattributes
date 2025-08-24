@@ -6,3 +6,9 @@
 docs/** linguist-vendored
 latex/** linguist-vendored
 *.tex linguist-language=Ignore
+
+build/** linguist-vendored
+**/build/** linguist-vendored
+*.toc linguist-detectable=false
+*.pkg linguist-detectable=false
+*.pyz linguist-detectable=false
