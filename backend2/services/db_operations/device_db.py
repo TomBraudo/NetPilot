@@ -108,7 +108,7 @@ def get_device_by_id(user_id: str, router_id: str, device_id: str) -> Tuple[Opti
 
 
 @handle_db_errors("Delete device")
-def delete_device_by_id(user_id: str, router_id: str, device_id: str) -> Union[Tuple[bool, List[str]], None, str]:
+def delete_device_by_id(user_id: str, router_id: str, device_id: str) -> Union[Tuple[bool, Dict[str, Any]], None, str]:
     """
     Delete a device by ID and cleanup empty groups.
     
@@ -118,9 +118,12 @@ def delete_device_by_id(user_id: str, router_id: str, device_id: str) -> Union[T
         device_id: Device's UUID
         
     Returns:
-        Either (success_boolean, deleted_group_ids) on success, None on device not found, or error_message string
+        Either (success_boolean, cleanup_context) on success, None on device not found, or error_message string
     """
     from models.device_group import DeviceGroup
+    from models.blocked_device import UserBlockedDevice
+    from models.bandwidth_rules import BandwidthRules
+    from models.content_control_rules import ContentControlRules
     
     session = SessionContext.get()
     try:
@@ -145,7 +148,48 @@ def delete_device_by_id(user_id: str, router_id: str, device_id: str) -> Union[T
                 if len(group.devices) == 1:  # This group will become empty
                     groups_to_delete.append(group)
             
-            # Delete the device
+            # Check if device is blocked
+            blocked_device = session.query(UserBlockedDevice).filter(
+                and_(
+                    UserBlockedDevice.user_id == user_id,
+                    UserBlockedDevice.router_id == router_id,
+                    UserBlockedDevice.device_id == device_id,
+                    UserBlockedDevice.is_active.is_(True)
+                )
+            ).first()
+            
+            was_blocked = blocked_device is not None
+            blocked_device_ip = str(blocked_device.device_ip) if blocked_device else None
+            
+            # Build cleanup context for affected groups
+            groups_cleanup = []
+            for group in affected_groups:
+                if group not in groups_to_delete:  # Only for groups that will remain
+                    content_rules = session.query(ContentControlRules).filter(
+                        and_(
+                            ContentControlRules.group_id == group.id,
+                            ContentControlRules.router_id == router_id,
+                            ContentControlRules.is_active.is_(True)
+                        )
+                    ).first()
+                    
+                    bandwidth_rules = session.query(BandwidthRules).filter(
+                        and_(
+                            BandwidthRules.group_id == group.id,
+                            BandwidthRules.router_id == router_id,
+                            BandwidthRules.is_active.is_(True)
+                        )
+                    ).first()
+                    
+                    groups_cleanup.append({
+                        'group_id': str(group.id),
+                        'should_clear_agh': content_rules and content_rules.blocked_categories and len(content_rules.blocked_categories) > 0,
+                        'should_clear_bandwidth': bandwidth_rules and (
+                            bandwidth_rules.download_limit_mbps is not None or bandwidth_rules.upload_limit_mbps is not None
+                        )
+                    })
+            
+            # Get device info before deletion for cleanup
             device = session.query(UserDevice).filter(
                 and_(
                     UserDevice.id == device_id,
@@ -157,6 +201,14 @@ def delete_device_by_id(user_id: str, router_id: str, device_id: str) -> Union[T
             if not device:
                 return "Device not found"
             
+            device_ip = str(device.ip) if device.ip else None
+            device_mac = str(device.mac) if device.mac else None
+            
+            # Delete blocked device record if exists
+            if blocked_device:
+                session.delete(blocked_device)
+            
+            # Delete the device
             session.delete(device)
             
             # Delete groups that will become empty
@@ -165,7 +217,17 @@ def delete_device_by_id(user_id: str, router_id: str, device_id: str) -> Union[T
                 deleted_group_ids.append(str(group.id))
                 session.delete(group)
             
-            return (True, deleted_group_ids)
+            # Build cleanup context
+            cleanup_context = {
+                'deleted_group_ids': deleted_group_ids,
+                'was_blocked': was_blocked,
+                'blocked_device_ip': blocked_device_ip,
+                'device_ip': device_ip,
+                'device_mac': device_mac,
+                'groups_cleanup': groups_cleanup
+            }
+            
+            return (True, cleanup_context)
     except Exception as e:
         logger.error(f"Failed to delete device {device_id}: {str(e)}")
         raise

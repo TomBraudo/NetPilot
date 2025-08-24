@@ -115,10 +115,40 @@ def delete_device(user_id: str, router_id: str, device_id: str) -> Union[Tuple[b
         # Error message
         return result
     elif isinstance(result, tuple) and len(result) == 2:
-        # Success: (success, deleted_group_ids)
-        success, deleted_group_ids = result
+        # Success: (success, cleanup_context)
+        success, cleanup_context = result
         if success:
-            return result
+            # Post-DB execute actions for router cleanup
+            try:
+                # Use user_id as session_id (project convention)
+                session_id = user_id
+                
+                # Clean up blocked device if it was blocked
+                if cleanup_context.get('was_blocked') and cleanup_context.get('blocked_device_ip'):
+                    from services.commands_server_operations.blocked_device_execute import execute_unblock_device
+                    execute_unblock_device(router_id, session_id, cleanup_context['blocked_device_ip'])
+                
+                # Clean up group rules for affected groups
+                device_obj = {}
+                if cleanup_context.get('device_ip'):
+                    device_obj['ip'] = cleanup_context['device_ip']
+                if cleanup_context.get('device_mac'):
+                    device_obj['mac'] = cleanup_context['device_mac']
+                
+                for group_cleanup in cleanup_context.get('groups_cleanup', []):
+                    if group_cleanup.get('should_clear_agh') and device_obj:
+                        from services.commands_server_operations.agh_execute import execute_clear_device_rules
+                        execute_clear_device_rules(router_id, session_id, device_obj)
+                    
+                    if group_cleanup.get('should_clear_bandwidth') and cleanup_context.get('device_ip'):
+                        from services.commands_server_operations.bandwidth_execute import execute_delete_device_limit
+                        execute_delete_device_limit(router_id, session_id, cleanup_context['device_ip'])
+                        
+            except Exception as e:
+                logger.error(f"Post-deletion cleanup encountered an error for device {device_id}: {e}")
+            
+            # Return the deleted group IDs for backward compatibility
+            return (True, cleanup_context.get('deleted_group_ids', []))
     
     # Fallback
     return "Unknown error occurred during device deletion"

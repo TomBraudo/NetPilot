@@ -440,6 +440,33 @@ export const aghAPI = {
     }),
 };
 
+// Blocked Devices API functions
+export const blockedDevicesAPI = {
+  // Get all blocked devices
+  getBlockedDevices: (routerId) =>
+    apiRequest(`${API_ENDPOINTS.DEVICES}/blocked?routerId=${routerId}`),
+
+  // Block a device
+  blockDevice: (routerId, deviceData) =>
+    apiRequest(`${API_ENDPOINTS.DEVICES}/blocked?routerId=${routerId}`, {
+      method: "POST",
+      body: JSON.stringify(deviceData),
+    }),
+
+  // Unblock a device
+  unblockDevice: (routerId, blockedDeviceId) =>
+    apiRequest(`${API_ENDPOINTS.DEVICES}/blocked/${blockedDeviceId}?routerId=${routerId}`, {
+      method: "DELETE",
+    }),
+
+  // Check if a device is blocked
+  isDeviceBlocked: (routerId, deviceData) =>
+    apiRequest(`${API_ENDPOINTS.DEVICES}/blocked/check?routerId=${routerId}`, {
+      method: "POST",
+      body: JSON.stringify(deviceData),
+    }),
+};
+
 // Device Groups API functions
 export const deviceGroupsAPI = {
   // Get all device groups

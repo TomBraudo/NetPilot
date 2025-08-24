@@ -6,25 +6,43 @@ export const exportToCSV = (data, filename = "network-dashboard-data") => {
   }
 
   const headers = [
+    "Device Name",
     "IP Address",
     "MAC Address",
     "Download (MB)",
     "Upload (MB)",
     "Total Traffic (MB)",
     "Connections",
+    "Hostname",
+    "Manufacturer"
   ];
+  
   const csvContent = [
     headers.join(","),
-    ...data.map((device) =>
-      [
+    ...data.map((device) => {
+      // Get the best device name for display
+      const getDeviceDisplayName = (device) => {
+        if (device.device_name && device.device_name.trim()) {
+          return device.device_name.trim();
+        }
+        if (device.hostname && device.hostname.trim()) {
+          return device.hostname.trim();
+        }
+        return device.ip;
+      };
+      
+      return [
+        `"${getDeviceDisplayName(device)}"`,
         device.ip,
         device.mac,
         (device.download || 0).toFixed(2),
         (device.upload || 0).toFixed(2),
         ((device.download || 0) + (device.upload || 0)).toFixed(2),
         device.connections || 0,
-      ].join(",")
-    ),
+        device.hostname || "",
+        device.manufacturer || ""
+      ].join(",");
+    }),
   ].join("\n");
 
   const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });

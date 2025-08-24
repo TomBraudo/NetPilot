@@ -266,6 +266,9 @@ export const getMockData = () => {
         mac: "d8:bb:c1:47:3a:43",
         unit: "MB",
         upload: 1681.12,
+        device_name: "Tom's iPhone",
+        hostname: "iPhone.local",
+        manufacturer: "Apple Inc."
       },
       {
         connections: 89234,
@@ -274,6 +277,9 @@ export const getMockData = () => {
         mac: "a2:45:d6:78:9b:12",
         unit: "MB",
         upload: 897.34,
+        device_name: "Work Laptop",
+        hostname: "DESKTOP-ABC123",
+        manufacturer: "Dell Inc."
       },
       {
         connections: 45678,
@@ -282,6 +288,9 @@ export const getMockData = () => {
         mac: "f1:23:45:67:89:ab",
         unit: "MB",
         upload: 567.23,
+        device_name: "Smart TV",
+        hostname: "Samsung-TV",
+        manufacturer: "Samsung Electronics"
       },
       {
         connections: 156789,
@@ -290,6 +299,9 @@ export const getMockData = () => {
         mac: "c9:87:65:43:21:ef",
         unit: "MB",
         upload: 1234.56,
+        device_name: "Gaming Console",
+        hostname: "PS5",
+        manufacturer: "Sony Interactive Entertainment"
       },
       {
         connections: 78901,
@@ -298,7 +310,32 @@ export const getMockData = () => {
         mac: "b8:76:54:32:10:cd",
         unit: "MB",
         upload: 432.1,
+        device_name: "Security Camera",
+        hostname: "camera-01",
+        manufacturer: "Ring LLC"
       },
+      {
+        connections: 125000,
+        download: 2048.00,
+        ip: "192.168.1.200",
+        mac: "aa:bb:cc:dd:ee:ff",
+        unit: "MB",
+        upload: 512.00,
+        device_name: "Media Server",
+        hostname: "NAS-01",
+        manufacturer: "Synology"
+      },
+      {
+        connections: 25,
+        download: 5.00,
+        ip: "192.168.1.201",
+        mac: "ff:ee:dd:cc:bb:aa",
+        unit: "MB",
+        upload: 2.00,
+        device_name: "Low Traffic Device",
+        hostname: "test-device",
+        manufacturer: "Unknown"
+      }
     ],
     metadata: {
       executionTime: 0.72,

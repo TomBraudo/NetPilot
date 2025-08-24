@@ -201,9 +201,39 @@ const DashboardPage = () => {
     "#6366F1",
   ];
 
+  // Helper function to get the best device name for display
+  const getDeviceDisplayName = (device) => {
+    // Priority: device_name > hostname > IP
+    if (device.device_name && device.device_name.trim()) {
+      return device.device_name.trim();
+    }
+    if (device.hostname && device.hostname.trim()) {
+      return device.hostname.trim();
+    }
+    return device.ip; // Fallback to IP if no name available
+  };
+
+  // Convert MB to GB if over 1024 MB
+  const formatBandwidth = (mbValue) => {
+    if (mbValue >= 1024) {
+      return `${(mbValue / 1024).toFixed(2)} GB`;
+    }
+    return `${mbValue.toFixed(2)} MB`;
+  };
+
+  // Get bandwidth unit for the entire page
+  const getBandwidthUnit = () => {
+    const totalDownload = totals.download || 0;
+    const totalUpload = totals.upload || 0;
+    const total = totalDownload + totalUpload;
+    return total >= 1024 ? 'GB' : 'MB';
+  };
+
+  const bandwidthUnit = getBandwidthUnit();
+
   // Bar chart data for download vs upload
   const barChartData = {
-    labels: filteredAndSortedData.map((device) => device.ip),
+    labels: filteredAndSortedData.map((device) => getDeviceDisplayName(device)),
     datasets: [
       {
         label: "Download (MB)",
@@ -225,7 +255,7 @@ const DashboardPage = () => {
   // Pie chart data for total bandwidth usage
   const pieChartData = {
     labels: filteredAndSortedData.map(
-      (device) => `${device.ip} (${device.mac.slice(-8)})`
+      (device) => `${getDeviceDisplayName(device)} (${device.mac.slice(-8)})`
     ),
     datasets: [
       {
@@ -264,7 +294,7 @@ const DashboardPage = () => {
       x: {
         title: {
           display: true,
-          text: "Device IP",
+          text: "Device Name",
         },
       },
     },
@@ -447,7 +477,7 @@ const DashboardPage = () => {
                   Total Download
                 </p>
                 <p className="text-2xl font-semibold text-gray-900 dark:text-white">
-                  {totals.download.toFixed(2)} MB
+                  {formatBandwidth(totals.download)}
                 </p>
               </div>
             </div>
@@ -475,7 +505,7 @@ const DashboardPage = () => {
                   Total Upload
                 </p>
                 <p className="text-2xl font-semibold text-gray-900 dark:text-white">
-                  {totals.upload.toFixed(2)} MB
+                  {formatBandwidth(totals.upload)}
                 </p>
               </div>
             </div>
@@ -676,11 +706,21 @@ const DashboardPage = () => {
                   ></div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                      {device.ip}
+                      {getDeviceDisplayName(device)}
                     </h3>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {device.mac}
+                      {device.ip}
                     </p>
+                    {device.device_name && device.device_name !== getDeviceDisplayName(device) && (
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        {device.device_name}
+                      </p>
+                    )}
+                    {device.manufacturer && (
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        {device.manufacturer}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -691,7 +731,7 @@ const DashboardPage = () => {
                     Download:
                   </span>
                   <span className="text-sm font-medium text-blue-600 dark:text-blue-400">
-                    {(device.download || 0).toFixed(2)} MB
+                    {formatBandwidth(device.download)}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
@@ -699,7 +739,7 @@ const DashboardPage = () => {
                     Upload:
                   </span>
                   <span className="text-sm font-medium text-red-600 dark:text-red-400">
-                    {(device.upload || 0).toFixed(2)} MB
+                    {formatBandwidth(device.upload)}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
@@ -715,8 +755,7 @@ const DashboardPage = () => {
                     Total Traffic:
                   </span>
                   <span className="text-sm font-medium text-gray-900 dark:text-white">
-                    {((device.download || 0) + (device.upload || 0)).toFixed(2)}{" "}
-                    MB
+                    {formatBandwidth((device.download || 0) + (device.upload || 0))}
                   </span>
                 </div>
               </div>

@@ -15,6 +15,7 @@ import {
   FaShoppingCart,
   FaCog,
   FaSync,
+  FaBan,
 } from "react-icons/fa";
 import { BsRouter } from "react-icons/bs";
 import {
@@ -22,7 +23,7 @@ import {
   FaMobileAlt,
   FaRegQuestionCircle,
 } from "react-icons/fa";
-import { deviceGroupsAPI, devicesAPI, bandwidthRulesAPI, contentControlRulesAPI, scheduledTasksAPI, settingsAPI } from "../../constants/api";
+import { deviceGroupsAPI, devicesAPI, bandwidthRulesAPI, contentControlRulesAPI, scheduledTasksAPI, settingsAPI, blockedDevicesAPI } from "../../constants/api";
 import { useAuth } from "../../context/AuthContext.jsx";
 import GroupRulesSummary from "../Components/GroupRulesSummary";
 import { groupTasksIntoRules } from "../../utils/taskUtils";
@@ -91,6 +92,10 @@ const DevicesPage = () => {
   const [autoScanEnabled, setAutoScanEnabled] = useState(false);
   const [autoScanLoading, setAutoScanLoading] = useState(false);
 
+  // Blocked devices state
+  const [blockedDevices, setBlockedDevices] = useState([]);
+  const [blockedDevicesLoading, setBlockedDevicesLoading] = useState(false);
+
   // Cache management for automatic scan detection
   const getCachedGuestsGroupInfo = () => {
     try {
@@ -112,11 +117,14 @@ const DevicesPage = () => {
 
   // Load devices and groups on component mount
   useEffect(() => {
-    loadDevices();
-    loadGroups();
-    loadContentCategories();
-    loadScheduledTasks();
-    loadAutoScanStatus();
+    if (routerId) {
+      loadDevices();
+      loadGroups();
+      loadContentCategories();
+      loadScheduledTasks();
+      loadAutoScanStatus();
+      loadBlockedDevices();
+    }
   }, [routerId]);
 
   // Load rules data when groups change
@@ -164,6 +172,48 @@ const DevicesPage = () => {
     }
   };
 
+  const loadBlockedDevices = async () => {
+    if (!routerId) return;
+    
+    setBlockedDevicesLoading(true);
+    try {
+      const response = await blockedDevicesAPI.getBlockedDevices(routerId);
+      if (response.success) {
+        setBlockedDevices(response.data || []);
+      }
+    } catch (error) {
+      console.error('Error loading blocked devices:', error);
+    } finally {
+      setBlockedDevicesLoading(false);
+    }
+  };
+
+  // Helper function to check if a device is blocked
+  const isDeviceBlocked = (device) => {
+    if (!device || !blockedDevices.length) return false;
+    
+    // Check by device_id first (most reliable)
+    if (device.id) {
+      const deviceIdMatch = blockedDevices.some(blocked => blocked.device_id === device.id);
+      if (deviceIdMatch) return true;
+    }
+    
+    // Fallback to IP/MAC check with proper data type handling
+    return blockedDevices.some(blocked => {
+      // Convert both IPs to strings for comparison
+      const blockedIp = String(blocked.device_ip || '').trim();
+      const deviceIp = String(device.ip || '').trim();
+      const ipMatch = blockedIp === deviceIp;
+      
+      // Convert both MACs to lowercase strings for comparison
+      const blockedMac = blocked.device_mac ? String(blocked.device_mac).toLowerCase().trim() : '';
+      const deviceMac = device.mac ? String(device.mac).toLowerCase().trim() : '';
+      const macMatch = blockedMac && deviceMac && blockedMac === deviceMac;
+      
+      return ipMatch || macMatch;
+    });
+  };
+
   const reloadDevices = async () => {
     try {
       const response = await devicesAPI.getDevices(routerId);
@@ -174,6 +224,8 @@ const DevicesPage = () => {
       console.error('Error reloading devices:', error);
     }
   };
+
+
 
   const handleUpdateDevice = async (deviceId, updates) => {
     console.log('Updating device:', deviceId, 'with updates:', updates);
@@ -197,24 +249,27 @@ const DevicesPage = () => {
   };
 
   const handleDeleteDevice = async (deviceId) => {
-    if (!window.confirm('Are you sure you want to delete this device?')) {
+    if (!routerId) return;
+
+    const device = devices.find(d => d.id === deviceId);
+    if (!device) return;
+
+    const confirmationMessage = `Are you sure you want to delete device "${device.device_name || device.hostname || 'Unknown Device'}" (${device.ip})? This action cannot be undone.`;
+
+    if (!window.confirm(confirmationMessage)) {
       return;
     }
-    
+
     try {
       const response = await devicesAPI.deleteDevice(deviceId, routerId);
       if (response.success) {
-        reloadDevices(); // Reload devices
-        
-        // Handle deleted groups if any - access from response.data.deleted_groups
-        if (response.data && response.data.deleted_groups && response.data.deleted_groups.length > 0) {
-          // Remove deleted groups from local state without reloading all groups
-          setGroups(prev => prev.filter(group => !response.data.deleted_groups.includes(group.id)));
-          console.log(`Automatically removed ${response.data.deleted_groups.length} empty groups after device deletion`);
-        }
+        reloadDevices(); // Reload devices to update the list
+        console.log(`Device ${device.hostname || device.device_name} (${device.ip}) deletion successful.`);
+      } else {
+        console.error(`Device ${device.hostname || device.device_name} (${device.ip}) deletion failed:`, response);
       }
     } catch (error) {
-      console.error('Error deleting device:', error);
+      console.error(`Device ${device.hostname || device.device_name} (${device.ip}) deletion failed:`, error);
     }
   };
 
@@ -425,6 +480,12 @@ const DevicesPage = () => {
   };
 
   const handleDeviceSelection = (device) => {
+    // Prevent blocked devices from being selected for group operations
+    if (isDeviceBlocked(device)) {
+      console.log('Cannot select blocked device:', device.hostname || device.device_name);
+      return;
+    }
+    
     setSelectedDevices(prev => {
       const isSelected = prev.some(d => d.id === device.id);
       if (isSelected) {
@@ -471,6 +532,13 @@ const DevicesPage = () => {
     return hasBandwidth || hasContent;
   };
 
+  // Check if a device is in a group with active rules
+  const isDeviceInGroupWithRules = (deviceId) => {
+    return groups.some(group => 
+      group.devices.some(device => device.id === deviceId) && hasRules(group.id)
+    );
+  };
+
   const deleteGroup = async (groupId) => {
     try {
       const response = await deviceGroupsAPI.deleteGroup(routerId, groupId);
@@ -513,9 +581,11 @@ const DevicesPage = () => {
   };
 
   const getAvailableDevicesForGroup = (groupId) => {
-    // Return only devices that are not in ANY group
+    // Return only devices that are not in ANY group AND not blocked
     const allGroupedIds = new Set(groups.flatMap(g => g.devices.map(d => d.id)));
-    return devices.filter(device => !allGroupedIds.has(device.id));
+    return devices.filter(device => 
+      !allGroupedIds.has(device.id) && !isDeviceBlocked(device)
+    );
   };
 
   const getUngroupedDevices = () => {
@@ -566,10 +636,11 @@ const DevicesPage = () => {
         localStorage.removeItem(`guests_group_info_${routerId}`);
       }
       
-      // Reload all data
+      // Reload all data including blocked devices
       await Promise.all([
         loadDevices(),
         loadGroups(),
+        loadBlockedDevices(),
       ]);
       
       console.log("✅ Manual refresh completed");
@@ -577,6 +648,57 @@ const DevicesPage = () => {
       console.error("❌ Manual refresh failed:", error);
     } finally {
       setRefreshing(false);
+    }
+  };
+
+  const handleBlockUnblockDevice = async (device) => {
+    if (!routerId) return;
+
+    const isCurrentlyBlocked = isDeviceBlocked(device);
+    const action = isCurrentlyBlocked ? 'unblocking' : 'blocking';
+    const confirmationMessage = isCurrentlyBlocked ? 'Are you sure you want to unblock this device?' : 'Are you sure you want to block this device?';
+
+    if (!window.confirm(`${confirmationMessage} This action cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      if (isCurrentlyBlocked) {
+        // Unblock device - find the blocked device record and unblock it
+        const blockedDevice = blockedDevices.find(b => 
+          b.device_id === device.id || 
+          b.device_ip === device.ip || 
+          (b.device_mac && device.mac && b.device_mac.toLowerCase() === device.mac.toLowerCase())
+        );
+        
+        if (blockedDevice) {
+          const response = await blockedDevicesAPI.unblockDevice(routerId, blockedDevice.id);
+          if (response.success) {
+            loadBlockedDevices(); // Reload blocked devices to update the list
+            console.log(`Device ${device.hostname || device.device_name} (${device.ip}) unblocking successful.`);
+          } else {
+            console.error(`Device ${device.hostname || device.device_name} (${device.ip}) unblocking failed:`, response);
+          }
+        } else {
+          console.error(`Blocked device record not found for device ${device.hostname || device.device_name} (${device.ip})`);
+        }
+      } else {
+        // Block device
+        const response = await blockedDevicesAPI.blockDevice(routerId, {
+          device_id: device.id,
+          device_ip: device.ip,
+          device_mac: device.mac
+        });
+        
+        if (response.success) {
+          loadBlockedDevices(); // Reload blocked devices to update the list
+          console.log(`Device ${device.hostname || device.device_name} (${device.ip}) blocking successful.`);
+        } else {
+          console.error(`Device ${device.hostname || device.device_name} (${device.ip}) blocking failed:`, response);
+        }
+      }
+    } catch (error) {
+      console.error(`Device ${device.hostname || device.device_name} (${device.ip}) ${action} failed:`, error);
     }
   };
 
@@ -607,6 +729,11 @@ const DevicesPage = () => {
                     ✓ Automatic scan detection active - page will refresh when new devices are found
                   </span>
                 )}
+                {blockedDevices.length > 0 && (
+                  <span className="block text-sm text-red-600 dark:text-red-400 mt-1">
+                    ⚠️ {blockedDevices.length} device{blockedDevices.length !== 1 ? 's' : ''} currently blocked
+                  </span>
+                )}
               </p>
             </div>
             <div className="flex gap-3">
@@ -618,11 +745,12 @@ const DevicesPage = () => {
                     ? "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"
                     : "bg-green-500 hover:bg-green-600 text-white"
                 }`}
-                title="Refresh devices and groups"
+                title="Refresh devices, groups, and blocked status"
               >
                 <FaSync className={`text-sm ${refreshing ? "animate-spin" : ""}`} />
                 {refreshing ? "Refreshing..." : "Refresh"}
               </button>
+
               <button
                 onClick={() => setShowCreateGroup(true)}
                 className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
@@ -687,6 +815,11 @@ const DevicesPage = () => {
                               <h3 className="font-semibold text-gray-800 dark:text-white text-sm">
                                 {device.device_name || device.hostname || 'Unknown Device'}
                               </h3>
+                              {isDeviceBlocked(device) && (
+                                <span className="px-2 py-1 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 text-xs rounded-full font-medium">
+                                  BLOCKED
+                                </span>
+                              )}
                               <button
                                 onClick={() => startEditDeviceName(device)}
                                 className="text-gray-500 hover:text-blue-600 text-xs"
@@ -744,15 +877,15 @@ const DevicesPage = () => {
                     </div>
                     
                     <div className="flex flex-col gap-2">
-                      <button
-                        onClick={() => handleDeleteDevice(device.id)}
-                        className="px-2 py-1 bg-red-600 text-white rounded text-xs hover:bg-red-700 flex items-center gap-1"
-                        title="Delete device"
-                      >
-                        <FaTrash className="text-xs" />
-                        Delete
-                      </button>
-                    </div>
+                       <button
+                         onClick={() => handleDeleteDevice(device.id)}
+                         className="px-2 py-1 bg-red-600 text-white rounded text-xs hover:bg-red-700 flex items-center gap-1"
+                         title="Delete device"
+                       >
+                         <FaTrash className="text-xs" />
+                         Delete
+                       </button>
+                     </div>
                   </div>
                 </div>
               ))}
@@ -959,31 +1092,50 @@ const DevicesPage = () => {
                 Select Devices ({selectedDevices.length} selected)
               </label>
               <div className="space-y-2 max-h-60 overflow-y-auto">
-                {getUngroupedDevices().map((device, index) => (
-                  <div
-                    key={index}
-                    onClick={() => handleDeviceSelection(device)}
-                    className={`p-3 border rounded-lg cursor-pointer transition-colors ${
-                      selectedDevices.some((d) => d.id === device.id)
-                        ? "bg-blue-50 dark:bg-blue-900/40 border-blue-300 dark:border-blue-600"
-                        : "bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="text-blue-500">
-                        {getDeviceIcon(device.device_type)}
-                      </div>
-                      <div>
-                        <span className="font-medium text-gray-800 dark:text-white">
-                          {device.device_name || device.hostname}
-                        </span>
-                        <span className="text-gray-500 dark:text-gray-400 text-sm ml-2">
-                          ({device.ip})
-                        </span>
+                {getUngroupedDevices().map((device, index) => {
+                  const isBlocked = isDeviceBlocked(device);
+                  const isSelected = selectedDevices.some((d) => d.id === device.id);
+                  
+                  return (
+                    <div
+                      key={index}
+                      onClick={() => !isBlocked && handleDeviceSelection(device)}
+                      className={`p-3 border rounded-lg transition-colors ${
+                        isBlocked
+                          ? "bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600 cursor-not-allowed opacity-60"
+                          : isSelected
+                          ? "bg-blue-50 dark:bg-blue-900/40 border-blue-300 dark:border-blue-600 cursor-pointer"
+                          : "bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className={`${isBlocked ? 'text-gray-400' : 'text-blue-500'}`}>
+                          {getDeviceIcon(device.device_type)}
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium text-gray-800 dark:text-white">
+                              {device.device_name || device.hostname}
+                            </span>
+                            {isBlocked && (
+                              <span className="px-2 py-1 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 text-xs rounded-full font-medium">
+                                BLOCKED
+                              </span>
+                            )}
+                          </div>
+                          <span className="text-gray-500 dark:text-gray-400 text-sm">
+                            ({device.ip})
+                          </span>
+                        </div>
+                        {isBlocked && (
+                          <div className="text-xs text-gray-500 dark:text-gray-400 text-center">
+                            Cannot be added to groups
+                          </div>
+                        )}
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
@@ -1039,41 +1191,63 @@ const DevicesPage = () => {
 
             <div className="space-y-2">
               {getAvailableDevicesForGroup(showAddToGroup).map(
-                (device, index) => (
-                  <div
-                    key={index}
-                    onClick={() => {
-                      const groupId = showAddToGroup;
-                      if (hasRules(groupId)) {
-                        const group = groups.find(g => g.id === groupId);
-                        setConfirmAddDevice({
-                          groupId,
-                          groupName: group?.name || 'Group',
-                          device,
-                          deviceName: device.device_name || device.hostname || 'Device',
-                        });
-                      } else {
-                        addDeviceToGroup(groupId, device);
-                        setShowAddToGroup(null);
-                      }
-                    }}
-                    className="p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="text-blue-500">
-                        {getDeviceIcon(device.device_type)}
-                      </div>
-                      <div>
-                        <span className="font-medium text-gray-800 dark:text-white">
-                          {device.device_name || device.hostname}
-                        </span>
-                        <span className="text-gray-500 dark:text-gray-400 text-sm ml-2">
-                          ({device.ip})
-                        </span>
+                (device, index) => {
+                  const isBlocked = isDeviceBlocked(device);
+                  
+                  return (
+                    <div
+                      key={index}
+                      onClick={() => {
+                        if (isBlocked) return; // Prevent clicking on blocked devices
+                        
+                        const groupId = showAddToGroup;
+                        if (hasRules(groupId)) {
+                          const group = groups.find(g => g.id === groupId);
+                          setConfirmAddDevice({
+                            groupId,
+                            groupName: group?.name || 'Group',
+                            device,
+                            deviceName: device.device_name || device.hostname || 'Device',
+                          });
+                        } else {
+                          addDeviceToGroup(groupId, device);
+                          setShowAddToGroup(null);
+                        }
+                      }}
+                      className={`p-3 border rounded-lg transition-colors ${
+                        isBlocked
+                          ? "border-gray-300 dark:border-gray-600 cursor-not-allowed opacity-60 bg-gray-100 dark:bg-gray-800"
+                          : "border-gray-200 dark:border-gray-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700"
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className={`${isBlocked ? 'text-gray-400' : 'text-blue-500'}`}>
+                          {getDeviceIcon(device.device_type)}
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium text-gray-800 dark:text-white">
+                              {device.device_name || device.hostname}
+                            </span>
+                            {isBlocked && (
+                              <span className="px-2 py-1 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 text-xs rounded-full font-medium">
+                                BLOCKED
+                              </span>
+                            )}
+                          </div>
+                          <span className="text-gray-500 dark:text-gray-400 text-sm">
+                            ({device.ip})
+                          </span>
+                        </div>
+                        {isBlocked && (
+                          <div className="text-xs text-gray-500 dark:text-gray-400 text-center">
+                            Cannot be added
+                          </div>
+                        )}
                       </div>
                     </div>
-                  </div>
-                )
+                  );
+                }
               )}
 
               {getAvailableDevicesForGroup(showAddToGroup).length === 0 && (
