@@ -105,6 +105,28 @@ export const settingsAPI = {
         ...(routerId && { router_id: routerId }),
       }),
     }),
+
+  // Automatic Network Scan operations
+  getAutoScanSettings: (routerId) =>
+    apiRequest(`${API_BASE_URL}/api/scheduled-tasks?router_id=${routerId}&enabled=true`),
+
+  createAutoScanTask: (routerId, intervalMinutes) =>
+    apiRequest(`${API_BASE_URL}/api/scheduled-tasks`, {
+      method: "POST",
+      body: JSON.stringify({
+        router_id: routerId,
+        service: 'network',
+        task: 'automatic_scan',
+        params: {},
+        task_type: 'interval',
+        interval_minutes: intervalMinutes
+      }),
+    }),
+
+  deleteAutoScanTask: (taskId) =>
+    apiRequest(`${API_BASE_URL}/api/scheduled-tasks/${taskId}`, {
+      method: "DELETE",
+    }),
 };
 
  

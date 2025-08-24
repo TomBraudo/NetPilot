@@ -1,5 +1,4 @@
 from utils.logging_config import get_logger
-from flask import g
 from services.commands_server_operations.agh_execute import (
     execute_clear_device_rules,
     execute_clear_devices_rules,
@@ -40,7 +39,8 @@ def delete_device_group(user_id, router_id, group_id):
         return False
     # Post-DB execute actions
     try:
-        session_id = getattr(g, 'session_id', None)
+        # Use user_id as session_id (project convention)
+        session_id = user_id
         if ctx.get('should_clear_agh') and ctx.get('devices_for_agh'):
             execute_clear_devices_rules(router_id, session_id, ctx['devices_for_agh'])
         if ctx.get('should_clear_bandwidth') and ctx.get('ips_to_clear'):
@@ -57,7 +57,8 @@ def add_device_to_group(user_id, router_id, group_id, device_id):
     if not ok:
         return False
     try:
-        session_id = getattr(g, 'session_id', None)
+        # Use user_id as session_id (project convention)
+        session_id = user_id
         if ctx.get('should_apply_agh') and (ctx.get('device_mac') or ctx.get('device_ip')):
             device_obj = {}
             if ctx.get('device_mac'):
@@ -85,7 +86,8 @@ def remove_device_from_group(user_id, router_id, group_id, device_id):
     if not ok:
         return False
     try:
-        session_id = getattr(g, 'session_id', None)
+        # Use user_id as session_id (project convention)
+        session_id = user_id
         if ctx.get('should_clear_agh') and (ctx.get('device_mac') or ctx.get('device_ip')):
             device_obj = {}
             if ctx.get('device_mac'):

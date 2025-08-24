@@ -147,8 +147,6 @@ def create_app(dev_mode=False, dev_user_id=None):
         
         # Initialize centralized transaction/session handling
         TransactionManager.begin_request()
-        # Temporary bridge: keep g.db_session for legacy code until Phase 3 completes
-        g.db_session = SessionContext.get()
         
         # Check if we're in development mode first
         if app.config.get('DEV_MODE', False):
