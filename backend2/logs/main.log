@@ -54419,3 +54419,107 @@ AttributeError: user_id
 2025-08-24 15:31:15 - managers.commands_server - DEBUG - Request completed in 2.36s with status 200
 2025-08-24 15:31:15 - managers.commands_server - DEBUG - Received response: {'data': {'apply': {'count': 0, 'http_code': '200', 'response': {}}, 'cleared': 1, 'details': [{'client_name': 'da:bb:90:c1:39:74', 'device': {'ipv4': '192.168.1.111', 'mac': 'da:bb:90:c1:39:74'}}]}, 'error': None, 'metadata': {'executionTime': 2.21697735786438, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-08-24T12:31:16.003889'}, 'success': True}
 2025-08-24 15:31:15 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/agh/devices/rules'
+2025-08-24 15:32:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-08-24 15:32:00 IDT (weekday 6)
+2025-08-24 15:32:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-08-24 15:32:00 IDT
+2025-08-24 15:32:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-08-24 15:32:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-08-24 15:33:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-08-24 15:33:00 IDT (weekday 6)
+2025-08-24 15:33:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-08-24 15:33:00 IDT
+2025-08-24 15:33:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-08-24 15:33:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-08-24 15:34:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-08-24 15:34:00 IDT (weekday 6)
+2025-08-24 15:34:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-08-24 15:34:00 IDT
+2025-08-24 15:34:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-08-24 15:34:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-08-24 15:35:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-08-24 15:35:00 IDT (weekday 6)
+2025-08-24 15:35:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-08-24 15:35:00 IDT
+2025-08-24 15:35:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-08-24 15:35:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-08-24 15:36:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-08-24 15:36:00 IDT (weekday 6)
+2025-08-24 15:36:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-08-24 15:36:00 IDT
+2025-08-24 15:36:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-08-24 15:36:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-08-24 15:36:32 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-08-24 15:36:34 - scheduler.registry - INFO - Registered task network.automatic_scan -> services.network_service.automatic_scan_network
+2025-08-24 15:36:34 - 2fa_service - INFO - TOTP encryption key loaded from environment variables
+2025-08-24 15:36:34 - 2fa_service - INFO - TOTP encryption cipher initialized successfully
+2025-08-24 15:36:34 - scheduler.registry - INFO - Registered task agh.set_device_rules -> services.agh_service.set_device_rules
+2025-08-24 15:36:34 - scheduler.registry - INFO - Registered task agh.set_devices_rules -> services.agh_service.set_devices_rules
+2025-08-24 15:36:34 - scheduler.registry - INFO - Registered task agh.clear_device_rules -> services.agh_service.clear_device_rules
+2025-08-24 15:36:34 - scheduler.registry - INFO - Registered task agh.clear_devices_rules -> services.agh_service.clear_devices_rules
+2025-08-24 15:36:34 - scheduler.registry - INFO - Registered task bandwidth.apply_group_limits -> services.bandwidth_service.apply_group_limits
+2025-08-24 15:36:34 - scheduler.registry - INFO - Registered task bandwidth.delete_group_limits -> services.bandwidth_service.delete_group_limits
+2025-08-24 15:36:34 - scheduler.registry - INFO - Registered task bandwidth.apply_device_limit -> services.bandwidth_service.apply_device_limit
+2025-08-24 15:36:34 - scheduler.registry - INFO - Registered task bandwidth.delete_device_limit -> services.bandwidth_service.delete_device_limit
+2025-08-24 15:36:34 - scheduler.registry - INFO - Registered task bandwidth.set_group_rule_db -> services.bandwidth_service.set_group_rule_db
+2025-08-24 15:36:37 - scheduler.registry - INFO - Loaded task module: services.bandwidth_service
+2025-08-24 15:36:37 - scheduler.registry - INFO - Loaded task module: services.agh_service
+2025-08-24 15:36:37 - scheduler.registry - INFO - Loaded task module: services.network_service
+2025-08-24 15:36:37 - scheduler.bootstrap - INFO - Scheduler started successfully with timezone Asia/Jerusalem
+2025-08-24 15:36:44 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-24 15:36:44 - services.base - INFO - Service operation completed: agh_set_group_content_control_rules
+2025-08-24 15:36:44 - managers.commands_server - DEBUG - Performing health check...
+2025-08-24 15:36:44 - managers.commands_server - INFO - Checking commands server health
+2025-08-24 15:36:44 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-08-24 15:36:44 - managers.commands_server - DEBUG - Request completed in 0.15s with status 200
+2025-08-24 15:36:44 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 3.0517578125e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-08-24T12:36:44.855149'}, 'success': True}
+2025-08-24 15:36:44 - managers.commands_server - DEBUG - Commands server health check successful
+2025-08-24 15:36:44 - managers.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/agh/devices/rules/set
+2025-08-24 15:36:50 - managers.commands_server - DEBUG - Request completed in 5.69s with status 200
+2025-08-24 15:36:50 - managers.commands_server - DEBUG - Received response: {'data': {'apply': {'count': 13, 'http_code': '200', 'response': {}}, 'details': [{'client_name': 'da:bb:90:c1:39:74', 'device': {'ipv4': '192.168.1.111', 'mac': 'da:bb:90:c1:39:74'}, 'domains': 13}], 'updated': 1}, 'error': None, 'metadata': {'executionTime': 5.563418626785278, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-08-24T12:36:50.583105'}, 'success': True}
+2025-08-24 15:36:50 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/agh/devices/rules/set'
+2025-08-24 15:36:50 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-24 15:36:50 - services.base - INFO - Service operation completed: agh_set_devices_rules
+2025-08-24 15:36:50 - managers.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/agh/devices/rules/set
+2025-08-24 15:36:55 - managers.commands_server - DEBUG - Request completed in 5.17s with status 200
+2025-08-24 15:36:55 - managers.commands_server - DEBUG - Received response: {'data': {'apply': {'count': 13, 'http_code': '200', 'response': {}}, 'details': [{'client_name': 'da:bb:90:c1:39:74', 'device': {'ipv4': '192.168.1.111', 'mac': 'da:bb:90:c1:39:74'}, 'domains': 13}], 'updated': 1}, 'error': None, 'metadata': {'executionTime': 5.042353868484497, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-08-24T12:36:55.845315'}, 'success': True}
+2025-08-24 15:36:55 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/agh/devices/rules/set'
+2025-08-24 15:36:58 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-24 15:36:58 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-24 15:36:58 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-08-24 15:36:58 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-24 15:36:58 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-08-24 15:36:59 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-24 15:36:59 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-08-24 15:36:59 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-08-24 15:36:59 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-08-24 15:36:59 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-08-24 15:36:59 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-24 15:36:59 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-08-24 15:37:00 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-08-24 15:37:00 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-24 15:37:00 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-24 15:37:00 - services.base - INFO - Service operation completed: bandwidth_db_get_all_rules
+2025-08-24 15:37:01 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-24 15:37:01 - services.base - INFO - Service operation completed: bandwidth_db_get_all_rules
+2025-08-24 15:37:01 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-24 15:37:01 - services.base - INFO - Service operation completed: agh_get_all_content_control_rules
+2025-08-24 15:37:01 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-08-24 15:37:01 IDT (weekday 6)
+2025-08-24 15:37:01 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-08-24 15:37:00 IDT
+2025-08-24 15:37:01 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-24 15:37:01 - services.base - INFO - Service operation completed: agh_get_all_content_control_rules
+2025-08-24 15:37:01 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-08-24 15:37:01 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-08-24 15:37:07 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-24 15:37:07 - managers.commands_server - DEBUG - Making DELETE request to http://34.38.207.87:5000/api/agh/device/rules
+2025-08-24 15:37:10 - managers.commands_server - DEBUG - Request completed in 2.35s with status 200
+2025-08-24 15:37:10 - managers.commands_server - DEBUG - Received response: {'data': {'apply': {'count': 0, 'http_code': '200', 'response': {}}, 'cleared': 1}, 'error': None, 'metadata': {'executionTime': 2.204927444458008, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-08-24T12:37:10.234417'}, 'success': True}
+2025-08-24 15:37:10 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/agh/device/rules'
+2025-08-24 15:37:10 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-24 15:37:53 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-24 15:37:53 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-24 15:37:53 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-24 15:37:53 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-08-24 15:37:53 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-08-24 15:37:54 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-24 15:37:54 - services.base - INFO - Service operation completed: bandwidth_db_get_all_rules
+2025-08-24 15:37:54 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-08-24 15:37:54 - services.base - INFO - Service operation completed: agh_get_all_content_control_rules
+2025-08-24 15:38:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-08-24 15:38:00 IDT (weekday 6)
+2025-08-24 15:38:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-08-24 15:38:00 IDT
+2025-08-24 15:38:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-08-24 15:38:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-08-24 15:39:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-08-24 15:39:00 IDT (weekday 6)
+2025-08-24 15:39:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-08-24 15:39:00 IDT
+2025-08-24 15:39:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-08-24 15:39:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
