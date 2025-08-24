@@ -3,3 +3,6 @@
 **/*.tex linguist-detectable=false
 *.ltx linguist-detectable=false
 *.sty linguist-detectable=false
+docs/** linguist-vendored
+latex/** linguist-vendored
+*.tex linguist-language=Ignore
