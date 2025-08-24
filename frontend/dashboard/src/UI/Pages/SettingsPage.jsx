@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Router, Settings, Edit, Wifi, Save, X, Lock, Eye, EyeOff, Scan } from "lucide-react";
+import { Router, Settings, Edit, Wifi, Save, X, Lock, Eye, EyeOff, Scan, RefreshCw } from "lucide-react";
 import RouterIdPopup from "../../components/RouterIdPopup";
 import { useAuth } from "../../context/AuthContext";
 import { settingsAPI } from "../../constants/api";
@@ -11,7 +11,7 @@ const SettingsPage = () => {
   const [isEditingWifi, setIsEditingWifi] = useState(false);
   const [wifiLoading, setWifiLoading] = useState(true);
   const [wifiError, setWifiError] = useState(null);
-  const [isSaving, setIsSaving] = useState(false); // Add saving state
+  const [isSaving, setIsSaving] = useState(false);
   
   // WiFi Password states
   const [wifiPassword, setWifiPassword] = useState("");
@@ -22,7 +22,7 @@ const SettingsPage = () => {
   
   // Automatic Network Scan states
   const [autoScanEnabled, setAutoScanEnabled] = useState(false);
-  const [autoScanInterval, setAutoScanInterval] = useState(60); // Default to 1 hour (60 minutes)
+  const [autoScanInterval, setAutoScanInterval] = useState(60);
   const [autoScanLoading, setAutoScanLoading] = useState(false);
   const [autoScanError, setAutoScanError] = useState(null);
   const [existingAutoScanTask, setExistingAutoScanTask] = useState(null);
@@ -57,7 +57,6 @@ const SettingsPage = () => {
       setWifiLoading(true);
       setWifiError(null);
 
-      // Try to get from localStorage first (unless forcing refresh)
       if (!forceRefresh && routerId) {
         const cachedName = getWifiNameFromStorage();
         if (cachedName) {
@@ -79,7 +78,6 @@ const SettingsPage = () => {
         setWifiName(name);
         setOriginalWifiName(name);
         
-        // Save to localStorage for future use
         if (routerId) {
           saveWifiNameToStorage(name);
         }
@@ -122,7 +120,6 @@ const SettingsPage = () => {
   const handleSaveWifiName = async () => {
     console.log("Saving WiFi name:", wifiName);
 
-    // Check if router ID is available
     if (!routerId) {
       console.error("❌ No router ID available");
       setWifiError(
@@ -144,7 +141,6 @@ const SettingsPage = () => {
         setOriginalWifiName(wifiName);
         setIsEditingWifi(false);
         
-        // Update localStorage with the new name
         if (routerId) {
           saveWifiNameToStorage(wifiName);
         }
@@ -156,7 +152,6 @@ const SettingsPage = () => {
     } catch (error) {
       console.error("❌ Error saving WiFi name:", error);
       setWifiError("Failed to save WiFi name. Please try again.");
-      // Revert to original name on error
       setWifiName(originalWifiName);
     } finally {
       setIsSaving(false);
@@ -233,7 +228,6 @@ const SettingsPage = () => {
         setShowPassword(false);
         console.log("✅ WiFi password saved successfully!");
         
-        // You could show a success message here
         alert("WiFi password updated successfully!");
       } else {
         throw new Error(response.message || "Failed to save WiFi password");
@@ -254,7 +248,6 @@ const SettingsPage = () => {
       setAutoScanLoading(true);
       setAutoScanError(null);
       
-      // Check if there's an existing automatic scan task
       const response = await settingsAPI.getAutoScanSettings(routerId);
       
       if (response.success && response.data?.tasks) {
@@ -266,19 +259,16 @@ const SettingsPage = () => {
           setExistingAutoScanTask(autoScanTask);
           setAutoScanEnabled(true);
           setAutoScanInterval(autoScanTask.interval_minutes);
-          // Initialize localStorage
           localStorage.setItem(`auto_scan_enabled_${routerId}`, 'true');
         } else {
           setExistingAutoScanTask(null);
           setAutoScanEnabled(false);
-          // Initialize localStorage
           localStorage.setItem(`auto_scan_enabled_${routerId}`, 'false');
         }
       }
     } catch (error) {
       console.error('Error loading auto scan settings:', error);
       setAutoScanError('Failed to load automatic scan settings');
-      // Set default state in localStorage on error
       localStorage.setItem(`auto_scan_enabled_${routerId}`, 'false');
     } finally {
       setAutoScanLoading(false);
@@ -296,27 +286,23 @@ const SettingsPage = () => {
       setAutoScanError(null);
 
       if (enabled) {
-        // Create the automatic scan task
         const response = await settingsAPI.createAutoScanTask(routerId, autoScanInterval);
         
         if (response.success) {
           setAutoScanEnabled(true);
           setExistingAutoScanTask(response.data);
-          // Save to localStorage for sync with other components
           localStorage.setItem(`auto_scan_enabled_${routerId}`, 'true');
           console.log('✅ Automatic scan task created successfully!');
         } else {
           throw new Error(response.error?.message || 'Failed to create automatic scan task');
         }
       } else {
-        // Delete the existing task
         if (existingAutoScanTask) {
           const response = await settingsAPI.deleteAutoScanTask(existingAutoScanTask.id);
           
           if (response.success) {
             setAutoScanEnabled(false);
             setExistingAutoScanTask(null);
-            // Save to localStorage for sync with other components
             localStorage.setItem(`auto_scan_enabled_${routerId}`, 'false');
             console.log('✅ Automatic scan task deleted successfully!');
           } else {
@@ -386,8 +372,8 @@ const SettingsPage = () => {
                     onClick={handleChangeRouterId}
                     className="inline-flex items-center px-3 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
                   >
-                    <Edit className="w-4 h-4 mr-2" />
-                    {routerId ? "Change Router ID" : "Set Router ID"}
+                    <RefreshCw className="w-4 h-4 mr-2" />
+                    {routerId ? "Switch Router" : "Set Router ID"}
                   </button>
                 </div>
 
@@ -467,7 +453,7 @@ const SettingsPage = () => {
                       className="inline-flex items-center px-3 py-2 text-sm font-medium text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-md hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors"
                     >
                       <Edit className="w-4 h-4 mr-2" />
-                      Change Name
+                      Edit WiFi Name
                     </button>
                   )}
                 </div>
@@ -557,7 +543,7 @@ const SettingsPage = () => {
                       </div>
                     ) : (
                       <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                        Change your WiFi network password
+                        Update the password for your current WiFi network
                       </p>
                     )}
                   </div>
@@ -569,7 +555,7 @@ const SettingsPage = () => {
                     className="inline-flex items-center px-3 py-2 text-sm font-medium text-orange-700 dark:text-orange-300 bg-orange-100 dark:bg-orange-900/20 border border-orange-300 dark:border-orange-700 rounded-md hover:bg-orange-200 dark:hover:bg-orange-900/30 transition-colors"
                   >
                     <Edit className="w-4 h-4 mr-2" />
-                    Change Password
+                    Update WiFi Password
                   </button>
                 )}
               </div>
@@ -666,20 +652,6 @@ const SettingsPage = () => {
                     </p>
                   </div>
                 )}
-              </div>
-            </div>
-
-            {/* Future Settings Sections */}
-            <div className="text-center py-8">
-              <div className="text-gray-400 dark:text-gray-500">
-                <Settings className="mx-auto h-12 w-12 mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                  More Settings Coming Soon
-                </h3>
-                <p className="text-gray-500 dark:text-gray-400">
-                  Additional configuration options will be available here in
-                  future updates.
-                </p>
               </div>
             </div>
           </div>
