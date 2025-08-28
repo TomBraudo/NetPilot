@@ -191,7 +191,10 @@ class CommandsServerManager:
             return None, "Commands server is not connected"
         if not query_params:
             query_params = {}
-        if not body:
+        # Do not attach a JSON body for GET requests; some gateways reject GET with bodies
+        if method and method.upper() == "GET":
+            body = None
+        elif body is None:
             body = {}
         query_params['routerId'] = router_id
         query_params['sessionId'] = session_id
