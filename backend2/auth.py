@@ -138,10 +138,13 @@ def homepage():
 @auth_bp.route('/login')
 def login():
     """Initiate Google OAuth login"""
-    # Use request host to determine correct redirect URI
-    from flask import request
-    host = request.host
-    scheme = 'https' if request.is_secure else 'http'
+    # Build redirect URI that works behind Cloud Run's proxy
+    from flask import request, current_app
+    forwarded_proto = request.headers.get('X-Forwarded-Proto')
+    forwarded_host = request.headers.get('X-Forwarded-Host')
+    use_https = os.getenv('USE_HTTPS', 'false').lower() == 'true'
+    scheme = 'https' if (use_https or forwarded_proto == 'https' or request.is_secure) else 'http'
+    host = forwarded_host or request.host
     redirect_uri = f"{scheme}://{host}/authorize"
     return google.authorize_redirect(redirect_uri)
 
