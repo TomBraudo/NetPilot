@@ -26,15 +26,25 @@ jobs:
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@v2
 
-    - name: Deploy Frontend to Cloud Run
+    - name: Configure Docker auth for Artifact Registry
+      run: |
+        gcloud auth configure-docker europe-west1-docker.pkg.dev --quiet
+
+    - name: Build and Push Frontend Image
       run: |
         cd frontend/dashboard
+        IMAGE_URI=europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/netpilot-docker/netpilot-frontend:${{ github.sha }}
+        docker build -t $IMAGE_URI --build-arg VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }} .
+        docker push $IMAGE_URI
+
+    - name: Deploy Frontend to Cloud Run
+      run: |
+        IMAGE_URI=europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/netpilot-docker/netpilot-frontend:${{ github.sha }}
         gcloud run deploy netpilot-frontend \
-          --source . \
+          --image $IMAGE_URI \
           --platform managed \
           --region europe-west1 \
           --allow-unauthenticated \
-          --build-arg VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }} \
           --project ${{ secrets.GCP_PROJECT_ID }}
 
     - name: Get service URL

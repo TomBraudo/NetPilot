@@ -37,4 +37,3 @@ console.log("5. Try creating a group");
 // Show current routerId for reference
 const routerId = localStorage.getItem("routerId");
 console.log("🆔 Current Router ID:", routerId || "Not set");
-
