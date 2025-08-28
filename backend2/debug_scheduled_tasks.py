@@ -154,4 +154,3 @@ if __name__ == "__main__":
     print("🔍 Scheduled Tasks Debug Report")
     print("=" * 120)
     print_scheduled_tasks()
-
