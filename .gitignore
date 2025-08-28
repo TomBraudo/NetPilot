@@ -38,6 +38,7 @@ FIX_DEPLOYMENT_PLAN.md
 # Cloud deployment guide (contains sensitive data)
 backend2/CLOUD_DEPLOY_GUIDE.md
 backend2/scripts/
+backend2/logs/
 
 # Python cache
 __pycache__/

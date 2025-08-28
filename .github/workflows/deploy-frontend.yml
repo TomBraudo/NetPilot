@@ -1,0 +1,45 @@
+name: Deploy Frontend to Cloud Run
+
+on:
+  push:
+    branches: [ New-Main ]
+    paths: [ 'frontend/dashboard/**' ]
+  pull_request:
+    branches: [ New-Main ]
+    paths: [ 'frontend/dashboard/**' ]
+    types: [ closed ]
+
+jobs:
+  deploy:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v2
+
+    - name: Deploy Frontend to Cloud Run
+      run: |
+        cd frontend/dashboard
+        gcloud run deploy netpilot-frontend \
+          --source . \
+          --platform managed \
+          --region europe-west1 \
+          --allow-unauthenticated \
+          --set-build-env-vars="VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" \
+          --project ${{ secrets.GCP_PROJECT_ID }}
+
+    - name: Get service URL
+      run: |
+        SERVICE_URL=$(gcloud run services describe netpilot-frontend --region europe-west1 --format="value(status.url)" --project ${{ secrets.GCP_PROJECT_ID }})
+        echo "Service deployed at: $SERVICE_URL"
+
+
