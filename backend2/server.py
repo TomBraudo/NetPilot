@@ -230,3 +230,4 @@ if __name__ == '__main__':
     print(f"⚙️  Config SERVER_PORT: {config('SERVER_PORT', default=5000)}")
     
     app.run(debug=debug_mode, host=server_host, port=server_port)
+    
