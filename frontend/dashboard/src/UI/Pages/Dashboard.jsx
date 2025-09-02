@@ -1,4 +1,4 @@
-import { Wifi, ArrowRight } from "lucide-react";
+import { Wifi, ArrowRight, PlaneTakeoff } from "lucide-react";
 import NetworkBackground from "../../components/NetworkBackground";
 import { useNavigate } from "react-router-dom";
 import LoginButton from "../../components/LoginButton";
@@ -58,7 +58,7 @@ function Dashboard() {
               <div className="relative z-10 flex items-center gap-3">
                 <span>{sessionStarted ? "Enter NetPilot" : "Starting session..."}</span>
                 {sessionStarted ? (
-                  <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5" />
+                  <PlaneTakeoff className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5" />
                 ) : (
                   <span className="inline-block w-4 h-4 border-2 border-white/60 border-t-transparent rounded-full animate-spin" />
                 )}

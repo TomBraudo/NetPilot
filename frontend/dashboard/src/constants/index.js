@@ -17,6 +17,7 @@ import {
   FaListAlt,
   FaNetworkWired,
   FaCog,
+  FaSlidersH,
 } from "react-icons/fa";
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { MdOutlineSecurity } from "react-icons/md";
@@ -94,7 +95,7 @@ export const links = [
   },
   {
     href: "/control",
-    icon: FaCog,
+    icon: FaSlidersH,
     text: "Control",
   },
 
@@ -117,7 +118,7 @@ export const links = [
   },
   {
     href: "/settings",
-    icon: IoIosSettings,
+    icon: FaCog,
     text: "Settings",
   },
 ];

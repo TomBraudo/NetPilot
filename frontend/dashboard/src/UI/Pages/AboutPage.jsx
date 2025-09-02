@@ -5,7 +5,7 @@ import { FaNetworkWired, FaWifi, FaCloud } from "react-icons/fa";
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 dark:from-slate-900 dark:via-purple-900 dark:to-slate-900 py-8 px-4 sm:px-6">
+    <div className="p-6 max-w-7xl mx-auto bg-gray-100 dark:bg-gray-900 min-h-screen">
       <div className="max-w-6xl mx-auto">
         {/* Hero Section with Glass Effect */}
         <div className="backdrop-blur-xl bg-white/80 dark:bg-white/10 rounded-3xl shadow-2xl border border-gray-200/50 dark:border-white/20 p-8 mb-8">
