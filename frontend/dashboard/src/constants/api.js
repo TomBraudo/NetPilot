@@ -12,6 +12,9 @@ export const API_ENDPOINTS = {
   // Health
   HEALTH: `${API_BASE_URL}/api/health`,
 
+  // Download
+  DOWNLOAD: `${API_BASE_URL}/api/download`,
+
   // Devices
   DEVICES: `${API_BASE_URL}/api/devices`,
 
@@ -635,4 +638,25 @@ export const scheduledTasksAPI = {
       method: "PUT",
       body: JSON.stringify({ hour, minute, days_of_week }),
     }),
+};
+
+// Download API functions (no authentication required)
+export const downloadAPI = {
+  // Get download URL for NetPilot agent
+  getDownloadUrl: async () => {
+    // Use a custom fetch without credentials to avoid authentication requirement
+    const response = await fetch(API_ENDPOINTS.DOWNLOAD, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      // Note: No credentials: 'include' to avoid authentication requirement
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return response.json();
+  },
 };

@@ -2,6 +2,7 @@ import { Wifi, ArrowRight, PlaneTakeoff } from "lucide-react";
 import NetworkBackground from "../../components/NetworkBackground";
 import { useNavigate } from "react-router-dom";
 import LoginButton from "../../components/LoginButton";
+import DownloadAgentButton from "../../components/DownloadAgentButton";
 import RouterIdPopup from "../../components/RouterIdPopup";
 import { useAuth } from "../../context/AuthContext";
 
@@ -82,6 +83,11 @@ function Dashboard() {
           onClose={logout}
           onConfirm={setRouterIdValue}
         />
+
+        {/* Download Agent Section */}
+        <div className="mb-8">
+          <DownloadAgentButton />
+        </div>
 
         <div className="text-gray-400 dark:text-gray-300">
           <p className="mb-2">

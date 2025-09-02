@@ -58044,3 +58044,52 @@ AttributeError: user_id
 2025-09-02 20:26:33 - managers.commands_server - DEBUG - Request completed in 2.29s with status 200
 2025-09-02 20:26:33 - managers.commands_server - DEBUG - Received response: {'data': {'apply': {'count': 0, 'http_code': '200', 'response': {}}, 'cleared': 1, 'details': [{'client_name': 'd8:bb:c1:47:3a:43', 'device': {'ipv4': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43'}}]}, 'error': None, 'metadata': {'executionTime': 2.141252279281616, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': '366d0f94-0efb-47e0-a9e4-e77bc6553e39', 'timestamp': '2025-09-02T17:26:33.334124'}, 'success': True}
 2025-09-02 20:26:33 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/agh/devices/rules'
+2025-09-02 21:29:43 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-09-02 21:29:47 - scheduler.registry - INFO - Registered task network.automatic_scan -> services.network_service.automatic_scan_network
+2025-09-02 21:29:48 - 2fa_service - INFO - TOTP encryption key loaded from environment variables
+2025-09-02 21:29:48 - 2fa_service - INFO - TOTP encryption cipher initialized successfully
+2025-09-02 21:29:48 - scheduler.registry - INFO - Registered task agh.set_device_rules -> services.agh_service.set_device_rules
+2025-09-02 21:29:48 - scheduler.registry - INFO - Registered task agh.set_devices_rules -> services.agh_service.set_devices_rules
+2025-09-02 21:29:48 - scheduler.registry - INFO - Registered task agh.clear_device_rules -> services.agh_service.clear_device_rules
+2025-09-02 21:29:48 - scheduler.registry - INFO - Registered task agh.clear_devices_rules -> services.agh_service.clear_devices_rules
+2025-09-02 21:29:48 - scheduler.registry - INFO - Registered task bandwidth.apply_group_limits -> services.bandwidth_service.apply_group_limits
+2025-09-02 21:29:48 - scheduler.registry - INFO - Registered task bandwidth.delete_group_limits -> services.bandwidth_service.delete_group_limits
+2025-09-02 21:29:48 - scheduler.registry - INFO - Registered task bandwidth.apply_device_limit -> services.bandwidth_service.apply_device_limit
+2025-09-02 21:29:48 - scheduler.registry - INFO - Registered task bandwidth.delete_device_limit -> services.bandwidth_service.delete_device_limit
+2025-09-02 21:29:48 - scheduler.registry - INFO - Registered task bandwidth.set_group_rule_db -> services.bandwidth_service.set_group_rule_db
+2025-09-02 21:29:52 - scheduler.registry - INFO - Loaded task module: services.bandwidth_service
+2025-09-02 21:29:52 - scheduler.registry - INFO - Loaded task module: services.agh_service
+2025-09-02 21:29:52 - scheduler.registry - INFO - Loaded task module: services.network_service
+2025-09-02 21:29:52 - scheduler.bootstrap - INFO - Scheduler started successfully with timezone Asia/Jerusalem
+2025-09-02 21:30:05 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-02 21:30:05 IDT (weekday 1)
+2025-09-02 21:30:05 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-02 21:30:00 IDT
+2025-09-02 21:30:05 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-02 21:30:05 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-02 21:31:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-02 21:31:00 IDT (weekday 1)
+2025-09-02 21:31:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-02 21:31:00 IDT
+2025-09-02 21:31:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-02 21:31:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-02 21:32:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-02 21:32:00 IDT (weekday 1)
+2025-09-02 21:32:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-02 21:32:00 IDT
+2025-09-02 21:32:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-02 21:32:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-02 21:33:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-02 21:33:00 IDT (weekday 1)
+2025-09-02 21:33:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-02 21:33:00 IDT
+2025-09-02 21:33:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-02 21:33:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-02 21:34:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-02 21:34:00 IDT (weekday 1)
+2025-09-02 21:34:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-02 21:34:00 IDT
+2025-09-02 21:34:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-02 21:34:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-02 21:35:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-02 21:35:00 IDT (weekday 1)
+2025-09-02 21:35:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-02 21:35:00 IDT
+2025-09-02 21:35:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-02 21:35:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-02 21:36:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-02 21:36:00 IDT (weekday 1)
+2025-09-02 21:36:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-02 21:36:00 IDT
+2025-09-02 21:36:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-02 21:36:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-02 21:37:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-02 21:37:00 IDT (weekday 1)
+2025-09-02 21:37:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-02 21:37:00 IDT
+2025-09-02 21:37:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-02 21:37:00 - scheduler.bootstrap - DEBUG - No tasks due at current time

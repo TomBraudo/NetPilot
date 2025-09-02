@@ -26,6 +26,7 @@ from endpoints.devices import devices_bp
 from endpoints.blocked_devices import blocked_devices_bp
 from endpoints.scheduled_tasks import scheduled_tasks_bp
 from services.scheduler_bootstrap import init_scheduler
+from endpoints.download import download_bp
 
 def create_app(dev_mode=False, dev_user_id=None):
     """Create and configure the Flask application
@@ -108,6 +109,7 @@ def create_app(dev_mode=False, dev_user_id=None):
     app.register_blueprint(devices_bp, url_prefix='/api/devices')
     app.register_blueprint(blocked_devices_bp, url_prefix='/api/devices')
     app.register_blueprint(scheduled_tasks_bp, url_prefix='/api')
+    app.register_blueprint(download_bp, url_prefix='/api/download')
     
     # Root route
     @app.route('/')
