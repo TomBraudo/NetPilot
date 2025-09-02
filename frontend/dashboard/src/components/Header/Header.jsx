@@ -58,6 +58,8 @@ import React from "react";
 import { FaMoon } from "react-icons/fa";
 import { MdSunny } from "react-icons/md";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
+import colorLogo from "../../assets/color_logo2.png";
+import whiteLogo from "../../assets/white_logo.png";
 
 const Header = ({ darkMode, toggleDarkMode, toggleSidebar }) => {
   return (
@@ -75,11 +77,7 @@ const Header = ({ darkMode, toggleDarkMode, toggleSidebar }) => {
         {/* Logo */}
         <div className="flex items-center gap-1">
           <img
-            src={
-              darkMode
-                ? "/src/assets/white_logo.png"
-                : "/src/assets/color_logo2.png"
-            }
+            src={darkMode ? whiteLogo : colorLogo}
             alt="NetPilot Logo"
             className="h-8 w-8 object-contain"
           />
