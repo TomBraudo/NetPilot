@@ -75,6 +75,7 @@ const DevicesPage = () => {
   const [devicesLoading, setDevicesLoading] = useState(false);
   const [confirmRemoveDevice, setConfirmRemoveDevice] = useState(null); // { groupId, groupName, deviceId, deviceName }
   const [confirmAddDevice, setConfirmAddDevice] = useState(null); // { groupId, groupName, device, deviceName }
+  const [confirmDeleteDevice, setConfirmDeleteDevice] = useState(null); // { deviceId, deviceName, deviceIp }
   const [refreshing, setRefreshing] = useState(false);
 
   // Rules state
@@ -253,12 +254,6 @@ const DevicesPage = () => {
 
     const device = devices.find(d => d.id === deviceId);
     if (!device) return;
-
-    const confirmationMessage = `Are you sure you want to delete device "${device.device_name || device.hostname || 'Unknown Device'}" (${device.ip})? This action cannot be undone.`;
-
-    if (!window.confirm(confirmationMessage)) {
-      return;
-    }
 
     try {
       const response = await devicesAPI.deleteDevice(deviceId, routerId);
@@ -878,7 +873,7 @@ const DevicesPage = () => {
                     
                     <div className="flex flex-col gap-2">
                        <button
-                         onClick={() => handleDeleteDevice(device.id)}
+                         onClick={() => setConfirmDeleteDevice({ deviceId: device.id, deviceName: device.device_name || device.hostname || 'Unknown Device', deviceIp: device.ip })}
                          className="px-2 py-1 bg-red-600 text-white rounded text-xs hover:bg-red-700 flex items-center gap-1"
                          title="Delete device"
                        >
@@ -1290,7 +1285,7 @@ const DevicesPage = () => {
             )}
             <div className="flex justify-end gap-2">
               <button
-                className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
+                className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-white"
                 onClick={() => setConfirmDeleteGroup(null)}
               >
                 Cancel
@@ -1330,7 +1325,7 @@ const DevicesPage = () => {
             </p>
             <div className="flex justify-end gap-2">
               <button
-                className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
+                className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-white"
                 onClick={() => setConfirmRemoveDevice(null)}
               >
                 Cancel
@@ -1370,7 +1365,7 @@ const DevicesPage = () => {
             </p>
             <div className="flex justify-end gap-2">
               <button
-                className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
+                className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-white"
                 onClick={() => setConfirmAddDevice(null)}
               >
                 Cancel
@@ -1384,6 +1379,45 @@ const DevicesPage = () => {
                 }}
               >
                 Accept
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {confirmDeleteDevice && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg w-full max-w-md mx-4">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Delete Device</h3>
+              <button
+                onClick={() => setConfirmDeleteDevice(null)}
+                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              >
+                <FaTimes />
+              </button>
+            </div>
+            <p className="text-gray-700 dark:text-gray-300 mb-2">
+              Are you sure you want to delete the device <span className="font-semibold">{confirmDeleteDevice.deviceName}</span>?
+            </p>
+            <p className="text-gray-700 dark:text-gray-300 mb-4">
+              IP: <span className="font-mono">{confirmDeleteDevice.deviceIp}</span>. This action cannot be undone.
+            </p>
+            <div className="flex justify-end gap-2">
+              <button
+                className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-white"
+                onClick={() => setConfirmDeleteDevice(null)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700"
+                onClick={() => {
+                  handleDeleteDevice(confirmDeleteDevice.deviceId);
+                  setConfirmDeleteDevice(null);
+                }}
+              >
+                Delete
               </button>
             </div>
           </div>

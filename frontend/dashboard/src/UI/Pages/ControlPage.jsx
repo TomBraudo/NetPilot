@@ -179,7 +179,8 @@ const ControlPage = () => {
   const [contentClearLoading, setContentClearLoading] = useState(false);
   const [categoriesLoading, setCategoriesLoading] = useState(false);
   const [categoriesError, setCategoriesError] = useState(null);
-  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [showContentSuccessToast, setShowContentSuccessToast] = useState(false);
+  const [showBandwidthSuccessToast, setShowBandwidthSuccessToast] = useState(false);
   const [showAddUrlModal, setShowAddUrlModal] = useState(null);
   const [newUrl, setNewUrl] = useState("");
   const [customUrls, setCustomUrls] = useState({});
@@ -966,8 +967,8 @@ const ControlPage = () => {
       }
 
       // Show success message
-      setShowSuccessToast(true);
-      setTimeout(() => setShowSuccessToast(false), 3000);
+      setShowContentSuccessToast(true);
+      setTimeout(() => setShowContentSuccessToast(false), 3000);
 
     } catch (error) {
               console.error("❌ [ControlPage] Failed to create category:", error);
@@ -1025,9 +1026,13 @@ const ControlPage = () => {
         return;
       }
 
-      // Step 3: Ensure we have groups loaded
+      // Step 3: Handle case with no groups gracefully
       if (groups.length === 0) {
-        console.log("⏳ Waiting for groups to load...");
+        console.log("ℹ️ No groups found. Initializing content controls with empty groups.");
+        // Initialize empty toggles and mark as initialized so UI can render empty state
+        setCategoryGroupToggles({});
+        setOriginalToggles({});
+        setContentControlsInitialized(true);
         return;
       }
 
@@ -1409,8 +1414,8 @@ const ControlPage = () => {
       });
 
       setHasContentChanges(false);
-      setShowSuccessToast(true);
-      setTimeout(() => setShowSuccessToast(false), 3000);
+      setShowContentSuccessToast(true);
+      setTimeout(() => setShowContentSuccessToast(false), 3000);
       
       // Update original state to current state after successful apply
       setOriginalToggles(categoryGroupToggles);
@@ -1618,6 +1623,9 @@ const ControlPage = () => {
       });
 
       console.log("Bandwidth limits applied to database and devices for group:", groupId, changes);
+      // Show bandwidth success toast
+      setShowBandwidthSuccessToast(true);
+      setTimeout(() => setShowBandwidthSuccessToast(false), 3000);
     } catch (error) {
       console.error("Failed to apply bandwidth changes:", error);
       alert("Failed to apply changes. Please try again.");
@@ -1860,19 +1868,7 @@ const ControlPage = () => {
             </div>
           </div>
 
-          {/* Database Rules Status */}
-          {!rulesLoading && !rulesError && Object.keys(bandwidthRules).length > 0 && (
-            <div className="mb-4 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg">
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-green-800 dark:text-green-200">
-                  ✅ Database Rules Active
-                </span>
-                <span className="text-xs text-green-600 dark:text-green-400">
-                  {Object.keys(bandwidthRules).length} groups have bandwidth rules saved
-                </span>
-              </div>
-            </div>
-          )}
+          {/* Bandwidth rules status hidden per request */}
 
           {/* Bulk Apply Section */}
           <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-6">
@@ -2159,7 +2155,7 @@ const ControlPage = () => {
                   setShowAddUrlModal(null);
                   setNewUrl("");
                 }}
-                className="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                className="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
               >
                 Cancel
               </button>
@@ -2245,19 +2241,7 @@ const ControlPage = () => {
             </div>
           </div>
 
-          {/* Database Rules Status */}
-          {!rulesLoading && !rulesError && Object.keys(contentControlRules).length > 0 && (
-            <div className="mb-4 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg">
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-green-800 dark:text-green-200">
-                  ✅ Database Rules Active
-                </span>
-                <span className="text-xs text-green-600 dark:text-green-400">
-                  {Object.keys(contentControlRules).length} groups have content control rules saved
-                </span>
-              </div>
-            </div>
-          )}
+          {/* Content controls status hidden per request */}
 
           {/* Summary of Changes */}
           {hasContentChanges && (
@@ -2317,18 +2301,7 @@ const ControlPage = () => {
             </div>
           )}
           
-          {!rulesLoading && !rulesError && Object.keys(bandwidthRules).length > 0 && (
-            <div className="mb-4 p-4 bg-green-100 dark:bg-green-900 border border-green-300 dark:border-green-700 rounded-lg">
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-green-700 dark:text-green-200">
-                  ✅ Database Rules Active
-                </span>
-                <span className="text-xs text-green-600 dark:text-green-400">
-                  {Object.keys(bandwidthRules).length} bandwidth rules and {Object.keys(contentControlRules).length} content control rules loaded from database.
-                </span>
-              </div>
-            </div>
-          )}
+          {/* Combined active rules banner hidden per request */}
           
           {/* Content Controls Initialization Status */}
           {!categoriesLoading && !rulesLoading && !contentControlsInitialized && (
@@ -2713,11 +2686,17 @@ const ControlPage = () => {
         </div>
       </div>
 
-      {/* Success Toast */}
-      {showSuccessToast && (
+      {/* Success Toasts */}
+      {showContentSuccessToast && (
         <div className="fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 z-50">
           <FaCheck />
-          Content controls applied successfully!
+          Content rule applied successfully!
+        </div>
+      )}
+      {showBandwidthSuccessToast && (
+        <div className="fixed bottom-4 right-4 bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 z-50">
+          <FaCheck />
+          Bandwidth rule applied successfully!
         </div>
       )}
 
@@ -3033,7 +3012,7 @@ const ControlPage = () => {
               </button>
             </div>
             <div className="flex justify-end gap-2 mt-4">
-              <button className="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-500 rounded transition-colors" onClick={() => setDomainsModal(null)}>Cancel</button>
+              <button className="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-white hover:bg-gray-400 dark:hover:bg-gray-500 rounded transition-colors" onClick={() => setDomainsModal(null)}>Cancel</button>
               <button className="px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white hover:bg-blue-700 dark:hover:bg-blue-400 rounded transition-colors" onClick={saveDomains}>Save</button>
             </div>
           </div>
