@@ -66,6 +66,7 @@ const ScanPage = () => {
   const [lastScanTime, setLastScanTime] = useState(() => {
     return localStorage.getItem("lastScanTime") || null;
   });
+  const [unblockMessage, setUnblockMessage] = useState(null);
   
   // Local blocked devices state for immediate UI updates
   const [localBlockedDevices, setLocalBlockedDevices] = useState([]);
@@ -140,6 +141,8 @@ const ScanPage = () => {
         if (response.success) {
           // Refresh blocked devices list
           await loadBlockedDevices();
+          setUnblockMessage("Device successfully unblocked.");
+          setTimeout(() => setUnblockMessage(null), 3000);
         }
       }
     } catch (error) {
@@ -205,6 +208,12 @@ const ScanPage = () => {
     <div className="h-screen overflow-hidden">
       <div className="p-10 flex flex-col items-center h-full overflow-y-auto">
         <ScanButton onScan={handleNetworkScan} isScanning={isScanning} />
+
+        {unblockMessage && (
+          <div className="mt-4 px-4 py-2 rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300">
+            {unblockMessage}
+          </div>
+        )}
 
         {isScanning && (
           <div className="pt-20">

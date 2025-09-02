@@ -56292,3 +56292,468 @@ AttributeError: user_id
 2025-09-02 19:42:20 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
 2025-09-02 19:42:20 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 1 devices
 2025-09-02 19:42:20 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-02 19:43:00 IDT (weekday 1)
+2025-09-02 19:43:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-02 19:43:00 IDT
+2025-09-02 19:43:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-02 19:43:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-02 19:43:05 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:43:05 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:43:05 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:43:05 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:43:11 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:11 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:11 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:43:11 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:11 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:11 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:43:11 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:43:11 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:43:11 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:43:12 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:43:12 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:12 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:43:12 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:12 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:43:12 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:12 - services.base - INFO - Service operation completed: bandwidth_db_get_all_rules
+2025-09-02 19:43:12 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:12 - endpoints.monitor - INFO - Getting current monitor for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:12 - services.monitor_service - INFO - Getting current devices monitor for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:43:12 - managers.commands_server - DEBUG - Performing health check...
+2025-09-02 19:43:12 - managers.commands_server - INFO - Checking commands server health
+2025-09-02 19:43:12 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-09-02 19:43:12 - managers.commands_server - DEBUG - Request completed in 0.14s with status 200
+2025-09-02 19:43:12 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 3.337860107421875e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-09-02T16:43:12.615664'}, 'success': True}
+2025-09-02 19:43:12 - managers.commands_server - DEBUG - Commands server health check successful
+2025-09-02 19:43:12 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-02 19:43:13 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:13 - services.base - INFO - Service operation completed: agh_get_all_content_control_rules
+2025-09-02 19:43:13 - managers.commands_server - DEBUG - Request completed in 0.30s with status 200
+2025-09-02 19:43:13 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 8710, 'download': 1315.39, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 22.99}], 'error': None, 'metadata': {'executionTime': 0.14313149452209473, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': '366d0f94-0efb-47e0-a9e4-e77bc6553e39', 'timestamp': '2025-09-02T16:43:12.907907'}, 'success': True}
+2025-09-02 19:43:13 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-02 19:43:13 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 1 devices
+2025-09-02 19:43:13 - services.monitor_service - INFO - Successfully enriched 1 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-02 19:43:13 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-02 19:43:13 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 1 devices
+2025-09-02 19:43:13 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:13 - endpoints.monitor - INFO - Getting current monitor for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:13 - services.monitor_service - INFO - Getting current devices monitor for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:43:13 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-02 19:43:14 - managers.commands_server - DEBUG - Request completed in 0.28s with status 200
+2025-09-02 19:43:14 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 8710, 'download': 1315.39, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 22.99}], 'error': None, 'metadata': {'executionTime': 0.14461827278137207, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': '366d0f94-0efb-47e0-a9e4-e77bc6553e39', 'timestamp': '2025-09-02T16:43:13.798052'}, 'success': True}
+2025-09-02 19:43:14 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-02 19:43:14 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 1 devices
+2025-09-02 19:43:14 - services.monitor_service - INFO - Successfully enriched 1 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-02 19:43:14 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-02 19:43:14 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 1 devices
+2025-09-02 19:43:15 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:15 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:15 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:43:15 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:43:15 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:15 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:43:15 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:43:16 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:20 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:20 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:43:20 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:20 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:43:20 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:20 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:43:20 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:43:20 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:43:21 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:43:21 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:21 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:21 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:43:21 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:21 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:21 - services.base - INFO - Service operation completed: bandwidth_db_get_all_rules
+2025-09-02 19:43:21 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:43:21 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:21 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:43:21 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:21 - services.base - INFO - Service operation completed: agh_get_all_content_control_rules
+2025-09-02 19:43:21 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:22 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:43:22 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:22 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:43:22 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:43:22 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:25 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:25 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:25 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:43:25 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:25 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:43:25 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:43:25 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:43:25 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:25 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:43:25 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:25 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:43:25 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:25 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:25 - services.base - INFO - Service operation completed: bandwidth_db_get_all_rules
+2025-09-02 19:43:25 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:43:25 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:43:26 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:26 - services.base - INFO - Service operation completed: agh_get_all_content_control_rules
+2025-09-02 19:43:26 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:26 - services.base - INFO - Service operation completed: bandwidth_db_get_all_rules
+2025-09-02 19:43:27 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:27 - services.base - INFO - Service operation completed: agh_get_all_content_control_rules
+2025-09-02 19:43:30 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:31 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:32 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:33 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:33 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:43:33 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:43:33 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:33 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:33 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:43:33 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:43:37 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:37 - services.base - INFO - Service operation completed: blocked_device_block
+2025-09-02 19:43:37 - services.db_operations.blocked_device_db - INFO - Blocked device 192.168.1.122 (ID: None) for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:43:37 - services.commands_server_operations.blocked_device_execute - INFO - Blocking device 192.168.1.122 by applying 0.1Mbps limits on router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:43:37 - managers.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/bandwidth/limits/device
+2025-09-02 19:43:42 - managers.commands_server - DEBUG - Request completed in 5.30s with status 200
+2025-09-02 19:43:42 - managers.commands_server - DEBUG - Received response: {'data': {'deleted': 0, 'dl_kbytes': 1, 'ip': '192.168.1.122', 'ul_kbytes': 1}, 'error': None, 'metadata': {'executionTime': 5.155149936676025, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': '366d0f94-0efb-47e0-a9e4-e77bc6553e39', 'timestamp': '2025-09-02T16:43:42.585292'}, 'success': True}
+2025-09-02 19:43:42 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/bandwidth/limits/device'
+2025-09-02 19:43:42 - services.commands_server_operations.blocked_device_execute - INFO - Successfully blocked device 192.168.1.122 with 0.1Mbps limits
+2025-09-02 19:43:42 - services.blocked_device_service - INFO - Successfully blocked device 192.168.1.122 both in database and router
+2025-09-02 19:43:43 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:43 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:43:43 - services.db_operations.blocked_device_db - INFO - Retrieved 1 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:43:54 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:54 - services.base - INFO - Service operation completed: blocked_device_unblock
+2025-09-02 19:43:55 - services.db_operations.blocked_device_db - INFO - Retrieved 1 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:43:55 - services.commands_server_operations.blocked_device_execute - INFO - Unblocking device 192.168.1.122 by removing bandwidth limits on router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:43:55 - managers.commands_server - DEBUG - Performing health check...
+2025-09-02 19:43:55 - managers.commands_server - INFO - Checking commands server health
+2025-09-02 19:43:55 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-09-02 19:43:55 - managers.commands_server - DEBUG - Request completed in 0.13s with status 200
+2025-09-02 19:43:55 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 2.47955322265625e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-09-02T16:43:54.937362'}, 'success': True}
+2025-09-02 19:43:55 - managers.commands_server - DEBUG - Commands server health check successful
+2025-09-02 19:43:55 - managers.commands_server - DEBUG - Making DELETE request to http://34.38.207.87:5000/api/bandwidth/limits/device
+2025-09-02 19:43:57 - managers.commands_server - DEBUG - Request completed in 2.59s with status 200
+2025-09-02 19:43:57 - managers.commands_server - DEBUG - Received response: {'data': {'deleted': 2, 'ip': '192.168.1.122'}, 'error': None, 'metadata': {'executionTime': 2.423907518386841, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': '366d0f94-0efb-47e0-a9e4-e77bc6553e39', 'timestamp': '2025-09-02T16:43:57.521018'}, 'success': True}
+2025-09-02 19:43:57 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/bandwidth/limits/device'
+2025-09-02 19:43:57 - services.commands_server_operations.blocked_device_execute - INFO - Successfully unblocked device 192.168.1.122
+2025-09-02 19:43:57 - services.db_operations.blocked_device_db - INFO - Unblocked device 192.168.1.122 (ID: 3e8d2ad0-f527-4d63-b612-3b7f4269b5b8) for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:43:57 - services.blocked_device_service - INFO - Successfully unblocked device 192.168.1.122 both in database and router
+2025-09-02 19:43:58 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:43:58 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:43:58 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:44:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-02 19:44:00 IDT (weekday 1)
+2025-09-02 19:44:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-02 19:44:00 IDT
+2025-09-02 19:44:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-02 19:44:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-02 19:45:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-02 19:45:00 IDT (weekday 1)
+2025-09-02 19:45:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-02 19:45:00 IDT
+2025-09-02 19:45:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-02 19:45:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-02 19:45:48 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:45:48 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:45:48 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:45:49 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:46:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-02 19:46:00 IDT (weekday 1)
+2025-09-02 19:46:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-02 19:46:00 IDT
+2025-09-02 19:46:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-02 19:46:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-02 19:46:03 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:46:03 - services.base - INFO - Service operation completed: blocked_device_block
+2025-09-02 19:46:03 - services.db_operations.blocked_device_db - INFO - Blocked device 192.168.1.122 (ID: None) for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:46:03 - services.commands_server_operations.blocked_device_execute - INFO - Blocking device 192.168.1.122 by applying 0.1Mbps limits on router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:46:03 - managers.commands_server - DEBUG - Performing health check...
+2025-09-02 19:46:03 - managers.commands_server - INFO - Checking commands server health
+2025-09-02 19:46:03 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-09-02 19:46:03 - managers.commands_server - DEBUG - Request completed in 0.16s with status 200
+2025-09-02 19:46:03 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 3.170967102050781e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-09-02T16:46:03.333109'}, 'success': True}
+2025-09-02 19:46:03 - managers.commands_server - DEBUG - Commands server health check successful
+2025-09-02 19:46:03 - managers.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/bandwidth/limits/device
+2025-09-02 19:46:08 - managers.commands_server - DEBUG - Request completed in 5.26s with status 200
+2025-09-02 19:46:08 - managers.commands_server - DEBUG - Received response: {'data': {'deleted': 0, 'dl_kbytes': 1, 'ip': '192.168.1.122', 'ul_kbytes': 1}, 'error': None, 'metadata': {'executionTime': 5.12191367149353, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': '366d0f94-0efb-47e0-a9e4-e77bc6553e39', 'timestamp': '2025-09-02T16:46:08.591550'}, 'success': True}
+2025-09-02 19:46:08 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/bandwidth/limits/device'
+2025-09-02 19:46:08 - services.commands_server_operations.blocked_device_execute - INFO - Successfully blocked device 192.168.1.122 with 0.1Mbps limits
+2025-09-02 19:46:08 - services.blocked_device_service - INFO - Successfully blocked device 192.168.1.122 both in database and router
+2025-09-02 19:46:09 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:46:09 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:46:09 - services.db_operations.blocked_device_db - INFO - Retrieved 1 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:46:11 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:46:11 - services.base - INFO - Service operation completed: blocked_device_unblock
+2025-09-02 19:46:11 - services.db_operations.blocked_device_db - INFO - Retrieved 1 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:46:11 - services.commands_server_operations.blocked_device_execute - INFO - Unblocking device 192.168.1.122 by removing bandwidth limits on router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:46:11 - managers.commands_server - DEBUG - Making DELETE request to http://34.38.207.87:5000/api/bandwidth/limits/device
+2025-09-02 19:46:14 - managers.commands_server - DEBUG - Request completed in 2.55s with status 200
+2025-09-02 19:46:14 - managers.commands_server - DEBUG - Received response: {'data': {'deleted': 2, 'ip': '192.168.1.122'}, 'error': None, 'metadata': {'executionTime': 2.40343976020813, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': '366d0f94-0efb-47e0-a9e4-e77bc6553e39', 'timestamp': '2025-09-02T16:46:14.145463'}, 'success': True}
+2025-09-02 19:46:14 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/bandwidth/limits/device'
+2025-09-02 19:46:14 - services.commands_server_operations.blocked_device_execute - INFO - Successfully unblocked device 192.168.1.122
+2025-09-02 19:46:14 - services.db_operations.blocked_device_db - INFO - Unblocked device 192.168.1.122 (ID: a7902cdf-c919-4ddb-bfdb-1ef975db801c) for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:46:14 - services.blocked_device_service - INFO - Successfully unblocked device 192.168.1.122 both in database and router
+2025-09-02 19:46:15 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:46:15 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:46:15 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:47:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-02 19:47:00 IDT (weekday 1)
+2025-09-02 19:47:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-02 19:47:00 IDT
+2025-09-02 19:47:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-02 19:47:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-02 19:47:35 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:47:35 - services.base - INFO - Service operation completed: blocked_device_block
+2025-09-02 19:47:35 - services.db_operations.blocked_device_db - INFO - Blocked device 192.168.1.122 (ID: None) for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:47:35 - services.commands_server_operations.blocked_device_execute - INFO - Blocking device 192.168.1.122 by applying 0.1Mbps limits on router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:47:35 - managers.commands_server - DEBUG - Performing health check...
+2025-09-02 19:47:35 - managers.commands_server - INFO - Checking commands server health
+2025-09-02 19:47:35 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-09-02 19:47:35 - managers.commands_server - DEBUG - Request completed in 0.16s with status 200
+2025-09-02 19:47:35 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 3.8623809814453125e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-09-02T16:47:35.422747'}, 'success': True}
+2025-09-02 19:47:35 - managers.commands_server - DEBUG - Commands server health check successful
+2025-09-02 19:47:35 - managers.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/bandwidth/limits/device
+2025-09-02 19:47:40 - managers.commands_server - DEBUG - Request completed in 5.23s with status 200
+2025-09-02 19:47:40 - managers.commands_server - DEBUG - Received response: {'data': {'deleted': 0, 'dl_kbytes': 1, 'ip': '192.168.1.122', 'ul_kbytes': 1}, 'error': None, 'metadata': {'executionTime': 5.083837270736694, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': '366d0f94-0efb-47e0-a9e4-e77bc6553e39', 'timestamp': '2025-09-02T16:47:40.645203'}, 'success': True}
+2025-09-02 19:47:40 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/bandwidth/limits/device'
+2025-09-02 19:47:40 - services.commands_server_operations.blocked_device_execute - INFO - Successfully blocked device 192.168.1.122 with 0.1Mbps limits
+2025-09-02 19:47:40 - services.blocked_device_service - INFO - Successfully blocked device 192.168.1.122 both in database and router
+2025-09-02 19:47:40 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:47:40 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:47:41 - services.db_operations.blocked_device_db - INFO - Retrieved 1 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:47:44 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:47:44 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:47:44 - services.db_operations.blocked_device_db - INFO - Retrieved 1 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:47:45 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:47:45 - services.base - INFO - Service operation completed: blocked_device_unblock
+2025-09-02 19:47:45 - services.db_operations.blocked_device_db - INFO - Retrieved 1 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:47:45 - services.commands_server_operations.blocked_device_execute - INFO - Unblocking device 192.168.1.122 by removing bandwidth limits on router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:47:45 - managers.commands_server - DEBUG - Making DELETE request to http://34.38.207.87:5000/api/bandwidth/limits/device
+2025-09-02 19:47:47 - managers.commands_server - DEBUG - Request completed in 2.57s with status 200
+2025-09-02 19:47:47 - managers.commands_server - DEBUG - Received response: {'data': {'deleted': 2, 'ip': '192.168.1.122'}, 'error': None, 'metadata': {'executionTime': 2.422574043273926, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': '366d0f94-0efb-47e0-a9e4-e77bc6553e39', 'timestamp': '2025-09-02T16:47:47.612524'}, 'success': True}
+2025-09-02 19:47:47 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/bandwidth/limits/device'
+2025-09-02 19:47:47 - services.commands_server_operations.blocked_device_execute - INFO - Successfully unblocked device 192.168.1.122
+2025-09-02 19:47:48 - services.db_operations.blocked_device_db - INFO - Unblocked device 192.168.1.122 (ID: 232cc5d0-a445-41a4-acbf-beab2e988fc3) for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:47:48 - services.blocked_device_service - INFO - Successfully unblocked device 192.168.1.122 both in database and router
+2025-09-02 19:47:48 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:47:48 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:47:48 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:47:59 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:48:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-02 19:48:00 IDT (weekday 1)
+2025-09-02 19:48:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-02 19:48:00 IDT
+2025-09-02 19:48:00 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:48:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-02 19:48:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-02 19:48:00 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:48:00 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:48:02 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:03 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:48:03 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:03 - services.base - INFO - Service operation completed: bandwidth_db_get_all_rules
+2025-09-02 19:48:03 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:03 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:48:03 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:48:03 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:48:03 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:03 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:03 - services.base - INFO - Service operation completed: bandwidth_db_get_all_rules
+2025-09-02 19:48:03 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:03 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:48:03 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:03 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:48:03 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:48:04 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:04 - services.base - INFO - Service operation completed: agh_get_all_content_control_rules
+2025-09-02 19:48:04 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:04 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:04 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:48:04 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:04 - endpoints.monitor - INFO - Getting current monitor for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:04 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:04 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:48:04 - services.monitor_service - INFO - Getting current devices monitor for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:48:04 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-02 19:48:04 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:48:04 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:04 - services.base - INFO - Service operation completed: agh_get_all_content_control_rules
+2025-09-02 19:48:04 - managers.commands_server - DEBUG - Request completed in 0.28s with status 200
+2025-09-02 19:48:04 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 9395, 'download': 1544.7, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 25.58}], 'error': None, 'metadata': {'executionTime': 0.14338302612304688, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': '366d0f94-0efb-47e0-a9e4-e77bc6553e39', 'timestamp': '2025-09-02T16:48:04.370405'}, 'success': True}
+2025-09-02 19:48:04 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-02 19:48:04 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 1 devices
+2025-09-02 19:48:04 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:48:04 - services.monitor_service - INFO - Successfully enriched 1 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-02 19:48:04 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-02 19:48:04 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 1 devices
+2025-09-02 19:48:04 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:04 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:48:04 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:04 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:48:05 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:48:05 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:05 - endpoints.monitor - INFO - Getting current monitor for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:05 - services.monitor_service - INFO - Getting current devices monitor for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:48:05 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-02 19:48:05 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:05 - managers.commands_server - DEBUG - Request completed in 0.28s with status 200
+2025-09-02 19:48:05 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 9395, 'download': 1544.7, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 25.58}], 'error': None, 'metadata': {'executionTime': 0.14438629150390625, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': '366d0f94-0efb-47e0-a9e4-e77bc6553e39', 'timestamp': '2025-09-02T16:48:05.219929'}, 'success': True}
+2025-09-02 19:48:05 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-02 19:48:05 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 1 devices
+2025-09-02 19:48:05 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:05 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:48:05 - services.monitor_service - INFO - Successfully enriched 1 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-02 19:48:05 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-02 19:48:05 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 1 devices
+2025-09-02 19:48:05 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:48:07 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:07 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:48:07 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:07 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:48:07 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:07 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-02 19:48:07 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:48:07 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:11 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:11 - endpoints.monitor - INFO - Getting current monitor for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:11 - services.monitor_service - INFO - Getting current devices monitor for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:48:11 - managers.commands_server - DEBUG - Performing health check...
+2025-09-02 19:48:11 - managers.commands_server - INFO - Checking commands server health
+2025-09-02 19:48:11 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-09-02 19:48:11 - managers.commands_server - DEBUG - Request completed in 0.15s with status 200
+2025-09-02 19:48:11 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 2.8371810913085938e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-09-02T16:48:11.053377'}, 'success': True}
+2025-09-02 19:48:11 - managers.commands_server - DEBUG - Commands server health check successful
+2025-09-02 19:48:11 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-02 19:48:11 - managers.commands_server - DEBUG - Request completed in 0.30s with status 200
+2025-09-02 19:48:11 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 9396, 'download': 1544.7, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 25.58}], 'error': None, 'metadata': {'executionTime': 0.14369773864746094, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': '366d0f94-0efb-47e0-a9e4-e77bc6553e39', 'timestamp': '2025-09-02T16:48:11.346938'}, 'success': True}
+2025-09-02 19:48:11 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-02 19:48:11 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 1 devices
+2025-09-02 19:48:11 - services.monitor_service - INFO - Successfully enriched 1 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-02 19:48:11 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-02 19:48:11 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 1 devices
+2025-09-02 19:48:11 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:11 - endpoints.monitor - INFO - Getting current monitor for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:11 - services.monitor_service - INFO - Getting current devices monitor for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:48:11 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-02 19:48:12 - managers.commands_server - DEBUG - Request completed in 0.31s with status 200
+2025-09-02 19:48:12 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 9396, 'download': 1544.7, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 25.58}], 'error': None, 'metadata': {'executionTime': 0.14360380172729492, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': '366d0f94-0efb-47e0-a9e4-e77bc6553e39', 'timestamp': '2025-09-02T16:48:11.914320'}, 'success': True}
+2025-09-02 19:48:12 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-02 19:48:12 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 1 devices
+2025-09-02 19:48:12 - services.monitor_service - INFO - Successfully enriched 1 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-02 19:48:12 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-02 19:48:12 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 1 devices
+2025-09-02 19:48:15 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:15 - endpoints.monitor - INFO - Getting last week monitor for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:15 - services.monitor_service - INFO - Getting last week devices monitor for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:48:15 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/last-week
+2025-09-02 19:48:17 - managers.commands_server - DEBUG - Request completed in 1.78s with status 200
+2025-09-02 19:48:17 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 9399, 'download': 1544.7, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 25.58}], 'error': None, 'metadata': {'executionTime': 1.6384658813476562, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': '366d0f94-0efb-47e0-a9e4-e77bc6553e39', 'timestamp': '2025-09-02T16:48:16.815384'}, 'success': True}
+2025-09-02 19:48:17 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/last-week'
+2025-09-02 19:48:17 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved last week devices monitor data for 1 devices
+2025-09-02 19:48:17 - services.monitor_service - INFO - Successfully enriched 1 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-02 19:48:17 - services.monitor_service - INFO - Successfully retrieved last week devices monitor data
+2025-09-02 19:48:17 - endpoints.monitor - INFO - Successfully retrieved last week devices monitor data for 1 devices
+2025-09-02 19:48:31 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:31 - endpoints.monitor - INFO - Getting last month monitor for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:48:31 - services.monitor_service - INFO - Getting last month devices monitor for user 366d0f94-0efb-47e0-a9e4-e77bc6553e39, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-02 19:48:31 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/last-month
+2025-09-02 19:48:38 - managers.commands_server - DEBUG - Request completed in 7.51s with status 200
+2025-09-02 19:48:38 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 9735, 'download': 1580.55, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 26.44}], 'error': None, 'metadata': {'executionTime': 7.372624635696411, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': '366d0f94-0efb-47e0-a9e4-e77bc6553e39', 'timestamp': '2025-09-02T16:48:38.324991'}, 'success': True}
+2025-09-02 19:48:38 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/last-month'
+2025-09-02 19:48:38 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved last month devices monitor data for 1 devices
+2025-09-02 19:48:38 - services.monitor_service - INFO - Successfully enriched 1 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-02 19:48:38 - services.monitor_service - INFO - Successfully retrieved last month devices monitor data
+2025-09-02 19:48:38 - endpoints.monitor - INFO - Successfully retrieved last month devices monitor data for 1 devices
+2025-09-02 19:48:56 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:48:57 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:48:57 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:48:57 - services.base - INFO - Service operation completed: list_scheduled_tasks
+2025-09-02 19:49:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-02 19:49:00 IDT (weekday 1)
+2025-09-02 19:49:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-02 19:49:00 IDT
+2025-09-02 19:49:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-02 19:49:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-02 19:50:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-02 19:50:00 IDT (weekday 1)
+2025-09-02 19:50:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-02 19:50:00 IDT
+2025-09-02 19:50:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-02 19:50:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-02 19:51:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-02 19:51:00 IDT (weekday 1)
+2025-09-02 19:51:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-02 19:51:00 IDT
+2025-09-02 19:51:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-02 19:51:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-02 19:51:50 - endpoints.settings - INFO - === Starting get_router_id endpoint ===
+2025-09-02 19:51:50 - endpoints.settings - INFO - Request method: GET
+2025-09-02 19:51:50 - endpoints.settings - INFO - Request URL: http://localhost:5000/api/settings/router-id
+2025-09-02 19:51:50 - endpoints.settings - INFO - Request headers: {'Host': 'localhost:5000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Windows"', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', 'Sec-Ch-Ua': '"Not;A=Brand";v="99", "Google Chrome";v="139", "Chromium";v="139"', 'Sec-Ch-Ua-Mobile': '?0', 'Accept': '*/*', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'he-IL,he;q=0.9,en-US;q=0.8,en;q=0.7', 'Cookie': 'session=.eJytVcmOo8oS_ZUrr5sqSAabkq50sTEGDLhsJsMGMSTzVGY0rf73m1SPenqLt3gbI0dknohzIpTn68Zr4aPya1j3m7f-McAvm6GDj83b140fhrDrvL4pYL152zx9wL5wOKeTIqMtY3FJbUcV5eV4qK70B_Pu0WxycytzGS17-Dj229Njbmvj_UlcSO7YhdQY3IvOobdGfE7us-LGUVi7O-5EUZnKlGdJ1urnojhHZS5U9UPmQnmXCUXDL5JX8zZ7J4dSaDCIwZ2ZGHkKJP7wsA9x3BQ6vrN0O99pRXXGmvDwGA4Yfmkq_RQ_MF5QInxWu9FUjvh7yBRsKzLtuZ38Q-KcubDQuSulC1fxdAdqJjrMcjxlpmAmA4NxYM9dx47DAc5uvmzg3GYP2Hk-0orY0syOpGl8-zueIZ1Imt192WTRL93gU06DU5hdMlk3F4nQMqmTqr51DxIj5XKhAatQF5Vyln2lGldCA9JTNW6pmoe4k1ulejKBlkeZxt9SjZcL92RmykHG4Z1bMc8Wcc3i6wsq04akuoaaSLxN4dKMChByB7BEUN8WpYrGAESdq9N5APAVIoX1CiHNKm8uFyOZ1Py4aLxKKXcO92sXaHz0UEHUO6SVu4Y0aRVO-HeHckCKq6doCu2UUCphCkV1cAE7umAuo7tWhpU2opplUF8HVL-Xsilz7lYh5U2mGhyhLgWl8qjucl0uB2LSTi2I8ivpL1od2BrhAPOp8m6v2SW4nLQm4vd1KApNpNNpKO5_c7lbi3uXER8ad20aV9a6OpK3RhjZKu8R1ThOWp4QmuHQF6OYL7xEI76EeljHYPWOXXZrX4hTGVQu6l14RkbKuYBIfXv61b9rr__nOKqsp2-7rWtfs0t9e0a2iXAE_A7SNATJqn9t35PJ0onUAgQICnpyrZYx7JumCW29YgUVi3DN9awfFB2lm6lkm1cyqI-0Xlu1RWpPd-VR0Wlgf57L_ZM1SKcf_X1y3LcOeSPCyvyPmc-N-qTrALB1cLKIEFhPxGGI0P3o8Dn70dHZ_RWEVAA01bHZh0FqroXPup4RH9dcFhyTftcBe7SPQm5UZm9ZchmY0hyeiKOFu51aCaQhlAYsjmy4FECx1XWfav_ulkGJuNlE-UvTz3V3EY-yg9bvnIt0dO4yserh2wKOYrO2mODCq_PF4CiEV0IR7Wd-JNHsKHVBM-NT9sUi3-XeJOApVq1U28qPWz0LmOg_cGX0bu_04LV2Fvj2YIvy4XpPXVGbzsstS5VwlAle27PyyLXMFm2ZQjCNw_GFlk3QyKoLsZNaVXaOgccfip25n0ty53Xbkz3IGLhCzJ1DGILZeM4fjpdzGCu9t2BKElOCWwUypZPH0rNL97iVO_7SuLaDy3ai1eMen70iAoYhxYHsNaJX9nZyOhCVUBw7OqgO08254KwyGpJBADBDY3KqD9Nhjx3RMOgrDrB95-Oe9tT7ZX7oOGufaIzKNUFWz4vi9vRViMHBsC5ZK7n19U7EnO2xkrDjYou84iJ6Ujy4B70KW68aU_28iLFM2Jn4vpDbakjQ69aFTQvRg4V-6yz6K-37tnt7fZ2m6SVpmqSEfpt1L2FTvfpDn76uNpHVcfPSPpo4K-H_fgFWflaigp8vpNc_P6vuof9AvvPdftZjnxbUe6nfpSidODNuYr5djbXWQndRI5Vy1679IUJpAqdJdocDgqTIHdZS-ThS24JMqnAIIcCZis7GXZj2eNJ-pMOL37bdjx7XcmFT98gA11ZXxKX9PyN-J_y2CdGLG8OH_xh2_yRr7M-8NyLecQajnz6MXOUPm0GmEvtVVj692q9Wwb4DodtJNiIZf0TXEiiW_bYogl3vZl2Hsj9HhKy9Ger-Z8c_2vgD4q9f6HVTh2vUrc87SRQdflt_sPKQ2N0DonSbhf3wgH9glyn534V49V-5Q7JrQsVvikvn2MpNxvI9OPra5dzwdy7UIGbeYLUn2oq3hRL4k-LoC_d3xzJYuG7oEKyTIUgCZ3Y0zbAsS-wAiyN5Nt--fV8dL1v3gWSYCI9ZCsNhHGDUFuKYz0IKg9ttEDI0TUKS3Xz7F590_4c.aLcgpg.4t2cROYrD5-Mcvdks56_i4HWwZc'}
+2025-09-02 19:51:50 - endpoints.settings - INFO - Remote address: 127.0.0.1
+2025-09-02 19:51:50 - endpoints.settings - INFO - User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36
+2025-09-02 19:51:50 - endpoints.settings - INFO - User ID from session: 366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:51:50 - endpoints.settings - INFO - Calling get_router_id_setting service with user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:51:50 - services.settings_service - INFO - === Starting get_router_id_setting ===
+2025-09-02 19:51:50 - services.settings_service - INFO - Input parameter - user_id: 366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:51:50 - services.db_operations.settings_db - INFO - === DB get_router_id_setting ===
+2025-09-02 19:51:51 - services.settings_service - INFO - === get_router_id_setting completed successfully ===
+2025-09-02 19:51:51 - endpoints.settings - INFO - Service call completed - result: {'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d'}, error: None
+2025-09-02 19:51:51 - endpoints.settings - INFO - Service call successful, returning result: {'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d'}
+2025-09-02 19:51:51 - endpoints.settings - INFO - === get_router_id endpoint completed successfully ===
+2025-09-02 19:51:51 - middleware - DEBUG - Router context established: user_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=366d0f94-0efb-47e0-a9e4-e77bc6553e39
+2025-09-02 19:51:51 - services.base - INFO - Service operation completed: start_session
+2025-09-02 19:51:51 - managers.commands_server - DEBUG - Performing health check...
+2025-09-02 19:51:51 - managers.commands_server - INFO - Checking commands server health
+2025-09-02 19:51:51 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-09-02 19:51:51 - managers.commands_server - DEBUG - Request completed in 0.16s with status 200
+2025-09-02 19:51:51 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 3.838539123535156e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-09-02T16:51:51.556992'}, 'success': True}
+2025-09-02 19:51:51 - managers.commands_server - DEBUG - Commands server health check successful
+2025-09-02 19:51:51 - managers.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/session/start
+2025-09-02 19:51:51 - managers.commands_server - DEBUG - Request completed in 0.16s with status 400
+2025-09-02 19:51:51 - managers.commands_server - ERROR - Commands server returned 400: {
+  "data": null,
+  "error": {
+    "code": "SESSION_ALREADY_ACTIVE",
+    "details": null,
+    "message": "Session is already active"
+  },
+  "metadata": {
+    "executionTime": 0.0008692741394042969,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "366d0f94-0efb-47e0-a9e4-e77bc6553e39",
+    "timestamp": "2025-09-02T16:51:51.724877"
+  },
+  "success": false
+}
+
+2025-09-02 19:51:51 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/api/session/start': Commands server returned 400: {
+  "data": null,
+  "error": {
+    "code": "SESSION_ALREADY_ACTIVE",
+    "details": null,
+    "message": "Session is already active"
+  },
+  "metadata": {
+    "executionTime": 0.0008692741394042969,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "366d0f94-0efb-47e0-a9e4-e77bc6553e39",
+    "timestamp": "2025-09-02T16:51:51.724877"
+  },
+  "success": false
+}
+
+2025-09-02 19:51:51 - services.commands_server_operations.session_execute - DEBUG - Commands server response - data: None, error: Commands server returned 400: {
+  "data": null,
+  "error": {
+    "code": "SESSION_ALREADY_ACTIVE",
+    "details": null,
+    "message": "Session is already active"
+  },
+  "metadata": {
+    "executionTime": 0.0008692741394042969,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "366d0f94-0efb-47e0-a9e4-e77bc6553e39",
+    "timestamp": "2025-09-02T16:51:51.724877"
+  },
+  "success": false
+}
+
+2025-09-02 19:51:51 - services.commands_server_operations.session_execute - INFO - Session already active for router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d with session ID 366d0f94-0efb-47e0-a9e4-e77bc6553e39 - treating as success
+2025-09-02 19:51:51 - services.base - INFO - Service operation completed: start_session
+2025-09-02 19:52:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-02 19:52:00 IDT (weekday 1)
+2025-09-02 19:52:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-02 19:52:00 IDT
+2025-09-02 19:52:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-02 19:52:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-02 19:53:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-02 19:53:00 IDT (weekday 1)
+2025-09-02 19:53:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-02 19:53:00 IDT
+2025-09-02 19:53:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-02 19:53:00 - scheduler.bootstrap - DEBUG - No tasks due at current time

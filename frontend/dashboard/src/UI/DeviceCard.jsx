@@ -208,7 +208,7 @@ const DeviceCard = ({ device, onDeviceBlocked, onImmediateBlockUpdate, isBlocked
         });
 
         if (response.success) {
-          setActionMessage("Device successfully blocked.");
+          setActionMessage("Device blocked.");
           // Call callback to refresh blocked devices list
           if (onDeviceBlocked) {
             onDeviceBlocked();
@@ -230,7 +230,7 @@ const DeviceCard = ({ device, onDeviceBlocked, onImmediateBlockUpdate, isBlocked
           if (blockedDevice) {
             const unblockResponse = await blockedDevicesAPI.unblockDevice(routerId, blockedDevice.id);
             if (unblockResponse.success) {
-              setActionMessage("Device successfully unblocked.");
+              setActionMessage("Device unblocked.");
               // Call callback to refresh blocked devices list
               if (onDeviceBlocked) {
                 onDeviceBlocked();
