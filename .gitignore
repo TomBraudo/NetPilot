@@ -39,6 +39,7 @@ FIX_DEPLOYMENT_PLAN.md
 backend2/CLOUD_DEPLOY_GUIDE.md
 backend2/scripts/
 backend2/logs/
+backend2/services/system_prompts/
 
 # Python cache
 __pycache__/

@@ -15,6 +15,8 @@ import AuthRedirectHandler from "./components/AuthRedirectHandler";
 import TwoFASetupModal from "./components/TwoFASetupModal";
 import TwoFAVerificationModal from "./components/TwoFAVerificationModal";
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import { ChatbotProvider } from "./context/ChatbotContext";
+import { Chatbot } from "./components/Chatbot";
 
 const AppLayout = ({
   darkMode,
@@ -53,6 +55,8 @@ const AppLayout = ({
             <Route path="/settings" element={<SettingsPage />} />
           </Routes>
         </main>
+        {/* Chatbot - Available on all pages with sidebar */}
+        <Chatbot />
       </div>
     </div>
   );
@@ -141,9 +145,11 @@ const AppContent = () => {
 const App = () => {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <AppContent />
-      </BrowserRouter>
+      <ChatbotProvider>
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </ChatbotProvider>
     </AuthProvider>
   );
 };
