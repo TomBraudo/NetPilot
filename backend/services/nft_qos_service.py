@@ -19,7 +19,7 @@ def convert_mbps_to_kbytes(value_mbps: int) -> int:
         value = int(value_mbps)
     except Exception:
         return 1
-    return max(1, int(value * 125))
+    return max(1, int(value * 114))
 
 
 def ensure_nft_qos_installed() -> None:

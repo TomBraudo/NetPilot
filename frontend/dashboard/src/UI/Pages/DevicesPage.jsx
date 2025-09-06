@@ -16,8 +16,9 @@ import {
   FaCog,
   FaSync,
   FaBan,
+  FaTabletAlt,
 } from "react-icons/fa";
-import { BsRouter } from "react-icons/bs";
+import { BsRouter, BsWatch } from "react-icons/bs";
 import {
   FaLaptop,
   FaMobileAlt,
@@ -28,29 +29,68 @@ import { useAuth } from "../../context/AuthContext.jsx";
 import GroupRulesSummary from "../Components/GroupRulesSummary";
 import { groupTasksIntoRules } from "../../utils/taskUtils";
 
-// Icon mapping
-const getDeviceIcon = (deviceType) => {
-  // Map device types to appropriate icons
-  let iconName = 'FaLaptop'; // default
+// Function to automatically determine device icon based on device name keywords
+const getDeviceIconFromName = (deviceName) => {
+  if (!deviceName) return 'FaRegQuestionCircle';
   
-  if (deviceType) {
-    const type = deviceType.toLowerCase();
-    if (type.includes('router') || type.includes('gateway')) {
-      iconName = 'BsRouter';
-    } else if (type.includes('mobile') || type.includes('phone') || type.includes('android') || type.includes('ios')) {
-      iconName = 'FaMobileAlt';
-    } else if (type.includes('tv') || type.includes('smart tv') || type.includes('streaming')) {
-      iconName = 'FaTv';
-    } else if (type.includes('laptop') || type.includes('desktop') || type.includes('computer') || type.includes('pc')) {
-      iconName = 'FaLaptop';
-    }
+  const nameLower = deviceName.toLowerCase();
+  
+  // Phone keywords
+  if (nameLower.includes('phone') || nameLower.includes('android') || nameLower.includes('iphone')) {
+    return 'FaMobileAlt';
   }
+  
+  // Desktop keywords
+  if (nameLower.includes('desktop') || nameLower.includes('pc')) {
+    return 'FaTv'; // Using TV icon for desktop computers
+  }
+  
+  // Laptop keywords
+  if (nameLower.includes('laptop') || nameLower.includes('notebook') || nameLower.includes('macbook')) {
+    return 'FaLaptop';
+  }
+  
+  // Tablet keywords
+  if (nameLower.includes('tablet') || nameLower.includes('ipad')) {
+    return 'FaTabletAlt';
+  }
+  
+  // Watch keywords
+  if (nameLower.includes('watch') || nameLower.includes('wear') || nameLower.includes('fitbit')) {
+    return 'BsWatch';
+  }
+  
+  // Console keywords
+  if (nameLower.includes('playstation') || nameLower.includes('ps5') || 
+      nameLower.includes('xbox') || nameLower.includes('nintendo') || nameLower.includes('switch')) {
+    return 'FaGamepad';
+  }
+  
+  // Router keywords
+  if (nameLower.includes('router') || nameLower.includes('gateway')) {
+    return 'BsRouter';
+  }
+  
+  // Default fallback
+  return 'FaRegQuestionCircle';
+};
+
+// Icon mapping
+const getDeviceIcon = (device) => {
+  // Get device name from various possible properties
+  const deviceName = device?.name || device?.device_name || device?.hostname || '';
+  
+  // Auto-generate icon from device name keywords
+  const iconName = getDeviceIconFromName(deviceName);
   
   const iconMap = {
     BsRouter: BsRouter,
     FaLaptop: FaLaptop,
     FaMobileAlt: FaMobileAlt,
     FaTv: FaTv,
+    FaTabletAlt: FaTabletAlt,
+    BsWatch: BsWatch,
+    FaGamepad: FaGamepad,
     FaRegQuestionCircle: FaRegQuestionCircle,
   };
   const IconComponent = iconMap[iconName] || FaRegQuestionCircle;
@@ -780,7 +820,7 @@ const DevicesPage = () => {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-blue-500">
-                          {getDeviceIcon(device.device_type || 'FaLaptop')}
+                          {getDeviceIcon(device)}
                         </span>
                         <div className="flex-1">
                           {editingDeviceId === device.id ? (
@@ -800,7 +840,7 @@ const DevicesPage = () => {
                               </button>
                               <button
                                 onClick={cancelEditDeviceName}
-                                className="px-2 py-1 border border-gray-300 dark:border-gray-600 rounded text-xs hover:bg-gray-50 dark:hover:bg-gray-700"
+                                className="px-2 py-1 border border-red-300 dark:border-red-600 rounded text-xs text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
                               >
                                 Cancel
                               </button>
@@ -953,7 +993,7 @@ const DevicesPage = () => {
                           </button>
                           <button
                             onClick={cancelRenameGroup}
-                            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
+                            className="px-3 py-2 border border-red-300 dark:border-red-600 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
                           >
                             Cancel
                           </button>
@@ -984,7 +1024,7 @@ const DevicesPage = () => {
                             className="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 rounded-full px-3 py-1"
                           >
                             <span className="text-blue-500">
-                              {getDeviceIcon(device.device_type)}
+                              {getDeviceIcon(device)}
                             </span>
                             <span className="text-sm text-gray-700 dark:text-gray-200">
                               {device.device_name || device.hostname} ({device.ip})
@@ -1105,7 +1145,7 @@ const DevicesPage = () => {
                     >
                       <div className="flex items-center gap-3">
                         <div className={`${isBlocked ? 'text-gray-400' : 'text-blue-500'}`}>
-                          {getDeviceIcon(device.device_type)}
+                          {getDeviceIcon(device)}
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
@@ -1217,7 +1257,7 @@ const DevicesPage = () => {
                     >
                       <div className="flex items-center gap-3">
                         <div className={`${isBlocked ? 'text-gray-400' : 'text-blue-500'}`}>
-                          {getDeviceIcon(device.device_type)}
+                          {getDeviceIcon(device)}
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center gap-2">

@@ -2,10 +2,17 @@ import React from "react";
 import { FaMoon } from "react-icons/fa";
 import { MdSunny } from "react-icons/md";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 import colorLogo from "../../assets/color_logo2.png";
 import whiteLogo from "../../assets/white_logo.png";
 
 const Header = ({ darkMode, toggleDarkMode, toggleSidebar }) => {
+  const navigate = useNavigate();
+
+  const handleLogoClick = () => {
+    navigate("/");
+  };
+
   return (
     <div className="h-full flex items-center justify-between w-full">
       {/* Left side: Logo + Toggle (mobile) */}
@@ -18,8 +25,12 @@ const Header = ({ darkMode, toggleDarkMode, toggleSidebar }) => {
           <HiOutlineMenuAlt2 className="text-xl" />
         </button>
 
-        {/* Logo */}
-        <div className="flex items-center gap-1">
+        {/* Logo - Clickable */}
+        <button
+          onClick={handleLogoClick}
+          className="flex items-center gap-1 hover:opacity-80 transition-opacity cursor-pointer"
+          title="Return to landing page"
+        >
           <img
             src={darkMode ? whiteLogo : colorLogo}
             alt="NetPilot Logo"
@@ -28,7 +39,7 @@ const Header = ({ darkMode, toggleDarkMode, toggleSidebar }) => {
           <span className="text-xl font-semibold text-gray-900 dark:text-white">
             NetPilot
           </span>
-        </div>
+        </button>
       </div>
 
       {/* Right side: Dark Mode toggle */}

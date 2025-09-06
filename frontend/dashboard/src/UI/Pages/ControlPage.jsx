@@ -215,7 +215,7 @@ const ControlPage = () => {
     uploadMbps: '', // for bandwidth limiting
     startTime: '22:00', // when rule becomes active
     endTime: '08:00', // when rule becomes inactive
-    days: [1, 2, 3, 4, 5], // 0=Sunday, 1=Monday, etc. Default weekdays
+    days: [0, 1, 2, 3, 4, 6], // 0=Sunday, 1=Monday, etc. Default all days except Friday
     enabled: true
   });
   const [contentControlRules, setContentControlRules] = useState({}); // { groupId: { blocked_categories, is_active, description } }
@@ -519,7 +519,7 @@ const ControlPage = () => {
         uploadMbps: '',
         startTime: '22:00',
         endTime: '08:00',
-        days: [1, 2, 3, 4, 5],
+        days: [0, 1, 2, 3, 4, 6],
         enabled: true,
         description: ''
       });
@@ -1970,7 +1970,7 @@ const ControlPage = () => {
                       Devices
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Download Limit
+                      Limit
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
                       Actions
@@ -2020,7 +2020,7 @@ const ControlPage = () => {
                                   e.target.value
                                 )
                               }
-                              className={`w-20 p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-800 dark:text-white text-sm ${
+                              className={`w-20 p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-800 dark:text-white text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${
                                 errors[`${group.id}_downLimit`]
                                   ? "border-red-300"
                                   : "border-gray-300 dark:border-gray-600"
@@ -2514,7 +2514,7 @@ const ControlPage = () => {
                     </div>
                   )}
 
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center">
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-medium text-gray-600 dark:text-gray-400">
                         {Object.values(categoryGroupToggles[category.id] || {}).some(Boolean) ? "BLOCKED" : "ALLOWED"}
@@ -2528,13 +2528,6 @@ const ControlPage = () => {
                         </span>
                       )}
                     </div>
-                    <button
-                      onClick={() => setShowAddUrlModal(category.id)}
-                      className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
-                      title="Add custom URL"
-                    >
-                      <FaPlus className="text-xs" />
-                    </button>
                   </div>
                 </div>
               );
@@ -2727,7 +2720,7 @@ const ControlPage = () => {
                         : 'border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-500'
                     }`}
                   >
-                    <FaGlobe className="mx-auto mb-2 text-2xl" />
+                    <FaGlobe className="mx-auto mb-2 text-2xl text-blue-500" />
                     <div className="font-medium">Content Control</div>
                     <div className="text-sm opacity-75">Block/allow website categories</div>
                   </button>
@@ -2739,7 +2732,7 @@ const ControlPage = () => {
                         : 'border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-500'
                     }`}
                   >
-                    <FaDownload className="mx-auto mb-2 text-2xl" />
+                    <FaDownload className="mx-auto mb-2 text-2xl text-blue-500" />
                     <div className="font-medium">Bandwidth Control</div>
                     <div className="text-sm opacity-75">Apply/remove speed limits</div>
                   </button>
@@ -2814,7 +2807,7 @@ const ControlPage = () => {
                             className="rounded border-gray-300 dark:border-gray-500 text-blue-600 focus:ring-blue-500"
                           />
                           <div className="flex items-center gap-2">
-                            <span className="text-xl">
+                            <span className="text-xl text-blue-500">
                               {(() => {
                                 // Handle icons based on category ID since localStorage can't store functions
                                 switch (category.id) {

@@ -9,8 +9,10 @@ import {
   FaEdit,
   FaSave,
   FaTimes,
+  FaTabletAlt,
+  FaGamepad,
 } from "react-icons/fa";
-import { BsRouter } from "react-icons/bs";
+import { BsRouter, BsWatch } from "react-icons/bs";
 import { useAuth } from "../context/AuthContext";
 import { blockedDevicesAPI, deviceGroupsAPI } from "../constants/api";
 
@@ -20,11 +22,78 @@ const iconMap = {
   FaTv: FaTv,
   FaWifi: FaWifi,
   BsRouter: BsRouter,
+  FaTabletAlt: FaTabletAlt,
+  BsWatch: BsWatch,
+  FaGamepad: FaGamepad,
+};
+
+// Function to automatically determine device icon based on hostname keywords
+const getDeviceIconFromHostname = (hostname) => {
+  if (!hostname) return 'FaRegQuestionCircle';
+  
+  const hostnameLower = hostname.toLowerCase();
+  
+  // Phone keywords
+  if (hostnameLower.includes('phone') || hostnameLower.includes('android') || hostnameLower.includes('iphone')) {
+    return 'FaMobileAlt';
+  }
+  
+  // Desktop keywords
+  if (hostnameLower.includes('desktop') || hostnameLower.includes('pc')) {
+    return 'FaTv'; // Using TV icon for desktop computers
+  }
+  
+  // Laptop keywords
+  if (hostnameLower.includes('laptop') || hostnameLower.includes('notebook') || hostnameLower.includes('macbook')) {
+    return 'FaLaptop';
+  }
+  
+  // Tablet keywords
+  if (hostnameLower.includes('tablet') || hostnameLower.includes('ipad')) {
+    return 'FaTabletAlt';
+  }
+  
+  // Watch keywords
+  if (hostnameLower.includes('watch') || hostnameLower.includes('wear') || hostnameLower.includes('fitbit')) {
+    return 'BsWatch';
+  }
+  
+  // Console keywords
+  if (hostnameLower.includes('playstation') || hostnameLower.includes('ps5') || 
+      hostnameLower.includes('xbox') || hostnameLower.includes('nintendo') || hostnameLower.includes('switch')) {
+    return 'FaGamepad';
+  }
+  
+  // Default fallback
+  return 'FaRegQuestionCircle';
 };
 
 const DeviceCard = ({ device, onDeviceBlocked, onImmediateBlockUpdate, isBlocked = false, canBeBlocked = true }) => {
   const { routerId } = useAuth();
-  const IconComponent = iconMap[device.icon] || FaRegQuestionCircle;
+  
+  // Get custom hostname from localStorage or use original
+  const getDisplayHostname = () => {
+    const customHostnames = JSON.parse(localStorage.getItem("customHostnames") || "{}");
+    const deviceKey = `${device.ip}_${device.mac}`;
+    return customHostnames[deviceKey] || device.hostname;
+  };
+
+  const displayHostname = getDisplayHostname();
+  
+  // Determine icon: use device.icon if it exists and is not a default, otherwise auto-generate from hostname
+  const getIconComponent = () => {
+    // If device has a specific icon set and it's not a default icon, use it
+    if (device.icon && device.icon !== 'FaRegQuestionCircle') {
+      return iconMap[device.icon] || FaRegQuestionCircle;
+    }
+    
+    // Otherwise, auto-generate icon from hostname keywords
+    // This will match keywords like "phone", "laptop", "tablet", etc. in the hostname
+    const autoIcon = getDeviceIconFromHostname(displayHostname);
+    return iconMap[autoIcon] || FaRegQuestionCircle;
+  };
+  
+  const IconComponent = getIconComponent();
   const [loading, setLoading] = useState(false);
   const [actionMessage, setActionMessage] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -118,15 +187,6 @@ const DeviceCard = ({ device, onDeviceBlocked, onImmediateBlockUpdate, isBlocked
     
     loadGroups();
   }, [routerId, device.ip, device.mac]);
-
-  // Get custom hostname from localStorage or use original
-  const getDisplayHostname = () => {
-    const customHostnames = JSON.parse(localStorage.getItem("customHostnames") || "{}");
-    const deviceKey = `${device.ip}_${device.mac}`;
-    return customHostnames[deviceKey] || device.hostname;
-  };
-
-  const displayHostname = getDisplayHostname();
 
   const handleStartEdit = () => {
     setIsEditing(true);
