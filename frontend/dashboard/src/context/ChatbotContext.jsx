@@ -18,10 +18,24 @@ export const ChatbotProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
+  const messagesContainerRef = useRef(null);
+  const [savedScrollPosition, setSavedScrollPosition] = useState(0);
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, []);
+
+  const saveScrollPosition = useCallback(() => {
+    if (messagesContainerRef.current) {
+      setSavedScrollPosition(messagesContainerRef.current.scrollTop);
+    }
+  }, []);
+
+  const restoreScrollPosition = useCallback(() => {
+    if (messagesContainerRef.current && savedScrollPosition > 0) {
+      messagesContainerRef.current.scrollTop = savedScrollPosition;
+    }
+  }, [savedScrollPosition]);
 
   const loadHistory = useCallback(async () => {
     try {
@@ -51,10 +65,22 @@ export const ChatbotProvider = ({ children }) => {
     loadHistory();
   }, [loadHistory]);
 
-  // Auto-scroll to bottom when new messages arrive
+  // Auto-scroll to bottom when new messages arrive (only if chat is open)
   useEffect(() => {
-    scrollToBottom();
-  }, [messages, scrollToBottom]);
+    if (isOpen) {
+      scrollToBottom();
+    }
+  }, [messages, scrollToBottom, isOpen]);
+
+  // Restore scroll position when chat opens
+  useEffect(() => {
+    if (isOpen && savedScrollPosition > 0) {
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        restoreScrollPosition();
+      }, 100);
+    }
+  }, [isOpen, restoreScrollPosition, savedScrollPosition]);
 
   const sendMessage = useCallback(async (message) => {
     if (!message.trim()) return;
@@ -133,16 +159,22 @@ export const ChatbotProvider = ({ children }) => {
   }, []);
 
   const toggleChat = useCallback(() => {
+    if (isOpen) {
+      // Save scroll position when closing
+      saveScrollPosition();
+    }
     setIsOpen(prev => !prev);
     if (!isOpen) {
       setError(null);
     }
-  }, [isOpen]);
+  }, [isOpen, saveScrollPosition]);
 
   const closeChat = useCallback(() => {
+    // Save scroll position when closing
+    saveScrollPosition();
     setIsOpen(false);
     setError(null);
-  }, []);
+  }, [saveScrollPosition]);
 
   const value = {
     isOpen,
@@ -151,6 +183,7 @@ export const ChatbotProvider = ({ children }) => {
     error,
     isTyping,
     messagesEndRef,
+    messagesContainerRef,
     sendMessage,
     clearHistory,
     toggleChat,

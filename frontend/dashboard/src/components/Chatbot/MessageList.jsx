@@ -3,7 +3,7 @@ import { User, Bot, AlertCircle, Trash2 } from 'lucide-react';
 import { useChatbot } from '../../context/ChatbotContext';
 
 const MessageList = () => {
-  const { messages, messagesEndRef, clearHistory } = useChatbot();
+  const { messages, messagesEndRef, messagesContainerRef, clearHistory } = useChatbot();
 
   const formatTime = (timestamp) => {
     return new Date(timestamp).toLocaleTimeString([], { 
@@ -42,7 +42,7 @@ const MessageList = () => {
   }
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4">
+    <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-4 space-y-4">
       {messages.map((message, index) => (
         <div
           key={index}
@@ -84,11 +84,6 @@ const MessageList = () => {
                 : 'text-gray-500 dark:text-gray-400'
             }`}>
               {formatTime(message.timestamp)}
-              {message.model && (
-                <span className="ml-2 opacity-75">
-                  via {message.model.split('/')[1]}
-                </span>
-              )}
             </div>
           </div>
           

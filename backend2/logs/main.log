@@ -59409,3 +59409,653 @@ AttributeError: user_id
 2025-09-07 00:49:04 - services.base - INFO - Service operation completed: chatbot_completion
 2025-09-07 00:49:04 - services.chatbot_service - INFO - Sending request to OpenRouter API: deepseek/deepseek-chat-v3.1:free
 2025-09-07 00:49:11 - services.chatbot_service - INFO - Chatbot completion successful for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 00:50:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-07 00:50:00 IDT (weekday 6)
+2025-09-07 00:50:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-07 00:50:00 IDT
+2025-09-07 00:50:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-07 00:50:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-07 00:51:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-07 00:51:00 IDT (weekday 6)
+2025-09-07 00:51:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-07 00:51:00 IDT
+2025-09-07 00:51:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-07 00:51:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-07 00:52:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-07 00:52:00 IDT (weekday 6)
+2025-09-07 00:52:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-07 00:52:00 IDT
+2025-09-07 00:52:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-07 00:52:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-07 12:16:01 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-09-07 12:16:05 - scheduler.registry - INFO - Registered task network.automatic_scan -> services.network_service.automatic_scan_network
+2025-09-07 12:16:05 - 2fa_service - INFO - TOTP encryption key loaded from environment variables
+2025-09-07 12:16:05 - 2fa_service - INFO - TOTP encryption cipher initialized successfully
+2025-09-07 12:16:05 - scheduler.registry - INFO - Registered task agh.set_device_rules -> services.agh_service.set_device_rules
+2025-09-07 12:16:05 - scheduler.registry - INFO - Registered task agh.set_devices_rules -> services.agh_service.set_devices_rules
+2025-09-07 12:16:05 - scheduler.registry - INFO - Registered task agh.clear_device_rules -> services.agh_service.clear_device_rules
+2025-09-07 12:16:05 - scheduler.registry - INFO - Registered task agh.clear_devices_rules -> services.agh_service.clear_devices_rules
+2025-09-07 12:16:05 - scheduler.registry - INFO - Registered task bandwidth.apply_group_limits -> services.bandwidth_service.apply_group_limits
+2025-09-07 12:16:05 - scheduler.registry - INFO - Registered task bandwidth.delete_group_limits -> services.bandwidth_service.delete_group_limits
+2025-09-07 12:16:05 - scheduler.registry - INFO - Registered task bandwidth.apply_device_limit -> services.bandwidth_service.apply_device_limit
+2025-09-07 12:16:05 - scheduler.registry - INFO - Registered task bandwidth.delete_device_limit -> services.bandwidth_service.delete_device_limit
+2025-09-07 12:16:05 - scheduler.registry - INFO - Registered task bandwidth.set_group_rule_db -> services.bandwidth_service.set_group_rule_db
+2025-09-07 12:16:09 - scheduler.registry - INFO - Loaded task module: services.bandwidth_service
+2025-09-07 12:16:09 - scheduler.registry - INFO - Loaded task module: services.agh_service
+2025-09-07 12:16:09 - scheduler.registry - INFO - Loaded task module: services.network_service
+2025-09-07 12:16:09 - scheduler.bootstrap - INFO - Scheduler started successfully with timezone Asia/Jerusalem
+2025-09-07 12:16:20 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:16:20 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:16:20 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:16:20 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:16:21 - endpoints.settings - INFO - === Starting get_router_id endpoint ===
+2025-09-07 12:16:21 - endpoints.settings - INFO - Request method: GET
+2025-09-07 12:16:21 - endpoints.settings - INFO - Request URL: http://localhost:5000/api/settings/router-id
+2025-09-07 12:16:21 - endpoints.settings - INFO - Request headers: {'Host': 'localhost:5000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Windows"', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', 'Sec-Ch-Ua': '"Chromium";v="140", "Not=A?Brand";v="24", "Google Chrome";v="140"', 'Sec-Ch-Ua-Mobile': '?0', 'Accept': '*/*', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'en-US,en;q=0.9,he;q=0.8', 'Cookie': 'session=.eJytVdmuo0gS_ZWRn4t7M9kMV2qpsVm8AQZjthfEvpjNZrMp1b93cruqulrd0szDSMjIkcGJEydCeb6u8MT3xviRJ3kcrT76xxB_-VvM8_vVxwoHOIUBFgO0AdcfOPFBEm8stWYhWH1ZeW38qPw6rvsfAEMXP1YfX1d-GMZd5_XNLa4RysvH2TcfcBdiRysvjpJ5w4NTSQCDUqW-JPaKTKoYafPivW5xqvJk-Crpp9A8cV_RjbEJuCwpcrVLqpvtUomWwH0oxMfxcntaBbNbx7njnV1W0ZOnL0bJUWu78zrx1LszxlPGn1-BjT2C8HF-kofAfgTFKdQZjZmpQxPlWy8zbpfygl1P0hrLsM2zj7A4f20J--Gc05T3wCYGXgVDxcixbXX0t6lz5OLpwunaRdR2ko3Lub--0HHWn3WrxZlxPRy5QOAmgIM1Uip-tvkj7j41hWtqDRkCAPqveI5UIiiW-bLKo5-qxa9DFkhhruaHy3XeQyXfd_uqb93tnt4XZaEUeygbV1KZb1DmU6BIAq4Ybu4aMlQK5aZKMnQqDXeLlFIkGch8mJ-2BxDb3IJ5NKGWJ9obKtOGhLyEmminT-HcjCdcLBychUGtz6cqGgM86twLVQQ4WCCyuF4g9k-Zv86qkU5yIcwKL5MnmwN-7eIKHz1kPOodwixcYz8pFYC-7ZAOngFZiqbQyuCpEqdwJw8uzo4u_iwjWynDShlRzTKotQHV7_f5lDu2edsXTS4bHJTnGynzqO6szeoWTorU4lGhEf6s1IGlQAe_vmTe7RWrxFVJaSJ-U4c7sYkuVBbuNn_1Ypuzax9QPxRwLQqclroXJG-NMPJFXmGSDWdW-SslGxpUedRD4ZAoRspLXmX2jlV2C6-gMkEolV1A6EUgsdAVNoiL2Abbn3qVn_9FFkc1W7cqy2WE0e4A3cvSn574kjj7y1jrVjeJllSNzHZnJb8IUA9smdQLs7ZuwoI1IM6Fe0G5Vfa8EAc3AhmpSM-NfjMd09QFQ0jholtQif1n3o0qI3HTIm5giSOuRbQzX98xQIR0UXNmDKT0v-jDZicg8u6cjQ5oZs3MCI3YmKrtKlfh2mu2QBqmSfpGtLdntEeAtVQrBRFkhbAsS_UqTlFpStb1OmkGRHvj9M5r0TJqo8ocbJzKAuu67KHq2rrmW88x2i7nZYbetGyEUJkFQjW0Sd1OuWtnE9L_qcxXQjbSWeY5Eq0zL8bbqd7v5505h6ckI2bvbl1D-5ioNO-Ymp8O2ENFdOwpv-u06NPKyZbVnb33IwPYsOrg-MrHfp3Jvmax-j693_XgxZzOs_EwUndOzRfr31xudsmXYm57uCfQHmSkfujPtk9zawbGBQ8M-j70hq_1dBkLLr0dql18D4_gJe8oeLROp84XrWFD3tIG8gWiaqqBPxqewwtcchDHWzZqRKXg7fMxmgddH_pxc2o2taRbMy6BM3iqcMzKTNq4h2uiOvG87je0kG4oT9MlNeKhjtNH71UQSkBVlNZBKpKeIVburWALmFqbclHJdBJo7Jxh922v65TflurEJyo8V6J3SlgPC-J4M9Ihh-6wLmzaGF1L6LfOo_9kfd92H-_v0zS9pU2TlrHf5t1b2FTv_tBn74sV5HXSvMWVn5f_e3r7aJK8jFHBz3vQ61-fVTex_0De8qfFLImfNtN7md9l6HjWrPnJMlZKBDtZqzpGpFJ3Ye0PyN1WEFAEywAcEiTBYC1ZjCO5vhFpFQ5hjAO6ovKRCbMepO09G978tu2-s1zKhU3dI5NbyC6Ic_t_RvxUCGHWcd_mZdOHZTNEv6dL9NeMf9g1co9f7ASZR5qPSLHarxbFlLg_L2jo8_yn76xZcknMuw5l_JgJcutmqPsfBL_X_CdM3dThEsrux4cz7Z5kyYmCfTX4045Cx20e9sMj_gW4zIh_b_rdf-e2KdOEB4Kzp217ZUf5LGDcnZGvz3y988i2U002IyePfzgxy7XjVXQEwP3WsTQWLts4BJ9TgDTBUCwkKQaJTjMQPatv3_5cEy9fZh-HRMhAgsboNRtiJAVIzGdYHGNCOo5IKqGJJFl9-wOugQDG.aL1NZA.35bvm_aOjfhhHEs7T0eiXR7mSWg'}
+2025-09-07 12:16:21 - endpoints.settings - INFO - Remote address: 127.0.0.1
+2025-09-07 12:16:21 - endpoints.settings - INFO - User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-07 12:16:21 - endpoints.settings - INFO - User ID from session: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:16:21 - endpoints.settings - INFO - Calling get_router_id_setting service with user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:16:21 - services.settings_service - INFO - === Starting get_router_id_setting ===
+2025-09-07 12:16:21 - services.settings_service - INFO - Input parameter - user_id: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:16:21 - services.db_operations.settings_db - INFO - === DB get_router_id_setting ===
+2025-09-07 12:16:21 - services.settings_service - INFO - === get_router_id_setting completed successfully ===
+2025-09-07 12:16:21 - endpoints.settings - INFO - Service call completed - result: {'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d'}, error: None
+2025-09-07 12:16:21 - endpoints.settings - INFO - Service call successful, returning result: {'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d'}
+2025-09-07 12:16:21 - endpoints.settings - INFO - === get_router_id endpoint completed successfully ===
+2025-09-07 12:16:21 - endpoints.settings - INFO - === Starting get_router_id endpoint ===
+2025-09-07 12:16:21 - endpoints.settings - INFO - Request method: GET
+2025-09-07 12:16:21 - endpoints.settings - INFO - Request URL: http://localhost:5000/api/settings/router-id
+2025-09-07 12:16:21 - endpoints.settings - INFO - Request headers: {'Host': 'localhost:5000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Windows"', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', 'Sec-Ch-Ua': '"Chromium";v="140", "Not=A?Brand";v="24", "Google Chrome";v="140"', 'Sec-Ch-Ua-Mobile': '?0', 'Accept': '*/*', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'en-US,en;q=0.9,he;q=0.8', 'Cookie': 'session=.eJytVdmuo0gS_ZWRn4t7M9kMV2qpsVm8AQZjthfEvpjNZrMp1b93cruqulrd0szDSMjIkcGJEydCeb6u8MT3xviRJ3kcrT76xxB_-VvM8_vVxwoHOIUBFgO0AdcfOPFBEm8stWYhWH1ZeW38qPw6rvsfAEMXP1YfX1d-GMZd5_XNLa4RysvH2TcfcBdiRysvjpJ5w4NTSQCDUqW-JPaKTKoYafPivW5xqvJk-Crpp9A8cV_RjbEJuCwpcrVLqpvtUomWwH0oxMfxcntaBbNbx7njnV1W0ZOnL0bJUWu78zrx1LszxlPGn1-BjT2C8HF-kofAfgTFKdQZjZmpQxPlWy8zbpfygl1P0hrLsM2zj7A4f20J--Gc05T3wCYGXgVDxcixbXX0t6lz5OLpwunaRdR2ko3Lub--0HHWn3WrxZlxPRy5QOAmgIM1Uip-tvkj7j41hWtqDRkCAPqveI5UIiiW-bLKo5-qxa9DFkhhruaHy3XeQyXfd_uqb93tnt4XZaEUeygbV1KZb1DmU6BIAq4Ybu4aMlQK5aZKMnQqDXeLlFIkGch8mJ-2BxDb3IJ5NKGWJ9obKtOGhLyEmminT-HcjCdcLBychUGtz6cqGgM86twLVQQ4WCCyuF4g9k-Zv86qkU5yIcwKL5MnmwN-7eIKHz1kPOodwixcYz8pFYC-7ZAOngFZiqbQyuCpEqdwJw8uzo4u_iwjWynDShlRzTKotQHV7_f5lDu2edsXTS4bHJTnGynzqO6szeoWTorU4lGhEf6s1IGlQAe_vmTe7RWrxFVJaSJ-U4c7sYkuVBbuNn_1Ypuzax9QPxRwLQqclroXJG-NMPJFXmGSDWdW-SslGxpUedRD4ZAoRspLXmX2jlV2C6-gMkEolV1A6EUgsdAVNoiL2Abbn3qVn_9FFkc1W7cqy2WE0e4A3cvSn574kjj7y1jrVjeJllSNzHZnJb8IUA9smdQLs7ZuwoI1IM6Fe0G5Vfa8EAc3AhmpSM-NfjMd09QFQ0jholtQif1n3o0qI3HTIm5giSOuRbQzX98xQIR0UXNmDKT0v-jDZicg8u6cjQ5oZs3MCI3YmKrtKlfh2mu2QBqmSfpGtLdntEeAtVQrBRFkhbAsS_UqTlFpStb1OmkGRHvj9M5r0TJqo8ocbJzKAuu67KHq2rrmW88x2i7nZYbetGyEUJkFQjW0Sd1OuWtnE9L_qcxXQjbSWeY5Eq0zL8bbqd7v5505h6ckI2bvbl1D-5ioNO-Ymp8O2ENFdOwpv-u06NPKyZbVnb33IwPYsOrg-MrHfp3Jvmax-j693_XgxZzOs_EwUndOzRfr31xudsmXYm57uCfQHmSkfujPtk9zawbGBQ8M-j70hq_1dBkLLr0dql18D4_gJe8oeLROp84XrWFD3tIG8gWiaqqBPxqewwtcchDHWzZqRKXg7fMxmgddH_pxc2o2taRbMy6BM3iqcMzKTNq4h2uiOvG87je0kG4oT9MlNeKhjtNH71UQSkBVlNZBKpKeIVburWALmFqbclHJdBJo7Jxh922v65TflurEJyo8V6J3SlgPC-J4M9Ihh-6wLmzaGF1L6LfOo_9kfd92H-_v0zS9pU2TlrHf5t1b2FTv_tBn74sV5HXSvMWVn5f_e3r7aJK8jFHBz3vQ61-fVTex_0De8qfFLImfNtN7md9l6HjWrPnJMlZKBDtZqzpGpFJ3Ye0PyN1WEFAEywAcEiTBYC1ZjCO5vhFpFQ5hjAO6ovKRCbMepO09G978tu2-s1zKhU3dI5NbyC6Ic_t_RvxUCGHWcd_mZdOHZTNEv6dL9NeMf9g1co9f7ASZR5qPSLHarxbFlLg_L2jo8_yn76xZcknMuw5l_JgJcutmqPsfBL_X_CdM3dThEsrux4cz7Z5kyYmCfTX4045Cx20e9sMj_gW4zIh_b_rdf-e2KdOEB4Kzp217ZUf5LGDcnZGvz3y988i2U002IyePfzgxy7XjVXQEwP3WsTQWLts4BJ9TgDTBUCwkKQaJTjMQPatv3_5cEy9fZh-HRMhAgsboNRtiJAVIzGdYHGNCOo5IKqGJJFl9-wOugQDG.aL1NZA.35bvm_aOjfhhHEs7T0eiXR7mSWg'}
+2025-09-07 12:16:21 - endpoints.settings - INFO - Remote address: 127.0.0.1
+2025-09-07 12:16:21 - endpoints.settings - INFO - User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-07 12:16:21 - endpoints.settings - INFO - User ID from session: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:16:21 - endpoints.settings - INFO - Calling get_router_id_setting service with user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:16:21 - services.settings_service - INFO - === Starting get_router_id_setting ===
+2025-09-07 12:16:21 - services.settings_service - INFO - Input parameter - user_id: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:16:21 - services.db_operations.settings_db - INFO - === DB get_router_id_setting ===
+2025-09-07 12:16:21 - services.settings_service - INFO - === get_router_id_setting completed successfully ===
+2025-09-07 12:16:21 - endpoints.settings - INFO - Service call completed - result: {'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d'}, error: None
+2025-09-07 12:16:21 - endpoints.settings - INFO - Service call successful, returning result: {'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d'}
+2025-09-07 12:16:21 - endpoints.settings - INFO - === get_router_id endpoint completed successfully ===
+2025-09-07 12:16:22 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:16:22 - services.base - INFO - Service operation completed: start_session
+2025-09-07 12:16:22 - managers.commands_server - DEBUG - Performing health check...
+2025-09-07 12:16:22 - managers.commands_server - INFO - Checking commands server health
+2025-09-07 12:16:22 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-09-07 12:16:22 - endpoints.settings - INFO - === Starting get_router_id endpoint ===
+2025-09-07 12:16:22 - endpoints.settings - INFO - Request method: GET
+2025-09-07 12:16:22 - endpoints.settings - INFO - Request URL: http://localhost:5000/api/settings/router-id
+2025-09-07 12:16:22 - endpoints.settings - INFO - Request headers: {'Host': 'localhost:5000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Windows"', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', 'Sec-Ch-Ua': '"Chromium";v="140", "Not=A?Brand";v="24", "Google Chrome";v="140"', 'Sec-Ch-Ua-Mobile': '?0', 'Accept': '*/*', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'en-US,en;q=0.9,he;q=0.8', 'Cookie': 'session=.eJytVdmuo0gS_ZWRn4t7M9kMV2qpsVm8AQZjthfEvpjNZrMp1b93cruqulrd0szDSMjIkcGJEydCeb6u8MT3xviRJ3kcrT76xxB_-VvM8_vVxwoHOIUBFgO0AdcfOPFBEm8stWYhWH1ZeW38qPw6rvsfAEMXP1YfX1d-GMZd5_XNLa4RysvH2TcfcBdiRysvjpJ5w4NTSQCDUqW-JPaKTKoYafPivW5xqvJk-Crpp9A8cV_RjbEJuCwpcrVLqpvtUomWwH0oxMfxcntaBbNbx7njnV1W0ZOnL0bJUWu78zrx1LszxlPGn1-BjT2C8HF-kofAfgTFKdQZjZmpQxPlWy8zbpfygl1P0hrLsM2zj7A4f20J--Gc05T3wCYGXgVDxcixbXX0t6lz5OLpwunaRdR2ko3Lub--0HHWn3WrxZlxPRy5QOAmgIM1Uip-tvkj7j41hWtqDRkCAPqveI5UIiiW-bLKo5-qxa9DFkhhruaHy3XeQyXfd_uqb93tnt4XZaEUeygbV1KZb1DmU6BIAq4Ybu4aMlQK5aZKMnQqDXeLlFIkGch8mJ-2BxDb3IJ5NKGWJ9obKtOGhLyEmminT-HcjCdcLBychUGtz6cqGgM86twLVQQ4WCCyuF4g9k-Zv86qkU5yIcwKL5MnmwN-7eIKHz1kPOodwixcYz8pFYC-7ZAOngFZiqbQyuCpEqdwJw8uzo4u_iwjWynDShlRzTKotQHV7_f5lDu2edsXTS4bHJTnGynzqO6szeoWTorU4lGhEf6s1IGlQAe_vmTe7RWrxFVJaSJ-U4c7sYkuVBbuNn_1Ypuzax9QPxRwLQqclroXJG-NMPJFXmGSDWdW-SslGxpUedRD4ZAoRspLXmX2jlV2C6-gMkEolV1A6EUgsdAVNoiL2Abbn3qVn_9FFkc1W7cqy2WE0e4A3cvSn574kjj7y1jrVjeJllSNzHZnJb8IUA9smdQLs7ZuwoI1IM6Fe0G5Vfa8EAc3AhmpSM-NfjMd09QFQ0jholtQif1n3o0qI3HTIm5giSOuRbQzX98xQIR0UXNmDKT0v-jDZicg8u6cjQ5oZs3MCI3YmKrtKlfh2mu2QBqmSfpGtLdntEeAtVQrBRFkhbAsS_UqTlFpStb1OmkGRHvj9M5r0TJqo8ocbJzKAuu67KHq2rrmW88x2i7nZYbetGyEUJkFQjW0Sd1OuWtnE9L_qcxXQjbSWeY5Eq0zL8bbqd7v5505h6ckI2bvbl1D-5ioNO-Ymp8O2ENFdOwpv-u06NPKyZbVnb33IwPYsOrg-MrHfp3Jvmax-j693_XgxZzOs_EwUndOzRfr31xudsmXYm57uCfQHmSkfujPtk9zawbGBQ8M-j70hq_1dBkLLr0dql18D4_gJe8oeLROp84XrWFD3tIG8gWiaqqBPxqewwtcchDHWzZqRKXg7fMxmgddH_pxc2o2taRbMy6BM3iqcMzKTNq4h2uiOvG87je0kG4oT9MlNeKhjtNH71UQSkBVlNZBKpKeIVburWALmFqbclHJdBJo7Jxh922v65TflurEJyo8V6J3SlgPC-J4M9Ihh-6wLmzaGF1L6LfOo_9kfd92H-_v0zS9pU2TlrHf5t1b2FTv_tBn74sV5HXSvMWVn5f_e3r7aJK8jFHBz3vQ61-fVTex_0De8qfFLImfNtN7md9l6HjWrPnJMlZKBDtZqzpGpFJ3Ye0PyN1WEFAEywAcEiTBYC1ZjCO5vhFpFQ5hjAO6ovKRCbMepO09G978tu2-s1zKhU3dI5NbyC6Ic_t_RvxUCGHWcd_mZdOHZTNEv6dL9NeMf9g1co9f7ASZR5qPSLHarxbFlLg_L2jo8_yn76xZcknMuw5l_JgJcutmqPsfBL_X_CdM3dThEsrux4cz7Z5kyYmCfTX4045Cx20e9sMj_gW4zIh_b_rdf-e2KdOEB4Kzp217ZUf5LGDcnZGvz3y988i2U002IyePfzgxy7XjVXQEwP3WsTQWLts4BJ9TgDTBUCwkKQaJTjMQPatv3_5cEy9fZh-HRMhAgsboNRtiJAVIzGdYHGNCOo5IKqGJJFl9-wOugQDG.aL1NZQ.u-7mlDkv4pAj92p8brrxFJj0-SY'}
+2025-09-07 12:16:22 - endpoints.settings - INFO - Remote address: 127.0.0.1
+2025-09-07 12:16:22 - endpoints.settings - INFO - User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-07 12:16:22 - endpoints.settings - INFO - User ID from session: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:16:22 - endpoints.settings - INFO - Calling get_router_id_setting service with user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:16:22 - services.settings_service - INFO - === Starting get_router_id_setting ===
+2025-09-07 12:16:22 - services.settings_service - INFO - Input parameter - user_id: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:16:22 - services.db_operations.settings_db - INFO - === DB get_router_id_setting ===
+2025-09-07 12:16:22 - managers.commands_server - DEBUG - Request completed in 0.15s with status 200
+2025-09-07 12:16:22 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 0.00022673606872558594, 'routerId': None, 'sessionId': None, 'timestamp': '2025-09-07T09:16:22.126157'}, 'success': True}
+2025-09-07 12:16:22 - managers.commands_server - DEBUG - Commands server health check successful
+2025-09-07 12:16:22 - managers.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/session/start
+2025-09-07 12:16:22 - services.settings_service - INFO - === get_router_id_setting completed successfully ===
+2025-09-07 12:16:22 - endpoints.settings - INFO - Service call completed - result: {'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d'}, error: None
+2025-09-07 12:16:22 - endpoints.settings - INFO - Service call successful, returning result: {'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d'}
+2025-09-07 12:16:22 - endpoints.settings - INFO - === get_router_id endpoint completed successfully ===
+2025-09-07 12:16:26 - managers.commands_server - DEBUG - Request completed in 3.69s with status 200
+2025-09-07 12:16:26 - managers.commands_server - DEBUG - Received response: {'data': {'infrastructure_ready': True, 'message': 'Session established successfully', 'router_reachable': True, 'session_id': 'ec3c8136-679c-4504-a892-8c6ed45f63ff'}, 'error': None, 'metadata': {'executionTime': 3.5860257148742676, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-09-07T09:16:25.853866'}, 'success': True}
+2025-09-07 12:16:26 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/session/start'
+2025-09-07 12:16:26 - services.commands_server_operations.session_execute - DEBUG - Commands server response - data: {'infrastructure_ready': True, 'message': 'Session established successfully', 'router_reachable': True, 'session_id': 'ec3c8136-679c-4504-a892-8c6ed45f63ff'}, error: None
+2025-09-07 12:16:26 - services.commands_server_operations.session_execute - INFO - Session started successfully for router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:16:26 - services.base - INFO - Service operation completed: start_session
+2025-09-07 12:16:42 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:16:42 - endpoints.monitor - INFO - Getting current monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:16:42 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:16:42 - services.monitor_service - INFO - Getting current devices monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-07 12:16:42 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:16:42 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-07 12:16:43 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:16:43 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:16:43 - managers.commands_server - DEBUG - Request completed in 0.29s with status 200
+2025-09-07 12:16:43 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 3974, 'download': 221.36, 'ip': '192.168.1.158', 'mac': '7a:75:6e:a9:3b:2b', 'unit': 'MB', 'upload': 9.29}, {'connections': 3466, 'download': 31.71, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 3.8}], 'error': None, 'metadata': {'executionTime': 0.14278292655944824, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-09-07T09:16:42.776621'}, 'success': True}
+2025-09-07 12:16:43 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-07 12:16:43 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:16:43 - services.monitor_service - INFO - Successfully enriched 2 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-07 12:16:43 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-07 12:16:43 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:16:43 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:16:43 - endpoints.monitor - INFO - Getting current monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:16:43 - services.monitor_service - INFO - Getting current devices monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-07 12:16:43 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-07 12:16:43 - managers.commands_server - DEBUG - Request completed in 0.28s with status 200
+2025-09-07 12:16:43 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 3974, 'download': 221.36, 'ip': '192.168.1.158', 'mac': '7a:75:6e:a9:3b:2b', 'unit': 'MB', 'upload': 9.29}, {'connections': 3467, 'download': 31.71, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 3.8}], 'error': None, 'metadata': {'executionTime': 0.14253687858581543, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-09-07T09:16:43.324121'}, 'success': True}
+2025-09-07 12:16:43 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-07 12:16:43 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:16:43 - services.monitor_service - INFO - Successfully enriched 2 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-07 12:16:43 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-07 12:16:43 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:16:57 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:16:57 - services.base - INFO - Service operation completed: chatbot_completion
+2025-09-07 12:16:57 - services.chatbot_service - INFO - Fetching system prompt from: https://storage.googleapis.com/netpilot-systemprompts-12345/system_prompt_2.txt
+2025-09-07 12:16:57 - services.chatbot_service - INFO - System prompt fetched and cached successfully
+2025-09-07 12:16:57 - services.chatbot_service - INFO - Sending request to OpenRouter API: deepseek/deepseek-chat-v3.1:free
+2025-09-07 12:17:04 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-07 12:17:04 IDT (weekday 6)
+2025-09-07 12:17:04 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-07 12:17:00 IDT
+2025-09-07 12:17:04 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-07 12:17:04 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-07 12:17:08 - services.chatbot_service - INFO - Chatbot completion successful for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:17:51 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:17:51 - services.base - INFO - Service operation completed: chatbot_completion
+2025-09-07 12:17:51 - services.chatbot_service - INFO - Sending request to OpenRouter API: deepseek/deepseek-chat-v3.1:free
+2025-09-07 12:18:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-07 12:18:00 IDT (weekday 6)
+2025-09-07 12:18:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-07 12:18:00 IDT
+2025-09-07 12:18:00 - services.chatbot_service - INFO - Chatbot completion successful for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:18:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-07 12:18:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-07 12:18:34 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:18:34 - services.base - INFO - Service operation completed: chatbot_completion
+2025-09-07 12:18:34 - services.chatbot_service - INFO - Sending request to OpenRouter API: deepseek/deepseek-chat-v3.1:free
+2025-09-07 12:18:42 - services.chatbot_service - INFO - Chatbot completion successful for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:19:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-07 12:19:00 IDT (weekday 6)
+2025-09-07 12:19:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-07 12:19:00 IDT
+2025-09-07 12:19:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-07 12:19:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-07 12:20:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-07 12:20:00 IDT (weekday 6)
+2025-09-07 12:20:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-07 12:20:00 IDT
+2025-09-07 12:20:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-07 12:20:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-07 12:21:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-07 12:21:00 IDT (weekday 6)
+2025-09-07 12:21:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-07 12:21:00 IDT
+2025-09-07 12:21:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-07 12:21:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-07 12:21:01 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:21:01 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:21:04 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:21:04 - services.base - INFO - Service operation completed: chatbot_clear_history
+2025-09-07 12:21:04 - services.chatbot_service - INFO - Conversation history cleared for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:21:59 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:21:59 - endpoints.monitor - INFO - Getting current monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:21:59 - services.monitor_service - INFO - Getting current devices monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-07 12:21:59 - managers.commands_server - DEBUG - Performing health check...
+2025-09-07 12:21:59 - managers.commands_server - INFO - Checking commands server health
+2025-09-07 12:21:59 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-09-07 12:21:59 - managers.commands_server - DEBUG - Request completed in 0.14s with status 200
+2025-09-07 12:21:59 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 3.790855407714844e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-09-07T09:21:59.272544'}, 'success': True}
+2025-09-07 12:21:59 - managers.commands_server - DEBUG - Commands server health check successful
+2025-09-07 12:21:59 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-07 12:21:59 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:21:59 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:21:59 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:21:59 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:22:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-07 12:22:00 IDT (weekday 6)
+2025-09-07 12:22:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-07 12:22:00 IDT
+2025-09-07 12:22:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-07 12:22:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-07 12:22:00 - managers.commands_server - DEBUG - Request completed in 0.78s with status 200
+2025-09-07 12:22:00 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 4003, 'download': 221.37, 'ip': '192.168.1.158', 'mac': '7a:75:6e:a9:3b:2b', 'unit': 'MB', 'upload': 9.3}, {'connections': 4758, 'download': 35.55, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 5.12}], 'error': None, 'metadata': {'executionTime': 0.655341625213623, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-09-07T09:22:00.063202'}, 'success': True}
+2025-09-07 12:22:00 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-07 12:22:00 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:22:00 - services.monitor_service - INFO - Successfully enriched 2 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-07 12:22:00 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-07 12:22:00 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:22:00 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:22:00 - endpoints.monitor - INFO - Getting current monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:22:00 - services.monitor_service - INFO - Getting current devices monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-07 12:22:00 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-07 12:22:00 - managers.commands_server - DEBUG - Request completed in 0.28s with status 200
+2025-09-07 12:22:00 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 4003, 'download': 221.37, 'ip': '192.168.1.158', 'mac': '7a:75:6e:a9:3b:2b', 'unit': 'MB', 'upload': 9.3}, {'connections': 4759, 'download': 35.55, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 5.12}], 'error': None, 'metadata': {'executionTime': 0.14186453819274902, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-09-07T09:22:00.602022'}, 'success': True}
+2025-09-07 12:22:00 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-07 12:22:00 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:22:01 - services.monitor_service - INFO - Successfully enriched 2 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-07 12:22:01 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-07 12:22:01 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:22:14 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:22:14 - services.base - INFO - Service operation completed: chatbot_completion
+2025-09-07 12:22:14 - services.chatbot_service - INFO - Fetching system prompt from: https://storage.googleapis.com/netpilot-systemprompts-12345/system_prompt_2.txt
+2025-09-07 12:22:14 - services.chatbot_service - INFO - System prompt fetched and cached successfully
+2025-09-07 12:22:14 - services.chatbot_service - INFO - Sending request to OpenRouter API: deepseek/deepseek-chat-v3.1:free
+2025-09-07 12:22:35 - services.chatbot_service - INFO - Chatbot completion successful for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:23:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-07 12:23:00 IDT (weekday 6)
+2025-09-07 12:23:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-07 12:23:00 IDT
+2025-09-07 12:23:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-07 12:23:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-07 12:23:40 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:23:40 - services.base - INFO - Service operation completed: chatbot_completion
+2025-09-07 12:23:40 - services.chatbot_service - INFO - Sending request to OpenRouter API: deepseek/deepseek-chat-v3.1:free
+2025-09-07 12:23:55 - services.chatbot_service - INFO - Chatbot completion successful for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:24:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-07 12:24:00 IDT (weekday 6)
+2025-09-07 12:24:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-07 12:24:00 IDT
+2025-09-07 12:24:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-07 12:24:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-07 12:25:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-07 12:25:00 IDT (weekday 6)
+2025-09-07 12:25:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-07 12:25:00 IDT
+2025-09-07 12:25:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-07 12:25:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-07 12:25:01 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:25:01 - services.base - INFO - Service operation completed: chatbot_completion
+2025-09-07 12:25:01 - services.chatbot_service - INFO - Sending request to OpenRouter API: deepseek/deepseek-chat-v3.1:free
+2025-09-07 12:25:13 - services.chatbot_service - INFO - Chatbot completion successful for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:26:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-07 12:26:00 IDT (weekday 6)
+2025-09-07 12:26:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-07 12:26:00 IDT
+2025-09-07 12:26:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-07 12:26:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-07 12:27:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-07 12:27:00 IDT (weekday 6)
+2025-09-07 12:27:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-07 12:27:00 IDT
+2025-09-07 12:27:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-07 12:27:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-07 12:28:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-07 12:28:00 IDT (weekday 6)
+2025-09-07 12:28:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-07 12:28:00 IDT
+2025-09-07 12:28:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-07 12:28:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-07 12:29:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-07 12:29:00 IDT (weekday 6)
+2025-09-07 12:29:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-07 12:29:00 IDT
+2025-09-07 12:29:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-07 12:29:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-07 12:30:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-07 12:30:00 IDT (weekday 6)
+2025-09-07 12:30:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-07 12:30:00 IDT
+2025-09-07 12:30:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-07 12:30:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-07 12:31:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-07 12:31:00 IDT (weekday 6)
+2025-09-07 12:31:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-07 12:31:00 IDT
+2025-09-07 12:31:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-07 12:31:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-07 12:32:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-07 12:32:00 IDT (weekday 6)
+2025-09-07 12:32:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-07 12:32:00 IDT
+2025-09-07 12:32:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-07 12:32:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-07 12:33:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-07 12:33:00 IDT (weekday 6)
+2025-09-07 12:33:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-07 12:33:00 IDT
+2025-09-07 12:33:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-07 12:33:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-07 12:34:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-07 12:34:00 IDT (weekday 6)
+2025-09-07 12:34:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-07 12:34:00 IDT
+2025-09-07 12:34:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-07 12:34:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-07 12:34:40 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:34:40 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:35:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-07 12:35:00 IDT (weekday 6)
+2025-09-07 12:35:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-07 12:35:00 IDT
+2025-09-07 12:35:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-07 12:35:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-07 12:35:31 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:31 - endpoints.monitor - INFO - Getting current monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:31 - services.monitor_service - INFO - Getting current devices monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-07 12:35:31 - managers.commands_server - DEBUG - Performing health check...
+2025-09-07 12:35:31 - managers.commands_server - INFO - Checking commands server health
+2025-09-07 12:35:31 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-09-07 12:35:31 - managers.commands_server - DEBUG - Request completed in 0.14s with status 200
+2025-09-07 12:35:31 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 4.363059997558594e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-09-07T09:35:31.026863'}, 'success': True}
+2025-09-07 12:35:31 - managers.commands_server - DEBUG - Commands server health check successful
+2025-09-07 12:35:31 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-07 12:35:31 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:31 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:35:32 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:32 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:35:32 - managers.commands_server - DEBUG - Request completed in 0.80s with status 200
+2025-09-07 12:35:32 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 4189, 'download': 242.94, 'ip': '192.168.1.158', 'mac': '7a:75:6e:a9:3b:2b', 'unit': 'MB', 'upload': 9.55}, {'connections': 7837, 'download': 62.5, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 32.96}], 'error': None, 'metadata': {'executionTime': 0.6556200981140137, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-09-07T09:35:31.830383'}, 'success': True}
+2025-09-07 12:35:32 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-07 12:35:32 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:35:32 - services.monitor_service - INFO - Successfully enriched 2 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-07 12:35:32 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-07 12:35:32 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:35:34 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:34 - endpoints.monitor - INFO - Getting current monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:34 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:34 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:35:34 - services.monitor_service - INFO - Getting current devices monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-07 12:35:34 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-07 12:35:35 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:35 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:35:35 - managers.commands_server - DEBUG - Request completed in 0.28s with status 200
+2025-09-07 12:35:35 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 4189, 'download': 242.94, 'ip': '192.168.1.158', 'mac': '7a:75:6e:a9:3b:2b', 'unit': 'MB', 'upload': 9.55}, {'connections': 7838, 'download': 62.5, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 32.96}], 'error': None, 'metadata': {'executionTime': 0.14168858528137207, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-09-07T09:35:34.951810'}, 'success': True}
+2025-09-07 12:35:35 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-07 12:35:35 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:35:35 - services.monitor_service - INFO - Successfully enriched 2 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-07 12:35:35 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-07 12:35:35 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:35:38 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:38 - endpoints.monitor - INFO - Getting current monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:38 - services.monitor_service - INFO - Getting current devices monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-07 12:35:38 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-07 12:35:39 - managers.commands_server - DEBUG - Request completed in 0.28s with status 200
+2025-09-07 12:35:39 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 4189, 'download': 242.94, 'ip': '192.168.1.158', 'mac': '7a:75:6e:a9:3b:2b', 'unit': 'MB', 'upload': 9.55}, {'connections': 7840, 'download': 62.5, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 32.96}], 'error': None, 'metadata': {'executionTime': 0.14177322387695312, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-09-07T09:35:38.882831'}, 'success': True}
+2025-09-07 12:35:39 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-07 12:35:39 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:35:39 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:39 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:35:39 - services.monitor_service - INFO - Successfully enriched 2 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-07 12:35:39 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-07 12:35:39 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:35:39 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:39 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:35:44 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:44 - endpoints.monitor - INFO - Getting current monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:44 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:44 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:35:44 - services.monitor_service - INFO - Getting current devices monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-07 12:35:44 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-07 12:35:44 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:44 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:35:44 - managers.commands_server - DEBUG - Request completed in 0.29s with status 200
+2025-09-07 12:35:44 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 4189, 'download': 242.94, 'ip': '192.168.1.158', 'mac': '7a:75:6e:a9:3b:2b', 'unit': 'MB', 'upload': 9.55}, {'connections': 7841, 'download': 62.51, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 32.98}], 'error': None, 'metadata': {'executionTime': 0.1427927017211914, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-09-07T09:35:44.125823'}, 'success': True}
+2025-09-07 12:35:44 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-07 12:35:44 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:35:44 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:44 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:35:44 - services.monitor_service - INFO - Successfully enriched 2 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-07 12:35:44 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-07 12:35:44 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:35:44 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:44 - endpoints.monitor - INFO - Getting current monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:44 - services.monitor_service - INFO - Getting current devices monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-07 12:35:44 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-07 12:35:44 - managers.commands_server - DEBUG - Request completed in 0.29s with status 200
+2025-09-07 12:35:44 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 4189, 'download': 242.94, 'ip': '192.168.1.158', 'mac': '7a:75:6e:a9:3b:2b', 'unit': 'MB', 'upload': 9.55}, {'connections': 7842, 'download': 62.51, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 32.98}], 'error': None, 'metadata': {'executionTime': 0.14182305335998535, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-09-07T09:35:44.700089'}, 'success': True}
+2025-09-07 12:35:44 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-07 12:35:44 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:35:45 - services.monitor_service - INFO - Successfully enriched 2 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-07 12:35:45 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-07 12:35:45 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:35:48 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:48 - endpoints.monitor - INFO - Getting current monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:48 - services.monitor_service - INFO - Getting current devices monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-07 12:35:48 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-07 12:35:48 - managers.commands_server - DEBUG - Request completed in 0.29s with status 200
+2025-09-07 12:35:48 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 4189, 'download': 242.94, 'ip': '192.168.1.158', 'mac': '7a:75:6e:a9:3b:2b', 'unit': 'MB', 'upload': 9.55}, {'connections': 7843, 'download': 62.51, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 32.98}], 'error': None, 'metadata': {'executionTime': 0.1432356834411621, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-09-07T09:35:48.524366'}, 'success': True}
+2025-09-07 12:35:48 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-07 12:35:48 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:35:48 - services.monitor_service - INFO - Successfully enriched 2 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-07 12:35:48 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-07 12:35:48 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:35:49 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:49 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:35:49 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:49 - endpoints.monitor - INFO - Getting current monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:49 - services.monitor_service - INFO - Getting current devices monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-07 12:35:49 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-07 12:35:49 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:49 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:35:49 - managers.commands_server - DEBUG - Request completed in 0.28s with status 200
+2025-09-07 12:35:49 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 4189, 'download': 242.94, 'ip': '192.168.1.158', 'mac': '7a:75:6e:a9:3b:2b', 'unit': 'MB', 'upload': 9.55}, {'connections': 7844, 'download': 62.51, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 32.98}], 'error': None, 'metadata': {'executionTime': 0.1429126262664795, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-09-07T09:35:49.371107'}, 'success': True}
+2025-09-07 12:35:49 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-07 12:35:49 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:35:49 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:35:49 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:35:49 - services.monitor_service - INFO - Successfully enriched 2 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-07 12:35:49 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-07 12:35:49 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:36:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-07 12:36:00 IDT (weekday 6)
+2025-09-07 12:36:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-07 12:36:00 IDT
+2025-09-07 12:36:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-07 12:36:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-07 12:36:11 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:36:11 - endpoints.monitor - INFO - Getting current monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:36:11 - services.monitor_service - INFO - Getting current devices monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-07 12:36:11 - managers.commands_server - DEBUG - Performing health check...
+2025-09-07 12:36:11 - managers.commands_server - INFO - Checking commands server health
+2025-09-07 12:36:11 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-09-07 12:36:11 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:36:11 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:36:11 - managers.commands_server - DEBUG - Request completed in 0.15s with status 200
+2025-09-07 12:36:11 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 3.314018249511719e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-09-07T09:36:11.608494'}, 'success': True}
+2025-09-07 12:36:11 - managers.commands_server - DEBUG - Commands server health check successful
+2025-09-07 12:36:11 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-07 12:36:12 - endpoints.settings - INFO - === Starting get_router_id endpoint ===
+2025-09-07 12:36:12 - endpoints.settings - INFO - Request method: GET
+2025-09-07 12:36:12 - endpoints.settings - INFO - Request URL: http://localhost:5000/api/settings/router-id
+2025-09-07 12:36:12 - endpoints.settings - INFO - Request headers: {'Host': 'localhost:5000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Windows"', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', 'Sec-Ch-Ua': '"Chromium";v="140", "Not=A?Brand";v="24", "Google Chrome";v="140"', 'Sec-Ch-Ua-Mobile': '?0', 'Accept': '*/*', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'en-US,en;q=0.9,he;q=0.8', 'Cookie': 'session=.eJytVdmuo0gS_ZWRn4t7M9kMV2qpsVm8AQZjthfEvpjNZrMp1b93cruqulrd0szDSMjIkcGJEydCeb6u8MT3xviRJ3kcrT76xxB_-VvM8_vVxwoHOIUBFgO0AdcfOPFBEm8stWYhWH1ZeW38qPw6rvsfAEMXP1YfX1d-GMZd5_XNLa4RysvH2TcfcBdiRysvjpJ5w4NTSQCDUqW-JPaKTKoYafPivW5xqvJk-Crpp9A8cV_RjbEJuCwpcrVLqpvtUomWwH0oxMfxcntaBbNbx7njnV1W0ZOnL0bJUWu78zrx1LszxlPGn1-BjT2C8HF-kofAfgTFKdQZjZmpQxPlWy8zbpfygl1P0hrLsM2zj7A4f20J--Gc05T3wCYGXgVDxcixbXX0t6lz5OLpwunaRdR2ko3Lub--0HHWn3WrxZlxPRy5QOAmgIM1Uip-tvkj7j41hWtqDRkCAPqveI5UIiiW-bLKo5-qxa9DFkhhruaHy3XeQyXfd_uqb93tnt4XZaEUeygbV1KZb1DmU6BIAq4Ybu4aMlQK5aZKMnQqDXeLlFIkGch8mJ-2BxDb3IJ5NKGWJ9obKtOGhLyEmminT-HcjCdcLBychUGtz6cqGgM86twLVQQ4WCCyuF4g9k-Zv86qkU5yIcwKL5MnmwN-7eIKHz1kPOodwixcYz8pFYC-7ZAOngFZiqbQyuCpEqdwJw8uzo4u_iwjWynDShlRzTKotQHV7_f5lDu2edsXTS4bHJTnGynzqO6szeoWTorU4lGhEf6s1IGlQAe_vmTe7RWrxFVJaSJ-U4c7sYkuVBbuNn_1Ypuzax9QPxRwLQqclroXJG-NMPJFXmGSDWdW-SslGxpUedRD4ZAoRspLXmX2jlV2C6-gMkEolV1A6EUgsdAVNoiL2Abbn3qVn_9FFkc1W7cqy2WE0e4A3cvSn574kjj7y1jrVjeJllSNzHZnJb8IUA9smdQLs7ZuwoI1IM6Fe0G5Vfa8EAc3AhmpSM-NfjMd09QFQ0jholtQif1n3o0qI3HTIm5giSOuRbQzX98xQIR0UXNmDKT0v-jDZicg8u6cjQ5oZs3MCI3YmKrtKlfh2mu2QBqmSfpGtLdntEeAtVQrBRFkhbAsS_UqTlFpStb1OmkGRHvj9M5r0TJqo8ocbJzKAuu67KHq2rrmW88x2i7nZYbetGyEUJkFQjW0Sd1OuWtnE9L_qcxXQjbSWeY5Eq0zL8bbqd7v5505h6ckI2bvbl1D-5ioNO-Ymp8O2ENFdOwpv-u06NPKyZbVnb33IwPYsOrg-MrHfp3Jvmax-j693_XgxZzOs_EwUndOzRfr31xudsmXYm57uCfQHmSkfujPtk9zawbGBQ8M-j70hq_1dBkLLr0dql18D4_gJe8oeLROp84XrWFD3tIG8gWiaqqBPxqewwtcchDHWzZqRKXg7fMxmgddH_pxc2o2taRbMy6BM3iqcMzKTNq4h2uiOvG87je0kG4oT9MlNeKhjtNH71UQSkBVlNZBKpKeIVburWALmFqbclHJdBJo7Jxh922v65TflurEJyo8V6J3SlgPC-J4M9Ihh-6wLmzaGF1L6LfOo_9kfd92H-_v0zS9pU2TlrHf5t1b2FTv_tBn74sV5HXSvMWVn5f_e3r7aJK8jFHBz3vQ61-fVTex_0De8qfFLImfNtN7md9l6HjWrPnJMlZKBDtZqzpGpFJ3Ye0PyN1WEFAEywAcEiTBYC1ZjCO5vhFpFQ5hjAO6ovKRCbMepO09G978tu2-s1zKhU3dI5NbyC6Ic_t_RvxUCGHWcd_mZdOHZTNEv6dL9NeMf9g1co9f7ASZR5qPSLHarxbFlLg_L2jo8_yn76xZcknMuw5l_JgJcutmqPsfBL_X_CdM3dThEsrux4cz7Z5kyYmCfTX4045Cx20e9sMj_gW4zIh_b_rdf-e2KdOEB4Kzp217ZUf5LGDcnZGvz3y988i2U002IyePfzgxy7XjVXQEwP3WsTQWLts4BJ9TgDTBUCwkKQaJTjMQPatv3_5cEy9fZh-HRMhAgsboNRtiJAVIzGdYHGNCOo5IKqGJJFl9-wOugQDG.aL1SCw.DAqdgm9uMZrxe1cX8FGwYyLIBOs'}
+2025-09-07 12:36:12 - endpoints.settings - INFO - Remote address: 127.0.0.1
+2025-09-07 12:36:12 - endpoints.settings - INFO - User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-07 12:36:12 - endpoints.settings - INFO - User ID from session: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:36:12 - endpoints.settings - INFO - Calling get_router_id_setting service with user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:36:12 - services.settings_service - INFO - === Starting get_router_id_setting ===
+2025-09-07 12:36:12 - services.settings_service - INFO - Input parameter - user_id: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:36:12 - services.db_operations.settings_db - INFO - === DB get_router_id_setting ===
+2025-09-07 12:36:12 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:36:12 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:36:12 - managers.commands_server - DEBUG - Request completed in 0.28s with status 200
+2025-09-07 12:36:12 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 4193, 'download': 242.94, 'ip': '192.168.1.158', 'mac': '7a:75:6e:a9:3b:2b', 'unit': 'MB', 'upload': 9.55}, {'connections': 7983, 'download': 62.94, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 33.12}], 'error': None, 'metadata': {'executionTime': 0.14252448081970215, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-09-07T09:36:11.888520'}, 'success': True}
+2025-09-07 12:36:12 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-07 12:36:12 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:36:12 - services.settings_service - INFO - === get_router_id_setting completed successfully ===
+2025-09-07 12:36:12 - endpoints.settings - INFO - Service call completed - result: {'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d'}, error: None
+2025-09-07 12:36:12 - endpoints.settings - INFO - Service call successful, returning result: {'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d'}
+2025-09-07 12:36:12 - endpoints.settings - INFO - === get_router_id endpoint completed successfully ===
+2025-09-07 12:36:12 - services.monitor_service - INFO - Successfully enriched 2 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-07 12:36:12 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-07 12:36:12 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:36:12 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:36:12 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:36:12 - endpoints.settings - INFO - === Starting get_router_id endpoint ===
+2025-09-07 12:36:12 - endpoints.settings - INFO - Request method: GET
+2025-09-07 12:36:12 - endpoints.settings - INFO - Request URL: http://localhost:5000/api/settings/router-id
+2025-09-07 12:36:12 - endpoints.settings - INFO - Request headers: {'Host': 'localhost:5000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Windows"', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', 'Sec-Ch-Ua': '"Chromium";v="140", "Not=A?Brand";v="24", "Google Chrome";v="140"', 'Sec-Ch-Ua-Mobile': '?0', 'Accept': '*/*', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'en-US,en;q=0.9,he;q=0.8', 'Cookie': 'session=.eJytVdmuo0gS_ZWRn4t7M9kMV2qpsVm8AQZjthfEvpjNZrMp1b93cruqulrd0szDSMjIkcGJEydCeb6u8MT3xviRJ3kcrT76xxB_-VvM8_vVxwoHOIUBFgO0AdcfOPFBEm8stWYhWH1ZeW38qPw6rvsfAEMXP1YfX1d-GMZd5_XNLa4RysvH2TcfcBdiRysvjpJ5w4NTSQCDUqW-JPaKTKoYafPivW5xqvJk-Crpp9A8cV_RjbEJuCwpcrVLqpvtUomWwH0oxMfxcntaBbNbx7njnV1W0ZOnL0bJUWu78zrx1LszxlPGn1-BjT2C8HF-kofAfgTFKdQZjZmpQxPlWy8zbpfygl1P0hrLsM2zj7A4f20J--Gc05T3wCYGXgVDxcixbXX0t6lz5OLpwunaRdR2ko3Lub--0HHWn3WrxZlxPRy5QOAmgIM1Uip-tvkj7j41hWtqDRkCAPqveI5UIiiW-bLKo5-qxa9DFkhhruaHy3XeQyXfd_uqb93tnt4XZaEUeygbV1KZb1DmU6BIAq4Ybu4aMlQK5aZKMnQqDXeLlFIkGch8mJ-2BxDb3IJ5NKGWJ9obKtOGhLyEmminT-HcjCdcLBychUGtz6cqGgM86twLVQQ4WCCyuF4g9k-Zv86qkU5yIcwKL5MnmwN-7eIKHz1kPOodwixcYz8pFYC-7ZAOngFZiqbQyuCpEqdwJw8uzo4u_iwjWynDShlRzTKotQHV7_f5lDu2edsXTS4bHJTnGynzqO6szeoWTorU4lGhEf6s1IGlQAe_vmTe7RWrxFVJaSJ-U4c7sYkuVBbuNn_1Ypuzax9QPxRwLQqclroXJG-NMPJFXmGSDWdW-SslGxpUedRD4ZAoRspLXmX2jlV2C6-gMkEolV1A6EUgsdAVNoiL2Abbn3qVn_9FFkc1W7cqy2WE0e4A3cvSn574kjj7y1jrVjeJllSNzHZnJb8IUA9smdQLs7ZuwoI1IM6Fe0G5Vfa8EAc3AhmpSM-NfjMd09QFQ0jholtQif1n3o0qI3HTIm5giSOuRbQzX98xQIR0UXNmDKT0v-jDZicg8u6cjQ5oZs3MCI3YmKrtKlfh2mu2QBqmSfpGtLdntEeAtVQrBRFkhbAsS_UqTlFpStb1OmkGRHvj9M5r0TJqo8ocbJzKAuu67KHq2rrmW88x2i7nZYbetGyEUJkFQjW0Sd1OuWtnE9L_qcxXQjbSWeY5Eq0zL8bbqd7v5505h6ckI2bvbl1D-5ioNO-Ymp8O2ENFdOwpv-u06NPKyZbVnb33IwPYsOrg-MrHfp3Jvmax-j693_XgxZzOs_EwUndOzRfr31xudsmXYm57uCfQHmSkfujPtk9zawbGBQ8M-j70hq_1dBkLLr0dql18D4_gJe8oeLROp84XrWFD3tIG8gWiaqqBPxqewwtcchDHWzZqRKXg7fMxmgddH_pxc2o2taRbMy6BM3iqcMzKTNq4h2uiOvG87je0kG4oT9MlNeKhjtNH71UQSkBVlNZBKpKeIVburWALmFqbclHJdBJo7Jxh922v65TflurEJyo8V6J3SlgPC-J4M9Ihh-6wLmzaGF1L6LfOo_9kfd92H-_v0zS9pU2TlrHf5t1b2FTv_tBn74sV5HXSvMWVn5f_e3r7aJK8jFHBz3vQ61-fVTex_0De8qfFLImfNtN7md9l6HjWrPnJMlZKBDtZqzpGpFJ3Ye0PyN1WEFAEywAcEiTBYC1ZjCO5vhFpFQ5hjAO6ovKRCbMepO09G978tu2-s1zKhU3dI5NbyC6Ic_t_RvxUCGHWcd_mZdOHZTNEv6dL9NeMf9g1co9f7ASZR5qPSLHarxbFlLg_L2jo8_yn76xZcknMuw5l_JgJcutmqPsfBL_X_CdM3dThEsrux4cz7Z5kyYmCfTX4045Cx20e9sMj_gW4zIh_b_rdf-e2KdOEB4Kzp217ZUf5LGDcnZGvz3y988i2U002IyePfzgxy7XjVXQEwP3WsTQWLts4BJ9TgDTBUCwkKQaJTjMQPatv3_5cEy9fZh-HRMhAgsboNRtiJAVIzGdYHGNCOo5IKqGJJFl9-wOugQDG.aL1SCw.DAqdgm9uMZrxe1cX8FGwYyLIBOs'}
+2025-09-07 12:36:12 - endpoints.settings - INFO - Remote address: 127.0.0.1
+2025-09-07 12:36:12 - endpoints.settings - INFO - User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-07 12:36:12 - endpoints.settings - INFO - User ID from session: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:36:12 - endpoints.settings - INFO - Calling get_router_id_setting service with user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:36:12 - services.settings_service - INFO - === Starting get_router_id_setting ===
+2025-09-07 12:36:12 - services.settings_service - INFO - Input parameter - user_id: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:36:12 - services.db_operations.settings_db - INFO - === DB get_router_id_setting ===
+2025-09-07 12:36:12 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:36:12 - endpoints.monitor - INFO - Getting current monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:36:12 - services.monitor_service - INFO - Getting current devices monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-07 12:36:12 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-07 12:36:12 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:36:12 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:36:12 - services.settings_service - INFO - === get_router_id_setting completed successfully ===
+2025-09-07 12:36:12 - endpoints.settings - INFO - Service call completed - result: {'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d'}, error: None
+2025-09-07 12:36:12 - endpoints.settings - INFO - Service call successful, returning result: {'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d'}
+2025-09-07 12:36:12 - endpoints.settings - INFO - === get_router_id endpoint completed successfully ===
+2025-09-07 12:36:12 - managers.commands_server - DEBUG - Request completed in 0.28s with status 200
+2025-09-07 12:36:12 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 4193, 'download': 242.94, 'ip': '192.168.1.158', 'mac': '7a:75:6e:a9:3b:2b', 'unit': 'MB', 'upload': 9.55}, {'connections': 7988, 'download': 62.94, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 33.12}], 'error': None, 'metadata': {'executionTime': 0.14424681663513184, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-09-07T09:36:12.731335'}, 'success': True}
+2025-09-07 12:36:12 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-07 12:36:12 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:36:13 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:36:13 - services.base - INFO - Service operation completed: start_session
+2025-09-07 12:36:13 - managers.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/session/start
+2025-09-07 12:36:13 - services.monitor_service - INFO - Successfully enriched 2 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-07 12:36:13 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-07 12:36:13 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:36:13 - endpoints.settings - INFO - === Starting get_router_id endpoint ===
+2025-09-07 12:36:13 - endpoints.settings - INFO - Request method: GET
+2025-09-07 12:36:13 - endpoints.settings - INFO - Request URL: http://localhost:5000/api/settings/router-id
+2025-09-07 12:36:13 - endpoints.settings - INFO - Request headers: {'Host': 'localhost:5000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Windows"', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', 'Sec-Ch-Ua': '"Chromium";v="140", "Not=A?Brand";v="24", "Google Chrome";v="140"', 'Sec-Ch-Ua-Mobile': '?0', 'Accept': '*/*', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'en-US,en;q=0.9,he;q=0.8', 'Cookie': 'session=.eJytVdmuo0gS_ZWRn4t7M9kMV2qpsVm8AQZjthfEvpjNZrMp1b93cruqulrd0szDSMjIkcGJEydCeb6u8MT3xviRJ3kcrT76xxB_-VvM8_vVxwoHOIUBFgO0AdcfOPFBEm8stWYhWH1ZeW38qPw6rvsfAEMXP1YfX1d-GMZd5_XNLa4RysvH2TcfcBdiRysvjpJ5w4NTSQCDUqW-JPaKTKoYafPivW5xqvJk-Crpp9A8cV_RjbEJuCwpcrVLqpvtUomWwH0oxMfxcntaBbNbx7njnV1W0ZOnL0bJUWu78zrx1LszxlPGn1-BjT2C8HF-kofAfgTFKdQZjZmpQxPlWy8zbpfygl1P0hrLsM2zj7A4f20J--Gc05T3wCYGXgVDxcixbXX0t6lz5OLpwunaRdR2ko3Lub--0HHWn3WrxZlxPRy5QOAmgIM1Uip-tvkj7j41hWtqDRkCAPqveI5UIiiW-bLKo5-qxa9DFkhhruaHy3XeQyXfd_uqb93tnt4XZaEUeygbV1KZb1DmU6BIAq4Ybu4aMlQK5aZKMnQqDXeLlFIkGch8mJ-2BxDb3IJ5NKGWJ9obKtOGhLyEmminT-HcjCdcLBychUGtz6cqGgM86twLVQQ4WCCyuF4g9k-Zv86qkU5yIcwKL5MnmwN-7eIKHz1kPOodwixcYz8pFYC-7ZAOngFZiqbQyuCpEqdwJw8uzo4u_iwjWynDShlRzTKotQHV7_f5lDu2edsXTS4bHJTnGynzqO6szeoWTorU4lGhEf6s1IGlQAe_vmTe7RWrxFVJaSJ-U4c7sYkuVBbuNn_1Ypuzax9QPxRwLQqclroXJG-NMPJFXmGSDWdW-SslGxpUedRD4ZAoRspLXmX2jlV2C6-gMkEolV1A6EUgsdAVNoiL2Abbn3qVn_9FFkc1W7cqy2WE0e4A3cvSn574kjj7y1jrVjeJllSNzHZnJb8IUA9smdQLs7ZuwoI1IM6Fe0G5Vfa8EAc3AhmpSM-NfjMd09QFQ0jholtQif1n3o0qI3HTIm5giSOuRbQzX98xQIR0UXNmDKT0v-jDZicg8u6cjQ5oZs3MCI3YmKrtKlfh2mu2QBqmSfpGtLdntEeAtVQrBRFkhbAsS_UqTlFpStb1OmkGRHvj9M5r0TJqo8ocbJzKAuu67KHq2rrmW88x2i7nZYbetGyEUJkFQjW0Sd1OuWtnE9L_qcxXQjbSWeY5Eq0zL8bbqd7v5505h6ckI2bvbl1D-5ioNO-Ymp8O2ENFdOwpv-u06NPKyZbVnb33IwPYsOrg-MrHfp3Jvmax-j693_XgxZzOs_EwUndOzRfr31xudsmXYm57uCfQHmSkfujPtk9zawbGBQ8M-j70hq_1dBkLLr0dql18D4_gJe8oeLROp84XrWFD3tIG8gWiaqqBPxqewwtcchDHWzZqRKXg7fMxmgddH_pxc2o2taRbMy6BM3iqcMzKTNq4h2uiOvG87je0kG4oT9MlNeKhjtNH71UQSkBVlNZBKpKeIVburWALmFqbclHJdBJo7Jxh922v65TflurEJyo8V6J3SlgPC-J4M9Ihh-6wLmzaGF1L6LfOo_9kfd92H-_v0zS9pU2TlrHf5t1b2FTv_tBn74sV5HXSvMWVn5f_e3r7aJK8jFHBz3vQ61-fVTex_0De8qfFLImfNtN7md9l6HjWrPnJMlZKBDtZqzpGpFJ3Ye0PyN1WEFAEywAcEiTBYC1ZjCO5vhFpFQ5hjAO6ovKRCbMepO09G978tu2-s1zKhU3dI5NbyC6Ic_t_RvxUCGHWcd_mZdOHZTNEv6dL9NeMf9g1co9f7ASZR5qPSLHarxbFlLg_L2jo8_yn76xZcknMuw5l_JgJcutmqPsfBL_X_CdM3dThEsrux4cz7Z5kyYmCfTX4045Cx20e9sMj_gW4zIh_b_rdf-e2KdOEB4Kzp217ZUf5LGDcnZGvz3y988i2U002IyePfzgxy7XjVXQEwP3WsTQWLts4BJ9TgDTBUCwkKQaJTjMQPatv3_5cEy9fZh-HRMhAgsboNRtiJAVIzGdYHGNCOo5IKqGJJFl9-wOugQDG.aL1SDA.MQYoeT4HV7XGcTO40eZtGr4d3_s'}
+2025-09-07 12:36:13 - endpoints.settings - INFO - Remote address: 127.0.0.1
+2025-09-07 12:36:13 - endpoints.settings - INFO - User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-07 12:36:13 - endpoints.settings - INFO - User ID from session: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:36:13 - endpoints.settings - INFO - Calling get_router_id_setting service with user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:36:13 - services.settings_service - INFO - === Starting get_router_id_setting ===
+2025-09-07 12:36:13 - services.settings_service - INFO - Input parameter - user_id: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:36:13 - services.db_operations.settings_db - INFO - === DB get_router_id_setting ===
+2025-09-07 12:36:13 - managers.commands_server - DEBUG - Request completed in 0.14s with status 400
+2025-09-07 12:36:13 - managers.commands_server - ERROR - Commands server returned 400: {
+  "data": null,
+  "error": {
+    "code": "SESSION_ALREADY_ACTIVE",
+    "details": null,
+    "message": "Session is already active"
+  },
+  "metadata": {
+    "executionTime": 0.0011539459228515625,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-09-07T09:36:12.961125"
+  },
+  "success": false
+}
+
+2025-09-07 12:36:13 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/api/session/start': Commands server returned 400: {
+  "data": null,
+  "error": {
+    "code": "SESSION_ALREADY_ACTIVE",
+    "details": null,
+    "message": "Session is already active"
+  },
+  "metadata": {
+    "executionTime": 0.0011539459228515625,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-09-07T09:36:12.961125"
+  },
+  "success": false
+}
+
+2025-09-07 12:36:13 - services.commands_server_operations.session_execute - DEBUG - Commands server response - data: None, error: Commands server returned 400: {
+  "data": null,
+  "error": {
+    "code": "SESSION_ALREADY_ACTIVE",
+    "details": null,
+    "message": "Session is already active"
+  },
+  "metadata": {
+    "executionTime": 0.0011539459228515625,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-09-07T09:36:12.961125"
+  },
+  "success": false
+}
+
+2025-09-07 12:36:13 - services.commands_server_operations.session_execute - INFO - Session already active for router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff - treating as success
+2025-09-07 12:36:13 - services.base - INFO - Service operation completed: start_session
+2025-09-07 12:36:13 - services.settings_service - INFO - === get_router_id_setting completed successfully ===
+2025-09-07 12:36:13 - endpoints.settings - INFO - Service call completed - result: {'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d'}, error: None
+2025-09-07 12:36:13 - endpoints.settings - INFO - Service call successful, returning result: {'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d'}
+2025-09-07 12:36:13 - endpoints.settings - INFO - === get_router_id endpoint completed successfully ===
+2025-09-07 12:37:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-07 12:37:00 IDT (weekday 6)
+2025-09-07 12:37:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-07 12:37:00 IDT
+2025-09-07 12:37:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-07 12:37:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-07 12:37:06 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:37:06 - endpoints.monitor - INFO - Getting current monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:37:06 - services.monitor_service - INFO - Getting current devices monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-07 12:37:06 - managers.commands_server - DEBUG - Performing health check...
+2025-09-07 12:37:06 - managers.commands_server - INFO - Checking commands server health
+2025-09-07 12:37:06 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-09-07 12:37:06 - managers.commands_server - DEBUG - Request completed in 0.14s with status 200
+2025-09-07 12:37:06 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 4.9114227294921875e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-09-07T09:37:06.726989'}, 'success': True}
+2025-09-07 12:37:06 - managers.commands_server - DEBUG - Commands server health check successful
+2025-09-07 12:37:06 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-07 12:37:07 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:37:07 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:37:07 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:37:07 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:37:07 - managers.commands_server - DEBUG - Request completed in 0.29s with status 200
+2025-09-07 12:37:07 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 4198, 'download': 242.94, 'ip': '192.168.1.158', 'mac': '7a:75:6e:a9:3b:2b', 'unit': 'MB', 'upload': 9.55}, {'connections': 8261, 'download': 63.09, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 33.41}], 'error': None, 'metadata': {'executionTime': 0.14235568046569824, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-09-07T09:37:07.017163'}, 'success': True}
+2025-09-07 12:37:07 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-07 12:37:07 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:37:07 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:37:07 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:37:07 - endpoints.settings - INFO - === Starting get_router_id endpoint ===
+2025-09-07 12:37:07 - endpoints.settings - INFO - Request method: GET
+2025-09-07 12:37:07 - endpoints.settings - INFO - Request URL: http://localhost:5000/api/settings/router-id
+2025-09-07 12:37:07 - endpoints.settings - INFO - Request headers: {'Host': 'localhost:5000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Windows"', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', 'Sec-Ch-Ua': '"Chromium";v="140", "Not=A?Brand";v="24", "Google Chrome";v="140"', 'Sec-Ch-Ua-Mobile': '?0', 'Accept': '*/*', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'en-US,en;q=0.9,he;q=0.8', 'Cookie': 'session=.eJytVdmuo0gS_ZWRn4t7M9kMV2qpsVm8AQZjthfEvpjNZrMp1b93cruqulrd0szDSMjIkcGJEydCeb6u8MT3xviRJ3kcrT76xxB_-VvM8_vVxwoHOIUBFgO0AdcfOPFBEm8stWYhWH1ZeW38qPw6rvsfAEMXP1YfX1d-GMZd5_XNLa4RysvH2TcfcBdiRysvjpJ5w4NTSQCDUqW-JPaKTKoYafPivW5xqvJk-Crpp9A8cV_RjbEJuCwpcrVLqpvtUomWwH0oxMfxcntaBbNbx7njnV1W0ZOnL0bJUWu78zrx1LszxlPGn1-BjT2C8HF-kofAfgTFKdQZjZmpQxPlWy8zbpfygl1P0hrLsM2zj7A4f20J--Gc05T3wCYGXgVDxcixbXX0t6lz5OLpwunaRdR2ko3Lub--0HHWn3WrxZlxPRy5QOAmgIM1Uip-tvkj7j41hWtqDRkCAPqveI5UIiiW-bLKo5-qxa9DFkhhruaHy3XeQyXfd_uqb93tnt4XZaEUeygbV1KZb1DmU6BIAq4Ybu4aMlQK5aZKMnQqDXeLlFIkGch8mJ-2BxDb3IJ5NKGWJ9obKtOGhLyEmminT-HcjCdcLBychUGtz6cqGgM86twLVQQ4WCCyuF4g9k-Zv86qkU5yIcwKL5MnmwN-7eIKHz1kPOodwixcYz8pFYC-7ZAOngFZiqbQyuCpEqdwJw8uzo4u_iwjWynDShlRzTKotQHV7_f5lDu2edsXTS4bHJTnGynzqO6szeoWTorU4lGhEf6s1IGlQAe_vmTe7RWrxFVJaSJ-U4c7sYkuVBbuNn_1Ypuzax9QPxRwLQqclroXJG-NMPJFXmGSDWdW-SslGxpUedRD4ZAoRspLXmX2jlV2C6-gMkEolV1A6EUgsdAVNoiL2Abbn3qVn_9FFkc1W7cqy2WE0e4A3cvSn574kjj7y1jrVjeJllSNzHZnJb8IUA9smdQLs7ZuwoI1IM6Fe0G5Vfa8EAc3AhmpSM-NfjMd09QFQ0jholtQif1n3o0qI3HTIm5giSOuRbQzX98xQIR0UXNmDKT0v-jDZicg8u6cjQ5oZs3MCI3YmKrtKlfh2mu2QBqmSfpGtLdntEeAtVQrBRFkhbAsS_UqTlFpStb1OmkGRHvj9M5r0TJqo8ocbJzKAuu67KHq2rrmW88x2i7nZYbetGyEUJkFQjW0Sd1OuWtnE9L_qcxXQjbSWeY5Eq0zL8bbqd7v5505h6ckI2bvbl1D-5ioNO-Ymp8O2ENFdOwpv-u06NPKyZbVnb33IwPYsOrg-MrHfp3Jvmax-j693_XgxZzOs_EwUndOzRfr31xudsmXYm57uCfQHmSkfujPtk9zawbGBQ8M-j70hq_1dBkLLr0dql18D4_gJe8oeLROp84XrWFD3tIG8gWiaqqBPxqewwtcchDHWzZqRKXg7fMxmgddH_pxc2o2taRbMy6BM3iqcMzKTNq4h2uiOvG87je0kG4oT9MlNeKhjtNH71UQSkBVlNZBKpKeIVburWALmFqbclHJdBJo7Jxh922v65TflurEJyo8V6J3SlgPC-J4M9Ihh-6wLmzaGF1L6LfOo_9kfd92H-_v0zS9pU2TlrHf5t1b2FTv_tBn74sV5HXSvMWVn5f_e3r7aJK8jFHBz3vQ61-fVTex_0De8qfFLImfNtN7md9l6HjWrPnJMlZKBDtZqzpGpFJ3Ye0PyN1WEFAEywAcEiTBYC1ZjCO5vhFpFQ5hjAO6ovKRCbMepO09G978tu2-s1zKhU3dI5NbyC6Ic_t_RvxUCGHWcd_mZdOHZTNEv6dL9NeMf9g1co9f7ASZR5qPSLHarxbFlLg_L2jo8_yn76xZcknMuw5l_JgJcutmqPsfBL_X_CdM3dThEsrux4cz7Z5kyYmCfTX4045Cx20e9sMj_gW4zIh_b_rdf-e2KdOEB4Kzp217ZUf5LGDcnZGvz3y988i2U002IyePfzgxy7XjVXQEwP3WsTQWLts4BJ9TgDTBUCwkKQaJTjMQPatv3_5cEy9fZh-HRMhAgsboNRtiJAVIzGdYHGNCOo5IKqGJJFl9-wOugQDG.aL1SQw.4ct0Wki4NAvEsdzB7JkxulY_2uU'}
+2025-09-07 12:37:07 - endpoints.settings - INFO - Remote address: 127.0.0.1
+2025-09-07 12:37:07 - endpoints.settings - INFO - User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-07 12:37:07 - endpoints.settings - INFO - User ID from session: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:37:07 - endpoints.settings - INFO - Calling get_router_id_setting service with user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:37:07 - services.settings_service - INFO - === Starting get_router_id_setting ===
+2025-09-07 12:37:07 - services.settings_service - INFO - Input parameter - user_id: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:37:07 - services.monitor_service - INFO - Successfully enriched 2 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-07 12:37:07 - services.db_operations.settings_db - INFO - === DB get_router_id_setting ===
+2025-09-07 12:37:07 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-07 12:37:07 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:37:07 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:37:07 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-07 12:37:07 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:37:07 - endpoints.monitor - INFO - Getting current monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:37:07 - services.monitor_service - INFO - Getting current devices monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-07 12:37:07 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-07 12:37:07 - managers.commands_server - DEBUG - Request completed in 0.28s with status 200
+2025-09-07 12:37:07 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 4198, 'download': 242.94, 'ip': '192.168.1.158', 'mac': '7a:75:6e:a9:3b:2b', 'unit': 'MB', 'upload': 9.55}, {'connections': 8263, 'download': 63.09, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 33.41}], 'error': None, 'metadata': {'executionTime': 0.14270472526550293, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-09-07T09:37:07.729812'}, 'success': True}
+2025-09-07 12:37:07 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-07 12:37:07 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:37:08 - services.settings_service - INFO - === get_router_id_setting completed successfully ===
+2025-09-07 12:37:08 - endpoints.settings - INFO - Service call completed - result: {'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d'}, error: None
+2025-09-07 12:37:08 - endpoints.settings - INFO - Service call successful, returning result: {'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d'}
+2025-09-07 12:37:08 - endpoints.settings - INFO - === get_router_id endpoint completed successfully ===
+2025-09-07 12:37:08 - endpoints.settings - INFO - === Starting get_router_id endpoint ===
+2025-09-07 12:37:08 - endpoints.settings - INFO - Request method: GET
+2025-09-07 12:37:08 - endpoints.settings - INFO - Request URL: http://localhost:5000/api/settings/router-id
+2025-09-07 12:37:08 - endpoints.settings - INFO - Request headers: {'Host': 'localhost:5000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Windows"', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', 'Sec-Ch-Ua': '"Chromium";v="140", "Not=A?Brand";v="24", "Google Chrome";v="140"', 'Sec-Ch-Ua-Mobile': '?0', 'Accept': '*/*', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'en-US,en;q=0.9,he;q=0.8', 'Cookie': 'session=.eJytVdmuo0gS_ZWRn4t7M9kMV2qpsVm8AQZjthfEvpjNZrMp1b93cruqulrd0szDSMjIkcGJEydCeb6u8MT3xviRJ3kcrT76xxB_-VvM8_vVxwoHOIUBFgO0AdcfOPFBEm8stWYhWH1ZeW38qPw6rvsfAEMXP1YfX1d-GMZd5_XNLa4RysvH2TcfcBdiRysvjpJ5w4NTSQCDUqW-JPaKTKoYafPivW5xqvJk-Crpp9A8cV_RjbEJuCwpcrVLqpvtUomWwH0oxMfxcntaBbNbx7njnV1W0ZOnL0bJUWu78zrx1LszxlPGn1-BjT2C8HF-kofAfgTFKdQZjZmpQxPlWy8zbpfygl1P0hrLsM2zj7A4f20J--Gc05T3wCYGXgVDxcixbXX0t6lz5OLpwunaRdR2ko3Lub--0HHWn3WrxZlxPRy5QOAmgIM1Uip-tvkj7j41hWtqDRkCAPqveI5UIiiW-bLKo5-qxa9DFkhhruaHy3XeQyXfd_uqb93tnt4XZaEUeygbV1KZb1DmU6BIAq4Ybu4aMlQK5aZKMnQqDXeLlFIkGch8mJ-2BxDb3IJ5NKGWJ9obKtOGhLyEmminT-HcjCdcLBychUGtz6cqGgM86twLVQQ4WCCyuF4g9k-Zv86qkU5yIcwKL5MnmwN-7eIKHz1kPOodwixcYz8pFYC-7ZAOngFZiqbQyuCpEqdwJw8uzo4u_iwjWynDShlRzTKotQHV7_f5lDu2edsXTS4bHJTnGynzqO6szeoWTorU4lGhEf6s1IGlQAe_vmTe7RWrxFVJaSJ-U4c7sYkuVBbuNn_1Ypuzax9QPxRwLQqclroXJG-NMPJFXmGSDWdW-SslGxpUedRD4ZAoRspLXmX2jlV2C6-gMkEolV1A6EUgsdAVNoiL2Abbn3qVn_9FFkc1W7cqy2WE0e4A3cvSn574kjj7y1jrVjeJllSNzHZnJb8IUA9smdQLs7ZuwoI1IM6Fe0G5Vfa8EAc3AhmpSM-NfjMd09QFQ0jholtQif1n3o0qI3HTIm5giSOuRbQzX98xQIR0UXNmDKT0v-jDZicg8u6cjQ5oZs3MCI3YmKrtKlfh2mu2QBqmSfpGtLdntEeAtVQrBRFkhbAsS_UqTlFpStb1OmkGRHvj9M5r0TJqo8ocbJzKAuu67KHq2rrmW88x2i7nZYbetGyEUJkFQjW0Sd1OuWtnE9L_qcxXQjbSWeY5Eq0zL8bbqd7v5505h6ckI2bvbl1D-5ioNO-Ymp8O2ENFdOwpv-u06NPKyZbVnb33IwPYsOrg-MrHfp3Jvmax-j693_XgxZzOs_EwUndOzRfr31xudsmXYm57uCfQHmSkfujPtk9zawbGBQ8M-j70hq_1dBkLLr0dql18D4_gJe8oeLROp84XrWFD3tIG8gWiaqqBPxqewwtcchDHWzZqRKXg7fMxmgddH_pxc2o2taRbMy6BM3iqcMzKTNq4h2uiOvG87je0kG4oT9MlNeKhjtNH71UQSkBVlNZBKpKeIVburWALmFqbclHJdBJo7Jxh922v65TflurEJyo8V6J3SlgPC-J4M9Ihh-6wLmzaGF1L6LfOo_9kfd92H-_v0zS9pU2TlrHf5t1b2FTv_tBn74sV5HXSvMWVn5f_e3r7aJK8jFHBz3vQ61-fVTex_0De8qfFLImfNtN7md9l6HjWrPnJMlZKBDtZqzpGpFJ3Ye0PyN1WEFAEywAcEiTBYC1ZjCO5vhFpFQ5hjAO6ovKRCbMepO09G978tu2-s1zKhU3dI5NbyC6Ic_t_RvxUCGHWcd_mZdOHZTNEv6dL9NeMf9g1co9f7ASZR5qPSLHarxbFlLg_L2jo8_yn76xZcknMuw5l_JgJcutmqPsfBL_X_CdM3dThEsrux4cz7Z5kyYmCfTX4045Cx20e9sMj_gW4zIh_b_rdf-e2KdOEB4Kzp217ZUf5LGDcnZGvz3y988i2U002IyePfzgxy7XjVXQEwP3WsTQWLts4BJ9TgDTBUCwkKQaJTjMQPatv3_5cEy9fZh-HRMhAgsboNRtiJAVIzGdYHGNCOo5IKqGJJFl9-wOugQDG.aL1SQw.4ct0Wki4NAvEsdzB7JkxulY_2uU'}
+2025-09-07 12:37:08 - endpoints.settings - INFO - Remote address: 127.0.0.1
+2025-09-07 12:37:08 - endpoints.settings - INFO - User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-07 12:37:08 - endpoints.settings - INFO - User ID from session: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:37:08 - endpoints.settings - INFO - Calling get_router_id_setting service with user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:37:08 - services.settings_service - INFO - === Starting get_router_id_setting ===
+2025-09-07 12:37:08 - services.settings_service - INFO - Input parameter - user_id: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:37:08 - services.db_operations.settings_db - INFO - === DB get_router_id_setting ===
+2025-09-07 12:37:08 - services.monitor_service - INFO - Successfully enriched 2 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-07 12:37:08 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-07 12:37:08 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 2 devices
+2025-09-07 12:37:08 - services.settings_service - INFO - === get_router_id_setting completed successfully ===
+2025-09-07 12:37:08 - endpoints.settings - INFO - Service call completed - result: {'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d'}, error: None
+2025-09-07 12:37:08 - endpoints.settings - INFO - Service call successful, returning result: {'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d'}
+2025-09-07 12:37:08 - endpoints.settings - INFO - === get_router_id endpoint completed successfully ===
+2025-09-07 12:37:08 - endpoints.settings - INFO - === Starting get_router_id endpoint ===
+2025-09-07 12:37:08 - endpoints.settings - INFO - Request method: GET
+2025-09-07 12:37:08 - endpoints.settings - INFO - Request URL: http://localhost:5000/api/settings/router-id
+2025-09-07 12:37:08 - endpoints.settings - INFO - Request headers: {'Host': 'localhost:5000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Windows"', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', 'Sec-Ch-Ua': '"Chromium";v="140", "Not=A?Brand";v="24", "Google Chrome";v="140"', 'Sec-Ch-Ua-Mobile': '?0', 'Accept': '*/*', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'en-US,en;q=0.9,he;q=0.8', 'Cookie': 'session=.eJytVdmuo0gS_ZWRn4t7M9kMV2qpsVm8AQZjthfEvpjNZrMp1b93cruqulrd0szDSMjIkcGJEydCeb6u8MT3xviRJ3kcrT76xxB_-VvM8_vVxwoHOIUBFgO0AdcfOPFBEm8stWYhWH1ZeW38qPw6rvsfAEMXP1YfX1d-GMZd5_XNLa4RysvH2TcfcBdiRysvjpJ5w4NTSQCDUqW-JPaKTKoYafPivW5xqvJk-Crpp9A8cV_RjbEJuCwpcrVLqpvtUomWwH0oxMfxcntaBbNbx7njnV1W0ZOnL0bJUWu78zrx1LszxlPGn1-BjT2C8HF-kofAfgTFKdQZjZmpQxPlWy8zbpfygl1P0hrLsM2zj7A4f20J--Gc05T3wCYGXgVDxcixbXX0t6lz5OLpwunaRdR2ko3Lub--0HHWn3WrxZlxPRy5QOAmgIM1Uip-tvkj7j41hWtqDRkCAPqveI5UIiiW-bLKo5-qxa9DFkhhruaHy3XeQyXfd_uqb93tnt4XZaEUeygbV1KZb1DmU6BIAq4Ybu4aMlQK5aZKMnQqDXeLlFIkGch8mJ-2BxDb3IJ5NKGWJ9obKtOGhLyEmminT-HcjCdcLBychUGtz6cqGgM86twLVQQ4WCCyuF4g9k-Zv86qkU5yIcwKL5MnmwN-7eIKHz1kPOodwixcYz8pFYC-7ZAOngFZiqbQyuCpEqdwJw8uzo4u_iwjWynDShlRzTKotQHV7_f5lDu2edsXTS4bHJTnGynzqO6szeoWTorU4lGhEf6s1IGlQAe_vmTe7RWrxFVJaSJ-U4c7sYkuVBbuNn_1Ypuzax9QPxRwLQqclroXJG-NMPJFXmGSDWdW-SslGxpUedRD4ZAoRspLXmX2jlV2C6-gMkEolV1A6EUgsdAVNoiL2Abbn3qVn_9FFkc1W7cqy2WE0e4A3cvSn574kjj7y1jrVjeJllSNzHZnJb8IUA9smdQLs7ZuwoI1IM6Fe0G5Vfa8EAc3AhmpSM-NfjMd09QFQ0jholtQif1n3o0qI3HTIm5giSOuRbQzX98xQIR0UXNmDKT0v-jDZicg8u6cjQ5oZs3MCI3YmKrtKlfh2mu2QBqmSfpGtLdntEeAtVQrBRFkhbAsS_UqTlFpStb1OmkGRHvj9M5r0TJqo8ocbJzKAuu67KHq2rrmW88x2i7nZYbetGyEUJkFQjW0Sd1OuWtnE9L_qcxXQjbSWeY5Eq0zL8bbqd7v5505h6ckI2bvbl1D-5ioNO-Ymp8O2ENFdOwpv-u06NPKyZbVnb33IwPYsOrg-MrHfp3Jvmax-j693_XgxZzOs_EwUndOzRfr31xudsmXYm57uCfQHmSkfujPtk9zawbGBQ8M-j70hq_1dBkLLr0dql18D4_gJe8oeLROp84XrWFD3tIG8gWiaqqBPxqewwtcchDHWzZqRKXg7fMxmgddH_pxc2o2taRbMy6BM3iqcMzKTNq4h2uiOvG87je0kG4oT9MlNeKhjtNH71UQSkBVlNZBKpKeIVburWALmFqbclHJdBJo7Jxh922v65TflurEJyo8V6J3SlgPC-J4M9Ihh-6wLmzaGF1L6LfOo_9kfd92H-_v0zS9pU2TlrHf5t1b2FTv_tBn74sV5HXSvMWVn5f_e3r7aJK8jFHBz3vQ61-fVTex_0De8qfFLImfNtN7md9l6HjWrPnJMlZKBDtZqzpGpFJ3Ye0PyN1WEFAEywAcEiTBYC1ZjCO5vhFpFQ5hjAO6ovKRCbMepO09G978tu2-s1zKhU3dI5NbyC6Ic_t_RvxUCGHWcd_mZdOHZTNEv6dL9NeMf9g1co9f7ASZR5qPSLHarxbFlLg_L2jo8_yn76xZcknMuw5l_JgJcutmqPsfBL_X_CdM3dThEsrux4cz7Z5kyYmCfTX4045Cx20e9sMj_gW4zIh_b_rdf-e2KdOEB4Kzp217ZUf5LGDcnZGvz3y988i2U002IyePfzgxy7XjVXQEwP3WsTQWLts4BJ9TgDTBUCwkKQaJTjMQPatv3_5cEy9fZh-HRMhAgsboNRtiJAVIzGdYHGNCOo5IKqGJJFl9-wOugQDG.aL1SQw.4ct0Wki4NAvEsdzB7JkxulY_2uU'}
+2025-09-07 12:37:08 - endpoints.settings - INFO - Remote address: 127.0.0.1
+2025-09-07 12:37:08 - endpoints.settings - INFO - User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-07 12:37:08 - endpoints.settings - INFO - User ID from session: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:37:08 - endpoints.settings - INFO - Calling get_router_id_setting service with user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:37:08 - services.settings_service - INFO - === Starting get_router_id_setting ===
+2025-09-07 12:37:08 - services.settings_service - INFO - Input parameter - user_id: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:37:08 - services.db_operations.settings_db - INFO - === DB get_router_id_setting ===
+2025-09-07 12:37:08 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:37:08 - services.base - INFO - Service operation completed: start_session
+2025-09-07 12:37:08 - managers.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/session/start
+2025-09-07 12:37:08 - services.settings_service - INFO - === get_router_id_setting completed successfully ===
+2025-09-07 12:37:08 - endpoints.settings - INFO - Service call completed - result: {'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d'}, error: None
+2025-09-07 12:37:08 - endpoints.settings - INFO - Service call successful, returning result: {'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d'}
+2025-09-07 12:37:08 - endpoints.settings - INFO - === get_router_id endpoint completed successfully ===
+2025-09-07 12:37:08 - managers.commands_server - DEBUG - Request completed in 0.14s with status 400
+2025-09-07 12:37:08 - managers.commands_server - ERROR - Commands server returned 400: {
+  "data": null,
+  "error": {
+    "code": "SESSION_ALREADY_ACTIVE",
+    "details": null,
+    "message": "Session is already active"
+  },
+  "metadata": {
+    "executionTime": 0.0008456707000732422,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-09-07T09:37:08.740775"
+  },
+  "success": false
+}
+
+2025-09-07 12:37:08 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/api/session/start': Commands server returned 400: {
+  "data": null,
+  "error": {
+    "code": "SESSION_ALREADY_ACTIVE",
+    "details": null,
+    "message": "Session is already active"
+  },
+  "metadata": {
+    "executionTime": 0.0008456707000732422,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-09-07T09:37:08.740775"
+  },
+  "success": false
+}
+
+2025-09-07 12:37:08 - services.commands_server_operations.session_execute - DEBUG - Commands server response - data: None, error: Commands server returned 400: {
+  "data": null,
+  "error": {
+    "code": "SESSION_ALREADY_ACTIVE",
+    "details": null,
+    "message": "Session is already active"
+  },
+  "metadata": {
+    "executionTime": 0.0008456707000732422,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-09-07T09:37:08.740775"
+  },
+  "success": false
+}
+
+2025-09-07 12:37:08 - services.commands_server_operations.session_execute - INFO - Session already active for router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff - treating as success
+2025-09-07 12:37:08 - services.base - INFO - Service operation completed: start_session
+2025-09-07 12:37:23 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-07 12:37:23 - services.base - INFO - Service operation completed: chatbot_clear_history
+2025-09-07 12:37:23 - services.chatbot_service - INFO - Conversation history cleared for user ec3c8136-679c-4504-a892-8c6ed45f63ff

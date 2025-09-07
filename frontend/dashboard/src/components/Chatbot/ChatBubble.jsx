@@ -3,12 +3,7 @@ import { MessageCircle, X } from 'lucide-react';
 import { useChatbot } from '../../context/ChatbotContext';
 
 const ChatBubble = () => {
-  const { isOpen, toggleChat, messages } = useChatbot();
-  
-  // Count unread messages (messages from assistant that user hasn't seen)
-  const unreadCount = messages.filter(msg => 
-    msg.role === 'assistant' && !msg.isRead
-  ).length;
+  const { isOpen, toggleChat } = useChatbot();
 
   return (
     <div className="fixed bottom-6 right-6 z-50">
@@ -30,13 +25,6 @@ const ChatBubble = () => {
           <X className="w-6 h-6" />
         ) : (
           <MessageCircle className="w-6 h-6" />
-        )}
-        
-        {/* Unread Message Badge */}
-        {!isOpen && unreadCount > 0 && (
-          <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold animate-pulse">
-            {unreadCount > 9 ? '9+' : unreadCount}
-          </div>
         )}
       </button>
     </div>
