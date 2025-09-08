@@ -40,7 +40,7 @@ const MessageInput = () => {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyPress={handleKeyPress}
-            placeholder={isTyping ? "AI is typing..." : "Type your message..."}
+            placeholder={isTyping ? "Neti is typing..." : "Type your message..."}
             disabled={isLoading || isTyping}
             className="
               w-full px-4 py-3 pr-12 border border-gray-300 dark:border-gray-600 
@@ -84,7 +84,7 @@ const MessageInput = () => {
             <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
             <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
           </div>
-          <span>AI is typing...</span>
+          <span>Neti is typing...</span>
         </div>
       )}
     </div>
