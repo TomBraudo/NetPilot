@@ -3,16 +3,13 @@ import { links } from "../../constants";
 import LinkItem from "./LinkItem";
 import { useAuth } from "../../context/AuthContext";
 
-const Sidebar = ({ isSidebarOpen }) => {
+const Sidebar = () => {
   const { user, logout } = useAuth();
 
   return (
     <aside
       className={`fixed top-0 left-0 z-40 w-64 h-screen bg-white border-r border-gray-200 
-      dark:bg-gray-800 dark:border-gray-700 transition-transform duration-300 ease-in-out
-      ${
-        isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-      } lg:translate-x-0`}
+      dark:bg-gray-800 dark:border-gray-700`}
     >
       <div className="h-full flex flex-col">
         {/* Menu Items */}

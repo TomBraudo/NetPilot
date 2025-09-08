@@ -15,27 +15,25 @@ import AuthRedirectHandler from "./components/AuthRedirectHandler";
 import TwoFASetupModal from "./components/TwoFASetupModal";
 import TwoFAVerificationModal from "./components/TwoFAVerificationModal";
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import { ChatbotProvider } from "./context/ChatbotContext";
+import { Chatbot } from "./components/Chatbot";
 
 const AppLayout = ({
   darkMode,
   toggleDarkMode,
-  toggleSidebar,
-  isSidebarOpen,
 }) => {
   return (
     <div className="flex">
       {/* Sidebar (only for non-root routes) */}
       <aside className="fixed top-0 left-0 h-screen w-64 z-20">
-        <Sidebar isSidebarOpen={isSidebarOpen} />
+        <Sidebar />
       </aside>
 
       <header className="fixed top-0 left-0 right-0 h-16 z-30 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
         <div className="px-4 h-full flex items-center justify-between">
           <Header
             toggleDarkMode={toggleDarkMode}
-            toggleSidebar={toggleSidebar}
             darkMode={darkMode}
-            isSidebarOpen={isSidebarOpen}
           />
         </div>
       </header>
@@ -53,6 +51,8 @@ const AppLayout = ({
             <Route path="/settings" element={<SettingsPage />} />
           </Routes>
         </main>
+        {/* Chatbot - Available on all pages with sidebar */}
+        <Chatbot />
       </div>
     </div>
   );
@@ -69,7 +69,7 @@ const AppContent = () => {
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem("darkMode") === "true";
   });
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  
 
   useEffect(() => {
     localStorage.setItem("darkMode", darkMode);
@@ -79,9 +79,7 @@ const AppContent = () => {
     setDarkMode((prevMode) => !prevMode);
   };
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+  
 
   return (
     <div className={darkMode ? "dark" : ""}>
@@ -108,9 +106,7 @@ const AppContent = () => {
                 <div className="px-4 h-full flex items-center justify-between">
                   <Header
                     toggleDarkMode={toggleDarkMode}
-                    toggleSidebar={toggleSidebar}
                     darkMode={darkMode}
-                    isSidebarOpen={isSidebarOpen}
                   />
                 </div>
               </header>
@@ -128,8 +124,6 @@ const AppContent = () => {
             <AppLayout
               darkMode={darkMode}
               toggleDarkMode={toggleDarkMode}
-              toggleSidebar={toggleSidebar}
-              isSidebarOpen={isSidebarOpen}
             />
           }
         />
@@ -141,9 +135,11 @@ const AppContent = () => {
 const App = () => {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <AppContent />
-      </BrowserRouter>
+      <ChatbotProvider>
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </ChatbotProvider>
     </AuthProvider>
   );
 };
