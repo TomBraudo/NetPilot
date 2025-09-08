@@ -344,3 +344,4 @@ def generate_backup_codes_service(user_id: str, confirmation_code: str) -> Tuple
     if err2 or not ok:
         return None, err2 or "REPLACE_FAILED"
     return {"backup_codes": backup_codes, "message": "New backup codes generated successfully"}, None
+    
