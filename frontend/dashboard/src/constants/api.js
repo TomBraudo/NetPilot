@@ -45,6 +45,9 @@ export const API_ENDPOINTS = {
     LAST_MONTH: `${API_BASE_URL}/api/monitor/last-month`,
     DEVICE: `${API_BASE_URL}/api/monitor/device`,
   },
+
+  // Chatbot
+  CHATBOT: `${API_BASE_URL}/api/chatbot`,
 };
 
 // API Helper functions
@@ -659,4 +662,24 @@ export const downloadAPI = {
 
     return response.json();
   },
+};
+
+// Chatbot API functions
+export const chatbotAPI = {
+  // Send message to chatbot
+  sendMessage: (routerId, message) =>
+    apiRequest(`${API_ENDPOINTS.CHATBOT}/message?routerId=${routerId}`, {
+      method: "POST",
+      body: JSON.stringify({ message }),
+    }),
+
+  // Get conversation history
+  getHistory: (routerId) =>
+    apiRequest(`${API_ENDPOINTS.CHATBOT}/history?routerId=${routerId}`),
+
+  // Clear conversation history
+  clearHistory: (routerId) =>
+    apiRequest(`${API_ENDPOINTS.CHATBOT}/history?routerId=${routerId}`, {
+      method: "DELETE",
+    }),
 };

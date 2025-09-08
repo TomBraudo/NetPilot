@@ -1,12 +1,11 @@
 import React from "react";
 import { FaMoon } from "react-icons/fa";
 import { MdSunny } from "react-icons/md";
-import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import colorLogo from "../../assets/color_logo2.png";
 import whiteLogo from "../../assets/white_logo.png";
 
-const Header = ({ darkMode, toggleDarkMode, toggleSidebar }) => {
+const Header = ({ darkMode, toggleDarkMode }) => {
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
@@ -17,13 +16,6 @@ const Header = ({ darkMode, toggleDarkMode, toggleSidebar }) => {
     <div className="h-full flex items-center justify-between w-full">
       {/* Left side: Logo + Toggle (mobile) */}
       <div className="flex items-center gap-4">
-        {/* Sidebar toggle on mobile */}
-        <button
-          onClick={toggleSidebar}
-          className="lg:hidden p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300"
-        >
-          <HiOutlineMenuAlt2 className="text-xl" />
-        </button>
 
         {/* Logo - Clickable */}
         <button

@@ -25,6 +25,7 @@ from endpoints.device_groups import device_groups_bp
 from endpoints.devices import devices_bp
 from endpoints.blocked_devices import blocked_devices_bp
 from endpoints.scheduled_tasks import scheduled_tasks_bp
+from endpoints.chatbot import chatbot_bp
 from services.scheduler_bootstrap import init_scheduler
 from endpoints.download import download_bp
 
@@ -61,6 +62,12 @@ def create_app(dev_mode=False, dev_user_id=None):
     # Command Server config
     app.config['COMMAND_SERVER_URL'] = config('COMMAND_SERVER_URL', default='http://34.38.207.87:5000')
     app.config['COMMAND_SERVER_TIMEOUT'] = config('COMMAND_SERVER_TIMEOUT', default=30, cast=int)
+    
+    # Chatbot config
+    app.config['CHATBOT_KEY'] = config('CHATBOT_KEY', default='')
+    app.config['CHATBOT_MODEL'] = config('CHATBOT_MODEL', default='deepseek/deepseek-chat-v3.1:free')
+    app.config['CHATBOT_SYSTEM_PROMPT_URL'] = config('CHATBOT_SYSTEM_PROMPT_URL', default='')
+    app.config['OPENROUTER_API_URL'] = config('OPENROUTER_API_URL', default='https://openrouter.ai/api/v1/chat/completions')
     
     # Configuration
     app.secret_key = config('SECRET_KEY', default='my-strong-secret-key')
@@ -109,6 +116,7 @@ def create_app(dev_mode=False, dev_user_id=None):
     app.register_blueprint(devices_bp, url_prefix='/api/devices')
     app.register_blueprint(blocked_devices_bp, url_prefix='/api/devices')
     app.register_blueprint(scheduled_tasks_bp, url_prefix='/api')
+    app.register_blueprint(chatbot_bp, url_prefix='/api/chatbot')
     app.register_blueprint(download_bp, url_prefix='/api/download')
     
     # Root route
