@@ -60059,3 +60059,571 @@ AttributeError: user_id
 2025-09-07 12:37:23 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
 2025-09-07 12:37:23 - services.base - INFO - Service operation completed: chatbot_clear_history
 2025-09-07 12:37:23 - services.chatbot_service - INFO - Conversation history cleared for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:30:48 - managers.commands_server - INFO - Commands server manager initialized with URL: http://34.38.207.87:5000
+2025-09-08 19:30:52 - scheduler.registry - INFO - Registered task network.automatic_scan -> services.network_service.automatic_scan_network
+2025-09-08 19:30:53 - 2fa_service - INFO - TOTP encryption key loaded from environment variables
+2025-09-08 19:30:53 - 2fa_service - INFO - TOTP encryption cipher initialized successfully
+2025-09-08 19:30:53 - scheduler.registry - INFO - Registered task agh.set_device_rules -> services.agh_service.set_device_rules
+2025-09-08 19:30:53 - scheduler.registry - INFO - Registered task agh.set_devices_rules -> services.agh_service.set_devices_rules
+2025-09-08 19:30:53 - scheduler.registry - INFO - Registered task agh.clear_device_rules -> services.agh_service.clear_device_rules
+2025-09-08 19:30:53 - scheduler.registry - INFO - Registered task agh.clear_devices_rules -> services.agh_service.clear_devices_rules
+2025-09-08 19:30:53 - scheduler.registry - INFO - Registered task bandwidth.apply_group_limits -> services.bandwidth_service.apply_group_limits
+2025-09-08 19:30:53 - scheduler.registry - INFO - Registered task bandwidth.delete_group_limits -> services.bandwidth_service.delete_group_limits
+2025-09-08 19:30:53 - scheduler.registry - INFO - Registered task bandwidth.apply_device_limit -> services.bandwidth_service.apply_device_limit
+2025-09-08 19:30:53 - scheduler.registry - INFO - Registered task bandwidth.delete_device_limit -> services.bandwidth_service.delete_device_limit
+2025-09-08 19:30:53 - scheduler.registry - INFO - Registered task bandwidth.set_group_rule_db -> services.bandwidth_service.set_group_rule_db
+2025-09-08 19:30:57 - scheduler.registry - INFO - Loaded task module: services.bandwidth_service
+2025-09-08 19:30:57 - scheduler.registry - INFO - Loaded task module: services.agh_service
+2025-09-08 19:30:57 - scheduler.registry - INFO - Loaded task module: services.network_service
+2025-09-08 19:30:57 - scheduler.bootstrap - INFO - Scheduler started successfully with timezone Asia/Jerusalem
+2025-09-08 19:30:57 - middleware - WARNING - Router context request without user authentication
+2025-09-08 19:30:57 - middleware - WARNING - Router context request without user authentication
+2025-09-08 19:31:03 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:31:03 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-08 19:31:03 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:31:03 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-08 19:31:04 - endpoints.settings - INFO - === Starting get_router_id endpoint ===
+2025-09-08 19:31:04 - endpoints.settings - INFO - Request method: GET
+2025-09-08 19:31:04 - endpoints.settings - INFO - Request URL: http://localhost:5000/api/settings/router-id
+2025-09-08 19:31:04 - endpoints.settings - INFO - Request headers: {'Host': 'localhost:5000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Windows"', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', 'Sec-Ch-Ua': '"Chromium";v="140", "Not=A?Brand";v="24", "Google Chrome";v="140"', 'Sec-Ch-Ua-Mobile': '?0', 'Accept': '*/*', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'en-US,en;q=0.9,he;q=0.8', 'Cookie': 'session=.eJytVdeuo1oS_ZUrP7fP2URDSyMNJhmbYMDEF4tkcrCJ5qr_fTanb2hpRpp5GAkJUbtYa9Wq0q7fd_cuedVBkzTD7vvwGpNvu7FPXrvvv--CKEr6_j60ZdLsvu_eAUp_BIAxsROpLhT5pPwQGcmRf14vQU7HwH-tPH00FO9VMtqJvR9lEjuc9se6M1xZXn39uZ7yQH4aJSX2TDle6KdPcs7kOUebtRcvjN54qunj_XI8XJfDa1mMLK58wkuJp_m4vU50vuAlR5vJnm193KRtsKQcIcrzwWiDsDfQolVj_NIQvqrsg4Y2EeP8Mp89o4iTmihhoN0SRkevRStzRsCm3oVJJJMxdFPQT6KLKvn7Wk3n5f14gDe4jJzUtEbQMwAFh923XbJ0-Svp7wF0CjkQB4xASRL8Hc-hSxhBU992efyXa8n7nIVilGv52bRWCVFzqZfqofNZiZSKqlALCVFuFq6uJaJwKVBFHlVvfu7fFEQt1FITFcSrddQvUkIVFaBwUS6zZ5C4zIZ5sRE9f-gfkKaLMGULtfHJmKO1nWRUKDyURsLGWOU6nkI07n2TKEIUbBBZ0mwQ0qJw1qrd0lkp-FXlFFx2GRA0Pqpy8UtB48HD7MK_SbNaAyRwPdxDM6CI8Rw5GSLXwhydlNFH6clHlyp21Sqq1QlyVmGjj5B_kPI591y7lIo2V24MoqwlrnCQd9VXjUVmVezQuNCxYFWb0FERD7XeCucPqlOhmqi2MXdsopPQxiaRRafj37W49uq7Z1gPAXyHAPLGa0J7G4iRb_bys3LzVo2zCOWmIxoHayg8HMZwZcur7cFzqn7TFdY2iMSqDzGjCEUa8fkj1CJ0IfuXX9XXt0CjkLPz66raWhifzohvbvUZj0AU1mBra2mXFos8Ak4FTmnw8i0OvOrMma59VgR-wxqh5sI3t9yMVx3prSJ-EFf2yxA6zMeOp7DU8c23sBaGn3lEFQvHDmoDWxxqLeKT_f46qzMQQ1-0nJpCMf0v_tCZDATOX7PJA-2q2xmmY0dbc33V4q1Bd3n8Ztt4cIsld4VzBGhHc1IQIzQfVVWlWcIMdYqOZc36DYFz4w3ee_My7uLaHl2UyELH2uZQ811DD5xlitntvMrgm1RuEaKuCtBuDKpA33w3m6H_i7pamLJab9ifBY6zWgheZWOmQRwdVhVwSj1qnV7P3AEtvee1vFJii_WCQ9aYTNcyb561yr2eX6QlcGnpHeaHQQeDxBQHVUYXw0T6vWO-3lza5BHn-Do1TOjdcg4pC5g-UFfJez6bkeW8qgwa0-YUgXJz9KVQR58nTgHRqOFCH1paBmG675dhmorwwurKs7Xd8nB0pEqmnkimoK3OOO0NVZxuQJWr-sSbTC-ArVxEPrkn2lUjBJtkI-AgqtVeqvtp2hPj4hFgtBL08g73WSDCbnExUfAnXKrrt1zbtuECd06K9hnmDCisI-OYRuDyb1MrvT6YWSp-7A2-7jF0MKpDiGh0-uwzRKebYiHH4U6idebedHiH9VHbJfBayoah679_fs7z_JG2bVolQZf3H1FbfwbjkH1uOyBvHu1H92ofeZX89j__kNRBXv0GWZo8hoRf9-B9eH-xHpPgBXfLzxWzZX-tmeGeBX0Gj_n4ur9n2OBz3P7ghwYrjRLYVAdjDI8RQGA0BVAEwzFq3-HFNOGHEkvraIwSFJA1kU9UlA0g7Z7Z-BF0Xf-H1I0uapsBLrlN8Ya4dv9nxK-6IWaTDF1etUNUtWP8z3SL_ppxn2DljzyJ_9y2cHv8sk6Qb7s0n6BjTVBvjqnJcN3Q4O_5X3sHp8GWmPf9L52E27odm-FPgX9w_jtM0zbRFjpxRIgebH-ySs6f005sOAoed3k0jK9fR6TKsP9c9GfwybAp1UZnjHFntrPoSbnye-ZJKdaSH053vOs1m87w-c69vIRmuskSPB4w_-hpch9t0ziGX11ASIwiaAQnKGg6SSHw2f348XNM7vnW-yTCIgrByD15oKM9TgB8H1A0uqciMolx4kFij8fux78AnTDqGw.aL8EyA.aZT0djx0oWa3Uh3AzFjirhGcr-Y'}
+2025-09-08 19:31:04 - endpoints.settings - INFO - Remote address: 127.0.0.1
+2025-09-08 19:31:04 - endpoints.settings - INFO - User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-08 19:31:04 - endpoints.settings - INFO - User ID from session: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:31:04 - endpoints.settings - INFO - Calling get_router_id_setting service with user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:31:04 - services.settings_service - INFO - === Starting get_router_id_setting ===
+2025-09-08 19:31:04 - services.settings_service - INFO - Input parameter - user_id: ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:31:04 - services.db_operations.settings_db - INFO - === DB get_router_id_setting ===
+2025-09-08 19:31:04 - services.settings_service - INFO - === get_router_id_setting completed successfully ===
+2025-09-08 19:31:04 - endpoints.settings - INFO - Service call completed - result: {'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d'}, error: None
+2025-09-08 19:31:04 - endpoints.settings - INFO - Service call successful, returning result: {'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d'}
+2025-09-08 19:31:04 - endpoints.settings - INFO - === get_router_id endpoint completed successfully ===
+2025-09-08 19:31:04 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:31:04 - services.base - INFO - Service operation completed: start_session
+2025-09-08 19:31:04 - managers.commands_server - DEBUG - Performing health check...
+2025-09-08 19:31:04 - managers.commands_server - INFO - Checking commands server health
+2025-09-08 19:31:04 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-09-08 19:31:04 - managers.commands_server - DEBUG - Request completed in 0.17s with status 200
+2025-09-08 19:31:04 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 7.939338684082031e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-09-08T16:31:04.000872'}, 'success': True}
+2025-09-08 19:31:04 - managers.commands_server - DEBUG - Commands server health check successful
+2025-09-08 19:31:04 - managers.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/session/start
+2025-09-08 19:31:05 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-08 19:31:05 IDT (weekday 0)
+2025-09-08 19:31:05 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-08 19:31:00 IDT
+2025-09-08 19:31:05 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-08 19:31:05 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-08 19:31:05 - managers.commands_server - DEBUG - Request completed in 0.76s with status 500
+2025-09-08 19:31:05 - managers.commands_server - ERROR - Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "SESSION_SETUP_FAILED",
+    "details": null,
+    "message": "Session setup failed: [Errno None] Unable to connect to port 2207 on 127.0.0.1"
+  },
+  "metadata": {
+    "executionTime": 0.5908231735229492,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-09-08T16:31:04.758419"
+  },
+  "success": false
+}
+
+2025-09-08 19:31:05 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/api/session/start': Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "SESSION_SETUP_FAILED",
+    "details": null,
+    "message": "Session setup failed: [Errno None] Unable to connect to port 2207 on 127.0.0.1"
+  },
+  "metadata": {
+    "executionTime": 0.5908231735229492,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-09-08T16:31:04.758419"
+  },
+  "success": false
+}
+
+2025-09-08 19:31:05 - services.commands_server_operations.session_execute - DEBUG - Commands server response - data: None, error: Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "SESSION_SETUP_FAILED",
+    "details": null,
+    "message": "Session setup failed: [Errno None] Unable to connect to port 2207 on 127.0.0.1"
+  },
+  "metadata": {
+    "executionTime": 0.5908231735229492,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-09-08T16:31:04.758419"
+  },
+  "success": false
+}
+
+2025-09-08 19:31:05 - services.commands_server_operations.session_execute - ERROR - Session start failed for router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d: Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "SESSION_SETUP_FAILED",
+    "details": null,
+    "message": "Session setup failed: [Errno None] Unable to connect to port 2207 on 127.0.0.1"
+  },
+  "metadata": {
+    "executionTime": 0.5908231735229492,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-09-08T16:31:04.758419"
+  },
+  "success": false
+}
+
+2025-09-08 19:31:05 - services.base - ERROR - Service operation failed: start_session - Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "SESSION_SETUP_FAILED",
+    "details": null,
+    "message": "Session setup failed: [Errno None] Unable to connect to port 2207 on 127.0.0.1"
+  },
+  "metadata": {
+    "executionTime": 0.5908231735229492,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-09-08T16:31:04.758419"
+  },
+  "success": false
+}
+
+2025-09-08 19:31:17 - managers.transaction_manager - DEBUG - Created and set database session for scheduled task context
+2025-09-08 19:31:17 - managers.transaction_manager - DEBUG - Committed scheduled task transaction
+2025-09-08 19:31:17 - managers.transaction_manager - DEBUG - Closed scheduled task database session
+2025-09-08 19:31:17 - twofa_endpoints - INFO - 2FA verification successful for user ec3c8136-679c-4504-a892-8c6ed45f63ff using TOTP
+2025-09-08 19:31:18 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:31:18 - services.base - INFO - Service operation completed: start_session
+2025-09-08 19:31:18 - managers.commands_server - DEBUG - Making POST request to http://34.38.207.87:5000/api/session/start
+2025-09-08 19:31:18 - managers.commands_server - DEBUG - Request completed in 0.15s with status 400
+2025-09-08 19:31:18 - managers.commands_server - ERROR - Commands server returned 400: {
+  "data": null,
+  "error": {
+    "code": "SESSION_ALREADY_ACTIVE",
+    "details": null,
+    "message": "Session is already active"
+  },
+  "metadata": {
+    "executionTime": 0.0016872882843017578,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-09-08T16:31:18.203852"
+  },
+  "success": false
+}
+
+2025-09-08 19:31:18 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/api/session/start': Commands server returned 400: {
+  "data": null,
+  "error": {
+    "code": "SESSION_ALREADY_ACTIVE",
+    "details": null,
+    "message": "Session is already active"
+  },
+  "metadata": {
+    "executionTime": 0.0016872882843017578,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-09-08T16:31:18.203852"
+  },
+  "success": false
+}
+
+2025-09-08 19:31:18 - services.commands_server_operations.session_execute - DEBUG - Commands server response - data: None, error: Commands server returned 400: {
+  "data": null,
+  "error": {
+    "code": "SESSION_ALREADY_ACTIVE",
+    "details": null,
+    "message": "Session is already active"
+  },
+  "metadata": {
+    "executionTime": 0.0016872882843017578,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-09-08T16:31:18.203852"
+  },
+  "success": false
+}
+
+2025-09-08 19:31:18 - services.commands_server_operations.session_execute - INFO - Session already active for router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff - treating as success
+2025-09-08 19:31:18 - services.base - INFO - Service operation completed: start_session
+2025-09-08 19:31:54 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:31:54 - endpoints.monitor - INFO - Getting current monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:31:54 - services.monitor_service - INFO - Getting current devices monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-08 19:31:54 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:31:54 - managers.commands_server - DEBUG - Performing health check...
+2025-09-08 19:31:54 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-08 19:31:54 - managers.commands_server - INFO - Checking commands server health
+2025-09-08 19:31:54 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-09-08 19:31:54 - managers.commands_server - DEBUG - Request completed in 0.15s with status 200
+2025-09-08 19:31:54 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 3.6716461181640625e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-09-08T16:31:54.334294'}, 'success': True}
+2025-09-08 19:31:54 - managers.commands_server - DEBUG - Commands server health check successful
+2025-09-08 19:31:54 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-08 19:31:54 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:31:54 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-08 19:31:54 - managers.commands_server - DEBUG - Request completed in 0.16s with status 500
+2025-09-08 19:31:54 - managers.commands_server - ERROR - Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: [Errno None] Unable to connect to port 2207 on 127.0.0.1"
+  },
+  "metadata": {
+    "executionTime": 0.009458780288696289,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-09-08T16:31:54.489403"
+  },
+  "success": false
+}
+
+2025-09-08 19:31:54 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/api/monitor/current': Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: [Errno None] Unable to connect to port 2207 on 127.0.0.1"
+  },
+  "metadata": {
+    "executionTime": 0.009458780288696289,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-09-08T16:31:54.489403"
+  },
+  "success": false
+}
+
+2025-09-08 19:31:54 - services.commands_server_operations.monitor_execute - ERROR - Failed to get current devices monitor: Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: [Errno None] Unable to connect to port 2207 on 127.0.0.1"
+  },
+  "metadata": {
+    "executionTime": 0.009458780288696289,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-09-08T16:31:54.489403"
+  },
+  "success": false
+}
+
+2025-09-08 19:31:54 - services.monitor_service - ERROR - Failed to get current devices monitor: Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: [Errno None] Unable to connect to port 2207 on 127.0.0.1"
+  },
+  "metadata": {
+    "executionTime": 0.009458780288696289,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-09-08T16:31:54.489403"
+  },
+  "success": false
+}
+
+2025-09-08 19:31:54 - endpoints.monitor - ERROR - Failed to get current devices monitor: Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: [Errno None] Unable to connect to port 2207 on 127.0.0.1"
+  },
+  "metadata": {
+    "executionTime": 0.009458780288696289,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-09-08T16:31:54.489403"
+  },
+  "success": false
+}
+
+2025-09-08 19:31:54 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:31:54 - endpoints.monitor - INFO - Getting current monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:31:54 - services.monitor_service - INFO - Getting current devices monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-08 19:31:54 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-08 19:31:55 - managers.commands_server - DEBUG - Request completed in 0.16s with status 500
+2025-09-08 19:31:55 - managers.commands_server - ERROR - Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: [Errno None] Unable to connect to port 2207 on 127.0.0.1"
+  },
+  "metadata": {
+    "executionTime": 0.007817983627319336,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-09-08T16:31:54.648261"
+  },
+  "success": false
+}
+
+2025-09-08 19:31:55 - managers.commands_server - ERROR - Failed to execute command via direct endpoint '/api/monitor/current': Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: [Errno None] Unable to connect to port 2207 on 127.0.0.1"
+  },
+  "metadata": {
+    "executionTime": 0.007817983627319336,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-09-08T16:31:54.648261"
+  },
+  "success": false
+}
+
+2025-09-08 19:31:55 - services.commands_server_operations.monitor_execute - ERROR - Failed to get current devices monitor: Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: [Errno None] Unable to connect to port 2207 on 127.0.0.1"
+  },
+  "metadata": {
+    "executionTime": 0.007817983627319336,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-09-08T16:31:54.648261"
+  },
+  "success": false
+}
+
+2025-09-08 19:31:55 - services.monitor_service - ERROR - Failed to get current devices monitor: Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: [Errno None] Unable to connect to port 2207 on 127.0.0.1"
+  },
+  "metadata": {
+    "executionTime": 0.007817983627319336,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-09-08T16:31:54.648261"
+  },
+  "success": false
+}
+
+2025-09-08 19:31:55 - endpoints.monitor - ERROR - Failed to get current devices monitor: Commands server returned 500: {
+  "data": null,
+  "error": {
+    "code": "COMMAND_FAILED",
+    "details": null,
+    "message": "Command failed: [Errno None] Unable to connect to port 2207 on 127.0.0.1"
+  },
+  "metadata": {
+    "executionTime": 0.007817983627319336,
+    "routerId": "21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d",
+    "sessionId": "ec3c8136-679c-4504-a892-8c6ed45f63ff",
+    "timestamp": "2025-09-08T16:31:54.648261"
+  },
+  "success": false
+}
+
+2025-09-08 19:32:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-08 19:32:00 IDT (weekday 0)
+2025-09-08 19:32:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-08 19:32:00 IDT
+2025-09-08 19:32:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-08 19:32:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-08 19:32:52 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:32:52 - endpoints.monitor - INFO - Getting current monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:32:52 - services.monitor_service - INFO - Getting current devices monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-08 19:32:52 - managers.commands_server - DEBUG - Performing health check...
+2025-09-08 19:32:52 - managers.commands_server - INFO - Checking commands server health
+2025-09-08 19:32:52 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-09-08 19:32:52 - managers.commands_server - DEBUG - Request completed in 0.15s with status 200
+2025-09-08 19:32:52 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 3.0517578125e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-09-08T16:32:52.408635'}, 'success': True}
+2025-09-08 19:32:52 - managers.commands_server - DEBUG - Commands server health check successful
+2025-09-08 19:32:52 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-08 19:32:53 - managers.commands_server - DEBUG - Request completed in 1.05s with status 200
+2025-09-08 19:32:53 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 67701, 'download': 11119.33, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 223.95}, {'connections': 6977, 'download': 217.39, 'ip': '192.168.1.158', 'mac': '7a:75:6e:a9:3b:2b', 'unit': 'MB', 'upload': 10.79}, {'connections': 3943, 'download': 57.48, 'ip': '192.168.1.227', 'mac': 'd4:3a:2c:60:65:2c', 'unit': 'MB', 'upload': 6.71}], 'error': None, 'metadata': {'executionTime': 0.8651285171508789, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-09-08T16:32:53.420757'}, 'success': True}
+2025-09-08 19:32:53 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-08 19:32:53 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 3 devices
+2025-09-08 19:32:54 - services.monitor_service - INFO - Successfully enriched 3 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-08 19:32:54 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-08 19:32:54 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 3 devices
+2025-09-08 19:33:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-08 19:33:00 IDT (weekday 0)
+2025-09-08 19:33:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-08 19:33:00 IDT
+2025-09-08 19:33:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-08 19:33:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-08 19:34:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-08 19:34:00 IDT (weekday 0)
+2025-09-08 19:34:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-08 19:34:00 IDT
+2025-09-08 19:34:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-08 19:34:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-08 19:34:06 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:34:06 - services.base - INFO - Service operation completed: chatbot_completion
+2025-09-08 19:34:06 - services.chatbot_service - INFO - Fetching system prompt from: https://storage.googleapis.com/netpilot-systemprompts-12345/system_prompt_2.txt
+2025-09-08 19:34:07 - services.chatbot_service - INFO - System prompt fetched and cached successfully
+2025-09-08 19:34:07 - services.chatbot_service - INFO - Sending request to OpenRouter API: deepseek/deepseek-chat-v3.1:free
+2025-09-08 19:34:25 - services.chatbot_service - INFO - Chatbot completion successful for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:35:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-08 19:35:00 IDT (weekday 0)
+2025-09-08 19:35:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-08 19:35:00 IDT
+2025-09-08 19:35:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-08 19:35:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-08 19:35:21 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:35:21 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-08 19:36:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-08 19:36:00 IDT (weekday 0)
+2025-09-08 19:36:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-08 19:36:00 IDT
+2025-09-08 19:36:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-08 19:36:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-08 19:37:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-08 19:37:00 IDT (weekday 0)
+2025-09-08 19:37:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-08 19:37:00 IDT
+2025-09-08 19:37:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-08 19:37:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-08 19:38:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-08 19:38:00 IDT (weekday 0)
+2025-09-08 19:38:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-08 19:38:00 IDT
+2025-09-08 19:38:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-08 19:38:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-08 19:39:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-08 19:39:00 IDT (weekday 0)
+2025-09-08 19:39:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-08 19:39:00 IDT
+2025-09-08 19:39:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-08 19:39:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-08 19:40:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-08 19:40:00 IDT (weekday 0)
+2025-09-08 19:40:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-08 19:40:00 IDT
+2025-09-08 19:40:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-08 19:40:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-08 19:41:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-08 19:41:00 IDT (weekday 0)
+2025-09-08 19:41:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-08 19:41:00 IDT
+2025-09-08 19:41:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-08 19:41:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-08 19:42:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-08 19:42:00 IDT (weekday 0)
+2025-09-08 19:42:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-08 19:42:00 IDT
+2025-09-08 19:42:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-08 19:42:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-08 19:43:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-08 19:43:00 IDT (weekday 0)
+2025-09-08 19:43:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-08 19:43:00 IDT
+2025-09-08 19:43:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-08 19:43:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-08 19:43:03 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:43:03 - endpoints.monitor - INFO - Getting current monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:43:03 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:43:03 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-08 19:43:03 - services.monitor_service - INFO - Getting current devices monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-08 19:43:03 - managers.commands_server - DEBUG - Performing health check...
+2025-09-08 19:43:03 - managers.commands_server - INFO - Checking commands server health
+2025-09-08 19:43:03 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/health
+2025-09-08 19:43:03 - managers.commands_server - DEBUG - Request completed in 0.15s with status 200
+2025-09-08 19:43:03 - managers.commands_server - DEBUG - Received response: {'data': {'message': 'Server is healthy'}, 'error': None, 'metadata': {'executionTime': 4.1961669921875e-05, 'routerId': None, 'sessionId': None, 'timestamp': '2025-09-08T16:43:02.451816'}, 'success': True}
+2025-09-08 19:43:03 - managers.commands_server - DEBUG - Commands server health check successful
+2025-09-08 19:43:03 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-08 19:43:03 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:43:03 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-08 19:43:04 - managers.commands_server - DEBUG - Request completed in 0.88s with status 200
+2025-09-08 19:43:04 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 69753, 'download': 11125.21, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 289.89}, {'connections': 6977, 'download': 217.39, 'ip': '192.168.1.158', 'mac': '7a:75:6e:a9:3b:2b', 'unit': 'MB', 'upload': 10.79}, {'connections': 3943, 'download': 57.48, 'ip': '192.168.1.227', 'mac': 'd4:3a:2c:60:65:2c', 'unit': 'MB', 'upload': 6.71}], 'error': None, 'metadata': {'executionTime': 0.7084119319915771, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-09-08T16:43:03.305944'}, 'success': True}
+2025-09-08 19:43:04 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-08 19:43:04 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 3 devices
+2025-09-08 19:43:04 - services.monitor_service - INFO - Successfully enriched 3 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-08 19:43:04 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-08 19:43:04 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 3 devices
+2025-09-08 19:43:04 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:43:04 - endpoints.monitor - INFO - Getting current monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:43:04 - services.monitor_service - INFO - Getting current devices monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-08 19:43:04 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-08 19:43:04 - managers.commands_server - DEBUG - Request completed in 0.31s with status 200
+2025-09-08 19:43:04 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 69754, 'download': 11125.21, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 289.89}, {'connections': 6977, 'download': 217.39, 'ip': '192.168.1.158', 'mac': '7a:75:6e:a9:3b:2b', 'unit': 'MB', 'upload': 10.79}, {'connections': 3943, 'download': 57.48, 'ip': '192.168.1.227', 'mac': 'd4:3a:2c:60:65:2c', 'unit': 'MB', 'upload': 6.71}], 'error': None, 'metadata': {'executionTime': 0.1552598476409912, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-09-08T16:43:03.873687'}, 'success': True}
+2025-09-08 19:43:04 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-08 19:43:04 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 3 devices
+2025-09-08 19:43:05 - services.monitor_service - INFO - Successfully enriched 3 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-08 19:43:05 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-08 19:43:05 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 3 devices
+2025-09-08 19:43:06 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:43:06 - endpoints.monitor - INFO - Getting current monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:43:06 - services.monitor_service - INFO - Getting current devices monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-08 19:43:06 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-08 19:43:06 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:43:06 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-08 19:43:06 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:43:06 - services.base - INFO - Service operation completed: chatbot_get_history
+2025-09-08 19:43:06 - managers.commands_server - DEBUG - Request completed in 0.31s with status 200
+2025-09-08 19:43:06 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 69756, 'download': 11125.21, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 289.89}, {'connections': 6977, 'download': 217.39, 'ip': '192.168.1.158', 'mac': '7a:75:6e:a9:3b:2b', 'unit': 'MB', 'upload': 10.79}, {'connections': 3943, 'download': 57.48, 'ip': '192.168.1.227', 'mac': 'd4:3a:2c:60:65:2c', 'unit': 'MB', 'upload': 6.71}], 'error': None, 'metadata': {'executionTime': 0.15363478660583496, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-09-08T16:43:06.924513'}, 'success': True}
+2025-09-08 19:43:06 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-08 19:43:06 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 3 devices
+2025-09-08 19:43:07 - services.monitor_service - INFO - Successfully enriched 3 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-08 19:43:07 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-08 19:43:07 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 3 devices
+2025-09-08 19:43:07 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:43:07 - endpoints.monitor - INFO - Getting current monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:43:07 - services.monitor_service - INFO - Getting current devices monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-08 19:43:07 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-08 19:43:07 - managers.commands_server - DEBUG - Request completed in 0.31s with status 200
+2025-09-08 19:43:07 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 69757, 'download': 11125.21, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 289.89}, {'connections': 6977, 'download': 217.39, 'ip': '192.168.1.158', 'mac': '7a:75:6e:a9:3b:2b', 'unit': 'MB', 'upload': 10.79}, {'connections': 3943, 'download': 57.48, 'ip': '192.168.1.227', 'mac': 'd4:3a:2c:60:65:2c', 'unit': 'MB', 'upload': 6.71}], 'error': None, 'metadata': {'executionTime': 0.15637993812561035, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-09-08T16:43:07.487785'}, 'success': True}
+2025-09-08 19:43:07 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-08 19:43:07 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 3 devices
+2025-09-08 19:43:07 - services.monitor_service - INFO - Successfully enriched 3 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-08 19:43:07 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-08 19:43:07 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 3 devices
+2025-09-08 19:43:15 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:43:15 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:43:15 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-08 19:43:15 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:43:16 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-08 19:43:16 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:43:16 - services.base - INFO - Service operation completed: blocked_device_get_all
+2025-09-08 19:43:16 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:43:16 - services.db_operations.blocked_device_db - INFO - Retrieved 0 blocked devices for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-08 19:43:17 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:43:24 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:43:24 - endpoints.monitor - INFO - Getting current monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:43:24 - services.monitor_service - INFO - Getting current devices monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-08 19:43:24 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-08 19:43:24 - managers.commands_server - DEBUG - Request completed in 0.31s with status 200
+2025-09-08 19:43:24 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 69764, 'download': 11125.21, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 289.89}, {'connections': 6977, 'download': 217.39, 'ip': '192.168.1.158', 'mac': '7a:75:6e:a9:3b:2b', 'unit': 'MB', 'upload': 10.79}, {'connections': 3943, 'download': 57.48, 'ip': '192.168.1.227', 'mac': 'd4:3a:2c:60:65:2c', 'unit': 'MB', 'upload': 6.71}], 'error': None, 'metadata': {'executionTime': 0.15511322021484375, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-09-08T16:43:23.943142'}, 'success': True}
+2025-09-08 19:43:24 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-08 19:43:24 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 3 devices
+2025-09-08 19:43:24 - services.monitor_service - INFO - Successfully enriched 3 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-08 19:43:24 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-08 19:43:24 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 3 devices
+2025-09-08 19:43:24 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:43:24 - endpoints.monitor - INFO - Getting current monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:43:24 - services.monitor_service - INFO - Getting current devices monitor for user ec3c8136-679c-4504-a892-8c6ed45f63ff, router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-08 19:43:24 - managers.commands_server - DEBUG - Making GET request to http://34.38.207.87:5000/api/monitor/current
+2025-09-08 19:43:25 - managers.commands_server - DEBUG - Request completed in 0.30s with status 200
+2025-09-08 19:43:25 - managers.commands_server - DEBUG - Received response: {'data': [{'connections': 69765, 'download': 11125.21, 'ip': '192.168.1.122', 'mac': 'd8:bb:c1:47:3a:43', 'unit': 'MB', 'upload': 289.89}, {'connections': 6977, 'download': 217.39, 'ip': '192.168.1.158', 'mac': '7a:75:6e:a9:3b:2b', 'unit': 'MB', 'upload': 10.79}, {'connections': 3943, 'download': 57.48, 'ip': '192.168.1.227', 'mac': 'd4:3a:2c:60:65:2c', 'unit': 'MB', 'upload': 6.71}], 'error': None, 'metadata': {'executionTime': 0.15447735786437988, 'routerId': '21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d', 'sessionId': 'ec3c8136-679c-4504-a892-8c6ed45f63ff', 'timestamp': '2025-09-08T16:43:24.501672'}, 'success': True}
+2025-09-08 19:43:25 - managers.commands_server - INFO - Successfully executed command via direct endpoint '/api/monitor/current'
+2025-09-08 19:43:25 - services.commands_server_operations.monitor_execute - INFO - Successfully retrieved current devices monitor data for 3 devices
+2025-09-08 19:43:25 - services.monitor_service - INFO - Successfully enriched 3 devices with names from database (filtered out 0 devices below 10MB threshold)
+2025-09-08 19:43:25 - services.monitor_service - INFO - Successfully retrieved current devices monitor data
+2025-09-08 19:43:25 - endpoints.monitor - INFO - Successfully retrieved current devices monitor data for 3 devices
+2025-09-08 19:44:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-08 19:44:00 IDT (weekday 0)
+2025-09-08 19:44:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-08 19:44:00 IDT
+2025-09-08 19:44:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-08 19:44:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-08 19:45:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-08 19:45:00 IDT (weekday 0)
+2025-09-08 19:45:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-08 19:45:00 IDT
+2025-09-08 19:45:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-08 19:45:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-08 19:46:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-08 19:46:00 IDT (weekday 0)
+2025-09-08 19:46:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-08 19:46:00 IDT
+2025-09-08 19:46:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-08 19:46:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-08 19:47:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-08 19:47:00 IDT (weekday 0)
+2025-09-08 19:47:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-08 19:47:00 IDT
+2025-09-08 19:47:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-08 19:47:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-08 19:48:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-08 19:48:00 IDT (weekday 0)
+2025-09-08 19:48:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-08 19:48:00 IDT
+2025-09-08 19:48:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-08 19:48:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-08 19:49:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-08 19:49:00 IDT (weekday 0)
+2025-09-08 19:49:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-08 19:49:00 IDT
+2025-09-08 19:49:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-08 19:49:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-08 19:49:23 - middleware - DEBUG - Router context established: user_id=ec3c8136-679c-4504-a892-8c6ed45f63ff, router_id=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d, session_id=ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:49:23 - services.base - INFO - Service operation completed: chatbot_clear_history
+2025-09-08 19:49:23 - services.chatbot_service - INFO - Conversation history cleared for user ec3c8136-679c-4504-a892-8c6ed45f63ff
+2025-09-08 19:50:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-08 19:50:00 IDT (weekday 0)
+2025-09-08 19:50:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-08 19:50:00 IDT
+2025-09-08 19:50:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-08 19:50:00 - scheduler.bootstrap - DEBUG - No tasks due at current time
+2025-09-08 19:51:00 - scheduler.bootstrap - DEBUG - Dispatcher tick at 2025-09-08 19:51:00 IDT (weekday 0)
+2025-09-08 19:51:00 - scheduler.bootstrap - DEBUG - Round minute time for last_run_at: 2025-09-08 19:51:00 IDT
+2025-09-08 19:51:00 - scheduler.bootstrap - DEBUG - Closed task discovery session
+2025-09-08 19:51:00 - scheduler.bootstrap - DEBUG - No tasks due at current time

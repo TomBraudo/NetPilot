@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Trash2, RotateCcw } from 'lucide-react';
+import { X, Trash2, RotateCcw, Bot } from 'lucide-react';
 import { useChatbot } from '../../context/ChatbotContext';
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
@@ -15,11 +15,11 @@ const ChatWindow = () => {
       <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 rounded-t-lg">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-            <span className="text-white font-bold text-sm">AI</span>
+            <Bot className="w-4 h-4 text-white" />
           </div>
           <div>
             <h3 className="font-semibold text-gray-900 dark:text-white">
-              NetPilot Assistant
+              Neti
             </h3>
             <p className="text-xs text-gray-500 dark:text-gray-400">
               Ask me anything about the app

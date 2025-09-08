@@ -48,7 +48,7 @@ const MessageInput = () => {
               bg-white dark:bg-gray-800 text-gray-900 dark:text-white
               placeholder-gray-500 dark:placeholder-gray-400
               disabled:opacity-50 disabled:cursor-not-allowed
-              max-h-32 min-h-[48px]
+              max-h-32 min-h-[48px] overflow-hidden no-scrollbar
             "
             rows={1}
             maxLength={1000}
