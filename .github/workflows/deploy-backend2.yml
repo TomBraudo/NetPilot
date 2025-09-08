@@ -36,12 +36,9 @@ jobs:
           --allow-unauthenticated \
           --port 5000 \
           --set-env-vars="^;^GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }};COMMAND_SERVER_URL=${{ secrets.COMMANDS_SERVER_URL }};COMMAND_SERVER_TIMEOUT=30;DB_HOST=${{ secrets.DB_HOST }};DB_PORT=${{ secrets.DB_PORT }};DB_USERNAME=${{ secrets.DB_USERNAME }};DB_NAME=${{ secrets.DB_NAME }};FLASK_ENV=production;DB_ECHO=false;LOG_LEVEL=${{ secrets.LOG_LEVEL }};USE_HTTPS=true;SECURE_COOKIES=true;FRONTEND_URL=${{ secrets.FRONTEND_URL }};CORS_ORIGINS=${{ secrets.CORS_ORIGINS }};SCHEDULER_ENABLED=${{ secrets.SCHEDULER_ENABLED }};SCHEDULER_TIMEZONE=${{ secrets.SCHEDULER_TIMEZONE }};MAX_CONCURRENT_SCHEDULED_TASKS=${{ secrets.MAX_CONCURRENT_SCHEDULED_TASKS }};MIN_ROUTER_GAP_SECONDS=${{ secrets.MIN_ROUTER_GAP_SECONDS }};SENDGRID_FROM_EMAIL=${{ secrets.SENDGRID_FROM_EMAIL }};AGENT_DOWNLOAD_URL=${{ secrets.AGENT_DOWNLOAD_URL }}" \
-<<<<<<< Updated upstream
           --set-secrets="GOOGLE_CLIENT_SECRET=google-client-secret:latest,DB_PASSWORD=db-password:latest,SECRET_KEY=flask-secret-key:latest,DATABASE_URL=database-url:latest,TOTP_ENCRYPTION_KEY=totp-encryption-key:latest,SENDGRID_API_KEY=sendgrid-api-key:latest" \
-=======
           --set-env-vars="CHATBOT_MODEL=${{ secrets.CHATBOT_MODEL }};CHATBOT_SYSTEM_PROMPT_URL=${{ secrets.CHATBOT_SYSTEM_PROMPT_URL }};OPENROUTER_API_URL=${{ secrets.OPENROUTER_API_URL }}" \
           --set-secrets="GOOGLE_CLIENT_SECRET=google-client-secret:latest,DB_PASSWORD=db-password:latest,SECRET_KEY=flask-secret-key:latest,DATABASE_URL=database-url:latest,TOTP_ENCRYPTION_KEY=totp-encryption-key:latest,SENDGRID_API_KEY=sendgrid-api-key:latest,CHATBOT_KEY=CHATBOT_KEY:latest" \
->>>>>>> Stashed changes
           --project ${{ secrets.GCP_PROJECT_ID }}
 
     - name: Get service URL
