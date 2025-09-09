@@ -1568,29 +1568,19 @@ const ControlPage = () => {
       return;
     }
 
-    setBandwidthApplyLoading(prev => ({ ...prev, [groupId]: true }));
-    try {
-      // Save to database first
-      const downloadLimit = changes.downLimit !== undefined && changes.downLimit !== "" 
-        ? parseFloat(changes.downLimit) 
-        : null;
-      
-      await bandwidthRulesAPI.setGroupRules(routerId, groupId, {
-        download_limit_mbps: downloadLimit,
-        upload_limit_mbps: downloadLimit, // Mirror download limit for now
-        description: `Bandwidth rules for ${groups.find(g => g.id === groupId)?.name || 'Unknown Group'}`,
-        is_active: true
-      });
-
-      // Apply to actual devices via legacy API
-      const group = groups.find((g) => g.id === groupId);
-      const ips = (group?.devices || []).map((d) => d.ip).filter(Boolean);
-      if (ips.length > 0) {
-                 await bandwidthAPI.applyGroupLimits(routerId, ips, { 
-           download_mbps: downloadLimit || 0, 
-           upload_mbps: downloadLimit || 0 
-         });
-      }
+      setBandwidthApplyLoading(prev => ({ ...prev, [groupId]: true }));
+      try {
+        const downloadLimit = changes.downLimit !== undefined && changes.downLimit !== "" 
+          ? parseFloat(changes.downLimit) 
+          : null;
+        
+        // Single API call - saves to database AND applies to router
+        await bandwidthRulesAPI.setGroupRules(routerId, groupId, {
+          download_limit_mbps: downloadLimit,
+          upload_limit_mbps: downloadLimit, // Mirror download limit for now
+          description: `Bandwidth rules for ${groups.find(g => g.id === groupId)?.name || 'Unknown Group'}`,
+          is_active: true
+        });
 
       // Update local state
       setBandwidthRules(prev => ({
@@ -1654,7 +1644,7 @@ const ControlPage = () => {
     try {
       const downloadLimit = parseFloat(bulkValues.downLimit);
       
-      // Save to database for all groups
+      // Apply bandwidth limits to all groups (single API call per group)
       for (const group of groups) {
         try {
           await bandwidthRulesAPI.setGroupRules(routerId, group.id, {
@@ -1663,25 +1653,11 @@ const ControlPage = () => {
             description: `Bulk applied bandwidth rules for ${group.name}`,
             is_active: true
           });
-          console.log(`✅ Database rules saved for group ${group.id}:`, downloadLimit);
-        } catch (dbError) {
-          console.error(`❌ Failed to save database rules for group ${group.id}:`, dbError);
+          console.log(`✅ Bandwidth rules applied for group ${group.id}:`, downloadLimit);
+        } catch (error) {
+          console.error(`❌ Failed to apply bandwidth rules for group ${group.id}:`, error);
           // Continue with other groups even if one fails
         }
-      }
-
-      // Aggregate all IPs across groups and apply to actual devices
-      const ips = [];
-      const seen = new Set();
-      groups.forEach((g) => (g.devices || []).forEach((d) => {
-        if (d?.ip && !seen.has(d.ip)) { seen.add(d.ip); ips.push(d.ip); }
-      }));
-      
-      if (ips.length > 0) {
-                 await bandwidthAPI.applyGroupLimits(routerId, ips, { 
-           download_mbps: downloadLimit, 
-           upload_mbps: downloadLimit 
-         });
       }
 
       // Update local state
@@ -1719,15 +1695,8 @@ const ControlPage = () => {
   const handleClearGroupLimits = async (groupId) => {
     setBandwidthClearLoading(prev => ({ ...prev, [groupId]: true }));
     try {
-      // Clear from database first
+      // Clear bandwidth rules (database and router in one call)
       await bandwidthRulesAPI.deleteGroupRules(routerId, groupId);
-      
-      // Clear from actual devices
-      const group = groups.find((g) => g.id === groupId);
-      const ips = (group?.devices || []).map((d) => d.ip).filter(Boolean);
-      if (ips.length > 0) {
-                 await bandwidthAPI.deleteGroupLimits(routerId, ips);
-      }
       
       // Update local state
       setBandwidthRules(prev => {
@@ -1784,19 +1753,16 @@ const ControlPage = () => {
         return;
       }
 
-      // Clear all group limits from database
+      // Clear bandwidth rules for all groups (database and router in one call per group)
       for (const group of groups) {
         try {
           await bandwidthRulesAPI.deleteGroupRules(routerId, group.id);
-          console.log(`✅ Database rules cleared for group ${group.id}`);
-        } catch (dbError) {
-          console.error(`❌ Failed to clear database rules for group ${group.id}:`, dbError);
+          console.log(`✅ Bandwidth rules cleared for group ${group.id}`);
+        } catch (error) {
+          console.error(`❌ Failed to clear bandwidth rules for group ${group.id}:`, error);
           // Continue with other groups even if one fails
         }
       }
-
-             // Clear all group limits from actual devices
-       await bandwidthAPI.deleteGroupLimits(routerId, ips);
 
       // Clear local state
       setBandwidthRules({});
