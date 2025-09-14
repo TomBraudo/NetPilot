@@ -158,7 +158,7 @@ def get_chatbot_completion(user_id: str, router_id: str, session_id: str,
         headers = {
             'Authorization': f'Bearer {api_key}',
             'Content-Type': 'application/json',
-            'HTTP-Referer': 'https://netpilot.app',  # Optional: for OpenRouter tracking
+            'HTTP-Referer': current_app.config.get('FRONTEND_URL', ''),  # Optional: for OpenRouter tracking
             'X-Title': 'NetPilot Chatbot'  # Optional: for OpenRouter tracking
         }
         

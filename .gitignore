@@ -1,5 +1,6 @@
 venv/
-backend/venv/
+commands-server/venv/
+auth-db-server/venv/
 .qodo
 node_modules/
 frontend/node_modules/
@@ -8,10 +9,15 @@ data/config.json
 .env
 .env.local
 .env.example
-backend/.env.local
-backend/logs/database.log
-backend/logs/netpilot.log
+commands-server/.env.local
+auth-db-server/.env.local
 data/devices.json
+
+# Log files (exclude from submission)
+**/logs/
+*.log
+commands-server/logs/
+auth-db-server/logs/
 
 # Agent deployment scripts (contain passwords)
 agent/cloud-port-manager/deploy.sh
@@ -27,29 +33,50 @@ agent/PHASE_9_VERIFICATION_SUMMARY.md
 agent/PHASE_10_VERIFICATION_SUMMARY.md
 
 # Commands Server deployment scripts (contain SSH credentials)
-backend/scripts/
+commands-server/scripts/
 # Local development
-backend/.env.local
-backend/venv-local/
-backend/logs/commands-server-local.log
-backend/logs/error-local.log
-backend/scripts/start-port-forwarding.sh
+commands-server/.env.local
+commands-server/venv-local/
+commands-server/logs/commands-server-local.log
+commands-server/logs/error-local.log
+commands-server/scripts/start-port-forwarding.sh
 FIX_DEPLOYMENT_PLAN.md
 # Cloud deployment guide (contains sensitive data)
-backend2/CLOUD_DEPLOY_GUIDE.md
-backend2/scripts/
-backend2/logs/
-backend2/services/system_prompts/
+auth-db-server/CLOUD_DEPLOY_GUIDE.md
+auth-db-server/scripts/
+auth-db-server/logs/
+auth-db-server/services/system_prompts/
 
 # Python cache
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-backend/__pycache__/
+commands-server/__pycache__/
+auth-db-server/__pycache__/
 *.pyc
 
 # Backend tests, router login credentials sensitive data
-backend/tests/
+commands-server/tests/
+auth-db-server/tests/
+
+# Build and distribution files
+dist/
+build/
+*.exe
+*.dmg
+*.pkg
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 
 postman/

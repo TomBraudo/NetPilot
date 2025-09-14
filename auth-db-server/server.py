@@ -55,7 +55,7 @@ def create_app(dev_mode=False, dev_user_id=None):
     os.environ['DB_HOST'] = config('DB_HOST', default='127.0.0.1')
     os.environ['DB_PORT'] = config('DB_PORT', default='5432')
     os.environ['DB_USERNAME'] = config('DB_USERNAME', default='netpilot_user')
-    os.environ['DB_PASSWORD'] = config('DB_PASSWORD', default='your_secure_password_here')
+    os.environ['DB_PASSWORD'] = config('DB_PASSWORD') 
     os.environ['DB_NAME'] = config('DB_NAME', default='netpilot_db')
     os.environ['DATABASE_URL'] = config('DATABASE_URL', default='')
 
@@ -70,7 +70,7 @@ def create_app(dev_mode=False, dev_user_id=None):
     app.config['OPENROUTER_API_URL'] = config('OPENROUTER_API_URL', default='https://openrouter.ai/api/v1/chat/completions')
     
     # Configuration
-    app.secret_key = config('SECRET_KEY', default='my-strong-secret-key')
+    app.secret_key = config('SECRET_KEY')  # No default - must be set
     
     # HTTPS Configuration
     use_https = config('USE_HTTPS', default=False, cast=bool)

@@ -26,7 +26,9 @@ class CommandsServerManager:
             base_url: The base URL of the commands server. If None, will use COMMANDS_SERVER_URL env var.
             timeout: Request timeout in seconds
         """
-        self.base_url = (base_url or os.getenv('COMMAND_SERVER_URL', 'http://34.38.207.87:5000')).rstrip('/')
+        self.base_url = (base_url or os.getenv('COMMAND_SERVER_URL')).rstrip('/')
+        if not self.base_url:
+            raise ValueError("COMMAND_SERVER_URL environment variable must be set")
         self.timeout = timeout
         self.session = requests.Session()
         self._is_connected = False
