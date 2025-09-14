@@ -51,3 +51,5 @@ backend/__pycache__/
 
 # Backend tests, router login credentials sensitive data
 backend/tests/
+
+postman/
