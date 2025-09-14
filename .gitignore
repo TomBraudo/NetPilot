@@ -33,6 +33,7 @@ agent/PHASE_9_VERIFICATION_SUMMARY.md
 agent/PHASE_10_VERIFICATION_SUMMARY.md
 
 # Commands Server deployment scripts (contain SSH credentials)
+commands-server/build
 commands-server/scripts/
 # Local development
 commands-server/.env.local
