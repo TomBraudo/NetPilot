@@ -36,8 +36,6 @@ commands = [
     "opkg install qos-scripts",         # Quality of Service scripts
     "opkg install luci-app-qos",        # QoS application
     
-    # Time-based access control dependencies
-    "opkg install cron",                # Scheduler for time-based rules
     
     # Useful utilities
     "opkg install curl",                # For HTTP requests
@@ -104,6 +102,5 @@ if __name__ == "__main__":
     print("2. Bandwidth limiting (tc, kmod-sched)")
     print("3. WiFi management (wpad, uci)")
     print("4. QoS priority controls (qos-scripts)")
-    print("5. Access scheduling (cron)")
-    print("6. Blacklist/Whitelist functionality")
+    print("5. Blacklist/Whitelist functionality")
     print("\nYour NetPilot system should now have all required dependencies.")

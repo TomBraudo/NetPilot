@@ -35,7 +35,6 @@ from endpoints.session import session_bp
 from endpoints.monitor import monitor_bp
 from endpoints.bandwidth import bandwidth_bp
 from endpoints.agh import agh_bp
-from endpoints.time_based import time_based_bp
 
 # Load environment variables
 # Support both COMMANDS-SERVER_PORT and SERVER_PORT for backward compatibility
@@ -79,10 +78,6 @@ app.register_blueprint(session_bp, url_prefix='/api/session')
 app.register_blueprint(monitor_bp, url_prefix='/api/monitor')
 app.register_blueprint(bandwidth_bp, url_prefix='/api/bandwidth')
 app.register_blueprint(agh_bp, url_prefix='/api/agh')
-#------------------------------------
-#EXISTS BUT DANGEROUS, DO NOT USE, MIGHT BE FIXED IN THE FUTURE
-#app.register_blueprint(time_based_bp, url_prefix='/api/time')
-#------------------------------------
 
 logger.info("API blueprints registered")
 
