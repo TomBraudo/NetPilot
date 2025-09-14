@@ -1,0 +1,904 @@
+2025-08-15 17:01:01 - root - INFO - Logging initialized at 2025-08-15 17:01:01
+2025-08-15 17:01:01 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-15 17:01:02 - __main__ - INFO - Registering API blueprints
+2025-08-15 17:01:02 - __main__ - INFO - API blueprints registered
+2025-08-15 17:01:02 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-15 17:01:02 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.29.204.48:5001
+2025-08-15 17:01:02 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-15 17:01:02 - werkzeug - INFO -  * Restarting with stat
+2025-08-15 17:01:03 - root - INFO - Logging initialized at 2025-08-15 17:01:03
+2025-08-15 17:01:03 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-15 17:01:04 - __main__ - INFO - Registering API blueprints
+2025-08-15 17:01:04 - __main__ - INFO - API blueprints registered
+2025-08-15 17:01:04 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-15 17:01:04 - werkzeug - WARNING -  * Debugger is active!
+2025-08-15 17:01:04 - werkzeug - INFO -  * Debugger PIN: 963-420-480
+2025-08-15 17:01:20 - werkzeug - INFO - 127.0.0.1 - - [15/Aug/2025 17:01:20] "GET /health HTTP/1.1" 200 -
+2025-08-15 17:01:22 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-15 17:01:23 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-08-15 17:01:23 - paramiko.transport - INFO - Authentication (password) successful!
+2025-08-15 17:01:26 - server - INFO - Session established successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f (headless mode, monitoring ready)
+2025-08-15 17:01:26 - werkzeug - INFO - 127.0.0.1 - - [15/Aug/2025 17:01:26] "POST /api/session/start HTTP/1.1" 200 -
+2025-08-15 17:03:10 - werkzeug - INFO -  * Detected change in '/mnt/c/Users/Tom/Documents/NetPilot/backend/endpoints/session.py', reloading
+2025-08-15 17:03:10 - __main__ - INFO - Cleaning up resources
+2025-08-15 17:03:12 - __main__ - INFO - Resources cleaned up
+2025-08-15 17:03:12 - werkzeug - INFO -  * Restarting with stat
+2025-08-15 17:03:13 - root - INFO - Logging initialized at 2025-08-15 17:03:13
+2025-08-15 17:03:13 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-15 17:03:14 - __main__ - INFO - Registering API blueprints
+2025-08-15 17:03:14 - __main__ - INFO - API blueprints registered
+2025-08-15 17:03:14 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-15 17:03:14 - werkzeug - WARNING -  * Debugger is active!
+2025-08-15 17:03:14 - werkzeug - INFO -  * Debugger PIN: 963-420-480
+2025-08-15 17:03:15 - werkzeug - INFO -  * Detected change in '/mnt/c/Users/Tom/Documents/NetPilot/backend/endpoints/session.py', reloading
+2025-08-15 17:03:15 - __main__ - INFO - Cleaning up resources
+2025-08-15 17:03:17 - __main__ - INFO - Resources cleaned up
+2025-08-15 17:03:17 - werkzeug - INFO -  * Restarting with stat
+2025-08-15 17:03:17 - root - INFO - Logging initialized at 2025-08-15 17:03:17
+2025-08-15 17:03:17 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-15 17:03:18 - __main__ - INFO - Registering API blueprints
+2025-08-15 17:03:18 - __main__ - INFO - API blueprints registered
+2025-08-15 17:03:18 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-15 17:03:18 - werkzeug - WARNING -  * Debugger is active!
+2025-08-15 17:03:18 - werkzeug - INFO -  * Debugger PIN: 963-420-480
+2025-08-15 17:03:22 - werkzeug - INFO -  * Detected change in '/mnt/c/Users/Tom/Documents/NetPilot/backend/endpoints/session.py', reloading
+2025-08-15 17:03:22 - __main__ - INFO - Cleaning up resources
+2025-08-15 17:03:24 - __main__ - INFO - Resources cleaned up
+2025-08-15 17:03:24 - werkzeug - INFO -  * Restarting with stat
+2025-08-15 17:03:25 - root - INFO - Logging initialized at 2025-08-15 17:03:25
+2025-08-15 17:03:25 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-15 17:03:26 - __main__ - INFO - Registering API blueprints
+2025-08-15 17:03:26 - __main__ - INFO - API blueprints registered
+2025-08-15 17:03:26 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-15 17:03:26 - werkzeug - WARNING -  * Debugger is active!
+2025-08-15 17:03:26 - werkzeug - INFO -  * Debugger PIN: 963-420-480
+2025-08-15 17:03:38 - werkzeug - INFO - 127.0.0.1 - - [15/Aug/2025 17:03:38] "[31m[1mPOST /api/session/end HTTP/1.1[0m" 401 -
+2025-08-15 17:03:43 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-15 17:03:44 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-08-15 17:03:44 - paramiko.transport - INFO - Authentication (password) successful!
+2025-08-15 17:03:45 - werkzeug - INFO -  * Detected change in '/mnt/c/Users/Tom/Documents/NetPilot/backend/endpoints/session.py', reloading
+2025-08-15 17:03:45 - __main__ - INFO - Cleaning up resources
+2025-08-15 17:03:47 - server - INFO - Infrastructure check found missing components: ['agh_categories_setup']
+2025-08-15 17:03:47 - infrastructure_setup - INFO - Monitoring infrastructure is already set up correctly - skipping
+2025-08-15 17:03:47 - infrastructure_setup - INFO - Setting up AGH default categories
+2025-08-15 17:03:47 - infrastructure_setup - INFO - Ensuring AGH category directory exists: /opt/AdGuardHome/categories
+2025-08-15 17:03:47 - __main__ - INFO - Resources cleaned up
+2025-08-15 17:03:47 - managers.router_connection_manager - ERROR - Unexpected error when executing command for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: Channel closed.
+2025-08-15 17:03:47 - werkzeug - INFO -  * Restarting with stat
+2025-08-15 17:03:48 - root - INFO - Logging initialized at 2025-08-15 17:03:48
+2025-08-15 17:03:48 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-15 17:03:49 - __main__ - INFO - Registering API blueprints
+2025-08-15 17:03:49 - __main__ - INFO - API blueprints registered
+2025-08-15 17:03:49 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-15 17:03:49 - werkzeug - WARNING -  * Debugger is active!
+2025-08-15 17:03:49 - werkzeug - INFO -  * Debugger PIN: 963-420-480
+2025-08-15 17:04:54 - __main__ - INFO - Cleaning up resources
+2025-08-15 17:04:55 - __main__ - INFO - Cleaning up resources
+2025-08-15 17:04:57 - __main__ - INFO - Resources cleaned up
+2025-08-15 17:09:06 - root - INFO - Logging initialized at 2025-08-15 17:09:06
+2025-08-15 17:09:06 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-15 17:09:07 - __main__ - INFO - Registering API blueprints
+2025-08-15 17:09:07 - __main__ - INFO - API blueprints registered
+2025-08-15 17:09:07 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-15 17:09:07 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.29.204.48:5001
+2025-08-15 17:09:07 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-15 17:09:07 - werkzeug - INFO -  * Restarting with stat
+2025-08-15 17:09:07 - root - INFO - Logging initialized at 2025-08-15 17:09:07
+2025-08-15 17:09:07 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-15 17:09:08 - __main__ - INFO - Registering API blueprints
+2025-08-15 17:09:08 - __main__ - INFO - API blueprints registered
+2025-08-15 17:09:08 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-15 17:09:08 - werkzeug - WARNING -  * Debugger is active!
+2025-08-15 17:09:08 - werkzeug - INFO -  * Debugger PIN: 963-420-480
+2025-08-15 17:09:10 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-15 17:09:10 - server - ERROR - Session setup failed: Router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f not found in Port-Manager
+2025-08-15 17:09:10 - werkzeug - INFO - 127.0.0.1 - - [15/Aug/2025 17:09:10] "[35m[1mPOST /api/session/start HTTP/1.1[0m" 500 -
+2025-08-15 17:09:17 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-15 17:09:17 - server - WARNING - Session ec3c8136-679c-4504-a892-8c6ed45f63ff is already active – rejecting start request
+2025-08-15 17:09:17 - werkzeug - INFO - 127.0.0.1 - - [15/Aug/2025 17:09:17] "[31m[1mPOST /api/session/start HTTP/1.1[0m" 400 -
+2025-08-15 17:09:21 - server - INFO - Ending session ec3c8136-679c-4504-a892-8c6ed45f63ff for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-15 17:09:21 - werkzeug - INFO - 127.0.0.1 - - [15/Aug/2025 17:09:21] "POST /api/session/end HTTP/1.1" 200 -
+2025-08-15 17:09:25 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-15 17:09:25 - server - ERROR - Session setup failed: Router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f not found in Port-Manager
+2025-08-15 17:09:25 - werkzeug - INFO - 127.0.0.1 - - [15/Aug/2025 17:09:25] "[35m[1mPOST /api/session/start HTTP/1.1[0m" 500 -
+2025-08-15 17:09:52 - server - INFO - Ending session ec3c8136-679c-4504-a892-8c6ed45f63ff for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-15 17:09:52 - werkzeug - INFO - 127.0.0.1 - - [15/Aug/2025 17:09:52] "POST /api/session/end HTTP/1.1" 200 -
+2025-08-15 17:11:34 - werkzeug - INFO -  * Detected change in '/mnt/c/Users/Tom/Documents/NetPilot/backend/endpoints/session.py', reloading
+2025-08-15 17:11:34 - __main__ - INFO - Cleaning up resources
+2025-08-15 17:11:36 - __main__ - INFO - Resources cleaned up
+2025-08-15 17:11:36 - werkzeug - INFO -  * Restarting with stat
+2025-08-15 17:11:37 - root - INFO - Logging initialized at 2025-08-15 17:11:37
+2025-08-15 17:11:37 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-15 17:11:38 - __main__ - INFO - Registering API blueprints
+2025-08-15 17:11:38 - __main__ - INFO - API blueprints registered
+2025-08-15 17:11:38 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-15 17:11:38 - werkzeug - WARNING -  * Debugger is active!
+2025-08-15 17:11:38 - werkzeug - INFO -  * Debugger PIN: 963-420-480
+2025-08-15 17:11:46 - werkzeug - INFO -  * Detected change in '/mnt/c/Users/Tom/Documents/NetPilot/backend/endpoints/session.py', reloading
+2025-08-15 17:11:46 - __main__ - INFO - Cleaning up resources
+2025-08-15 17:11:48 - __main__ - INFO - Resources cleaned up
+2025-08-15 17:11:48 - werkzeug - INFO -  * Restarting with stat
+2025-08-15 17:11:49 - root - INFO - Logging initialized at 2025-08-15 17:11:49
+2025-08-15 17:11:49 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-15 17:11:50 - __main__ - INFO - Registering API blueprints
+2025-08-15 17:11:50 - __main__ - INFO - API blueprints registered
+2025-08-15 17:11:50 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-15 17:11:50 - werkzeug - WARNING -  * Debugger is active!
+2025-08-15 17:11:50 - werkzeug - INFO -  * Debugger PIN: 963-420-480
+2025-08-15 17:12:09 - werkzeug - INFO -  * Detected change in '/mnt/c/Users/Tom/Documents/NetPilot/backend/endpoints/session.py', reloading
+2025-08-15 17:12:09 - __main__ - INFO - Cleaning up resources
+2025-08-15 17:12:11 - __main__ - INFO - Resources cleaned up
+2025-08-15 17:12:11 - werkzeug - INFO -  * Restarting with stat
+2025-08-15 17:12:12 - root - INFO - Logging initialized at 2025-08-15 17:12:12
+2025-08-15 17:12:12 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-15 17:12:12 - __main__ - INFO - Registering API blueprints
+2025-08-15 17:12:12 - __main__ - INFO - API blueprints registered
+2025-08-15 17:12:12 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-15 17:12:13 - werkzeug - WARNING -  * Debugger is active!
+2025-08-15 17:12:13 - werkzeug - INFO -  * Debugger PIN: 963-420-480
+2025-08-15 17:12:24 - werkzeug - INFO -  * Detected change in '/mnt/c/Users/Tom/Documents/NetPilot/backend/endpoints/session.py', reloading
+2025-08-15 17:12:24 - __main__ - INFO - Cleaning up resources
+2025-08-15 17:12:26 - __main__ - INFO - Resources cleaned up
+2025-08-15 17:12:26 - werkzeug - INFO -  * Restarting with stat
+2025-08-15 17:12:26 - root - INFO - Logging initialized at 2025-08-15 17:12:26
+2025-08-15 17:12:26 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-15 17:12:27 - __main__ - INFO - Registering API blueprints
+2025-08-15 17:12:27 - __main__ - INFO - API blueprints registered
+2025-08-15 17:12:27 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-15 17:12:27 - werkzeug - WARNING -  * Debugger is active!
+2025-08-15 17:12:27 - werkzeug - INFO -  * Debugger PIN: 963-420-480
+2025-08-15 17:12:39 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-15 17:12:39 - server - ERROR - Session setup failed: Router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f not found in Port-Manager
+2025-08-15 17:12:39 - werkzeug - INFO - 127.0.0.1 - - [15/Aug/2025 17:12:39] "[35m[1mPOST /api/session/start HTTP/1.1[0m" 500 -
+2025-08-15 17:12:43 - server - INFO - Ending session ec3c8136-679c-4504-a892-8c6ed45f63ff for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-15 17:12:43 - werkzeug - INFO - 127.0.0.1 - - [15/Aug/2025 17:12:43] "POST /api/session/end HTTP/1.1" 200 -
+2025-08-15 17:13:28 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-15 17:13:29 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-08-15 17:13:29 - paramiko.transport - INFO - Authentication (password) successful!
+2025-08-15 17:13:32 - server - INFO - Session established successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f (headless mode, monitoring ready)
+2025-08-15 17:13:32 - werkzeug - INFO - 127.0.0.1 - - [15/Aug/2025 17:13:32] "POST /api/session/start HTTP/1.1" 200 -
+2025-08-15 17:13:46 - server - INFO - Ending session ec3c8136-679c-4504-a892-8c6ed45f63ff for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-15 17:13:46 - werkzeug - INFO - 127.0.0.1 - - [15/Aug/2025 17:13:46] "POST /api/session/end HTTP/1.1" 200 -
+2025-08-15 17:15:01 - werkzeug - INFO -  * Detected change in '/mnt/c/Users/Tom/Documents/NetPilot/backend/endpoints/session.py', reloading
+2025-08-15 17:15:01 - __main__ - INFO - Cleaning up resources
+2025-08-15 17:15:03 - __main__ - INFO - Resources cleaned up
+2025-08-15 17:15:03 - werkzeug - INFO -  * Restarting with stat
+2025-08-15 17:15:04 - root - INFO - Logging initialized at 2025-08-15 17:15:04
+2025-08-15 17:15:04 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-15 17:15:05 - __main__ - INFO - Registering API blueprints
+2025-08-15 17:15:05 - __main__ - INFO - API blueprints registered
+2025-08-15 17:15:05 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-15 17:15:05 - werkzeug - WARNING -  * Debugger is active!
+2025-08-15 17:15:05 - werkzeug - INFO -  * Debugger PIN: 963-420-480
+2025-08-15 17:15:07 - werkzeug - INFO -  * Detected change in '/mnt/c/Users/Tom/Documents/NetPilot/backend/endpoints/session.py', reloading
+2025-08-15 17:15:07 - __main__ - INFO - Cleaning up resources
+2025-08-15 17:15:09 - __main__ - INFO - Resources cleaned up
+2025-08-15 17:15:09 - werkzeug - INFO -  * Restarting with stat
+2025-08-15 17:15:10 - root - INFO - Logging initialized at 2025-08-15 17:15:10
+2025-08-15 17:15:10 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-15 17:15:11 - __main__ - INFO - Registering API blueprints
+2025-08-15 17:15:11 - __main__ - INFO - API blueprints registered
+2025-08-15 17:15:11 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-15 17:15:11 - werkzeug - WARNING -  * Debugger is active!
+2025-08-15 17:15:11 - werkzeug - INFO -  * Debugger PIN: 963-420-480
+2025-08-15 17:15:23 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-15 17:15:23 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-08-15 17:15:24 - paramiko.transport - INFO - Authentication (password) successful!
+2025-08-15 17:15:26 - server - INFO - Infrastructure check found missing components: ['agh_categories_setup']
+2025-08-15 17:15:26 - infrastructure_setup - INFO - Monitoring infrastructure is already set up correctly - skipping
+2025-08-15 17:15:26 - infrastructure_setup - INFO - Setting up AGH default categories
+2025-08-15 17:15:26 - infrastructure_setup - INFO - Ensuring AGH category directory exists: /opt/AdGuardHome/categories
+2025-08-15 17:15:27 - infrastructure_setup - INFO - Found existing categories on router: ['social-media']
+2025-08-15 17:15:27 - infrastructure_setup - INFO - Creating missing default categories: ['social_media', 'entertainment', 'gaming', 'adult_gambling']
+2025-08-15 17:15:27 - infrastructure_setup - INFO - Looking for default category files in: /mnt/c/Users/Tom/Documents/NetPilot/backend/services/agh_service/default_categories
+2025-08-15 17:15:27 - infrastructure_setup - INFO - Copying default category file: social_media.txt (size: 157 bytes)
+2025-08-15 17:15:28 - infrastructure_setup - INFO - Successfully created default category: social_media
+2025-08-15 17:15:28 - infrastructure_setup - INFO - Copying default category file: entertainment.txt (size: 161 bytes)
+2025-08-15 17:15:29 - infrastructure_setup - INFO - Successfully created default category: entertainment
+2025-08-15 17:15:29 - infrastructure_setup - INFO - Copying default category file: gaming.txt (size: 187 bytes)
+2025-08-15 17:15:30 - infrastructure_setup - INFO - Successfully created default category: gaming
+2025-08-15 17:15:30 - infrastructure_setup - INFO - Copying default category file: adult_gambling.txt (size: 178 bytes)
+2025-08-15 17:15:30 - werkzeug - INFO -  * Detected change in '/mnt/c/Users/Tom/Documents/NetPilot/backend/endpoints/session.py', reloading
+2025-08-15 17:15:30 - __main__ - INFO - Cleaning up resources
+2025-08-15 17:15:30 - infrastructure_setup - INFO - Successfully created default category: adult_gambling
+2025-08-15 17:15:30 - infrastructure_setup - INFO - AGH default categories setup completed successfully
+2025-08-15 17:15:30 - infrastructure_setup - INFO - Infrastructure setup completed for components: agh_categories_setup
+2025-08-15 17:15:30 - server - INFO - Session established successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f (headless mode, infrastructure ready)
+2025-08-15 17:15:30 - werkzeug - INFO - 127.0.0.1 - - [15/Aug/2025 17:15:30] "POST /api/session/start HTTP/1.1" 200 -
+2025-08-15 17:15:32 - __main__ - INFO - Resources cleaned up
+2025-08-15 17:15:32 - werkzeug - INFO -  * Restarting with stat
+2025-08-15 17:15:33 - root - INFO - Logging initialized at 2025-08-15 17:15:33
+2025-08-15 17:15:33 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-15 17:15:34 - __main__ - INFO - Registering API blueprints
+2025-08-15 17:15:34 - __main__ - INFO - API blueprints registered
+2025-08-15 17:15:34 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-15 17:15:34 - werkzeug - WARNING -  * Debugger is active!
+2025-08-15 17:15:34 - werkzeug - INFO -  * Debugger PIN: 963-420-480
+2025-08-15 17:16:03 - werkzeug - INFO - 127.0.0.1 - - [15/Aug/2025 17:16:03] "[31m[1mPOST /api/session/end HTTP/1.1[0m" 401 -
+2025-08-15 17:16:18 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-15 17:16:19 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-08-15 17:16:19 - paramiko.transport - INFO - Authentication (password) successful!
+2025-08-15 17:16:22 - infrastructure_setup - INFO - All infrastructure components OK
+2025-08-15 17:16:22 - server - INFO - All infrastructure components are already set up correctly
+2025-08-15 17:16:22 - server - INFO - Session established successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f (headless mode, infrastructure ready)
+2025-08-15 17:16:22 - werkzeug - INFO - 127.0.0.1 - - [15/Aug/2025 17:16:22] "POST /api/session/start HTTP/1.1" 200 -
+2025-08-15 17:16:26 - server - INFO - Ending session ec3c8136-679c-4504-a892-8c6ed45f63ff for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-15 17:16:26 - werkzeug - INFO - 127.0.0.1 - - [15/Aug/2025 17:16:26] "POST /api/session/end HTTP/1.1" 200 -
+2025-08-15 17:17:35 - __main__ - INFO - Cleaning up resources
+2025-08-15 17:17:35 - __main__ - INFO - Cleaning up resources
+2025-08-15 17:17:37 - __main__ - INFO - Resources cleaned up
+2025-08-16 12:25:03 - root - INFO - Logging initialized at 2025-08-16 12:25:03
+2025-08-16 12:25:03 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 12:26:03 - root - INFO - Logging initialized at 2025-08-16 12:26:03
+2025-08-16 12:26:03 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 12:27:05 - root - INFO - Logging initialized at 2025-08-16 12:27:05
+2025-08-16 12:27:05 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 12:27:23 - root - INFO - Logging initialized at 2025-08-16 12:27:23
+2025-08-16 12:27:23 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 12:27:24 - __main__ - INFO - Registering API blueprints
+2025-08-16 12:27:24 - __main__ - INFO - API blueprints registered
+2025-08-16 12:27:24 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 12:27:24 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.29.204.48:5001
+2025-08-16 12:27:24 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-16 12:27:24 - werkzeug - INFO -  * Restarting with stat
+2025-08-16 12:27:25 - root - INFO - Logging initialized at 2025-08-16 12:27:25
+2025-08-16 12:27:25 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 12:27:26 - __main__ - INFO - Registering API blueprints
+2025-08-16 12:27:26 - __main__ - INFO - API blueprints registered
+2025-08-16 12:27:26 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 12:27:26 - werkzeug - WARNING -  * Debugger is active!
+2025-08-16 12:27:26 - werkzeug - INFO -  * Debugger PIN: 274-139-661
+2025-08-16 12:27:37 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 12:27:37] "GET /health HTTP/1.1" 200 -
+2025-08-16 12:27:44 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 12:27:44] "[31m[1mGET /api/agh/categories?sessionId=ec3c8136-679c-4504-a892-8c6ed45f63ff&routerId=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f HTTP/1.1[0m" 401 -
+2025-08-16 12:27:47 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-16 12:27:48 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-08-16 12:27:48 - paramiko.transport - INFO - Authentication (password) successful!
+2025-08-16 12:27:51 - infrastructure_setup - INFO - All infrastructure components OK
+2025-08-16 12:27:51 - server - INFO - All infrastructure components are already set up correctly
+2025-08-16 12:27:51 - server - INFO - Session established successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f (headless mode, infrastructure ready)
+2025-08-16 12:27:51 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 12:27:51] "POST /api/session/start HTTP/1.1" 200 -
+2025-08-16 12:27:55 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 12:27:55] "GET /api/agh/categories?sessionId=ec3c8136-679c-4504-a892-8c6ed45f63ff&routerId=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f HTTP/1.1" 200 -
+2025-08-16 12:29:40 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 12:29:40] "DELETE /api/agh/categories?sessionId=ec3c8136-679c-4504-a892-8c6ed45f63ff&routerId=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f HTTP/1.1" 200 -
+2025-08-16 12:29:48 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 12:29:48] "GET /api/agh/categories?sessionId=ec3c8136-679c-4504-a892-8c6ed45f63ff&routerId=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f HTTP/1.1" 200 -
+2025-08-16 12:30:02 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 12:30:02] "POST /api/agh/categories HTTP/1.1" 200 -
+2025-08-16 12:30:06 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 12:30:06] "GET /api/agh/categories?sessionId=ec3c8136-679c-4504-a892-8c6ed45f63ff&routerId=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f HTTP/1.1" 200 -
+2025-08-16 12:30:09 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 12:30:09] "DELETE /api/agh/categories?sessionId=ec3c8136-679c-4504-a892-8c6ed45f63ff&routerId=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f HTTP/1.1" 200 -
+2025-08-16 12:30:13 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 12:30:13] "GET /api/agh/categories?sessionId=ec3c8136-679c-4504-a892-8c6ed45f63ff&routerId=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f HTTP/1.1" 200 -
+2025-08-16 12:30:21 - __main__ - INFO - Cleaning up resources
+2025-08-16 12:30:21 - __main__ - INFO - Cleaning up resources
+2025-08-16 12:30:23 - __main__ - INFO - Resources cleaned up
+2025-08-16 15:35:32 - root - INFO - Logging initialized at 2025-08-16 15:35:32
+2025-08-16 15:35:32 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 15:35:33 - __main__ - INFO - Registering API blueprints
+2025-08-16 15:35:33 - __main__ - INFO - API blueprints registered
+2025-08-16 15:35:33 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 15:35:33 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.29.204.48:5001
+2025-08-16 15:35:33 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-16 15:35:33 - werkzeug - INFO -  * Restarting with stat
+2025-08-16 15:35:33 - root - INFO - Logging initialized at 2025-08-16 15:35:33
+2025-08-16 15:35:33 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 15:35:34 - __main__ - INFO - Registering API blueprints
+2025-08-16 15:35:34 - __main__ - INFO - API blueprints registered
+2025-08-16 15:35:34 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 15:35:34 - werkzeug - WARNING -  * Debugger is active!
+2025-08-16 15:35:34 - werkzeug - INFO -  * Debugger PIN: 274-139-661
+2025-08-16 15:36:18 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 15:36:18] "GET /health HTTP/1.1" 200 -
+2025-08-16 15:36:27 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-16 15:36:28 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-08-16 15:36:28 - paramiko.transport - INFO - Authentication (password) successful!
+2025-08-16 15:36:31 - infrastructure_setup - INFO - All infrastructure components OK
+2025-08-16 15:36:31 - server - INFO - All infrastructure components are already set up correctly
+2025-08-16 15:36:31 - server - INFO - Session established successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f (headless mode, infrastructure ready)
+2025-08-16 15:36:31 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 15:36:31] "POST /api/session/start HTTP/1.1" 200 -
+2025-08-16 15:36:37 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 15:36:37] "GET /api/agh/categories?sessionId=ec3c8136-679c-4504-a892-8c6ed45f63ff&routerId=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f HTTP/1.1" 200 -
+2025-08-16 15:37:44 - services.agh_service - WARNING - apply_rules_for_clients: get_current_rules error: Invalid JSON from AGH: Extra data: line 1 column 5 (char 4). Raw: 404 page not found; proceeding with empty base
+2025-08-16 15:37:47 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 15:37:47] "POST /api/agh/device/rules HTTP/1.1" 200 -
+2025-08-16 15:38:17 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 15:38:17] "GET /api/agh/categories/gaming/domains?sessionId=ec3c8136-679c-4504-a892-8c6ed45f63ff&routerId=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f HTTP/1.1" 200 -
+2025-08-16 15:46:15 - werkzeug - INFO -  * Detected change in '/mnt/c/Users/Tom/Documents/NetPilot/backend/services/agh_service/net.py', reloading
+2025-08-16 15:46:15 - __main__ - INFO - Cleaning up resources
+2025-08-16 15:46:17 - __main__ - INFO - Resources cleaned up
+2025-08-16 15:46:17 - werkzeug - INFO -  * Restarting with stat
+2025-08-16 15:46:18 - root - INFO - Logging initialized at 2025-08-16 15:46:18
+2025-08-16 15:46:18 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 15:46:18 - __main__ - INFO - Registering API blueprints
+2025-08-16 15:46:18 - __main__ - INFO - API blueprints registered
+2025-08-16 15:46:18 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 15:46:18 - werkzeug - WARNING -  * Debugger is active!
+2025-08-16 15:46:18 - werkzeug - INFO -  * Debugger PIN: 274-139-661
+2025-08-16 15:47:27 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 15:47:27] "[31m[1mDELETE /api/agh/device/rules HTTP/1.1[0m" 401 -
+2025-08-16 15:47:31 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-16 15:47:31 - server - ERROR - Session setup failed: Router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f not found in Port-Manager
+2025-08-16 15:47:31 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 15:47:31] "[35m[1mPOST /api/session/start HTTP/1.1[0m" 500 -
+2025-08-16 15:47:37 - __main__ - INFO - Cleaning up resources
+2025-08-16 15:47:38 - __main__ - INFO - Cleaning up resources
+2025-08-16 15:47:40 - __main__ - INFO - Resources cleaned up
+2025-08-16 15:47:41 - root - INFO - Logging initialized at 2025-08-16 15:47:41
+2025-08-16 15:47:41 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 15:47:42 - __main__ - INFO - Registering API blueprints
+2025-08-16 15:47:42 - __main__ - INFO - API blueprints registered
+2025-08-16 15:47:42 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 15:47:42 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.29.204.48:5001
+2025-08-16 15:47:42 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-16 15:47:42 - werkzeug - INFO -  * Restarting with stat
+2025-08-16 15:47:43 - root - INFO - Logging initialized at 2025-08-16 15:47:43
+2025-08-16 15:47:43 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 15:47:44 - __main__ - INFO - Registering API blueprints
+2025-08-16 15:47:44 - __main__ - INFO - API blueprints registered
+2025-08-16 15:47:44 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 15:47:44 - werkzeug - WARNING -  * Debugger is active!
+2025-08-16 15:47:44 - werkzeug - INFO -  * Debugger PIN: 274-139-661
+2025-08-16 15:47:45 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-16 15:47:45 - server - ERROR - Session setup failed: Router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f not found in Port-Manager
+2025-08-16 15:47:45 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 15:47:45] "[35m[1mPOST /api/session/start HTTP/1.1[0m" 500 -
+2025-08-16 15:47:47 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-16 15:47:47 - server - WARNING - Session ec3c8136-679c-4504-a892-8c6ed45f63ff is already active – rejecting start request
+2025-08-16 15:47:47 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 15:47:47] "[31m[1mPOST /api/session/start HTTP/1.1[0m" 400 -
+2025-08-16 15:47:53 - server - INFO - Ending session ec3c8136-679c-4504-a892-8c6ed45f63ff for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-16 15:47:53 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 15:47:53] "POST /api/session/end HTTP/1.1" 200 -
+2025-08-16 15:48:02 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-16 15:48:02 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-08-16 15:48:03 - paramiko.transport - INFO - Authentication (password) successful!
+2025-08-16 15:48:05 - infrastructure_setup - INFO - All infrastructure components OK
+2025-08-16 15:48:05 - server - INFO - All infrastructure components are already set up correctly
+2025-08-16 15:48:05 - server - INFO - Session established successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f (headless mode, infrastructure ready)
+2025-08-16 15:48:05 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 15:48:05] "POST /api/session/start HTTP/1.1" 200 -
+2025-08-16 15:48:11 - services.agh_service - WARNING - clear_rules_for_clients: get_current_rules error: Invalid JSON from AGH: Extra data: line 1 column 5 (char 4). Raw: 404 page not found; proceeding with empty base
+2025-08-16 15:48:14 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 15:48:14] "DELETE /api/agh/device/rules HTTP/1.1" 200 -
+2025-08-16 15:49:14 - __main__ - INFO - Cleaning up resources
+2025-08-16 15:49:14 - __main__ - INFO - Cleaning up resources
+2025-08-16 15:49:16 - __main__ - INFO - Resources cleaned up
+2025-08-16 15:49:28 - root - INFO - Logging initialized at 2025-08-16 15:49:28
+2025-08-16 15:49:28 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 15:49:29 - __main__ - INFO - Registering API blueprints
+2025-08-16 15:49:29 - __main__ - INFO - API blueprints registered
+2025-08-16 15:49:29 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 15:49:29 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.29.204.48:5001
+2025-08-16 15:49:29 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-16 15:49:29 - werkzeug - INFO -  * Restarting with stat
+2025-08-16 15:49:29 - root - INFO - Logging initialized at 2025-08-16 15:49:29
+2025-08-16 15:49:29 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 15:49:30 - __main__ - INFO - Registering API blueprints
+2025-08-16 15:49:30 - __main__ - INFO - API blueprints registered
+2025-08-16 15:49:30 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 15:49:30 - werkzeug - WARNING -  * Debugger is active!
+2025-08-16 15:49:30 - werkzeug - INFO -  * Debugger PIN: 274-139-661
+2025-08-16 15:49:35 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-16 15:49:35 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-08-16 15:49:36 - paramiko.transport - INFO - Authentication (password) successful!
+2025-08-16 15:49:38 - infrastructure_setup - INFO - All infrastructure components OK
+2025-08-16 15:49:38 - server - INFO - All infrastructure components are already set up correctly
+2025-08-16 15:49:38 - server - INFO - Session established successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f (headless mode, infrastructure ready)
+2025-08-16 15:49:38 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 15:49:38] "POST /api/session/start HTTP/1.1" 200 -
+2025-08-16 15:50:23 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 15:50:23] "[35m[1mGET /api/agh/device/rules?mac=d8:bb:c1:47:3a:43&ip=192.168.1.122&sessionId=ec3c8136-679c-4504-a892-8c6ed45f63ff&routerId=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f HTTP/1.1[0m" 500 -
+2025-08-16 15:50:33 - services.agh_service - INFO - resolve_ipv6_for_mac: found ACTIVE fd1f:c83e:bacb:0:dc9:9cf8:12b9:2213 for d8:bb:c1:47:3a:43
+2025-08-16 15:50:34 - services.agh_service - INFO - resolve_ipv6_for_mac: found ACTIVE fd1f:c83e:bacb:0:dc9:9cf8:12b9:2213 for d8:bb:c1:47:3a:43
+2025-08-16 15:50:38 - services.agh_service - WARNING - apply_rules_for_clients: get_current_rules error: Invalid JSON from AGH: Extra data: line 1 column 5 (char 4). Raw: 404 page not found; proceeding with empty base
+2025-08-16 15:50:40 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 15:50:40] "POST /api/agh/device/rules HTTP/1.1" 200 -
+2025-08-16 16:03:32 - __main__ - INFO - Cleaning up resources
+2025-08-16 16:03:32 - __main__ - INFO - Cleaning up resources
+2025-08-16 16:03:34 - __main__ - INFO - Resources cleaned up
+2025-08-16 16:08:32 - root - INFO - Logging initialized at 2025-08-16 16:08:32
+2025-08-16 16:08:32 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 16:08:34 - __main__ - INFO - Registering API blueprints
+2025-08-16 16:08:34 - __main__ - INFO - API blueprints registered
+2025-08-16 16:08:34 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 16:08:34 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.29.204.48:5001
+2025-08-16 16:08:34 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-16 16:08:34 - werkzeug - INFO -  * Restarting with stat
+2025-08-16 16:08:34 - root - INFO - Logging initialized at 2025-08-16 16:08:34
+2025-08-16 16:08:34 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 16:08:35 - __main__ - INFO - Registering API blueprints
+2025-08-16 16:08:35 - __main__ - INFO - API blueprints registered
+2025-08-16 16:08:35 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 16:08:35 - werkzeug - WARNING -  * Debugger is active!
+2025-08-16 16:08:35 - werkzeug - INFO -  * Debugger PIN: 274-139-661
+2025-08-16 16:08:40 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-16 16:08:40 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-08-16 16:08:41 - paramiko.transport - INFO - Authentication (password) successful!
+2025-08-16 16:08:44 - infrastructure_setup - INFO - All infrastructure components OK
+2025-08-16 16:08:44 - server - INFO - All infrastructure components are already set up correctly
+2025-08-16 16:08:44 - server - INFO - Session established successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f (headless mode, infrastructure ready)
+2025-08-16 16:08:44 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 16:08:44] "POST /api/session/start HTTP/1.1" 200 -
+2025-08-16 16:08:53 - services.agh_service - INFO - resolve_ipv6_for_mac: found ACTIVE fd1f:c83e:bacb:0:dc9:9cf8:12b9:2213 for d8:bb:c1:47:3a:43
+2025-08-16 16:08:55 - services.agh_service - INFO - resolve_ipv6_for_mac: found ACTIVE fd1f:c83e:bacb:0:dc9:9cf8:12b9:2213 for d8:bb:c1:47:3a:43
+2025-08-16 16:08:55 - services.agh_service - INFO - resolve_ipv6_for_mac: found ACTIVE fd1f:c83e:bacb:0:dc9:9cf8:12b9:2213 for d8:bb:c1:47:3a:43
+2025-08-16 16:08:55 - services.agh_service - INFO - IPv6 mismatch detected: existing client 'fd1f:c83e:bacb:0:a4df:1278:e03b:51a9' vs current IPv6 'fd1f:c83e:bacb:0:dc9:9cf8:12b9:2213' for MAC d8:bb:c1:47:3a:43. Deleting old client.
+2025-08-16 16:09:01 - services.agh_service - INFO - resolve_ipv6_for_mac: found ACTIVE fd1f:c83e:bacb:0:dc9:9cf8:12b9:2213 for d8:bb:c1:47:3a:43
+2025-08-16 16:09:01 - services.agh_service - WARNING - apply_rules_for_clients: get_current_rules error: Invalid JSON from AGH: Extra data: line 1 column 5 (char 4). Raw: 404 page not found; proceeding with empty base
+2025-08-16 16:09:04 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 16:09:04] "POST /api/agh/device/rules HTTP/1.1" 200 -
+2025-08-16 16:09:53 - services.agh_service - WARNING - clear_rules_for_clients: get_current_rules error: Invalid JSON from AGH: Extra data: line 1 column 5 (char 4). Raw: 404 page not found; proceeding with empty base
+2025-08-16 16:09:56 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 16:09:56] "DELETE /api/agh/device/rules HTTP/1.1" 200 -
+2025-08-16 16:10:31 - __main__ - INFO - Cleaning up resources
+2025-08-16 16:10:31 - __main__ - INFO - Cleaning up resources
+2025-08-16 16:10:33 - __main__ - INFO - Resources cleaned up
+2025-08-16 16:28:44 - root - INFO - Logging initialized at 2025-08-16 16:28:44
+2025-08-16 16:28:44 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 16:28:45 - __main__ - INFO - Registering API blueprints
+2025-08-16 16:28:45 - __main__ - INFO - API blueprints registered
+2025-08-16 16:28:45 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 16:28:45 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.29.204.48:5001
+2025-08-16 16:28:45 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-16 16:28:45 - werkzeug - INFO -  * Restarting with stat
+2025-08-16 16:28:46 - root - INFO - Logging initialized at 2025-08-16 16:28:46
+2025-08-16 16:28:46 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 16:28:46 - __main__ - INFO - Registering API blueprints
+2025-08-16 16:28:46 - __main__ - INFO - API blueprints registered
+2025-08-16 16:28:46 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 16:28:46 - werkzeug - WARNING -  * Debugger is active!
+2025-08-16 16:28:46 - werkzeug - INFO -  * Debugger PIN: 274-139-661
+2025-08-16 16:28:58 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-16 16:28:59 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-08-16 16:28:59 - paramiko.transport - INFO - Authentication (password) successful!
+2025-08-16 16:29:02 - infrastructure_setup - INFO - All infrastructure components OK
+2025-08-16 16:29:02 - server - INFO - All infrastructure components are already set up correctly
+2025-08-16 16:29:02 - server - INFO - Session established successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f (headless mode, infrastructure ready)
+2025-08-16 16:29:02 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 16:29:02] "POST /api/session/start HTTP/1.1" 200 -
+2025-08-16 16:29:08 - services.agh_service - INFO - resolve_ipv6_for_mac: found STALE global/ULA fd1f:c83e:bacb:0:64b6:e626:8750:b83 for 7e:48:fa:c6:a6:f6
+2025-08-16 16:29:09 - services.agh_service - INFO - resolve_ipv6_for_mac: found STALE global/ULA fd1f:c83e:bacb:0:64b6:e626:8750:b83 for 7e:48:fa:c6:a6:f6
+2025-08-16 16:29:10 - services.agh_service - INFO - resolve_ipv6_for_mac: found STALE global/ULA fd1f:c83e:bacb:0:64b6:e626:8750:b83 for 7e:48:fa:c6:a6:f6
+2025-08-16 16:29:10 - services.agh_service - INFO - IPv6 mismatch detected: existing client 'fe80::7c48:faff:fec6:a6f6' vs current IPv6 'fd1f:c83e:bacb:0:64b6:e626:8750:b83' for MAC 7e:48:fa:c6:a6:f6. Deleting old client.
+2025-08-16 16:29:15 - services.agh_service - INFO - resolve_ipv6_for_mac: found STALE global/ULA fd1f:c83e:bacb:0:64b6:e626:8750:b83 for 7e:48:fa:c6:a6:f6
+2025-08-16 16:29:16 - services.agh_service - WARNING - apply_rules_for_clients: get_current_rules error: Invalid JSON from AGH: Extra data: line 1 column 5 (char 4). Raw: 404 page not found; proceeding with empty base
+2025-08-16 16:29:19 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 16:29:19] "POST /api/agh/device/rules HTTP/1.1" 200 -
+2025-08-16 16:31:20 - werkzeug - INFO -  * Detected change in '/mnt/c/Users/Tom/Documents/NetPilot/backend/services/agh_service/net.py', reloading
+2025-08-16 16:31:20 - __main__ - INFO - Cleaning up resources
+2025-08-16 16:31:22 - __main__ - INFO - Resources cleaned up
+2025-08-16 16:31:22 - werkzeug - INFO -  * Restarting with stat
+2025-08-16 16:31:22 - root - INFO - Logging initialized at 2025-08-16 16:31:22
+2025-08-16 16:31:22 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 16:31:23 - __main__ - INFO - Registering API blueprints
+2025-08-16 16:31:23 - __main__ - INFO - API blueprints registered
+2025-08-16 16:31:23 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 16:31:23 - werkzeug - WARNING -  * Debugger is active!
+2025-08-16 16:31:23 - werkzeug - INFO -  * Debugger PIN: 274-139-661
+2025-08-16 16:31:37 - werkzeug - INFO -  * Detected change in '/mnt/c/Users/Tom/Documents/NetPilot/backend/services/agh_service/net.py', reloading
+2025-08-16 16:31:37 - __main__ - INFO - Cleaning up resources
+2025-08-16 16:31:39 - __main__ - INFO - Resources cleaned up
+2025-08-16 16:31:39 - werkzeug - INFO -  * Restarting with stat
+2025-08-16 16:31:39 - root - INFO - Logging initialized at 2025-08-16 16:31:39
+2025-08-16 16:31:39 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 16:31:40 - __main__ - INFO - Registering API blueprints
+2025-08-16 16:31:40 - __main__ - INFO - API blueprints registered
+2025-08-16 16:31:40 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 16:31:40 - werkzeug - WARNING -  * Debugger is active!
+2025-08-16 16:31:40 - werkzeug - INFO -  * Debugger PIN: 274-139-661
+2025-08-16 16:31:49 - __main__ - INFO - Cleaning up resources
+2025-08-16 16:31:50 - __main__ - INFO - Cleaning up resources
+2025-08-16 16:31:52 - __main__ - INFO - Resources cleaned up
+2025-08-16 16:31:58 - root - INFO - Logging initialized at 2025-08-16 16:31:58
+2025-08-16 16:31:58 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 16:31:59 - __main__ - INFO - Registering API blueprints
+2025-08-16 16:31:59 - __main__ - INFO - API blueprints registered
+2025-08-16 16:31:59 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 16:31:59 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.29.204.48:5001
+2025-08-16 16:31:59 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-16 16:31:59 - werkzeug - INFO -  * Restarting with stat
+2025-08-16 16:32:00 - root - INFO - Logging initialized at 2025-08-16 16:32:00
+2025-08-16 16:32:00 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 16:32:01 - __main__ - INFO - Registering API blueprints
+2025-08-16 16:32:01 - __main__ - INFO - API blueprints registered
+2025-08-16 16:32:01 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 16:32:01 - werkzeug - WARNING -  * Debugger is active!
+2025-08-16 16:32:01 - werkzeug - INFO -  * Debugger PIN: 274-139-661
+2025-08-16 16:32:07 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-16 16:32:07 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-08-16 16:32:08 - paramiko.transport - INFO - Authentication (password) successful!
+2025-08-16 16:32:08 - werkzeug - INFO -  * Detected change in '/mnt/c/Users/Tom/Documents/NetPilot/backend/services/agh_service/net.py', reloading
+2025-08-16 16:32:08 - __main__ - INFO - Cleaning up resources
+2025-08-16 16:32:10 - __main__ - INFO - Resources cleaned up
+2025-08-16 16:32:10 - werkzeug - INFO -  * Restarting with stat
+2025-08-16 16:32:11 - root - INFO - Logging initialized at 2025-08-16 16:32:11
+2025-08-16 16:32:11 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 16:32:12 - __main__ - INFO - Registering API blueprints
+2025-08-16 16:32:12 - __main__ - INFO - API blueprints registered
+2025-08-16 16:32:12 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 16:32:12 - werkzeug - WARNING -  * Debugger is active!
+2025-08-16 16:32:12 - werkzeug - INFO -  * Debugger PIN: 274-139-661
+2025-08-16 16:32:19 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-16 16:32:19 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-08-16 16:32:20 - paramiko.transport - INFO - Authentication (password) successful!
+2025-08-16 16:32:23 - infrastructure_setup - INFO - All infrastructure components OK
+2025-08-16 16:32:23 - server - INFO - All infrastructure components are already set up correctly
+2025-08-16 16:32:23 - server - INFO - Session established successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f (headless mode, infrastructure ready)
+2025-08-16 16:32:23 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 16:32:23] "POST /api/session/start HTTP/1.1" 200 -
+2025-08-16 16:32:28 - services.agh_service - INFO - resolve_ipv6_for_mac: found STALE global/ULA fd1f:c83e:bacb:0:64b6:e626:8750:b83 for 7e:48:fa:c6:a6:f6
+2025-08-16 16:32:29 - services.agh_service - INFO - resolve_ipv6_for_mac: found STALE global/ULA fd1f:c83e:bacb:0:64b6:e626:8750:b83 for 7e:48:fa:c6:a6:f6
+2025-08-16 16:32:30 - services.agh_service - INFO - resolve_ipv6_for_mac: found STALE global/ULA fd1f:c83e:bacb:0:64b6:e626:8750:b83 for 7e:48:fa:c6:a6:f6
+2025-08-16 16:32:33 - services.agh_service - INFO - resolve_ipv6_for_mac: found STALE global/ULA fd1f:c83e:bacb:0:64b6:e626:8750:b83 for 7e:48:fa:c6:a6:f6
+2025-08-16 16:32:34 - services.agh_service - WARNING - apply_rules_for_clients: get_current_rules error: Invalid JSON from AGH: Extra data: line 1 column 5 (char 4). Raw: 404 page not found; proceeding with empty base
+2025-08-16 16:32:37 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 16:32:37] "POST /api/agh/device/rules HTTP/1.1" 200 -
+2025-08-16 16:33:44 - werkzeug - INFO -  * Detected change in '/mnt/c/Users/Tom/Documents/NetPilot/backend/services/agh_service/net.py', reloading
+2025-08-16 16:33:44 - __main__ - INFO - Cleaning up resources
+2025-08-16 16:33:46 - __main__ - INFO - Resources cleaned up
+2025-08-16 16:33:46 - werkzeug - INFO -  * Restarting with stat
+2025-08-16 16:33:46 - root - INFO - Logging initialized at 2025-08-16 16:33:46
+2025-08-16 16:33:46 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 16:33:47 - __main__ - INFO - Registering API blueprints
+2025-08-16 16:33:47 - __main__ - INFO - API blueprints registered
+2025-08-16 16:33:47 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 16:33:47 - werkzeug - WARNING -  * Debugger is active!
+2025-08-16 16:33:47 - werkzeug - INFO -  * Debugger PIN: 274-139-661
+2025-08-16 16:33:59 - werkzeug - INFO -  * Detected change in '/mnt/c/Users/Tom/Documents/NetPilot/backend/services/agh_service/net.py', reloading
+2025-08-16 16:33:59 - __main__ - INFO - Cleaning up resources
+2025-08-16 16:34:01 - __main__ - INFO - Resources cleaned up
+2025-08-16 16:34:01 - werkzeug - INFO -  * Restarting with stat
+2025-08-16 16:34:01 - root - INFO - Logging initialized at 2025-08-16 16:34:01
+2025-08-16 16:34:01 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 16:34:02 - __main__ - INFO - Registering API blueprints
+2025-08-16 16:34:02 - __main__ - INFO - API blueprints registered
+2025-08-16 16:34:02 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 16:34:02 - werkzeug - WARNING -  * Debugger is active!
+2025-08-16 16:34:02 - werkzeug - INFO -  * Debugger PIN: 274-139-661
+2025-08-16 16:50:09 - __main__ - INFO - Cleaning up resources
+2025-08-16 16:50:10 - __main__ - INFO - Cleaning up resources
+2025-08-16 16:50:12 - __main__ - INFO - Resources cleaned up
+2025-08-16 16:50:48 - root - INFO - Logging initialized at 2025-08-16 16:50:48
+2025-08-16 16:50:48 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 16:50:49 - __main__ - INFO - Registering API blueprints
+2025-08-16 16:50:49 - __main__ - INFO - API blueprints registered
+2025-08-16 16:50:49 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 16:50:49 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.29.204.48:5001
+2025-08-16 16:50:49 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-16 16:50:49 - werkzeug - INFO -  * Restarting with stat
+2025-08-16 16:50:50 - root - INFO - Logging initialized at 2025-08-16 16:50:50
+2025-08-16 16:50:50 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 16:50:51 - __main__ - INFO - Registering API blueprints
+2025-08-16 16:50:51 - __main__ - INFO - API blueprints registered
+2025-08-16 16:50:51 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 16:50:51 - werkzeug - WARNING -  * Debugger is active!
+2025-08-16 16:50:51 - werkzeug - INFO -  * Debugger PIN: 274-139-661
+2025-08-16 16:50:57 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-16 16:50:57 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-08-16 16:50:58 - paramiko.transport - INFO - Authentication (password) successful!
+2025-08-16 16:51:00 - infrastructure_setup - INFO - All infrastructure components OK
+2025-08-16 16:51:00 - server - INFO - All infrastructure components are already set up correctly
+2025-08-16 16:51:00 - server - INFO - Session established successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f (headless mode, infrastructure ready)
+2025-08-16 16:51:00 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 16:51:00] "POST /api/session/start HTTP/1.1" 200 -
+2025-08-16 16:51:06 - services.agh_service - INFO - resolve_ipv6_for_mac: found STALE global/ULA fd1f:c83e:bacb:0:f552:6fe:2a91:ed6f for 7e:48:fa:c6:a6:f6
+2025-08-16 16:51:07 - services.agh_service - INFO - resolve_ipv6_for_mac: found STALE global/ULA fd1f:c83e:bacb:0:f552:6fe:2a91:ed6f for 7e:48:fa:c6:a6:f6
+2025-08-16 16:51:08 - services.agh_service - INFO - resolve_ipv6_for_mac: found STALE global/ULA fd1f:c83e:bacb:0:f552:6fe:2a91:ed6f for 7e:48:fa:c6:a6:f6
+2025-08-16 16:51:08 - services.agh_service - INFO - IPv6 mismatch detected: existing client 'fd1f:c83e:bacb:0:64b6:e626:8750:b83' vs current IPv6 'fd1f:c83e:bacb:0:f552:6fe:2a91:ed6f' for MAC 7e:48:fa:c6:a6:f6. Deleting old client.
+2025-08-16 16:51:13 - services.agh_service - INFO - resolve_ipv6_for_mac: found STALE global/ULA fd1f:c83e:bacb:0:f552:6fe:2a91:ed6f for 7e:48:fa:c6:a6:f6
+2025-08-16 16:51:14 - services.agh_service - WARNING - apply_rules_for_clients: get_current_rules error: Invalid JSON from AGH: Extra data: line 1 column 5 (char 4). Raw: 404 page not found; proceeding with empty base
+2025-08-16 16:51:17 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 16:51:17] "POST /api/agh/device/rules HTTP/1.1" 200 -
+2025-08-16 17:00:36 - __main__ - INFO - Cleaning up resources
+2025-08-16 17:00:37 - __main__ - INFO - Cleaning up resources
+2025-08-16 17:00:39 - __main__ - INFO - Resources cleaned up
+2025-08-16 17:03:53 - root - INFO - Logging initialized at 2025-08-16 17:03:53
+2025-08-16 17:03:53 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 17:03:54 - __main__ - INFO - Registering API blueprints
+2025-08-16 17:03:54 - __main__ - INFO - API blueprints registered
+2025-08-16 17:03:54 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 17:03:54 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.29.204.48:5001
+2025-08-16 17:03:54 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-16 17:03:54 - werkzeug - INFO -  * Restarting with stat
+2025-08-16 17:03:55 - root - INFO - Logging initialized at 2025-08-16 17:03:55
+2025-08-16 17:03:55 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 17:03:55 - __main__ - INFO - Registering API blueprints
+2025-08-16 17:03:55 - __main__ - INFO - API blueprints registered
+2025-08-16 17:03:55 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 17:03:55 - werkzeug - WARNING -  * Debugger is active!
+2025-08-16 17:03:55 - werkzeug - INFO -  * Debugger PIN: 274-139-661
+2025-08-16 17:04:04 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-16 17:04:05 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-08-16 17:04:05 - paramiko.transport - INFO - Authentication (password) successful!
+2025-08-16 17:04:08 - infrastructure_setup - INFO - All infrastructure components OK
+2025-08-16 17:04:08 - server - INFO - All infrastructure components are already set up correctly
+2025-08-16 17:04:08 - server - INFO - Session established successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f (headless mode, infrastructure ready)
+2025-08-16 17:04:08 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 17:04:08] "POST /api/session/start HTTP/1.1" 200 -
+2025-08-16 17:04:12 - services.agh_service - INFO - resolve_ipv6s_for_mac: found 5 IPv6 addresses for 7e:48:fa:c6:a6:f6: ['fd1f:c83e:bacb:0:64b6:e626:8750:b83', 'fe80::7c48:faff:fec6:a6f6', 'fd1f:c83e:bacb:0:e6b8:885:b033:61dc', 'fd1f:c83e:bacb:0:8aa2:9c5a:897c:e8f', 'fd1f:c83e:bacb:0:f552:6fe:2a91:ed6f']
+2025-08-16 17:04:13 - services.agh_service - INFO - resolve_ipv6s_for_mac: found 5 IPv6 addresses for 7e:48:fa:c6:a6:f6: ['fd1f:c83e:bacb:0:64b6:e626:8750:b83', 'fe80::7c48:faff:fec6:a6f6', 'fd1f:c83e:bacb:0:e6b8:885:b033:61dc', 'fd1f:c83e:bacb:0:8aa2:9c5a:897c:e8f', 'fd1f:c83e:bacb:0:f552:6fe:2a91:ed6f']
+2025-08-16 17:04:16 - services.agh_service - WARNING - apply_rules_for_clients: get_current_rules error: Invalid JSON from AGH: Extra data: line 1 column 5 (char 4). Raw: 404 page not found; proceeding with empty base
+2025-08-16 17:04:19 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 17:04:19] "POST /api/agh/device/rules HTTP/1.1" 200 -
+2025-08-16 17:04:52 - services.agh_service - INFO - resolve_ipv6s_for_mac: found 5 IPv6 addresses for 7e:48:fa:c6:a6:f6: ['fd1f:c83e:bacb:0:64b6:e626:8750:b83', 'fe80::7c48:faff:fec6:a6f6', 'fd1f:c83e:bacb:0:e6b8:885:b033:61dc', 'fd1f:c83e:bacb:0:8aa2:9c5a:897c:e8f', 'fd1f:c83e:bacb:0:f552:6fe:2a91:ed6f']
+2025-08-16 17:04:53 - services.agh_service - INFO - resolve_ipv6s_for_mac: found 5 IPv6 addresses for 7e:48:fa:c6:a6:f6: ['fd1f:c83e:bacb:0:64b6:e626:8750:b83', 'fe80::7c48:faff:fec6:a6f6', 'fd1f:c83e:bacb:0:e6b8:885:b033:61dc', 'fd1f:c83e:bacb:0:8aa2:9c5a:897c:e8f', 'fd1f:c83e:bacb:0:f552:6fe:2a91:ed6f']
+2025-08-16 17:04:57 - services.agh_service - WARNING - apply_rules_for_clients: get_current_rules error: Invalid JSON from AGH: Extra data: line 1 column 5 (char 4). Raw: 404 page not found; proceeding with empty base
+2025-08-16 17:05:00 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 17:05:00] "POST /api/agh/device/rules HTTP/1.1" 200 -
+2025-08-16 17:05:58 - services.agh_service - WARNING - clear_rules_for_clients: get_current_rules error: Invalid JSON from AGH: Extra data: line 1 column 5 (char 4). Raw: 404 page not found; proceeding with empty base
+2025-08-16 17:06:01 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 17:06:01] "DELETE /api/agh/device/rules HTTP/1.1" 200 -
+2025-08-16 17:17:38 - __main__ - INFO - Cleaning up resources
+2025-08-16 17:17:38 - __main__ - INFO - Cleaning up resources
+2025-08-16 17:17:40 - __main__ - INFO - Resources cleaned up
+2025-08-16 17:18:29 - root - INFO - Logging initialized at 2025-08-16 17:18:29
+2025-08-16 17:18:29 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 17:18:30 - __main__ - INFO - Registering API blueprints
+2025-08-16 17:18:30 - __main__ - INFO - API blueprints registered
+2025-08-16 17:18:30 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 17:18:30 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.29.204.48:5001
+2025-08-16 17:18:30 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-16 17:18:30 - werkzeug - INFO -  * Restarting with stat
+2025-08-16 17:18:31 - root - INFO - Logging initialized at 2025-08-16 17:18:31
+2025-08-16 17:18:31 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-16 17:18:32 - __main__ - INFO - Registering API blueprints
+2025-08-16 17:18:32 - __main__ - INFO - API blueprints registered
+2025-08-16 17:18:32 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-16 17:18:32 - werkzeug - WARNING -  * Debugger is active!
+2025-08-16 17:18:32 - werkzeug - INFO -  * Debugger PIN: 274-139-661
+2025-08-16 17:18:39 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-16 17:18:40 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-08-16 17:18:40 - paramiko.transport - INFO - Authentication (password) successful!
+2025-08-16 17:18:43 - infrastructure_setup - INFO - All infrastructure components OK
+2025-08-16 17:18:43 - server - INFO - All infrastructure components are already set up correctly
+2025-08-16 17:18:43 - server - INFO - Session established successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f (headless mode, infrastructure ready)
+2025-08-16 17:18:43 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 17:18:43] "POST /api/session/start HTTP/1.1" 200 -
+2025-08-16 17:18:49 - services.agh_service - INFO - resolve_ipv6s_for_mac: found 5 IPv6 addresses for 7e:48:fa:c6:a6:f6: ['fd1f:c83e:bacb:0:64b6:e626:8750:b83', 'fe80::7c48:faff:fec6:a6f6', 'fd1f:c83e:bacb:0:e6b8:885:b033:61dc', 'fd1f:c83e:bacb:0:8aa2:9c5a:897c:e8f', 'fd1f:c83e:bacb:0:f552:6fe:2a91:ed6f']
+2025-08-16 17:18:50 - services.agh_service - INFO - resolve_ipv6s_for_mac: found 5 IPv6 addresses for 7e:48:fa:c6:a6:f6: ['fd1f:c83e:bacb:0:64b6:e626:8750:b83', 'fe80::7c48:faff:fec6:a6f6', 'fd1f:c83e:bacb:0:e6b8:885:b033:61dc', 'fd1f:c83e:bacb:0:8aa2:9c5a:897c:e8f', 'fd1f:c83e:bacb:0:f552:6fe:2a91:ed6f']
+2025-08-16 17:18:53 - services.agh_service - WARNING - apply_rules_for_clients: get_current_rules error: Invalid JSON from AGH: Extra data: line 1 column 5 (char 4). Raw: 404 page not found; proceeding with empty base
+2025-08-16 17:18:56 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 17:18:56] "POST /api/agh/device/rules HTTP/1.1" 200 -
+2025-08-16 17:19:59 - services.agh_service - WARNING - clear_rules_for_clients: get_current_rules error: Invalid JSON from AGH: Extra data: line 1 column 5 (char 4). Raw: 404 page not found; proceeding with empty base
+2025-08-16 17:20:02 - werkzeug - INFO - 127.0.0.1 - - [16/Aug/2025 17:20:02] "DELETE /api/agh/device/rules HTTP/1.1" 200 -
+2025-08-16 17:20:26 - __main__ - INFO - Cleaning up resources
+2025-08-16 17:20:26 - __main__ - INFO - Cleaning up resources
+2025-08-16 17:20:28 - __main__ - INFO - Resources cleaned up
+2025-08-17 12:27:43 - root - INFO - Logging initialized at 2025-08-17 12:27:43
+2025-08-17 12:27:43 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-18 15:53:53 - root - INFO - Logging initialized at 2025-08-18 15:53:53
+2025-08-18 15:53:53 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-18 15:53:54 - __main__ - INFO - Registering API blueprints
+2025-08-18 15:53:54 - __main__ - INFO - API blueprints registered
+2025-08-18 15:53:54 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-18 15:53:54 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.29.204.48:5001
+2025-08-18 15:53:54 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-18 15:53:54 - werkzeug - INFO -  * Restarting with stat
+2025-08-18 15:53:55 - root - INFO - Logging initialized at 2025-08-18 15:53:55
+2025-08-18 15:53:55 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-18 15:53:56 - __main__ - INFO - Registering API blueprints
+2025-08-18 15:53:56 - __main__ - INFO - API blueprints registered
+2025-08-18 15:53:56 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-18 15:53:56 - werkzeug - WARNING -  * Debugger is active!
+2025-08-18 15:53:56 - werkzeug - INFO -  * Debugger PIN: 397-215-090
+2025-08-18 15:54:27 - werkzeug - INFO - 127.0.0.1 - - [18/Aug/2025 15:54:27] "GET /health HTTP/1.1" 200 -
+2025-08-18 15:54:32 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-18 15:54:32 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-08-18 15:54:33 - paramiko.transport - INFO - Authentication (password) successful!
+2025-08-18 15:54:36 - server - INFO - Infrastructure check found missing components: ['time_based_scripts_setup']
+2025-08-18 15:54:36 - infrastructure_setup - INFO - Monitoring infrastructure is already set up correctly - skipping
+2025-08-18 15:54:36 - infrastructure_setup - INFO - AGH categories infrastructure is already set up correctly - skipping
+2025-08-18 15:54:36 - infrastructure_setup - INFO - Setting up time-based netlimit scripts on router
+2025-08-18 15:54:36 - infrastructure_setup - INFO - Ensuring netlimit directory exists: /root/netlimit
+2025-08-18 15:54:37 - infrastructure_setup - INFO - Copying script to router: add_devices.sh
+2025-08-18 15:54:39 - managers.router_connection_manager - ERROR - Unexpected error when executing command for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: Channel closed.
+2025-08-18 15:54:40 - infrastructure_setup - INFO - Copying script to router: del_devices.sh
+2025-08-18 15:54:41 - managers.router_connection_manager - ERROR - Unexpected error when executing command for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: Channel closed.
+2025-08-18 15:54:41 - infrastructure_setup - INFO - Copying script to router: update_firewall.sh
+2025-08-18 15:54:42 - managers.router_connection_manager - ERROR - Unexpected error when executing command for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: Unable to open channel.
+2025-08-18 15:54:43 - infrastructure_setup - INFO - Time-based scripts setup completed successfully
+2025-08-18 15:54:43 - infrastructure_setup - INFO - Infrastructure setup completed for components: time_based_scripts_setup
+2025-08-18 15:54:43 - server - INFO - Session established successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f (headless mode, infrastructure ready)
+2025-08-18 15:54:43 - werkzeug - INFO - 127.0.0.1 - - [18/Aug/2025 15:54:43] "POST /api/session/start HTTP/1.1" 200 -
+2025-08-18 15:56:52 - server - INFO - Ending session ec3c8136-679c-4504-a892-8c6ed45f63ff for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-18 15:56:52 - werkzeug - INFO - 127.0.0.1 - - [18/Aug/2025 15:56:52] "POST /api/session/end HTTP/1.1" 200 -
+2025-08-18 15:56:56 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-18 15:56:56 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-08-18 15:56:57 - paramiko.transport - INFO - Authentication (password) successful!
+2025-08-18 15:57:01 - infrastructure_setup - INFO - All infrastructure components OK
+2025-08-18 15:57:01 - server - INFO - All infrastructure components are already set up correctly
+2025-08-18 15:57:01 - server - INFO - Session established successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f (headless mode, infrastructure ready)
+2025-08-18 15:57:01 - werkzeug - INFO - 127.0.0.1 - - [18/Aug/2025 15:57:01] "POST /api/session/start HTTP/1.1" 200 -
+2025-08-18 15:57:07 - server - INFO - Ending session ec3c8136-679c-4504-a892-8c6ed45f63ff for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f
+2025-08-18 15:57:07 - werkzeug - INFO - 127.0.0.1 - - [18/Aug/2025 15:57:07] "POST /api/session/end HTTP/1.1" 200 -
+2025-08-18 16:29:12 - __main__ - INFO - Cleaning up resources
+2025-08-18 16:29:13 - __main__ - INFO - Cleaning up resources
+2025-08-18 16:29:13 - __main__ - INFO - Resources cleaned up
+2025-08-18 17:18:23 - root - INFO - Logging initialized at 2025-08-18 17:18:23
+2025-08-18 17:18:23 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-18 17:18:24 - __main__ - INFO - Registering API blueprints
+2025-08-18 17:18:24 - __main__ - INFO - API blueprints registered
+2025-08-18 17:18:24 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-18 17:18:24 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.29.204.48:5001
+2025-08-18 17:18:24 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-18 17:18:24 - werkzeug - INFO -  * Restarting with stat
+2025-08-18 17:18:25 - root - INFO - Logging initialized at 2025-08-18 17:18:25
+2025-08-18 17:18:25 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-18 17:18:26 - __main__ - INFO - Registering API blueprints
+2025-08-18 17:18:26 - __main__ - INFO - API blueprints registered
+2025-08-18 17:18:26 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-18 17:18:26 - werkzeug - WARNING -  * Debugger is active!
+2025-08-18 17:18:26 - werkzeug - INFO -  * Debugger PIN: 397-215-090
+2025-08-18 17:18:43 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-18 17:18:44 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-08-18 17:18:44 - paramiko.transport - INFO - Authentication (password) successful!
+2025-08-18 17:18:49 - infrastructure_setup - INFO - All infrastructure components OK
+2025-08-18 17:18:49 - server - INFO - All infrastructure components are already set up correctly
+2025-08-18 17:18:49 - server - INFO - Session established successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f (headless mode, infrastructure ready)
+2025-08-18 17:18:49 - werkzeug - INFO - 127.0.0.1 - - [18/Aug/2025 17:18:49] "POST /api/session/start HTTP/1.1" 200 -
+2025-08-18 17:18:58 - werkzeug - INFO - 127.0.0.1 - - [18/Aug/2025 17:18:58] "GET /api/network/scan?sessionId=ec3c8136-679c-4504-a892-8c6ed45f63ff&routerId=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f HTTP/1.1" 200 -
+2025-08-18 17:20:24 - managers.router_connection_manager - ERROR - Unexpected error when executing command for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: 
+2025-08-18 17:20:24 - werkzeug - INFO - 127.0.0.1 - - [18/Aug/2025 17:20:24] "POST /api/time/testgroup/rules HTTP/1.1" 200 -
+2025-08-18 17:20:42 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-08-18 17:20:42 - paramiko.transport - INFO - Authentication (password) successful!
+2025-08-18 17:21:13 - managers.router_connection_manager - ERROR - Unexpected error when executing command for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: 
+2025-08-18 17:21:13 - werkzeug - INFO - 127.0.0.1 - - [18/Aug/2025 17:21:13] "DELETE /api/time/testgroup/rules?sessionId=ec3c8136-679c-4504-a892-8c6ed45f63ff&routerId=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f HTTP/1.1" 200 -
+2025-08-18 17:28:09 - werkzeug - INFO -  * Detected change in '/mnt/c/Users/Tom/Documents/NetPilot/backend/services/time_based_service.py', reloading
+2025-08-18 17:28:09 - __main__ - INFO - Cleaning up resources
+2025-08-18 17:28:11 - __main__ - INFO - Resources cleaned up
+2025-08-18 17:28:11 - werkzeug - INFO -  * Restarting with stat
+2025-08-18 17:28:12 - root - INFO - Logging initialized at 2025-08-18 17:28:12
+2025-08-18 17:28:12 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-18 17:28:12 - __main__ - INFO - Registering API blueprints
+2025-08-18 17:28:12 - __main__ - INFO - API blueprints registered
+2025-08-18 17:28:12 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-18 17:28:13 - werkzeug - WARNING -  * Debugger is active!
+2025-08-18 17:28:13 - werkzeug - INFO -  * Debugger PIN: 397-215-090
+2025-08-18 17:28:26 - __main__ - INFO - Cleaning up resources
+2025-08-18 17:28:26 - __main__ - INFO - Cleaning up resources
+2025-08-18 17:28:28 - __main__ - INFO - Resources cleaned up
+2025-08-18 17:28:40 - root - INFO - Logging initialized at 2025-08-18 17:28:40
+2025-08-18 17:28:40 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-18 17:28:41 - __main__ - INFO - Registering API blueprints
+2025-08-18 17:28:41 - __main__ - INFO - API blueprints registered
+2025-08-18 17:28:41 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-18 17:28:41 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.29.204.48:5001
+2025-08-18 17:28:41 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-18 17:28:41 - werkzeug - INFO -  * Restarting with stat
+2025-08-18 17:28:42 - root - INFO - Logging initialized at 2025-08-18 17:28:42
+2025-08-18 17:28:42 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-18 17:28:43 - __main__ - INFO - Registering API blueprints
+2025-08-18 17:28:43 - __main__ - INFO - API blueprints registered
+2025-08-18 17:28:43 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-18 17:28:43 - werkzeug - WARNING -  * Debugger is active!
+2025-08-18 17:28:43 - werkzeug - INFO -  * Debugger PIN: 397-215-090
+2025-08-18 18:56:50 - root - INFO - Logging initialized at 2025-08-18 18:56:50
+2025-08-18 18:56:50 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-18 18:56:52 - __main__ - INFO - Registering API blueprints
+2025-08-18 18:56:52 - __main__ - INFO - API blueprints registered
+2025-08-18 18:56:52 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-18 18:56:52 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.29.204.48:5001
+2025-08-18 18:56:52 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-18 18:56:52 - werkzeug - INFO -  * Restarting with stat
+2025-08-18 18:56:52 - root - INFO - Logging initialized at 2025-08-18 18:56:52
+2025-08-18 18:56:52 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-18 18:56:53 - __main__ - INFO - Registering API blueprints
+2025-08-18 18:56:53 - __main__ - INFO - API blueprints registered
+2025-08-18 18:56:53 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-18 18:56:53 - werkzeug - WARNING -  * Debugger is active!
+2025-08-18 18:56:53 - werkzeug - INFO -  * Debugger PIN: 397-215-090
+2025-08-18 18:57:01 - werkzeug - INFO - 127.0.0.1 - - [18/Aug/2025 18:57:01] "GET /health HTTP/1.1" 200 -
+2025-08-18 18:57:02 - werkzeug - INFO - 127.0.0.1 - - [18/Aug/2025 18:57:02] "[31m[1mGET /api/network/scan?sessionId=ec3c8136-679c-4504-a892-8c6ed45f63ff&routerId=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f HTTP/1.1[0m" 401 -
+2025-08-18 18:57:08 - server - INFO - Attempting to start session for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-18 18:57:08 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-08-18 18:57:09 - paramiko.transport - INFO - Authentication (password) successful!
+2025-08-18 18:57:11 - server - INFO - Infrastructure check found missing components: ['agh_categories_setup', 'time_based_scripts_setup']
+2025-08-18 18:57:11 - infrastructure_setup - INFO - Monitoring infrastructure is already set up correctly - skipping
+2025-08-18 18:57:11 - infrastructure_setup - INFO - Setting up AGH default categories
+2025-08-18 18:57:11 - infrastructure_setup - INFO - Ensuring AGH category directory exists: /opt/AdGuardHome/categories
+2025-08-18 18:57:12 - infrastructure_setup - INFO - Found existing categories on router: []
+2025-08-18 18:57:12 - infrastructure_setup - INFO - Creating missing default categories: ['social_media', 'entertainment', 'gaming', 'adult_gambling']
+2025-08-18 18:57:12 - infrastructure_setup - INFO - Looking for default category files in: /mnt/c/Users/Tom/Documents/NetPilot/backend/services/agh_service/default_categories
+2025-08-18 18:57:12 - infrastructure_setup - INFO - Copying default category file: social_media.txt (size: 157 bytes)
+2025-08-18 18:57:13 - infrastructure_setup - INFO - Successfully created default category: social_media
+2025-08-18 18:57:13 - infrastructure_setup - INFO - Copying default category file: entertainment.txt (size: 161 bytes)
+2025-08-18 18:57:14 - infrastructure_setup - INFO - Successfully created default category: entertainment
+2025-08-18 18:57:14 - infrastructure_setup - INFO - Copying default category file: gaming.txt (size: 187 bytes)
+2025-08-18 18:57:15 - infrastructure_setup - INFO - Successfully created default category: gaming
+2025-08-18 18:57:15 - infrastructure_setup - INFO - Copying default category file: adult_gambling.txt (size: 178 bytes)
+2025-08-18 18:57:15 - infrastructure_setup - INFO - Successfully created default category: adult_gambling
+2025-08-18 18:57:15 - infrastructure_setup - INFO - AGH default categories setup completed successfully
+2025-08-18 18:57:15 - infrastructure_setup - INFO - Setting up time-based netlimit scripts on router
+2025-08-18 18:57:15 - infrastructure_setup - INFO - Ensuring netlimit directory exists: /root/netlimit
+2025-08-18 18:57:17 - infrastructure_setup - INFO - Copying script to router: add_devices.sh
+2025-08-18 18:57:18 - managers.router_connection_manager - ERROR - Unexpected error when executing command for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: Channel closed.
+2025-08-18 18:57:19 - infrastructure_setup - INFO - Copying script to router: del_devices.sh
+2025-08-18 18:57:21 - managers.router_connection_manager - ERROR - Unexpected error when executing command for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: Channel closed.
+2025-08-18 18:57:22 - infrastructure_setup - INFO - Copying script to router: update_firewall.sh
+2025-08-18 18:57:23 - managers.router_connection_manager - ERROR - Unexpected error when executing command for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f: Channel closed.
+2025-08-18 18:57:24 - infrastructure_setup - INFO - Time-based scripts setup completed successfully
+2025-08-18 18:57:24 - infrastructure_setup - INFO - Infrastructure setup completed for components: agh_categories_setup, time_based_scripts_setup
+2025-08-18 18:57:24 - server - INFO - Session established successfully for router e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f (headless mode, infrastructure ready)
+2025-08-18 18:57:24 - werkzeug - INFO - 127.0.0.1 - - [18/Aug/2025 18:57:24] "POST /api/session/start HTTP/1.1" 200 -
+2025-08-18 18:57:34 - werkzeug - INFO - 127.0.0.1 - - [18/Aug/2025 18:57:34] "GET /api/network/scan?sessionId=ec3c8136-679c-4504-a892-8c6ed45f63ff&routerId=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f HTTP/1.1" 200 -
+2025-08-18 18:58:02 - werkzeug - INFO - 127.0.0.1 - - [18/Aug/2025 18:58:02] "GET /api/agh/categories?sessionId=ec3c8136-679c-4504-a892-8c6ed45f63ff&routerId=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f HTTP/1.1" 200 -
+2025-08-18 18:58:12 - werkzeug - INFO - 127.0.0.1 - - [18/Aug/2025 18:58:12] "GET /api/agh/categories/social_media/domains?sessionId=ec3c8136-679c-4504-a892-8c6ed45f63ff&routerId=e4fbea8e8f1c372c919be32613793c6c1e8313dd8a9b38bef9a9b45114ad1c1f HTTP/1.1" 200 -
+2025-08-18 18:58:31 - __main__ - INFO - Cleaning up resources
+2025-08-18 18:58:31 - __main__ - INFO - Cleaning up resources
+2025-08-18 18:58:31 - __main__ - INFO - Resources cleaned up
+2025-08-21 21:08:12 - root - INFO - Logging initialized at 2025-08-21 21:08:12
+2025-08-21 21:08:12 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-21 21:08:14 - __main__ - INFO - Registering API blueprints
+2025-08-21 21:08:14 - __main__ - INFO - API blueprints registered
+2025-08-21 21:08:14 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-21 21:08:15 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.29.204.48:5001
+2025-08-21 21:08:15 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-21 21:08:15 - werkzeug - INFO -  * Restarting with stat
+2025-08-21 21:08:15 - root - INFO - Logging initialized at 2025-08-21 21:08:15
+2025-08-21 21:08:15 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-08-21 21:08:16 - __main__ - INFO - Registering API blueprints
+2025-08-21 21:08:16 - __main__ - INFO - API blueprints registered
+2025-08-21 21:08:16 - __main__ - INFO - Starting Commands Server on port 5001
+2025-08-21 21:08:16 - werkzeug - WARNING -  * Debugger is active!
+2025-08-21 21:08:16 - werkzeug - INFO -  * Debugger PIN: 906-766-475
+2025-08-21 21:08:58 - werkzeug - INFO - 127.0.0.1 - - [21/Aug/2025 21:08:58] "[31m[1mGET /api/wifi/status?sessionId=ec3c8136-679c-4504-a892-8c6ed45f63ff&routerId=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d HTTP/1.1[0m" 401 -
+2025-08-21 21:09:02 - server - INFO - Attempting to start session for router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-08-21 21:09:02 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-08-21 21:09:03 - paramiko.transport - INFO - Authentication (password) successful!
+2025-08-21 21:09:08 - infrastructure_setup - INFO - All infrastructure components OK
+2025-08-21 21:09:08 - server - INFO - All infrastructure components are already set up correctly
+2025-08-21 21:09:08 - server - INFO - Session established successfully for router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d (headless mode, infrastructure ready)
+2025-08-21 21:09:08 - werkzeug - INFO - 127.0.0.1 - - [21/Aug/2025 21:09:08] "POST /api/session/start HTTP/1.1" 200 -
+2025-08-21 21:09:11 - werkzeug - INFO - 127.0.0.1 - - [21/Aug/2025 21:09:11] "GET /api/wifi/status?sessionId=ec3c8136-679c-4504-a892-8c6ed45f63ff&routerId=21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d HTTP/1.1" 200 -
+2025-08-21 21:09:34 - __main__ - INFO - Cleaning up resources
+2025-08-21 21:09:34 - __main__ - INFO - Cleaning up resources
+2025-08-21 21:09:36 - __main__ - INFO - Resources cleaned up
+2025-09-06 19:09:56 - root - INFO - Logging initialized at 2025-09-06 19:09:56
+2025-09-06 19:09:56 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-09-06 19:09:59 - __main__ - INFO - Registering API blueprints
+2025-09-06 19:10:00 - __main__ - INFO - API blueprints registered
+2025-09-06 19:10:00 - __main__ - INFO - Starting Commands Server on port 5001
+2025-09-06 19:10:00 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.29.204.48:5001
+2025-09-06 19:10:00 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-09-06 19:10:00 - werkzeug - INFO -  * Restarting with stat
+2025-09-06 19:10:01 - root - INFO - Logging initialized at 2025-09-06 19:10:01
+2025-09-06 19:10:01 - root - INFO - Log files directory: /mnt/c/Users/Tom/Documents/NetPilot/backend/logs
+2025-09-06 19:10:02 - __main__ - INFO - Registering API blueprints
+2025-09-06 19:10:02 - __main__ - INFO - API blueprints registered
+2025-09-06 19:10:02 - __main__ - INFO - Starting Commands Server on port 5001
+2025-09-06 19:10:02 - werkzeug - WARNING -  * Debugger is active!
+2025-09-06 19:10:02 - werkzeug - INFO -  * Debugger PIN: 117-535-012
+2025-09-06 19:10:32 - server - INFO - Attempting to start session for router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d with session ID ec3c8136-679c-4504-a892-8c6ed45f63ff (restart=False)
+2025-09-06 19:10:32 - paramiko.transport - INFO - Connected (version 2.0, client dropbear)
+2025-09-06 19:10:33 - paramiko.transport - INFO - Authentication (password) successful!
+2025-09-06 19:10:37 - infrastructure_setup - INFO - All infrastructure components OK
+2025-09-06 19:10:37 - server - INFO - All infrastructure components are already set up correctly
+2025-09-06 19:10:37 - server - INFO - Session established successfully for router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d (headless mode, infrastructure ready)
+2025-09-06 19:10:37 - werkzeug - INFO - 127.0.0.1 - - [06/Sep/2025 19:10:37] "POST /api/session/start HTTP/1.1" 200 -
+2025-09-06 19:11:29 - werkzeug - INFO - 127.0.0.1 - - [06/Sep/2025 19:11:29] "POST /api/bandwidth/limits/device HTTP/1.1" 200 -
+2025-09-06 19:12:13 - werkzeug - INFO - 127.0.0.1 - - [06/Sep/2025 19:12:13] "POST /api/bandwidth/limits/device HTTP/1.1" 200 -
+2025-09-06 19:13:57 - server - INFO - Ending session ec3c8136-679c-4504-a892-8c6ed45f63ff for router 21834bfb56b269adeb1f2d9cc1c6caab07ea333daf2f223e27abbe753c0cc00d
+2025-09-06 19:13:57 - werkzeug - INFO - 127.0.0.1 - - [06/Sep/2025 19:13:57] "POST /api/session/end HTTP/1.1" 200 -
+2025-09-06 19:14:08 - __main__ - INFO - Cleaning up resources
+2025-09-06 19:14:08 - __main__ - INFO - Cleaning up resources
+2025-09-06 19:14:10 - __main__ - INFO - Resources cleaned up
