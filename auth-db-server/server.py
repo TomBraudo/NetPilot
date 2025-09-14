@@ -60,7 +60,7 @@ def create_app(dev_mode=False, dev_user_id=None):
     os.environ['DATABASE_URL'] = config('DATABASE_URL', default='')
 
     # Command Server config
-    app.config['COMMAND_SERVER_URL'] = config('COMMAND_SERVER_URL', default='http://34.38.207.87:5000')
+    app.config['COMMAND_SERVER_URL'] = config('COMMAND_SERVER_URL')
     app.config['COMMAND_SERVER_TIMEOUT'] = config('COMMAND_SERVER_TIMEOUT', default=30, cast=int)
     
     # Chatbot config
