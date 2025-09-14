@@ -1,0 +1,55 @@
+NetPilot Code Architecture
+==========================
+
+System Overview
+---------------
+NetPilot is a cloud-based network management platform with 4 main components:
+- Agent (Electron desktop app) - Router setup and SSH tunnel management
+- Frontend (React web app) - User dashboard and controls  
+- Auth-DB Server (Flask) - Authentication and data persistence
+- Commands Server (Flask) - Router command execution via SSH
+
+Architecture Flow
+-----------------
+User → Frontend → Auth-DB Server → Commands Server → SSH Tunnel → Router
+
+Key Code Structure
+------------------
+/agent/ - Electron app with modules for router management, port allocation, and tunnel creation
+/frontend/dashboard/ - React app with pages for monitoring, device management, and controls
+/auth-db-server/ - Flask API with 3-layer architecture: services → db_operations → commands_server_operations
+/commands-server/ - Flask service that executes router commands via SSH tunnels
+
+Database Design
+---------------
+PostgreSQL with user-scoped data isolation. Core entities: users, sessions, routers, devices, 
+device_groups, blocked_devices, bandwidth_rules, content_control_rules.
+
+Key Design Patterns
+-------------------
+- Service Layer Pattern: Clear separation between API, business logic, and data access
+- Manager Pattern: Cross-cutting concerns (connections, transactions)
+- Tunnel Pattern: Secure reverse SSH for router access (no inbound ports)
+
+Notable Implementation Highlights
+--------------------------------
+1. SSH Tunnel Management: Agent establishes reverse SSH tunnels from router to cloud VM
+2. Port Allocation System: Cloud port manager allocates dynamic ports (2200-2299 range)
+3. 3-Layer Service Architecture: Services orchestrate between DB operations and router commands
+4. User Data Isolation: All data operations are scoped to user_id for security
+
+Security Features
+----------------
+- OAuth 2.0 authentication with Google integration
+- 2FA support with TOTP
+- End-to-end SSH encryption for router communication
+- User-scoped data access with session management
+- No inbound ports required (reverse SSH tunnels only)
+
+Deployment
+----------
+Agent: Standalone Electron executable
+Frontend: Static web assets (Vite build)  
+Auth-DB Server: Docker container (Cloud Run)
+Commands Server: Flask service (VM deployment)
+Database: PostgreSQL with connection pooling
